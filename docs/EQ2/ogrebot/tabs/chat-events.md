@@ -1,6 +1,6 @@
 # Chat Events
 
-<!-- TODO: Add screenshot -->
+![Chat Events Tab](../../../assets/images/EQ2/tabs/chat-events.png)
 
 The Chat Events tab enables monitoring of chat text for specific phrases and automatic execution of code when triggers occur. This tab must be enabled via the **Enable Chat Events** checkbox on the Settings 2 tab.
 

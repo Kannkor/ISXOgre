@@ -1,6 +1,6 @@
 # On Zone
 
-<!-- TODO: Add screenshot -->
+![On Zone Tab](../../../assets/images/EQ2/tabs/on-zone.png)
 
 The On Zone tab manages automated actions triggered during zone transitions. It allows you to configure scripts and commands that will automatically run after the player completes a zone change.
 

@@ -1,6 +1,6 @@
 # Debug
 
-<!-- TODO: Add screenshot -->
+![Debug Tab](../../../assets/images/EQ2/tabs/debug.png)
 
 The Debug tab outputs debug information to the InnerSpace console. It provides four configurable debug options, each controlled by a checkbox.
 

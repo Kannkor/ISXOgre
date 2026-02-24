@@ -1,6 +1,6 @@
 # Items
 
-<!-- TODO: Add screenshot -->
+![Items Tab](../../../assets/images/EQ2/tabs/items.png)
 
 The Items tab enables you to add clickable items from your inventory to OgreBot's ability rotation system.
 

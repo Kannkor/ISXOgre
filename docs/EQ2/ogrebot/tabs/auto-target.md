@@ -1,6 +1,6 @@
 # Auto Target
 
-<!-- TODO: Add screenshot -->
+![Auto Target Tab](../../../assets/images/EQ2/tabs/auto-target.png)
 
 Auto Target provides an automated way to target mobs in a certain order or to target mobs that spawn as part of an encounter.
 

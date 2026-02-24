@@ -1,6 +1,6 @@
 # Ascension
 
-<!-- TODO: Add screenshot -->
+![Ascension Tab](../../../assets/images/EQ2/tabs/ascension.png)
 
 The Ascension tab manages various Ascension ability settings including ability restrictions, combo management, and notification options.
 

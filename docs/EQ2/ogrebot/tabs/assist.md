@@ -1,6 +1,6 @@
 # Assist
 
-<!-- TODO: Add screenshot -->
+![Assist Tab](../../../assets/images/EQ2/tabs/assist.png)
 
 The Assist tab manages which character your bot will assist during combat.
 

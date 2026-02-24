@@ -1,6 +1,6 @@
 # Unload
 
-<!-- TODO: Add screenshot -->
+![Unload Tab](../../../assets/images/EQ2/tabs/unload.png)
 
 The Unload tab controls what occurs when OgreBot shuts down.
 

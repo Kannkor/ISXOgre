@@ -1,6 +1,6 @@
 # Setup
 
-<!-- TODO: Add screenshot -->
+![Setup Tab](../../../assets/images/EQ2/tabs/setup.png)
 
 The Setup tab manages various miscellaneous options that control bot behavior. Many of these settings require corresponding checkboxes on the Settings tab to be enabled in order to take effect.
 

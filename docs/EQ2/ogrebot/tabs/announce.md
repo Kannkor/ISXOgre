@@ -1,6 +1,6 @@
 # Announce
 
-<!-- TODO: Add screenshot -->
+![Announce Tab](../../../assets/images/EQ2/tabs/announce.png)
 
 The Announce tab controls when the bot communicates with others using chat macros similar to player communication.
 

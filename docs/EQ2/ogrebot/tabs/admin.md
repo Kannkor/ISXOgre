@@ -1,6 +1,6 @@
 # Admin
 
-<!-- TODO: Add screenshot -->
+![Admin Tab](../../../assets/images/EQ2/tabs/admin.png)
 
 The Admin tab provides administrative functions for OgreBot profile management.
 

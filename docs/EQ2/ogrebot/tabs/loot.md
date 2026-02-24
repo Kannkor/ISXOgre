@@ -1,6 +1,6 @@
 # Loot
 
-<!-- TODO: Add screenshot -->
+![Loot Tab](../../../assets/images/EQ2/tabs/loot.png)
 
 The Loot tab controls automated responses when loot windows appear in-game.
 

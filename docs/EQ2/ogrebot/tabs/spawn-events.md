@@ -1,6 +1,6 @@
 # Spawn Events
 
-<!-- TODO: Add screenshot -->
+![Spawn Events Tab](../../../assets/images/EQ2/tabs/spawn-events.png)
 
 The Spawn Events tab enables monitoring for specific NPC spawns and executes code when triggers occur. This tab must be enabled via the **Enable Spawn Events** checkbox on the Settings 2 tab.
 

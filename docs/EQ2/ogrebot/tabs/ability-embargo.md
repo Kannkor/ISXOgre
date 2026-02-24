@@ -1,6 +1,6 @@
 # Ability Embargo
 
-<!-- TODO: Add screenshot -->
+![Ability Embargo Tab](../../../assets/images/EQ2/tabs/ability-embargo.png)
 
 The Ability Embargo tab allows you to control abilities so they can be delayed for yourself or rotated within a raid. For instance, abilities like Glacial Freeze can be prevented from simultaneous casting across the group by setting embargo durations that prevent recasting within specified timeframes.
 

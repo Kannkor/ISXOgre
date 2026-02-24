@@ -1,6 +1,6 @@
 # Pre-Cast
 
-<!-- TODO: Add screenshot -->
+![Pre-Cast Tab](../../../assets/images/EQ2/tabs/pre-cast.png)
 
 The Pre-Cast tab allows you to configure spells that should cast before other specific spells. This is useful for abilities like Shaman's "Ritual" buff or Sorcerer's "Freehand Sorcery" that need to be active before casting a main spell.
 

@@ -46,7 +46,11 @@ OgreCraft has three main windows:
 | **Main Window** | All configuration options and crafting controls |
 | **Queue Window** | Shows items being prepared, resource quantities, and active queue progress |
 
-<!-- TODO: Add screenshot of OgreCraft UI -->
+![OgreCraft Mini Window](../../assets/images/EQ2/tools/ogrecraft-mini-window.png)
+
+![OgreCraft Main Window](../../assets/images/EQ2/tools/ogrecraft-main-window.png)
+
+![OgreCraft Queue Window](../../assets/images/EQ2/tools/ogrecraft-queue-window.png)
 
 ---
 

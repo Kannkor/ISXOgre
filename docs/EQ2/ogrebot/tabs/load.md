@@ -1,6 +1,6 @@
 # Load
 
-<!-- TODO: Add screenshot -->
+![Load Tab](../../../assets/images/EQ2/tabs/load.png)
 
 The Load tab determines what settings and actions activate when OgreBot initializes.
 

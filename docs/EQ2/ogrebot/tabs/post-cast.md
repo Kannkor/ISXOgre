@@ -1,6 +1,6 @@
 # Post-Cast
 
-<!-- TODO: Add screenshot -->
+![Post-Cast Tab](../../../assets/images/EQ2/tabs/pre-cast.png)
 
 The Post-Cast tab is the inverse of the Pre-Cast tab. It will cast a spell after a specified spell is cast.
 

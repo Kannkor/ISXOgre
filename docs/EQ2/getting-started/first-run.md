@@ -20,7 +20,7 @@ When you type `ogre` in the InnerSpace console, OgreBot:
 
 Click **Show Main** to open the primary interface.
 
-<!-- TODO: Add screenshot of mini window -->
+![OgreBot Mini Window](../../assets/images/EQ2/getting-started/mini-window.jpg)
 
 ---
 
@@ -36,7 +36,7 @@ The OgreBot main window is organized into tabs along the top. Each tab controls 
 | **Assist** | Who the bot assists (targets) in combat |
 | **Aliases** | Name references for group members (e.g., `*Tank`, `*Healer`) |
 
-<!-- TODO: Add screenshot of main UI with tabs labeled -->
+![OgreBot Main UI](../../assets/images/EQ2/getting-started/ogrebot-main.png)
 
 ---
 

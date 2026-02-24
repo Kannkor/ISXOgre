@@ -1,6 +1,6 @@
 # EQ2 Chars
 
-<!-- TODO: Add screenshot -->
+![EQ2 Chars Tab](../../../assets/images/EQ2/tabs/eq2-chars.png)
 
 The EQ2 Chars tab is a character management interface for storing and managing your EverQuest 2 character information.
 

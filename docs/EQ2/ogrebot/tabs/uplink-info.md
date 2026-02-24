@@ -1,6 +1,6 @@
 # Uplink Info
 
-<!-- TODO: Add screenshot -->
+![Uplink Info Tab](../../../assets/images/EQ2/tabs/uplink-info.png)
 
 The Uplink Info tab shows the computers you have connected to the Uplink system.
 

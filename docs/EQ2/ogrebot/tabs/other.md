@@ -1,6 +1,6 @@
 # Other
 
-<!-- TODO: Add screenshot -->
+![Other Tab](../../../assets/images/EQ2/tabs/other.png)
 
 The Other tab contains miscellaneous settings that do not fit into other categories.
 

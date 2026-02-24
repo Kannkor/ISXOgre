@@ -1,6 +1,6 @@
 # HUDs
 
-<!-- TODO: Add screenshot -->
+![HUDs Tab](../../../assets/images/EQ2/tabs/huds.png)
 
 The HUDs tab provides real-time information displayed on-screen. It replaces the older "Mob/Priest Info" option and allows customization of displayed information, screen position, and update frequency.
 
@@ -55,5 +55,11 @@ Shows raid members with distance information. Automatically disables group displ
 | Yellow | 20-30 meters |
 | Orange | 30-75 meters |
 | Red | Greater than 75 meters |
+
+### Raid HUD Example
+
+Here is an example of the Raid Distance HUD in action during a raid:
+
+![Raid HUD Example](../../../assets/images/EQ2/general/hud-raid-example.jpg)
 
 <!-- Source: wiki.ogregaming.com - This page may need updating -->

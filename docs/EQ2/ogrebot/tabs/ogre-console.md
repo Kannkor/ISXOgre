@@ -1,6 +1,6 @@
 # Ogre Console
 
-<!-- TODO: Add screenshot -->
+![Ogre Console Tab](../../../assets/images/EQ2/tabs/ogre-console.png)
 
 The Ogre Console tab configures the Ogre Console window and IRC settings.
 

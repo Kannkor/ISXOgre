@@ -1,6 +1,6 @@
 # Settings 2
 
-<!-- TODO: Add screenshot -->
+![Settings 2 Tab](../../../assets/images/EQ2/tabs/settings2.png)
 
 The Settings 2 tab is an extension of the Settings tab, providing additional on/off toggles for various bot features.
 

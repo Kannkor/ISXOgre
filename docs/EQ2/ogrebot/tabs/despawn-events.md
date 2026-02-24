@@ -1,6 +1,6 @@
 # Despawn Events
 
-<!-- TODO: Add screenshot -->
+![Despawn Events Tab](../../../assets/images/EQ2/tabs/despawn-events.png)
 
 The Despawn Events tab enables monitoring for when certain NPCs despawn and then executes a single line of code when the trigger occurs. This tab must be enabled via the **Enable Despawn Events** checkbox on the Settings 2 tab.
 

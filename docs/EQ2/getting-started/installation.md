@@ -59,7 +59,7 @@ When ISXOgre loads for the first time, an authentication window appears:
 3. Leave the checkboxes unchecked for now
 4. Click **OK**
 
-<!-- TODO: Add screenshot of authentication window -->
+![ISXOgre Authentication Window](../../assets/images/EQ2/getting-started/auth-window.jpg)
 
 !!! warning "Case-Sensitive Credentials"
     Your username and password must be entered exactly as provided. If you are having trouble, copy and paste them directly from the email.
@@ -72,7 +72,7 @@ After successful authentication, ISXOgre downloads all required files. This incl
 
 When the download completes, you will see a green confirmation message in the console indicating that ISXOgre is ready.
 
-<!-- TODO: Add screenshot of successful download message -->
+![ISXOgre Enabled Successfully](../../assets/images/EQ2/getting-started/isxogre-enabled.jpg)
 
 ---
 
@@ -110,7 +110,9 @@ After the export completes:
 2. Look for a small floating window with three buttons: **Show Uplink**, **Pause**, and **Show Main**
 3. Click **Show Main** to open the primary OgreBot interface
 
-<!-- TODO: Add screenshot of mini window and main UI -->
+![OgreBot Mini Window](../../assets/images/EQ2/getting-started/mini-window.jpg)
+
+![OgreBot Main UI](../../assets/images/EQ2/getting-started/ogrebot-main.png)
 
 ---
 
@@ -127,7 +129,7 @@ The EQ2Chars tab configures your character list. This serves three purposes:
 
 To access it, click the **EQ2Chars** button in the bottom-left area of the OgreBot main window.
 
-<!-- TODO: Add screenshot of EQ2Chars tab -->
+![EQ2 Characters Tab](../../assets/images/EQ2/getting-started/eq2chars-tab.png)
 
 ---
 

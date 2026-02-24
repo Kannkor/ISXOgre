@@ -1,6 +1,6 @@
 # Cast Stack
 
-<!-- TODO: Add screenshot -->
+![Cast Stack Tab](../../../assets/images/EQ2/tabs/cast-stack.png)
 
 The Cast Stack tab replaces the previous CA (Casting) system. Abilities execute in top-down order as they become available.
 

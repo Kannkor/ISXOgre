@@ -1,6 +1,6 @@
 # Settings
 
-<!-- TODO: Add screenshot -->
+![Settings Tab](../../../assets/images/EQ2/tabs/settings.png)
 
 The Settings tab controls high-level on/off functions for the bot. The checkboxes here enable or disable entire categories of behavior. For example, the buff checkbox turns all buffing on or off, while the Buffs tab controls which specific buffs you want.
 

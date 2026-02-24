@@ -1,6 +1,6 @@
 # Crowd Control
 
-<!-- TODO: Add screenshot -->
+![Crowd Control Tab](../../../assets/images/EQ2/tabs/crowd-control.png)
 
 This tab controls all crowd control abilities.
 
