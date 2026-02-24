@@ -1,0 +1,118 @@
+site_name: ISXOgre Documentation
+site_url: https://kannkor.github.io/ISXOgre/
+repo_url: https://github.com/Kannkor/ISXOgre
+repo_name: Kannkor/ISXOgre
+
+theme:
+  name: material
+  palette:
+    - scheme: slate
+      primary: deep orange
+      accent: orange
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+    - scheme: default
+      primary: deep orange
+      accent: orange
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - navigation.indexes
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+  icon:
+    repo: fontawesome/brands/github
+
+plugins:
+  - search
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.tabbed:
+      alternate_style: true
+  - tables
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - EQ2:
+    - EQ2/index.md
+    - Getting Started:
+      - Why OgreBot?: EQ2/getting-started/why-ogrebot.md
+      - Installation: EQ2/getting-started/installation.md
+      - First Run: EQ2/getting-started/first-run.md
+      - FAQ: EQ2/getting-started/faq.md
+    - OgreBot:
+      - EQ2/ogrebot/index.md
+      - Tabs:
+        - EQ2/ogrebot/tabs/index.md
+        - Settings: EQ2/ogrebot/tabs/settings.md
+        - Setup: EQ2/ogrebot/tabs/setup.md
+        - Settings 2: EQ2/ogrebot/tabs/settings2.md
+        - Assist: EQ2/ogrebot/tabs/assist.md
+        - Loot: EQ2/ogrebot/tabs/loot.md
+        - Cast Stack: EQ2/ogrebot/tabs/cast-stack.md
+        - Pre-Cast: EQ2/ogrebot/tabs/pre-cast.md
+        - Post-Cast: EQ2/ogrebot/tabs/post-cast.md
+        - Crowd Control: EQ2/ogrebot/tabs/crowd-control.md
+        - Items: EQ2/ogrebot/tabs/items.md
+        - Auto Target: EQ2/ogrebot/tabs/auto-target.md
+        - Announce: EQ2/ogrebot/tabs/announce.md
+        - OSA: EQ2/ogrebot/tabs/osa.md
+        - Other: EQ2/ogrebot/tabs/other.md
+        - Relay Groups: EQ2/ogrebot/tabs/relay-groups.md
+        - Load: EQ2/ogrebot/tabs/load.md
+        - Unload: EQ2/ogrebot/tabs/unload.md
+        - Equipment Info: EQ2/ogrebot/tabs/equipment-info.md
+        - Chat Events: EQ2/ogrebot/tabs/chat-events.md
+        - On Zone: EQ2/ogrebot/tabs/on-zone.md
+        - Spawn Events: EQ2/ogrebot/tabs/spawn-events.md
+        - Despawn Events: EQ2/ogrebot/tabs/despawn-events.md
+        - HUDs: EQ2/ogrebot/tabs/huds.md
+        - Ascension: EQ2/ogrebot/tabs/ascension.md
+        - Ability Embargo: EQ2/ogrebot/tabs/ability-embargo.md
+        - OgreConsole: EQ2/ogrebot/tabs/ogre-console.md
+        - Uplink Info: EQ2/ogrebot/tabs/uplink-info.md
+        - Key Binds: EQ2/ogrebot/tabs/key-binds.md
+        - EQ2 Chars: EQ2/ogrebot/tabs/eq2-chars.md
+        - Debug: EQ2/ogrebot/tabs/debug.md
+        - Admin: EQ2/ogrebot/tabs/admin.md
+      - Aliases: EQ2/ogrebot/aliases.md
+      - Chat Commands: EQ2/ogrebot/chat-commands.md
+      - Profiles: EQ2/ogrebot/profiles.md
+      - Instance Controller: EQ2/ogrebot/instance-controller.md
+    - Tools:
+      - OgreCraft: EQ2/tools/ogrecraft.md
+      - Harvesting: EQ2/tools/harvesting.md
+      - Inventory Manager: EQ2/tools/inventory-manager.md
+      - Collection Manager: EQ2/tools/collection-manager.md
+      - Auto Login: EQ2/tools/auto-login.md
+      - OgreMapper: EQ2/tools/ogre-mapper.md
+    - Developer:
+      - EQ2/developer/index.md
+      - OgreBotAPI Reference: EQ2/developer/ogrebot-api.md
+      - Cross-Session Commands: EQ2/developer/cross-session-commands.md
+      - Encounter Coding: EQ2/developer/encounter-coding.md
+      - CampSpot System: EQ2/developer/camp-spot.md
+      - Coding Practices: EQ2/developer/coding-practices.md
+    - Community:
+      - Contact: EQ2/community/contact.md
+      - OgreIRC: EQ2/community/ogreirc.md
+    - About:
+      - Pricing: EQ2/about/pricing.md
+      - Changelog: EQ2/about/changelog.md
