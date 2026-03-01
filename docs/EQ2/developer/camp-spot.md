@@ -448,13 +448,6 @@ function JoustOut()
 }
 ```
 
-### Using Obj_LICH Helper
-
-```lavishscript
-; NavigateToLoc sets campspot, changes it, and waits for arrival
-call Obj_LICH.NavigateToLoc igw:${Me.Name} ${MySpot}
-```
-
 ---
 
 ## Command Reference Table
