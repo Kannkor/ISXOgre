@@ -105,7 +105,6 @@ nav:
       - OgreMapper: EQ2/tools/ogre-mapper.md
     - Developer:
       - OgreBotAPI Reference: EQ2/developer/ogrebot-api.md
-      - Cross-Session Commands: EQ2/developer/cross-session-commands.md
       - CampSpot System: EQ2/developer/camp-spot.md
       - Coding Practices: EQ2/developer/coding-practices.md
     - Community:
