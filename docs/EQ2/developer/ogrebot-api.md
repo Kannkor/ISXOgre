@@ -48,7 +48,7 @@ Most methods accept a `_ForWho` parameter that controls which characters execute
 | `SetCS_BehindNPC(string _ForWho, string _NameOrID, float _Distance=3, bool _SkipIfAggro=FALSE)` | Set camp spot behind NPC | `OgreBotAPI:SetCS_BehindNPC["notfighter", "Boss Name", 5]` |
 | `SetCS_InFrontNPC(string _ForWho, string _NameOrID, float _Distance=3, bool _SkipIfAggro=FALSE)` | Set camp spot in front of NPC | `OgreBotAPI:SetCS_InFrontNPC["fighter", "Boss Name", 3]` |
 | `SetCS_NPC(int _Angle, string _NameOrID, float _Distance=3, bool _SkipIfAggro=FALSE)` | Set camp spot at angle from NPC | `OgreBotAPI:SetCS_NPC[90, "Boss Name", 5]` |
-| `PulseCircleMovement(point3f _Loc, ... Args)` | Circular movement pattern around location | `OgreBotAPI:PulseCircleMovement["100.0,25.0,-50.0"]` |
+| `PulseCircleMovement(point3f _Loc, ... Args)` | Circular movement pattern around location ([Args](#pulsecirclemovement-args)) | `OgreBotAPI:PulseCircleMovement["100.0,25.0,-50.0", "-spots", 8, "-distance", 4.5]` |
 | `Waypoint(string _ForWho, float _X, float _Y, float _Z)` | Set waypoint | `OgreBotAPI:Waypoint["all", 100.5, 25.0, -50.3]` |
 | `Jump(string _ForWho)` | Jump command | `OgreBotAPI:Jump["all"]` |
 | `Crouch(string _ForWho)` | Crouch toggle | `OgreBotAPI:Crouch["all"]` |
@@ -69,17 +69,17 @@ Most methods accept a `_ForWho` parameter that controls which characters execute
 | `CastAbilityInSeconds(string _ForWho, string AbilityName, float _Seconds, string CalledFrom)` | Cast ability after delay | `OgreBotAPI:CastAbilityInSeconds["all", "Ward", 5.0, "IC"]` |
 | `CastAbilityNoChecks(string _ForWho, string AbilityName, string CalledFrom)` | Cast without readiness checks | `OgreBotAPI:CastAbilityNoChecks["all", "Emergency Heal", "IC"]` |
 | `CastAbilityNoExport(string _ForWho, string _Ability, string _CastFrom)` | Cast without triggering export | `OgreBotAPI:CastAbilityNoExport["all", "Buff", "IC"]` |
-| `CastAbilityType(string _ForWho, string AbilityType, string CalledFrom, ... Args)` | Cast by ability type | `OgreBotAPI:CastAbilityType["healer", "cure", "IC"]` |
-| `CastRescue(string _ForWho, string CalledFrom, ... Args)` | Cast rescue ability | `OgreBotAPI:CastRescue["fighter", "IC"]` |
+| `CastAbilityType(string _ForWho, string AbilityType, string CalledFrom, ... Args)` | Cast by ability type ([Args](#castabilitytype-args)) | `OgreBotAPI:CastAbilityType["healer", "cure", "IC", "-NPCRequired"]` |
+| `CastRescue(string _ForWho, string CalledFrom, ... Args)` | Cast rescue ability ([Args](#castrescue-args)) | `OgreBotAPI:CastRescue["fighter", "IC", "-NPCRequired"]` |
 | `CastHOIconID(string _ForWho, int _IconID, string CalledFrom)` | Cast ability by HO icon ID | `OgreBotAPI:CastHOIconID["all", 1234, "IC"]` |
 | `CastBulwarkImmediately(string _ForWho)` | Cast bulwark immediately | `OgreBotAPI:CastBulwarkImmediately["fighter"]` |
-| `Cast_Interrupt(string _ForWho, string _MobNameID, string _CalledFrom, ... Args)` | Cast interrupt on target | `OgreBotAPI:Cast_Interrupt["all", "Boss Name", "IC"]` |
+| `Cast_Interrupt(string _ForWho, string _MobNameID, string _CalledFrom, ... Args)` | Cast interrupt on target ([Args](#cast_interrupt-args)) | `OgreBotAPI:Cast_Interrupt["all", "Boss Name", "IC"]` |
 | `UseItem(string _ForWho, string AbilityName)` | Use an item ability | `OgreBotAPI:UseItem["all", "Totem of the Otter"]` |
 | `UseItemOnPlayer(string _ForWho, string AbilityName, string sTarget)` | Use item on player | `OgreBotAPI:UseItemOnPlayer["all", "Cure Potion", "TankName"]` |
-| `CancelCasting(string _ForWho, ... Args)` | Cancel current casting | `OgreBotAPI:CancelCasting["all"]` |
+| `CancelCasting(string _ForWho, ... Args)` | Cancel current casting ([Args](#cancelcasting-args)) | `OgreBotAPI:CancelCasting["all"]` |
 | `CancelCurrentCast(string _ForWho, bool _TorF=TRUE)` | Cancel current cast | `OgreBotAPI:CancelCurrentCast["all", TRUE]` |
-| `CancelMaintained(... Args)` | Cancel maintained spell | `OgreBotAPI:CancelMaintained["Buff Name"]` |
-| `CancelMaintainedForWho(string _ForWho, ... Args)` | Cancel maintained for specific players | `OgreBotAPI:CancelMaintainedForWho["all", "Buff Name"]` |
+| `CancelMaintained(... Args)` | Cancel maintained spell ([Args](#cancelmaintained-args)) | `OgreBotAPI:CancelMaintained["Buff A", "Buff B"]` |
+| `CancelMaintainedForWho(string _ForWho, ... Args)` | Cancel maintained for specific players ([Args](#cancelmaintainedforwho-args)) | `OgreBotAPI:CancelMaintainedForWho["all", "Buff A", "Buff B"]` |
 | `Pull(string _ForWho, bool _Named=FALSE)` | Pull mob | `OgreBotAPI:Pull["fighter", TRUE]` |
 | `PetAttack(string _ForWho)` | Pet attack command | `OgreBotAPI:PetAttack["all"]` |
 | `PetAssist(string _ForWho)` | Pet assist command | `OgreBotAPI:PetAssist["all"]` |
@@ -111,7 +111,7 @@ Most methods accept a `_ForWho` parameter that controls which characters execute
 | `Disable_Stuns(string _ForWho)` | Disable stuns | `OgreBotAPI:Disable_Stuns["all"]` |
 | `Enable_Interrupts(string _ForWho)` | Enable interrupts | `OgreBotAPI:Enable_Interrupts["all"]` |
 | `Disable_Interrupts(string _ForWho)` | Disable interrupts | `OgreBotAPI:Disable_Interrupts["all"]` |
-| `Set_DisableAllAOEs(string _ForWho, bool _DisableAEs=TRUE, ... Args)` | Disable AOE abilities | `OgreBotAPI:Set_DisableAllAOEs["all", TRUE]` |
+| `Set_DisableAllAOEs(string _ForWho, bool _DisableAEs=TRUE, ... Args)` | Disable AOE abilities ([Args](#set_disableallaoes-args)) | `OgreBotAPI:Set_DisableAllAOEs["all", TRUE, "-allowcounters"]` |
 | `SetNoDefensive(string _ForWho, bool _Value=TRUE)` | Disable defensive abilities | `OgreBotAPI:SetNoDefensive["all", TRUE]` |
 | `AddNoOffensiveOn(string _ForWho, string _MobName, bool _ExactMatchOnly=FALSE)` | Add mob to no-offensive list | `OgreBotAPI:AddNoOffensiveOn["all", "Friendly NPC"]` |
 | `RemoveNoOffensiveOn(string _ForWho, string _MobName)` | Remove from no-offensive list | `OgreBotAPI:RemoveNoOffensiveOn["all", "Friendly NPC"]` |
@@ -133,15 +133,15 @@ Most methods accept a `_ForWho` parameter that controls which characters execute
 
 | Method | Description | Example |
 |--------|-------------|---------|
-| `HO_Start(string _ForWho, ... Args)` | Start a Heroic Opportunity | `OgreBotAPI:HO_Start["all"]` |
+| `HO_Start(string _ForWho, ... Args)` | Start a Heroic Opportunity ([Args](#ho_start-args)) | `OgreBotAPI:HO_Start["all"]` |
 | `HO_Starter(string _ForWho)` | HO starter ability | `OgreBotAPI:HO_Starter["fighter"]` |
 | `HO_Starter_Advance(string _ForWho)` | Advance HO starter | `OgreBotAPI:HO_Starter_Advance["all"]` |
 | `HO_Advance(string _ForWho)` | Advance HO wheel | `OgreBotAPI:HO_Advance["all"]` |
 | `HO_Wheel_Advance(string _ForWho)` | Advance HO wheel specifically | `OgreBotAPI:HO_Wheel_Advance["all"]` |
 | `HO_Cancel_Starter(string _ForWho, string _CalledFrom)` | Cancel HO starter | `OgreBotAPI:HO_Cancel_Starter["all", "IC"]` |
 | `DoHO_Reset(string _ForWho)` | Reset HO system | `OgreBotAPI:DoHO_Reset["all"]` |
-| `DoHO_Setup(string _ForWho, ... Args)` | Setup HO parameters | `OgreBotAPI:DoHO_Setup["all"]` |
-| `DoHO_Set_Enable(string _ForWho, bool _TorF, ... Args)` | Enable/disable HO | `OgreBotAPI:DoHO_Set_Enable["all", TRUE]` |
+| `DoHO_Setup(string _ForWho, ... Args)` | Setup HO parameters ([Args](#doho_setup-args)) | `OgreBotAPI:DoHO_Setup["all"]` |
+| `DoHO_Set_Enable(string _ForWho, bool _TorF, ... Args)` | Enable/disable HO ([Args](#doho_set_enable-args)) | `OgreBotAPI:DoHO_Set_Enable["all", TRUE]` |
 | `Set_Allow_HOICon(string _ForWho, int _VariableName)` | Allow specific HO icon | `OgreBotAPI:Set_Allow_HOICon["all", 1234]` |
 | `Clear_Allow_HOICon(string _ForWho, int _VariableName)` | Clear allowed HO icon | `OgreBotAPI:Clear_Allow_HOICon["all", 1234]` |
 | `Clear_Allow_HOICons(string _ForWho)` | Clear all allowed HO icons | `OgreBotAPI:Clear_Allow_HOICons["all"]` |
@@ -153,11 +153,11 @@ Most methods accept a `_ForWho` parameter that controls which characters execute
 
 | Method | Description | Example |
 |--------|-------------|---------|
-| `Cursed(string _ForWho, string _Toon, ... Args)` | Handle cursed player | `OgreBotAPI:Cursed["healer", "TankName"]` |
-| `AutoCurse(string _ForWho, string _Toon, ... Args)` | Auto-cure curses | `OgreBotAPI:AutoCurse["healer", "TankName"]` |
-| `AutoCure(string _ForWho, string _Toon, ... Args)` | Auto-cure ailments | `OgreBotAPI:AutoCure["healer", "TankName"]` |
-| `AutoItemCure(string _ForWho, ... Args)` | Auto-cure using items | `OgreBotAPI:AutoItemCure["all"]` |
-| `AutoGroupCure(string _ForWho, string _Toon, ... Args)` | Auto group cure | `OgreBotAPI:AutoGroupCure["healer", "TankName"]` |
+| `Cursed(string _ForWho, string _Toon, ... Args)` | Handle cursed player ([Args](#cure-method-args)) | `OgreBotAPI:Cursed["healer", "TankName"]` |
+| `AutoCurse(string _ForWho, string _Toon, ... Args)` | Auto-cure curses ([Args](#cure-method-args)) | `OgreBotAPI:AutoCurse["healer", "TankName"]` |
+| `AutoCure(string _ForWho, string _Toon, ... Args)` | Auto-cure ailments ([Args](#cure-method-args)) | `OgreBotAPI:AutoCure["healer", "TankName"]` |
+| `AutoItemCure(string _ForWho, ... Args)` | Auto-cure using items ([Args](#cure-method-args)) | `OgreBotAPI:AutoItemCure["all"]` |
+| `AutoGroupCure(string _ForWho, string _Toon, ... Args)` | Auto group cure ([Args](#cure-method-args)) | `OgreBotAPI:AutoGroupCure["healer", "TankName"]` |
 | `GroupCure(string _ForWho)` | Cast group cure | `OgreBotAPI:GroupCure["healer"]` |
 | `CancelDetrimental(string _ForWho, int _BackDropID, int _MainID)` | Cancel detrimental effect | `OgreBotAPI:CancelDetrimental["all", 110, 55]` |
 | `Dispell(string _ForWho, string _Value)` | Dispell target | `OgreBotAPI:Dispell["all", "Boss Name"]` |
@@ -258,7 +258,7 @@ Most methods accept a `_ForWho` parameter that controls which characters execute
 | `ReplyDialog(string _ForWho, string _Choice=1)` | Reply to dialog | `OgreBotAPI:ReplyDialog["all", "1"]` |
 | `ReplyDialogClose(string _ForWho)` | Close reply dialog | `OgreBotAPI:ReplyDialogClose["all"]` |
 | `ConversationBubble(string _ForWho, int _DoorOption=1)` | Click conversation bubble | `OgreBotAPI:ConversationBubble["all", 1]` |
-| `Select_Window(string _ForWho, ... Args)` | Select window option | `OgreBotAPI:Select_Window["all", 1]` |
+| `Select_Window(string _ForWho, ... Args)` | Select window option ([Args](#select_window-args)) | `OgreBotAPI:Select_Window["all", "-substring", "Accept"]` |
 | `Select_Window_Cancel(string _ForWho)` | Cancel select window | `OgreBotAPI:Select_Window_Cancel["all"]` |
 | `Select_Window_Spew(string _ForWho)` | Debug select window | `OgreBotAPI:Select_Window_Spew["all"]` |
 | `Select_Zone_Version(string _ForWho, string _Option)` | Select zone version | `OgreBotAPI:Select_Zone_Version["all", "Heroic"]` |
@@ -287,7 +287,7 @@ Most methods accept a `_ForWho` parameter that controls which characters execute
 | `Unpack_Consume_Familiars(string _ForWho)` | Unpack and consume familiars | `OgreBotAPI:Unpack_Consume_Familiars["all"]` |
 | `Consume_Status_Tokens(string _ForWho, uint _Amount)` | Consume status tokens | `OgreBotAPI:Consume_Status_Tokens["all", 100]` |
 | `Consume_Status_Ingots(string _ForWho, uint _Amount)` | Consume status ingots | `OgreBotAPI:Consume_Status_Ingots["all", 100]` |
-| `ConsumeItems_ProcessList(string _ForWho, ... Args)` | Process consume item list | `OgreBotAPI:ConsumeItems_ProcessList["all"]` |
+| `ConsumeItems_ProcessList(string _ForWho, ... Args)` | Process consume item list ([Args](#consumeitems_processlist-args)) | `OgreBotAPI:ConsumeItems_ProcessList["all", "-all", "-fc"]` |
 | `ConsumeDeityBaubles(string _ForWho)` | Consume deity baubles | `OgreBotAPI:ConsumeDeityBaubles["all"]` |
 
 ### Equipment & Adornments
@@ -329,8 +329,8 @@ Most methods accept a `_ForWho` parameter that controls which characters execute
 | `SpawnEvent_RemoveEntry(string _ForWho, string _Text)` | Remove spawn event | `OgreBotAPI:SpawnEvent_RemoveEntry["all", "Add Name"]` |
 | `DespawnEvent_AddEntry(string _ForWho, string _Text, bool _OC, bool _Ding, string _Code)` | Add despawn event | `OgreBotAPI:DespawnEvent_AddEntry["all", "NPC Name", TRUE, TRUE, "code"]` |
 | `DespawnEvent_RemoveEntry(string _ForWho, string _Text)` | Remove despawn event | `OgreBotAPI:DespawnEvent_RemoveEntry["all", "NPC Name"]` |
-| `ExecuteEvent(string _ForWho, string _EventName, ... Args)` | Execute custom event | `OgreBotAPI:ExecuteEvent["all", "MyEvent"]` |
-| `ExecuteEvent_JSON(string _ForWho, string _EventName, ... Args)` | Execute event with JSON | `OgreBotAPI:ExecuteEvent_JSON["all", "MyEvent"]` |
+| `ExecuteEvent(string _ForWho, string _EventName, ... Args)` | Execute custom event ([Args](#executeevent-args)) | `OgreBotAPI:ExecuteEvent["all", "MyEvent", "param1", "param2"]` |
+| `ExecuteEvent_JSON(string _ForWho, string _EventName, ... Args)` | Execute event with JSON ([Args](#executeevent_json-args)) | `OgreBotAPI:ExecuteEvent_JSON["all", "MyEvent", "param1"]` |
 | `InjectChat(string _ForWho, string _Chat)` | Inject chat command | `OgreBotAPI:InjectChat["all", "/say Hello"]` |
 | `Send_Tell(string Speaker, string _Target, string Message)` | Send tell message | `OgreBotAPI:Send_Tell["${Me.Name}", "PlayerName", "Hello"]` |
 | `Invite(string _ForWho, string _WhoToInvite, bool _RaidInvite=FALSE)` | Invite to group/raid | `OgreBotAPI:Invite["all", "PlayerName"]` |
@@ -358,10 +358,10 @@ Most methods accept a `_ForWho` parameter that controls which characters execute
 
 | Method | Description | Example |
 |--------|-------------|---------|
-| `ChangeOgreBotUIOption(string _ForWho, ... Args)` | Change OgreBot UI option | `OgreBotAPI:ChangeOgreBotUIOption["all", "OptionName", "Value"]` |
+| `ChangeOgreBotUIOption(string _ForWho, ... Args)` | Change OgreBot UI option ([Args](#changeogrebotuioption--uplinkoptionchange-args)) | `OgreBotAPI:ChangeOgreBotUIOption["all", "silent", "DisableRoots", "TRUE"]` |
 | `ChangeCastStackListBoxItem(string _ForWho, string _Object, string _Value, bool _SilentMode=FALSE)` | Change cast stack listbox | `OgreBotAPI:ChangeCastStackListBoxItem["all", "Ability", "TRUE"]` |
 | `ChangeCastStackListBoxItemByTag(string _ForWho, string _Object, string _Value, string _Partial, bool _SilentMode)` | Change by tag | `OgreBotAPI:ChangeCastStackListBoxItemByTag["all", "Tag", "TRUE", "partial"]` |
-| `UplinkOptionChange(string _ForWho, ... Args)` | Change uplink option | `OgreBotAPI:UplinkOptionChange["all", "Option", "Value"]` |
+| `UplinkOptionChange(string _ForWho, ... Args)` | Change uplink option ([Args](#changeogrebotuioption--uplinkoptionchange-args)) | `OgreBotAPI:UplinkOptionChange["all", "silent", "Option", "Value"]` |
 | `ToggleMainWindow(string _ForWho)` | Toggle main window | `OgreBotAPI:ToggleMainWindow["all"]` |
 | `ToggleConsoleWindow(string _ForWho, string _Value)` | Toggle console | `OgreBotAPI:ToggleConsoleWindow["all", "show"]` |
 | `ShowOgreConsole(string _ForWho, bool _Value)` | Show/hide OgreConsole | `OgreBotAPI:ShowOgreConsole["all", TRUE]` |
@@ -380,12 +380,12 @@ Most methods accept a `_ForWho` parameter that controls which characters execute
 |--------|-------------|---------|
 | `HandleLootWindow(string _ForWho, uint _LootWindowID)` | Handle loot window | `OgreBotAPI:HandleLootWindow["all", ${windowID}]` |
 | `LootWindowLootAll(string _ForWho)` | Loot all from window | `OgreBotAPI:LootWindowLootAll["all"]` |
-| `ChangeLootOptions(string _ForWho, ... Args)` | Change loot options | `OgreBotAPI:ChangeLootOptions["all", "Option", "Value"]` |
+| `ChangeLootOptions(string _ForWho, ... Args)` | Change loot options ([Args](#changelootoptions-args)) | `OgreBotAPI:ChangeLootOptions["all", "FFA", "All", "AG"]` |
 | `SetAutoLootMode(string _ForWho, int _Value, bool _Silent)` | Set auto-loot mode | `OgreBotAPI:SetAutoLootMode["all", 1, FALSE]` |
 | `ResetActorsLooted(string _ForWho)` | Reset looted actors list | `OgreBotAPI:ResetActorsLooted["all"]` |
 | `SmartLoot_ReloadDataFromFile(string _ForWho)` | Reload smart loot data | `OgreBotAPI:SmartLoot_ReloadDataFromFile["all"]` |
 | `SmartLoot_LOL_AssignPlayer_Item(string _ForWho, string _LootWindowID, string _PlayerToAssignTo, string _ItemName)` | Assign loot to player | `OgreBotAPI:SmartLoot_LOL_AssignPlayer_Item["all", "1", "Player", "Item"]` |
-| `SmartLoot_BuildToonItemsToBeZeroed(string _ForWho, ... Args)` | Build items to zero | `OgreBotAPI:SmartLoot_BuildToonItemsToBeZeroed["all"]` |
+| `SmartLoot_BuildToonItemsToBeZeroed(string _ForWho, ... Args)` | Build items to zero ([Args](#smartloot_buildtoonitemstobezeroed-args)) | `OgreBotAPI:SmartLoot_BuildToonItemsToBeZeroed["all", "PlayerA", "Item"]` |
 | `SmartLoot_ProcessToonItemsToBeZeroed(string _ForWho)` | Process zeroed items | `OgreBotAPI:SmartLoot_ProcessToonItemsToBeZeroed["all"]` |
 | `Loot_SmartAssign_Add()` | Add smart assign | `OgreBotAPI:Loot_SmartAssign_Add` |
 | `Loot_SmartAssign_Update()` | Update smart assign | `OgreBotAPI:Loot_SmartAssign_Update` |
@@ -404,11 +404,11 @@ Most methods accept a `_ForWho` parameter that controls which characters execute
 
 | Method | Description | Example |
 |--------|-------------|---------|
-| `AbilityEmbargo_AddRotateTimer(int64 _AbilityID, uint _Duration, ... Args)` | Add ability rotation timer | `OgreBotAPI:AbilityEmbargo_AddRotateTimer[123456, 30]` |
+| `AbilityEmbargo_AddRotateTimer(int64 _AbilityID, uint _Duration, ... Args)` | Add ability rotation timer ([Args](#abilityembargo_addrotatetimer--itemembargo_addrotatetimer-args)) | `OgreBotAPI:AbilityEmbargo_AddRotateTimer[123456, 30, "-g", "PlayerName"]` |
 | `AbilityEmbargo_ResetAllAbilityEmbargos(string _ForWho)` | Reset all ability embargos | `OgreBotAPI:AbilityEmbargo_ResetAllAbilityEmbargos["all"]` |
 | `AbilityEmbargo_ResetAbilityEmbargo(string _ForWho, string _AbilityName)` | Reset specific embargo | `OgreBotAPI:AbilityEmbargo_ResetAbilityEmbargo["all", "Ability Name"]` |
-| `ItemEmbargo_AddRotateTimer(int64 _AbilityID, uint _Duration, ... Args)` | Add item rotation timer | `OgreBotAPI:ItemEmbargo_AddRotateTimer[123456, 30]` |
-| `AbilityTag_AddRotateTagTimer(string _ForWho, string _TagName, uint _Duration, ... Args)` | Add tag timer | `OgreBotAPI:AbilityTag_AddRotateTagTimer["all", "MyTag", 30]` |
+| `ItemEmbargo_AddRotateTimer(int64 _AbilityID, uint _Duration, ... Args)` | Add item rotation timer ([Args](#abilityembargo_addrotatetimer--itemembargo_addrotatetimer-args)) | `OgreBotAPI:ItemEmbargo_AddRotateTimer[123456, 30, "-g", "PlayerName"]` |
+| `AbilityTag_AddRotateTagTimer(string _ForWho, string _TagName, uint _Duration, ... Args)` | Add tag timer ([Args](#abilitytag_addrotatetagtimer-args)) | `OgreBotAPI:AbilityTag_AddRotateTagTimer["all", "MyTag", 30, "-g", "PlayerName"]` |
 | `AbilityTag_ResetAllAbilityTagEmbargos(string _ForWho)` | Reset all tag embargos | `OgreBotAPI:AbilityTag_ResetAllAbilityTagEmbargos["all"]` |
 | `AbilityTag_ResetAbilityTagEmbargo(string _ForWho, string _TagName)` | Reset tag embargo | `OgreBotAPI:AbilityTag_ResetAbilityTagEmbargo["all", "MyTag"]` |
 | `AbilityTag_ResetAllAbilityTagAllows(string _ForWho)` | Reset all tag allows | `OgreBotAPI:AbilityTag_ResetAllAbilityTagAllows["all"]` |
@@ -528,8 +528,8 @@ Members return values and are accessed via `${OgreBotAPI.MemberName[params]}`.
 | `Get_GroupCurseCount()` | int | Group curse count | `${OgreBotAPI.Get_GroupCurseCount}` |
 | `Get_RaidCurseCount()` | int | Raid curse count | `${OgreBotAPI.Get_RaidCurseCount}` |
 | `Get_GroupUncurableCurseCount()` | int | Uncurable curse count | `${OgreBotAPI.Get_GroupUncurableCurseCount}` |
-| `Get_CursedID(... Args)` | int64 | Get cursed player ID | `${OgreBotAPI.Get_CursedID}` |
-| `Get_Uncurable(string _Type, ... Args)` | int64 | Get uncurable effect | `${OgreBotAPI.Get_Uncurable["curse"]}` |
+| `Get_CursedID(... Args)` | int64 | Get cursed player ID ([Args](#get_cursedid-args)) | `${OgreBotAPI.Get_CursedID["-archetype", "fighter", "-GroupOnly"]}` |
+| `Get_Uncurable(string _Type, ... Args)` | int64 | Get uncurable effect ([Args](#get_uncurable-args)) | `${OgreBotAPI.Get_Uncurable["Cursed", "-GroupOnly"]}` |
 
 ### Heroic Opportunity
 
@@ -565,7 +565,7 @@ Members return values and are accessed via `${OgreBotAPI.MemberName[params]}`.
 | Member | Return | Description | Example |
 |--------|--------|-------------|---------|
 | `GetMobID(string _MobNameID)` | int64 | Get mob ID from name/ID | `${OgreBotAPI.GetMobID["Boss Name"]}` |
-| `GetActorCountByName(string _ActorName, ... Args)` | int | Count actors by name | `${OgreBotAPI.GetActorCountByName["Add Name"]}` |
+| `GetActorCountByName(string _ActorName, ... Args)` | int | Count actors by name ([Args](#getactorcountbyname-args)) | `${OgreBotAPI.GetActorCountByName["Add Name", "-partial", "-distance", 30]}` |
 | `GetFarthestActorFrom(string _FindActorName, string _FromActorNameID, float _MinDistance)` | int64 | Get farthest actor | `${OgreBotAPI.GetFarthestActorFrom["Add", "${Me.Name}", 5]}` |
 | `GameDistanceToActor(string _NameOrID)` | float | Distance to actor | `${OgreBotAPI.GameDistanceToActor["Boss Name"]}` |
 | `GetActorModelSize(int64 _ActorID)` | float | Actor model size | `${OgreBotAPI.GetActorModelSize[${Target.ID}]}` |
@@ -580,8 +580,8 @@ Members return values and are accessed via `${OgreBotAPI.MemberName[params]}`.
 | `Get_AbilityInfo(string _AbilityNameID, string _Member)` | string | Get ability info | `${OgreBotAPI.Get_AbilityInfo["Ability Name", "Range"]}` |
 | `Get_AbilityInfo_RawData(string _AbilityName, string _Member)` | string | Get raw ability data | `${OgreBotAPI.Get_AbilityInfo_RawData["Ability Name", "Range"]}` |
 | `Get_AbilityShortName(string _AbilityName)` | string | Get short ability name | `${OgreBotAPI.Get_AbilityShortName["Long Ability Name"]}` |
-| `Get_AbilityTypeID(string AbilityType, ... Args)` | int64 | Get ability type ID | `${OgreBotAPI.Get_AbilityTypeID["cure"]}` |
-| `Get_AbilityVia(... Args)` | int64 | Get ability via params | `${OgreBotAPI.Get_AbilityVia["param"]}` |
+| `Get_AbilityTypeID(string AbilityType, ... Args)` | int64 | Get ability type ID ([Args](#get_abilitytypeid-args)) | `${OgreBotAPI.Get_AbilityTypeID["cure", "-NPCRequired"]}` |
+| `Get_AbilityVia(... Args)` | int64 | Get ability via params ([Args](#get_abilityvia-args)) | `${OgreBotAPI.Get_AbilityVia["IsInterrupt", "equal", "TRUE", "-NPCRequired"]}` |
 | `AbilityReady(string _ForWho, string AbilityName, int64 _ActorID)` | bool | Is ability ready | `${OgreBotAPI.AbilityReady["${Me.Name}", "Ability", ${Target.ID}]}` |
 | `CheckNoReqBowAbilities()` | bool | Check no-bow-req setting | `${OgreBotAPI.CheckNoReqBowAbilities}` |
 
@@ -741,7 +741,7 @@ oc !ci -CancelDetrimental igw:${Me.Name} 110 55
 |--------|--------|-------------|---------|
 | `HaveQuest(string _QuestName)` | bool | Do I have quest | `${OgreBotAPI.HaveQuest["Quest Name"]}` |
 | `ReplyDialog_ReplyExists(string _ForWho, string _Choice, bool _ExactMatch)` | int | Does reply exist | `${OgreBotAPI.ReplyDialog_ReplyExists["all", "1", FALSE]}` |
-| `Select_Window_GetOption(... Args)` | int | Get select window option | `${OgreBotAPI.Select_Window_GetOption["Option"]}` |
+| `Select_Window_GetOption(... Args)` | int | Get select window option ([Args](#select_window-args)) | `${OgreBotAPI.Select_Window_GetOption["-substring", "Accept"]}` |
 
 ### Utility
 
@@ -814,7 +814,7 @@ oc !ci -CancelDetrimental igw:${Me.Name} 110 55
 
 | Member | Return | Description | Example |
 |--------|--------|-------------|---------|
-| `HaveMaintained(... Args)` | bool | Have maintained spell | `${OgreBotAPI.HaveMaintained["Buff Name"]}` |
+| `HaveMaintained(... Args)` | bool | Have maintained spell ([Args](#havemaintained-args)) | `${OgreBotAPI.HaveMaintained["-exact", "Buff Name"]}` |
 | `ScrollOf_Get_MaintainedDuration(string _ScrollName)` | int | Get scroll duration | `${OgreBotAPI.ScrollOf_Get_MaintainedDuration["Scroll Name"]}` |
 
 ### Water Breathing
@@ -832,12 +832,12 @@ Functions are called with `call OgreBotAPI.FunctionName params` and can return v
 
 | Function | Return | Description | Example |
 |----------|--------|-------------|---------|
-| `HO_Start(... Args)` | bool | Start HO | `call OgreBotAPI.HO_Start` |
+| `HO_Start(... Args)` | bool | Start HO ([Args](#ho_start-args)) | `call OgreBotAPI.HO_Start` |
 | `HO_Starter()` | bool | Cast HO starter | `call OgreBotAPI.HO_Starter` |
 | `HO_Advance()` | bool | Advance HO | `call OgreBotAPI.HO_Advance` |
 | `Cast_Interrupt(string _MobNameID, int64 _AbilityID, string _CalledFrom)` | - | Cast interrupt | `call OgreBotAPI.Cast_Interrupt "Boss Name" 0 "IC"` |
 | `CastAbilityOnNPC(string _ForWho, string AbilityName, string _MobNameID, string _CalledFrom)` | - | Cast on NPC | `call OgreBotAPI.CastAbilityOnNPC "all" "Taunt" "Boss" "IC"` |
-| `CastRescue(string CalledFrom, ... Args)` | - | Cast rescue | `call OgreBotAPI.CastRescue "IC"` |
+| `CastRescue(string CalledFrom, ... Args)` | - | Cast rescue ([Args](#castrescue-args)) | `call OgreBotAPI.CastRescue "IC" "-NPCRequired"` |
 | `ZoneInto(string _ZoneName, string _ActorName, int _DoorOption)` | - | Zone into | `call OgreBotAPI.ZoneInto "Zone Name" "Door NPC" 0` |
 | `GetToGH()` | - | Get to guild hall | `call OgreBotAPI.GetToGH` |
 | `HouseWindowToGH()` | - | House window to GH | `call OgreBotAPI.HouseWindowToGH` |
@@ -854,7 +854,7 @@ Functions are called with `call OgreBotAPI.FunctionName params` and can return v
 | `Summon_Familiar()` | - | Summon familiar | `call OgreBotAPI.Summon_Familiar` |
 | `Research_Material_Check(string _ForWho)` | int | Check research mats | `call OgreBotAPI.Research_Material_Check "all"` |
 | `Champions_Zone_Resetter(string _ZoneName)` | - | Reset champions zone | `call OgreBotAPI.Champions_Zone_Resetter "Zone Name"` |
-| `Select_Window(string _ForWho, ... Args)` | int | Select window | `call OgreBotAPI.Select_Window "all" 1` |
+| `Select_Window(string _ForWho, ... Args)` | int | Select window ([Args](#select_window-args)) | `call OgreBotAPI.Select_Window "all" "-substring" "Accept"` |
 | `AutoConsumeTemporaryFamiliarExperience()` | - | Consume familiar XP | `call OgreBotAPI.AutoConsumeTemporaryFamiliarExperience` |
 | `AutoConsumeTemporaryMountTrainingReduction()` | - | Consume mount training | `call OgreBotAPI.AutoConsumeTemporaryMountTrainingReduction` |
 | `AutoConsumeTemporaryResearchReduction()` | - | Consume research | `call OgreBotAPI.AutoConsumeTemporaryResearchReduction` |
@@ -880,6 +880,500 @@ Functions are called with `call OgreBotAPI.FunctionName params` and can return v
 | `CloseAllExamine()` | - | Close all examine | `call OgreBotAPI.CloseAllExamine` |
 | `ExamineAllOfItem(... _Items)` | - | Examine items | `call OgreBotAPI.ExamineAllOfItem "Item Name"` |
 | `Consume_Status_Tokens(uint _Amount)` | - | Consume tokens | `call OgreBotAPI.Consume_Status_Tokens 100` |
+
+---
+
+## Args Reference
+
+Methods, members, and functions that accept `... Args` support optional flags. See [Variadic Parameters](../../innerspace/advanced-lavishscript.md) for how `... Args` works in LavishScript. Below is a detailed reference for each.
+
+### PulseCircleMovement Args
+
+Moves the group (or self) in a circular pattern around a location. Each call advances to the next position around the circle.
+
+| Flag | Type | Default | Description |
+|------|------|---------|-------------|
+| `-setspot` | int | `0` | Force a specific spot number instead of auto-incrementing |
+| `-spots` | int | `4` | Number of positions around the circle (e.g., 4 = every 90°, 8 = every 45°) |
+| `-distance` | float | `3` | Radius of the circle from `_Loc` |
+| `-Group` | *(flag)* | `FALSE` | Apply campspot change to the whole group (`igw:`) |
+| `-SpotChangeWait` | int | `2` | Cooldown between spot changes in **seconds** |
+| `-SpotChangeWaitMS` | int | `2000` | Cooldown between spot changes in **milliseconds** |
+| `-ClearWait` | *(flag)* | — | Resets the movement timer to 0, allowing immediate movement |
+| `-Return` | *(flag)* | — | Immediately returns without doing anything |
+| `-RelativeCampspot` | *(flag)* | `FALSE` | Uses relative campspot instead of absolute |
+| `-Debug` | *(flag)* | `FALSE` | Echoes debug output |
+| `-YChange` | float | `0` | Vertical offset added to the Y coordinate |
+
+**Example:**
+
+```lavishscript
+; 8 positions, 4.5m radius, 1-second rotation, +1 Y offset, debug on
+OgreBotAPI:PulseCircleMovement["${This.PuzzleSolutionLoc}", "-spots", 8, "-distance", 4.5, "-Debug", "-SpotChangeWait", 1, "-YChange", 1]
+```
+
+### Set_DisableAllAOEs Args
+
+Disables (or enables) all AOE abilities, with optional flags.
+
+| Flag | Type | Default | Description |
+|------|------|---------|-------------|
+| `-verbose` | *(flag)* | silent | Changes UI option changes from silent to verbose (echoes output) |
+| `-allowcounters` | *(flag)* | `FALSE` | When TRUE, counter abilities (e.g., Aggressive Defense, Porcupine, Ancestral Palisade) are NOT cancelled even when disabling all AoEs |
+
+**Example:**
+
+```lavishscript
+OgreBotAPI:Set_DisableAllAOEs["all", TRUE, "-allowcounters"]
+```
+
+### CastAbilityType Args
+
+Casts an ability by type (e.g., cure, interrupt). Args control targeting.
+
+| Flag | Type | Default | Description |
+|------|------|---------|-------------|
+| `-NPCRequired` | *(flag)* | — | Sets the target to the current NPC target |
+| `-TargetID` / `-ActorID` | int64 | `0` | Sets a specific actor ID to target |
+
+**Example:**
+
+```lavishscript
+OgreBotAPI:CastAbilityType["healer", "cure", "IC", "-NPCRequired"]
+```
+
+### CastRescue Args
+
+Casts a rescue/threat-increase ability. Args control targeting and fallback behavior.
+
+| Flag | Type | Default | Description |
+|------|------|---------|-------------|
+| `-NPCRequired` | *(flag)* | — | Sets the target to the current NPC target |
+| `-TargetID` / `-ActorID` | int64 | `0` | Sets a specific actor ID to target |
+| `-NoForceTargets` | *(flag)* | `FALSE` | If no threat-increase ability is found, do NOT fall back to ForceTarget abilities |
+
+**Example:**
+
+```lavishscript
+OgreBotAPI:CastRescue["fighter", "IC", "-NPCRequired"]
+```
+
+### Cast_Interrupt Args
+
+Note: `Cast_Interrupt` declares `... Args` in its signature but **does not process any flags** from them. Args are unused.
+
+### CancelCasting Args
+
+Cancels current casting, with optional conditions and follow-up actions.
+
+| Flag | Type | Default | Description |
+|------|------|---------|-------------|
+| `-HOAbility` | *(flag)* | `FALSE` | Only cancel if the current spell is a Heroic Opportunity ability |
+| `-HOAbilityUI` | *(flag)* | `FALSE` | Only cancel if the current spell is an HO ability AND the HO UI setting says to cancel it |
+| `-CastHOAbilityIconID` | int | — | After cancelling, queue an HO icon ability cast with this icon ID |
+| `-CastTime` | float | `0` | Only cancel if remaining cast time is greater than this value (seconds) |
+| `-CastAbility` | string | — | After cancelling, queue casting this ability by name |
+| `-CastAbilityOnPlayer` | string string | — | After cancelling, queue casting ability on player (consumes TWO args: ability name, player name) |
+| *(any other value)* | string | — | Added to a "do not cancel" list — if the current spell matches any of these names, casting is NOT cancelled |
+
+**Example:**
+
+```lavishscript
+; Cancel casting unless it's "Divine Arbitration", then cast "Heal" on tank
+OgreBotAPI:CancelCasting["all", "Divine Arbitration", "-CastAbilityOnPlayer", "Heal", "TankName"]
+```
+
+### CancelMaintained Args
+
+Each arg is treated as an ability name to cancel. No flags.
+
+```lavishscript
+OgreBotAPI:CancelMaintained["Buff A", "Buff B", "Buff C"]
+```
+
+### CancelMaintainedForWho Args
+
+Same as CancelMaintained — each arg is an ability name to cancel.
+
+```lavishscript
+OgreBotAPI:CancelMaintainedForWho["all", "Buff A", "Buff B"]
+```
+
+### Get_AbilityTypeID Args
+
+Gets the ability ID for a given ability type. Args control targeting.
+
+| Flag | Type | Default | Description |
+|------|------|---------|-------------|
+| `-NPCRequired` | *(flag)* | — | Sets the target to the current NPC target |
+| `-TargetID` / `-ActorID` | int64 | `0` | Sets a specific actor ID to validate abilities against |
+
+**Example:**
+
+```lavishscript
+${OgreBotAPI.Get_AbilityTypeID["cure", "-ActorID", "${Target.ID}"]}
+```
+
+### Get_AbilityVia Args
+
+Finds an ability matching specified attribute filters. This is the most complex Args handler — it supports flag-based options AND attribute search triplets.
+
+**Flags:**
+
+| Flag | Type | Default | Description |
+|------|------|---------|-------------|
+| `-NPCRequired` | *(flag)* | — | Sets the target to the current NPC target |
+| `-TargetID` / `-ActorID` | int64 | `0` | Sets a specific actor ID to validate abilities against |
+| `-SkipActorChecks` | *(flag)* | `FALSE` | Skips actor-related validation checks |
+| `-SkipAbilityAvailable` | *(flag)* | `FALSE` | Skips IsReady and TimeUntilReady checks on abilities |
+| `-ignore` | string | — | Adds a member name to the ignore set, excluding it from GUI checks |
+| `-IgnoreGUI` | *(flag)* | `FALSE` | Ignores GUI settings when filtering abilities |
+| `-HonorGUI` | *(flag)* | `FALSE` | Strictly honors GUI settings — if a checkbox disables something, exclude it |
+| `-offensive` | *(flag)* | `FALSE` | Restricts results to offensive abilities only |
+| `SortByReuse` | *(flag)* | `FALSE` | When multiple abilities match, sort by shortest reuse time instead of casting time |
+
+**Attribute Triplets:** Any arg matching a known ability export attribute is treated as a search filter consuming THREE args: `AttributeName`, `Operator`, `Value`. Operators: `equal`, `=`, `==`, `<`, `<=`, `>`, `>=`.
+
+**Example:**
+
+```lavishscript
+${OgreBotAPI.Get_AbilityVia["IsInterrupt", "equal", "TRUE", "-NPCRequired"]}
+```
+
+### HO_Start Args
+
+Starts a Heroic Opportunity. The method queues the function, which delegates to `Obj_HeroicOpportunity.HO_Start`.
+
+| Flag | Type | Default | Description |
+|------|------|---------|-------------|
+| `-SkipTimer` | *(flag)* | `FALSE` | Skips the recently-processed timer check, allowing immediate HO start |
+| `-TargetID` / `-ActorID` | int64 | `0` | Specifies a target actor ID to start the HO on |
+
+**Example:**
+
+```lavishscript
+OgreBotAPI:HO_Start["all", "-TargetID", "${Target.ID}", "-SkipTimer"]
+```
+
+### DoHO_Setup Args
+
+Sets up the DoHO (automated Heroic Opportunity) system. Processes its own flags, then forwards all Args to `DoHO_Set_Enable` as well.
+
+| Flag | Type | Default | Description |
+|------|------|---------|-------------|
+| `-LeaveWheelOpen` | *(flag)* | `FALSE` | Does not modify wheel-advancement options for other archetypes |
+| `-LeaveStartOpen` | *(flag)* | `FALSE` | Does not modify starter-advancement options for other archetypes |
+| `-TimeOut` | int (seconds) | `25` | Timeout for the HO sequence |
+| `-NotSoloHO` | *(flag)* | solo | Marks as group HO instead of solo (not fully implemented) |
+| `-NoModifyOptions` | *(flag)* | modify | Prevents modifying HO UI options for the group |
+| `-AllowCastStack` | *(flag)* | disabled | Allows cast stack to remain active during HO |
+| `-TargetID` | int64 | `0` | Target actor ID for the HO |
+| `-NumHOsToComplete` | int | `1` | Number of HOs to complete before the task is done |
+| `-Force` | *(flag)* | `FALSE` | *(Forwarded to Set_Enable)* — Forces enable even if state unchanged |
+| `-PrimeOnly` / `-NoEnable` / `-NoStart` | *(flag)* | `FALSE` | *(Forwarded to Set_Enable)* — Primes infrastructure without enabling |
+| `-DelayStart` | int | `1` | *(Forwarded to Set_Enable)* — Delay before starting the HO |
+
+**Example:**
+
+```lavishscript
+OgreBotAPI:DoHO_Setup["all", "-TargetID", "${Target.ID}", "-TimeOut", 30, "-NumHOsToComplete", 2]
+```
+
+### DoHO_Set_Enable Args
+
+Enables or disables the DoHO system.
+
+| Flag | Type | Default | Description |
+|------|------|---------|-------------|
+| `-Force` | *(flag)* | `FALSE` | Forces enable/disable even if current state matches the requested state |
+| `-PrimeOnly` / `-NoEnable` / `-NoStart` | *(flag)* | `FALSE` | Primes HO infrastructure but does not enable start/starter/wheel checkboxes |
+| `-NoHoAbilities` | *(flag)* | `FALSE` | Prevents disabling HO abilities for same-archetype group members |
+| `-TimeOut` | int (seconds) | `25` (minimum) | Overrides the timeout timer (cannot go below 25 seconds) |
+| `-DelayStart` | int | `1` | Delay before starting the HO process |
+
+**Example:**
+
+```lavishscript
+OgreBotAPI:DoHO_Set_Enable["all", TRUE, "-Force", "-TimeOut", 30]
+```
+
+### Get_CursedID Args
+
+Finds a group/raid member with a curse detriment and returns their ID.
+
+| Flag | Type | Default | Description |
+|------|------|---------|-------------|
+| `-archetype` | string | *(no restriction)* | Limits search to a specific archetype. Can be specified multiple times for multiple archetypes |
+| `-uncurable` | *(flag)* | `FALSE` | Include both curable AND uncurable curses in the search |
+| `-uncurableonly` | *(flag)* | `FALSE` | Only return uncurable curses |
+| `-GroupOnly` | *(flag)* | `FALSE` | Only check the group, not the raid |
+
+**Example:**
+
+```lavishscript
+${OgreBotAPI.Get_CursedID["-archetype", "fighter", "-archetype", "priest", "-GroupOnly"]}
+```
+
+### Get_Uncurable Args
+
+Finds a group/raid member with an uncurable condition.
+
+| Flag | Type | Default | Description |
+|------|------|---------|-------------|
+| `-GroupOnly` | *(flag)* | `FALSE` | Only check the group, not the raid |
+
+**Example:**
+
+```lavishscript
+${OgreBotAPI.Get_Uncurable["Cursed", "-GroupOnly"]}
+```
+
+### Cure Method Args
+
+`Cursed`, `AutoCurse`, `AutoCure`, `AutoGroupCure`, and `AutoItemCure` all forward Args to `Object_CureCalled_Entry:Initialize`, which processes cure type keywords and options. Note: `Cursed` and `AutoCurse` automatically prepend `"Curse"` before the Args.
+
+**Cure Type Keywords (each increments the corresponding detriment counter):**
+
+| Keyword | Aliases | Description |
+|---------|---------|-------------|
+| `any` | — | Marks all detriment types (arcane, elemental, noxious, trauma) |
+| `Curse` | — | Marks as curse detriment (auto-prepended by `Cursed`/`AutoCurse`) |
+| `arcane` | `a` | Marks as arcane detriment |
+| `elemental` | `e` | Marks as elemental detriment |
+| `Noxious` | `n` | Marks as noxious detriment |
+| `Trauma` | `t` | Marks as trauma detriment |
+| `arcaneX` | `aX` | Next arg = count to add for arcane |
+| `elementalX` | `eX` | Next arg = count to add for elemental |
+| `NoxiousX` | `nX` | Next arg = count to add for noxious |
+| `TraumaX` | `tX` | Next arg = count to add for trauma |
+
+**Option Keywords:**
+
+| Keyword | Type | Default | Description |
+|---------|------|---------|-------------|
+| `exclusive` / `only` | *(flag)* | `FALSE` | Only this cure entry is valid — skip others |
+| `DirectTarget` | *(flag)* | `FALSE` | Directly target the player for curing |
+| `AutoRemove` | int (seconds) | `8` | Auto-remove this cure entry after N seconds |
+| `AutoRemoveMS` | int (ms) | `8000` | Auto-remove after N milliseconds |
+| `CustomFlag` | string | — | Adds a custom flag string for script-specific logic |
+
+If no Args are provided, defaults to `any` (all detriment types).
+
+**Example:**
+
+```lavishscript
+; Cure arcane and noxious on TankName
+OgreBotAPI:AutoCure["healer", "TankName", "arcane", "Noxious"]
+
+; Cure 3 elemental detriments, exclusive, with 10s auto-remove
+OgreBotAPI:AutoCure["healer", "TankName", "elementalX", 3, "exclusive", "AutoRemove", 10]
+```
+
+### GetActorCountByName Args
+
+Counts actors matching a name, with optional filters.
+
+| Flag | Type | Default | Description |
+|------|------|---------|-------------|
+| `-partial` / `-substring` | *(flag)* | exact match | Use substring matching instead of exact match |
+| `-distance` | float | `999` | Maximum distance filter — only count actors within this range |
+| `-Type` | string | *(no filter)* | Filter by actor type (e.g., `"NPC"`, `"Special"`) |
+
+**Example:**
+
+```lavishscript
+${OgreBotAPI.GetActorCountByName["Add Name", "-partial", "-distance", 30]}
+```
+
+### HaveMaintained Args
+
+Checks if any maintained spell matches the given ability names. Uses a **mode toggle** pattern.
+
+| Flag | Type | Default | Description |
+|------|------|---------|-------------|
+| `TRUE` / `-exact` / `-e` | *(flag)* | — | Sets matching mode to exact for subsequent names |
+| `FALSE` / `-partial` / `-p` | *(flag)* | exact match | Sets matching mode to substring for subsequent names |
+| *(any other value)* | string | — | An ability name to search for using the current match mode |
+
+Mode toggles can be mixed between names to change matching behavior per name.
+
+**Example:**
+
+```lavishscript
+${OgreBotAPI.HaveMaintained["-exact", "Spell A", "-partial", "Buff"]}
+```
+
+### Select_Window Args
+
+Selects an option in a Select Window dialog. Used by the method, function, and `Select_Window_GetOption` member.
+
+| Flag | Type | Default | Description |
+|------|------|---------|-------------|
+| `-substring` | *(flag)* | exact match | Use substring matching when searching option text |
+| `-ReportOnly` | *(flag)* | `FALSE` | Only return the option index, don't click it. **Auto-appended by `Select_Window_GetOption`.** |
+| `-Spew` | *(flag)* | `FALSE` | Dump all option text to debug (also enables ReportOnly) |
+| `-test` | *(flag)* | `FALSE` | Select the option but do NOT click the OK button |
+| `-Debug` | *(flag)* | `FALSE` | Echo debug info about the Args |
+| *(any other value)* | string | — | The search text — either a numeric option index or text to match against option labels |
+
+**Example:**
+
+```lavishscript
+OgreBotAPI:Select_Window["all", "-substring", "Accept"]
+```
+
+### ConsumeItems_ProcessList Args
+
+Passes Args through to the internal consume items handler.
+
+| Flag | Type | Default | Description |
+|------|------|---------|-------------|
+| `-fc` / `-forcecombat` | *(flag)* | `FALSE` | Force item consumption even out of combat |
+| `-all` | *(flag)* | `FALSE` | Process the entire consume items list instead of stopping early |
+| `-st` / `-skiptimers` | *(flag)* | `FALSE` | Skip ready-to-cast timer checks |
+
+**Example:**
+
+```lavishscript
+OgreBotAPI:ConsumeItems_ProcessList["all", "-all", "-fc"]
+```
+
+### ExecuteEvent Args
+
+Dispatches a LavishScript event by name via `Event[name]:Execute`. All Args are passed directly as positional parameters to whatever event handler is attached. No flags — the meaning of each arg is defined by the specific event handler.
+
+**Example:**
+
+```lavishscript
+OgreBotAPI:ExecuteEvent["all", "MyEvent", "param1", "param2"]
+```
+
+### ExecuteEvent_JSON Args
+
+Functionally identical to `ExecuteEvent` — dispatches a LavishScript event and passes all Args as positional parameters. Intended for events that receive JSON-encoded strings as arguments.
+
+### ChangeLootOptions Args
+
+Changes group loot settings. Most flags are **group leader only** unless noted.
+
+**Loot Method:**
+
+| Flag | Aliases | Description |
+|------|---------|-------------|
+| `LO` | `LOL`, `Leader`, `LeaderOnly`, `LeaderOnlyLoot` | Leader Only Loot |
+| `FFA` | `Free`, `FreeForAll` | Free For All |
+| `Lotto` | — | Lotto |
+| `NBG` | `Need`, `NeedBeforeGreed` | Need Before Greed |
+| `RR` | `Round`, `Robin`, `RoundRobin` | Round Robin |
+
+**Item Rarity Threshold:**
+
+| Flag | Aliases | Description |
+|------|---------|-------------|
+| `All` | — | All items |
+| `T` | `T+`, `Treasured`, `Treasured+` | Treasured and above |
+| `L` | `L+`, `Legendary`, `Legendary+` | Legendary and above |
+| `F` | `F+`, `Fabled`, `Fabled+` | Fabled and above |
+
+**Access Control:**
+
+| Flag | Aliases | Description |
+|------|---------|-------------|
+| `YL` | `YellLeader`, `YellLeaderOnly` | Yell access: Leader Only |
+| `YA` | `YellAll` | Yell access: All |
+| `ELL` | `EncLockLeader`, `EncLockLeaderOnly` | Encounter lock: Leader Only |
+| `ELA` | `EncLockAll` | Encounter lock: All |
+
+**Auto Loot (works for both leader and non-leader):**
+
+| Flag | Aliases | Description |
+|------|---------|-------------|
+| `AN` | `AutoNone` | Auto loot: None |
+| `AG` | `AutoGreed` | Auto loot: Greed |
+| `AD` | `AutoDecline` | Auto loot: Decline |
+| `AS` | `AutoSplit` | Enable auto split coin |
+| `NAS` | `NoAutoSplit` | Disable auto split coin |
+| `AL` | `AutoLock` | Enable auto lock encounters |
+| `NAL` | `NoAutoLock` | Disable auto lock encounters |
+
+**Example:**
+
+```lavishscript
+OgreBotAPI:ChangeLootOptions["all", "FFA", "All", "AG"]
+```
+
+### SmartLoot_BuildToonItemsToBeZeroed Args
+
+Args are consumed as sequential pairs: `ToonName`, `ItemName`, `ToonName`, `ItemName`, etc. No flags.
+
+**Example:**
+
+```lavishscript
+OgreBotAPI:SmartLoot_BuildToonItemsToBeZeroed["all", "PlayerA", "Item One", "PlayerB", "Item Two"]
+```
+
+### AbilityEmbargo_AddRotateTimer / ItemEmbargo_AddRotateTimer Args
+
+| Flag | Type | Default | Description |
+|------|------|---------|-------------|
+| `-g` | string | — | Group member name — if this member is NOT in the group, the timer is not added (conditional guard) |
+
+**Example:**
+
+```lavishscript
+OgreBotAPI:AbilityEmbargo_AddRotateTimer[123456, 30, "-g", "PlayerName"]
+```
+
+### AbilityTag_AddRotateTagTimer Args
+
+| Flag | Type | Default | Description |
+|------|------|---------|-------------|
+| `-g` | string | — | Group member name — if not in the group, the timer is not added |
+| `-m` | string | — | Maintained ability name to monitor for triggered ability tracking |
+| `-MBuffer` | int | `1` | Buffer time for determining how long to assume the maintained is active (used with `-m`) |
+
+**Example:**
+
+```lavishscript
+OgreBotAPI:AbilityTag_AddRotateTagTimer["all", "MyTag", 30, "-g", "PlayerName", "-m", "Buff Name"]
+```
+
+### ChangeOgreBotUIOption / UplinkOptionChange Args
+
+Both methods delegate to the same internal handler. Args are processed as flag/value sequences.
+
+| Flag | Type | Default | Description |
+|------|------|---------|-------------|
+| `silent` | *(flag)* | `FALSE` | Suppress relay messages when changing UI options |
+| `loud` / `verbose` | *(flag)* | — | Re-enable relay messages |
+| *(any other value)* | string pair | — | Treated as a UI element name + value pair. Element names are resolved as `OBUI_<name>`. Values: checkboxes accept `TRUE`/`FALSE`/`Toggle`, text entries accept strings, comboboxes accept option text |
+
+**Example:**
+
+```lavishscript
+OgreBotAPI:ChangeOgreBotUIOption["all", "silent", "DisableRoots", "TRUE"]
+```
+
+### Report_Back Args
+
+Reports back variable values from group members.
+
+| Flag | Type | Default | Description |
+|------|------|---------|-------------|
+| `-Invisible` / `-Silent` | *(flag)* | visible | Uses invisible cross-session command (`!ci` instead of `!c`) |
+| `-SendToWho` | string | `irw:${Me.Name}` | Target for where to send the report back variable |
+| `-SendToWhere` | string | `oc` | Transport mechanism (`oc`, `irc`, etc.) |
+| `-ToIRC` | *(flag)* | — | Shorthand to set SendToWhere to `irc` |
+| `-item` | string | — | Checks if named item exists in inventory, returns `TRUE`/`FALSE` |
+| `-AdditionalInfo` | string | — | Adds additional info for secondary matching (e.g., weapon subtype) |
+| `-resolve_of_slot` | string int64 | — | Consumes TWO args: slot name and LinkID. Gets resolve value for equipment in that slot |
+| `-ReportBackVariable` | string | `${Me.Name}` | Variable name used in the set_variable command. `**ME**` is replaced with `${Me.Name}` |
+
+**Example:**
+
+```lavishscript
+OgreBotAPI:Report_Back["all", "-Silent", "-item", "Cure Potion"]
+```
 
 ---
 
