@@ -58,6 +58,18 @@ Most methods accept a `_ForWho` parameter that controls which characters execute
 | `FlyStop(string _ForWho)` | Stop flying | `OgreBotAPI:FlyStop["all"]` |
 | `LandFlyingMount(string _ForWho)` | Land a flying mount | `OgreBotAPI:LandFlyingMount["all"]` |
 | `Stand(string _ForWho)` | Stand up (cancel feign death) | `OgreBotAPI:Stand["all"]` |
+| `Move2AreaNoTarget(float _XPos, float _YPos, string _ForWho, float _Precision=3)` | Move to area without changing target | `OgreBotAPI:Move2AreaNoTarget[100.5, -50.3, "all"]` |
+| `SetCS_NPC_ForWho(string _ForWho, int _Angle, string _NameOrID, float _Distance=3, bool _SkipIfAggro=FALSE)` | Set camp spot at angle from NPC for specific players | `OgreBotAPI:SetCS_NPC_ForWho["fighter", 90, "Boss Name", 5]` |
+| `CampSpot(string _ForWho, float _MinDistance=2, float _MaxDistance=200)` | Update camp spot min/max distances | `OgreBotAPI:CampSpot["all", 2, 200]` |
+| `CCS(string _ForWho, float _X, float _Y, float _Z, uint _RoomID=0)` | Change camp spot with RoomID | `OgreBotAPI:CCS["all", 100.5, 25.0, -50.3, 0]` |
+| `CRCS(string _ForWho, float _X, float _Y, float _Z, uint _RoomID=0)` | Change relative camp spot | `OgreBotAPI:CRCS["all", 5.0, 0.0, 3.0, 0]` |
+| `ClearRCS(string _ForWho)` | Clear relative camp spot | `OgreBotAPI:ClearRCS["all"]` |
+| `EQ2Loc_Add(float _X, float _Y, float _Z, string _Label, uint _RoomID=0)` | Add a named EQ2 location marker | `OgreBotAPI:EQ2Loc_Add[100.5, 25.0, -50.3, "BossSpot", 0]` |
+| `EQ2Loc_P(string _Label)` | Print/display a named EQ2 location | `OgreBotAPI:EQ2Loc_P["BossSpot"]` |
+| `EQ2Loc_Delete(string _Label)` | Delete a named EQ2 location | `OgreBotAPI:EQ2Loc_Delete["BossSpot"]` |
+| `OFolIncDistance(string _ForWho)` | Increase follow distance | `OgreBotAPI:OFolIncDistance["all"]` |
+| `OFolDecDistance(string _ForWho)` | Decrease follow distance | `OgreBotAPI:OFolDecDistance["all"]` |
+| `Set_CampSpotJump_Handle(string _ForWho, point3f _Start, point3f _Jump, point3f _End, point3f _Completed, ... Args)` | Set campspot jump waypoints ([Args](#set_campspotjump_handle-args)) | `OgreBotAPI:Set_CampSpotJump_Handle["all", "0,0,0", "5,5,5", "10,0,10", "10,0,10"]` |
 
 ### Combat Control
 
@@ -69,6 +81,9 @@ Most methods accept a `_ForWho` parameter that controls which characters execute
 | `CastAbilityInSeconds(string _ForWho, string AbilityName, float _Seconds, string CalledFrom)` | Cast ability after delay | `OgreBotAPI:CastAbilityInSeconds["all", "Ward", 5.0, "IC"]` |
 | `CastAbilityNoChecks(string _ForWho, string AbilityName, string CalledFrom)` | Cast without readiness checks | `OgreBotAPI:CastAbilityNoChecks["all", "Emergency Heal", "IC"]` |
 | `CastAbilityNoExport(string _ForWho, string _Ability, string _CastFrom)` | Cast without triggering export | `OgreBotAPI:CastAbilityNoExport["all", "Buff", "IC"]` |
+| `CastAbilityNoExportUntilCast(string _ForWho, string _Ability, string _CastFrom)` | Cast without export until casting starts | `OgreBotAPI:CastAbilityNoExportUntilCast["all", "Buff", "IC"]` |
+| `CastAbilityOnPlayerInSeconds(string _ForWho, string AbilityName, string sTarget, float _Seconds)` | Cast ability on player after delay | `OgreBotAPI:CastAbilityOnPlayerInSeconds["healer", "Heal", "TankName", 3.0]` |
+| `CastAbilityOnPlayerNoChecks(string _ForWho, string AbilityName, string OnPlayer, string CalledFrom)` | Cast on player without readiness checks | `OgreBotAPI:CastAbilityOnPlayerNoChecks["healer", "Emergency Heal", "TankName", "IC"]` |
 | `CastAbilityType(string _ForWho, string AbilityType, string CalledFrom, ... Args)` | Cast by ability type ([Args](#castabilitytype-args)) | `OgreBotAPI:CastAbilityType["healer", "cure", "IC", "-NPCRequired"]` |
 | `CastRescue(string _ForWho, string CalledFrom, ... Args)` | Cast rescue ability ([Args](#castrescue-args)) | `OgreBotAPI:CastRescue["fighter", "IC", "-NPCRequired"]` |
 | `CastHOIconID(string _ForWho, int _IconID, string CalledFrom)` | Cast ability by HO icon ID | `OgreBotAPI:CastHOIconID["all", 1234, "IC"]` |
@@ -128,6 +143,13 @@ Most methods accept a `_ForWho` parameter that controls which characters execute
 | `Update_Turbo(string _ForWho, int _Turbo=300, bool _bIgnoreLimits=FALSE)` | Update turbo/speed setting | `OgreBotAPI:Update_Turbo["all", 300]` |
 | `Rebuff(string _ForWho)` | Trigger rebuff | `OgreBotAPI:Rebuff["all"]` |
 | `LoadProfile(string _ForWho, string sProfileName, string _LoadOnlyTab="")` | Load a bot profile | `OgreBotAPI:LoadProfile["all", "MyProfile"]` |
+| `NPC_CastMonitoring(string _ForWho, ... Args)` | Enable NPC cast monitoring ([Args](#npc_castmonitoring-args)) | `OgreBotAPI:NPC_CastMonitoring["all", "-radius", 40, "Boss Name"]` |
+| `VampiricRequiem_AbilityCancel(string _ForWho, ... Args)` | Cancel Vampiric Requiem abilities | `OgreBotAPI:VampiricRequiem_AbilityCancel["all"]` |
+| `Set_VampiricRequiem_Cancelling_Active(string _ForWho, int _Time=10)` | Set Vampiric Requiem cancel duration | `OgreBotAPI:Set_VampiricRequiem_Cancelling_Active["all", 10]` |
+| `ScrollOf(string _ForWho, string _ScrollName="Prowess", int _CancelIfDurationLessThan=0, bool _UseBest=FALSE)` | Use a Scroll ability | `OgreBotAPI:ScrollOf["all", "Prowess"]` |
+| `ResolveBuffCheck(string _ForWho)` | Check and apply resolve buffs | `OgreBotAPI:ResolveBuffCheck["all"]` |
+| `Heartstone_RekindleBond(string _ForWho)` | Use Heartstone to rekindle bond | `OgreBotAPI:Heartstone_RekindleBond["all"]` |
+| `AbilityTracker_Add(string _ForWho, string _AbilityName)` | Add ability to the ability tracker | `OgreBotAPI:AbilityTracker_Add["all", "Ability Name"]` |
 
 ### Heroic Opportunity (HO)
 
@@ -258,6 +280,7 @@ Most methods accept a `_ForWho` parameter that controls which characters execute
 | `ReplyDialog(string _ForWho, string _Choice=1)` | Reply to dialog | `OgreBotAPI:ReplyDialog["all", "1"]` |
 | `ReplyDialogClose(string _ForWho)` | Close reply dialog | `OgreBotAPI:ReplyDialogClose["all"]` |
 | `ConversationBubble(string _ForWho, int _DoorOption=1)` | Click conversation bubble | `OgreBotAPI:ConversationBubble["all", 1]` |
+| `ConversationBubbleSpew(string _ForWho)` | Debug output conversation bubble options | `OgreBotAPI:ConversationBubbleSpew["all"]` |
 | `Select_Window(string _ForWho, ... Args)` | Select window option ([Args](#select_window-args)) | `OgreBotAPI:Select_Window["all", "-substring", "Accept"]` |
 | `Select_Window_Cancel(string _ForWho)` | Cancel select window | `OgreBotAPI:Select_Window_Cancel["all"]` |
 | `Select_Window_Spew(string _ForWho)` | Debug select window | `OgreBotAPI:Select_Window_Spew["all"]` |
@@ -299,6 +322,7 @@ Most methods accept a `_ForWho` parameter that controls which characters execute
 | `ApplyTempAdorn(string _ForWho, string _Adorn, string _Slot)` | Apply temporary adornment | `OgreBotAPI:ApplyTempAdorn["all", "Adorn Name", "Primary"]` |
 | `PoP_TempAdorns(string _ForWho, string _AdornmentType, bool _Overwrite)` | Apply PoP temp adorns | `OgreBotAPI:PoP_TempAdorns["all", "Type", TRUE]` |
 | `CheckGear(string _ForWho, string _ReportIfValueEqualOrLess)` | Check gear condition | `OgreBotAPI:CheckGear["all", "50"]` |
+| `Scribe_Empyral(string _ForWho)` | Scribe Empyral spells from inventory | `OgreBotAPI:Scribe_Empyral["all"]` |
 
 ### Mount & Familiar
 
@@ -348,6 +372,8 @@ Most methods accept a `_ForWho` parameter that controls which characters execute
 | `UnflagAll(string _ForWho)` | Unflag all toons | `OgreBotAPI:UnflagAll["all"]` |
 | `SpewFlags(string _ForWho)` | Debug output flags | `OgreBotAPI:SpewFlags["all"]` |
 | `FlagToonNextPerson(int _Mark=1)` | Flag next person | `OgreBotAPI:FlagToonNextPerson[1]` |
+| `FlagNextPerson(int _Mark=1, string _Via="any", ... SearchForArray)` | Flag next matching person ([Args](#flagnextperson-args)) | `OgreBotAPI:FlagNextPerson[1, "archetype", "fighter"]` |
+| `CheckMemberLevel(bool _OnlyShowNonMembers=FALSE)` | Check member subscription levels | `OgreBotAPI:CheckMemberLevel[FALSE]` |
 | `MarkToon(string _ForWho)` | Mark toon | `OgreBotAPI:MarkToon["fighter"]` |
 | `UnmarkToon(string _ForWho)` | Unmark toon | `OgreBotAPI:UnmarkToon["fighter"]` |
 | `SetRelayGroup(string _ForWho, string _Value)` | Set relay group | `OgreBotAPI:SetRelayGroup["all", "MyGroup"]` |
@@ -399,6 +425,7 @@ Most methods accept a `_ForWho` parameter that controls which characters execute
 | `Alias_ChangeEntry(string _ForWho, string _From, string _To, bool _SilentMode=FALSE)` | Change alias | `OgreBotAPI:Alias_ChangeEntry["all", "mt", "NewTank"]` |
 | `Alias_ChangeEntryAlias(string _ForWho, string _From, string _To, bool _SilentMode)` | Change alias reference | `OgreBotAPI:Alias_ChangeEntryAlias["all", "mt", "ot"]` |
 | `ForceAliasUpdate(string _ForWho)` | Force alias cache update | `OgreBotAPI:ForceAliasUpdate["all"]` |
+| `Aliases_ShowAllBuiltInAliases(string _ForWho, bool _TorF=TRUE)` | Show/hide all built-in aliases | `OgreBotAPI:Aliases_ShowAllBuiltInAliases["all", TRUE]` |
 
 ### Ability Embargo/Rotation
 
@@ -463,6 +490,12 @@ Most methods accept a `_ForWho` parameter that controls which characters execute
 | `RedeemKrono(string _ForWho)` | Redeem Krono | `OgreBotAPI:RedeemKrono["all"]` |
 | `F2PWindow_Check(string _ForWho)` | Check F2P window | `OgreBotAPI:F2PWindow_Check["all"]` |
 | `F2PWindow_SetOptions(string _ForWho, uint _Minutes)` | Set F2P options | `OgreBotAPI:F2PWindow_SetOptions["all", 60]` |
+| `SetDebugLoading(bool _TorF=TRUE)` | Enable debug loading messages | `OgreBotAPI:SetDebugLoading[TRUE]` |
+| `SetDeveloperLevel(string _ForWho, int _Value=0, bool _Silent=FALSE)` | Set developer level | `OgreBotAPI:SetDeveloperLevel["all", 0]` |
+| `Set_CSP(string _ForWho, bool _Value=TRUE, bool _Silent=FALSE)` | Set CSP (campspot processing) status | `OgreBotAPI:Set_CSP["all", TRUE]` |
+| `SpewSubscriptionStatus(string _ForWho)` | Display subscription status info | `OgreBotAPI:SpewSubscriptionStatus["all"]` |
+| `LogToonIn(string _ForWho, string _ToWho)` | Log a toon into a different character | `OgreBotAPI:LogToonIn["${Me.Name}", "AltCharName"]` |
+| `SetQuestion(string _ForWho, bool _Value=TRUE)` | Enable/disable question handling | `OgreBotAPI:SetQuestion["all", TRUE]` |
 
 ### Miscellaneous
 
@@ -482,6 +515,82 @@ Most methods accept a `_ForWho` parameter that controls which characters execute
 | `ReloadExport()` | Reload ability export | `OgreBotAPI:ReloadExport` |
 | `ReloadOgreIRC()` | Reload OgreIRC | `OgreBotAPI:ReloadOgreIRC` |
 | `AfterProfileLoad()` | After profile load hook | `OgreBotAPI:AfterProfileLoad` |
+| `SpewAbility(string AbilityName)` | Debug output ability details | `OgreBotAPI:SpewAbility["Ability Name"]` |
+| `DisplayAvailableSetups()` | Display available setup configurations | `OgreBotAPI:DisplayAvailableSetups` |
+| `SpewZoneDoorOptions()` | Debug output zone door options | `OgreBotAPI:SpewZoneDoorOptions` |
+| `RewardWindow_Spew_WindowIDs()` | Debug output reward window IDs | `OgreBotAPI:RewardWindow_Spew_WindowIDs` |
+| `ChangeRadarYAxis(string _ForWho, bool _Value)` | Toggle radar Y-axis display | `OgreBotAPI:ChangeRadarYAxis["all", TRUE]` |
+| `ShowWikiForQuest(string _ForWho, string _QuestName)` | Open wiki page for quest | `OgreBotAPI:ShowWikiForQuest["${Me.Name}", "Quest Name"]` |
+| `DisplayEtherealMissionInfo(string _ForWho)` | Display ethereal mission info | `OgreBotAPI:DisplayEtherealMissionInfo["all"]` |
+| `DailyEtherealMissionReset()` | Reset daily ethereal mission | `OgreBotAPI:DailyEtherealMissionReset` |
+| `Spew_MissionTimerInfo(string _ForWho, ... Searches)` | Display mission timer info (method) | `OgreBotAPI:Spew_MissionTimerInfo["all", "Mission Name"]` |
+| `Get_MissionTimerInfo(string _Global_JSONValue, ... Searches)` | Get mission timer info as JSON | `OgreBotAPI:Get_MissionTimerInfo["myJSONVar", "Mission Name"]` |
+| `Spew_BoZ_Research(string _ForWho)` | Display Ballads of Zimara research info | `OgreBotAPI:Spew_BoZ_Research["all"]` |
+
+### Threat Management
+
+| Method | Description | Example |
+|--------|-------------|---------|
+| `ThreatFighterIgnoreList_Add(string _ForWho, ... Args)` | Add fighters to threat ignore list (Args: fighter names) | `OgreBotAPI:ThreatFighterIgnoreList_Add["all", "Fighter1", "Fighter2"]` |
+| `ThreatFighterIgnoreList_Remove(string _ForWho, ... Args)` | Remove fighters from threat ignore list (Args: fighter names) | `OgreBotAPI:ThreatFighterIgnoreList_Remove["all", "Fighter1"]` |
+| `ThreatFighterIgnoreList_Clear(string _ForWho)` | Clear entire threat ignore list | `OgreBotAPI:ThreatFighterIgnoreList_Clear["all"]` |
+| `ThreatFighterIgnoreList_List(string _ForWho)` | Debug output threat ignore list | `OgreBotAPI:ThreatFighterIgnoreList_List["all"]` |
+
+### Overseer System
+
+| Method | Description | Example |
+|--------|-------------|---------|
+| `Overseer_SpewMissionsInInventory(string _ForWho)` | Display overseer missions in inventory | `OgreBotAPI:Overseer_SpewMissionsInInventory["all"]` |
+| `Overseer_AutoAddOverseerQuests(string _ForWho)` | Automatically add overseer quests | `OgreBotAPI:Overseer_AutoAddOverseerQuests["all"]` |
+| `Overseer_AddAgentsToCollection(string _ForWho, bool _Destroy=TRUE)` | Add overseer agents to collection | `OgreBotAPI:Overseer_AddAgentsToCollection["all", TRUE]` |
+| `Overseer_CheckQuests(string _ForWho)` | Check overseer quest status | `OgreBotAPI:Overseer_CheckQuests["all"]` |
+| `Mercenary_AddMercenaries(string _ForWho)` | Add mercenaries | `OgreBotAPI:Mercenary_AddMercenaries["all"]` |
+
+### AutoHunt System
+
+| Method | Description | Example |
+|--------|-------------|---------|
+| `AutoHunt_ScanRadius(string _ForWho, int _Value)` | Set auto-hunt scan radius | `OgreBotAPI:AutoHunt_ScanRadius["all", 50]` |
+| `AutoHunt_CheckHP(string _ForWho, int _Value)` | Set HP threshold for auto-hunt | `OgreBotAPI:AutoHunt_CheckHP["all", 80]` |
+| `AutoHunt_CheckMana(string _ForWho, int _Value)` | Set mana threshold for auto-hunt | `OgreBotAPI:AutoHunt_CheckMana["all", 30]` |
+| `AutoHunt_AddPath(string _Value)` | Add auto-hunt path | `OgreBotAPI:AutoHunt_AddPath["PathName"]` |
+| `AutoHunt_AddPoint(string _Value)` | Add waypoint to auto-hunt path | `OgreBotAPI:AutoHunt_AddPoint["100.5,25.0,-50.3"]` |
+| `AutoHunt_RemovePoint(string _Value)` | Remove waypoint from auto-hunt path | `OgreBotAPI:AutoHunt_RemovePoint["100.5,25.0,-50.3"]` |
+| `AutoHunt_ClearPoints()` | Clear all auto-hunt waypoints | `OgreBotAPI:AutoHunt_ClearPoints` |
+
+### Food, Drink & Potions
+
+| Method | Description | Example |
+|--------|-------------|---------|
+| `Get_FoodDrink(string _ForWho)` | Display current food/drink info | `OgreBotAPI:Get_FoodDrink["all"]` |
+| `Change_FoodDrinkAutoConsume(string _ForWho, string _Value)` | Change food/drink auto-consume setting | `OgreBotAPI:Change_FoodDrinkAutoConsume["all", "TRUE"]` |
+| `Change_StatPotionsAutoConsume(string _ForWho, string _Value, string _PotionName)` | Change stat potion auto-consume | `OgreBotAPI:Change_StatPotionsAutoConsume["all", "TRUE", "Potion Name"]` |
+| `Get_CurePotions(string _ForWho, string _Value)` | Display cure potion info | `OgreBotAPI:Get_CurePotions["all", "info"]` |
+| `Get_StatPotions(string _ForWho, string _Value)` | Display stat potion info | `OgreBotAPI:Get_StatPotions["all", "info"]` |
+| `Change_PoisonAutoConsume(string _ForWho, string _Value, string Poison)` | Change poison auto-consume setting | `OgreBotAPI:Change_PoisonAutoConsume["all", "TRUE", "Poison Name"]` |
+| `Get_Poisons(string _ForWho, string _Value)` | Display poison info | `OgreBotAPI:Get_Poisons["all", "info"]` |
+
+### DoV Raid Debuff
+
+| Method | Description | Example |
+|--------|-------------|---------|
+| `DoVDebuff(string _ForWho, string _sMobName, string _AllowMoving)` | Apply DoV raid debuff | `OgreBotAPI:DoVDebuff["all", "Boss Name"]` |
+| `DoVDebuff_Half(string _ForWho, string _sMobName, string _Archetype="auto", bool _Odd=TRUE, string _AllowMoving)` | Apply DoV raid debuff (half group) | `OgreBotAPI:DoVDebuff_Half["all", "Boss Name", "auto", TRUE]` |
+
+### HQ Ear
+
+| Method | Description | Example |
+|--------|-------------|---------|
+| `HQEar_ReportStuckEar(string _ForWho, string _ToWhere="OC")` | Report stuck HQ ear | `OgreBotAPI:HQEar_ReportStuckEar["all", "OC"]` |
+| `HQEar_ReEquipOriginalEar(string _ForWho)` | Re-equip original ear item | `OgreBotAPI:HQEar_ReEquipOriginalEar["all"]` |
+| `HQEar_Recheck(string _ForWho)` | Recheck HQ ear status | `OgreBotAPI:HQEar_Recheck["all"]` |
+
+### Proving Grounds
+
+| Method | Description | Example |
+|--------|-------------|---------|
+| `ProvingGrounds_Scoreboard_Close(string _ForWho)` | Close proving grounds scoreboard | `OgreBotAPI:ProvingGrounds_Scoreboard_Close["all"]` |
+| `ProvingGrounds_Exit(string _ForWho)` | Exit proving grounds | `OgreBotAPI:ProvingGrounds_Exit["all"]` |
 
 ---
 
@@ -507,6 +616,9 @@ Members return values and are accessed via `${OgreBotAPI.MemberName[params]}`.
 | `ValidKillTarget()` | bool | Has valid kill target | `${OgreBotAPI.ValidKillTarget}` |
 | `CancelCurrentCast()` | bool | Is cancel cast active | `${OgreBotAPI.CancelCurrentCast}` |
 | `QueuedCommands()` | bool | Has queued commands | `${OgreBotAPI.QueuedCommands}` |
+| `IsGroupLeader()` | bool | Is group leader (TRUE if solo or group leader) | `${OgreBotAPI.IsGroupLeader}` |
+| `SourceAvailable()` | bool | Is source code available | `${OgreBotAPI.SourceAvailable}` |
+| `InICGroup()` | bool | Is in an Instance Controller group | `${OgreBotAPI.InICGroup}` |
 
 ### Combat Information
 
@@ -530,6 +642,13 @@ Members return values and are accessed via `${OgreBotAPI.MemberName[params]}`.
 | `Get_GroupUncurableCurseCount()` | int | Uncurable curse count | `${OgreBotAPI.Get_GroupUncurableCurseCount}` |
 | `Get_CursedID(... Args)` | int64 | Get cursed player ID ([Args](#get_cursedid-args)) | `${OgreBotAPI.Get_CursedID["-archetype", "fighter", "-GroupOnly"]}` |
 | `Get_Uncurable(string _Type, ... Args)` | int64 | Get uncurable effect ([Args](#get_uncurable-args)) | `${OgreBotAPI.Get_Uncurable["Cursed", "-GroupOnly"]}` |
+| `Get_GroupUncurableCurseCount()` | int | Group uncurable curse count | `${OgreBotAPI.Get_GroupUncurableCurseCount}` |
+| `Get_RaidUncurableCurseCount()` | int | Raid uncurable curse count | `${OgreBotAPI.Get_RaidUncurableCurseCount}` |
+| `Count_CursesInGroup()` | int | Count curses in group | `${OgreBotAPI.Count_CursesInGroup}` |
+| `Get_RaidCurableOrUncurableCurses_JSON()` | jsonvalue | Raid curses as JSON (curable + uncurable) | `${OgreBotAPI.Get_RaidCurableOrUncurableCurses_JSON}` |
+| `Get_RaidUncurableCurses_JSON()` | jsonvalue | Raid uncurable curses as JSON | `${OgreBotAPI.Get_RaidUncurableCurses_JSON}` |
+| `Get_GroupUncurableCurses_JSON()` | jsonvalue | Group uncurable curses as JSON | `${OgreBotAPI.Get_GroupUncurableCurses_JSON}` |
+| `GetFarthestGroupDistance()` | float | Distance to farthest group member | `${OgreBotAPI.GetFarthestGroupDistance}` |
 
 ### Heroic Opportunity
 
@@ -571,6 +690,7 @@ Members return values and are accessed via `${OgreBotAPI.MemberName[params]}`.
 | `GetActorModelSize(int64 _ActorID)` | float | Actor model size | `${OgreBotAPI.GetActorModelSize[${Target.ID}]}` |
 | `GetMyModelSize()` | float | My model size | `${OgreBotAPI.GetMyModelSize}` |
 | `ActorHasQuest(int64 _ActorID)` | bool | Actor has quest | `${OgreBotAPI.ActorHasQuest[${Target.ID}]}` |
+| `GetActorCountByType(... Args)` | int | Count actors by type ([Args](#getactorcountbytype-args)) | `${OgreBotAPI.GetActorCountByType["-Type", "NamedNPC", "-distance", 30]}` |
 
 ### Ability Information
 
@@ -618,6 +738,15 @@ Members return values and are accessed via `${OgreBotAPI.MemberName[params]}`.
 | `RoomID()` | string | Current room ID | `${OgreBotAPI.RoomID}` |
 | `Travel_Get_ZoneDoorValue(string _DoorOption)` | int | Get zone door value | `${OgreBotAPI.Travel_Get_ZoneDoorValue["option1"]}` |
 | `GuildFlagLocation()` | string | Guild flag location | `${OgreBotAPI.GuildFlagLocation}` |
+| `RemoveColourCode(string _Input)` | string | Remove colour codes from string | `${OgreBotAPI.RemoveColourCode["${Zone.Name}"]}` |
+
+### Zone Reset Information
+
+| Member | Return | Description | Example |
+|--------|--------|-------------|---------|
+| `ZoneReset_IsReady()` | bool | Is zone reset data ready | `${OgreBotAPI.ZoneReset_IsReady}` |
+| `ZoneReset_IsUpdating()` | bool | Is zone reset data updating | `${OgreBotAPI.ZoneReset_IsUpdating}` |
+| `ZoneReset_FullZoneInformationAvailable()` | bool | Is full zone reset info available | `${OgreBotAPI.ZoneReset_FullZoneInformationAvailable}` |
 
 ### Flags & Markers
 
@@ -643,6 +772,8 @@ Members return values and are accessed via `${OgreBotAPI.MemberName[params]}`.
 |--------|--------|-------------|
 | `DetrimentalInfo(int _MainID, int _BackDropID, uint _ActorID, string _Return)` | string | Get detrimental info |
 | `DetrimentalInfo_ref(persistentref DotToCheck, uint _ActorID, string _Return)` | string | Get detrimental by icon ref |
+| `DetrimentalInfo_String(int _MainID, int _BackDropID, int64 _ActorID, string _Return)` | string | Get detrimental info as string | `${OgreBotAPI.DetrimentalInfo_String[55, 110, ${Me.ID}, "exists"]}` |
+| `DetrimentalInfo_ref_String(weakref _IconIDs, int64 _ActorID, string _Return)` | string | Get detrimental string by icon ref | `${OgreBotAPI.DetrimentalInfo_ref_String[CurseIconID, ${Me.ID}, "exists"]}` |
 
 #### DetrimentalInfo Parameters
 
@@ -778,6 +909,12 @@ oc !ci -CancelDetrimental igw:${Me.Name} 110 55
 | `ConvertSecondsToHMS(int64 _Seconds)` | string | Convert to H:M:S | `${OgreBotAPI.ConvertSecondsToHMS[3661]}` |
 | `SpewStat(string _Command, bool _AddLabel)` | string | Spew stat info | `${OgreBotAPI.SpewStat["stat", TRUE]}` |
 | `Get_DeityPoints(string _Value)` | int | Get deity points | `${OgreBotAPI.Get_DeityPoints["available"]}` |
+| `RomanToInt(string _sRoman)` | int | Convert Roman numeral to integer | `${OgreBotAPI.RomanToInt["IV"]}` |
+| `RoundNumToNearestValue(int _Health, int _Divider=1, int _IncrementBy=0)` | int | Round number to nearest value | `${OgreBotAPI.RoundNumToNearestValue[73, 5, 0]}` |
+| `IsItemTimeUntilReadyZero(int64 _LinkID, string _EquipmentOrInventory="Inventory")` | bool | Is item ready (cooldown expired) | `${OgreBotAPI.IsItemTimeUntilReadyZero[123456, "Inventory"]}` |
+| `Get_APIPackPonyRunning()` | bool | Is API pack pony running | `${OgreBotAPI.Get_APIPackPonyRunning}` |
+| `Get_PackPonyRunning()` | bool | Is pack pony running | `${OgreBotAPI.Get_PackPonyRunning}` |
+| `Get_RotationData()` | jsonvalue | Get current rotation data as JSON | `${OgreBotAPI.Get_RotationData}` |
 
 ### CSP & Developer
 
@@ -795,6 +932,10 @@ oc !ci -CancelDetrimental igw:${Me.Name} 110 55
 | `UnauthPCsNearMe(float _Distance)` | bool | Unauthorized PCs nearby | `${OgreBotAPI.UnauthPCsNearMe[50.0]}` |
 | `CheckNoOffensiveOn()` | bool | No-offensive list check | `${OgreBotAPI.CheckNoOffensiveOn}` |
 | `CheckNoDefensiveOn()` | bool | No-defensive check | `${OgreBotAPI.CheckNoDefensiveOn}` |
+| `Get_CSP()` | bool | Get CSP (campspot processing) status | `${OgreBotAPI.Get_CSP}` |
+| `ClassInfo_GetValue(string _ForWho, string _Member)` | bool | Get class info value | `${OgreBotAPI.ClassInfo_GetValue["all", "Archetype"]}` |
+| `InEQ2Chars(string _Speaker, bool _FullAccountInfoOnly=FALSE)` | bool | Is speaker in EQ2 character list | `${OgreBotAPI.InEQ2Chars["PlayerName"]}` |
+| `Get_ReviveLocation(string _Option, bool _ExactMatch=FALSE)` | int | Get revive location option index | `${OgreBotAPI.Get_ReviveLocation["option", FALSE]}` |
 
 ### Ability Embargo
 
@@ -880,6 +1021,8 @@ Functions are called with `call OgreBotAPI.FunctionName params` and can return v
 | `CloseAllExamine()` | - | Close all examine | `call OgreBotAPI.CloseAllExamine` |
 | `ExamineAllOfItem(... _Items)` | - | Examine items | `call OgreBotAPI.ExamineAllOfItem "Item Name"` |
 | `Consume_Status_Tokens(uint _Amount)` | - | Consume tokens | `call OgreBotAPI.Consume_Status_Tokens 100` |
+| `WaitForCasting(uint _TimeToWaitForCasting=50)` | - | Wait for casting to complete | `call OgreBotAPI.WaitForCasting 50` |
+| `Interrupt_Mode()` | - | Run interrupt mode | `call OgreBotAPI.Interrupt_Mode` |
 
 ---
 
@@ -1373,6 +1516,79 @@ Reports back variable values from group members.
 
 ```lavishscript
 OgreBotAPI:Report_Back["all", "-Silent", "-item", "Cure Potion"]
+```
+
+### Set_CampSpotJump_Handle Args
+
+Sets up campspot jump waypoints for automated jump-based movement patterns. The jump system moves players through a series of points: Start → Jump → End → Completed.
+
+| Flag | Type | Default | Description |
+|------|------|---------|-------------|
+| `-JumpDistance` | float | `2` | Distance threshold to trigger jump |
+| `-MaxTimer` | int | `10` | Maximum seconds before timeout |
+
+**Example:**
+
+```lavishscript
+OgreBotAPI:Set_CampSpotJump_Handle["all", "100,25,-50", "105,30,-50", "110,25,-50", "110,25,-50", "-JumpDistance", 3, "-MaxTimer", 15]
+```
+
+### NPC_CastMonitoring Args
+
+Enables NPC cast monitoring with optional scan radius and mob names to monitor.
+
+| Flag | Type | Default | Description |
+|------|------|---------|-------------|
+| `-radius` | int | `30` | Scan radius for NPC detection |
+| *(default)* | string | — | Each non-flag arg is an NPC name to monitor |
+
+Calling with no Args enables monitoring using the UI checkbox setting. Calling with Args enables monitoring AND adds the specified NPCs to the monitor list.
+
+**Example:**
+
+```lavishscript
+; Monitor specific NPCs with custom radius
+OgreBotAPI:NPC_CastMonitoring["all", "-radius", 40, "Boss Name", "Add Name"]
+
+; Enable monitoring using UI settings only
+OgreBotAPI:NPC_CastMonitoring["all"]
+```
+
+### FlagNextPerson Args
+
+Flags the next matching person in rotation. The `_Via` parameter controls matching: `any` (default), `archetype`, or `baseclass`.
+
+| Flag | Type | Default | Description |
+|------|------|---------|-------------|
+| `-GroupOnly` | *(flag)* | — | Only search within group (not raid) |
+| `-Debug` | *(flag)* | — | Use visible cross-session command for debugging |
+| *(default)* | string | — | Each non-flag arg is a search term to match against |
+
+**Example:**
+
+```lavishscript
+; Flag next fighter in group
+OgreBotAPI:FlagNextPerson[1, "archetype", "fighter", "-GroupOnly"]
+
+; Flag next person matching any criteria
+OgreBotAPI:FlagNextPerson[1, "any"]
+```
+
+### GetActorCountByType Args
+
+Counts actors matching a specific type within a distance.
+
+| Flag | Type | Default | Description |
+|------|------|---------|-------------|
+| `-distance` | float | `999` | Maximum distance to search |
+| `-Type` | string | `"Special"` | Actor type to match (e.g., `NPC`, `NamedNPC`, `PC`) |
+
+**Example:**
+
+```lavishscript
+; Count named NPCs within 30 meters
+variable int count
+count:Set[${OgreBotAPI.GetActorCountByType["-Type", "NamedNPC", "-distance", 30]}]
 ```
 
 ---
