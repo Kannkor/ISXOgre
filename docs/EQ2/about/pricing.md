@@ -50,6 +50,6 @@ Your subscription gives you:
 
 ## How to Subscribe
 
-Visit the ISXOgre subscription page on the wiki to set up your account and payment.
+Visit [ogregaming.com](https://ogregaming.com/) to set up your account and payment.
 
 <!-- Source: wiki.ogregaming.com/eq2/index.php/OgrePricing - This page may need updating -->

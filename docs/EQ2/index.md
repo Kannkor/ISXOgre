@@ -9,6 +9,7 @@ Welcome to the EQ2 section of ISXOgre documentation. Here you'll find everything
 ### New Users
 
 - [Why OgreBot?](getting-started/why-ogrebot.md) - What makes OgreBot the best choice
+- [Pricing](about/pricing.md) - Subscription information
 - [Installation](getting-started/installation.md) - Get up and running
 - [First Run](getting-started/first-run.md) - Loading OgreBot for the first time
 - [FAQ](getting-started/faq.md) - Frequently asked questions
@@ -43,5 +44,4 @@ Welcome to the EQ2 section of ISXOgre documentation. Here you'll find everything
 
 ### About
 
-- [Pricing](about/pricing.md) - Subscription information
 - [Changelog](about/changelog.md) - Version history and patch notes
