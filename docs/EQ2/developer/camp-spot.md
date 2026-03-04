@@ -46,6 +46,66 @@ The campspot inherits from `Object_Movement` which provides a collection-based e
 
 ---
 
+## Command Reference Table
+
+### Cross-Session (oc) Commands
+
+| Command | Description | Example |
+|---------|-------------|---------|
+| `-CampSpot <who> [close] [far]` | Set campspot at current location (alias: `-cs`) | `oc !c -CampSpot igw:${Me.Name}` |
+| `-ChangeCampSpotWho <who> X Y Z` | Move campspot to coordinates | `oc !c -ChangeCampSpotWho igw:${Me.Name} 100.5 25.0 -50.3` |
+| `-ccsw <who> X Y Z` | Alias for ChangeCampSpotWho | `oc !c -ccsw igw:${Me.Name} 100.5 25.0 -50.3` |
+| `-CS_Set_Relative <who> X Y Z` | Set relative offset | `oc !c -CS_Set_Relative ${Me.Name} 100.0 50.0 200.0` |
+| `-CS_Set_ChangeCampSpotBy <who> X Y Z` | Add offset to campspot | `oc !c -CS_Set_ChangeCampSpotBy igw:${Me.Name} 5 0 -3` |
+| `-ChangeCampSpotBy <who> X Y Z` | Alias for above | `oc !c -ChangeCampSpotBy igw:${Me.Name} 5 0 -3` |
+| `-CS_Set_ChangeRelativeCampSpotBy <who> X Y Z` | Add offset to relative campspot | `oc !c -CS_Set_ChangeRelativeCampSpotBy igw:${Me.Name} 5 0 -3` |
+| `-CS_ClearCampSpot <who>` | Clear campspot | `oc !c -CS_ClearCampSpot igw:${Me.Name}` |
+| `-CS_ClearRelative <who>` | Clear relative offset only | `oc !c -CS_ClearRelative igw:${Me.Name}` |
+| `-CS_ClearAll <who>` | Clear everything | `oc !c -CS_ClearAll igw:${Me.Name}` |
+| `-CS_HowClose <who> <distance>` | Set minimum distance | `oc !c -CS_HowClose igw:${Me.Name} 2` |
+| `-CS_HowFar <who> <distance>` | Set maximum distance | `oc !c -CS_HowFar igw:${Me.Name} 30` |
+| `-CS_Set_Formation_Circle <who> ...` | Circle formation | `oc !c -CS_Set_Formation_Circle igw:${Me.Name} 8 100 50 200 FALSE` |
+| `-CS_Set_Formation_MonkeyInMiddle <who> ...` | One in middle formation | `oc !c -CS_Set_Formation_MonkeyInMiddle igw:${Me.Name} 13 ${Me.X} ${Me.Y} ${Me.Z} ${Me.Name}` |
+| `-CS_Set_Formation_MonkeyInMiddleRaid <who> ...` | Raid formation with configurable spots | `oc !c -CS_Set_Formation_MonkeyInMiddleRaid igw:${Me.Name} fighter 10 100 50 200 5 FALSE` |
+| `-SetCS_PositionNPC <who> <name/ID> [dist] [skip]` | Fighters in front, others behind NPC | `oc !c -SetCS_PositionNPC igw:${Me.Name} "Boss Name" 5` |
+| `-SetCS_InFrontNPC <who> <name/ID> [dist] [skip]` | Everyone in front of NPC (180 degrees) | `oc !c -SetCS_InFrontNPC igw:${Me.Name} "Boss Name" 5` |
+| `-SetCS_BehindNPC <who> <name/ID> [dist] [skip]` | Everyone behind NPC (0 degrees) | `oc !c -SetCS_BehindNPC igw:${Me.Name} "Boss Name" 5` |
+| `-SetCS_NPC <who> <angle> <name/ID> [dist] [skip]` | Custom angle relative to NPC | `oc !c -SetCS_NPC igw:${Me.Name} 90 "Boss Name" 5` |
+
+### Local Object (Ogre_CampSpot) Methods
+
+| Method | Description | Example |
+|--------|-------------|---------|
+| `:Set_CampSpot[who, close, far]` | Set at current location | `Ogre_CampSpot:Set_CampSpot["all", 2, 200]` |
+| `:Set_CS[who, close, far]` | Alias for Set_CampSpot | `Ogre_CampSpot:Set_CS["all", 2, 200]` |
+| `:Set_CCS[X, Y, Z]` | Change to coordinates (local) | `Ogre_CampSpot:Set_CCS[100.5, 25.0, -50.3]` |
+| `:Set_ChangeCampSpot[who, X, Y, Z]` | Change with targeting | `Ogre_CampSpot:Set_ChangeCampSpot["all", 100.5, 25.0, -50.3]` |
+| `:Set_Relative[who, X, Y, Z]` | Set relative offset | `Ogre_CampSpot:Set_Relative["all", 10, 0, 5]` |
+| `:ClearCampSpot[who]` | Clear campspot | `Ogre_CampSpot:ClearCampSpot["all"]` |
+| `:ClearRelative[who]` | Clear relative only | `Ogre_CampSpot:ClearRelative["all"]` |
+| `:ClearAll[who]` | Clear everything | `Ogre_CampSpot:ClearAll["all"]` |
+| `:Disable[reason]` | Disable with named reason | `Ogre_CampSpot:Disable["Joust"]` |
+| `:Enable[reason]` | Re-enable (remove reason) | `Ogre_CampSpot:Enable["Joust"]` |
+| `:Set_HowClose[who, dist]` | Set minimum distance | `Ogre_CampSpot:Set_HowClose["all", 2]` |
+| `:Set_HowFar[who, dist]` | Set maximum distance | `Ogre_CampSpot:Set_HowFar["all", 30]` |
+
+### Local Object (Ogre_CampSpot) Members
+
+| Member | Description | Example |
+|--------|-------------|---------|
+| `.AtCampSpot` | TRUE if within HowClose of Get_CampSpot | `if ${Ogre_CampSpot.AtCampSpot}` |
+| `.Get_CampSpot` | Where character moves to (relative if set, otherwise absolute) | `${Ogre_CampSpot.Get_CampSpot.XYZ[" "]}` |
+| `.Get_AbsoluteCampSpot` | Primary campspot (before relative offset) | `${Ogre_CampSpot.Get_AbsoluteCampSpot.X}` |
+| `.Get_RelativeMods` | The relative offset values (0,0,0 when no offset) | `${Ogre_CampSpot.Get_RelativeMods}` |
+| `.Get_X`, `.Get_Y`, `.Get_Z` | Individual coordinates of Get_CampSpot | `${Ogre_CampSpot.Get_X}` |
+| `.Get_HowClose`, `.Get_HowFar` | Current HowClose and HowFar values | `${Ogre_CampSpot.Get_HowClose}` |
+| `.DistanceFromCampSpot` | Distance from Get_CampSpot | `${Ogre_CampSpot.DistanceFromCampSpot}` |
+| `.DistanceFromAbsoluteCampSpot` | Distance from Get_AbsoluteCampSpot | `${Ogre_CampSpot.DistanceFromAbsoluteCampSpot}` |
+| `.Disabled[reason]` | TRUE if disabled by named reason | `if ${Ogre_CampSpot.Disabled["Joust"]}` |
+| `.UsingRelative` | TRUE if Get_CampSpot differs from Get_AbsoluteCampSpot | `if ${Ogre_CampSpot.UsingRelative}` |
+
+---
+
 ## Cross-Session Commands (oc)
 
 Use these in Instance Controllers and fight scripts for group coordination.
@@ -447,65 +507,6 @@ function JoustOut()
     Ogre_CampSpot:Enable["MyJoust"]
 }
 ```
-
----
-
-## Command Reference Table
-
-### Cross-Session (oc) Commands
-
-| Command | Description | Example |
-|---------|-------------|---------|
-| `-CampSpot <who> [close] [far]` | Set campspot at current location (alias: `-cs`) | `oc !c -CampSpot igw:${Me.Name}` |
-| `-ChangeCampSpotWho <who> X Y Z` | Move campspot to coordinates | `oc !c -ChangeCampSpotWho igw:${Me.Name} 100.5 25.0 -50.3` |
-| `-ccsw <who> X Y Z` | Alias for ChangeCampSpotWho | `oc !c -ccsw igw:${Me.Name} 100.5 25.0 -50.3` |
-| `-CS_Set_Relative <who> X Y Z` | Set relative offset | `oc !c -CS_Set_Relative ${Me.Name} 100.0 50.0 200.0` |
-| `-CS_Set_ChangeCampSpotBy <who> X Y Z` | Add offset to campspot | `oc !c -CS_Set_ChangeCampSpotBy igw:${Me.Name} 5 0 -3` |
-| `-ChangeCampSpotBy <who> X Y Z` | Alias for above | `oc !c -ChangeCampSpotBy igw:${Me.Name} 5 0 -3` |
-| `-CS_ClearCampSpot <who>` | Clear campspot | `oc !c -CS_ClearCampSpot igw:${Me.Name}` |
-| `-CS_ClearRelative <who>` | Clear relative offset only | `oc !c -CS_ClearRelative igw:${Me.Name}` |
-| `-CS_ClearAll <who>` | Clear everything | `oc !c -CS_ClearAll igw:${Me.Name}` |
-| `-CS_HowClose <who> <distance>` | Set minimum distance | `oc !c -CS_HowClose igw:${Me.Name} 2` |
-| `-CS_HowFar <who> <distance>` | Set maximum distance | `oc !c -CS_HowFar igw:${Me.Name} 30` |
-| `-CS_Set_Formation_Circle <who> ...` | Circle formation | `oc !c -CS_Set_Formation_Circle igw:${Me.Name} 8 100 50 200 FALSE` |
-| `-CS_Set_Formation_MonkeyInMiddle <who> ...` | One in middle formation | `oc !c -CS_Set_Formation_MonkeyInMiddle igw:${Me.Name} 13 ${Me.X} ${Me.Y} ${Me.Z} ${Me.Name}` |
-| `-CS_Set_Formation_MonkeyInMiddleRaid <who> ...` | Raid formation with configurable spots | `oc !c -CS_Set_Formation_MonkeyInMiddleRaid igw:${Me.Name} fighter 10 100 50 200 5 FALSE` |
-| `-SetCS_PositionNPC <who> <name/ID> [dist] [skip]` | Fighters in front, others behind NPC | `oc !c -SetCS_PositionNPC igw:${Me.Name} "Boss Name" 5` |
-| `-SetCS_InFrontNPC <who> <name/ID> [dist] [skip]` | Everyone in front of NPC (180 degrees) | `oc !c -SetCS_InFrontNPC igw:${Me.Name} "Boss Name" 5` |
-| `-SetCS_BehindNPC <who> <name/ID> [dist] [skip]` | Everyone behind NPC (0 degrees) | `oc !c -SetCS_BehindNPC igw:${Me.Name} "Boss Name" 5` |
-| `-SetCS_NPC <who> <angle> <name/ID> [dist] [skip]` | Custom angle relative to NPC | `oc !c -SetCS_NPC igw:${Me.Name} 90 "Boss Name" 5` |
-
-### Local Object (Ogre_CampSpot) Methods
-
-| Method | Description | Example |
-|--------|-------------|---------|
-| `:Set_CampSpot[who, close, far]` | Set at current location | `Ogre_CampSpot:Set_CampSpot["all", 2, 200]` |
-| `:Set_CS[who, close, far]` | Alias for Set_CampSpot | `Ogre_CampSpot:Set_CS["all", 2, 200]` |
-| `:Set_CCS[X, Y, Z]` | Change to coordinates (local) | `Ogre_CampSpot:Set_CCS[100.5, 25.0, -50.3]` |
-| `:Set_ChangeCampSpot[who, X, Y, Z]` | Change with targeting | `Ogre_CampSpot:Set_ChangeCampSpot["all", 100.5, 25.0, -50.3]` |
-| `:Set_Relative[who, X, Y, Z]` | Set relative offset | `Ogre_CampSpot:Set_Relative["all", 10, 0, 5]` |
-| `:ClearCampSpot[who]` | Clear campspot | `Ogre_CampSpot:ClearCampSpot["all"]` |
-| `:ClearRelative[who]` | Clear relative only | `Ogre_CampSpot:ClearRelative["all"]` |
-| `:ClearAll[who]` | Clear everything | `Ogre_CampSpot:ClearAll["all"]` |
-| `:Disable[reason]` | Disable with named reason | `Ogre_CampSpot:Disable["Joust"]` |
-| `:Enable[reason]` | Re-enable (remove reason) | `Ogre_CampSpot:Enable["Joust"]` |
-| `:Set_HowClose[who, dist]` | Set minimum distance | `Ogre_CampSpot:Set_HowClose["all", 2]` |
-| `:Set_HowFar[who, dist]` | Set maximum distance | `Ogre_CampSpot:Set_HowFar["all", 30]` |
-
-### Local Object (Ogre_CampSpot) Members
-
-| Member | Description | Example |
-|--------|-------------|---------|
-| `.AtCampSpot` | TRUE if within HowClose of Get_CampSpot | `if ${Ogre_CampSpot.AtCampSpot}` |
-| `.Get_CampSpot` | Where character moves to (relative if set, otherwise absolute) | `${Ogre_CampSpot.Get_CampSpot.XYZ[" "]}` |
-| `.Get_AbsoluteCampSpot` | Primary campspot (before relative offset) | `${Ogre_CampSpot.Get_AbsoluteCampSpot.X}` |
-| `.Get_RelativeMods` | The relative offset values (0,0,0 when no offset) | `${Ogre_CampSpot.Get_RelativeMods}` |
-| `.Get_X`, `.Get_Y`, `.Get_Z` | Individual coordinates of Get_CampSpot | `${Ogre_CampSpot.Get_X}` |
-| `.Get_HowClose`, `.Get_HowFar` | Current HowClose and HowFar values | `${Ogre_CampSpot.Get_HowClose}` |
-| `.DistanceFromCampSpot` | Distance from Get_CampSpot | `${Ogre_CampSpot.DistanceFromCampSpot}` |
-| `.DistanceFromAbsoluteCampSpot` | Distance from Get_AbsoluteCampSpot | `${Ogre_CampSpot.DistanceFromAbsoluteCampSpot}` |
-| `.Disabled[reason]` | TRUE if disabled by named reason | `if ${Ogre_CampSpot.Disabled["Joust"]}` |
-| `.UsingRelative` | TRUE if Get_CampSpot differs from Get_AbsoluteCampSpot | `if ${Ogre_CampSpot.UsingRelative}` |
 
 ---
 
