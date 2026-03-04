@@ -15,17 +15,6 @@ Discord is the most active community channel and the best place to get help with
 
 ---
 
-## IRC
-
-See [OgreIRC](ogreirc.md) for details on the IRC integration and bot control.
-
-| Setting | Value |
-|---------|-------|
-| **Server** | `irc.lavishsoft.com` |
-| **Channel** | `#Ogre` |
-
----
-
 ## Forums
 
 Visit the [OgreBot forums](https://forums.ogregaming.com/index.php) for discussions, guides, and announcements. You can also send a private message to **Kannkor** on the forums for direct contact.
