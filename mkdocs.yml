@@ -102,7 +102,6 @@ nav:
         - Debug: EQ2/ogrebot/tabs/debug.md
         - Admin: EQ2/ogrebot/tabs/admin.md
       - Aliases: EQ2/ogrebot/aliases.md
-      - Chat Commands: EQ2/ogrebot/chat-commands.md
       - Profiles: EQ2/ogrebot/profiles.md
       - Instance Controller: EQ2/ogrebot/instance-controller.md
     - Tools:

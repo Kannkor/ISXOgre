@@ -94,7 +94,6 @@ Now that you have the basics down, explore these topics:
 
 - **[Profiles](../ogrebot/profiles.md)** -- Save and share your configuration across characters
 - **[Aliases](../ogrebot/aliases.md)** -- Reference group members without hardcoding names
-- **[Chat Commands](../ogrebot/chat-commands.md)** -- Control OgreBot through in-game chat
 - **[Instance Controller](../ogrebot/instance-controller.md)** -- Automate boss fight mechanics
 - **[OgreCraft](../tools/ogrecraft.md)** -- Automate crafting
 - **[FAQ](faq.md)** -- Troubleshooting common issues

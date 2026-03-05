@@ -18,7 +18,6 @@ Welcome to the EQ2 section of ISXOgre documentation. Here you'll find everything
 
 - [Tabs Overview](ogrebot/tabs/index.md) - All OgreBot UI tabs explained
 - [Aliases](ogrebot/aliases.md) - Target aliases (@Tank, @Healer, etc.)
-- [Chat Commands](ogrebot/chat-commands.md) - In-game chat commands
 - [Profiles](ogrebot/profiles.md) - Save and load configurations
 - [Instance Controller](ogrebot/instance-controller.md) - Automated instance running
 
