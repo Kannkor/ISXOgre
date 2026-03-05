@@ -12,10 +12,6 @@ OgreBot supports three types of aliases:
 
 These are determined automatically by OgreBot based on your current group composition. You cannot modify them -- they update dynamically as group members change.
 
-> **:memo: Red Text**
->
-> If a built-in alias displays in red, it means no matching character was found in your current group for that role.
-
 ### User-Defined Aliases (`*` prefix)
 
 These are aliases you create yourself on the **Aliases** tab. Use these when you want to assign a custom name to a specific group member or role that the built-in aliases do not cover.
@@ -88,6 +84,24 @@ Aliases can be used anywhere OgreBot expects a character name:
 4. Set its value to the character name of your main tank
 
 Now you can use `*MT` anywhere in OgreBot and it resolves to that character.
+
+---
+
+## Colour Codes
+
+The Aliases tab uses colour coding to show the status of each alias at a glance:
+
+| Colour | In Cast Stack? | Alias Matches Name? |
+|-------|---------------|-------------------|
+| **🟢 Green** | Yes | Yes |
+| **🟡 Yellow** | Yes | No |
+| **🟠 Orange** | No | Yes |
+| **🔴 Red** | No | No |
+
+- **Green** -- The alias is used in the cast stack, and the alias points to the correct character name
+- **Yellow** -- The alias is used in the cast stack, but the alias does NOT point to that character name
+- **Orange** -- The alias is NOT used in the cast stack, but the alias does point to that character name
+- **Red** -- The alias is NOT used in the cast stack, and the alias does NOT point to that character name
 
 ---
 
