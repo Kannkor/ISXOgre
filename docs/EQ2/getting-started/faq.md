@@ -41,6 +41,8 @@ You likely have **Ability Queue** turned off in EQ2. This is a game setting, not
 3. Turn it **on**
 4. Restart the game
 
+![Ability Queue setting](../../assets/images/EQ2/getting-started/AbilityQueue.PNG)
+
 ### My spells or abilities are missing from OgreBot.
 
 You need to run an export so OgreBot can learn your abilities:
