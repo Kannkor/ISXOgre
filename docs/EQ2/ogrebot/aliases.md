@@ -4,6 +4,16 @@ An alias is a way to identify a character by role instead of by name. Instead of
 
 ---
 
+## Quick Links
+
+- [Alias Types](#alias-types) — Built-in, user-defined, pet, and direct names
+- [Built-in Alias Reference](#built-in-alias-reference) — Full list of `@` aliases
+- [Using Aliases](#using-aliases) — Where and how to use them
+- [Colour Codes](#colour-codes) — What the colours mean on the Aliases tab
+- [Viewing Active Aliases](#viewing-active-aliases) — How to display current aliases
+
+---
+
 ## Alias Types
 
 OgreBot supports three types of aliases:
