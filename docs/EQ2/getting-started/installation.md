@@ -15,6 +15,10 @@ Before you begin, make sure you have:
 !!! warning "Required Order"
     InnerSpace and ISXEQ2 must be installed and working **before** you install ISXOgre. If you do not have these yet, set them up first.
 
+> **:warning: Required Order**
+>
+> InnerSpace and ISXEQ2 must be installed and working **before** you install ISXOgre. If you do not have these yet, set them up first.
+
 ---
 
 ## Step 1: Download ISXOgre
