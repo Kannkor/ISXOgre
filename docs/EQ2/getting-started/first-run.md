@@ -51,8 +51,9 @@ The Settings tab has master checkboxes that enable or disable major features. Ma
 - **Cures** -- Automatically cure detrimental effects
 - **Resurrect** -- Revive dead group members
 
-!!! tip "Start Simple"
-    On your first run, leave most settings at their defaults. The sample profile has reasonable starting values for your class.
+> **:bulb: Start Simple**
+>
+> On your first run, leave most settings at their defaults. The sample profile has reasonable starting values for your class.
 
 ### 2. Set Your Assist Target
 
@@ -73,14 +74,17 @@ If you are boxing multiple characters, set up aliases on the **Aliases** tab so 
 
 ## Tips for Your First Session
 
-!!! note "Let It Run"
-    OgreBot works best when you let it handle combat automatically. Resist the urge to manually cast abilities -- the bot is likely faster and more efficient than manual play.
+> **:memo: Let It Run**
+>
+> OgreBot works best when you let it handle combat automatically. Resist the urge to manually cast abilities -- the bot is likely faster and more efficient than manual play.
 
-!!! tip "Use Pause"
-    The **Pause** button on the mini window is your friend. If you need to stop the bot temporarily (to talk to an NPC, manage inventory, etc.), pause it rather than closing it.
+> **:bulb: Use Pause**
+>
+> The **Pause** button on the mini window is your friend. If you need to stop the bot temporarily (to talk to an NPC, manage inventory, etc.), pause it rather than closing it.
 
-!!! warning "Re-Export After Changes"
-    If you train new abilities, change AA specs, or a game update adds new spells, remember to run `ogre export` again so OgreBot knows about your new abilities.
+> **:warning: Re-Export After Changes**
+>
+> If you train new abilities, change AA specs, or a game update adds new spells, remember to run `ogre export` again so OgreBot knows about your new abilities.
 
 ---
 

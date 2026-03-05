@@ -2,8 +2,9 @@
 
 This page tracks ISXOgre and OgreBot version updates.
 
-!!! info
-    There is no longer a separate development build. Everything is patched directly to live.
+> **:information_source: Info**
+>
+> There is no longer a separate development build. Everything is patched directly to live.
 
 For the complete historical changelog with all 313+ patches dating back to 2018, visit the [wiki revision history](https://wiki.ogregaming.com/eq2/index.php/RevisionHistory).
 

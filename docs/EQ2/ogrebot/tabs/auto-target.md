@@ -4,8 +4,9 @@
 
 Auto Target provides an automated way to target mobs in a certain order or to target mobs that spawn as part of an encounter.
 
-!!! important
-    Auto Target will supersede any auto assist settings when enabled.
+> **:exclamation: Important**
+>
+> Auto Target will supersede any auto assist settings when enabled.
 
 ## Core Settings
 
@@ -37,7 +38,8 @@ Auto Target provides an automated way to target mobs in a certain order or to ta
 - AutoAssist is disabled when Auto Target is enabled
 - Supports health-based targeting thresholds
 
-!!! note
-    This is considered an advanced option and is offered as-is.
+> **:memo: Note**
+>
+> This is considered an advanced option and is offered as-is.
 
 <!-- Source: wiki.ogregaming.com - This page may need updating -->

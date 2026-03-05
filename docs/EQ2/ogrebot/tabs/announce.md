@@ -4,8 +4,9 @@
 
 The Announce tab controls when the bot communicates with others using chat macros similar to player communication.
 
-!!! warning
-    Exercise caution when using this feature with actual players. The bot may attempt to cast spells in situations beyond its control. For instance, if a target cannot be acquired, the bot lacks the ability to detect this limitation and will still attempt the spell cast.
+> **:warning: Warning**
+>
+> Exercise caution when using this feature with actual players. The bot may attempt to cast spells in situations beyond its control. For instance, if a target cannot be acquired, the bot lacks the ability to detect this limitation and will still attempt the spell cast.
 
 ## Target Replacement
 

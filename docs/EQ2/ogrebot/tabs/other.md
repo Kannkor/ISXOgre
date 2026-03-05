@@ -8,8 +8,9 @@ The Other tab contains miscellaneous settings that do not fit into other categor
 
 Activates an ability when control effects prevent casting.
 
-!!! note
-    This only checks your own status, not the status of others. It may trigger false activations on uncurable debuffs.
+> **:memo: Note**
+>
+> This only checks your own status, not the status of others. It may trigger false activations on uncurable debuffs.
 
 ## Resurrect Non-Authorized Group/Raid Members
 
@@ -25,13 +26,15 @@ Configure how Confront Fear requests are communicated:
 
 ## Group Cure Management
 
-!!! warning "Not Recommended"
-    **Do not cancel group cures when no one has a detrimental** - Prevents cancellation of group cures even when no detrimentals are detected.
+> **:warning: Not Recommended**
+>
+> **Do not cancel group cures when no one has a detrimental** - Prevents cancellation of group cures even when no detrimentals are detected.
 
 ## Curse Cure Management
 
-!!! warning "Not Recommended"
-    **Do not cancel cure curse when no one has a curse** - Prevents cancellation of curse cures even when no curses are detected.
+> **:warning: Not Recommended**
+>
+> **Do not cancel cure curse when no one has a curse** - Prevents cancellation of curse cures even when no curses are detected.
 
 ## Blazing Bow of Light
 
@@ -39,7 +42,8 @@ Configure how Confront Fear requests are communicated:
 
 ## Group/Raid Invitations
 
-!!! warning "Not Recommended"
-    **Accept Group/Raid Invites from ANYONE nearby** - Accepts invites from any nearby player regardless of who they are.
+> **:warning: Not Recommended**
+>
+> **Accept Group/Raid Invites from ANYONE nearby** - Accepts invites from any nearby player regardless of who they are.
 
 <!-- Source: wiki.ogregaming.com - This page may need updating -->

@@ -2,8 +2,9 @@
 
 OgreBot can be controlled through in-game chat channels. These commands let you and your group members issue instructions to the bot without opening the UI.
 
-!!! warning "Authorization Required"
-    Chat commands only work when sent by a character on your **EQ2Chars authorized list**. Unauthorized characters are ignored for security.
+> **:warning: Authorization Required**
+>
+> Chat commands only work when sent by a character on your **EQ2Chars authorized list**. Unauthorized characters are ignored for security.
 
 ---
 
@@ -58,8 +59,9 @@ These commands work via **tell** channel only:
 | `make me leader` | Transfers group leadership to you |
 | `kick CharacterName from group` | Removes a character from the group |
 
-!!! note "Tell Only"
-    Group management commands must be sent as a **tell** (private message) to the character running OgreBot. They do not work in group or raid chat.
+> **:memo: Tell Only**
+>
+> Group management commands must be sent as a **tell** (private message) to the character running OgreBot. They do not work in group or raid chat.
 
 ---
 
@@ -69,8 +71,9 @@ These commands work via **tell** channel only:
 |---------|-------------|
 | `full rebuff` | Removes all maintained buffs and reapplies them from scratch |
 
-!!! tip "When to Use Full Rebuff"
-    Use this when buffs get out of sync, after a zone-wide buff wipe, or when you want to make sure all buffs are freshly applied.
+> **:bulb: When to Use Full Rebuff**
+>
+> Use this when buffs get out of sync, after a zone-wide buff wipe, or when you want to make sure all buffs are freshly applied.
 
 ---
 

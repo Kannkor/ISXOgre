@@ -4,8 +4,9 @@
 
 The Loot tab controls automated responses when loot windows appear in-game.
 
-!!! note
-    Leader Only functionality is not available in ISXEQ2. The bot can only read the most recent loot window when multiple appear simultaneously.
+> **:memo: Note**
+>
+> Leader Only functionality is not available in ISXEQ2. The bot can only read the most recent loot window when multiple appear simultaneously.
 
 ## FFA Loot Options
 
@@ -25,8 +26,9 @@ The Loot tab controls automated responses when loot windows appear in-game.
 
 ## Leader Only Loot Options
 
-!!! warning
-    Leader Only loot is not available in the current ISXEQ2 implementation.
+> **:warning: Warning**
+>
+> Leader Only loot is not available in the current ISXEQ2 implementation.
 
 ## Miscellaneous Options
 

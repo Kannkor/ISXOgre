@@ -27,8 +27,9 @@ Sub-options:
 
 ## Ascension Embargo
 
-!!! important
-    Ascension Embargo must be enabled in the Settings tab for these functions to operate.
+> **:exclamation: Important**
+>
+> Ascension Embargo must be enabled in the Settings tab for these functions to operate.
 
 ### Configuration Options
 

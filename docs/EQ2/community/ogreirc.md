@@ -2,8 +2,9 @@
 
 OgreIRC is an IRC bridge that hooks into your uplink and allows commands to pass through it. It enables bot control across multiple players in raid situations and provides CLI access to OgreBot functions from any IRC client.
 
-!!! warning "Unsupported Feature"
-    OgreIRC is 100% unsupported. It works, but there are no timelines or extensive support for it.
+> **:warning: Unsupported Feature**
+>
+> OgreIRC is 100% unsupported. It works, but there are no timelines or extensive support for it.
 
 ---
 

@@ -4,8 +4,9 @@
 
 The HUDs tab provides real-time information displayed on-screen. It replaces the older "Mob/Priest Info" option and allows customization of displayed information, screen position, and update frequency.
 
-!!! note
-    Raid/Grind Options currently remain at fixed positions (300,300 to 300,400) and are not yet integrated into this system.
+> **:memo: Note**
+>
+> Raid/Grind Options currently remain at fixed positions (300,300 to 300,400) and are not yet integrated into this system.
 
 ## Configuration Options
 

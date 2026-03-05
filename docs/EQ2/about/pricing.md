@@ -14,8 +14,9 @@ ISXOgre is available as a subscription that includes both OgreBot and OgreCraft.
 | **Minimum purchase** | 3 months ($40.00) |
 | **Payment method** | PayPal |
 
-!!! note "Why 3-Month Minimum?"
-    The minimum is 3 months because PayPal charges a flat fee plus a percentage on each transaction. Bundling into larger payments keeps costs reasonable.
+> **:memo: Why 3-Month Minimum?**
+>
+> The minimum is 3 months because PayPal charges a flat fee plus a percentage on each transaction. Bundling into larger payments keeps costs reasonable.
 
 ---
 
@@ -43,8 +44,9 @@ Your subscription gives you:
 
 ## Prerequisites
 
-!!! warning "Required First"
-    You must have valid, working subscriptions to both **InnerSpace** and **ISXEQ2** before purchasing ISXOgre. These are separate products that ISXOgre depends on.
+> **:warning: Required First**
+>
+> You must have valid, working subscriptions to both **InnerSpace** and **ISXEQ2** before purchasing ISXOgre. These are separate products that ISXOgre depends on.
 
 ---
 

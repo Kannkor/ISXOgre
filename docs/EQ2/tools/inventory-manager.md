@@ -10,8 +10,9 @@ ogre im
 
 ![Inventory Manager](../../assets/images/EQ2/tools/inventory-manager/inventory-manager-main.png)
 
-!!! warning "Use At Your Own Risk"
-    The Inventory Manager is powerful and can sell, destroy, or trade items automatically. The developer is not responsible for any lost, sold, or destroyed items.
+> **:warning: Use At Your Own Risk**
+>
+> The Inventory Manager is powerful and can sell, destroy, or trade items automatically. The developer is not responsible for any lost, sold, or destroyed items.
 
 ---
 
@@ -85,8 +86,9 @@ Trades items from character to character. Can trade to multiple people in one us
 6. **Right-click** items in the Final List to remove them
 7. Click **Start Trading** to begin
 
-!!! note
-    The inventory list does not filter untradeable items to avoid 3-5 minute server delays.
+> **:memo: Note**
+>
+> The inventory list does not filter untradeable items to avoid 3-5 minute server delays.
 
 ---
 

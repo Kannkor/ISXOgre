@@ -21,8 +21,9 @@ variable string sMyString
 variable int iMyInt
 ```
 
-!!! tip
-    This convention makes it immediately clear whether a variable was passed in as a parameter or declared locally.
+> **:bulb: Tip**
+>
+> This convention makes it immediately clear whether a variable was passed in as a parameter or declared locally.
 
 ### Type Prefixes
 
@@ -85,14 +86,15 @@ if ${fDuration.Between[1,10]}
 }
 ```
 
-!!! warning "Do NOT do this"
-    ```lavishscript
-    if ${fDuration} > 0 && ${fDuration} <= 10
-    {
-        ; Avoid chained comparisons for range checks
-    }
-    ```
-    Use `.Between[min,max]` instead for cleaner, more readable code.
+> **:warning: Do NOT do this**
+>
+> ```lavishscript
+> if ${fDuration} > 0 && ${fDuration} <= 10
+> {
+>     ; Avoid chained comparisons for range checks
+> }
+> ```
+> Use `.Between[min,max]` instead for cleaner, more readable code.
 
 ---
 

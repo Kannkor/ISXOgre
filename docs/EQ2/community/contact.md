@@ -10,8 +10,9 @@ Discord is the most active community channel and the best place to get help with
 
 **Invite link:** [https://discord.gg/hnSTRQr](https://discord.gg/hnSTRQr)
 
-!!! tip "Best for Getting Help"
-    Discord has the most active users ready to answer questions. If you need help, start here.
+> **:bulb: Best for Getting Help**
+>
+> Discord has the most active users ready to answer questions. If you need help, start here.
 
 ---
 

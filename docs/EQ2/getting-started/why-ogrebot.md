@@ -8,8 +8,9 @@ OgreBot is a UI-driven, fully customizable adventure bot for EverQuest 2. Whethe
 
 OgreBot gives you control over nearly every aspect of the bot through an intuitive, in-game user interface. You do not need to edit config files, write scripts, or learn a programming language. Everything from ability priorities to healing thresholds can be configured by clicking checkboxes, adjusting sliders, and reordering lists.
 
-!!! tip "No Coding Required"
-    Unlike many automation tools, OgreBot is designed so that you never need to look at a piece of code to get up and running.
+> **:bulb: No Coding Required**
+>
+> Unlike many automation tools, OgreBot is designed so that you never need to look at a piece of code to get up and running.
 
 ---
 
@@ -68,8 +69,9 @@ Here is a quick overview of the major features included with your subscription:
 | **Harvesting** | Automated resource gathering |
 | **Inventory Management** | Bag sorting, item management, and more |
 
-!!! note "All Included"
-    OgreBot and OgreCraft are bundled together in a single subscription. You get access to all tools and features, plus all future updates.
+> **:memo: All Included**
+>
+> OgreBot and OgreCraft are bundled together in a single subscription. You get access to all tools and features, plus all future updates.
 
 ---
 

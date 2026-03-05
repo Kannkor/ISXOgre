@@ -6,12 +6,6 @@ Welcome to the official ISXOgre documentation. Select your game below to get sta
 
 ## Games
 
-<div class="grid cards" markdown>
+### :crossed_swords: [EverQuest 2](EQ2/index.md)
 
-- :material-sword: **EverQuest 2**
-
-    OgreBot, OgreCraft, and the full suite of EQ2 automation tools.
-
-    [:octicons-arrow-right-24: EQ2 Documentation](EQ2/index.md)
-
-</div>
+OgreBot, OgreCraft, and the full suite of EQ2 automation tools.

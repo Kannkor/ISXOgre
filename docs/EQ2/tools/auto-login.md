@@ -2,8 +2,9 @@
 
 OgreAutoLogin enables opening sessions and logging characters into specific InnerSpace sessions automatically. This is an advanced feature requiring specific setup including Windows shortcuts.
 
-!!! tip "Quick Start"
-    To auto-login a single character, complete the **Before You Begin** section below, launch EQ2, open the InnerSpace console (`~` key), and type `ogre login toonname`.
+> **:bulb: Quick Start**
+>
+> To auto-login a single character, complete the **Before You Begin** section below, launch EQ2, open the InnerSpace console (`~` key), and type `ogre login toonname`.
 
 ---
 
@@ -66,8 +67,9 @@ D:\Games\InnerSpace\InnerSpace.exe runscript eq2ogrecommon/OgreAutoLogin/AutoLog
 "C:\Program Files\Innerspace\InnerSpace.exe" runscript eq2ogrecommon/OgreAutoLogin/AutoLogin
 ```
 
-!!! note
-    If your path contains spaces, wrap it in quotes.
+> **:memo: Note**
+>
+> If your path contains spaces, wrap it in quotes.
 
 ### Step 4: Launch the Auto Login UI
 
@@ -94,8 +96,9 @@ If the window is missing, right-click the InnerSpace icon and select **Console**
 | **Any** | Character stays on its current session |
 | **Specific** (IS1, IS2, etc.) | If the character is online, it verifies the correct session. If offline, it logs off that session if in use |
 
-!!! warning
-    Alt characters currently logged on will be disconnected to allow the selected characters to log in.
+> **:warning: Warning**
+>
+> Alt characters currently logged on will be disconnected to allow the selected characters to log in.
 
 **Saving profiles:**
 

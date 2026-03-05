@@ -15,8 +15,9 @@ When you enter a supported zone, the Instance Controller can:
 - **Manage positioning** -- Move characters to safe spots during dangerous mechanics
 - **Coordinate the group** -- Issue commands to all characters simultaneously
 
-!!! note "Zone Support"
-    The Instance Controller only works in zones that have scripts written for them. Not every zone is supported, and new zone scripts are added over time as content is released.
+> **:memo: Zone Support**
+>
+> The Instance Controller only works in zones that have scripts written for them. Not every zone is supported, and new zone scripts are added over time as content is released.
 
 ---
 
@@ -64,10 +65,12 @@ If you need to start or restart an instance script:
 
 ## Tips
 
-!!! tip "Group Leader"
-    Instance Controller commands are typically issued by the group leader's session. Make sure OgreBot is running on your group leader character for full functionality.
+> **:bulb: Group Leader**
+>
+> Instance Controller commands are typically issued by the group leader's session. Make sure OgreBot is running on your group leader character for full functionality.
 
-!!! warning "Stay Updated"
-    Instance Controller scripts are updated when encounter mechanics change. Keep ISXOgre up to date to ensure you have the latest scripts for current content.
+> **:warning: Stay Updated**
+>
+> Instance Controller scripts are updated when encounter mechanics change. Keep ISXOgre up to date to ensure you have the latest scripts for current content.
 
 <!-- Source: wiki.ogregaming.com/eq2/index.php/OgreInstanceController - This page may need updating -->

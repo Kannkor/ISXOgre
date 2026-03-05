@@ -29,8 +29,9 @@ A **Master Profile** is a single profile shared by all characters of the same cl
 
 **Example:** `EQ2Save_Master_Ranger.xml` is used by every Ranger character on your account.
 
-!!! tip "Why Use Master Profiles?"
-    Master profiles save you significant time. When you update your Ranger's Cast Stack, the change applies to **all** your Rangers automatically. No need to update each character individually.
+> **:bulb: Why Use Master Profiles?**
+>
+> Master profiles save you significant time. When you update your Ranger's Cast Stack, the change applies to **all** your Rangers automatically. No need to update each character individually.
 
 ### How Master Profiles Are Assigned
 
@@ -92,8 +93,9 @@ Without Profile Parts, you would need to update each of these in every Master pr
 | `OSA_AllToons.xml` | On-Screen Assistant settings | All characters |
 | `Overseer_AllToons.xml` | Overseer preferences | All characters |
 
-!!! note "Profile Parts Are Optional"
-    You do not need to use Profile Parts to use OgreBot. They are an organizational tool for players who box many characters and want to keep shared settings in one place.
+> **:memo: Profile Parts Are Optional**
+>
+> You do not need to use Profile Parts to use OgreBot. They are an organizational tool for players who box many characters and want to keep shared settings in one place.
 
 ---
 
@@ -129,8 +131,9 @@ These tabs contain **personal settings** that should not be overwritten:
 
 ### How to Merge a Profile
 
-!!! warning "Always Back Up First"
-    Before making any changes, copy your current profile to a backup file. If anything goes wrong, you can restore it.
+> **:warning: Always Back Up First**
+>
+> Before making any changes, copy your current profile to a backup file. If anything goes wrong, you can restore it.
 
 **The safe approach:**
 
@@ -141,8 +144,9 @@ These tabs contain **personal settings** that should not be overwritten:
 5. **Replace** only the Cast Stack section in your profile with the copied one
 6. **Save** and reload OgreBot
 
-!!! tip "Profile Parts Alternative"
-    You can also save an imported Cast Stack as a Profile Part. Create a new file in the `ProfileParts/` folder with just the Cast Stack data, and map it in your profile. This keeps your main profile clean and makes it easy to swap between different Cast Stacks.
+> **:bulb: Profile Parts Alternative**
+>
+> You can also save an imported Cast Stack as a Profile Part. Create a new file in the `ProfileParts/` folder with just the Cast Stack data, and map it in your profile. This keeps your main profile clean and makes it easy to swap between different Cast Stacks.
 
 ---
 

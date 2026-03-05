@@ -12,8 +12,9 @@ OgreBot supports three types of aliases:
 
 These are determined automatically by OgreBot based on your current group composition. You cannot modify them -- they update dynamically as group members change.
 
-!!! note "Red Text"
-    If a built-in alias displays in red, it means no matching character was found in your current group for that role.
+> **:memo: Red Text**
+>
+> If a built-in alias displays in red, it means no matching character was found in your current group for that role.
 
 ### User-Defined Aliases (`*` prefix)
 
@@ -65,8 +66,9 @@ When multiple DPS are in the group, they are assigned in this order:
 4. Summoner (Conjuror, Necromancer)
 5. Rogue (Brigand, Swashbuckler)
 
-!!! note "Multiple of the Same Archetype"
-    If you have two characters of the same archetype (e.g., two Sorcerers), they are randomly assigned between the numbered aliases. The ordering between same-archetype members is not guaranteed.
+> **:memo: Multiple of the Same Archetype**
+>
+> If you have two characters of the same archetype (e.g., two Sorcerers), they are randomly assigned between the numbered aliases. The ordering between same-archetype members is not guaranteed.
 
 ---
 

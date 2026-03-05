@@ -26,8 +26,9 @@ Most methods accept a `_ForWho` parameter that controls which characters execute
 | `"igw:CharName"` | Everyone in group with the specified character |
 | `"is1"` | Only session 1 |
 
-!!! tip
-    For a complete breakdown of targeting options including class-specific filters, raid targeting, and the `igw:` prefix system, see the `_ForWho` examples throughout this page.
+> **:bulb: Tip**
+>
+> For a complete breakdown of targeting options including class-specific filters, raid targeting, and the `igw:` prefix system, see the `_ForWho` examples throughout this page.
 
 ---
 
@@ -1725,20 +1726,25 @@ The OgreBotAPI works alongside these helper objects:
 
 ## Important Notes
 
-!!! note "_ForWho Parameter"
-    Most methods support targeting specific characters. Use `"all"` for everyone, archetype names for groups, or specific character names. Use `"igw:${Me.Name}"` to target all characters in your group.
+> **:memo: _ForWho Parameter**
+>
+> Most methods support targeting specific characters. Use `"all"` for everyone, archetype names for groups, or specific character names. Use `"igw:${Me.Name}"` to target all characters in your group.
 
-!!! note "Async Operations"
-    Many methods queue commands. Use `wait` or check status members to ensure completion.
+> **:memo: Async Operations**
+>
+> Many methods queue commands. Use `wait` or check status members to ensure completion.
 
-!!! warning "Error Handling"
-    Check return values and use existence checks before accessing actor/object members. Always validate with `(exists)` before accessing `.ID`, `.Name`, or other members.
+> **:warning: Error Handling**
+>
+> Check return values and use existence checks before accessing actor/object members. Always validate with `(exists)` before accessing `.ID`, `.Name`, or other members.
 
-!!! tip "Performance"
-    Use appropriate throttling -- do not spam methods every frame. The bot has built-in pulse timing.
+> **:bulb: Performance**
+>
+> Use appropriate throttling -- do not spam methods every frame. The bot has built-in pulse timing.
 
-!!! warning "Do NOT use relay groups"
-    Relay group commands (`relay ${OgreRelayGroup} OgreBotAtom ...`) are deprecated/legacy. Always use the OgreBot cross-session `oc !c` or `oc !ci` commands instead for sending commands to other sessions.
+> **:warning: Do NOT use relay groups**
+>
+> Relay group commands (`relay ${OgreRelayGroup} OgreBotAtom ...`) are deprecated/legacy. Always use the OgreBot cross-session `oc !c` or `oc !ci` commands instead for sending commands to other sessions.
 
 ---
 

@@ -16,8 +16,9 @@ The system has three layers:
 
 You must set a campspot with `-CampSpot` before `-ChangeCampSpotWho` commands will work. Characters ignore campspot change commands if they do not have a campspot enabled.
 
-!!! warning
-    If your campspot change commands seem to be doing nothing, verify that `-CampSpot` was called first.
+> **:warning: Warning**
+>
+> If your campspot change commands seem to be doing nothing, verify that `-CampSpot` was called first.
 
 ### Absolute vs Relative CampSpot
 
@@ -25,16 +26,18 @@ You must set a campspot with `-CampSpot` before `-ChangeCampSpotWho` commands wi
 - **Relative CampSpot** (`RelativeCampSpotLoc`) - A temporary override position. When set, characters move here instead of the absolute campspot.
 - **Relative Offset** (`RelativeLoc`) - The offset or absolute position used for relative positioning
 
-!!! note
-    When you clear the relative campspot, characters return to the **current** absolute campspot -- not where it was when relative was set. This allows individuals to temporarily break away and automatically rejoin wherever the group moved to.
+> **:memo: Note**
+>
+> When you clear the relative campspot, characters return to the **current** absolute campspot -- not where it was when relative was set. This allows individuals to temporarily break away and automatically rejoin wherever the group moved to.
 
 ### HowClose and HowFar
 
 - **HowClose** (default: 2) - Distance from campspot before the character is considered "at" the campspot. When within this range, the character stops moving toward the campspot.
 - **HowFar** (default: 200) - Sanity check distance. If a new campspot command would place the campspot beyond this distance from the character, the command is ignored. Prevents accidental movement across the zone.
 
-!!! tip
-    Setting HowClose too low (like 1) can cause rubberbanding -- characters constantly move back and forth trying to stay exactly at the campspot. The default of 2 works well for most situations.
+> **:bulb: Tip**
+>
+> Setting HowClose too low (like 1) can cause rubberbanding -- characters constantly move back and forth trying to stay exactly at the campspot. The default of 2 works well for most situations.
 
 ### Enable/Disable System
 
@@ -110,8 +113,9 @@ The campspot inherits from `Object_Movement` which provides a collection-based e
 
 Use these in Instance Controllers and fight scripts for group coordination.
 
-!!! tip
-    Examples use `oc !c` (visible) for readability. Switch to `oc !ci` (invisible) once your code is working to reduce console spam.
+> **:bulb: Tip**
+>
+> Examples use `oc !c` (visible) for readability. Switch to `oc !ci` (invisible) once your code is working to reduce console spam.
 
 ### Setting CampSpot at Current Location
 

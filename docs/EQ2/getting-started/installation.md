@@ -12,9 +12,6 @@ Before you begin, make sure you have:
 - [x] An active **ISXEQ2** subscription (installed and working)
 - [x] An active **ISXOgre** subscription ([see Pricing](../about/pricing.md))
 
-!!! warning "Required Order"
-    InnerSpace and ISXEQ2 must be installed and working **before** you install ISXOgre. If you do not have these yet, set them up first.
-
 > **:warning: Required Order**
 >
 > InnerSpace and ISXEQ2 must be installed and working **before** you install ISXOgre. If you do not have these yet, set them up first.
@@ -30,12 +27,6 @@ Download the ISXOgre extension file:
    `<InnerSpace Directory>/x64/Extensions/ISXDK35/`
 3. The file **must** be named exactly `ISXOgre.dll`
 
-!!! tip "Alternative: Console Download"
-    You can also download directly from the InnerSpace console by pasting this command:
-    ```
-    httpget -file "${LavishScript.HomeDirectory}/x64/Extensions/ISXDK35/ISXOgre.dll" https://cluster1.ogregaming.com/eq2/download_isxogre.php
-    ```
-
 > **:bulb: Alternative: Console Download**
 >
 > You can also download directly from the InnerSpace console by pasting this command:
@@ -43,8 +34,9 @@ Download the ISXOgre extension file:
 > httpget -file "${LavishScript.HomeDirectory}/x64/Extensions/ISXDK35/ISXOgre.dll" https://cluster1.ogregaming.com/eq2/download_isxogre.php
 > ```
 
-!!! note "64-bit Required"
-    InnerSpace must be running as a 64-bit application, which is the default setting. If you changed this, switch it back.
+> **:memo: 64-bit Required**
+>
+> InnerSpace must be running as a 64-bit application, which is the default setting. If you changed this, switch it back.
 
 ---
 
@@ -56,8 +48,9 @@ Download the ISXOgre extension file:
 
 <!-- TODO: Add screenshot of console with ext ISXOgre command -->
 
-!!! tip "Auto-Loading"
-    You can configure ISXOgre to load automatically every time you launch EQ2 so you do not need to type the command each session. Check the wiki for auto-load setup instructions.
+> **:bulb: Auto-Loading**
+>
+> You can configure ISXOgre to load automatically every time you launch EQ2 so you do not need to type the command each session. Check the wiki for auto-load setup instructions.
 
 ---
 
@@ -72,8 +65,9 @@ When ISXOgre loads for the first time, an authentication window appears:
 
 ![ISXOgre Authentication Window](../../assets/images/EQ2/getting-started/auth-window.jpg)
 
-!!! warning "Case-Sensitive Credentials"
-    Your username and password must be entered exactly as provided. If you are having trouble, copy and paste them directly from the email.
+> **:warning: Case-Sensitive Credentials**
+>
+> Your username and password must be entered exactly as provided. If you are having trouble, copy and paste them directly from the email.
 
 ---
 
@@ -105,11 +99,13 @@ Before OgreBot can manage your character, it needs to learn your abilities throu
 2. Type `ogre export` and press Enter
 3. The export scans every ability your character has and saves that information
 
-!!! warning "During Export"
-    **Do not zone, camp, or recast abilities** while the export is running. It takes approximately 5 minutes to complete.
+> **:warning: During Export**
+>
+> **Do not zone, camp, or recast abilities** while the export is running. It takes approximately 5 minutes to complete.
 
-!!! note "Per-Character"
-    The export must be done once per character. You should also re-export whenever you gain new abilities, change AA specs, or after a game update adds new spell lines.
+> **:memo: Per-Character**
+>
+> The export must be done once per character. You should also re-export whenever you gain new abilities, change AA specs, or after a game update adds new spell lines.
 
 ---
 
@@ -135,8 +131,9 @@ The EQ2Chars tab configures your character list. This serves three purposes:
 2. **Auto-login** -- enables automatic character login (an advanced feature you can set up later)
 3. **Bot authorization** -- creates a trusted list of characters that OgreBot will automatically interact with (accept group invites, trades, etc.)
 
-!!! tip "Highly Recommended"
-    While technically optional, filling out the EQ2Chars tab is strongly recommended. OgreBot will only automatically accept group invites and perform other trusted actions for characters on this list.
+> **:bulb: Highly Recommended**
+>
+> While technically optional, filling out the EQ2Chars tab is strongly recommended. OgreBot will only automatically accept group invites and perform other trusted actions for characters on this list.
 
 To access it, click the **EQ2Chars** button in the bottom-left area of the OgreBot main window.
 
@@ -163,7 +160,8 @@ You now have OgreBot installed and running. Here is where to go from here:
 - **[Profiles](../ogrebot/profiles.md)** -- Understanding how to save and share your configuration
 - **[Aliases](../ogrebot/aliases.md)** -- Set up group member references
 
-!!! tip "Sample Profiles"
-    Every class comes with a sample profile that gives you a working starting point. You can start playing immediately and fine-tune settings as you learn the system.
+> **:bulb: Sample Profiles**
+>
+> Every class comes with a sample profile that gives you a working starting point. You can start playing immediately and fine-tune settings as you learn the system.
 
 <!-- Source: wiki.ogregaming.com/eq2/index.php/NewUserWalkthrough:Page01-05 - This page may need updating -->

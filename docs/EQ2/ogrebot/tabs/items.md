@@ -8,8 +8,9 @@ The Items tab enables you to add clickable items from your inventory to OgreBot'
 
 The **Refresh** button loads activatable items from your inventory. This process takes 20-30 seconds because it requires server calls to determine item properties (such as whether they are clickable items).
 
-!!! warning
-    **DO NOT MODIFY YOUR INVENTORY WHILE THE REFRESH IS RUNNING.** Changing your inventory during a refresh can cause array errors that disrupt the scanning operation.
+> **:warning: Warning**
+>
+> **DO NOT MODIFY YOUR INVENTORY WHILE THE REFRESH IS RUNNING.** Changing your inventory during a refresh can cause array errors that disrupt the scanning operation.
 
 ## Item Management
 

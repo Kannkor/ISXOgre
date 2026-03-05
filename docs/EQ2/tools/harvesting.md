@@ -2,8 +2,9 @@
 
 Ogre Harvest automates resource gathering in EverQuest 2. It uses [OgreMapper](ogre-mapper.md) waypoints to navigate a zone and harvest nodes along the way.
 
-!!! note "Requirements"
-    OgreBot must be running before you start Ogre Harvest. You must also have a mapped path for the zone you want to harvest in (see [OgreMapper](ogre-mapper.md)).
+> **:memo: Requirements**
+>
+> OgreBot must be running before you start Ogre Harvest. You must also have a mapped path for the zone you want to harvest in (see [OgreMapper](ogre-mapper.md)).
 
 ---
 

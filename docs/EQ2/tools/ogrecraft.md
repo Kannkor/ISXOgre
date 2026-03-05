@@ -8,8 +8,9 @@ OgreCraft is a crafting bot included with your ISXOgre subscription. It was writ
 
 OgreCraft automates the crafting process in EQ2. You select what you want to craft, how many, and OgreCraft handles the rest -- including reacting to crafting events and using the correct abilities at the right time.
 
-!!! note "Included With Your Subscription"
-    OgreCraft is bundled with OgreBot. No separate purchase is required.
+> **:memo: Included With Your Subscription**
+>
+> OgreCraft is bundled with OgreBot. No separate purchase is required.
 
 ---
 
@@ -23,8 +24,9 @@ Select items from your recipe book, specify quantities, and add them to a crafti
 
 OgreCraft can automatically complete up to 25 crafting writs in sequence. Make sure you have adequate materials and fuel available, with vendors or brokers nearby. The system automatically handles Rush Order writs by deleting them before selecting new ones.
 
-!!! tip "Prepare Your Materials"
-    Before starting a writ run, ensure you have enough raw materials and fuel. OgreCraft does not automatically purchase missing materials unless configured to do so.
+> **:bulb: Prepare Your Materials**
+>
+> Before starting a writ run, ensure you have enough raw materials and fuel. OgreCraft does not automatically purchase missing materials unless configured to do so.
 
 ### Experiment Ability
 

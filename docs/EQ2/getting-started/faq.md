@@ -34,12 +34,14 @@ You need to run an export so OgreBot can learn your abilities:
 3. **Do not zone or recast abilities** while the export runs
 4. When the export finishes, reload OgreBot by typing `ogre` in the console
 
-!!! tip "Exporting Individual Abilities"
-    You can export a single ability by name: `ogre export SpellNameHere`
-    You can also export by spell ID if needed.
+> **:bulb: Exporting Individual Abilities**
+>
+> You can export a single ability by name: `ogre export SpellNameHere`
+> You can also export by spell ID if needed.
 
-!!! note "Multiple AA Specs"
-    If you use multiple AA specs, export each spec separately so OgreBot knows about all your abilities.
+> **:memo: Multiple AA Specs**
+>
+> If you use multiple AA specs, export each spec separately so OgreBot knows about all your abilities.
 
 ---
 
@@ -76,8 +78,9 @@ Before asking for help, please:
 4. **Stick to facts** -- describe what happened, not what you think happened
 5. **Be respectful** -- community members volunteer their time to help
 
-!!! tip "Best Place to Ask"
-    Discord is the most active community channel for getting help. See the [Contact](../community/contact.md) page for the invite link.
+> **:bulb: Best Place to Ask**
+>
+> Discord is the most active community channel for getting help. See the [Contact](../community/contact.md) page for the invite link.
 
 ---
 

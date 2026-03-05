@@ -6,8 +6,9 @@ The Pre-Cast tab allows you to configure spells that should cast before other sp
 
 The system checks these conditions whenever the bot attempts to cast a spell.
 
-!!! note
-    The spell no longer requires to be maintained. It will be slightly faster (approximately half a second) if it does appear in maintained.
+> **:memo: Note**
+>
+> The spell no longer requires to be maintained. It will be slightly faster (approximately half a second) if it does appear in maintained.
 
 ## Configuration
 

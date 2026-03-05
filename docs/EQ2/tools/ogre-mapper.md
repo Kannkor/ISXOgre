@@ -8,8 +8,9 @@ OgreMapper is a zone mapping and waypoint marking tool. It records navigation po
 
 OgreMapper uses a **points, not paths** system. Rather than plotting specific routes, it records individual waypoints and dynamically determines optimal navigation between them.
 
-!!! warning "Limitations"
-    OgreMapper does not support flying or swimming navigation.
+> **:warning: Limitations**
+>
+> OgreMapper does not support flying or swimming navigation.
 
 ---
 
@@ -25,8 +26,9 @@ Ogre map
 
 ## Critical Mapping Rules
 
-!!! danger "Never Name a Point with Only a Number"
-    Naming a point with a number only (e.g., `1`, `42`) will break the entire map. Always use descriptive names.
+> **:no_entry: Never Name a Point with Only a Number**
+>
+> Naming a point with a number only (e.g., `1`, `42`) will break the entire map. Always use descriptive names.
 
 - All connections are **bidirectional** -- move carefully during mapping
 - **Never jump**, cliff run, or descend hills you cannot climb back up
