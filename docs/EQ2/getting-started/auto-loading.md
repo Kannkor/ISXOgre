@@ -14,17 +14,25 @@ By default, you need to manually type `ext ISXOgre` in the InnerSpace console ea
 
 Right-click the InnerSpace icon in your system tray and select **Configuration**.
 
+![InnerSpace system tray menu](../../assets/images/EQ2/getting-started/ISpopup.jpg)
+
 ### Step 2: Select Your Game
 
 In the InnerSpace Configuration window, go to the **Game Configuration** tab and select **Everquest II** from the first dropdown.
+
+![Game Configuration tab](../../assets/images/EQ2/getting-started/IS-game.jpg)
 
 ### Step 3: Select Your Profile
 
 Select your EQ2 launch profile from the second dropdown.
 
+![Profile selection](../../assets/images/EQ2/getting-started/IS-profile.jpg)
+
 ### Step 4: Open Startup Settings
 
 Click the **Startup** button.
+
+![Startup button](../../assets/images/EQ2/getting-started/IS-startup.jpg)
 
 ### Step 5: Add the Auto-Load Command
 
@@ -35,6 +43,8 @@ Click the **Startup** button.
 ```
 timedcommand 20 ext isxogre
 ```
+
+![Startup configuration with command](../../assets/images/EQ2/getting-started/Isconfig.jpg)
 
 ### Step 6: Save and Close
 

@@ -15,6 +15,8 @@ If you run EQ2 on multiple computers, you can connect them through InnerSpace's 
 3. Confirm that **Accept incoming connections** is selected
 4. If you changed any settings, click **Apply**, close EQ2 and InnerSpace, then restart both
 
+![InnerSpace Uplink Configuration](../../assets/images/EQ2/getting-started/InnerspaceUplinkWindow.PNG)
+
 > **:warning: Restart Required**
 >
 > If you had to enable "Accept incoming connections", you must fully close InnerSpace and restart it for the change to take effect.
