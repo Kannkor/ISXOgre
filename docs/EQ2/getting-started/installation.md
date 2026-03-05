@@ -20,19 +20,17 @@ Before you begin, make sure you have:
 
 ## Step 1: Download ISXOgre
 
-Download the ISXOgre extension file:
+Open the InnerSpace console and paste this command to download the ISXOgre extension:
 
-1. Go to: `https://cluster1.ogregaming.com/eq2/download_isxogre.php`
-2. Save the file into your InnerSpace extensions folder:
-   `<InnerSpace Directory>/x64/Extensions/ISXDK35/`
-3. The file **must** be named exactly `ISXOgre.dll`
+```
+httpget -file "${LavishScript.HomeDirectory}/x64/Extensions/ISXDK35/ISXOgre.dll" https://cluster1.ogregaming.com/eq2/download_isxogre.php
+```
 
-> **:bulb: Alternative: Console Download**
+> **:bulb: Alternative: Manual Download**
 >
-> You can also download directly from the InnerSpace console by pasting this command:
-> ```
-> httpget -file "${LavishScript.HomeDirectory}/x64/Extensions/ISXDK35/ISXOgre.dll" https://cluster1.ogregaming.com/eq2/download_isxogre.php
-> ```
+> You can also download manually from `https://cluster1.ogregaming.com/eq2/download_isxogre.php` and save the file into your InnerSpace extensions folder:
+> `<InnerSpace Directory>/x64/Extensions/ISXDK35/`
+> The file **must** be named exactly `ISXOgre.dll`.
 
 > **:memo: 64-bit Required**
 >
