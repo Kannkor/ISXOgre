@@ -78,4 +78,6 @@ OgreCraft has three main windows:
 
 Advanced users and scripters can interact with OgreCraft through console commands, providing access to extensive crafting methods and data.
 
+For the full scripting API -- including all available methods, members, events, and example workflows -- see the [OgreCraftAPI Reference](../developer/ogrecraft-api.md).
+
 <!-- Source: wiki.ogregaming.com/eq2/index.php/OgreCraft:Overview - This page may need updating -->
