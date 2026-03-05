@@ -26,7 +26,7 @@ Select items from your recipe book, specify quantities, and add them to a crafti
 
 ### Writ Automation
 
-OgreCraft can automatically complete up to 25 crafting writs in sequence. Make sure you have adequate materials and fuel available, with vendors or brokers nearby. The system automatically handles Rush Order writs by deleting them before selecting new ones.
+OgreCraft can automatically complete up to 200 crafting writs in sequence. Make sure you have adequate materials and fuel available, with vendors or brokers nearby. The system will automatically continue any existing Rush Order Writs, or get one from a nearby Agent.
 
 > **:bulb: Prepare Your Materials**
 >
@@ -39,6 +39,20 @@ OgreCraft supports the Experiment prestige ability for crafting. Note that there
 ### Craftlite
 
 A lightweight version called **Craftlite** runs in the background for crafting-only tasks. Use this when you want to craft without the full OgreCraft interface.
+
+**To start Craftlite:**
+
+```
+ogre craftlite
+ogre cl
+```
+
+**To stop Craftlite:**
+
+```
+ogre end craftlite
+ogre end cl
+```
 
 ---
 
