@@ -113,6 +113,7 @@ nav:
       - OgreMapper: EQ2/tools/ogre-mapper.md
     - Developer:
       - OgreBotAPI Reference: EQ2/developer/ogrebot-api.md
+      - OgreCraftAPI Reference: EQ2/developer/ogrecraft-api.md
       - CampSpot System: EQ2/developer/camp-spot.md
       - Coding Practices: EQ2/developer/coding-practices.md
     - Community:
