@@ -36,6 +36,13 @@ Download the ISXOgre extension file:
     httpget -file "${LavishScript.HomeDirectory}/x64/Extensions/ISXDK35/ISXOgre.dll" https://cluster1.ogregaming.com/eq2/download_isxogre.php
     ```
 
+> **:bulb: Alternative: Console Download**
+>
+> You can also download directly from the InnerSpace console by pasting this command:
+> ```
+> httpget -file "${LavishScript.HomeDirectory}/x64/Extensions/ISXDK35/ISXOgre.dll" https://cluster1.ogregaming.com/eq2/download_isxogre.php
+> ```
+
 !!! note "64-bit Required"
     InnerSpace must be running as a 64-bit application, which is the default setting. If you changed this, switch it back.
 
