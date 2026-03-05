@@ -54,17 +54,17 @@ A practical example using Antonica:
 
 | Key | Action |
 |-----|--------|
-| ++shift+f1++ | Enable auto-plotting |
-| ++f2++ | Name or rename a waypoint |
-| ++f3++ | Mark current point as avoidance area |
-| ++shift+f3++ | Enable auto-avoid plotting |
-| ++f4++ | Delete current point |
-| ++f5++ | Delete custom point |
-| ++f7++ | Prepare for flight (centers camera) |
-| ++f8++ | Save as XML option |
-| ++f11++ | Save map |
-| ++f12++ | Save and exit |
-| ++ctrl+f12++ | Exit without saving |
+| Shift+F1 | Enable auto-plotting |
+| F2 | Name or rename a waypoint |
+| F3 | Mark current point as avoidance area |
+| Shift+F3 | Enable auto-avoid plotting |
+| F4 | Delete current point |
+| F5 | Delete custom point |
+| F7 | Prepare for flight (centers camera) |
+| F8 | Save as XML option |
+| F11 | Save map |
+| F12 | Save and exit |
+| Ctrl+F12 | Exit without saving |
 
 ---
 
