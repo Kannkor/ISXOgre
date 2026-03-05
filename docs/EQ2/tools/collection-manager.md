@@ -10,8 +10,8 @@ Stand near a collection depot and run one of the following commands:
 
 ```
 ogre collection
-collections
-cm
+ogre collections
+ogre cm
 ```
 
 The script navigates through the collection depot inventory and adds every collectible to your collections. It works with both standard and large collection depots, automatically selecting the closest one.
