@@ -28,7 +28,7 @@ httpget -file "${LavishScript.HomeDirectory}/x64/Extensions/ISXDK35/ISXOgre.dll"
 
 > **:bulb: Alternative: Manual Download**
 >
-> You can also download manually from `https://cluster1.ogregaming.com/eq2/download_isxogre.php` and save the file into your InnerSpace extensions folder:
+> You can also download manually from [https://cluster1.ogregaming.com/eq2/download_isxogre.php](https://cluster1.ogregaming.com/eq2/download_isxogre.php) and save the file into your InnerSpace extensions folder:
 > `<InnerSpace Directory>/x64/Extensions/ISXDK35/`
 > The file **must** be named exactly `ISXOgre.dll`.
 
