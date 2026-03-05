@@ -1,6 +1,10 @@
 # OgreCraft
 
-OgreCraft is a crafting bot included with your ISXOgre subscription. It was written from scratch to provide a fully-featured crafting automation experience for EverQuest 2.
+OgreCraft is a crafting bot included with your ISXOgre subscription. It was completely rewritten from scratch in 2026 (internally known as "Craft 2") to provide a fully-featured crafting automation experience for EverQuest 2.
+
+> **:memo: Craft 2 Rewrite**
+>
+> OgreCraft was rebuilt from the ground up in 2026. If you used the original version, the interface and workflow have changed significantly.
 
 ---
 
