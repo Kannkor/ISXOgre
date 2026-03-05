@@ -12,6 +12,22 @@ Check the [pricing page](../about/pricing.md) to obtain a subscription, then fol
 
 Follow the [Installation Guide](installation.md) from start to finish. It walks you through downloading, installing, authenticating, and running OgreBot for the first time. If you have questions after completing the walkthrough, visit the [Contact](../community/contact.md) page for support options.
 
+### How do I auto-load ISXOgre?
+
+See the [Auto-Loading ISXOgre](auto-loading.md) guide to configure InnerSpace to load ISXOgre automatically every time you launch EQ2.
+
+### How do I copy text from the console?
+
+See [How to Copy from the Console](copy-from-console.md).
+
+### How do I connect multiple computers via Uplink?
+
+See [Connecting Computers via Uplink](connect-computers.md).
+
+### How do I remove the memory and FPS display?
+
+See [Removing Memory and FPS Display](remove-fps-display.md).
+
 ---
 
 ## OgreBot Usage
@@ -43,6 +59,10 @@ You need to run an export so OgreBot can learn your abilities:
 >
 > If you use multiple AA specs, export each spec separately so OgreBot knows about all your abilities.
 
+### OgreBot stops casting. What is wrong?
+
+See [Troubleshooting: Bot Stops Casting](bot-stops-casting.md) for step-by-step diagnosis.
+
 ---
 
 ## Troubleshooting
@@ -59,6 +79,10 @@ If your game resolution changed or a window was dragged off-screen, you can rese
 2. Type `run uireset` and press Enter
 
 This resets all OgreBot window positions back to their defaults.
+
+### How do I repatch ISXOgre?
+
+See [Repatching ISXOgre](repatching.md). In most cases, simply opening a new session will automatically apply any needed patches.
 
 ### Why is ISXOgre deleting files?
 
@@ -81,6 +105,10 @@ Before asking for help, please:
 > **:bulb: Best Place to Ask**
 >
 > Discord is the most active community channel for getting help. See the [Contact](../community/contact.md) page for the invite link.
+
+### I have a feature request!
+
+See [Feature Requests](../community/feature-requests.md) for how to submit a good request.
 
 ---
 

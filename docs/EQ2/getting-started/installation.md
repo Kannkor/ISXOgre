@@ -48,7 +48,7 @@ httpget -file "${LavishScript.HomeDirectory}/x64/Extensions/ISXDK35/ISXOgre.dll"
 
 > **:bulb: Auto-Loading**
 >
-> You can configure ISXOgre to load automatically every time you launch EQ2 so you do not need to type the command each session. Check the wiki for auto-load setup instructions.
+> You can configure ISXOgre to load automatically every time you launch EQ2 so you do not need to type the command each session. See the [Auto-Loading ISXOgre](auto-loading.md) guide for setup instructions.
 
 ---
 

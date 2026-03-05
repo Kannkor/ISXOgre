@@ -58,8 +58,14 @@ nav:
     - Getting Started:
       - Why OgreBot?: EQ2/getting-started/why-ogrebot.md
       - Installation: EQ2/getting-started/installation.md
+      - Auto-Loading ISXOgre: EQ2/getting-started/auto-loading.md
       - First Run: EQ2/getting-started/first-run.md
       - FAQ: EQ2/getting-started/faq.md
+      - Connecting Computers: EQ2/getting-started/connect-computers.md
+      - Copy from Console: EQ2/getting-started/copy-from-console.md
+      - Remove FPS Display: EQ2/getting-started/remove-fps-display.md
+      - Bot Stops Casting: EQ2/getting-started/bot-stops-casting.md
+      - Repatching: EQ2/getting-started/repatching.md
     - OgreBot:
       - EQ2/ogrebot/index.md
       - Tabs:
@@ -113,6 +119,7 @@ nav:
     - Community:
       - Contact: EQ2/community/contact.md
       - OgreIRC: EQ2/community/ogreirc.md
+      - Feature Requests: EQ2/community/feature-requests.md
     - About:
       - Pricing: EQ2/about/pricing.md
       - Changelog: EQ2/about/changelog.md
