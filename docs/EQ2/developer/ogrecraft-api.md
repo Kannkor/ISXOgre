@@ -26,27 +26,23 @@ Several methods accept a `_ForWho` parameter that controls which characters exec
 | `"all"` | All characters |
 | `"${Me.Name}"` | Only the current character |
 
-> **:bulb: Tip**
->
-> When using cross-session commands (`oc !c` or `oc !ci`), prefix with `igw:${Me.Name}` to scope the command to your group.
-
 ---
 
 ## Members
 
 Members are read-only properties accessed with `${OgreCraftAPI.MemberName}`.
 
-| Member | Return Type | Description |
-|--------|-------------|-------------|
-| `Version` | `string` | Returns the current OgreCraft version |
-| `IsReady` | `bool` | Returns `TRUE` if OgreCraft is fully loaded and ready |
-| `Paused` | `bool` | Returns `TRUE` if OgreCraft is currently paused |
-| `QueuedCommands` | `bool` | Returns `TRUE` if there are queued commands waiting to execute |
-| `Crafting` | `bool` | Returns `TRUE` if OgreCraft is actively crafting |
-| `QueueUpdated` | `bool` | Returns `TRUE` if the recipe queue has finished processing updates |
-| `WaitingForNavigation` | `bool` | Returns `TRUE` if OgreCraft is waiting for navigation to complete |
-| `Get_NavigationDetails` | `jsonvalue` | Returns a JSON object with details about the current navigation request |
-| `RecipesInQueue` | `int` | Returns the number of recipes currently in the crafting queue |
+| Member | Return Type | Description | Example |
+|--------|-------------|-------------|---------|
+| `Version` | `string` | Returns the current OgreCraft version | `${OgreCraftAPI.Version}` |
+| `IsReady` | `bool` | Returns `TRUE` if OgreCraft is fully loaded and ready | `${OgreCraftAPI.IsReady}` |
+| `Paused` | `bool` | Returns `TRUE` if OgreCraft is currently paused | `${OgreCraftAPI.Paused}` |
+| `QueuedCommands` | `bool` | Returns `TRUE` if there are queued commands waiting to execute | `${OgreCraftAPI.QueuedCommands}` |
+| `Crafting` | `bool` | Returns `TRUE` if OgreCraft is actively crafting | `${OgreCraftAPI.Crafting}` |
+| `QueueUpdated` | `bool` | Returns `TRUE` if the recipe queue has finished processing updates | `${OgreCraftAPI.QueueUpdated}` |
+| `WaitingForNavigation` | `bool` | Returns `TRUE` if OgreCraft is waiting for navigation to complete | `${OgreCraftAPI.WaitingForNavigation}` |
+| `Get_NavigationDetails` | `jsonvalue` | Returns a JSON object with details about the current navigation request | `${OgreCraftAPI.Get_NavigationDetails.AsJSON~}` |
+| `RecipesInQueue` | `int` | Returns the number of recipes currently in the crafting queue | `${OgreCraftAPI.RecipesInQueue}` |
 
 ### Member Examples
 
@@ -99,15 +95,15 @@ Methods perform actions and are called with `OgreCraftAPI:MethodName[params]`.
 
 ### Recipe Management
 
-| Method | Description |
-|--------|-------------|
-| `ScribeRecipe(string _ForWho="all", string _RecipeName="all")` | Scribe recipe books from inventory |
-| `AddRecipe(string _RecipeNameOrID, int _Quantity=1)` | Add a recipe to the crafting queue by name or ID |
-| `AddRecipeNameForWho(string _ForWho="all", string _RecipeName="lastknownrecipe", int _Quantity=1)` | Add a recipe to the queue for specific characters |
-| `AddLastScribedRecipe(string _ForWho="all", int _Quantity=1)` | Add the most recently scribed recipe to the queue |
-| `AddRecipeListFromFile(string _FileInfo)` | Load a list of recipes from a file into the queue |
-| `AddRecipesFromQuest()` | Automatically add recipes needed for the current crafting writ |
-| `BuyAllTinkeringRecipes()` | Purchase all tinkering recipes from the vendor |
+| Method | Description | Example |
+|--------|-------------|---------|
+| `ScribeRecipe(string _ForWho="all", string _RecipeName="all")` | Scribe recipe books from inventory | `OgreCraftAPI:ScribeRecipe["all", "all"]` |
+| `AddRecipe(string _RecipeNameOrID, int _Quantity=1)` | Add a recipe to the crafting queue by name or ID | `OgreCraftAPI:AddRecipe["Alder Round Shield", 5]` |
+| `AddRecipeNameForWho(string _ForWho="all", string _RecipeName="lastknownrecipe", int _Quantity=1)` | Add a recipe to the queue for specific characters | `OgreCraftAPI:AddRecipeNameForWho["${Me.Name}", "Alder Round Shield", 10]` |
+| `AddLastScribedRecipe(string _ForWho="all", int _Quantity=1)` | Add the most recently scribed recipe to the queue | `OgreCraftAPI:AddLastScribedRecipe["all", 1]` |
+| `AddRecipeListFromFile(string _FileInfo)` | Load a list of recipes from a file into the queue | `OgreCraftAPI:AddRecipeListFromFile["MyRecipeList.json"]` |
+| `AddRecipesFromQuest()` | Automatically add recipes needed for the current crafting writ | `OgreCraftAPI:AddRecipesFromQuest` |
+| `BuyAllTinkeringRecipes()` | Purchase all tinkering recipes from the vendor | `OgreCraftAPI:BuyAllTinkeringRecipes` |
 
 #### Recipe Management Examples
 
@@ -142,11 +138,11 @@ OgreCraftAPI:BuyAllTinkeringRecipes
 
 ### Crafting Control
 
-| Method | Description |
-|--------|-------------|
-| `Start(string _ForWho="all")` | Start crafting the recipes in the queue |
-| `StartWrits(string _ForWho="all")` | Start crafting in writ mode |
-| `StartLLL(string _ForWho="all")` | Start low-level leveling mode |
+| Method | Description | Example |
+|--------|-------------|---------|
+| `Start(string _ForWho="all")` | Start crafting the recipes in the queue | `OgreCraftAPI:Start["all"]` |
+| `StartWrits(string _ForWho="all")` | Start crafting in writ mode | `OgreCraftAPI:StartWrits["all"]` |
+| `StartLLL(string _ForWho="all")` | Start low-level leveling mode | `OgreCraftAPI:StartLLL["${Me.Name}"]` |
 
 #### Crafting Control Examples
 
@@ -166,9 +162,9 @@ OgreCraftAPI:StartLLL["${Me.Name}"]
 
 ### Navigation
 
-| Method | Description |
-|--------|-------------|
-| `Complete_Navigation()` | Signal that navigation has been completed |
+| Method | Description | Example |
+|--------|-------------|---------|
+| `Complete_Navigation()` | Signal that navigation has been completed | `OgreCraftAPI:Complete_Navigation` |
 
 #### Navigation Example
 
@@ -190,10 +186,10 @@ if ${OgreCraftAPI.WaitingForNavigation}
 
 ### UI Control
 
-| Method | Description |
-|--------|-------------|
-| `ShowMainWindow(bool TorF=TRUE)` | Show or hide the OgreCraft main window |
-| `ShowQueueWindow(bool TorF=TRUE)` | Show or hide the OgreCraft queue window |
+| Method | Description | Example |
+|--------|-------------|---------|
+| `ShowMainWindow(bool TorF=TRUE)` | Show or hide the OgreCraft main window | `OgreCraftAPI:ShowMainWindow[TRUE]` |
+| `ShowQueueWindow(bool TorF=TRUE)` | Show or hide the OgreCraft queue window | `OgreCraftAPI:ShowQueueWindow[TRUE]` |
 
 #### UI Control Examples
 
