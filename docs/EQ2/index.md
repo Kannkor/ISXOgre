@@ -20,6 +20,7 @@ Welcome to the EQ2 section of ISXOgre documentation. Here you'll find everything
 - [Aliases](ogrebot/aliases.md) - Target aliases (@Tank, @Healer, etc.)
 - [Profiles](ogrebot/profiles.md) - Save and load configurations
 - [Instance Controller](ogrebot/instance-controller.md) - Automated instance running
+- [Encounter Coding](encounter-coding/index.md) - Fight-specific automation modules
 
 ### Tools
 
