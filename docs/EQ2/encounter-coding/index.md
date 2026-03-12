@@ -24,6 +24,7 @@ This section documents what each encounter module does, which setups are availab
 | [Altar of Malice (Exp 11)](#altar-of-malice-exp-11) | See below |
 | [Tears of Veeshan (Exp 10)](#tears-of-veeshan-exp-10) | See below |
 | [Chains of Eternity (Exp 09)](#chains-of-eternity-exp-09) | See below |
+| [Destiny of Velious (Exp 07)](#destiny-of-velious-exp-07) | See below |
 
 ### Rage of Cthurath (Exp 22)
 
@@ -292,6 +293,28 @@ This section documents what each encounter module does, which setups are availab
 | [Siren's Grotto [Raid]](_Exp_09_Chains_of_Eternity/sirens-grotto-raid.md) | Raid |
 | [Siren's Grotto [Heroic]](_Exp_09_Chains_of_Eternity/sirens-grotto-heroic.md) | Heroic |
 | [Wurmbone's End [Raid]](_Exp_09_Chains_of_Eternity/wurmbones-end-raid.md) | Raid |
+
+### Destiny of Velious (Exp 07)
+
+| Zone | Type |
+|------|------|
+| [Dracur Prime [Raid]](_Exp_07_Destiny_of_Velious/dracur-prime-raid.md) | Raid |
+| [Elements of War [Heroic]](_Exp_07_Destiny_of_Velious/elements-of-war-heroic.md) | Heroic |
+| [Kraytoc's Fortress of Rime [Raid]](_Exp_07_Destiny_of_Velious/kraytocs-fortress-of-rime-raid.md) | Raid |
+| [Lyceum of the Recondite [Heroic]](_Exp_07_Destiny_of_Velious/lyceum-of-the-recondite-heroic.md) | Heroic |
+| [Plane of War [Raid]](_Exp_07_Destiny_of_Velious/plane-of-war-raid.md) | Raid |
+| [Skyshrine [Raid]](_Exp_07_Destiny_of_Velious/skyshrine-raid.md) | Raid |
+| [Skyshrine [Heroic]](_Exp_07_Destiny_of_Velious/skyshrine-heroic.md) | Heroic |
+| [Skyshrine Tower: Age's End [Raid]](_Exp_07_Destiny_of_Velious/skyshrine-tower-ages-end-raid.md) | Raid |
+| [Sleeper's Tomb [Raid]](_Exp_07_Destiny_of_Velious/sleepers-tomb-raid.md) | Raid |
+| [Sullon's Spire [Raid]](_Exp_07_Destiny_of_Velious/sullons-spire-raid.md) | Raid |
+| [Tallon's Stronghold [Raid]](_Exp_07_Destiny_of_Velious/tallons-stronghold-raid.md) | Raid |
+| [Temple of Rallos Zek [Raid]](_Exp_07_Destiny_of_Velious/temple-of-rallos-zek-raid.md) | Raid |
+| [The Dreadcutter [Raid]](_Exp_07_Destiny_of_Velious/the-dreadcutter-raid.md) | Raid |
+| [The Temple of Rallos Zek [Heroic]](_Exp_07_Destiny_of_Velious/the-temple-of-rallos-zek-heroic.md) | Heroic |
+| [Throne of Storms [Raid]](_Exp_07_Destiny_of_Velious/throne-of-storms-raid.md) | Raid |
+| [Tower of Frozen Shadow [Raid]](_Exp_07_Destiny_of_Velious/tower-of-frozen-shadow-raid.md) | Raid |
+| [Vallon's Tower [Raid]](_Exp_07_Destiny_of_Velious/vallons-tower-raid.md) | Raid |
 
 ---
 
