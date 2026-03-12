@@ -10,12 +10,12 @@ This section documents what each encounter module does, which setups are availab
 
 | Expansion | Zones |
 |-----------|-------|
-| Rage of Cthurath (Exp 22) | See below |
-| Scars of Destruction (Exp 21) | See below |
-| Ballads of Zimara (Exp 20) | See below |
-| Renewal of Ro (Exp 19) | See below |
-| Reign of Shadows (Exp 17) | See below |
-| Blood of Luclin (Exp 16) | See below |
+| [Rage of Cthurath (Exp 22)](#rage-of-cthurath-exp-22) | See below |
+| [Scars of Destruction (Exp 21)](#scars-of-destruction-exp-21) | See below |
+| [Ballads of Zimara (Exp 20)](#ballads-of-zimara-exp-20) | See below |
+| [Renewal of Ro (Exp 19)](#renewal-of-ro-exp-19) | See below |
+| [Reign of Shadows (Exp 17)](#reign-of-shadows-exp-17) | See below |
+| [Blood of Luclin (Exp 16)](#blood-of-luclin-exp-16) | See below |
 
 ### Rage of Cthurath (Exp 22)
 
