@@ -19,6 +19,7 @@ This section documents what each encounter module does, which setups are availab
 | [Blood of Luclin (Exp 16)](#blood-of-luclin-exp-16) | See below |
 | [Chaos Descending (Exp 15)](#chaos-descending-exp-15) | See below |
 | [Planes of Prophecy (Exp 14)](#planes-of-prophecy-exp-14) | See below |
+| [Kunark Ascending (Exp 13)](#kunark-ascending-exp-13) | See below |
 
 ### Rage of Cthurath (Exp 22)
 
@@ -187,6 +188,25 @@ This section documents what each encounter module does, which setups are availab
 | [Torden, Bastion of Thunder: Tower Breach [Heroic]](_Exp_14_Planes_of_Prophecy/torden-bastion-of-thunder-tower-breach-heroic.md) | Heroic |
 | [Torden, Bastion of Thunder: Winds of Change [Heroic]](_Exp_14_Planes_of_Prophecy/torden-bastion-of-thunder-winds-of-change-heroic.md) | Heroic |
 | [Zraxth's Fabled Unseen Arcanum [Heroic]](_Exp_14_Planes_of_Prophecy/zraxths-fabled-unseen-arcanum-heroic.md) | Heroic |
+
+### Kunark Ascending (Exp 13)
+
+| Zone | Type |
+|------|------|
+| [Arcanna'se Spire: Order and Chaos [Raid]](_Exp_13_Kunark_Ascending/arcannase-spire-order-and-chaos-raid.md) | Raid |
+| [Arcanna'se Spire: Vessel of the Sorceress [Event Heroic]](_Exp_13_Kunark_Ascending/arcannase-spire-vessel-of-the-sorceress-event-heroic.md) | Event Heroic |
+| [Brackish Vaults: Realm of the Triumvirate [Raid]](_Exp_13_Kunark_Ascending/brackish-vaults-realm-of-the-triumvirate-raid.md) | Raid (WIP) |
+| [Chamber of Rejuvenation [Raid]](_Exp_13_Kunark_Ascending/chamber-of-rejuvenation-raid.md) | Raid (WIP) |
+| [Crypt of Dalnir: Baron's Workshop [Heroic]](_Exp_13_Kunark_Ascending/crypt-of-dalnir-barons-workshop-heroic.md) | Heroic |
+| [Crypt of Dalnir: Ritual Chamber [Heroic]](_Exp_13_Kunark_Ascending/crypt-of-dalnir-ritual-chamber-heroic.md) | Heroic |
+| [Crypt of Dalnir: The Kly Stronghold [Raid]](_Exp_13_Kunark_Ascending/crypt-of-dalnir-the-kly-stronghold-raid.md) | Raid (WIP) |
+| [Crypt of Dalnir: Wizard's Den [Event Heroic]](_Exp_13_Kunark_Ascending/crypt-of-dalnir-wizards-den-event-heroic.md) | Event Heroic |
+| [Lost City of Torsis: Ashiirian Court [Raid]](_Exp_13_Kunark_Ascending/lost-city-of-torsis-ashiirian-court-raid.md) | Raid |
+| [Lost City of Torsis: Reaver's Remnants [Heroic]](_Exp_13_Kunark_Ascending/lost-city-of-torsis-reavers-remnants-heroic.md) | Heroic |
+| [Lost City of Torsis: The Shrouded Temple [Event Heroic]](_Exp_13_Kunark_Ascending/lost-city-of-torsis-the-shrouded-temple-event-heroic.md) | Event Heroic |
+| [Lost City of Torsis: The Spectral Market [Heroic]](_Exp_13_Kunark_Ascending/lost-city-of-torsis-the-spectral-market-heroic.md) | Heroic |
+| [Ruins of Kaesora: Ancient Xalgozian Temple [Raid]](_Exp_13_Kunark_Ascending/ruins-of-kaesora-ancient-xalgozian-temple-raid.md) | Raid (WIP) |
+| [The Ruins of Cabilis [Heroic]](_Exp_13_Kunark_Ascending/the-ruins-of-cabilis-heroic.md) | Heroic |
 
 ---
 
