@@ -17,6 +17,7 @@ This section documents what each encounter module does, which setups are availab
 | [Visions of Vetrovia (Exp 18)](#visions-of-vetrovia-exp-18) | See below |
 | [Reign of Shadows (Exp 17)](#reign-of-shadows-exp-17) | See below |
 | [Blood of Luclin (Exp 16)](#blood-of-luclin-exp-16) | See below |
+| [Chaos Descending (Exp 15)](#chaos-descending-exp-15) | See below |
 
 ### Rage of Cthurath (Exp 22)
 
@@ -138,6 +139,29 @@ This section documents what each encounter module does, which setups are availab
 | [The Venom of Ssraeshza [Event Heroic]](_Exp_16_Blood_of_Luclin/the-venom-of-ssraeshza-event-heroic.md) | Event Heroic |
 | [Wracklands: The Crimson Barrens [Raid]](_Exp_16_Blood_of_Luclin/wracklands-the-crimson-barrens-raid.md) | Raid |
 | [Wracklands: Diaku Corral [Solo]](_Exp_16_Blood_of_Luclin/wracklands-diaku-corral-solo.md) | Solo |
+
+### Chaos Descending (Exp 15)
+
+| Zone | Type |
+|------|------|
+| [Awuidor: The Adumbral Depths [Contested Raid]](_Exp_15_Chaos_Descending/awuidor-the-adumbral-depths-contested-raid.md) | Contested Raid |
+| [Castle Mischief [Raid]](_Exp_15_Chaos_Descending/castle-mischief-raid.md) | Raid (WIP) |
+| [Doomfire: The Broken Throne [Raid]](_Exp_15_Chaos_Descending/doomfire-the-broken-throne-raid.md) | Raid |
+| [Doomfire: The Molten Caldera [Raid]](_Exp_15_Chaos_Descending/doomfire-the-molten-caldera-raid.md) | Raid |
+| [Eryslai: The Aether Vale [Raid]](_Exp_15_Chaos_Descending/eryslai-the-aether-vale-raid.md) | Raid |
+| [Eryslai: The Bixel Hive [Heroic]](_Exp_15_Chaos_Descending/eryslai-the-bixel-hive-heroic.md) | Heroic (WIP) |
+| [Eryslai: The Emperyean Steppes [Raid]](_Exp_15_Chaos_Descending/eryslai-the-emperyean-steppes-raid.md) | Raid |
+| [Eryslai: The Midnight Aerie [Heroic]](_Exp_15_Chaos_Descending/eryslai-the-midnight-aerie-heroic.md) | Heroic |
+| [Eryslai: Trials of Air [Event Heroic]](_Exp_15_Chaos_Descending/eryslai-trials-of-air-event-heroic.md) | Event Heroic |
+| [Fabled Kael Drakkel [Contested]](_Exp_15_Chaos_Descending/fabled-kael-drakkel-contested.md) | Contested (WIP) |
+| [Fabled Temple of Rallos Zek: Foundations of Stone [Raid]](_Exp_15_Chaos_Descending/fabled-temple-of-rallos-zek-foundations-of-stone-raid.md) | Raid (WIP) |
+| [Fabled Throne of Storms: Hall of Legends [Raid]](_Exp_15_Chaos_Descending/fabled-throne-of-storms-hall-of-legends-raid.md) | Raid |
+| [Ragrax, the Sepulcher of the Twelve [Raid]](_Exp_15_Chaos_Descending/ragrax-the-sepulcher-of-the-twelve-raid.md) | Raid |
+| [Vaedenmoor, Heart of Nightmares [Raid]](_Exp_15_Chaos_Descending/vaedenmoor-heart-of-nightmares-raid.md) | Raid |
+| [Vaedenmoor, Realm of Despair [Raid]](_Exp_15_Chaos_Descending/vaedenmoor-realm-of-despair-raid.md) | Raid |
+| [Vegarlson: Ruins of Rathe [Heroic]](_Exp_15_Chaos_Descending/vegarlson-ruins-of-rathe-heroic.md) | Heroic |
+| [Vegarlson: The Terrene Rift [Event Heroic]](_Exp_15_Chaos_Descending/vegarlson-the-terrene-rift-event-heroic.md) | Event Heroic (WIP) |
+| [Vegarlson: Upheaval [Raid]](_Exp_15_Chaos_Descending/vegarlson-upheaval-raid.md) | Raid |
 
 ---
 

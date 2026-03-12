@@ -206,6 +206,25 @@ nav:
         - The Venom of Ssraeshza [Event Heroic]: EQ2/encounter-coding/_Exp_16_Blood_of_Luclin/the-venom-of-ssraeshza-event-heroic.md
         - Wracklands - The Crimson Barrens [Raid]: EQ2/encounter-coding/_Exp_16_Blood_of_Luclin/wracklands-the-crimson-barrens-raid.md
         - Wracklands - Diaku Corral [Solo]: EQ2/encounter-coding/_Exp_16_Blood_of_Luclin/wracklands-diaku-corral-solo.md
+      - Chaos Descending:
+        - Awuidor - The Adumbral Depths [Contested Raid]: EQ2/encounter-coding/_Exp_15_Chaos_Descending/awuidor-the-adumbral-depths-contested-raid.md
+        - Castle Mischief [Raid]: EQ2/encounter-coding/_Exp_15_Chaos_Descending/castle-mischief-raid.md
+        - Doomfire - The Broken Throne [Raid]: EQ2/encounter-coding/_Exp_15_Chaos_Descending/doomfire-the-broken-throne-raid.md
+        - Doomfire - The Molten Caldera [Raid]: EQ2/encounter-coding/_Exp_15_Chaos_Descending/doomfire-the-molten-caldera-raid.md
+        - Eryslai - The Aether Vale [Raid]: EQ2/encounter-coding/_Exp_15_Chaos_Descending/eryslai-the-aether-vale-raid.md
+        - Eryslai - The Bixel Hive [Heroic]: EQ2/encounter-coding/_Exp_15_Chaos_Descending/eryslai-the-bixel-hive-heroic.md
+        - Eryslai - The Emperyean Steppes [Raid]: EQ2/encounter-coding/_Exp_15_Chaos_Descending/eryslai-the-emperyean-steppes-raid.md
+        - Eryslai - The Midnight Aerie [Heroic]: EQ2/encounter-coding/_Exp_15_Chaos_Descending/eryslai-the-midnight-aerie-heroic.md
+        - Eryslai - Trials of Air [Event Heroic]: EQ2/encounter-coding/_Exp_15_Chaos_Descending/eryslai-trials-of-air-event-heroic.md
+        - Fabled Kael Drakkel [Contested]: EQ2/encounter-coding/_Exp_15_Chaos_Descending/fabled-kael-drakkel-contested.md
+        - Fabled Temple of Rallos Zek - Foundations of Stone [Raid]: EQ2/encounter-coding/_Exp_15_Chaos_Descending/fabled-temple-of-rallos-zek-foundations-of-stone-raid.md
+        - Fabled Throne of Storms - Hall of Legends [Raid]: EQ2/encounter-coding/_Exp_15_Chaos_Descending/fabled-throne-of-storms-hall-of-legends-raid.md
+        - Ragrax, the Sepulcher of the Twelve [Raid]: EQ2/encounter-coding/_Exp_15_Chaos_Descending/ragrax-the-sepulcher-of-the-twelve-raid.md
+        - Vaedenmoor, Heart of Nightmares [Raid]: EQ2/encounter-coding/_Exp_15_Chaos_Descending/vaedenmoor-heart-of-nightmares-raid.md
+        - Vaedenmoor, Realm of Despair [Raid]: EQ2/encounter-coding/_Exp_15_Chaos_Descending/vaedenmoor-realm-of-despair-raid.md
+        - Vegarlson - Ruins of Rathe [Heroic]: EQ2/encounter-coding/_Exp_15_Chaos_Descending/vegarlson-ruins-of-rathe-heroic.md
+        - Vegarlson - The Terrene Rift [Event Heroic]: EQ2/encounter-coding/_Exp_15_Chaos_Descending/vegarlson-the-terrene-rift-event-heroic.md
+        - Vegarlson - Upheaval [Raid]: EQ2/encounter-coding/_Exp_15_Chaos_Descending/vegarlson-upheaval-raid.md
     - Developer:
       - OgreBotAPI Reference: EQ2/developer/ogrebot-api.md
       - OgreCraftAPI Reference: EQ2/developer/ogrecraft-api.md
