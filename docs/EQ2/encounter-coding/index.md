@@ -21,6 +21,7 @@ This section documents what each encounter module does, which setups are availab
 | [Planes of Prophecy (Exp 14)](#planes-of-prophecy-exp-14) | See below |
 | [Kunark Ascending (Exp 13)](#kunark-ascending-exp-13) | See below |
 | [Terrors of Thalumbra (Exp 12)](#terrors-of-thalumbra-exp-12) | See below |
+| [Altar of Malice (Exp 11)](#altar-of-malice-exp-11) | See below |
 
 ### Rage of Cthurath (Exp 22)
 
@@ -229,6 +230,31 @@ This section documents what each encounter module does, which setups are availab
 | [The Fabled Antechamber of Fate [Raid]](_Exp_12_Terrors_of_Thalumbra/the-fabled-antechamber-of-fate-raid.md) | Raid |
 | [The Fabled Nizara, City of the Nayad [Heroic]](_Exp_12_Terrors_of_Thalumbra/the-fabled-nizara-city-of-the-nayad-heroic.md) | Heroic |
 | [Zek, the Scourge Wastes: The Siege [Raid]](_Exp_12_Terrors_of_Thalumbra/zek-the-scourge-wastes-the-siege-raid.md) | Raid |
+
+### Altar of Malice (Exp 11)
+
+| Zone | Type |
+|------|------|
+| [Brokenskull Bay: Fury of the Cursed [Raid]](_Exp_11_Altar_of_Malice/brokenskull-bay-fury-of-the-cursed-raid.md) | Raid |
+| [Brokenskull Bay: Hoist the Yellow Jack [Heroic]](_Exp_11_Altar_of_Malice/brokenskull-bay-hoist-the-yellow-jack-heroic.md) | Heroic |
+| [Castle Highhold [Heroic]](_Exp_11_Altar_of_Malice/castle-highhold-heroic.md) | Heroic |
+| [Castle Highhold: Insider Treachery [Event Heroic]](_Exp_11_Altar_of_Malice/castle-highhold-insider-treachery-event-heroic.md) | Event Heroic |
+| [Castle Highhold: No Quarter [Raid]](_Exp_11_Altar_of_Malice/castle-highhold-no-quarter-raid.md) | Raid |
+| [Castle Highhold: Thresinet's Den [Heroic]](_Exp_11_Altar_of_Malice/castle-highhold-thresinets-den-heroic.md) | Heroic |
+| [F.S. Distillery [Raid]](_Exp_11_Altar_of_Malice/fs-distillery-raid.md) | Raid |
+| [F.S. Distillery: Distill or Be Killed [Heroic]](_Exp_11_Altar_of_Malice/fs-distillery-distill-or-be-killed-heroic.md) | Heroic |
+| [F.S. Distillery: Stowaways [Event Heroic]](_Exp_11_Altar_of_Malice/fs-distillery-stowaways-event-heroic.md) | Event Heroic |
+| [Ossuary: Cathedral of Bones [Raid]](_Exp_11_Altar_of_Malice/ossuary-cathedral-of-bones-raid.md) | Raid |
+| [Ossuary: Choir of T'Vyl [Event Heroic]](_Exp_11_Altar_of_Malice/ossuary-choir-of-tvyl-event-heroic.md) | Event Heroic |
+| [Ossuary: Resonance of Malice [Heroic]](_Exp_11_Altar_of_Malice/ossuary-resonance-of-malice-heroic.md) | Heroic |
+| [Ossuary: Sanguine Fountains [Heroic]](_Exp_11_Altar_of_Malice/ossuary-sanguine-fountains-heroic.md) | Heroic |
+| [Ossuary: The Altar of Malice [Raid]](_Exp_11_Altar_of_Malice/ossuary-the-altar-of-malice-raid.md) | Raid |
+| [Precipice of Power [Raid]](_Exp_11_Altar_of_Malice/precipice-of-power-raid.md) | Raid |
+| [Ssraeshza Temple: Echoes of Time [Raid]](_Exp_11_Altar_of_Malice/ssraeshza-temple-echoes-of-time-raid.md) | Raid |
+| [Ssraeshza Temple: Inner Sanctum [Heroic]](_Exp_11_Altar_of_Malice/ssraeshza-temple-inner-sanctum-heroic.md) | Heroic |
+| [Ssraeshza Temple: Taskmaster's Echo [Event Heroic]](_Exp_11_Altar_of_Malice/ssraeshza-temple-taskmasters-echo-event-heroic.md) | Event Heroic |
+| [Zavith'loa: The Lost Caverns [Heroic]](_Exp_11_Altar_of_Malice/zavithloa-the-lost-caverns-heroic.md) | Heroic |
+| [Zavith'loa: The Molten Pools [Raid]](_Exp_11_Altar_of_Malice/zavithloa-the-molten-pools-raid.md) | Raid |
 
 ---
 
