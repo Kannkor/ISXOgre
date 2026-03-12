@@ -125,6 +125,73 @@ nav:
         - Zon Zobboz - The Chimeric Chain [Untold Heroic]: EQ2/encounter-coding/_Exp_22_Rage_of_Cthurath/zon-zobboz-the-chimeric-chain-untold-heroic.md
         - Zon Zobboz - The Graftwerk [Untold Heroic]: EQ2/encounter-coding/_Exp_22_Rage_of_Cthurath/zon-zobboz-the-graftwerk-untold-heroic.md
         - Zon Zobboz - The Outer Swarmyard [Raid]: EQ2/encounter-coding/_Exp_22_Rage_of_Cthurath/zon-zobboz-the-outer-swarmyard-raid.md
+      - Scars of Destruction:
+        - Blackhook Spiral - Corrupted Caldera [Heroic II]: EQ2/encounter-coding/_Exp_21_Scars_of_Destruction/blackhook-spiral-corrupted-caldera-heroic-ii.md
+        - Blackhook Spiral - Fort Sunder [Heroic II]: EQ2/encounter-coding/_Exp_21_Scars_of_Destruction/blackhook-spiral-fort-sunder-heroic-ii.md
+        - Blackhook Spiral - Frenzied Breach [Raid]: EQ2/encounter-coding/_Exp_21_Scars_of_Destruction/blackhook-spiral-frenzied-breach-raid.md
+        - Blackhook Spiral - Spiritual Terror [Raid]: EQ2/encounter-coding/_Exp_21_Scars_of_Destruction/blackhook-spiral-spiritual-terror-raid.md
+        - Dragon Necropolis - Ancient Tombs [Raid]: EQ2/encounter-coding/_Exp_21_Scars_of_Destruction/dragon-necropolis-ancient-tombs-raid.md
+        - Dragon Necropolis - Chetari Warrens [Heroic II]: EQ2/encounter-coding/_Exp_21_Scars_of_Destruction/dragon-necropolis-chetari-warrens-heroic-ii.md
+        - Dragon Necropolis - Disturbed Vaults [Raid]: EQ2/encounter-coding/_Exp_21_Scars_of_Destruction/dragon-necropolis-disturbed-vaults-raid.md
+        - Flooded Scar - Abyssal Assault [Raid]: EQ2/encounter-coding/_Exp_21_Scars_of_Destruction/flooded-scar-abyssal-assault-raid.md
+        - Kael Drakkel - Abdicated Throne [Raid]: EQ2/encounter-coding/_Exp_21_Scars_of_Destruction/kael-drakkel-abdicated-throne-raid.md
+        - Sodden Archipelago - Operation Cooperation [Raid]: EQ2/encounter-coding/_Exp_21_Scars_of_Destruction/sodden-archipelago-operation-cooperation-raid.md
+        - Sodden Archipelago - Thawed Marshes [Raid]: EQ2/encounter-coding/_Exp_21_Scars_of_Destruction/sodden-archipelago-thawed-marshes-raid.md
+        - Spiral of Vul [Contested]: EQ2/encounter-coding/_Exp_21_Scars_of_Destruction/spiral-of-vul-contested.md
+        - Temple of Veeshan - Echoing Silence [Raid]: EQ2/encounter-coding/_Exp_21_Scars_of_Destruction/temple-of-veeshan-echoing-silence-raid.md
+        - Western Wastes - Exploration Determination [Raid]: EQ2/encounter-coding/_Exp_21_Scars_of_Destruction/western-wastes-exploration-determination-raid.md
+        - Western Wastes - Temple Crater [Raid]: EQ2/encounter-coding/_Exp_21_Scars_of_Destruction/western-wastes-temple-crater-raid.md
+      - Ballads of Zimara:
+        - Aether Wroughtlands - Ferric Fields [Heroic II]: EQ2/encounter-coding/_Exp_20_Ballads_of_Zimara/aether-wroughtlands-ferric-fields-heroic-ii.md
+        - Aether Wroughtlands - Native Mettle [Heroic III]: EQ2/encounter-coding/_Exp_20_Ballads_of_Zimara/aether-wroughtlands-native-mettle-heroic-iii.md
+        - Aether Wroughtlands - The Delves [Raid]: EQ2/encounter-coding/_Exp_20_Ballads_of_Zimara/aether-wroughtlands-the-delves-raid.md
+        - Celebration Avatar Challenge - Bristlebane [Raid]: EQ2/encounter-coding/_Exp_20_Ballads_of_Zimara/celebration-avatar-challenge-bristlebane-raid.md
+        - Celebration Avatar Challenge - Roehn Theer [Raid]: EQ2/encounter-coding/_Exp_20_Ballads_of_Zimara/celebration-avatar-challenge-roehn-theer-raid.md
+        - Celebration Avatar Challenge - Tarew Marr [Raid]: EQ2/encounter-coding/_Exp_20_Ballads_of_Zimara/celebration-avatar-challenge-tarew-marr-raid.md
+        - Celebration Avatar Challenge - Tunare [Raid]: EQ2/encounter-coding/_Exp_20_Ballads_of_Zimara/celebration-avatar-challenge-tunare-raid.md
+        - Darkpaw Warrens [Heroic II]: EQ2/encounter-coding/_Exp_20_Ballads_of_Zimara/darkpaw-warrens-heroic-ii.md
+        - Vaashkaani, Alcazar of Zimara - Chromatic Chamber [Raid]: EQ2/encounter-coding/_Exp_20_Ballads_of_Zimara/vaashkaani-alcazar-of-zimara-chromatic-chamber-raid.md
+        - Vaashkaani, Alcazar of Zimara - Sovereign Summons [Raid]: EQ2/encounter-coding/_Exp_20_Ballads_of_Zimara/vaashkaani-alcazar-of-zimara-sovereign-summons-raid.md
+        - Vaashkaani - Argent Sanctuary [Heroic II]: EQ2/encounter-coding/_Exp_20_Ballads_of_Zimara/vaashkaani-argent-sanctuary-heroic-ii.md
+        - Vaashkaani, Royal Halls [Raid]: EQ2/encounter-coding/_Exp_20_Ballads_of_Zimara/vaashkaani-royal-halls-raid.md
+        - Zimara Breadth - Crested Expanse [Raid]: EQ2/encounter-coding/_Exp_20_Ballads_of_Zimara/zimara-breadth-crested-expanse-raid.md
+        - Zimara Breadth - Razing the Razelands [Heroic II]: EQ2/encounter-coding/_Exp_20_Ballads_of_Zimara/zimara-breadth-razing-the-razelands-heroic-ii.md
+        - Zimara Breadth - Strungstone Ascent [Heroic II]: EQ2/encounter-coding/_Exp_20_Ballads_of_Zimara/zimara-breadth-strungstone-ascent-heroic-ii.md
+      - Renewal of Ro:
+        - Buried Takish'Hiz - Emergence from Stone [Raid]: EQ2/encounter-coding/_Exp_19_Renewal_of_Ro/buried-takish-hiz-emergence-from-stone-raid.md
+        - Buried Takish'Hiz - Empire of Antiquity [Contested]: EQ2/encounter-coding/_Exp_19_Renewal_of_Ro/buried-takish-hiz-empire-of-antiquity-contested.md
+        - Raj'Dur Plateaus - The Hunt [Raid]: EQ2/encounter-coding/_Exp_19_Renewal_of_Ro/raj-dur-plateaus-the-hunt-raid.md
+        - Sandstone Delta - Grave Grange [Event Heroic II]: EQ2/encounter-coding/_Exp_19_Renewal_of_Ro/sandstone-delta-grave-grange-event-heroic-ii.md
+        - Sandstone Delta - The Standing Storm [Raid]: EQ2/encounter-coding/_Exp_19_Renewal_of_Ro/sandstone-delta-the-standing-storm-raid.md
+        - Shattered Unrest [Heroic III]: EQ2/encounter-coding/_Exp_19_Renewal_of_Ro/shattered-unrest-heroic-iii.md
+        - Sultan's Mahallah - Daggers Drawn [Raid]: EQ2/encounter-coding/_Exp_19_Renewal_of_Ro/sultans-mahallah-daggers-drawn-raid.md
+        - Takish Badlands - The Boundless Gulf [Raid]: EQ2/encounter-coding/_Exp_19_Renewal_of_Ro/takish-badlands-the-boundless-gulf-raid.md
+        - Triad of Elements [Solo]: EQ2/encounter-coding/_Exp_19_Renewal_of_Ro/triad-of-elements-solo.md
+      - Reign of Shadows:
+        - Echo Caverns - Quarry Quandary [Heroic]: EQ2/encounter-coding/_Exp_17_Reign_of_Shadows/echo-caverns-quarry-quandary-heroic.md
+        - Echo Caverns - Fungal Foray [Heroic]: EQ2/encounter-coding/_Exp_17_Reign_of_Shadows/echo-caverns-fungal-foray-heroic.md
+        - Echo Caverns - Expedition Precarious [Raidventure]: EQ2/encounter-coding/_Exp_17_Reign_of_Shadows/echo-caverns-expedition-precarious-raidventure.md
+        - Shadeweaver Thicket - Spirit Harvest [Raid]: EQ2/encounter-coding/_Exp_17_Reign_of_Shadows/shadeweaver-thicket-spirit-harvest-raid.md
+        - Savage Weald - Shadow's Hold [Raid]: EQ2/encounter-coding/_Exp_17_Reign_of_Shadows/savage-weald-shadows-hold-raid.md
+        - Savage Weald - Backwoods Brawl [Challenge]: EQ2/encounter-coding/_Exp_17_Reign_of_Shadows/savage-weald-backwoods-brawl-challenge.md
+        - Vex Thal - Labyrinth of Solace [Raid]: EQ2/encounter-coding/_Exp_17_Reign_of_Shadows/vex-thal-labyrinth-of-solace-raid.md
+        - Vex Thal - Edge of Oscuris [Challenge]: EQ2/encounter-coding/_Exp_17_Reign_of_Shadows/vex-thal-edge-of-oscuris-challenge.md
+        - Vex Thal - Beyond the Veil [Raid]: EQ2/encounter-coding/_Exp_17_Reign_of_Shadows/vex-thal-beyond-the-veil-raid.md
+        - Vasty Deep - Toil and Trouble [Heroic II]: EQ2/encounter-coding/_Exp_17_Reign_of_Shadows/vasty-deep-toil-and-trouble-heroic-ii.md
+      - Blood of Luclin:
+        - Aurelian Coast - The Emergent Eclipse [Raid]: EQ2/encounter-coding/_Exp_16_Blood_of_Luclin/aurelian-coast-the-emergent-eclipse-raid.md
+        - Aurelian Coast - Maiden's Eye [Heroic]: EQ2/encounter-coding/_Exp_16_Blood_of_Luclin/aurelian-coast-maidens-eye-heroic.md
+        - Fordel Midst - Remembrance [Raid]: EQ2/encounter-coding/_Exp_16_Blood_of_Luclin/fordel-midst-remembrance-raid.md
+        - Fordel Midst - Bizarre Bazaar [Heroic]: EQ2/encounter-coding/_Exp_16_Blood_of_Luclin/fordel-midst-bizarre-bazaar-heroic.md
+        - Sanctus Seru - Arx Aeturnus [Event Heroic]: EQ2/encounter-coding/_Exp_16_Blood_of_Luclin/sanctus-seru-arx-aeturnus-event-heroic.md
+        - Sanctus Seru - Echelon of Divinity [Heroic]: EQ2/encounter-coding/_Exp_16_Blood_of_Luclin/sanctus-seru-echelon-of-divinity-heroic.md
+        - Solusek's Eye - The Calling [Raid]: EQ2/encounter-coding/_Exp_16_Blood_of_Luclin/soluseks-eye-the-calling-raid.md
+        - Ssraeshza's Hallowed Halls [Raid]: EQ2/encounter-coding/_Exp_16_Blood_of_Luclin/ssraeshzas-hallowed-halls-raid.md
+        - The Blinding - Twisted Vista [Raid]: EQ2/encounter-coding/_Exp_16_Blood_of_Luclin/the-blinding-twisted-vista-raid.md
+        - The Ruins of Ssraeshza [Heroic]: EQ2/encounter-coding/_Exp_16_Blood_of_Luclin/the-ruins-of-ssraeshza-heroic.md
+        - The Venom of Ssraeshza [Event Heroic]: EQ2/encounter-coding/_Exp_16_Blood_of_Luclin/the-venom-of-ssraeshza-event-heroic.md
+        - Wracklands - The Crimson Barrens [Raid]: EQ2/encounter-coding/_Exp_16_Blood_of_Luclin/wracklands-the-crimson-barrens-raid.md
+        - Wracklands - Diaku Corral [Solo]: EQ2/encounter-coding/_Exp_16_Blood_of_Luclin/wracklands-diaku-corral-solo.md
     - Developer:
       - OgreBotAPI Reference: EQ2/developer/ogrebot-api.md
       - OgreCraftAPI Reference: EQ2/developer/ogrecraft-api.md
