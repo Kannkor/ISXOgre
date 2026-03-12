@@ -26,6 +26,7 @@ This section documents what each encounter module does, which setups are availab
 | [Chains of Eternity (Exp 09)](#chains-of-eternity-exp-09) | See below |
 | [Destiny of Velious (Exp 07)](#destiny-of-velious-exp-07) | See below |
 | [Sentinel's Fate (Exp 06)](#sentinels-fate-exp-06) | See below |
+| [The Shadow Odyssey (Exp 05)](#the-shadow-odyssey-exp-05) | See below |
 
 ### Rage of Cthurath (Exp 22)
 
@@ -325,6 +326,16 @@ This section documents what each encounter module does, which setups are availab
 | [Perah'Celsis' Abominable Laboratory [Raid]](_Exp_06_Sentinels_Fate/perah-celsis-abominable-laboratory-raid.md) | Raid |
 | [The Palace of Roehn Theer [Raid]](_Exp_06_Sentinels_Fate/the-palace-of-roehn-theer-raid.md) | Raid |
 | [Underfoot Depths [Raid]](_Exp_06_Sentinels_Fate/underfoot-depths-raid.md) | Raid |
+
+### The Shadow Odyssey (Exp 05)
+
+| Zone | Type |
+|------|------|
+| [Miragul's Planar Shard [Raid]](_Exp_05_The_Shadow_Odyssey/miraguls-planar-shard-raid.md) | Raid |
+| [Palace of the Ancient One [Raid]](_Exp_05_The_Shadow_Odyssey/palace-of-the-ancient-one-raid.md) | Raid |
+| [Tomb of the Mad Crusader [Raid]](_Exp_05_The_Shadow_Odyssey/tomb-of-the-mad-crusader-raid.md) | Raid |
+| [Ykesha's Inner Stronghold [Raid]](_Exp_05_The_Shadow_Odyssey/ykeshas-inner-stronghold-raid.md) | Raid |
+| [Zarrakon's Abyssal Chamber [Raid]](_Exp_05_The_Shadow_Odyssey/zarrakons-abyssal-chamber-raid.md) | Raid |
 
 ---
 
