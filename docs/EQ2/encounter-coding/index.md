@@ -22,6 +22,7 @@ This section documents what each encounter module does, which setups are availab
 | [Kunark Ascending (Exp 13)](#kunark-ascending-exp-13) | See below |
 | [Terrors of Thalumbra (Exp 12)](#terrors-of-thalumbra-exp-12) | See below |
 | [Altar of Malice (Exp 11)](#altar-of-malice-exp-11) | See below |
+| [Tears of Veeshan (Exp 10)](#tears-of-veeshan-exp-10) | See below |
 
 ### Rage of Cthurath (Exp 22)
 
@@ -255,6 +256,27 @@ This section documents what each encounter module does, which setups are availab
 | [Ssraeshza Temple: Taskmaster's Echo [Event Heroic]](_Exp_11_Altar_of_Malice/ssraeshza-temple-taskmasters-echo-event-heroic.md) | Event Heroic |
 | [Zavith'loa: The Lost Caverns [Heroic]](_Exp_11_Altar_of_Malice/zavithloa-the-lost-caverns-heroic.md) | Heroic |
 | [Zavith'loa: The Molten Pools [Raid]](_Exp_11_Altar_of_Malice/zavithloa-the-molten-pools-raid.md) | Raid |
+
+### Tears of Veeshan (Exp 10)
+
+| Zone | Type |
+|------|------|
+| [Accursed Sanctum [Raid]](_Exp_10_Tears_of_Veeshan/accursed-sanctum-raid.md) | Raid |
+| [High Keep [Heroic]](_Exp_10_Tears_of_Veeshan/high-keep-heroic.md) | Heroic |
+| [High Keep: Pickclaw Depths [Heroic]](_Exp_10_Tears_of_Veeshan/high-keep-pickclaw-depths-heroic.md) | Heroic |
+| [Izshrash'Khar [Heroic]](_Exp_10_Tears_of_Veeshan/izshrashkhar-heroic.md) | Heroic |
+| [Temple of Veeshan: Guardian's Edifice [Raid]](_Exp_10_Tears_of_Veeshan/temple-of-veeshan-guardians-edifice-raid.md) | Raid |
+| [Temple of Veeshan: Halls of the Betrayer [Heroic]](_Exp_10_Tears_of_Veeshan/temple-of-veeshan-halls-of-the-betrayer-heroic.md) | Heroic |
+| [Temple of Veeshan: Laboratory of Mutation [Heroic]](_Exp_10_Tears_of_Veeshan/temple-of-veeshan-laboratory-of-mutation-heroic.md) | Heroic |
+| [Temple of Veeshan: The Dreadscale's Maw [Raid]](_Exp_10_Tears_of_Veeshan/temple-of-veeshan-the-dreadscales-maw-raid.md) | Raid |
+| [Temple of Veeshan: Vulak's Dominion [Heroic]](_Exp_10_Tears_of_Veeshan/temple-of-veeshan-vulaks-dominion-heroic.md) | Heroic |
+| [The Fabled Deathtoll [Raid]](_Exp_10_Tears_of_Veeshan/the-fabled-deathtoll-raid.md) | Raid |
+| [The Fabled Djinn Master's Prism [Raid]](_Exp_10_Tears_of_Veeshan/the-fabled-djinn-masters-prism-raid.md) | Raid |
+| [The Fabled Laboratory of Lord Vyemm [Raid]](_Exp_10_Tears_of_Veeshan/the-fabled-laboratory-of-lord-vyemm-raid.md) | Raid |
+| [The Fabled Mutagenic Outcast [Raid]](_Exp_10_Tears_of_Veeshan/the-fabled-mutagenic-outcast-raid.md) | Raid |
+| [The Fabled Pedestal of Sky [Raid]](_Exp_10_Tears_of_Veeshan/the-fabled-pedestal-of-sky-raid.md) | Raid |
+| [The Fabled Three Princes [Raid]](_Exp_10_Tears_of_Veeshan/the-fabled-three-princes-raid.md) | Raid |
+| [The Nexus Core [Heroic]](_Exp_10_Tears_of_Veeshan/the-nexus-core-heroic.md) | Heroic |
 
 ---
 
