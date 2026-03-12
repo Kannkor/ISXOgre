@@ -25,6 +25,7 @@ This section documents what each encounter module does, which setups are availab
 | [Tears of Veeshan (Exp 10)](#tears-of-veeshan-exp-10) | See below |
 | [Chains of Eternity (Exp 09)](#chains-of-eternity-exp-09) | See below |
 | [Destiny of Velious (Exp 07)](#destiny-of-velious-exp-07) | See below |
+| [Sentinel's Fate (Exp 06)](#sentinels-fate-exp-06) | See below |
 
 ### Rage of Cthurath (Exp 22)
 
@@ -315,6 +316,15 @@ This section documents what each encounter module does, which setups are availab
 | [Throne of Storms [Raid]](_Exp_07_Destiny_of_Velious/throne-of-storms-raid.md) | Raid |
 | [Tower of Frozen Shadow [Raid]](_Exp_07_Destiny_of_Velious/tower-of-frozen-shadow-raid.md) | Raid |
 | [Vallon's Tower [Raid]](_Exp_07_Destiny_of_Velious/vallons-tower-raid.md) | Raid |
+
+### Sentinel's Fate (Exp 06)
+
+| Zone | Type |
+|------|------|
+| [Lair of the Dragon Queen [Raid]](_Exp_06_Sentinels_Fate/lair-of-the-dragon-queen-raid.md) | Raid |
+| [Perah'Celsis' Abominable Laboratory [Raid]](_Exp_06_Sentinels_Fate/perah-celsis-abominable-laboratory-raid.md) | Raid |
+| [The Palace of Roehn Theer [Raid]](_Exp_06_Sentinels_Fate/the-palace-of-roehn-theer-raid.md) | Raid |
+| [Underfoot Depths [Raid]](_Exp_06_Sentinels_Fate/underfoot-depths-raid.md) | Raid |
 
 ---
 
