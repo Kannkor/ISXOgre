@@ -23,6 +23,7 @@ This section documents what each encounter module does, which setups are availab
 | [Terrors of Thalumbra (Exp 12)](#terrors-of-thalumbra-exp-12) | See below |
 | [Altar of Malice (Exp 11)](#altar-of-malice-exp-11) | See below |
 | [Tears of Veeshan (Exp 10)](#tears-of-veeshan-exp-10) | See below |
+| [Chains of Eternity (Exp 09)](#chains-of-eternity-exp-09) | See below |
 
 ### Rage of Cthurath (Exp 22)
 
@@ -277,6 +278,20 @@ This section documents what each encounter module does, which setups are availab
 | [The Fabled Pedestal of Sky [Raid]](_Exp_10_Tears_of_Veeshan/the-fabled-pedestal-of-sky-raid.md) | Raid |
 | [The Fabled Three Princes [Raid]](_Exp_10_Tears_of_Veeshan/the-fabled-three-princes-raid.md) | Raid |
 | [The Nexus Core [Heroic]](_Exp_10_Tears_of_Veeshan/the-nexus-core-heroic.md) | Heroic |
+
+### Chains of Eternity (Exp 09)
+
+| Zone | Type |
+|------|------|
+| [Abyssal Aqueduct [Challenge Duo]](_Exp_09_Chains_of_Eternity/abyssal-aqueduct-challenge-duo.md) | Challenge Duo |
+| [Altar of Abhorrence [Raid]](_Exp_09_Chains_of_Eternity/altar-of-abhorrence-raid.md) | Raid |
+| [Antechamber of the Automaton [Challenge Duo]](_Exp_09_Chains_of_Eternity/antechamber-of-the-automaton-challenge-duo.md) | Challenge Duo |
+| [Arena of the Gods [Raid]](_Exp_09_Chains_of_Eternity/arena-of-the-gods-raid.md) | Raid |
+| [Furnace of Ages [Challenge Duo]](_Exp_09_Chains_of_Eternity/furnace-of-ages-challenge-duo.md) | Challenge Duo |
+| [Harrow's End [Raid]](_Exp_09_Chains_of_Eternity/harrows-end-raid.md) | Raid |
+| [Siren's Grotto [Raid]](_Exp_09_Chains_of_Eternity/sirens-grotto-raid.md) | Raid |
+| [Siren's Grotto [Heroic]](_Exp_09_Chains_of_Eternity/sirens-grotto-heroic.md) | Heroic |
+| [Wurmbone's End [Raid]](_Exp_09_Chains_of_Eternity/wurmbones-end-raid.md) | Raid |
 
 ---
 
