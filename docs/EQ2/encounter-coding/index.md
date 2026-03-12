@@ -18,6 +18,7 @@ This section documents what each encounter module does, which setups are availab
 | [Reign of Shadows (Exp 17)](#reign-of-shadows-exp-17) | See below |
 | [Blood of Luclin (Exp 16)](#blood-of-luclin-exp-16) | See below |
 | [Chaos Descending (Exp 15)](#chaos-descending-exp-15) | See below |
+| [Planes of Prophecy (Exp 14)](#planes-of-prophecy-exp-14) | See below |
 
 ### Rage of Cthurath (Exp 22)
 
@@ -162,6 +163,30 @@ This section documents what each encounter module does, which setups are availab
 | [Vegarlson: Ruins of Rathe [Heroic]](_Exp_15_Chaos_Descending/vegarlson-ruins-of-rathe-heroic.md) | Heroic |
 | [Vegarlson: The Terrene Rift [Event Heroic]](_Exp_15_Chaos_Descending/vegarlson-the-terrene-rift-event-heroic.md) | Event Heroic (WIP) |
 | [Vegarlson: Upheaval [Raid]](_Exp_15_Chaos_Descending/vegarlson-upheaval-raid.md) | Raid |
+
+### Planes of Prophecy (Exp 14)
+
+| Zone | Type |
+|------|------|
+| [Plane of Disease: Infested Mesa [Event Heroic]](_Exp_14_Planes_of_Prophecy/plane-of-disease-infested-mesa-event-heroic.md) | Event Heroic |
+| [Plane of Disease: Outbreak [Heroic]](_Exp_14_Planes_of_Prophecy/plane-of-disease-outbreak-heroic.md) | Heroic |
+| [Plane of Disease: The Source [Heroic]](_Exp_14_Planes_of_Prophecy/plane-of-disease-the-source-heroic.md) | Heroic |
+| [Plane of Disease: Virulent Insurrection [Raid]](_Exp_14_Planes_of_Prophecy/plane-of-disease-virulent-insurrection-raid.md) | Raid (WIP) |
+| [Plane of Innovation: Gears in the Machine [Heroic]](_Exp_14_Planes_of_Prophecy/plane-of-innovation-gears-in-the-machine-heroic.md) | Heroic |
+| [Plane of Innovation: Masks of the Marvelous [Heroic]](_Exp_14_Planes_of_Prophecy/plane-of-innovation-masks-of-the-marvelous-heroic.md) | Heroic |
+| [Plane of Innovation: Parts not Included [Event Heroic]](_Exp_14_Planes_of_Prophecy/plane-of-innovation-parts-not-included-event-heroic.md) | Event Heroic (WIP) |
+| [Plane of Innovation: The Wasteyards [Raid]](_Exp_14_Planes_of_Prophecy/plane-of-innovation-the-wasteyards-raid.md) | Raid |
+| [Shard of Hate: Reignited Hatred [Raid]](_Exp_14_Planes_of_Prophecy/shard-of-hate-reignited-hatred-raid.md) | Raid |
+| [Shard of Hate: Utter Contempt [Heroic]](_Exp_14_Planes_of_Prophecy/shard-of-hate-utter-contempt-heroic.md) | Heroic |
+| [Solusek Ro's Tower: Citadel of the Sun [Raid]](_Exp_14_Planes_of_Prophecy/solusek-ros-tower-citadel-of-the-sun-raid.md) | Raid |
+| [Solusek Ro's Tower: Monolith of Fire [Heroic]](_Exp_14_Planes_of_Prophecy/solusek-ros-tower-monolith-of-fire-heroic.md) | Heroic |
+| [Solusek Ro's Tower: The Obsidian Core [Heroic]](_Exp_14_Planes_of_Prophecy/solusek-ros-tower-the-obsidian-core-heroic.md) | Heroic |
+| [The Fabled Ykesha's Inner Stronghold [Raid]](_Exp_14_Planes_of_Prophecy/the-fabled-ykeshas-inner-stronghold-raid.md) | Raid (WIP) |
+| [Torden, Bastion of Thunder: Storm Chase [Event Heroic]](_Exp_14_Planes_of_Prophecy/torden-bastion-of-thunder-storm-chase-event-heroic.md) | Event Heroic |
+| [Torden, Bastion of Thunder: Storm Surge [Raid]](_Exp_14_Planes_of_Prophecy/torden-bastion-of-thunder-storm-surge-raid.md) | Raid |
+| [Torden, Bastion of Thunder: Tower Breach [Heroic]](_Exp_14_Planes_of_Prophecy/torden-bastion-of-thunder-tower-breach-heroic.md) | Heroic |
+| [Torden, Bastion of Thunder: Winds of Change [Heroic]](_Exp_14_Planes_of_Prophecy/torden-bastion-of-thunder-winds-of-change-heroic.md) | Heroic |
+| [Zraxth's Fabled Unseen Arcanum [Heroic]](_Exp_14_Planes_of_Prophecy/zraxths-fabled-unseen-arcanum-heroic.md) | Heroic |
 
 ---
 
