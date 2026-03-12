@@ -14,6 +14,7 @@ This section documents what each encounter module does, which setups are availab
 | [Scars of Destruction (Exp 21)](#scars-of-destruction-exp-21) | See below |
 | [Ballads of Zimara (Exp 20)](#ballads-of-zimara-exp-20) | See below |
 | [Renewal of Ro (Exp 19)](#renewal-of-ro-exp-19) | See below |
+| [Visions of Vetrovia (Exp 18)](#visions-of-vetrovia-exp-18) | See below |
 | [Reign of Shadows (Exp 17)](#reign-of-shadows-exp-17) | See below |
 | [Blood of Luclin (Exp 16)](#blood-of-luclin-exp-16) | See below |
 
@@ -86,6 +87,24 @@ This section documents what each encounter module does, which setups are availab
 | [Sultan's Mahallah: Daggers Drawn [Raid]](_Exp_19_Renewal_of_Ro/sultans-mahallah-daggers-drawn-raid.md) | Raid |
 | [Takish Badlands: The Boundless Gulf [Raid]](_Exp_19_Renewal_of_Ro/takish-badlands-the-boundless-gulf-raid.md) | Raid (WIP) |
 | [Triad of Elements [Solo]](_Exp_19_Renewal_of_Ro/triad-of-elements-solo.md) | Solo (WIP) |
+
+### Visions of Vetrovia (Exp 18)
+
+| Zone | Type |
+|------|------|
+| [Castle Vacrul: Caverns of the Forsaken [Heroic II]](_Exp_18_Visions_of_Vetrovia/castle-vacrul-caverns-of-the-forsaken-heroic-ii.md) | Heroic II (WIP) |
+| [Castle Vacrul: Haunting Presence [Raid]](_Exp_18_Visions_of_Vetrovia/castle-vacrul-haunting-presence-raid.md) | Raid |
+| [Castle Vacrul: Thirst for Power [Raid]](_Exp_18_Visions_of_Vetrovia/castle-vacrul-thirst-for-power-raid.md) | Raid |
+| [Forlorn Gist: Akashic Incursion [Raid]](_Exp_18_Visions_of_Vetrovia/forlorn-gist-akashic-incursion-raid.md) | Raid |
+| [Forlorn Gist: Emerging Deceit [Raid]](_Exp_18_Visions_of_Vetrovia/forlorn-gist-emerging-deceit-raid.md) | Raid |
+| [Karuupa Jungle: The Fading Light [Raid]](_Exp_18_Visions_of_Vetrovia/karuupa-jungle-the-fading-light-raid.md) | Raid |
+| [Mahngavi Wastes: The Engulfing Night [Raid]](_Exp_18_Visions_of_Vetrovia/mahngavi-wastes-the-engulfing-night-raid.md) | Raid |
+| [Svarni Expanse: Carrion Crag [Heroic]](_Exp_18_Visions_of_Vetrovia/svarni-expanse-carrion-crag-heroic.md) | Heroic (WIP) |
+| [The Fabled Kurn's Tower [x2 Raid]](_Exp_18_Visions_of_Vetrovia/the-fabled-kurns-tower-x2-raid.md) | x2 Raid |
+| [The Fabled Kurn's Tower: Breaching the Void [Heroic]](_Exp_18_Visions_of_Vetrovia/the-fabled-kurns-tower-breaching-the-void-heroic.md) | Heroic |
+| [The Fabled Trakanon's Lair [Raid]](_Exp_18_Visions_of_Vetrovia/the-fabled-trakanons-lair-raid.md) | Raid (WIP) |
+| [The Fabled Veeshan's Peak [Raid]](_Exp_18_Visions_of_Vetrovia/the-fabled-veeshans-peak-raid.md) | Raid |
+| [The Merchant's Den [Heroic II]](_Exp_18_Visions_of_Vetrovia/the-merchants-den-heroic-ii.md) | Heroic II |
 
 ### Reign of Shadows (Exp 17)
 
