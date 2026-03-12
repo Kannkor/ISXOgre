@@ -20,6 +20,7 @@ This section documents what each encounter module does, which setups are availab
 | [Chaos Descending (Exp 15)](#chaos-descending-exp-15) | See below |
 | [Planes of Prophecy (Exp 14)](#planes-of-prophecy-exp-14) | See below |
 | [Kunark Ascending (Exp 13)](#kunark-ascending-exp-13) | See below |
+| [Terrors of Thalumbra (Exp 12)](#terrors-of-thalumbra-exp-12) | See below |
 
 ### Rage of Cthurath (Exp 22)
 
@@ -207,6 +208,27 @@ This section documents what each encounter module does, which setups are availab
 | [Lost City of Torsis: The Spectral Market [Heroic]](_Exp_13_Kunark_Ascending/lost-city-of-torsis-the-spectral-market-heroic.md) | Heroic |
 | [Ruins of Kaesora: Ancient Xalgozian Temple [Raid]](_Exp_13_Kunark_Ascending/ruins-of-kaesora-ancient-xalgozian-temple-raid.md) | Raid (WIP) |
 | [The Ruins of Cabilis [Heroic]](_Exp_13_Kunark_Ascending/the-ruins-of-cabilis-heroic.md) | Heroic |
+
+### Terrors of Thalumbra (Exp 12)
+
+| Zone | Type |
+|------|------|
+| [Kralet Penumbra [Contested]](_Exp_12_Terrors_of_Thalumbra/kralet-penumbra-contested.md) | Contested |
+| [Kralet Penumbra: The Hive Mind [Raid]](_Exp_12_Terrors_of_Thalumbra/kralet-penumbra-the-hive-mind-raid.md) | Raid |
+| [Kralet Penumbra: The Master's Chosen [Heroic]](_Exp_12_Terrors_of_Thalumbra/kralet-penumbra-the-masters-chosen-heroic.md) | Heroic |
+| [Kralet Penumbra: Uzulu Deep [Event Heroic]](_Exp_12_Terrors_of_Thalumbra/kralet-penumbra-uzulu-deep-event-heroic.md) | Event Heroic |
+| [Maldura: Algorithm For Destruction [Heroic]](_Exp_12_Terrors_of_Thalumbra/maldura-algorithm-for-destruction-heroic.md) | Heroic |
+| [Maldura: Bar Brawl [Event Heroic]](_Exp_12_Terrors_of_Thalumbra/maldura-bar-brawl-event-heroic.md) | Event Heroic |
+| [Maldura: Bhoughbh's Folly [Raid]](_Exp_12_Terrors_of_Thalumbra/maldura-bhoughbhs-folly-raid.md) | Raid |
+| [Maldura: Forge of Ashes [Raid]](_Exp_12_Terrors_of_Thalumbra/maldura-forge-of-ashes-raid.md) | Raid |
+| [Maldura: Palace Foray [Event Heroic]](_Exp_12_Terrors_of_Thalumbra/maldura-palace-foray-event-heroic.md) | Event Heroic |
+| [Scourge Keep [Heroic]](_Exp_12_Terrors_of_Thalumbra/scourge-keep-heroic.md) | Heroic |
+| [Stygian Threshold [Heroic]](_Exp_12_Terrors_of_Thalumbra/stygian-threshold-heroic.md) | Heroic |
+| [Stygian Threshold: Edge of Underfoot [Raid]](_Exp_12_Terrors_of_Thalumbra/stygian-threshold-edge-of-underfoot-raid.md) | Raid |
+| [Stygian Threshold: The Howling Gateway [Event Heroic]](_Exp_12_Terrors_of_Thalumbra/stygian-threshold-the-howling-gateway-event-heroic.md) | Event Heroic |
+| [The Fabled Antechamber of Fate [Raid]](_Exp_12_Terrors_of_Thalumbra/the-fabled-antechamber-of-fate-raid.md) | Raid |
+| [The Fabled Nizara, City of the Nayad [Heroic]](_Exp_12_Terrors_of_Thalumbra/the-fabled-nizara-city-of-the-nayad-heroic.md) | Heroic |
+| [Zek, the Scourge Wastes: The Siege [Raid]](_Exp_12_Terrors_of_Thalumbra/zek-the-scourge-wastes-the-siege-raid.md) | Raid |
 
 ---
 

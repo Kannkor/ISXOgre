@@ -241,6 +241,23 @@ nav:
         - Lost City of Torsis - The Spectral Market [Heroic]: EQ2/encounter-coding/_Exp_13_Kunark_Ascending/lost-city-of-torsis-the-spectral-market-heroic.md
         - Ruins of Kaesora - Ancient Xalgozian Temple [Raid]: EQ2/encounter-coding/_Exp_13_Kunark_Ascending/ruins-of-kaesora-ancient-xalgozian-temple-raid.md
         - The Ruins of Cabilis [Heroic]: EQ2/encounter-coding/_Exp_13_Kunark_Ascending/the-ruins-of-cabilis-heroic.md
+      - Terrors of Thalumbra:
+        - Kralet Penumbra [Contested]: EQ2/encounter-coding/_Exp_12_Terrors_of_Thalumbra/kralet-penumbra-contested.md
+        - Kralet Penumbra - The Hive Mind [Raid]: EQ2/encounter-coding/_Exp_12_Terrors_of_Thalumbra/kralet-penumbra-the-hive-mind-raid.md
+        - Kralet Penumbra - The Master's Chosen [Heroic]: EQ2/encounter-coding/_Exp_12_Terrors_of_Thalumbra/kralet-penumbra-the-masters-chosen-heroic.md
+        - Kralet Penumbra - Uzulu Deep [Event Heroic]: EQ2/encounter-coding/_Exp_12_Terrors_of_Thalumbra/kralet-penumbra-uzulu-deep-event-heroic.md
+        - Maldura - Algorithm For Destruction [Heroic]: EQ2/encounter-coding/_Exp_12_Terrors_of_Thalumbra/maldura-algorithm-for-destruction-heroic.md
+        - Maldura - Bar Brawl [Event Heroic]: EQ2/encounter-coding/_Exp_12_Terrors_of_Thalumbra/maldura-bar-brawl-event-heroic.md
+        - Maldura - Bhoughbh's Folly [Raid]: EQ2/encounter-coding/_Exp_12_Terrors_of_Thalumbra/maldura-bhoughbhs-folly-raid.md
+        - Maldura - Forge of Ashes [Raid]: EQ2/encounter-coding/_Exp_12_Terrors_of_Thalumbra/maldura-forge-of-ashes-raid.md
+        - Maldura - Palace Foray [Event Heroic]: EQ2/encounter-coding/_Exp_12_Terrors_of_Thalumbra/maldura-palace-foray-event-heroic.md
+        - Scourge Keep [Heroic]: EQ2/encounter-coding/_Exp_12_Terrors_of_Thalumbra/scourge-keep-heroic.md
+        - Stygian Threshold [Heroic]: EQ2/encounter-coding/_Exp_12_Terrors_of_Thalumbra/stygian-threshold-heroic.md
+        - Stygian Threshold - Edge of Underfoot [Raid]: EQ2/encounter-coding/_Exp_12_Terrors_of_Thalumbra/stygian-threshold-edge-of-underfoot-raid.md
+        - Stygian Threshold - The Howling Gateway [Event Heroic]: EQ2/encounter-coding/_Exp_12_Terrors_of_Thalumbra/stygian-threshold-the-howling-gateway-event-heroic.md
+        - The Fabled Antechamber of Fate [Raid]: EQ2/encounter-coding/_Exp_12_Terrors_of_Thalumbra/the-fabled-antechamber-of-fate-raid.md
+        - The Fabled Nizara, City of the Nayad [Heroic]: EQ2/encounter-coding/_Exp_12_Terrors_of_Thalumbra/the-fabled-nizara-city-of-the-nayad-heroic.md
+        - Zek, the Scourge Wastes - The Siege [Raid]: EQ2/encounter-coding/_Exp_12_Terrors_of_Thalumbra/zek-the-scourge-wastes-the-siege-raid.md
       - Chaos Descending:
         - Awuidor - The Adumbral Depths [Contested Raid]: EQ2/encounter-coding/_Exp_15_Chaos_Descending/awuidor-the-adumbral-depths-contested-raid.md
         - Castle Mischief [Raid]: EQ2/encounter-coding/_Exp_15_Chaos_Descending/castle-mischief-raid.md
