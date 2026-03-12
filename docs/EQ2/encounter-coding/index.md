@@ -27,6 +27,7 @@ This section documents what each encounter module does, which setups are availab
 | [Destiny of Velious (Exp 07)](#destiny-of-velious-exp-07) | See below |
 | [Sentinel's Fate (Exp 06)](#sentinels-fate-exp-06) | See below |
 | [The Shadow Odyssey (Exp 05)](#the-shadow-odyssey-exp-05) | See below |
+| [Rise of Kunark (Exp 04)](#rise-of-kunark-exp-04) | See below |
 
 ### Rage of Cthurath (Exp 22)
 
@@ -336,6 +337,14 @@ This section documents what each encounter module does, which setups are availab
 | [Tomb of the Mad Crusader [Raid]](_Exp_05_The_Shadow_Odyssey/tomb-of-the-mad-crusader-raid.md) | Raid |
 | [Ykesha's Inner Stronghold [Raid]](_Exp_05_The_Shadow_Odyssey/ykeshas-inner-stronghold-raid.md) | Raid |
 | [Zarrakon's Abyssal Chamber [Raid]](_Exp_05_The_Shadow_Odyssey/zarrakons-abyssal-chamber-raid.md) | Raid |
+
+### Rise of Kunark (Exp 04)
+
+| Zone | Type |
+|------|------|
+| [Shard of Hate [Raid]](_Exp_04_Rise_of_Kunark/shard-of-hate-raid.md) | Raid |
+| [Trakanon's Lair [Raid]](_Exp_04_Rise_of_Kunark/trakanons-lair-raid.md) | Raid |
+| [Zraxth's Unseen Arcanum [Raid]](_Exp_04_Rise_of_Kunark/zraxths-unseen-arcanum-raid.md) | Raid |
 
 ---
 
