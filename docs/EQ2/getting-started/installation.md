@@ -4,6 +4,22 @@ This guide walks you through installing and running OgreBot for the first time, 
 
 ---
 
+## Table of Contents
+
+- [Prerequisites](#prerequisites)
+- [Step 1: Download ISXOgre](#step-1-download-isxogre)
+- [Step 2: Load ISXOgre](#step-2-load-isxogre)
+- [Step 3: Authenticate](#step-3-authenticate)
+- [Step 4: Initial Download](#step-4-initial-download)
+- [Step 5: Run OgreBot](#step-5-run-ogrebot)
+- [Step 6: Export Your Abilities](#step-6-export-your-abilities)
+- [Step 7: Open the OgreBot UI](#step-7-open-the-ogrebot-ui)
+- [Step 8: Set Up EQ2Chars](#step-8-set-up-eq2chars)
+- [Step 9: Reload and Go](#step-9-reload-and-go)
+- [Next Steps](#next-steps)
+
+---
+
 ## Prerequisites
 
 Before you begin, make sure you have:
