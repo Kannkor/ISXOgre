@@ -1,12 +1,12 @@
 # Detrimentals System
 
-ISXOgre provides a built-in detrimental monitoring system that caches your current detrimentals, fires events when they change, and offers TLO access for querying detrimental data — including full JSON output.
+ISXOgre provides a built-in detrimental monitoring system that caches your current detrimentals, fires events when they change, and offers TLO access for querying detrimental data — including full JSON output. You can also query detrimentals on other actors (mobs, NPCs, other players) via live lookups.
 
 ---
 
 ## Events
 
-Three events fire automatically when your detrimentals change:
+Three events fire automatically when **your** detrimentals change (self only — events do not fire for other actors):
 
 | Event | When It Fires |
 |-------|---------------|
@@ -88,20 +88,35 @@ objectdef Object_EventTest
 
 ---
 
+## Named Parameters
+
+Both `DetrimentalInfo` and `DetrimentalInfo_JSON` support named parameters after the required `backdropID` and `mainIconID`. Each flag is a separate comma-separated parameter.
+
+| Flag | Value | Description |
+|------|-------|-------------|
+| `-actorID` | Actor ID (int64) | Query effects on another actor instead of self. Pass `0` or omit for self. |
+| `-maxEffects` | Count (int) | Maximum number of effects to scan. Default: all for self, 7 for other actors. |
+| `-ExtraFields` | *(no value)* | _(JSON only)_ Include extended fields from the game server. |
+
+---
+
 ## TLO Members
 
 ### DetrimentalInfo
 
-Query a specific cached detrimental field by BackDropIconID and MainIconID.
+Query a specific detrimental field by BackDropIconID and MainIconID.
 
-**Syntax:** `${ISXOgre.DetrimentalInfo[backdropID, mainIconID, actorID, returnField]}`
+**Syntax:** `${ISXOgre.DetrimentalInfo[backdropID, mainIconID, returnField]}`
+
+With named parameters:
+
+`${ISXOgre.DetrimentalInfo[backdropID, mainIconID, -actorID, ${ActorID}, -maxEffects, 10, returnField]}`
 
 | Parameter | Required | Default | Description |
 |-----------|----------|---------|-------------|
 | `backdropID` | Yes | — | BackDropIconID of the detrimental |
 | `mainIconID` | Yes | — | MainIconID of the detrimental |
-| `actorID` | No | `0` | Actor ID. Currently only supports `0` or `${Me.ID}` (both mean self). Does **not** work on other actors at this time. |
-| `returnField` | No | `exists` | Field to return (see table below) |
+| `returnField` | No | `exists` | Field to return (see table below). Must be the **last** parameter. |
 
 **Return Fields:**
 
@@ -112,33 +127,47 @@ Query a specific cached detrimental field by BackDropIconID and MainIconID.
 | `backdropiconid` | BackDropIconID |
 | `mainiconid` | MainIconID |
 | `currentincrements` | Current increment count |
-| `duration` | Remaining duration |
-| `maxduration` | Maximum duration |
+| `duration` | Remaining duration (self only — returns 0 for other actors) |
+| `maxduration` | Maximum duration (self only — returns 0 for other actors) |
 
 **Return Type:** `int64`
 
-**Example:**
+**Examples:**
 ```
-; Check if a specific detrimental exists
+; Check if a specific detrimental exists on you
 if ${ISXOgre.DetrimentalInfo[315,193]}
 {
-    echo Detrimental exists! Duration: ${ISXOgre.DetrimentalInfo[315,193,0,duration]}
+    echo Detrimental exists! Duration: ${ISXOgre.DetrimentalInfo[315,193,duration]}
 }
+
+; Check if a detrimental exists on another actor
+if ${ISXOgre.DetrimentalInfo[315,193,-actorID,${Target.ID},exists]}
+{
+    echo Target has the detrimental!
+}
+
+; Query with a custom max scan depth
+echo ${ISXOgre.DetrimentalInfo[315,193,-actorID,${Target.ID},-maxEffects,15,currentincrements]}
 ```
 
 ---
 
 ### DetrimentalInfo_JSON
 
-Get detrimental data as JSON. Supports three modes depending on the parameters provided.
-
-#### Mode 1: All Detrimentals (No Parameters)
-
-Returns all cached detrimentals as a JSON array.
+Get detrimental data as JSON.
 
 **Syntax:** `${ISXOgre.DetrimentalInfo_JSON~}`
 
-**Example:**
+With parameters:
+
+`${ISXOgre.DetrimentalInfo_JSON[backdropID, mainIconID, -actorID, ${ActorID}, -maxEffects, 10, -ExtraFields]~}`
+
+All named parameters are optional.
+
+#### Get All Detrimentals (No Parameters)
+
+Returns all cached detrimentals on yourself as a JSON array.
+
 ```
 variable jsonvalueref jvDetInfo="${ISXOgre.DetrimentalInfo_JSON~}"
 echo ALL: ${jvDetInfo.AsJSON}
@@ -153,13 +182,10 @@ ALL: [{"ID":99834,"BackDropIconID":315,"MainIconID":186,"CurrentIncrements":0,"D
 First det duration: 67.000000
 ```
 
-#### Mode 2: Specific Detrimental (Cached Fields Only)
+#### Get a Specific Detrimental
 
 Returns a single detrimental matching the given BackDropIconID and MainIconID.
 
-**Syntax:** `${ISXOgre.DetrimentalInfo_JSON[backdropID, mainIconID]~}`
-
-**Example:**
 ```
 variable jsonvalueref jvDetInfo1="${ISXOgre.DetrimentalInfo_JSON[315,193]~}"
 echo Specific: ${jvDetInfo1.AsJSON}
@@ -172,15 +198,12 @@ Specific: {"ID":99857,"BackDropIconID":315,"MainIconID":193,"CurrentIncrements":
 Duration: 34.000000
 ```
 
-#### Mode 3: Specific Detrimental with Extended Fields
+#### With Extended Fields
 
-Pass `TRUE` as the third parameter to include additional fields that are queried live from the game server.
+Pass `-ExtraFields` to include additional fields queried live from the game server.
 
-**Syntax:** `${ISXOgre.DetrimentalInfo_JSON[backdropID, mainIconID, TRUE]~}`
-
-**Example:**
 ```
-variable jsonvalueref jvDetInfo2="${ISXOgre.DetrimentalInfo_JSON[315,193,TRUE]~}"
+variable jsonvalueref jvDetInfo2="${ISXOgre.DetrimentalInfo_JSON[315,193,-ExtraFields]~}"
 echo Extended: ${jvDetInfo2.AsJSON}
 echo Name: ${jvDetInfo2.Get["Name"]}
 echo Description: ${jvDetInfo2.Get["Description"]}
@@ -193,20 +216,39 @@ Name: Deny VII
 Description: An impairment that decreases the target's strength and intelligence.
 ```
 
+#### Querying Another Actor
+
+Use `-actorID` to query effects on a mob, NPC, or another player.
+
+```
+; Get all effects on target (scans up to 7 by default)
+variable jsonvalueref jvTargetEffects="${ISXOgre.DetrimentalInfo_JSON[0,0,-actorID,${Target.ID}]~}"
+echo Target effects: ${jvTargetEffects.AsJSON}
+
+; Get a specific effect on target with extra fields
+variable jsonvalueref jvTargetDet="${ISXOgre.DetrimentalInfo_JSON[315,193,-actorID,${Target.ID},-ExtraFields]~}"
+echo ${jvTargetDet.Get["Name"]}
+
+; Increase scan depth to check more effects
+variable jsonvalueref jvDeep="${ISXOgre.DetrimentalInfo_JSON[0,0,-actorID,${Target.ID},-maxEffects,20]~}"
+```
+
+> **Note:** When querying other actors, `Duration` and `MaxDuration` will always be `0.0` because the game does not expose duration data for effects on other actors.
+
+> **Note:** The default max effects scanned is 7 for other actors (to limit performance impact). Use `-maxEffects` to increase or decrease this limit. For self, all detrimentals are scanned by default.
+
 **Extended Fields:**
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `Name` | string | Name of the spell/effect |
+| Field | JSON Type | Description |
+|-------|-----------|-------------|
+| `Name` | string | Spell/effect name |
 | `Description` | string | Full description text |
-| `Type` | string | Effect type (e.g., "Detrimental") |
-| `UsesRemaining` | int | Uses remaining (-1 if unlimited) |
-| `NumEffectStrings` | int | Number of effect strings |
-| `EffectStrings` | array | Array of effect description strings |
+| `Type` | string | Effect type classification |
+| `UsesRemaining` | number (int) | Remaining uses (-1 = unlimited) |
+| `NumEffectStrings` | number (int) | Count of effect strings |
+| `EffectStrings` | array of strings | Individual effect descriptions |
 
-> **:warning: Warning**
->
-> The extended fields (`Name`, `Description`, `Type`, etc.) are queried live from the game server via ISXEQ2. On the first call, these fields may return empty because the server has not yet responded with the data. Simply call again after a moment and the fields will be populated.
+> **Note:** The extended fields (`Name`, `Description`, `Type`, etc.) are queried live from the game server via ISXEQ2. On the first call, these fields may return empty because the server has not yet responded with the data. Simply call again after a moment and the fields will be populated.
 
 ---
 
@@ -237,9 +279,7 @@ ISXOgre:Set_DetrimentalScanTime[250]
 ISXOgre:Set_DetrimentalScanTime[1000]
 ```
 
-> **:memo: Note**
->
-> If a value outside the 100–5000 range is provided, an error message will be displayed in the console and the scan time will not be changed.
+> **Note:** If a value outside the 100-5000 range is provided, an error message will be displayed in the console and the scan time will not be changed.
 
 ---
 
@@ -255,12 +295,12 @@ These fields are updated every scan cycle and are always present in JSON output.
 | `BackDropIconID` | number (int) | Backdrop icon identifier |
 | `MainIconID` | number (int) | Main icon identifier |
 | `CurrentIncrements` | number (int) | Current increment count |
-| `Duration` | number (int) | Remaining duration in seconds |
-| `MaxDuration` | number (int) | Maximum duration in seconds |
+| `Duration` | number (int) | Remaining duration in seconds (self only — 0 for other actors) |
+| `MaxDuration` | number (int) | Maximum duration in seconds (self only — 0 for other actors) |
 
-### Extended Fields (TRUE Parameter Only)
+### Extended Fields (-ExtraFields Only)
 
-These fields require a live server query and are only included when `TRUE` is passed as the third parameter to `DetrimentalInfo_JSON`.
+These fields require a live server query and are only included when `-ExtraFields` is passed to `DetrimentalInfo_JSON`.
 
 | Field | JSON Type | Description |
 |-------|-----------|-------------|
@@ -270,3 +310,15 @@ These fields require a live server query and are only included when `TRUE` is pa
 | `UsesRemaining` | number (int) | Remaining uses (-1 = unlimited) |
 | `NumEffectStrings` | number (int) | Count of effect strings |
 | `EffectStrings` | array of strings | Individual effect descriptions |
+
+---
+
+## Self vs Actor Queries
+
+| Feature | Self (actorID=0) | Other Actors |
+|---------|-------------------|--------------|
+| Data source | Cached (updated every scan cycle) | Live query (on demand) |
+| Events | Yes | No |
+| Duration / MaxDuration | Available | Always 0 |
+| Default max effects | All | 7 |
+| Performance | Fast (cached) | Slower (live DataParse calls) |
