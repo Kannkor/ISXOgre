@@ -90,7 +90,7 @@ objectdef Object_EventTest
 
 ## Named Parameters
 
-Both `DetrimentalInfo` and `DetrimentalInfo_JSON` support named parameters after the required `backdropID` and `mainIconID`. Each flag is a separate comma-separated parameter.
+Both `DetrimentalInfo` and `DetrimentalInfo_JSON` support named parameters after the required `mainIconID` and `backdropID`. Each flag is a separate comma-separated parameter.
 
 | Flag | Value | Description |
 |------|-------|-------------|
@@ -104,18 +104,18 @@ Both `DetrimentalInfo` and `DetrimentalInfo_JSON` support named parameters after
 
 ### DetrimentalInfo
 
-Query a specific detrimental field by BackDropIconID and MainIconID.
+Query a specific detrimental field by MainIconID and BackDropIconID.
 
-**Syntax:** `${ISXOgre.DetrimentalInfo[backdropID, mainIconID, returnField]}`
+**Syntax:** `${ISXOgre.DetrimentalInfo[mainIconID, backdropID, returnField]}`
 
 With named parameters:
 
-`${ISXOgre.DetrimentalInfo[backdropID, mainIconID, -actorID, ${ActorID}, -maxEffects, 10, returnField]}`
+`${ISXOgre.DetrimentalInfo[mainIconID, backdropID, -actorID, ${ActorID}, -maxEffects, 10, returnField]}`
 
 | Parameter | Required | Default | Description |
 |-----------|----------|---------|-------------|
-| `backdropID` | Yes | — | BackDropIconID of the detrimental |
 | `mainIconID` | Yes | — | MainIconID of the detrimental |
+| `backdropID` | Yes | — | BackDropIconID of the detrimental |
 | `returnField` | No | `exists` | Field to return (see table below). Must be the **last** parameter. |
 
 **Return Fields:**
@@ -135,19 +135,19 @@ With named parameters:
 **Examples:**
 ```
 ; Check if a specific detrimental exists on you
-if ${ISXOgre.DetrimentalInfo[315,193]}
+if ${ISXOgre.DetrimentalInfo[193,315]}
 {
-    echo Detrimental exists! Duration: ${ISXOgre.DetrimentalInfo[315,193,duration]}
+    echo Detrimental exists! Duration: ${ISXOgre.DetrimentalInfo[193,315,duration]}
 }
 
 ; Check if a detrimental exists on another actor
-if ${ISXOgre.DetrimentalInfo[315,193,-actorID,${Target.ID},exists]}
+if ${ISXOgre.DetrimentalInfo[193,315,-actorID,${Target.ID},exists]}
 {
     echo Target has the detrimental!
 }
 
 ; Query with a custom max scan depth
-echo ${ISXOgre.DetrimentalInfo[315,193,-actorID,${Target.ID},-maxEffects,15,currentincrements]}
+echo ${ISXOgre.DetrimentalInfo[193,315,-actorID,${Target.ID},-maxEffects,15,currentincrements]}
 ```
 
 ---
@@ -160,7 +160,7 @@ Get detrimental data as JSON.
 
 With parameters:
 
-`${ISXOgre.DetrimentalInfo_JSON[backdropID, mainIconID, -actorID, ${ActorID}, -maxEffects, 10, -ExtraFields]~}`
+`${ISXOgre.DetrimentalInfo_JSON[mainIconID, backdropID, -actorID, ${ActorID}, -maxEffects, 10, -ExtraFields]~}`
 
 All named parameters are optional.
 
@@ -184,10 +184,10 @@ First det duration: 67.000000
 
 #### Get a Specific Detrimental
 
-Returns a single detrimental matching the given BackDropIconID and MainIconID.
+Returns a single detrimental matching the given MainIconID and BackDropIconID.
 
 ```
-variable jsonvalueref jvDetInfo1="${ISXOgre.DetrimentalInfo_JSON[315,193]~}"
+variable jsonvalueref jvDetInfo1="${ISXOgre.DetrimentalInfo_JSON[193,315]~}"
 echo Specific: ${jvDetInfo1.AsJSON}
 echo Duration: ${jvDetInfo1.Get["Duration"]}
 ```
@@ -203,7 +203,7 @@ Duration: 34.000000
 Pass `-ExtraFields` to include additional fields queried live from the game server.
 
 ```
-variable jsonvalueref jvDetInfo2="${ISXOgre.DetrimentalInfo_JSON[315,193,-ExtraFields]~}"
+variable jsonvalueref jvDetInfo2="${ISXOgre.DetrimentalInfo_JSON[193,315,-ExtraFields]~}"
 echo Extended: ${jvDetInfo2.AsJSON}
 echo Name: ${jvDetInfo2.Get["Name"]}
 echo Description: ${jvDetInfo2.Get["Description"]}
@@ -226,7 +226,7 @@ variable jsonvalueref jvTargetEffects="${ISXOgre.DetrimentalInfo_JSON[0,0,-actor
 echo Target effects: ${jvTargetEffects.AsJSON}
 
 ; Get a specific effect on target with extra fields
-variable jsonvalueref jvTargetDet="${ISXOgre.DetrimentalInfo_JSON[315,193,-actorID,${Target.ID},-ExtraFields]~}"
+variable jsonvalueref jvTargetDet="${ISXOgre.DetrimentalInfo_JSON[193,315,-actorID,${Target.ID},-ExtraFields]~}"
 echo ${jvTargetDet.Get["Name"]}
 
 ; Increase scan depth to check more effects
