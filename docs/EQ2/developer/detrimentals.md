@@ -129,6 +129,7 @@ With named parameters:
 | `currentincrements` | Current increment count |
 | `duration` | Remaining duration (self only — returns 0 for other actors) |
 | `maxduration` | Maximum duration (self only — returns 0 for other actors) |
+| `cancel` | Cancels the detrimental on self. Returns nothing. |
 
 **Return Type:** `int64`
 
@@ -149,6 +150,22 @@ if ${ISXOgre.DetrimentalInfo[193,315,-actorID,${Target.ID},exists]}
 ; Query with a custom max scan depth
 echo ${ISXOgre.DetrimentalInfo[193,315,-actorID,${Target.ID},-maxEffects,15,currentincrements]}
 ```
+
+---
+
+### DetrimentalCancel
+
+Cancel a detrimental on yourself by MainIconID and BackDropIconID.
+
+**Syntax:** `ISXOgre:DetrimentalCancel[mainIconID, backdropID]`
+
+**Example:**
+```
+; Cancel a specific detrimental
+ISXOgre:DetrimentalCancel[193,315]
+```
+
+> **Note:** You can also cancel via `DetrimentalInfo` by passing `cancel` as the return field: `${ISXOgre.DetrimentalInfo[193,315,cancel]}`. This returns nothing but attempts the cancel.
 
 ---
 
