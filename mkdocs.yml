@@ -363,6 +363,7 @@ nav:
       - OgreCraftAPI Reference: EQ2/developer/ogrecraft-api.md
       - CampSpot System: EQ2/developer/camp-spot.md
       - Detrimentals System: EQ2/developer/detrimentals.md
+      - OgreEvents: EQ2/developer/ogre-events.md
       - Coding Practices: EQ2/developer/coding-practices.md
     - Community:
       - Contact: EQ2/community/contact.md
