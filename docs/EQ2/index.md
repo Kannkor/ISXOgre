@@ -10,6 +10,7 @@ Welcome to the EQ2 section of ISXOgre documentation. Here you'll find everything
 
 - [Why OgreBot?](getting-started/why-ogrebot.md) - What makes OgreBot the best choice
 - [Pricing](about/pricing.md) - Subscription information
+- [Cancel Subscription](about/cancel-subscription.md) - How to cancel your subscription
 - [Installation](getting-started/installation.md) - Get up and running
 - [First Run](getting-started/first-run.md) - Loading OgreBot for the first time
 - [FAQ](getting-started/faq.md) - Frequently asked questions
