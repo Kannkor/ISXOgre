@@ -42,6 +42,10 @@ Welcome to the EQ2 section of ISXOgre documentation. Here you'll find everything
 - [OgreIRC](community/ogreirc.md) - IRC bridge for cross-player bot control
 - [Contact](community/contact.md) - How to reach us
 
+### EQ2 Info
+
+- [Orange Shinys](eq2-info/_Exp_22_Rage_of_Cthurath/orange-shinys.md) - Orange shiny loot drops by mob and zone (Rage of Cthurath)
+
 ### About
 
 - [Changelog](about/changelog.md) - Version history and patch notes

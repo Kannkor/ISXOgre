@@ -111,6 +111,9 @@ nav:
       - Collection Manager: EQ2/tools/collection-manager.md
       - Auto Login: EQ2/tools/auto-login.md
       - OgreMapper: EQ2/tools/ogre-mapper.md
+    - EQ2 Info:
+        - Rage of Cthurath:
+          - Orange Shinys: EQ2/eq2-info/_Exp_22_Rage_of_Cthurath/orange-shinys.md
     - Encounter Coding:
       - EQ2/encounter-coding/index.md
       - Rage of Cthurath:
