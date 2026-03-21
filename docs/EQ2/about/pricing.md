@@ -4,6 +4,17 @@ ISXOgre is available as a subscription that includes both OgreBot and OgreCraft.
 
 ---
 
+## Table of Contents
+
+- [Subscription Plan](#subscription-plan)
+- [What Is Included](#what-is-included)
+- [What Is NOT Included](#what-is-not-included)
+- [Prerequisites](#prerequisites)
+- [How to Subscribe](#how-to-subscribe)
+- [How to Cancel](cancel-subscription.md)
+
+---
+
 ## Subscription Plan
 
 ### Ogre Combo Pack (OgreBot + OgreCraft)
