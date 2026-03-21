@@ -118,7 +118,7 @@ With named parameters:
 | `backdropID` | Yes | — | BackDropIconID of the detrimental |
 | `returnField` | No | `exists` | Field to return (see table below). Must be the **last** parameter. |
 
-**Return Fields:**
+**Return Fields (int64):**
 
 | Field | Description |
 |-------|-------------|
@@ -131,7 +131,18 @@ With named parameters:
 | `maxduration` | Maximum duration (self only — returns 0 for other actors) |
 | `cancel` | Cancels the detrimental on self. Returns nothing. |
 
-**Return Type:** `int64`
+**Return Fields (string):**
+
+These fields are queried live from the game server via ToEffectInfo. On the first call, they may return empty — call again after a moment.
+
+| Field | Description |
+|-------|-------------|
+| `Name` | Spell/effect name |
+| `Description` | Full description text |
+| `Type` | Effect type classification (e.g., "Detrimental") |
+| `UsesRemaining` | Remaining uses (-1 = unlimited) |
+
+**Return Type:** `int64` for numeric fields, `string` for extended fields
 
 **Examples:**
 ```
@@ -149,6 +160,9 @@ if ${ISXOgre.DetrimentalInfo[193,315,-actorID,${Target.ID},exists]}
 
 ; Query with a custom max scan depth
 echo ${ISXOgre.DetrimentalInfo[193,315,-actorID,${Target.ID},-maxEffects,15,currentincrements]}
+
+; Get the name of a detrimental (live query, returns string)
+echo ${ISXOgre.DetrimentalInfo[193,315,Name]}
 ```
 
 ---
