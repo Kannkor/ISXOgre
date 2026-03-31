@@ -650,6 +650,10 @@ Members return values and are accessed via `${OgreBotAPI.MemberName[params]}`.
 | `Get_RaidUncurableCurses_JSON()` | jsonvalue | Raid uncurable curses as JSON | `${OgreBotAPI.Get_RaidUncurableCurses_JSON}` |
 | `Get_GroupUncurableCurses_JSON()` | jsonvalue | Group uncurable curses as JSON | `${OgreBotAPI.Get_GroupUncurableCurses_JSON}` |
 | `GetFarthestGroupDistance()` | float | Distance to farthest group member | `${OgreBotAPI.GetFarthestGroupDistance}` |
+| `GetGroupIDPreferred(string _sArchetype, int _iReturnResult=1)` | int64 | Get Nth preferred group member ID by archetype, sorted by utility. [Details](preferred-group-members.md) | `${OgreBotAPI.GetGroupIDPreferred[scout,1]}` |
+| `GetGroupNamePreferred(string _sArchetype, int _iReturnResult=1)` | string | Get Nth preferred group member name by archetype, sorted by utility. [Details](preferred-group-members.md) | `${OgreBotAPI.GetGroupNamePreferred[priest,1]}` |
+| `GetRaidIDPreferred(string _sArchetype, int _iReturnResult=1)` | int64 | Get Nth preferred raid member ID by archetype, sorted by utility (falls back to group). [Details](preferred-group-members.md) | `${OgreBotAPI.GetRaidIDPreferred[fighter,1]}` |
+| `GetRaidNamePreferred(string _sArchetype, int _iReturnResult=1)` | string | Get Nth preferred raid member name by archetype, sorted by utility (falls back to group). [Details](preferred-group-members.md) | `${OgreBotAPI.GetRaidNamePreferred[mage,1]}` |
 
 ### Heroic Opportunity
 
