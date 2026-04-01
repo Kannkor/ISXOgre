@@ -112,6 +112,7 @@ nav:
       - Auto Login: EQ2/tools/auto-login.md
       - OgreMapper: EQ2/tools/ogre-mapper.md
     - EQ2 Info:
+        - 2026 March 24th Patch: EQ2/eq2-info/2026-March-24th-Patch/index.md
         - Rage of Cthurath:
           - Orange Shinys: EQ2/eq2-info/_Exp_22_Rage_of_Cthurath/orange-shinys.md
     - Encounter Coding:
