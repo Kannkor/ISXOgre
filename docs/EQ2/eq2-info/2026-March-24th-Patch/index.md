@@ -1,5 +1,9 @@
 # 2026 March 24th Patch - EverQuest2.exe Mismatch Fix
 
+> **:warning: This is no longer needed**
+>
+> This issue has been resolved. ISXEQ2 has been updated and now works with the latest version of EverQuest 2. You do not need to follow these steps. Simply run the EQ2 launchpad as normal and load your sessions as you normally would.
+
 ## Are you getting this error?
 
 **"The version of ISXEQ2 you have does not match the version of EverQuest 2 that you are running."**
