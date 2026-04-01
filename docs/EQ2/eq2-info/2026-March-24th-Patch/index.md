@@ -57,6 +57,8 @@ Make sure **all** EverQuest 2 is completely closed. It doesn't matter if it is w
 
 When you click the link above, GitHub will show you a page for the file. It **cannot** display it (it's an .exe, not text). Look for the **download button** (the downward arrow icon) near the top-right of the page and click that to download the file.
 
+![GitHub Download Button](GITHUB_DownloadButton.PNG)
+
 Save it to your EverQuest 2 directory (the one we got/saved earlier, in this example: `C:/Sony/EverQuest II/`). Make sure it saves as **EXACTLY** `EverQuest2.exe`. Make sure it doesn't try to save as `EverQuest2 (1).exe` or something similar.
 
 ---
