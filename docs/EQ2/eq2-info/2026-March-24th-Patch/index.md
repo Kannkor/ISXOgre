@@ -41,8 +41,9 @@ It will specifically start with **"Your executable"** and end with **"EverQuest2
 
 ## Step 2: STOP - Do NOT run the EQ2 launchpad
 
-!!! warning "This is very important"
-    At this time, you are **NOT** allowed to run the EverQuest 2 launchpad (their patcher) again. If you do run it, it will overwrite the file and give you a mismatch, and you will have to start this entire process over again.
+> **:warning: This is very important**
+>
+> At this time, you are **NOT** allowed to run the EverQuest 2 launchpad (their patcher) again. If you do run it, it will overwrite the file and give you a mismatch, and you will have to start this entire process over again.
 
 Make sure **all** EverQuest 2 is completely closed. It doesn't matter if it is with or without InnerSpace, etc. Close them all down. If you're not sure, restart your computer.
 
@@ -50,8 +51,9 @@ Make sure **all** EverQuest 2 is completely closed. It doesn't matter if it is w
 
 ## Step 3: Download and replace EverQuest2.exe
 
-!!! note "A quick warning"
-    Generally speaking, you should never download .EXE files, .DLL files (and a bunch of other types of files) because that's how viruses are generally shared. Since you're already using Ogre, which is a .DLL file, that means you should already trust me. That is why I am providing the file directly. You should never download these kinds of files from anyone, unless you have absolute trust in them.
+> **:warning: A quick warning**
+>
+> Generally speaking, you should never download .EXE files, .DLL files (and a bunch of other types of files) because that's how viruses are generally shared. Since you're already using Ogre, which is a .DLL file, that means you should already trust me. That is why I am providing the file directly. You should never download these kinds of files from anyone, unless you have absolute trust in them.
 
 **[Download EverQuest2.exe](EverQuest2.exe)**
 
@@ -80,8 +82,9 @@ If you failed to get it copied to the correct location, it will not work. Go bac
 
 If you got it copied over, excellent! But first, one important reminder...
 
-!!! danger "Do NOT run the EQ2 launchpad"
-    **IF YOU RUN the EverQuest 2 launchpad (the patcher), you will overwrite this file**, and get a mismatch, having to start this entire process over again. Don't do that.
+> **:warning: Do NOT run the EQ2 launchpad**
+>
+> **IF YOU RUN the EverQuest 2 launchpad (the patcher), you will overwrite this file**, and get a mismatch, having to start this entire process over again. Don't do that.
 
 Go ahead and load an EverQuest 2 session via InnerSpace/ISBoxer, however you normally do. It should work.
 
