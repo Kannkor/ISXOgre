@@ -31,6 +31,10 @@ This section documents what each encounter module does, which setups are availab
 
 ### Rage of Cthurath (Exp 22)
 
+| Resource | |
+|----------|--|
+| [Untold Heroic Resolve Levels](_Exp_22_Rage_of_Cthurath/untold-heroic-resolve-levels.md) | Reference |
+
 | Zone | Type |
 |------|------|
 | [Gerion: Ark of Ascension [Untold Heroic]](_Exp_22_Rage_of_Cthurath/gerion-ark-of-ascension-untold-heroic.md) | Untold Heroic |
