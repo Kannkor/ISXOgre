@@ -40,6 +40,9 @@ This section documents what each encounter module does, which setups are availab
 | [Gerion: Ark of Ascension [Untold Heroic]](_Exp_22_Rage_of_Cthurath/gerion-ark-of-ascension-untold-heroic.md) | Untold Heroic |
 | [Gerion: Captive Audience [Raid]](_Exp_22_Rage_of_Cthurath/gerion-captive-audience-raid.md) | Raid (WIP) |
 | [Gerion: Dominion of Pain [Untold Heroic]](_Exp_22_Rage_of_Cthurath/gerion-dominion-of-pain-untold-heroic.md) | Untold Heroic |
+| [Gerion: Realm of Conquest [Untold Heroic]](_Exp_22_Rage_of_Cthurath/gerion-realm-of-conquest-untold-heroic.md) | Untold Heroic |
+| [The Oogothl Sprawl: Adkern's Pools [Raid]](_Exp_22_Rage_of_Cthurath/the-oogothl-sprawl-adkerns-pools-raid.md) | Raid |
+| [The Oogothl Sprawl: Unseen Horrors [Raid]](_Exp_22_Rage_of_Cthurath/the-oogothl-sprawl-unseen-horrors-raid.md) | Raid |
 | [The Unknown: Edge of Oblivion [Untold Heroic]](_Exp_22_Rage_of_Cthurath/the-unknown-edge-of-oblivion-untold-heroic.md) | Untold Heroic |
 | [The Unknown: Sacrificial Pursuits [Untold Heroic]](_Exp_22_Rage_of_Cthurath/the-unknown-sacrificial-pursuits-untold-heroic.md) | Untold Heroic |
 | [Yon Gorroth: The Infinite Abyss [Raid]](_Exp_22_Rage_of_Cthurath/yon-gorroth-the-infinite-abyss-raid.md) | Raid |

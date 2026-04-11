@@ -33,8 +33,7 @@ A straightforward encounter where the tank manages spawning adds using inverter 
 - **Add monitoring** -- Tracks the number of "a heretick" adds in the encounter area
 - **Inverter usage** -- The fighter automatically uses an inverter on the boss based on add count:
     - Fewer than 3 adds: Uses inverter to spawn more
-    - 3-5 adds with any below 50% health: Uses inverter
-    - 6+ adds: Uses inverter
+    - Fewer than 6 adds with any below 50% health: Uses inverter
 - **Throttle** -- 5-second cooldown between inverter uses to prevent spam
 
 ### Player Notes
@@ -180,7 +179,7 @@ The boss moves between three locations. The module detects which location the bo
 **Leap of Doubt / Leap of Faith:**
 
 - When the boss casts Leap of Faith and is more than 25 meters away, the module moves the group to the boss's position
-- The Flag 3 priest triggers a group cure when Leap of Doubt is active and the boss is distant
+- The Flag 3 priest triggers a group cure when Leap of Doubt is active, the boss is distant, and the player has Trauma damage
 
 ### Player Notes
 
@@ -229,7 +228,7 @@ When adds spawn, fighters automatically switch between offensive and defensive s
 | Paladin | Wrath Stance | Knight's Stance |
 | Bruiser | Smoldering Fists | Bodyguard |
 
-- When **"a fortified thrall"** (offensive add) spawns, the fighter cancels their offensive stance
+- When **"a fortified thrall"** (offensive add) spawns, the fighter cancels their defensive stance
 - When **"an advancing thrall"** (defensive add) spawns, the fighter switches to defensive stance
 - 5-second cooldown between stance switches
 - A follow-up timer verifies the stance was actually applied and retries if needed
@@ -240,7 +239,7 @@ When adds spawn, fighters automatically switch between offensive and defensive s
 
 **Add Dispelling (Mages):**
 
-- Mages automatically dispel **Paragon's Protection** from fortified thrall adds
+- Mages automatically dispel **Paragon's Protection** from both fortified thrall and advancing thrall adds
 - The module scans for adds within 30 meters that have the protection buff and targets them for dispelling
 
 **Statue Mechanic:**

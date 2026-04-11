@@ -24,9 +24,14 @@ A raid encounter where Spotted Weakness must be carefully managed to prevent gro
 
 ### Requirements
 
-- No specific class requirements
+- **Fighter** (force-targets disabled during the fight)
 
 ### What the Module Does
+
+**Setup:**
+
+- Disables fighter force-targets
+- Jousts all toons out
 
 **Spotted Weakness Handling:**
 
@@ -40,6 +45,13 @@ A raid encounter where Spotted Weakness must be carefully managed to prevent gro
     - Offensive actions resume
     - The threat ignore list is cleared
     - An IRC announcement confirms the detriment has dropped
+
+**Cleanup on Kill:**
+
+- Subtle Strikes is canceled
+- Offensive actions resume
+- Fighter threat ignore list is cleared
+- Fighter force-targets are re-enabled
 
 ### Player Notes
 

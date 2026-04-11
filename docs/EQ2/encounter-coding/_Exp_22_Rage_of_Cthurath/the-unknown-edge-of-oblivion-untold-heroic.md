@@ -12,7 +12,7 @@ This zone has 5 boss encounters with OgreBot automation modules.
 | [Do'Guen](#doguen) | Do'Guen | Jousts void auras, kills darkened slashers |
 | [Scaladia Yen](#scaladia-yen) | Scaladia Yen | Auto-gathers roses, avoids Broken Heart |
 | [Carnagor](#carnagor) | Carnagor | Dispels Infernal Carnage, kills phantasms |
-| [Infernal Tyrant Dennigrah](#infernal-tyrant-dennigrah) | Infernal Tyrant Dennigrah | Kills adds, monkey formation |
+| [Infernal Tyrant Dennigrah](#infernal-tyrant-dennigrah) | Infernal Tyrant Dennigrah | Full auto with add management and curse control |
 
 ---
 
@@ -123,10 +123,19 @@ An encounter where each archetype must gather a specific type of rose to maintai
 
 - If the player has the "Broken Heart" detriment, rose gathering is suspended (prevents seeing roses and causes knockback)
 
+**Heart Bomb Avoidance:**
+
+- When heart actors spawn (Shriveled Heart, Alluring Heart, Heart of Repulsion), the group automatically moves to whichever of two positions is farther from the heart
+
+**Absorb Magic Disabled:**
+
+- Absorb Magic is disabled for mages during this encounter
+
 ### Player Notes
 
 - Fully automatic rose maintenance -- players never need to manually gather roses.
 - The module handles all four archetypes independently with the correct rose type.
+- The group repositions away from heart bombs when they spawn.
 
 ---
 
@@ -136,12 +145,12 @@ Setup is automatic when engaged. Or you can use `Obj_OgreMCP:PasteButton[SetUpFo
 
 ### Overview
 
-An encounter where the boss stacks Infernal Carnage (a Flurry buff) that must be dispelled by mages. Fractured phantasm adds also spawn.
+An encounter where the boss stacks Infernal Carnage (a Flurry buff) that must be dispelled by mages. Fractured phantasm adds also spawn. Behavior changes at Untold Tier 21+.
 
 ### Requirements
 
 - **Mage** (dispels Infernal Carnage off the boss)
-- **Fighter** (auto-targets phantasm adds)
+- **Fighter** (auto-targets phantasm adds, manages aggro at T21+)
 
 ### What the Module Does
 
@@ -154,13 +163,23 @@ An encounter where the boss stacks Infernal Carnage (a Flurry buff) that must be
 
 - Priest curse cures are disabled during this fight
 
-**Auto-Target:**
+**Auto-Target (T1-20):**
 
-- Fighters auto-target "a fractured phantasm" adds before the boss
+- All players auto-target "a fractured phantasm" adds before the boss
+
+**T21+ Changes:**
+
+- All AoEs are disabled for all players
+- Fighters auto-target both the named and phantasm adds (with keep-engaged)
+- All other players auto-target the named directly
+- If the named is below 95% HP and not targeting a fighter, the tank moves to an aggro-grab position
+- Non-fighters alert the tank to reposition if the named gets within 7 meters of them
 
 ### Player Notes
 
 - Mages handle dispelling automatically. Curse cure settings are restored when the boss dies.
+- At T21+, the tank manages aggro with repositioning. AoEs are disabled for everyone.
+- Auto-target is enabled for all players and is turned off for non-fighters when the boss dies.
 
 ---
 
@@ -170,32 +189,75 @@ Setup is automatic when engaged. Or you can use `Obj_OgreMCP:PasteButton[SetUpFo
 
 ### Overview
 
-An encounter with multiple add types where the group uses a spread formation around the boss.
+A complex encounter with multiple add types, a lethal curse tracking mechanic (Cthurath's Will), Enthralling Escapade kiting, Testament jousting, and a seeping seductions phase.
 
 ### Requirements
 
-- **Fighter** (auto-targets multiple add types)
+- **All classes** (auto-target is enabled for everyone)
+- **Priest** (manages Cure Curse based on Cthurath's Will stacks)
+- **Fighter** (intercepts Eternal Pain, manages adds)
 
 ### What the Module Does
 
-**Monkey In Middle Formation:**
+**Auto-Target (All Players):**
 
-- Sets up a spread formation at 15 meters around the tank spot so the group stays distributed around the boss
+- All players have auto-target enabled, targeting these adds before the boss:
+    - an Ebonlithe Enthraller
+    - seeping seduction
+    - an Ebonlithe Compulsor
+    - an Ebonlithe Dazzler (stops targeting below configurable HP%)
+    - an Ebonlithe Beguiler (stops targeting below configurable HP%)
+    - an Ebonlithe lamia (stops targeting below configurable HP%)
 
-**Auto-Target:**
+**Cthurath's Will Tracking:**
 
-- Fighters auto-target five different add types before the boss:
-    - Ebonlithe Enthraller
-    - Ebonlithe Dazzler
-    - Ebonlithe Beguiler
-    - Ebonlithe Compulsor
-    - Ebonlithe lamia
+- Tracks Cthurath's Will stacks across all players via cross-session events
+- Priests auto-cast Cure Curse on the player with the lowest stacks
+- Curing is suppressed when Consumer's Caress on the named reaches 6+ stacks
+- When an Enthraller is alive, the cure threshold drops to 1 stack
+- Cure curse has a 10-second cooldown between attempts
 
 **Curse Cures Disabled:**
 
-- Priest curse cures are disabled during this fight
+- Priest cure curses are disabled (the module handles cure curse timing directly)
+
+**Eternal Pain / Intercept:**
+
+- Non-fighters with Eternal Pain broadcast a request for Intercept
+- Fighters automatically cast Intercept on the affected player
+- Intercept setup is configured automatically
+
+**Enthralling Escapade Kiting:**
+
+- Players with Enthralling Escapade are assigned an Ebonlithe Enthraller add
+- The player kites the add through a set of 6 pre-defined spots, moving to the farthest spot from the add
+- When the add gets within 14 meters of the player's camp spot, they cycle to the next spot
+- Players stun nearby Enthrallers when possible
+
+**Testament to the Consumer Jousting:**
+
+- When a non-fighter is targeted by Testament, they joust to a safe spot for 6 seconds then return
+- Fighters stay in place when targeted
+
+**Seeping Seductions Phase:**
+
+- When the seeping seductions phase begins, seeping seduction adds are included in auto-target
+- After the countdown reaches 5 during the seeping window, the group moves to a safe position
+- After "They're coming down!", the module re-runs setup after 4 seconds
+
+**Configurable Variables:**
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `Tyrant_DisableCureCurse` | FALSE | Set to TRUE to disable priest auto-cure curse entirely |
+| `Tyrant_CureCurseStacks` | 2 | Cure curse when player stacks are at or below this value |
+| `Tyrant_KillAddsToHP` | 50 | HP% threshold for Dazzler/Beguiler/lamia auto-targeting |
+
+To change a variable: `oc !c -Set_Variable igw:YOURNAME Tyrant_VariableName VALUE`
 
 ### Player Notes
 
-- The group automatically spreads into a circle formation and prioritizes killing adds.
-- Curse cure settings are restored when the boss dies.
+- Auto-target is enabled for all players and is turned off for non-fighters when the boss dies.
+- Cure Curse is managed automatically by priests based on tracked stacks across the group.
+- Enthralling Escapade kiting is fully automatic -- the module moves you through safe spots.
+- The module announces configurable settings at setup time in chat.

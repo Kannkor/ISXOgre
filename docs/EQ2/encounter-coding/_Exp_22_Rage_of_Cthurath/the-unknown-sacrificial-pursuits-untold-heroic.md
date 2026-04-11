@@ -54,7 +54,7 @@ A complex encounter with colored circle mechanics and a lethal Soul Tug curse. P
 
 ### Requirements
 
-- All classes participate in circle mechanics
+- All classes participate in circle mechanics and auto-targeting
 
 ### What the Module Does
 
@@ -69,8 +69,8 @@ When a player gets one of four detriments, they are automatically moved to the m
 | Disarming Brand | Red | Emblazoned soul spark |
 | Umbral Veil | Black | Fading soul spark |
 
-- Auto-target is dynamically updated to include the matching soul spark add
-- When the detriment clears, the add is removed from auto-target
+- When a player arrives at their circle, the matching soul spark add is dynamically added to auto-target for all players (not just fighters)
+- When the detriment clears, the add is removed from auto-target for all players
 - Circle positions update every second to track moving actors
 
 **Soul Tug Handling:**
@@ -166,7 +166,7 @@ Setup is automatic when engaged. Or you can use `Obj_OgreMCP:PasteButton[SetUpFo
 
 ### Overview
 
-An encounter where the group rotates through dais positions on a timer, dispelling the boss at each new position.
+An encounter where the group rotates through dais positions on a timer, with direct dispels on the boss at each new position.
 
 ### Requirements
 
@@ -182,9 +182,9 @@ An encounter where the group rotates through dais positions on a timer, dispelli
 
 **Dispelling:**
 
-- Dispels are disabled by default to prevent accidentally resetting the boss
-- After moving to a new position and waiting for everyone to arrive, a dispel is enabled
-- Once the boss's Steleslag Link is dispelled (confirmed via chat), dispels are re-disabled
+- Dispels are disabled for the entire fight to prevent accidentally resetting the boss
+- After moving to a new position and the group arrives at camp, the module directly dispels the boss's Steleslag Link
+- Once the dispel is confirmed via chat, the module stops repeating the dispel attempt
 
 **Auto-Target:**
 

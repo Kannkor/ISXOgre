@@ -10,7 +10,7 @@
 
 | Boss | Setup Name | Description |
 |------|-----------|-------------|
-| [Benelith, Consumed Heart](#benelith-consumed-heart) | Benelith, Consumed Heart | Handles curse and aggro management (WIP) |
+| [Benelith, Consumed Heart](#benelith-consumed-heart) | Benelith | Handles curse and aggro management (WIP) |
 
 ---
 

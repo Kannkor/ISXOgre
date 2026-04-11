@@ -32,8 +32,7 @@ An encounter where the boss becomes immune with Void Bubble of Protection. Playe
 **Void Bubble Detection and Item Use:**
 
 - When the boss gains Void Bubble of Protection, a TTS "Void Protection" alert is given to fighters
-- If the player has a Voidborne Spear in inventory and does not already have the Watchful Eye debuff, the module automatically uses the item on the boss
-- Players who have already used a spear (and have the Watchful Eye debuff) are skipped -- using it again would kill them
+- If the player has a Voidborne Spear in inventory, the module automatically uses the item on the boss
 
 **Aggro Lock Handling:**
 

@@ -10,7 +10,6 @@ This zone has 5 boss encounters with OgreBot automation modules.
 |------|-----------|-------------|
 | [Bludge the Bludgeoner](#bludge-the-bludgeoner) | Bludge the Bludgeoner | Position and targeting and dispells |
 | [The Abominable Dreadarou](#the-abominable-dreadarou) | The Abominable Dreadarou | Auto target |
-| [Lu'Gul of Zob](#lugul-of-zob) | Lu'Gul of Zob | Auto-interrupt |
 | [The Orozorgon](#the-orozorgon) | Orozorgon | Auto-jousting |
 | [Senzu](#senzu) | Senzu | Turns on HOs and auto-jousting of Gaze |
 
@@ -159,24 +158,27 @@ Setup is automatic when engaged. Or you can use `Obj_OgreMCP:PasteButton[SetUpFo
 
 ### Overview
 
-A complex encounter with HO management, ring tracking, and a Grafting Gaze curse that requires precise joust positioning. The module assigns a bard/scout as the ring handler.
+A complex encounter with HO management, ring tracking, and a Grafting Gaze curse that requires precise joust positioning. The module assigns a scout as the primary ring handler, and at T41+ a mage as the secondary ring handler.
 
 ### Requirements
 
-- **Bard or Scout** (ring handler, HO starting)
-- **Fighter** (positioning)
+- **Scout** (primary ring handler, HO starting)
+- **Mage** (secondary ring handler at T41+)
 
 ### What the Module Does
 
 **HO (Heroic Opportunity) System:**
 
 - Enables HO starting, HO wheel, allow unknown target, and change target options for all
-- A bard (or first scout if no bard) is flagged as the ring handler
+- The first preferred scout is flagged as the primary ring handler (flag 1)
 
 **Ring Positioning:**
 
-- The flagged bard/scout moves to the location of the ring actor when it spawns
-- During Gaze casts, all players are moved to the raid spot; when the cast ends, they return
+- The flagged scout moves to the location of a ring actor when it spawns
+- At T41+, a second ring spawns and the first mage (flag 2) is assigned to it
+- Ring actors are sorted by actor ID for deterministic ordering across all group members
+- Camp spot pathing is disabled for flagged players so they stay precisely on the ring
+- During Gaze casts, flagged players are moved to the raid spot; when the cast ends, they return to their ring
 
 **Grafting Gaze Joust:**
 
@@ -185,10 +187,15 @@ A complex encounter with HO management, ring tracking, and a Grafting Gaze curse
 - The module assigns each cursed player to a separate joust spot
 - IRC announcements indicate which spot each player is heading to
 
+**T41+ Changes:**
+
+- Joust spots are recalculated to new positions
+- A second ring handler (first mage) is assigned
+
 **Auto-Target:**
 
-- The flagged bard/scout targets only the boss
-- All others target "eyes without a face" adds and "vein of Senzu" at various health thresholds, with the boss as fallback
+- The flagged scout targets only the boss
+- All others target "eyes without a face" adds and "vein of Senzu" at various health thresholds (55%, 35%, 25%, 15%, 10%, 5%, 0%), with the boss as fallback
 
 **Poison Pressure (on Boss):**
 
@@ -199,3 +206,4 @@ A complex encounter with HO management, ring tracking, and a Grafting Gaze curse
 
 - IRC announcements indicate joust spot assignments for Grafting Gaze.
 - HO settings are restored when the boss dies.
+- At T41+, two ring handlers are used instead of one.

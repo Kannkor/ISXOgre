@@ -160,9 +160,13 @@ An encounter where the boss builds stacks of "High Horse" that wipe the raid at 
 
 **Front/Behind Jousting:**
 
-- When the boss announces an attack "in front of her," all players move behind the boss
-- When the boss announces an attack "behind her," all players move in front
+- When the boss announces an attack "in front of her," all players move behind the boss (after a 2-second delay)
+- When the boss announces an attack "behind her," all players move in front (after a 2-second delay)
 - After 5 seconds, players return to their normal camp spots
+
+**Auto-Target:**
+
+- Fighters auto-target "a Lucanic Enforcer" adds before the boss
 
 ### Player Notes
 
@@ -203,10 +207,22 @@ A complex multi-phase encounter involving pad assignments, guillotine mechanics,
 - The module waits for Undying Authority stacks to reach 0, then requests a priest cure
 - NPC cast monitoring attempts to interrupt the Guillotine Slash cast
 
+**Guilt Bubble / Solitary Confinement:**
+
+- When a player is elevated (Y coordinate > 15), indicating they are in a cage, the module:
+    - Disables camp spot following
+    - Scans for "boss_05_sphere_guilt" (guilt bubble) actors
+    - Automatically clicks the guilt bubble to break free
+    - Returns the player to their camp spot after escaping
+
 **Conditional Curing:**
 
 - Crime and Punishment: Detected on the player, requests a mage-only cure
 - Caged Beneficials / Grave Shackles: Detected on the player, requests a priest cure
+
+**Auto-Target:**
+
+- Fighters auto-target "guilty conscience" and "Blades of Captivity" adds before the boss
 
 **Lifeblood of The Overlord:**
 

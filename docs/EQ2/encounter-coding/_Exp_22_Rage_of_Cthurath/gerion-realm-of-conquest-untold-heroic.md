@@ -92,6 +92,7 @@ A complex encounter with multiple mechanics. The named has "Bone-Bound Armor" th
 **Leveraged Strike Joust:**
 
 - Non-fighters with "Leveraged Strike" stacks at or above the threshold are jousted to a safe spot using relative camp spots
+- Fighters with "Leveraged Strike" stacks at or above the threshold are jousted to one of two joust spots (whichever is farther from the named), re-checking every 3 seconds if the named moves
 - Returns to normal position when the curse falls off
 - Default threshold is **5 stacks**, configurable per group
 
@@ -99,7 +100,7 @@ A complex encounter with multiple mechanics. The named has "Bone-Bound Armor" th
 
 - When a player receives "Grave Error", the module reads the curse description from the server
 - Checks if the player's name, subclass, and race all appear in the description
-- If the description is correct, requests an auto-cure
+- If the description is correct, requests an auto-curse (cure curse)
 - If incorrect, does nothing (curing with wrong description kills the player)
 - Priest cure curses are disabled during this fight
 
@@ -228,7 +229,7 @@ A complex encounter with two sides to the room (Lucanic and Qeynos), determined 
 - Cures and cure curses disabled for the encounter
 - All characters moved to a starting camp spot
 - Banner positions resolved to determine Lucanic vs Qeynos sides
-- Fighter auto-targets "a Lucanic Wraithlancer" (only when HP <= 99%) then the named
+- Fighter auto-targets the named
 
 **Defensive Pressure (highest priority):**
 
@@ -239,10 +240,15 @@ A complex encounter with two sides to the room (Lucanic and Qeynos), determined 
 - Re-checks every 6 seconds in case the named moves
 - When the debuff falls off, the player stays where they are (no snap-back)
 
+**Scorched Earth:**
+
+- When "You must be on the Lucanic side" or "You must be on the Qeynos side" appears, the player is moved to the correct side via relative camp spots
+- When the Scorched Earth detriment clears, relative camp spots are cleared
+
 **Tap Strength:**
 
 - When a player gets this debuff, they must be on the **same side** as the named
-- Fighter casts Bulwark of Order on first detection
+- Fighter casts Bulwark of Order repeatedly while the debuff is active (4-second cooldown)
 - The module moves the player to the camp spot on the named's side
 - Defensive Pressure takes priority -- if both are active, Defensive Pressure positioning wins
 
