@@ -46,6 +46,7 @@ Welcome to the EQ2 section of ISXOgre documentation. Here you'll find everything
 ### EQ2 Info
 
 - [Orange Shinys](eq2-info/_Exp_22_Rage_of_Cthurath/orange-shinys.md) - Orange shiny loot drops by mob and zone (Rage of Cthurath)
+- [RoC - GU - NoTrade Shinies](eq2-info/_Exp_22_Rage_of_Cthurath/roc-gu-notrade-shinies.md) - NoTrade shiny drop zones (Rage of Cthurath)
 
 ### About
 
