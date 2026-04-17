@@ -19,10 +19,10 @@
 | Lingering Essence of Death | Oogothl Sprawl: Zruul's Dominion [Solo] |
 | Lingering Essence of Disease | Oogothl Sprawl: Zruul's Dominion [Solo] |
 | Lingering Essence of Earth | Oogothl Sprawl: Zruul's Dominion [Solo] |
-| Medal of Military Battlespace | No Data |
+| Medal of Military Battlespace | Gerion: Realm of Conquest [Heroic] |
 | Medal of Military Dominance | Gerion: Realm of Conquest [Heroic] |
 | Medal of Military Might | Gerion: Realm of Conquest [Heroic] |
-| Mutilated Head | No Data |
+| Mutilated Head | Zon Zobboz: The Oculeum [Heroic] |
 | Mutilated Torso | Zon Zobboz: The Oculeum [Heroic] |
 | Nullite Eyeball | Zon Zobboz: The Oculeum [Solo] |
 | Obliviwrought Fang | The Unknown: The Obliviwrought Conclusion [Solo] |
