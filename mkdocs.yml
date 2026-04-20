@@ -110,6 +110,7 @@ nav:
       - Inventory Manager: EQ2/tools/inventory-manager.md
       - Collection Manager: EQ2/tools/collection-manager.md
       - Auto Login: EQ2/tools/auto-login.md
+      - IRC Remote Commands: EQ2/tools/irc-remote-commands.md
       - OgreMapper: EQ2/tools/ogre-mapper.md
     - EQ2 Info:
         - 2026 March 24th Patch: EQ2/eq2-info/2026-March-24th-Patch/index.md
