@@ -10,9 +10,11 @@
 
 ## What This Is
 
-Five new IRC commands let you drive AutoLogin and session management on a remote computer from your IRC client. You send `!c <targetclient> -<switch> <args>` in the shared IRC channel; the target machine runs the action locally and echoes responses back through the usual OgreConsole reply path.
+Five new IRC commands let you drive AutoLogin and session management on a remote computer from your IRC client. You send `!c <targetclient> -<switch> <args>` in the shared IRC channel; the target machine runs the action locally and echoes replies back to the channel.
 
-They run on the receiving machine (the IRC client you addressed), not on the sender. They are gated by whatever auth your OgreConsoleIRC client already enforces — no new auth scheme was added.
+They run **once at the uplink level** on the target machine (same dispatch point as `-auth` / `-authlist`), not per-session. This is intentional — opening a new session or killing an existing one is an uplink-scope action, not something every session should re-parse.
+
+Auth: each command checks that the sender is on the target's auth list before running. If you aren't authed, the command is silently ignored.
 
 ---
 
@@ -26,7 +28,7 @@ They run on the receiving machine (the IRC client you addressed), not on the sen
 | `-KillSession <name\|all>` | Kill one named InnerSpace session, or all sessions except the uplink. |
 | `-LoadCharacter <toon>[:<session>]` | Log a character into an existing session, or open a new one. Stackable. |
 
-Responses come back through the same OgreConsole reply path as the rest of the `oc` command set — you will see them wherever you normally see OgreConsole output for cross-session commands.
+Responses come back over IRC into the shared channel (same path as `-authlist`), so you will see them in your IRC client.
 
 ---
 
@@ -162,4 +164,4 @@ Or tear everything down at end of night:
 
 - Not tested live yet (see banner at the top).
 - `-OSExecute` has no output capture — you see only a "dispatched" confirmation, not the command's stdout.
-- Auth is enforced by your IRC client layer. These commands do not add their own auth check, so keep your IRC auth list tight.
+- Auth is enforced per-sender against the target's IRC auth list. If no-one is authed, no-one can run these — make sure your auth list is set up before you rely on them remotely.
