@@ -76,14 +76,20 @@ A fight with an add ("Adkern's Loyal Voidpet") that must be killed, a curse ("To
 
 **Tortured Animosity Curse Handling:**
 
-- Detects when "Tortured Animosity" is applied to the player (deals increasing damage for each player within 8m; can only be cured when no players are within 8m).
-- When detected, the player is sent to the joust spot via Rally CampSpot (RCS).
+- Detects when "Tortured Animosity" is applied to the player (deals increasing physical damage for each player within 8m; can only be cured when no players are within 8m).
+- When detected, the player is sent to the configured joust spot via Rally CampSpot (RCS).
 - When the curse is removed, RCS is cleared and the player returns to their normal position.
 
 **Immunity Phase:**
 
 - When the boss "splashes a strange potion on himself," a TTS alert "Immune" is played for fighters.
 - When the text "begins to dissolve Adkern" appears (immunity removed), a TTS alert "immunity gone" is played for fighters.
+
+**Void Blast (Scout Joust):**
+
+- Triggered by the text "begins to gather void energy for a strategic blast."
+- Scouts are sent to the scout joust spot via RCS.
+- After 7 seconds, RCS is cleared and scouts return to their normal position.
 
 **On Named Kill:**
 
@@ -93,6 +99,7 @@ A fight with an add ("Adkern's Loyal Voidpet") that must be killed, a curse ("To
 
 - The curse mechanic is fully automated: cursed players will joust out and return automatically.
 - Fighters receive audio alerts for the immunity phase to help them manage their attacks accordingly.
+- Scouts will automatically joust during Void Blast and return after 7 seconds.
 - The add should be killed as part of normal auto-target priority.
 
 ---

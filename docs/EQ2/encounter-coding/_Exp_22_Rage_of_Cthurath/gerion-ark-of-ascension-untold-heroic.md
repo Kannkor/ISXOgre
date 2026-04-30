@@ -31,9 +31,9 @@ A straightforward encounter where the tank manages spawning adds using inverter 
 ### What the Module Does
 
 - **Add monitoring** -- Tracks the number of "a heretick" adds in the encounter area
-- **Inverter usage** -- The fighter automatically uses an inverter on the boss based on add count:
-    - Fewer than 3 adds: Uses inverter to spawn more
-    - Fewer than 6 adds with any below 50% health: Uses inverter
+- **Inverter usage** -- The fighter automatically uses an inverter on the boss when the add count falls below threshold:
+    - Fewer than 3 adds present: Uses inverter
+    - Fewer than 6 adds present AND any add is below 50% health: Uses inverter
 - **Throttle** -- 5-second cooldown between inverter uses to prevent spam
 
 ### Player Notes
@@ -49,40 +49,42 @@ Setup is automatic when engaged. Or you can use `Obj_OgreMCP:PasteButton[SetUpFo
 
 ### Overview
 
-Nazkun spawns sconces in different locations that must be clicked in sequence. Two group members are assigned as runners to handle the sconce mechanics.
+Nazkun spawns sconces in different locations that must be clicked in sequence. Two group members are assigned as runners to handle the two sconce detriment phases.
 
 ### Requirements
 
-- Must have a **scout** (preferably bard) in the group -- handles the first detriment phase
+- Must have a **scout** in the group -- handles the first detriment phase
 - Must have a **mage** in the group -- handles the second detriment phase
 
 ### What the Module Does
 
 **Role Assignment:**
 
-- **First Detriment Handler** (Bard, or first Scout): Clicks sconces when the first detriment appears on the boss
+- **First Detriment Handler** (first Scout): Clicks sconces when the first detriment appears on the boss
 - **Second Detriment Handler** (first Mage): Clicks sconces when the second detriment appears
 
 **Detriment Tracking:**
 
-- Monitors two detriments on the boss that indicate sconces have spawned
-- First detriment triggers the scout/bard to begin clicking sconces
-- Second detriment triggers the mage to handle sconces at the other location
+- Monitors two separate detriments on the boss that indicate sconces have spawned
+- First detriment triggers the scout to begin clicking sconces
+- Second detriment (when the first detriment is no longer active) triggers the mage to handle sconces at the alternate location
 
 **Sconce Clicking:**
 
-- Each phase has 6 sconces to click in sequence (01 through 06)
-- The runner automatically moves to each sconce, clicks it, then moves to the next
-- If sconces are in a different room, the runner navigates through teleporters to reach them and returns after
+- Each phase has up to 6 sconces to click in sequence (01 through 06)
+- The assigned runner automatically moves to each sconce, clicks it, then advances to the next
+- Sconces are named by location (center or left side of the room)
 
-**Teleporter Navigation:**
+**Teleporter Navigation (Second Detriment Phase):**
 
-- The module handles moving the entire group through teleporters when sconces are in a different room
-- Camp spots are automatically adjusted after teleporting
+- When the second detriment is active, the mage may need to navigate through a teleporter to reach sconces in the opposite room
+- The module moves the mage through the teleporter, adjusts camp spots after arrival, clicks the sconces, then returns the mage through the return teleporter back to center
+- Camp spots for the rest of the group are adjusted after teleporting as well
 
 ### Player Notes
 
-- Once set up, the fight is fully automated. The scout and mage handle their respective sconce phases without manual input.
+- Once set up, the scout and mage handle their respective sconce phases without manual input.
+- The scout handles sconces in whichever room they are currently in. The mage navigates to the alternate room if needed.
 
 ---
 
@@ -96,24 +98,25 @@ Surinon (Apostle of Pain) is a multi-room encounter involving curse management, 
 
 ### Requirements
 
-- Must have a **scout** (preferably bard) in the group -- acts as the runner
+- Must have a **scout** in the group -- acts as the runner for sconce mechanics
 
 ### What the Module Does
 
 **Runner Assignment:**
 
-- The bard (or first scout) is designated as the runner
+- The first scout in the group is designated as the runner
 - The runner travels between alcoves to click sconces when Pain Management stacks appear on the boss
 
 **HO (Heroic Opportunity) Management:**
 
+- HO Starter and HO Wheel are enabled for all group members at setup
 - When any player has the **Tenets of Torment** curse, the module automatically starts a Heroic Opportunity
 - Completing the HO removes Tenets of Torment and the associated Pleasure from Pain buff
 - 5-second cooldown between HO attempts
 
 **Curse Cure Safety:**
 
-- Priest cure-curse is **disabled** during this fight (priests cannot freely cure curses)
+- Priest curse cure is **disabled** during this fight (priests cannot freely cure curses)
 - The module only requests a curse cure when it is safe:
     - Surinon's Pain Management on the boss has 0 increments, OR
     - The player has 7 stacks of Pain Management (would die at 8 -- emergency cure)
@@ -124,8 +127,8 @@ Surinon (Apostle of Pain) is a multi-room encounter involving curse management, 
 - When Pain Management increments appear on the boss, the runner acts:
     - Checks which teleporter has a red sparkle aura (indicating the active alcove)
     - If the active sconce is in the center room, clicks it directly
-    - If the active sconce is in a side room, navigates through the teleporter, clicks the sconce, then returns through the return teleporter
-- Sconces are clicked in sequence; the runner loops through all available interactable sconces in the alcove
+    - If the active sconce is in a side alcove, navigates through the teleporter, clicks the sconce, then returns through the return teleporter back to center
+- Sconces are clicked sequentially; the runner loops through all available interactable sconces in the alcove
 
 ### Player Notes
 
@@ -154,38 +157,38 @@ Xelha Nevagon is a positioning-heavy fight involving a spreading disease (Dismal
 
 | Flag | Role | Assigned To |
 |------|------|-------------|
-| Flag 1 | First Phage receiver | Bard (or first Scout) |
-| Flag 2 | Second Phage receiver | First Mage |
+| Flag 1 | First Phage receiver / joust out | First Scout |
+| Flag 2 | Second Phage receiver / joust out | First Mage |
 | Flag 3 | Group cure priest | First Priest |
 
 **Dismal Phage Management:**
 
 - **Dismal Phage** is a disease that spreads to the 2 nearest targets after 10 seconds, then every 20 seconds
-- When a player gets Dismal Phage, the module:
-    - Moves the infected player to a **joust spot** away from the group
-    - Signals the other flagged players to adjust positioning
-    - Prevents spreading by keeping the infected player isolated
+- When a player gets Dismal Phage, the module immediately moves them to a **joust spot** away from the group
+- The module also signals Flag 1 or Flag 2 players (based on which phage phase is active) to adjust their positioning -- flagged players joust out, non-flagged players move back to the camp spot
+- This prevents the disease from reaching the rest of the group
 
 **Boss Movement Tracking:**
 
-The boss moves between three locations. The module detects which location the boss is at and adjusts all camp spots accordingly:
+The boss moves between three locations. The module detects which location the boss is at and adjusts camp spots accordingly:
 
 | Location | Named Position | Group Spot | Joust Spot |
 |----------|---------------|------------|------------|
-| Main (Center) | Center of the room | Near center | Off to the side |
+| Center | Center of the room | Near center | Off to the side |
 | West | Western platform | Western position | Western isolated spot |
 | East | Eastern platform | Eastern position | Eastern isolated spot |
 
-**Leap of Doubt / Leap of Faith:**
+**Leap of Faith / Leap of Doubt:**
 
-- When the boss casts Leap of Faith and is more than 25 meters away, the module moves the group to the boss's position
-- The Flag 3 priest triggers a group cure when Leap of Doubt is active, the boss is distant, and the player has Trauma damage
+- When the boss casts Leap of Faith and the boss is more than 25 meters away, the module moves the group to the boss's position (10-second cooldown before moving again)
+- The Flag 3 priest triggers a group cure when Leap of Doubt is active, the boss is distant (> 25 meters), and the player has Trauma damage -- 6-second throttle between group cures
 
 ### Player Notes
 
 - Cures are **disabled** during this fight. The module manages disease spreading through positioning.
 - Ability collision checks are disabled to prevent movement issues.
 - The fight is fully automated once set up -- positioning and phage management happen without manual input.
+- On kill, cures are re-enabled and camp spots are cleared.
 
 ---
 
@@ -218,7 +221,7 @@ Each role gets a specific position around the boss:
 
 **Fighter Stance Switching:**
 
-When adds spawn, fighters automatically switch between offensive and defensive stances:
+When adds spawn, fighters automatically manage their stance:
 
 | Class | Offensive Stance | Defensive Stance |
 |-------|-----------------|-----------------|
@@ -229,9 +232,9 @@ When adds spawn, fighters automatically switch between offensive and defensive s
 | Bruiser | Smoldering Fists | Bodyguard |
 
 - When **"a fortified thrall"** (offensive add) spawns, the fighter cancels their defensive stance
-- When **"an advancing thrall"** (defensive add) spawns, the fighter switches to defensive stance
-- 5-second cooldown between stance switches
-- A follow-up timer verifies the stance was actually applied and retries if needed
+- When **"an advancing thrall"** (defensive add) spawns, the fighter cancels their offensive stance and casts their defensive stance
+- 5-second cooldown between stance changes
+- A follow-up timer verifies the defensive stance was applied and retries if needed
 
 > **:memo: Unsupported Classes**
 >
@@ -239,16 +242,17 @@ When adds spawn, fighters automatically switch between offensive and defensive s
 
 **Add Dispelling (Mages):**
 
-- Mages automatically dispel **Paragon's Protection** from both fortified thrall and advancing thrall adds
-- The module scans for adds within 30 meters that have the protection buff and targets them for dispelling
+- Mages automatically dispel **Paragon's Protection** from both "a fortified thrall" and "an advancing thrall" adds within 30 meters
+- The module scans for the adds, checks if they have the protection buff, and targets them for dispelling
 
 **Statue Mechanic:**
 
-- When a player gets the **"Is Statue"** debuff, the module:
+- When a player gets the **"Is Statue?"** debuff, the module:
     - Finds a matching statue (NoKill NPC with the same visual variant as the player)
     - Moves the player to the statue
     - Double-clicks the statue to break the debuff
     - Returns the player to their camp spot
+- The engagement check also uses this debuff to detect if the fight is active even when the named NPC is not visible
 
 **Shackled Senses:**
 
@@ -265,7 +269,8 @@ When adds spawn, fighters automatically switch between offensive and defensive s
 **Auto-Target:**
 
 - Non-fighters are flagged for auto-targeting adds
-- Target priority updates dynamically when adds spawn, notifying the whole group which add to focus
+- Both "a fortified thrall" and "an advancing thrall" adds are added to the auto-target list with the named as fallback
+- When a relevant add is detected, the whole group is notified and target priority updates dynamically
 - Scan radius set to 36 meters
 
 ### Player Notes

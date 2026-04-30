@@ -155,6 +155,13 @@ A complex encounter with two types of adds that require coordinated tank managem
 **"I see YOU!" Mechanic:**
 
 - When the boss says "I see YOU!", enchanters automatically cast Channeled Focus.
+- Defilers and Mystics have Leg Bite disabled for 20 seconds to avoid healing the boss through the mechanic.
+
+**Monumental Misstep Debuff:**
+
+- When "Monumental Misstep" is detected on your character, defensive abilities are disabled (NoDefensive mode).
+- When the debuff expires, defensive abilities are re-enabled automatically.
+- This debuff deals growing disease damage while preventing the target from using beneficial spells.
 
 **Low Power Alert:**
 
@@ -199,6 +206,8 @@ A complex encounter with two types of adds that require coordinated tank managem
 - Fighter positioning is fully automated based on which adds are alive and who is tanking them.
 - Fighters in raid groups 3 and 4 are prioritized as add tanks (FlagToon 1).
 - Enchanters will automatically cast Channeled Focus when the boss uses "I see YOU!" to help manage the power drain mechanic.
+- Defilers and Mystics will have Leg Bite temporarily disabled during "I see YOU!" events.
 - Keep power above 5% to avoid triggering the boss's major debuff. PowerDrain and PowerRestore abilities are enabled to help with this.
+- "Monumental Misstep" disables defensive abilities while active; the module handles this automatically.
 - VBE adds heal the named, so they should be killed quickly.
 - Multiple SPs can be alive simultaneously; the module handles this by tracking which fighters are tanking which adds.

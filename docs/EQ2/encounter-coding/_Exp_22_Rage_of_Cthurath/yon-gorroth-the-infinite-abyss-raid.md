@@ -220,12 +220,17 @@ A raid encounter with two curse mechanics that require careful positioning, add 
 - A cure is requested when the curse has 10 or fewer seconds remaining, or when the number of cursed players equals or exceeds the number of nearby players (meaning everyone nearby already has it)
 - When all cursed players are cured, the fight resets positioning via SetUpFor
 
+**Timed Repositioning:**
+
+- 20 seconds after Corrosive Wounding hits, everyone is repositioned to the home joust spot and add-based repositioning is blocked for 30 seconds
+- 18 seconds after Invader's Dissection hits, fighters only are repositioned to the home joust spot
+
 **Ancient Curse Jousting:**
 
 - When the named "prepares to apply an ancient curse," everyone except the current tank (determined by target or 90%+ threat) jousts away to a safe spot
 - A 7-second on-screen timer for Touch of Tha'Bael is displayed
 - Fighters who are not tanking stop offensive actions
-- Repositioning to the add is blocked for 20 seconds
+- Add-based repositioning is blocked for 20 seconds after the joust
 
 **Add Management (Infectious Crawler):**
 
@@ -233,7 +238,7 @@ A raid encounter with two curse mechanics that require careful positioning, add 
     - Fighters and enchanters go to the primary joust spot
     - Priests go to the joust spot farthest from the add
     - Other classes position near the add
-- Repositioning is blocked for 30 seconds after certain mechanics (Void Shackled resolution, Ancient Curse)
+- Add-based repositioning is suppressed while timed repositioning blocks are active
 
 **On-Screen Timers:**
 

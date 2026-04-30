@@ -42,6 +42,7 @@ This section documents what each encounter module does, which setups are availab
 | [Gerion: Dominion of Pain [Untold Heroic]](_Exp_22_Rage_of_Cthurath/gerion-dominion-of-pain-untold-heroic.md) | Untold Heroic |
 | [Gerion: Realm of Conquest [Untold Heroic]](_Exp_22_Rage_of_Cthurath/gerion-realm-of-conquest-untold-heroic.md) | Untold Heroic |
 | [The Oogothl Sprawl: Adkern's Pools [Raid]](_Exp_22_Rage_of_Cthurath/the-oogothl-sprawl-adkerns-pools-raid.md) | Raid |
+| [The Oogothl Sprawl: Proclamation of Rage [Raid]](_Exp_22_Rage_of_Cthurath/the-oogothl-sprawl-proclamation-of-rage-raid.md) | Raid |
 | [The Oogothl Sprawl: Unseen Horrors [Raid]](_Exp_22_Rage_of_Cthurath/the-oogothl-sprawl-unseen-horrors-raid.md) | Raid |
 | [The Unknown: Edge of Oblivion [Untold Heroic]](_Exp_22_Rage_of_Cthurath/the-unknown-edge-of-oblivion-untold-heroic.md) | Untold Heroic |
 | [The Unknown: Sacrificial Pursuits [Untold Heroic]](_Exp_22_Rage_of_Cthurath/the-unknown-sacrificial-pursuits-untold-heroic.md) | Untold Heroic |
