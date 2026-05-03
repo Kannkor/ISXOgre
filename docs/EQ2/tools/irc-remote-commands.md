@@ -23,6 +23,7 @@ Auth: each command checks that the sender is on the target's auth list before ru
 | Switch | Purpose |
 |---|---|
 | `-List_AutoLoginProfiles [-profile <name>] [-details]` | Read and list AutoLogin profiles configured on the target machine. |
+| `-List_Sessions` | One-line list of all InnerSpace sessions on the target machine, with PIDs. |
 | `-LaunchAutoLogin <profile>` | Run a named AutoLogin profile locally. |
 | `-OSExecute <command line...>` | Run an arbitrary OS command. |
 | `-KillSession <name\|all>` | Kill one named InnerSpace session, or all sessions except the uplink. |
@@ -50,6 +51,19 @@ Lists AutoLogin profiles configured on the target machine.
 !c PC1 -List_AutoLoginProfiles
 !c PC1 -List_AutoLoginProfiles -details
 !c PC1 -List_AutoLoginProfiles -profile RaidGroupA
+```
+
+---
+
+### `-List_Sessions`
+
+One-line list of every InnerSpace session on the target machine with its PID. Useful before `-KillSession` so you can see what's actually running. Reports `Sessions: (none)` if there are no sessions.
+
+**Example**
+
+```
+!c PC1 -List_Sessions
+[PC1] Sessions: is1 (PID 12345), is2 (PID 12346), is3 (PID 12347)
 ```
 
 ---
