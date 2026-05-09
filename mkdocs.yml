@@ -1,4 +1,4 @@
-site_name: ISXOgre Documentation
+site_name: Ogre Gaming Documentation
 site_url: https://kannkor.github.io/ISXOgre/
 repo_url: https://github.com/Kannkor/ISXOgre
 repo_name: Kannkor/ISXOgre
@@ -385,3 +385,5 @@ nav:
       - Pricing: EQ2/about/pricing.md
       - Cancel Subscription: EQ2/about/cancel-subscription.md
       - Changelog: EQ2/about/changelog.md
+  - EQ2Codex:
+    - EQ2Codex/index.md
