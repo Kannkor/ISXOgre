@@ -1,6 +1,6 @@
 # EQ2 Codex
 
-**eq2codex** is a community-built database of EverQuest 2 item, drop, and character data. An Ogre Gaming project by **Kannkor** and **LostOne**, separate from ISXOgre / OgreBot.
+**eq2codex** is a community-built database of EverQuest 2 item, drop, and character data. An Ogre Gaming project by **Kannkor** and **LostOne**.
 
 **Live site:** [https://eq2codex.com](https://eq2codex.com)
 
