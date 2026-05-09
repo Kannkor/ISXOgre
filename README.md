@@ -8,7 +8,13 @@ Or [click here to go to the main page](https://github.com/Kannkor/ISXOgre/blob/m
 
 > **Looking for the New User Walkthrough?** Start here: [Installation Guide](docs/EQ2/getting-started/installation.md)
 
-> **eq2codex** — community-built EverQuest 2 item, drop, and character database. Site: [eq2codex.com](https://eq2codex.com) · Docs: [EQ2Codex](docs/EQ2Codex/index.md)
+---
+
+# eq2codex
+
+A community-built database of EverQuest 2 item, drop, and character data.
+
+Site: [eq2codex.com](https://eq2codex.com) · Docs: [EQ2Codex](docs/EQ2Codex/index.md)
 
 ---
 
