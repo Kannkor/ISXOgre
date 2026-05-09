@@ -28,7 +28,7 @@ eq2codex doesn't scrape. Data comes from capture clients that upload directly fr
 
 Both clients use the same JSON API and connect to the same uploader account. Drops are aggregated community-wide; the system counts distinct contributors per drop, not individual contribution counts.
 
-Capture client downloads and setup instructions are on the [About page](https://eq2codex.com/about).
+Either client requires an API token — see [Getting an API Token](getting-a-token.md). Capture client downloads and setup instructions are on the [About page](https://eq2codex.com/about).
 
 ---
 

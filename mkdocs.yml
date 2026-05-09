@@ -387,3 +387,4 @@ nav:
       - Changelog: EQ2/about/changelog.md
   - EQ2Codex:
     - EQ2Codex/index.md
+    - Getting an API Token: EQ2Codex/getting-a-token.md
