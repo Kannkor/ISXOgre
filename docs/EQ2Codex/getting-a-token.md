@@ -12,4 +12,6 @@ To upload data with the ACT plugin (or the upcoming standalone scanner), you nee
 
 4. **Generate a token.** Give it a **Name** and pick a **Client Kind** (these don't really matter — any value is fine for your own reference). Click **Generate Token**.
 
+5. **Copy the token immediately and save it somewhere safe.** This is **very important** — the token is shown only once and is never displayed again. If you lose it, revoke it from the **Manage Tokens** page and generate a new one.
+
 You can now use the token to configure a capture client.
