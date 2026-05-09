@@ -6,6 +6,12 @@
 
 ---
 
+## How much does it cost?
+
+Nothing — eq2codex is free. It's a community project, built to give EverQuest 2 players a place to look up item and drop details while Census is down.
+
+---
+
 ## What It Offers
 
 - **Searchable item database** — browse EQ2 items with their full in-game examine windows, sprites, stats, effects, and class restrictions.
