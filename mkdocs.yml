@@ -369,6 +369,7 @@ nav:
         - Vegarlson - The Terrene Rift [Event Heroic]: EQ2/encounter-coding/_Exp_15_Chaos_Descending/vegarlson-the-terrene-rift-event-heroic.md
         - Vegarlson - Upheaval [Raid]: EQ2/encounter-coding/_Exp_15_Chaos_Descending/vegarlson-upheaval-raid.md
     - Developer:
+      - ISXOgre API Reference: EQ2/developer/isxogre-api.md
       - OgreBotAPI Reference: EQ2/developer/ogrebot-api.md
       - OgreCraftAPI Reference: EQ2/developer/ogrecraft-api.md
       - CampSpot System: EQ2/developer/camp-spot.md
