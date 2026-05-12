@@ -13,7 +13,12 @@ ISXOgre ships a pair of matched helpers, `Base64Encode` and `Base64Decode`, that
 - **Method form** — `ISXOgre:Base64Encode[...]` / `ISXOgre:Base64Decode[...]` — writes the result back into a destination `jsonvalue` you supply.
 - **Member form** — `${ISXOgre.Base64Encode[...]}` / `${ISXOgre.Base64Decode[...]}` — returns the result as a `string` for inline use.
 
-Both forms accept literal strings, string variables, and `jsonvalue` references as inputs and resolve them through the same logic, so you can pass whatever shape is convenient at the call site.
+Both forms accept exactly two kinds of source argument:
+
+- **A `jsonvalue` reference** — auto-dereferenced; the call operates on the variable's canonical JSON serialization.
+- **Anything else** — treated as a **literal string**. No name lookup is performed on the argument.
+
+To pass a `variable string`'s **value** (rather than its name), pre-interpolate at the call site with `${myStr~}`. See each section below for examples.
 
 ### Round-Trip Shape
 
@@ -45,8 +50,10 @@ ISXOgre:Base64Encode[<string-source>,  <jsonref-destination>]
 | Variant | argv[0] | argv[1] | Behavior |
 |---------|---------|---------|----------|
 | **In-place** | `jsonvalue` | *(not used)* | Read `argv[0]`'s `.AsJSON`, encode, write the result back into `argv[0]` |
-| **jsonref → jsonref** | `jsonvalue` | `jsonvalue` (destination) | Read `argv[0]`'s `.AsJSON`, encode, write into `argv[1]`. `argv[0]` unchanged. |
-| **string → jsonref** | `string` variable, literal, or LavishScript expression | `jsonvalue` (destination) | Encode the string value, write into `argv[1]` |
+| **jsonref → jsonref** | `jsonvalue` reference | `jsonvalue` (destination) | Read `argv[0]`'s `.AsJSON`, encode, write into `argv[1]`. `argv[0]` unchanged. |
+| **literal → jsonref** | Anything that is **not** a `jsonvalue` reference (treated as literal text) | `jsonvalue` (destination) | Encode the literal text, write into `argv[1]` |
+
+> **Note:** Bare names like `myStringVar` are **not** auto-dereferenced — they're encoded as the literal text `"myStringVar"`. To encode a string variable's value, pre-interpolate at the call site: `ISXOgre:Base64Encode["${myStringVar~}", dst]`.
 
 The destination must be a `jsonvalue`. Passing any other variable type prints an error to the console and the call is a no-op:
 
@@ -93,13 +100,15 @@ src.AsJSON: {"foo":"bar","n":42}
 dst.AsJSON: "eyJmb28iOiJiYXIiLCJuIjo0Mn0="
 ```
 
-**Example — encode a string variable into a `jsonvalue` destination:**
+**Example — encode the value of a string variable into a `jsonvalue` destination:**
+
+Use `${...~}` pre-interpolation so the *value* gets passed, not the variable's name:
 
 ```
 variable string    plaintext = "Hello, world!"
 variable jsonvalue dst
 
-ISXOgre:Base64Encode[plaintext, dst]
+ISXOgre:Base64Encode["${plaintext~}", dst]
 echo ${dst.AsJSON~}
 ```
 
@@ -108,6 +117,8 @@ echo ${dst.AsJSON~}
 ```
 "SGVsbG8sIHdvcmxkIQ=="
 ```
+
+> **Note:** Writing `ISXOgre:Base64Encode[plaintext, dst]` (no `${...~}`) would encode the literal text `plaintext` — not its value. Bare names are treated as literal strings.
 
 **Example — encode a literal string:**
 
@@ -140,10 +151,10 @@ Encode a source value and return the base64 token as a `string`.
 
 | `<source>` shape | Result |
 |------------------|--------|
-| String literal | Base64 of the bare text |
-| `variable string` name | Base64 of the variable's value |
-| `jsonvalue` variable name | Base64 of the variable's JSON serialization |
-| Any LavishScript expression resolving to a string (e.g. `Me.Name`) | Base64 of the resolved value |
+| `jsonvalue` variable name | Base64 of the variable's JSON serialization (auto-deref) |
+| Anything else — string literal, `${var~}` pre-interpolation, bare identifier, etc. | Base64 of the literal argument text |
+
+To encode the **value** of a string variable, pre-interpolate with `${var~}`. A bare name like `plaintext` will be encoded as the literal text `"plaintext"`.
 
 **Example:**
 
@@ -152,20 +163,24 @@ variable string    plaintext = "Hello, world!"
 variable jsonvalue payload
 payload:SetValue["{\"foo\":\"bar\",\"n\":42}"]
 
-echo Literal:    ${ISXOgre.Base64Encode["Hello, world!"]~}
-echo StringVar:  ${ISXOgre.Base64Encode[plaintext]~}
-echo JsonRef:    ${ISXOgre.Base64Encode[payload]~}
-echo Expression: ${ISXOgre.Base64Encode[Me.Name]~}
+echo Literal:        ${ISXOgre.Base64Encode["Hello, world!"]~}
+echo StringValue:    ${ISXOgre.Base64Encode["${plaintext~}"]~}
+echo BareName:       ${ISXOgre.Base64Encode[plaintext]~}
+echo JsonRef:        ${ISXOgre.Base64Encode[payload]~}
 ```
 
 **Output:**
 
 ```
-Literal:    SGVsbG8sIHdvcmxkIQ==
-StringVar:  SGVsbG8sIHdvcmxkIQ==
-JsonRef:    eyJmb28iOiJiYXIiLCJuIjo0Mn0=
-Expression: <base64 of your character's name>
+Literal:        SGVsbG8sIHdvcmxkIQ==
+StringValue:    SGVsbG8sIHdvcmxkIQ==
+BareName:       cGxhaW50ZXh0
+JsonRef:        eyJmb28iOiJiYXIiLCJuIjo0Mn0=
 ```
+
+Note that `StringValue` (uses `"${plaintext~}"` pre-interpolation) and `BareName` (uses the literal text `plaintext`) produce different results — exactly because there's no implicit name resolution.
+
+> **Note:** Always wrap pre-interpolated values in `"..."` — without the quotes, a value containing commas (like `Hello, world!`) would split into multiple arguments and the member would reject it. The same rule applies in `Base64Decode` and in the method form.
 
 > **Note:** The member form returns the **raw base64 token** (no surrounding quotes), unlike the method form which writes a JSON string scalar (`"<b64>"`) into its destination. Use `${ISXOgre.Base64Encode[x]~}` whenever you want to drop a base64 token directly into another string, URL parameter, log line, etc.
 
@@ -186,8 +201,10 @@ ISXOgre:Base64Decode[<string-source>,  <jsonref-destination>]
 | Variant | argv[0] | argv[1] | Behavior |
 |---------|---------|---------|----------|
 | **In-place** | `jsonvalue` holding `"<b64>"` | *(not used)* | Read `argv[0]`'s scalar, decode, write the decoded payload back into `argv[0]` |
-| **jsonref → jsonref** | `jsonvalue` holding `"<b64>"` | `jsonvalue` (destination) | Read `argv[0]`'s scalar, decode, write into `argv[1]`. `argv[0]` unchanged. |
-| **string → jsonref** | `string` variable, literal, or LavishScript expression | `jsonvalue` (destination) | Decode the string value, write into `argv[1]` |
+| **jsonref → jsonref** | `jsonvalue` reference holding `"<b64>"` | `jsonvalue` (destination) | Read `argv[0]`'s scalar, decode, write into `argv[1]`. `argv[0]` unchanged. |
+| **literal → jsonref** | Anything that is **not** a `jsonvalue` reference (treated as literal base64 text) | `jsonvalue` (destination) | Decode the literal base64, write into `argv[1]` |
+
+> **Note:** Same name-resolution contract as `Base64Encode`: bare names are literal text, not variable lookups. To decode the value held by a `variable string`, use `ISXOgre:Base64Decode["${myB64~}", dst]`.
 
 The destination must be a `jsonvalue`. Same type-check error as `Base64Encode` if you pass anything else.
 
@@ -233,13 +250,15 @@ dst raw:    Hello, world!
 
 The decoded payload (`Hello, world!`) was plain text, so `dst` becomes a JSON string scalar. Use `${dst~}` to retrieve the unwrapped value.
 
-**Example — decode from a string variable:**
+**Example — decode the value held by a string variable:**
+
+Pre-interpolate with `${...~}` so the value (not the variable's name) is passed:
 
 ```
 variable string    b64       = "eyJmb28iOiJiYXIiLCJuIjo0Mn0="
 variable jsonvalue restored
 
-ISXOgre:Base64Decode[b64, restored]
+ISXOgre:Base64Decode["${b64~}", restored]
 echo ${restored.AsJSON~}
 ```
 
@@ -248,6 +267,8 @@ echo ${restored.AsJSON~}
 ```
 {"foo":"bar","n":42}
 ```
+
+> **Note:** Writing `ISXOgre:Base64Decode[b64, restored]` (no `${...~}`) would try to decode the literal text `"b64"` — not the variable's value.
 
 ---
 
@@ -259,10 +280,10 @@ Decode a base64 source and return the decoded bytes as a `string`.
 
 | `<source>` shape | Result |
 |------------------|--------|
-| String literal | Decoded text of the literal |
-| `variable string` name | Decoded text of the variable's value |
-| `jsonvalue` variable holding `"<b64>"` | Decoded text of the stored scalar |
-| Any LavishScript expression resolving to a base64 string | Decoded text of the resolved value |
+| `jsonvalue` variable holding `"<b64>"` | Decoded text of the stored scalar (auto-deref) |
+| Anything else — string literal, `${var~}` pre-interpolation, bare identifier, etc. | Decoded text of the literal argument |
+
+To decode the **value** of a string variable, pre-interpolate with `${var~}`. A bare name like `b64` will be decoded as if it were itself the base64 input.
 
 The outer JSON-string quotes on a `jsonvalue` source are stripped automatically before decoding (the base64 alphabet `[A-Za-z0-9+/=]` never contains `"`, so the strip is unambiguous).
 
@@ -273,17 +294,17 @@ variable string    b64       = "SGVsbG8sIHdvcmxkIQ=="
 variable jsonvalue encoded
 encoded:SetValue["\"eyJmb28iOiJiYXIiLCJuIjo0Mn0=\""]
 
-echo Literal:   ${ISXOgre.Base64Decode["SGVsbG8sIHdvcmxkIQ=="]~}
-echo StringVar: ${ISXOgre.Base64Decode[b64]~}
-echo JsonRef:   ${ISXOgre.Base64Decode[encoded]~}
+echo Literal:      ${ISXOgre.Base64Decode["SGVsbG8sIHdvcmxkIQ=="]~}
+echo StringValue:  ${ISXOgre.Base64Decode["${b64~}"]~}
+echo JsonRef:      ${ISXOgre.Base64Decode[encoded]~}
 ```
 
 **Output:**
 
 ```
-Literal:   Hello, world!
-StringVar: Hello, world!
-JsonRef:   {"foo":"bar","n":42}
+Literal:      Hello, world!
+StringValue:  Hello, world!
+JsonRef:      {"foo":"bar","n":42}
 ```
 
 > **Note:** The member form always returns the decoded bytes as a string. When the decoded payload is itself JSON, you typically want the **method** form instead so you can index into the result with `.Get[...]`, `.Type`, etc. Use the member form when you want the decoded text inline (logging, comparison, passing as another method argument).
@@ -326,8 +347,8 @@ variable string    original = "Hello, world!"
 variable jsonvalue encoded
 variable jsonvalue restored
 
-ISXOgre:Base64Encode[original, encoded]
-ISXOgre:Base64Decode[encoded,  restored]
+ISXOgre:Base64Encode["${original~}", encoded]   ; pre-interp so the *value* is encoded
+ISXOgre:Base64Decode[encoded,         restored] ; jsonref source -> auto-deref
 
 echo Original:  ${original~}
 echo Encoded:   ${encoded.AsJSON~}
