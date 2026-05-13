@@ -2,7 +2,7 @@
 
 The `ISXOgre` top-level object exposes utility members and methods that the rest of OgreBot, OgreCraft, and your own scripts can use directly. This page documents the public, script-facing surface.
 
-> **Note:** This reference will grow over time. It currently covers the Base64 encoding/decoding helpers. Additional APIs will be added here as they become officially supported for external script use.
+> **Note:** This reference will grow over time. It currently covers the Base64 encoding/decoding helpers, the async HTTP request API (`HttpRequestSubmit` / `HttpRequest` / `HttpLastSubmitError` / `SetFormBodyB64` plus the `ogrehttpjob` datatype). Additional APIs will be added here as they become officially supported for external script use.
 
 ---
 
@@ -373,3 +373,303 @@ As JSON:   "Hello, world!"
 - **Cross-session command payloads:** send JSON payloads through transports that don't tolerate raw `{`, `}`, `"` characters by encoding before transmission and decoding on receipt.
 - **HTTP request bodies / URL parameters:** pre-encode binary-ish or quote-heavy strings before composing them into request bodies.
 - **Persistent storage:** stash a complex `jsonvalue` as a single opaque token in a settings file, then restore it on next load.
+
+---
+
+## HTTP Requests (async)
+
+ISXOgre exposes an asynchronous HTTP client built on libcurl. Submissions return immediately with a job handle — the request runs on a worker thread, and the script either polls the handle each frame or supplies an atom that gets called back on the main thread when the job completes.
+
+The API is split across:
+
+- `${ISXOgre.HttpRequestSubmit[<spec>, <body>]}` — submit a request. Returns an `ogrehttpjob` handle.
+- `${ISXOgre.HttpRequest[<id>]}` — re-acquire an `ogrehttpjob` handle by its job id (useful for callback-flavored jobs whose id was stashed earlier).
+- `${ISXOgre.HttpLastSubmitError}` — string describing why the most recent `HttpRequestSubmit` returned id=0, if it did.
+- `ISXOgre:SetFormBodyB64[...]` — helper for building base64-encoded `x-www-form-urlencoded` bodies entirely in C++ (avoids the LavishScript ~24 KB string-handling ceiling on large payloads).
+
+The `ogrehttpjob` datatype (returned by both `HttpRequestSubmit` and `HttpRequest`) is documented at the end of this section.
+
+> **Note:** Bodies always pass through `HttpRequestSubmit` as a **separate** `jsonvalue` (the 2nd argument). The body lives at the root of that `jsonvalue` as a JSON string scalar. This single contract handles bodies of any size; there is no separate path for "small" vs. "large" bodies.
+
+---
+
+### Request Spec — fields recognised by HttpRequestSubmit
+
+The 1st argument to `HttpRequestSubmit` is the **name** of a `jsonvalue` describing the request:
+
+| Field | Type | Default | Notes |
+|-------|------|---------|-------|
+| `url` | string | *(required)* | Full URL including scheme. |
+| `method` | string | `"GET"` | `GET` / `POST` / `PUT` / `DELETE` / etc. |
+| `content_type` | string | *(unset)* | If non-empty, sent as a `Content-Type:` header. |
+| `headers` | array of strings | *(unset)* | Each entry is a full `"Name: Value"` header line, e.g. `"Authorization: Bearer ..."` |
+| `timeout_sec` | int | `30` | Overall request timeout (libcurl `CURLOPT_TIMEOUT`). |
+| `connect_timeout_sec` | int | `10` | TCP/TLS connect timeout (libcurl `CURLOPT_CONNECTTIMEOUT`). |
+| `release_after_callback` | bool | atom-flavor: `TRUE`, polling-flavor: `FALSE` | If TRUE, the job slot is freed automatically once the script-side callback returns / once the job transitions to `Completed`/`Failed` and is read. |
+
+The spec **never** holds the request body. Build the body in a separate `jsonvalue` and pass it as the 2nd argument.
+
+---
+
+### HttpRequestSubmit — Member
+
+Submit an HTTP request. Returns an `ogrehttpjob` whose `.ID` is the assigned job id, or `0` on submit failure.
+
+**Syntax:**
+
+```
+${ISXOgre.HttpRequestSubmit[<specJsonref>, <bodyJsonref>]}
+${ISXOgre.HttpRequestSubmit[<specJsonref>, <bodyJsonref>, <atomName>]}
+```
+
+| argv[0] | argv[1] | argv[2] | Behavior |
+|---------|---------|---------|----------|
+| `jsonvalue` (spec) | `jsonvalue` (body) | *(omitted)* | **Polling flavor.** Script polls `${ISXOgre.HttpRequest[id].Complete}` each frame. Caller is responsible for `:Release` when done. |
+| `jsonvalue` (spec) | `jsonvalue` (body) | atom name (string) | **Callback flavor.** The atom is invoked on the main thread as `call <atomName> <id>` once the job completes. Slot auto-released after the callback returns (unless the spec explicitly sets `release_after_callback` to `FALSE`). |
+
+The body `jsonvalue` must hold a JSON string scalar at its root. Two patterns produce this:
+
+- **Inline small bodies** — write directly with `:SetValue["\"...\""]`. The outer `\"...\"` makes it a JSON string scalar.
+- **Form-encoded large bodies** — use `ISXOgre:SetFormBodyB64[...]` to assemble the body in C++.
+
+On submit failure (`id == 0`), check `${ISXOgre.HttpLastSubmitError~}` for the reason.
+
+**Example — polling flavor, small inline body:**
+
+```
+variable jsonvalue jvSpec
+variable jsonvalue jvFormBody
+variable jsonvalue jvHeaders
+variable int       iJobId
+
+jvHeaders:SetValue["[]"]
+jvHeaders:AddString["Accept: application/json"]
+
+jvSpec:SetValue["{}"]
+jvSpec:SetString[url,"https://api.example.com/v1/sessions"]
+jvSpec:SetString[method,"POST"]
+jvSpec:SetString[content_type,"application/x-www-form-urlencoded"]
+jvSpec:SetInteger[timeout_sec,30]
+jvSpec:Set[headers,"${jvHeaders~}"]
+
+; root scalar = JSON string scalar holding the URL-encoded form body
+jvFormBody:SetValue["\"username=alice&duration=300\""]
+
+iJobId:Set[${ISXOgre.HttpRequestSubmit[jvSpec, jvFormBody].ID}]
+if ${iJobId} <= 0
+{
+    echo "submit failed: ${ISXOgre.HttpLastSubmitError~}"
+    return
+}
+
+; Poll until the worker thread finishes the request
+while !${ISXOgre.HttpRequest[${iJobId}].Complete}
+    waitframe
+
+if ${ISXOgre.HttpRequest[${iJobId}].Ok}
+    echo "OK ${ISXOgre.HttpRequest[${iJobId}].Status}  body=${ISXOgre.HttpRequest[${iJobId}].Body~}"
+else
+    echo "FAIL state=${ISXOgre.HttpRequest[${iJobId}].State~}  status=${ISXOgre.HttpRequest[${iJobId}].Status}"
+
+ISXOgre.HttpRequest[${iJobId}]:Release
+```
+
+**Example — callback flavor:**
+
+```
+atom MyCallback(int iJobId)
+{
+    if ${ISXOgre.HttpRequest[${iJobId}].Ok}
+        echo "OK ${ISXOgre.HttpRequest[${iJobId}].Status}"
+    else
+        echo "FAIL state=${ISXOgre.HttpRequest[${iJobId}].State~}"
+    ; Job slot auto-releases after this atom returns (release_after_callback default).
+}
+
+function:int LaunchRequest()
+{
+    variable jsonvalue jvSpec
+    variable jsonvalue jvFormBody
+    variable int       iJobId
+
+    jvSpec:SetValue["{}"]
+    jvSpec:SetString[url,"https://api.example.com/v1/ping"]
+    jvSpec:SetString[method,"GET"]
+    jvSpec:SetInteger[timeout_sec,10]
+
+    ; GET with no body -- still required to pass an empty body jsonvalue
+    jvFormBody:SetValue["\"\""]
+
+    iJobId:Set[${ISXOgre.HttpRequestSubmit[jvSpec, jvFormBody, MyCallback].ID}]
+    return ${iJobId}
+}
+```
+
+> **Note:** GETs that have no body still take a 2nd argument. Pass a `jsonvalue` whose root is the empty JSON string scalar `""` (`:SetValue["\"\""]`).
+
+> **Note:** The body bytes must be 7-bit ASCII suitable for `x-www-form-urlencoded` transmission (URL-encoded ASCII or base64-then-URL-encoded). Bodies containing raw `"`, `\`, or control characters are not safe through the typed read path used by `HttpRequestSubmit` and may not round-trip byte-for-byte.
+
+---
+
+### HttpRequest — Member
+
+Look up an existing job handle by its job id. Returns an `ogrehttpjob` whose `.Exists` is `FALSE` if the id doesn't correspond to a known job (or it has been released).
+
+**Syntax:** `${ISXOgre.HttpRequest[<id>]}`
+
+Typical use is inside an atom callback or in a separate poll loop that only kept the id around:
+
+```
+variable int iJobId = ${ISXOgre.HttpRequestSubmit[jvSpec, jvFormBody].ID}
+
+; ... later, possibly in a different scope ...
+
+if ${ISXOgre.HttpRequest[${iJobId}].Complete}
+    echo "${ISXOgre.HttpRequest[${iJobId}].Status}: ${ISXOgre.HttpRequest[${iJobId}].Body~}"
+```
+
+---
+
+### HttpLastSubmitError — Member
+
+String. Holds the reason the most recent `HttpRequestSubmit` returned `id == 0`. Empty string if the most recent submit succeeded.
+
+**Syntax:** `${ISXOgre.HttpLastSubmitError}`
+
+**Example:**
+
+```
+iJobId:Set[${ISXOgre.HttpRequestSubmit[jvSpec, jvFormBody].ID}]
+if ${iJobId} <= 0
+    echo "submit error: ${ISXOgre.HttpLastSubmitError~}"
+```
+
+Common reasons surfaced via this member:
+
+- Missing or empty `url` in the spec.
+- Spec / body `jsonvalue` could not be resolved by name (not declared, or wrong type).
+- Body `jsonvalue` is not a `jsonvaluecontainer`.
+
+---
+
+### SetFormBodyB64 — Method
+
+Build an `x-www-form-urlencoded` body of the form `<fieldName>=<urlencoded(base64(src.AsJSON))>` entirely in C++ and write it as a JSON string scalar at the root of `dstBody`. Pass `dstBody` to `HttpRequestSubmit` as the 2nd argument.
+
+This helper exists specifically to keep large payloads out of LavishScript's expression evaluator. Bodies above ~24 KB cannot reliably be assembled or read through `${...}` text expansion; `SetFormBodyB64` performs the entire base64-encode + URL-encode + JSON-escape + assignment chain inside the extension.
+
+**Syntax:**
+
+```
+ISXOgre:SetFormBodyB64[<fieldName>, <srcJsonref>, <dstBodyJsonref>]
+```
+
+| argv[0] | argv[1] | argv[2] | Behavior |
+|---------|---------|---------|----------|
+| `string` (form field name, e.g. `"payload_b64"`) | `jsonvalue` (source — the JSON tree to encode) | `jsonvalue` (destination — receives the assembled form body at its root) | Reads `src.AsJSON`, base64-encodes the bytes, URL-encodes the base64 token, prepends `<fieldName>=`, and writes the resulting form body into `dst` as a JSON string scalar. |
+
+`dstBody` is **replaced** (via `SetValue`) — any previous contents are discarded.
+
+**Example — POST a large JSON tree, base64-wrapped, in a single form field:**
+
+```
+variable jsonvalue jvPayload
+variable jsonvalue jvSpec
+variable jsonvalue jvFormBody
+variable jsonvalue jvHeaders
+variable int       iJobId
+
+; Build the structured payload as a normal jsonvalue
+jvPayload:SetValue["{}"]
+jvPayload:SetString[name,"Example Item"]
+jvPayload:SetInteger[level,100]
+jvPayload:Set[tags,"[\"rare\",\"crafted\"]"]
+
+; Build the request spec
+jvHeaders:SetValue["[]"]
+jvHeaders:AddString["Accept: application/json"]
+jvHeaders:AddString["Authorization: Bearer <token>"]
+
+jvSpec:SetValue["{}"]
+jvSpec:SetString[url,"https://api.example.com/v1/items"]
+jvSpec:SetString[method,"POST"]
+jvSpec:SetString[content_type,"application/x-www-form-urlencoded"]
+jvSpec:SetInteger[timeout_sec,60]
+jvSpec:Set[headers,"${jvHeaders~}"]
+
+; Assemble the form body in C++ (the entire base64+urlencode pipeline)
+ISXOgre:SetFormBodyB64["payload_b64", jvPayload, jvFormBody]
+
+; jvFormBody now contains:
+;   "payload_b64=eyJuYW1lIjoiRXhhbXBsZSBJdGVtIiwibGV2ZWwiOjEwMCwidGFncyI6WyJyYXJlIiwiY3JhZnRlZCJdfQ%3D%3D"
+
+iJobId:Set[${ISXOgre.HttpRequestSubmit[jvSpec, jvFormBody].ID}]
+
+while !${ISXOgre.HttpRequest[${iJobId}].Complete}
+    waitframe
+
+echo "status=${ISXOgre.HttpRequest[${iJobId}].Status}"
+ISXOgre.HttpRequest[${iJobId}]:Release
+```
+
+The server side reverses this in one step: URL-decode → base64-decode → parse JSON. No payload-size ceiling: payloads of tens of kilobytes have been verified end-to-end via this path.
+
+> **Note:** `SetFormBodyB64` is the recommended path for any body large enough to make `${jvSrc.AsJSON~}` round-tripping inside LavishScript awkward. For small bodies (under a few KB) the manual `jvFormBody:SetValue["\"<urlencoded form>\""]` pattern is simpler and equally correct.
+
+---
+
+### ogrehttpjob — Datatype
+
+Handle to a single async HTTP request. Returned by `${ISXOgre.HttpRequestSubmit[...]}` and `${ISXOgre.HttpRequest[<id>]}`. The handle is just the job id encoded into the LSOBJECT — there is no per-handle allocation, and you can re-acquire a handle for the same id any number of times.
+
+#### Members
+
+| Member | Type | Notes |
+|--------|------|-------|
+| `ID` | int | The underlying job id. `0` if the submit failed (`Exists` will be `FALSE`). |
+| `State` | string | `"Pending"` / `"Completed"` / `"Failed"` / `"None"`. `"None"` means the id has been released or never existed. |
+| `Status` | int | HTTP status code. `0` until completion. |
+| `Body` | string | Response body. Empty until completion. |
+| `Error` | string | libcurl error string. Empty unless `State == "Failed"`. |
+| `Ok` | bool | `TRUE` iff `State == "Completed"` and `Status` is 2xx. |
+| `Complete` | bool | `TRUE` iff `State` is `Completed` **or** `Failed`. Use this to exit a poll loop. |
+| `Exists` | bool | `TRUE` iff a job record exists for this id (not yet released and not bogus). |
+
+#### Methods
+
+| Method | Notes |
+|--------|-------|
+| `:Release` | Frees the slot. Required for polling-flavor jobs once you've read the result. Atom-flavor jobs auto-release after the callback returns unless `release_after_callback=FALSE` was set in the spec. |
+
+**Example — polling pattern:**
+
+```
+variable int iJobId = ${ISXOgre.HttpRequestSubmit[jvSpec, jvFormBody].ID}
+variable int iFrames=0
+
+while !${ISXOgre.HttpRequest[${iJobId}].Complete} && ${iFrames:Inc} < 600
+    waitframe
+
+if !${ISXOgre.HttpRequest[${iJobId}].Complete}
+{
+    echo "timeout after ${iFrames} frames (state=${ISXOgre.HttpRequest[${iJobId}].State~})"
+    ISXOgre.HttpRequest[${iJobId}]:Release
+    return
+}
+
+if ${ISXOgre.HttpRequest[${iJobId}].Ok}
+    echo "OK: ${ISXOgre.HttpRequest[${iJobId}].Body~}"
+else
+    echo "FAIL ${ISXOgre.HttpRequest[${iJobId}].Status}: ${ISXOgre.HttpRequest[${iJobId}].Error~}"
+
+ISXOgre.HttpRequest[${iJobId}]:Release
+```
+
+---
+
+### HTTP Use Cases
+
+- **REST API integration:** POST structured data to a web service from inside an EQ2 session without blocking the main thread / freezing the client.
+- **Large-payload uploads:** when a body would otherwise exceed LavishScript's ~24 KB string-handling ceiling (the wedge that motivated `SetFormBodyB64`).
+- **Webhook / Discord posts:** fire-and-forget POSTs with an atom callback for logging the result.
+- **Async pull jobs:** kick off a `GET` against an internal service at the start of a fight and consume the response a few seconds later when it's needed.
