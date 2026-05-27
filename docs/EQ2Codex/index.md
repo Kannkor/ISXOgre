@@ -45,7 +45,7 @@ eq2codex doesn't scrape. Data comes from capture clients that upload directly fr
 
 - **ACT plugin** — Advanced Combat Tracker plugin that uploads loot drops live as they happen. *Available now.*
 - **OgreBot — Codex Inspect / Codex Toons tabs** — uploads roster, gear, adornments, and stats for your in-game toons. *Available now.*
-- **Standalone log scanner** — Python tool that reads EQ2 chat logs and uploads loot drops. *Coming soon.*
+- **Standalone log scanner** — Python tool that reads EQ2 chat logs and uploads loot drops. Install + setup instructions at [eq2codex.com/install/standalone](https://eq2codex.com/install/standalone).
 
 All clients use the same JSON API and connect to the same uploader account. Drops are aggregated community-wide; the system counts distinct contributors per drop, not individual contribution counts.
 

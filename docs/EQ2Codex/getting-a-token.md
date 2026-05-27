@@ -1,6 +1,6 @@
 # Getting an API Token
 
-To upload data with the ACT plugin, OgreBot's **Codex Inspect** / **Codex Toons** tabs, or the upcoming standalone scanner, you need an **eq2codex API token**. Tokens are created from your account settings and act as bearer credentials — one token works for every capture client tied to that account.
+To upload data with the ACT plugin, OgreBot's **Codex Inspect** / **Codex Toons** tabs, or the standalone log scanner, you need an **eq2codex API token**. Tokens are created from your account settings and act as bearer credentials — one token works for every capture client tied to that account.
 
 This walkthrough is **five clicks end-to-end**.
 
@@ -65,7 +65,7 @@ You're done on the codex side. Take the copied token and paste it into whichever
 
 - **ACT plugin** — see the **About** page on [eq2codex.com/about](https://eq2codex.com/about) for installation steps.
 - **OgreBot Codex Inspect / Codex Toons tabs** — open OgreBot, click the **Codex Inspect** tab, hit **Setup API Token**, paste, save.
-- **Standalone log scanner** — *coming soon* — instructions will live on the About page.
+- **Standalone log scanner** — see [eq2codex.com/install/standalone](https://eq2codex.com/install/standalone) for the download + setup walkthrough.
 
 ---
 
