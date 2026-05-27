@@ -12,29 +12,44 @@ Nothing — eq2codex is free. It's a community project, built to give EverQuest 
 
 ---
 
-## What It Offers
+## What it offers
 
 - **Searchable item database** — browse EQ2 items with their full in-game examine windows, sprites, stats, effects, and class restrictions.
 - **Drop sources** — see which mobs and zones drop each item, aggregated from community contributions.
-- **Character dashboards** — authenticated user dashboards for personal toon planning (in progress).
+- **Character pages** — upload your toons via OgreBot and get full stat/gear/adornment pages, plus side-by-side comparisons.
+- **Raid roster + gear report** — build a persistent raid roster (your toons or census-shadow toons), see everyone's gear and adornments side by side, and compare against a curated adornment sheet.
+- **Adornment sheets** — curate "the right adornments per slot" for your guild's role/tier and apply them to any raid's gear report for green/yellow/red compliance scoring.
 - **Public JSON API** — structured access to item and drop data.
 
-## How Data Gets In
+---
+
+## Walkthroughs
+
+If you're new to codex, the docs below walk through each surface in order — pick the one you want and dive in.
+
+### Uploading data
+
+- **[Getting an API Token](getting-a-token.md)** — set up the eq2codex account and token that the ACT plugin and OgreBot's **Codex Inspect** / **Codex Toons** tabs use to push your data to the site. Start here if you want your toons to show up.
+
+### Working with your characters
+
+- **[Comparing Characters](compare-characters.md)** — put two toons side by side and see every stat, gear slot, and adornment difference with explicit Δ columns. Works for both your OgreBot-uploaded toons and census-only shadow toons.
+- **[My Raids](my-raids.md)** — build a persistent raid roster (OgreBot toons, census shadows, or a mix), arrange them into raid groups, and read the whole raid's gear and adornments in one table.
+- **[Adornment Sheets](adornment-sheets.md)** — curate a reusable "the right adornments per slot" list (white/blue/black/orange/cyan/green), share it with other users, and apply it to any raid's gear report to instantly see who's compliant and who's not.
+
+---
+
+## How data gets in
 
 eq2codex doesn't scrape. Data comes from capture clients that upload directly from your game session:
 
 - **ACT plugin** — Advanced Combat Tracker plugin that uploads loot drops live as they happen. *Available now.*
+- **OgreBot — Codex Inspect / Codex Toons tabs** — uploads roster, gear, adornments, and stats for your in-game toons. *Available now.*
 - **Standalone log scanner** — Python tool that reads EQ2 chat logs and uploads loot drops. *Coming soon.*
 
-Both clients use the same JSON API and connect to the same uploader account. Drops are aggregated community-wide; the system counts distinct contributors per drop, not individual contribution counts.
+All clients use the same JSON API and connect to the same uploader account. Drops are aggregated community-wide; the system counts distinct contributors per drop, not individual contribution counts.
 
-Either client requires an API token — see [Getting an API Token](getting-a-token.md). Capture client downloads and setup instructions are on the [About page](https://eq2codex.com/about).
-
----
-
-## Documentation
-
-Full user documentation is in progress. In the meantime, the [About page](https://eq2codex.com/about) on the live site has the most up-to-date overview of capture clients and project status.
+Each client requires an API token — see [Getting an API Token](getting-a-token.md). Capture client downloads and setup instructions are on the [About page](https://eq2codex.com/about).
 
 ---
 
