@@ -92,7 +92,29 @@ Import is **additive by default** — "existing entries won't be touched, re-run
 
 ---
 
-## 5. Clone an existing sheet
+## 5. Import from a character (any toon, any time)
+
+The Active Raid import only works during a raid night, while a capture client is live-posting your roster to `/active-raid`. To seed a sheet *outside* raid hours — from yesterday's tank, a recruit's census-only shadow, or a guildie's uploaded alt — use the second button in the editor header, **Import from a Character**:
+
+The picker mirrors the Active Raid view — same **Slots** filter and **Tier** picker, same additive merge, same two-hander handling — but the toon source is different:
+
+- **Characters** — every toon you can see: your own OgreBot uploads *plus* any shared with you (the same set the [Compare](https://eq2codex.com/compare) picker enumerates). Both upload-backed and census-shadow toons work — codex reads whichever source has gear data. Each toon is tagged with its source so you know what you're pulling from. Per-toon checkboxes plus **Select all**, exactly like Active Raid.
+- **Don't see the toon you want?** A **census lookup** widget sits below the roster. Look a character up by **server + first name** (or by census ID), and codex creates an owned census shadow for it on the spot:
+    - If the looked-up toon already matches one of your visible characters, its checkbox is simply ticked — no duplicate.
+    - Otherwise it's added as a removable **"Added via census"** chip, pre-checked and ready to import alongside your roster picks.
+  The lookup runs from **your browser** against the official Daybreak census (the same flow used by the **Follow a character** page and the **Add via Census** widget on `/raid/{slug}/manage`), so it counts against your home IP's census quota, not ours.
+
+Hit **Import** and the rest is identical to the Active Raid path: codex walks each selected toon's gear, picks up every adornment they're wearing, and stages it under the chosen tier. Re-running is safe — existing entries are never touched.
+
+> **:bulb: Imported entries default to all 26 classes**
+> A character import doesn't know which classes you intend the recommendation for, so each new entry is created as applying to **all 26 classes**. Narrow them on the editor afterward (e.g. "Channeler only") if the adornment is role-specific.
+
+> **:memo: Which import should I use?**
+> Use **Active Raid** when you're mid-raid and want to canonise what your live roster is wearing. Use **Import from a Character** for everything else — it works any time and covers toons that aren't in tonight's raid (or any raid at all).
+
+---
+
+## 6. Clone an existing sheet
 
 From the editor (or the index card's menu), **Clone** creates a copy of the sheet under your ownership. The clone is independent of the original — your edits don't affect the source, and vice versa.
 
@@ -103,7 +125,7 @@ The two most common reasons to clone:
 
 ---
 
-## 6. Share a sheet
+## 7. Share a sheet
 
 Toggle **Visible to others** in the sheet's settings to publish it. Every codex user immediately sees the sheet in:
 
@@ -114,7 +136,7 @@ There's no fine-grained ACL — visibility is binary, on or off, all-users or no
 
 ---
 
-## 7. Apply a sheet to a raid
+## 8. Apply a sheet to a raid
 
 Once the sheet exists (or you're consuming someone else's shared sheet), open any raid's gear report at `/raid/{slug}` and pick the sheet from the **COMPARE ADORNMENTS** dropdown at the top-right.
 
