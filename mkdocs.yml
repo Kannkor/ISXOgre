@@ -369,6 +369,7 @@ nav:
         - Vegarlson - The Terrene Rift [Event Heroic]: EQ2/encounter-coding/_Exp_15_Chaos_Descending/vegarlson-the-terrene-rift-event-heroic.md
         - Vegarlson - Upheaval [Raid]: EQ2/encounter-coding/_Exp_15_Chaos_Descending/vegarlson-upheaval-raid.md
     - Developer:
+      - EQ2/developer/index.md
       - ISXOgre API Reference: EQ2/developer/isxogre-api.md
       - OgreBotAPI Reference: EQ2/developer/ogrebot-api.md
       - OgreCraftAPI Reference: EQ2/developer/ogrecraft-api.md
@@ -378,6 +379,10 @@ nav:
       - OgreEvents: EQ2/developer/ogre-events.md
       - Preferred Group Members: EQ2/developer/preferred-group-members.md
       - Coding Practices: EQ2/developer/coding-practices.md
+      - Examples:
+        - EQ2/developer/examples/index.md
+        - Move group on cast: EQ2/developer/examples/cast-move-group.md
+        - Spread to own spots: EQ2/developer/examples/cast-spread-spots.md
     - Community:
       - Contact: EQ2/community/contact.md
       - OgreIRC: EQ2/community/ogreirc.md
