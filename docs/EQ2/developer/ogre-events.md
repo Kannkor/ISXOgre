@@ -272,5 +272,3 @@ method OnAbilityReadyTimersUpdate(string _Toon, int64 _AbilityID, string _Abilit
 - [OgreBotAPI Reference](ogrebot-api.md) — Full API for controlling OgreBot
 - [Detrimentals System](detrimentals.md) — Detrimental monitoring events
 - [Coding Practices](coding-practices.md) — Naming conventions and code style
-
-<!-- Source: C:\Games\Steam\Scripts\EQ2OgreBot\AutoIncludes\Object_OgreEvents.iss -->

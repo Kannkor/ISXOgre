@@ -376,6 +376,7 @@ nav:
       - CampSpot System: EQ2/developer/camp-spot.md
       - CampSpot Jump System: EQ2/developer/campspot-jump.md
       - Detrimentals System: EQ2/developer/detrimentals.md
+      - Ask Query System: EQ2/developer/ask-query-system.md
       - OgreEvents: EQ2/developer/ogre-events.md
       - Preferred Group Members: EQ2/developer/preferred-group-members.md
       - Coding Practices: EQ2/developer/coding-practices.md
@@ -383,6 +384,7 @@ nav:
         - EQ2/developer/examples/index.md
         - Move group on cast: EQ2/developer/examples/cast-move-group.md
         - Spread to own spots: EQ2/developer/examples/cast-spread-spots.md
+        - Group readiness check: EQ2/developer/examples/ask-group-check.md
     - Community:
       - Contact: EQ2/community/contact.md
       - OgreIRC: EQ2/community/ogreirc.md

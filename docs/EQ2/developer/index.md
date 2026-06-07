@@ -15,6 +15,7 @@ Reference material for scripting against OgreBot, ISXOgre, and OgreCraft. These 
 - [CampSpot System](camp-spot.md) — Positioning, absolute vs relative campspot (CRCS / ClearRCS)
 - [CampSpot Jump System](campspot-jump.md) — Automated jump navigation across gaps and platforms
 - [Detrimentals System](detrimentals.md) — Detrimental monitoring and events
+- [Ask Query System](ask-query-system.md) — Ask the whole group a question and get one combined answer (all/any true/false, count, JSON)
 - [OgreEvents](ogre-events.md) — Event attach/detach pattern for reacting to game actions
 - [Preferred Group Members](preferred-group-members.md) — Preferred group & raid member ordering
 

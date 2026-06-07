@@ -8,12 +8,13 @@ Each example answers a real question — *"is there a way to tell toons to go to
 
 ---
 
-## The two examples
+## The examples
 
 | Page | What it does | Teaches |
 |------|--------------|---------|
 | [Move group on cast](cast-move-group.md) | Toon moves to **one** safe spot on cast start; returns **4 seconds after** the cast ends. | Cast monitoring + campspot move + **timer → event** pattern. |
 | [Spread to own spots](cast-spread-spots.md) | **Each toon → its own** spot (rank 1, 2, 3…); returns immediately on cast end. | The "same order on everyone" trick. |
+| [Group readiness check](ask-group-check.md) | Runs on **one** toon and asks the **whole group** if it's ready to pull (combat, required item, roster). | The [Ask Query System](../ask-query-system.md) — fan-out questions and combined answers. |
 
 ---
 
