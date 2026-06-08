@@ -66,6 +66,7 @@ Result:Set["${Return}"]
 | `-Expected` | *(auto)* | How many replies to wait for before reducing early. **Auto-derived from `<ForWho>`** — see [Smart `-Expected`](#smart-expected-auto-counting-who-should-reply) below. Pass it explicitly only to override. |
 | `-RespondersOnly` | off | Reduce over **who actually replied** instead of the expected count. Affects `Ask_AllTrue` / `Ask_AnyFalse` only — see [Strict vs responders-only](#strict-vs-responders-only) below. |
 | `-RetryMax` | `5` | With `-ServerCall`, how many warm-up retries each member makes before giving up and replying `**TIMEOUT**`. |
+| `-useIRC` | *(auto on raid scope)* | Force the **cross-box IRC** transport instead of the local-only relay. A raid-scoped `<ForWho>` switches to IRC automatically; pass this only to force IRC for a group-scoped query. See [Local vs raid (IRC) transport](#local-vs-raid-irc-transport) below. |
 
 > **:warning: Pass the BARE expression, not `${...}`.** Write `-expr "Me.InCombat"`, **not** `-expr "${Me.InCombat}"`. The remote member resolves it with double-expansion on its own side; a `${...}` here would be evaluated on the **caller** before it's ever sent, so every member would answer the caller's value instead of its own.
 
@@ -202,6 +203,19 @@ A member that doesn't reply in time (old build, zoning, busy) is simply absent f
 ### `-ServerCall` for examine data
 
 Item/examine data isn't always in memory the instant you ask (e.g. right after zoning). With `-ServerCall`, a member that reads an empty/`NULL` value asks the server for it and retries locally up to `-RetryMax` times before replying. A value that never warms comes back as `**TIMEOUT**`. Use `-ServerCall` for any expression that reads `ToItemInfo` / examine fields; you don't need it for instant values like `Me.Level` or `Me.InCombat`.
+
+### Local vs raid (IRC) transport
+
+A **group** lives on one or more boxes that share a local relay, so a group-scoped query (`igw:`) is broadcast over that local relay. A **raid** can span several computers, and the local relay does not cross machines — so a **raid-scoped** `<ForWho>` (`irw:` / `irzw:` / `irwbn:` / `irzwbn:`) is sent over **IRC** instead, the one transport that reaches every box.
+
+This is automatic: you ask a raid the same way you ask a group, and the system picks IRC when it sees a raid-scoped target. You only ever touch `-useIRC` to **force** IRC for a normally-local (group-scoped) query — rare, e.g. members deliberately split across boxes outside a raid grouping.
+
+Two things make the IRC path "just work" with no extra calls:
+
+- **Self-loopback.** IRC delivers your own message back to your own box too, so the single IRC send reaches your local members *and* the remote ones — there's no separate local send and no double delivery.
+- **Symmetric replies.** The IRC flag is forwarded to each member so their reply comes back over IRC as well; otherwise a remote member's answer could never cross back to you.
+
+Everything else — `-expr`, `-op`, `-value`, `-Expected`, `-ServerCall`, the reduction modes — behaves identically on either transport.
 
 ---
 
