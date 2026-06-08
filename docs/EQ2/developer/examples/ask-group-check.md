@@ -94,7 +94,8 @@ function main()
 	; <<< EDIT: the item every member should be carrying for this fight.
 	variable string RequiredItem="Required Totem"
 
-	variable string Target="igw:${Me.Name}"   ; whole group
+	; whole group
+	variable string Target="igw:${Me.Name}"
 	variable jsonvalue jvRoster
 
 	echo === Group readiness check (group of ${Me.GroupCount}) ===
@@ -102,7 +103,7 @@ function main()
 	;--------------------------------------------------------------------------
 	; 1) Is anyone already in combat? If so, hold the pull.
 	;--------------------------------------------------------------------------
-	call OgreBotAPI.Ask_AnyTrue "${Target}" -expr "Me.InCombat" -op "==" -value "TRUE"
+	call OgreBotAPI.Ask_AnyTrue "${Target}" NULL -expr "Me.InCombat" -op "==" -value "TRUE"
 	if ${Return}
 	{
 		echo NO-GO: someone is already in combat.
@@ -113,9 +114,10 @@ function main()
 	;--------------------------------------------------------------------------
 	; 2) Does EVERYONE have the required item?
 	;    A member without it reports the literal text "NULL", so "!= NULL"
-	;    means "has it".
+	;    means "has it". We pass jvRoster in slot 2 so the SAME query also hands
+	;    back each member's value - no second broadcast needed to see who's short.
 	;--------------------------------------------------------------------------
-	call OgreBotAPI.Ask_AllTrue "${Target}" -expr "Me.Inventory[${RequiredItem}].Name" -op "!=" -value "NULL"
+	call OgreBotAPI.Ask_AllTrue "${Target}" jvRoster -expr "Me.Inventory[${RequiredItem}].Name" -op "!=" -value "NULL"
 	if ${Return}
 	{
 		echo OK: everyone has "${RequiredItem}".
@@ -123,17 +125,14 @@ function main()
 	else
 	{
 		echo NO-GO: at least one member is missing "${RequiredItem}".
-
-		; Show who has what. Load the JSON straight into a jsonvalue to read it.
-		call OgreBotAPI.Ask_Json "${Target}" -expr "Me.Inventory[${RequiredItem}].Name"
-		jvRoster:SetValue["${Return~}"]
+		; The breakdown is already in jvRoster from the call above.
 		echo Roster: ${jvRoster.AsJSON}
 	}
 
 	;--------------------------------------------------------------------------
 	; 3) How many members are carrying it?
 	;--------------------------------------------------------------------------
-	call OgreBotAPI.Ask_CountTrue "${Target}" -expr "Me.Inventory[${RequiredItem}].Name" -op "!=" -value "NULL"
+	call OgreBotAPI.Ask_CountTrue "${Target}" NULL -expr "Me.Inventory[${RequiredItem}].Name" -op "!=" -value "NULL"
 	echo ${Return} of ${Me.GroupCount} members have "${RequiredItem}".
 
 	echo === Check complete ===
