@@ -427,6 +427,7 @@ Most methods accept a `_ForWho` parameter that controls which characters execute
 | `Alias_ChangeEntryAlias(string _ForWho, string _From, string _To, bool _SilentMode)` | Change alias reference | `OgreBotAPI:Alias_ChangeEntryAlias["all", "mt", "ot"]` |
 | `ForceAliasUpdate(string _ForWho)` | Force alias cache update | `OgreBotAPI:ForceAliasUpdate["all"]` |
 | `Aliases_ShowAllBuiltInAliases(string _ForWho, bool _TorF=TRUE)` | Show/hide all built-in aliases | `OgreBotAPI:Aliases_ShowAllBuiltInAliases["all", TRUE]` |
+| `Get_Aliases_JSON()` | All aliases (user + built-in) and what each currently resolves to, as JSON (member, jsonvalue). [Details](#aliases) | `${OgreBotAPI.Get_Aliases_JSON}` |
 
 ### Ability Embargo/Rotation
 
@@ -683,6 +684,79 @@ Members return values and are accessed via `${OgreBotAPI.MemberName[params]}`.
 | `Get_VariableExists(string _VariableName)` | bool | Does variable exist | `${OgreBotAPI.Get_VariableExists["phase"]}` |
 | `Get_InternalVariable(string _VariableName)` | string | Get internal variable | `${OgreBotAPI.Get_InternalVariable["myVar"]}` |
 | `Get_InternalVariableExists(string _VariableName)` | bool | Does internal var exist | `${OgreBotAPI.Get_InternalVariableExists["myVar"]}` |
+
+### Aliases
+
+| Member | Return | Description | Example |
+|--------|--------|-------------|---------|
+| `Get_Aliases_JSON()` | jsonvalue | All aliases and what each currently resolves to | `${OgreBotAPI.Get_Aliases_JSON}` |
+
+`Get_Aliases_JSON` is the JSON equivalent of the **Display Aliases** button on the Aliases tab. It returns every alias known to the bot — user-defined profile aliases plus all built-in aliases — along with what each one evaluates to *right now*. A `resolved` value of `""` (empty) means the alias currently points at nothing (e.g. a role with no one assigned, or a target that isn't selected).
+
+**Top-level shape:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `enabled` | bool | Whether the alias system is enabled (the global "Enable aliases" checkbox) |
+| `aliases` | array | One object per alias (see below) |
+
+**Each entry in `aliases`:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `alias` | string | The alias text (e.g. `mt`, `@Tank`, `@Me`) |
+| `type` | string | `user`, `builtin-role`, or `builtin-dynamic` (see below) |
+| `resolved` | string | What the alias currently evaluates to; `""` if it resolves to nothing right now |
+| `for` | string | *(user only)* The character/target the alias is configured for |
+| `noRaid` | bool | *(user only)* Whether the alias is excluded while in raid mode |
+
+**`type` values:**
+
+| Value | Meaning |
+|-------|---------|
+| `user` | A user-defined alias from the profile. Includes the extra `for` and `noRaid` fields. |
+| `builtin-role` | A built-in role alias (`@Tank`, `@Bard`, `@Enchanter`, `@Healer1`–`@Healer3`, `@DPS1`–`@DPS3`). Reported from the alias cache. |
+| `builtin-dynamic` | A built-in dynamic alias (`@Me`, `@Group`, `@Raid`, `@PCTarget`, `@NPCsTarget`). Evaluated live through the resolver each call. |
+
+**Example output** (names are illustrative):
+
+```json
+{
+  "enabled": true,
+  "aliases": [
+    { "alias": "mt", "type": "user", "for": "TankName", "noRaid": false, "resolved": "TankName" },
+    { "alias": "@Tank", "type": "builtin-role", "resolved": "TankName" },
+    { "alias": "@Healer1", "type": "builtin-role", "resolved": "HealerName" },
+    { "alias": "@DPS1", "type": "builtin-role", "resolved": "" },
+    { "alias": "@Me", "type": "builtin-dynamic", "resolved": "PlayerName" },
+    { "alias": "@Group", "type": "builtin-dynamic", "resolved": "@Group" },
+    { "alias": "@PCTarget", "type": "builtin-dynamic", "resolved": "" }
+  ]
+}
+```
+
+**Usage:**
+
+```lavishscript
+; Force the alias cache up to date, then read the JSON
+OgreBotAPI:ForceAliasUpdate["all"]
+
+variable jsonvalue jvAliases
+jvAliases:SetValue["${OgreBotAPI.Get_Aliases_JSON.AsJSON~}"]
+
+; Is the alias system enabled?
+if ${jvAliases.Get[enabled]}
+{
+    ; Walk every alias and print what it resolves to
+    variable int i
+    for ( i:Set[1] ; ${i} <= ${jvAliases.Get[aliases].Used} ; i:Inc )
+    {
+        echo "${jvAliases.Get[aliases,${i},alias]} (${jvAliases.Get[aliases,${i},type]}) -> ${jvAliases.Get[aliases,${i},resolved]}"
+    }
+}
+```
+
+> **:bulb: Tip** — Call `OgreBotAPI:ForceAliasUpdate` first if you need the freshest values — the `builtin-role` and `user` entries are reported from the alias cache, while `builtin-dynamic` entries are always evaluated live.
 
 ### Actor/Target Information
 
