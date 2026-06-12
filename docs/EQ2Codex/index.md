@@ -19,7 +19,7 @@ Nothing — eq2codex is free. It's a community project, built to give EverQuest 
 - **Character pages** — upload your toons via OgreBot and get full stat/gear/adornment pages, plus side-by-side comparisons.
 - **Raid roster + gear report** — build a persistent raid roster (your toons or census-shadow toons), see everyone's gear and adornments side by side, and compare against a curated adornment sheet.
 - **Adornment sheets** — curate "the right adornments per slot" for your guild's role/tier and apply them to any raid's gear report for green/yellow/red compliance scoring.
-- **Public JSON API** — structured access to item and drop data.
+- **[Public JSON API](api-reference.md)** — structured access to item and drop data, plus ready-to-embed icon and tooltip images.
 
 ---
 
@@ -30,6 +30,10 @@ If you're new to codex, the docs below walk through each surface in order — pi
 ### Uploading data
 
 - **[Getting an API Token](getting-a-token.md)** — set up the eq2codex account and token that the ACT plugin and OgreBot's **Codex Inspect** / **Codex Toons** tabs use to push your data to the site. Start here if you want your toons to show up.
+
+### Building on the data
+
+- **[Public API Reference](api-reference.md)** — pull item, drop, and merchant data into your own tools (a Discord bot, a spreadsheet, an overlay) as clean JSON, plus ready-to-embed icon and full-tooltip PNG images. Needs a token from the page above.
 
 ### Working with your characters
 
