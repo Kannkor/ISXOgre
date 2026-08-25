@@ -101,6 +101,7 @@ if ${fDuration.Between[1,10]}
 ## Related Documentation
 
 - [OgreBotAPI Reference](ogrebot-api.md) - Complete API method and member reference
-- [Cross-Session Commands](cross-session-commands.md) - Command syntax and targeting
+- [`_ForWho` Targeting](ogrebot-api.md#the-_forwho-parameter) - Cross-session command syntax and targeting
 - [CampSpot System](camp-spot.md) - Positioning and movement reference
-- [Encounter Coding](encounter-coding.md) - How to write encounter modules
+- [OgreEvents](ogre-events.md) - Event attach/detach pattern for reacting to game actions
+- [Encounter Coding](../encounter-coding/index.md) - What each encounter module does, per zone
