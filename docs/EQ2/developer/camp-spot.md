@@ -518,6 +518,5 @@ function JoustOut()
 
 - [CampSpot Jump System](campspot-jump.md) - Automated jump navigation across gaps and platforms
 - [OgreBotAPI Reference](ogrebot-api.md) - Movement and positioning methods on OgreBotAPI
-- [Cross-Session Commands](cross-session-commands.md) - Full cross-session command syntax and targeting
-- [Encounter Coding](encounter-coding.md) - Using campspot in encounter modules
+- [Encounter Coding](../encounter-coding/index.md) - What each encounter module does, per zone
 - [Coding Practices](coding-practices.md) - Variable naming conventions and code style
