@@ -197,4 +197,4 @@ To set up a CampSpot Jump path, you need precise coordinates for all four points
 
 - [CampSpot System](camp-spot.md) -- Core campspot positioning system
 - [OgreBotAPI Reference](ogrebot-api.md) -- Movement and positioning methods
-- [Encounter Coding](encounter-coding.md) -- Using campspot jump in encounter modules
+- [Encounter Coding](../encounter-coding/index.md) -- What each encounter module does, per zone
