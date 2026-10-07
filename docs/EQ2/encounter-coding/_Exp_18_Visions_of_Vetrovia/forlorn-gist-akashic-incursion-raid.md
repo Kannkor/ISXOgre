@@ -15,7 +15,7 @@ This zone has 10 boss encounters with OgreBot automation modules.
 | [Husk of Psyclis](#husk-of-psyclis) | Mage self-target on curse |
 | [Husk of Vermidicus](#husk-of-vermidicus) | Scout stealth on curse |
 | [The Cloaked Necromancer](#the-cloaked-necromancer) | Composite -- runs all four Husk mechanics simultaneously |
-| [Auntie Grimm / Sister Belladonna](#auntie-grimm--sister-belladonna) | Hex area jousting, curse-based jumping to colored pools, raid group positioning |
+| [Auntie Grimm / Sister Belladonna](#auntie-grimm-sister-belladonna) | Hex area jousting, curse-based jumping to colored pools, raid group positioning |
 | [Grandmother Deliria](#grandmother-deliria) | Hex bubble jousting, The Mother's Will item usage, class-based positioning |
 | [Mother Ballentree](#mother-ballentree) | Dynamic multi-point rotating joust based on gift/igniter tracking |
 

@@ -10,7 +10,7 @@ This zone has 5 boss encounters with OgreBot automation modules.
 |------|-------------|
 | [Haggle Baron Klok](#haggle-baron-klok) | Color cube jousting, elemental/arcane cure management, NPC cast monitoring |
 | [Sir Rouland](#sir-rouland) | Pact of Shadows coordinated cross-session curse curing |
-| [Ilenee's Betrayal / Ilenee's Despair](#ilenees-betrayal--ilenees-despair) | Port warning (minimal) |
+| [Ilenee's Betrayal / Ilenee's Despair](#ilenees-betrayal-ilenees-despair) | Port warning (minimal) |
 | [Ione the Lifebringer](#ione-the-lifebringer) | Host shell entry with special ability cycling |
 | [Warlord Kurn Machta](#warlord-kurn-machta) | Dance with Death jousting, Iron Maiden key/intercept, pain threshold cures, bone spawning, torture stack tracking |
 

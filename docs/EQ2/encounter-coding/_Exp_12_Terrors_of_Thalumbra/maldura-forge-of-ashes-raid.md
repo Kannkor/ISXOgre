@@ -8,9 +8,9 @@ This zone has 4 boss encounters with OgreBot automation modules.
 
 | Boss | Description |
 |------|-------------|
-| [Cronnin the Axe / Dellmun the Hammer](#cronnin-the-axe--dellmun-the-hammer) | Enchanter auto-dispelling for stack reduction |
+| [Cronnin the Axe / Dellmun the Hammer](#cronnin-the-axe-dellmun-the-hammer) | Enchanter auto-dispelling for stack reduction |
 | [Kiernun the Lyrical](#kiernun-the-lyrical) | Lyrical Protection buff cycling, bard bubble casting |
-| [Captain Ashenfell / Captain Graybeard](#captain-ashenfell--captain-graybeard) | Light curse auto-movement, sureshot intercept, cure toggle |
+| [Captain Ashenfell / Captain Graybeard](#captain-ashenfell-captain-graybeard) | Light curse auto-movement, sureshot intercept, cure toggle |
 | [Kyrus of the Old Ways](#kyrus-of-the-old-ways) | Gaze joust, enrage auto-dispell, evade teleport recovery |
 
 ---

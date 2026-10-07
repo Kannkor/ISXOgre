@@ -8,9 +8,9 @@ This zone has 4 boss encounters with OgreBot automation modules.
 
 | Boss | Description |
 |------|-------------|
-| [Luminox / Core Guardian](#luminox--core-guardian) | Missile volley joust, dual positioning |
+| [Luminox / Core Guardian](#luminox-core-guardian) | Missile volley joust, dual positioning |
 | [Amalgam of Energy](#amalgam-of-energy) | Positioning with auto-target list |
-| [Blaster Module / Energy Delivery Module](#blaster-module--energy-delivery-module) | Blast joust behind module |
+| [Blaster Module / Energy Delivery Module](#blaster-module-energy-delivery-module) | Blast joust behind module |
 | [Luminox Prime](#luminox-prime) | Blast joust, 60% HP pre-positioning |
 
 ---

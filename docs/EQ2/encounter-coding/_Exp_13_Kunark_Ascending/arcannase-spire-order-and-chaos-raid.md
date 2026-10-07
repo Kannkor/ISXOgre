@@ -11,7 +11,7 @@ This zone has 4 boss encounters with OgreBot automation modules.
 | [Shanaira the Powermonger](#shanaira-the-powermonger) | Venom archetype joust, blazing winds joust |
 | [Shanaira the Prestigious](#shanaira-the-prestigious) | Ascension combo counter system by raid group |
 | [Botanist Heridal](#botanist-heridal) | Mushroom waypoints and add timer display |
-| [Guardian of Arcanna'se](#guardian-of-arcannas) | Statue color detection HUD |
+| [Guardian of Arcanna'se](#guardian-of-arcannase) | Statue color detection HUD |
 
 ---
 

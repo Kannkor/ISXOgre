@@ -8,7 +8,7 @@ This heroic zone contains 1 boss encounter.
 
 | Boss | Description |
 |------|-------------|
-| [Doda K'Bael / Queen Era'selka](#doda-kbael--queen-eraselka) | Auto intercept |
+| [Doda K'Bael / Queen Era'selka](#doda-kbael-queen-eraselka) | Auto intercept |
 
 ---
 

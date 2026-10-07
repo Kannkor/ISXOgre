@@ -8,7 +8,7 @@ This zone has 6 boss encounters with OgreBot automation modules.
 
 | Boss | Description |
 |------|-------------|
-| [Caerina the Lost / Melanie Everling](#caerina-the-lost--melanie-everling) | NPC dispel, fighter/non-fighter positioning |
+| [Caerina the Lost / Melanie Everling](#caerina-the-lost-melanie-everling) | NPC dispel, fighter/non-fighter positioning |
 | [The Construct of Souls](#the-construct-of-souls) | Three-position ping-pong on red text |
 | [Bastion the Immovable](#bastion-the-immovable) | Three-position system, colour change timer, memwipe with defiler logic |
 | [Fitzpitzle](#fitzpitzle) | Multi-room curse repositioning |

@@ -8,7 +8,7 @@ This zone has 5 boss encounters with OgreBot automation modules.
 
 | Boss | Description |
 |------|-------------|
-| [West Wing / East Wing](#west-wing--east-wing) | Split group positioning to wings |
+| [West Wing / East Wing](#west-wing-east-wing) | Split group positioning to wings |
 | [Jiva](#jiva) | Platform jumping with OgreNav navigation |
 | [So'Valiz](#sovaliz) | Claw puzzle automation (collision detection, pillar clicking) |
 | [Solusek Ro](#solusek-ro) | Platform jumping, Ro Nova and Avatar Nova jousting |

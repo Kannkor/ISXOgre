@@ -8,7 +8,7 @@ This zone has 1 boss encounter with an OgreBot automation module.
 
 | Boss | Description |
 |------|-------------|
-| [Vexven / Mucktail](#vexven--mucktail) | Kill counter HUD |
+| [Vexven / Mucktail](#vexven-mucktail) | Kill counter HUD |
 
 ---
 

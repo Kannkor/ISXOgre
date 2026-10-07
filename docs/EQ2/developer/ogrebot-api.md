@@ -385,10 +385,10 @@ Most methods accept a `_ForWho` parameter that controls which characters execute
 
 | Method | Description | Example |
 |--------|-------------|---------|
-| `ChangeOgreBotUIOption(string _ForWho, ... Args)` | Change OgreBot UI option ([Args](#changeogrebotuioption--uplinkoptionchange-args)) | `OgreBotAPI:ChangeOgreBotUIOption["all", "silent", "DisableRoots", "TRUE"]` |
+| `ChangeOgreBotUIOption(string _ForWho, ... Args)` | Change OgreBot UI option ([Args](#changeogrebotuioption-uplinkoptionchange-args)) | `OgreBotAPI:ChangeOgreBotUIOption["all", "silent", "DisableRoots", "TRUE"]` |
 | `ChangeCastStackListBoxItem(string _ForWho, string _Object, string _Value, bool _SilentMode=FALSE)` | Change cast stack listbox | `OgreBotAPI:ChangeCastStackListBoxItem["all", "Ability", "TRUE"]` |
 | `ChangeCastStackListBoxItemByTag(string _ForWho, string _Object, string _Value, string _Partial, bool _SilentMode)` | Change by tag | `OgreBotAPI:ChangeCastStackListBoxItemByTag["all", "Tag", "TRUE", "partial"]` |
-| `UplinkOptionChange(string _ForWho, ... Args)` | Change uplink option ([Args](#changeogrebotuioption--uplinkoptionchange-args)) | `OgreBotAPI:UplinkOptionChange["all", "silent", "Option", "Value"]` |
+| `UplinkOptionChange(string _ForWho, ... Args)` | Change uplink option ([Args](#changeogrebotuioption-uplinkoptionchange-args)) | `OgreBotAPI:UplinkOptionChange["all", "silent", "Option", "Value"]` |
 | `ToggleMainWindow(string _ForWho)` | Toggle main window | `OgreBotAPI:ToggleMainWindow["all"]` |
 | `ToggleConsoleWindow(string _ForWho, string _Value)` | Toggle console | `OgreBotAPI:ToggleConsoleWindow["all", "show"]` |
 | `ShowOgreConsole(string _ForWho, bool _Value)` | Show/hide OgreConsole | `OgreBotAPI:ShowOgreConsole["all", TRUE]` |
@@ -433,10 +433,10 @@ Most methods accept a `_ForWho` parameter that controls which characters execute
 
 | Method | Description | Example |
 |--------|-------------|---------|
-| `AbilityEmbargo_AddRotateTimer(int64 _AbilityID, uint _Duration, ... Args)` | Add ability rotation timer ([Args](#abilityembargo_addrotatetimer--itemembargo_addrotatetimer-args)) | `OgreBotAPI:AbilityEmbargo_AddRotateTimer[123456, 30, "-g", "PlayerName"]` |
+| `AbilityEmbargo_AddRotateTimer(int64 _AbilityID, uint _Duration, ... Args)` | Add ability rotation timer ([Args](#abilityembargo_addrotatetimer-itemembargo_addrotatetimer-args)) | `OgreBotAPI:AbilityEmbargo_AddRotateTimer[123456, 30, "-g", "PlayerName"]` |
 | `AbilityEmbargo_ResetAllAbilityEmbargos(string _ForWho)` | Reset all ability embargos | `OgreBotAPI:AbilityEmbargo_ResetAllAbilityEmbargos["all"]` |
 | `AbilityEmbargo_ResetAbilityEmbargo(string _ForWho, string _AbilityName)` | Reset specific embargo | `OgreBotAPI:AbilityEmbargo_ResetAbilityEmbargo["all", "Ability Name"]` |
-| `ItemEmbargo_AddRotateTimer(int64 _AbilityID, uint _Duration, ... Args)` | Add item rotation timer ([Args](#abilityembargo_addrotatetimer--itemembargo_addrotatetimer-args)) | `OgreBotAPI:ItemEmbargo_AddRotateTimer[123456, 30, "-g", "PlayerName"]` |
+| `ItemEmbargo_AddRotateTimer(int64 _AbilityID, uint _Duration, ... Args)` | Add item rotation timer ([Args](#abilityembargo_addrotatetimer-itemembargo_addrotatetimer-args)) | `OgreBotAPI:ItemEmbargo_AddRotateTimer[123456, 30, "-g", "PlayerName"]` |
 | `AbilityTag_AddRotateTagTimer(string _ForWho, string _TagName, uint _Duration, ... Args)` | Add tag timer ([Args](#abilitytag_addrotatetagtimer-args)) | `OgreBotAPI:AbilityTag_AddRotateTagTimer["all", "MyTag", 30, "-g", "PlayerName"]` |
 | `AbilityTag_ResetAllAbilityTagEmbargos(string _ForWho)` | Reset all tag embargos | `OgreBotAPI:AbilityTag_ResetAllAbilityTagEmbargos["all"]` |
 | `AbilityTag_ResetAbilityTagEmbargo(string _ForWho, string _TagName)` | Reset tag embargo | `OgreBotAPI:AbilityTag_ResetAbilityTagEmbargo["all", "MyTag"]` |
@@ -1107,7 +1107,7 @@ Functions are called with `call OgreBotAPI.FunctionName params` and can return v
 
 ## Args Reference
 
-Methods, members, and functions that accept `... Args` support optional flags. See [Variadic Parameters](../../innerspace/advanced-lavishscript.md) for how `... Args` works in LavishScript. Below is a detailed reference for each.
+Methods, members, and functions that accept `... Args` support optional flags. Below is a detailed reference for each.
 
 ### PulseCircleMovement Args
 

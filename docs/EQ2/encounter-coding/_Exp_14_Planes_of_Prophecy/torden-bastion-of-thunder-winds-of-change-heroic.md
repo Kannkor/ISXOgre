@@ -9,7 +9,7 @@ This zone has 3 boss encounters with OgreBot automation modules.
 | Boss | Description |
 |------|-------------|
 | [Laef Windfall](#laef-windfall) | Wind barrage dodge, auto-cancel Caught in the Storm |
-| [Torstien Stoneskin / Hreidar Lynhillig](#torstien-stoneskin--hreidar-lynhillig) | Protection spell target swap, health balance monitoring |
+| [Torstien Stoneskin / Hreidar Lynhillig](#torstien-stoneskin-hreidar-lynhillig) | Protection spell target swap, health balance monitoring |
 | [Elif Whitewind](#elif-whitewind) | Auto-dispelling |
 
 ---

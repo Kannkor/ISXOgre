@@ -9,8 +9,8 @@ This zone has 4 boss encounters with OgreBot automation modules.
 | Boss | Description |
 |------|-------------|
 | [Kua, Watcher of Wanes](#kua-watcher-of-wanes) | Automatic tank self-targeting for Stone Gaze with HUD timer |
-| [Vyzh'dra the Unleashed](#vyzbdra-the-unleashed) | Sparkle grabbing, detriment handling, and add intercept |
-| [Zeltheen of the Fang / R'thessil of the Fang](#zeltheen-of-the-fang--rthessil-of-the-fang) | Non-fighter jousting during Sustainment casts |
+| [Vyzh'dra the Unleashed](#vyzhdra-the-unleashed) | Sparkle grabbing, detriment handling, and add intercept |
+| [Zeltheen of the Fang / R'thessil of the Fang](#zeltheen-of-the-fang-rthessil-of-the-fang) | Non-fighter jousting during Sustainment casts |
 | [Remnant Ferahhal](#remnant-ferahhal) | Forced Silence detection and action pausing |
 
 ---

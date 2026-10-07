@@ -10,8 +10,8 @@ This zone has 5 boss encounters with OgreBot automation modules.
 |------|-------------|
 | [Jennre Warsinger](#jennre-warsinger) | Cannibalistic tune jousting, Song of War aura-based add targeting |
 | [The Ancient Void-Touched Wumpus](#the-ancient-void-touched-wumpus) | Dual-layer text-triggered jousting |
-| [Telvorsinn / Thovalakk](#telvorsinn--thovalakk) | Room-based auto-targeting, ability cancellation |
-| [Zevorg the Warmonger / Nexion the Warmind](#zevorg-the-warmonger--nexion-the-warmind) | Room-based auto-targeting, ability cancellation, all cures disabled |
+| [Telvorsinn / Thovalakk](#telvorsinn-thovalakk) | Room-based auto-targeting, ability cancellation |
+| [Zevorg the Warmonger / Nexion the Warmind](#zevorg-the-warmonger-nexion-the-warmind) | Room-based auto-targeting, ability cancellation, all cures disabled |
 | [Yynzik the Scornridden](#yynzik-the-scornridden) | Class-based Riddance dispelling via illusion orb mechanic |
 
 ---

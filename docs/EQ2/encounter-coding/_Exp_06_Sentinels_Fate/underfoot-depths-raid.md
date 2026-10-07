@@ -12,7 +12,7 @@ This zone has 8 boss encounters with OgreBot automation modules.
 | [Haephaus](#haephaus) | Weapon ready timer with counter |
 | [Horraastaas](#horraastaas) | Dot-based positioning, group rotation, AE phase |
 | [Taehric Construct](#taehric-construct) | Class-specific group cures, blue phase timing, crystal activation |
-| [Xaalax / Yaalax / Zaalax](#xaalax--yaalax--zaalax) | Group-based positioning, fissure avoidance |
+| [Xaalax / Yaalax / Zaalax](#xaalax-yaalax-zaalax) | Group-based positioning, fissure avoidance |
 | [Vaclaz Released](#vaclaz-released) | Role-based positioning, add management, dual AE timers |
 | [Aereon](#aereon) | Vortex avoidance with device-safe positioning |
 | [Syfak](#syfak) | Curse self-targeting |

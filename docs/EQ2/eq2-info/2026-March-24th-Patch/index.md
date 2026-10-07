@@ -59,7 +59,7 @@ Make sure **all** EverQuest 2 is completely closed. It doesn't matter if it is w
 >
 > Generally speaking, you should never download .EXE files, .DLL files (and a bunch of other types of files) because that's how viruses are generally shared. Since you're already using Ogre, which is a .DLL file, that means you should already trust me. That is why I am providing the file directly. You should never download these kinds of files from anyone, unless you have absolute trust in them.
 
-**[Download EverQuest2.exe](EverQuest2.exe)**
+**The download has been removed - this workaround is no longer needed.**
 
 When you click the link above, GitHub will show you a page for the file. It **cannot** display it (it's an .exe, not text). Look for the **download button** (the downward arrow icon) near the top-right of the page and click that to download the file.
 

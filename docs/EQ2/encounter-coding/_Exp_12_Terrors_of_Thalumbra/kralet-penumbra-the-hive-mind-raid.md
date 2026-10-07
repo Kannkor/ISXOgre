@@ -11,7 +11,7 @@ This zone has 7 boss encounters with OgreBot automation modules.
 | [Karith'Ta](#karithta) | Paralyze detection, coercer auto-charm, fighter orb positioning |
 | [General Area](#general-area) | Auto curse calling for cross-session curing |
 | [The Psionist](#the-psionist) | Well of Power water rotation for bards/enchanters |
-| [Sath'Oprusk](#sathoprousk) | Bends joust, vulnerability/immunity cycling, staff usage |
+| [Sath'Oprusk](#sathoprusk) | Bends joust, vulnerability/immunity cycling, staff usage |
 | [The Polliwog](#the-polliwog) | Pox/plague curse joust with auto-cure calling |
 | [Ynonngozzz'Koolbh](#ynonngozzzkoolbh) | Complex group positioning, cloud of vile crouch |
 | [Kraletus](#kraletus) | Charm rotation, mental breach cure rotation, immunity tracking |

@@ -12,7 +12,7 @@ This zone has 5 boss encounters with OgreBot automation modules.
 | [Magmaton](#magmaton) | 7-position tank rotation on firewall drops |
 | [Pyronis](#pyronis) | Auto jousting on rapid expansion |
 | [Jopal the Thief](#jopal-the-thief) | Sniper detection/avoidance via animation checking |
-| [Chancellor Traxom / Chancellor Kirtra](#chancellor-traxom--chancellor-kirtra) | Aura-based movement (Crystal/Fiery), periodic center jousting |
+| [Chancellor Traxom / Chancellor Kirtra](#chancellor-traxom-chancellor-kirtra) | Aura-based movement (Crystal/Fiery), periodic center jousting |
 
 ---
 

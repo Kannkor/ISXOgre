@@ -8,7 +8,7 @@ This zone has 1 boss encounter with an OgreBot automation module.
 
 | Boss | Description |
 |------|-------------|
-| [Siyamak / Barakah (Dragons)](#siyamak--barakah-dragons) | Day/night curse portal navigation |
+| [Siyamak / Barakah (Dragons)](#siyamak-barakah-dragons) | Day/night curse portal navigation |
 
 ---
 

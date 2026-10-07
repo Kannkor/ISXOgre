@@ -8,7 +8,7 @@ This zone has 1 boss encounter with an OgreBot automation module.
 
 | Boss | Description |
 |------|-------------|
-| [Fixit Microtock / Fixit Omegatock](#fixit-microtock--fixit-omegatock) | Auto-repositioning behind NPCs, Overload systems verb (WIP) |
+| [Fixit Microtock / Fixit Omegatock](#fixit-microtock-fixit-omegatock) | Auto-repositioning behind NPCs, Overload systems verb (WIP) |
 
 ---
 

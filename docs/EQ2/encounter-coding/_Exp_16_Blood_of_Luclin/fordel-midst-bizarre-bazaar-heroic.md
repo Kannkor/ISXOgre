@@ -10,7 +10,7 @@ This heroic zone contains 3 boss encounters with OgreBot automation modules. The
 |------|-------------|
 | [Trade Baroness Elsindir](#trade-baroness-elsindir) | Auto-clicking Cat's Eye Agate |
 | [Bazaar Baron Brixwald](#bazaar-baron-brixwald) | Auto-clicking Cat's Eye Agate and Paludal Catnip, auto stand-up |
-| [Mannee/Mandee Quin](#mannee-mandee-quin) | Smart cure curse targeting based on emotes |
+| [Mannee/Mandee Quin](#manneemandee-quin) | Smart cure curse targeting based on emotes |
 
 ---
 

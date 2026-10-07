@@ -8,7 +8,7 @@ This zone has 5 boss encounters with OgreBot automation modules.
 
 | Boss | Description |
 |------|-------------|
-| [General Zevitus / Aakita](#general-zevitus--aakita) | Offensive toggle, dynamic curse avoidance, dual AE timers |
+| [General Zevitus / Aakita](#general-zevitus-aakita) | Offensive toggle, dynamic curse avoidance, dual AE timers |
 | [Mystikus](#mystikus) | Positioning only |
 | [Lieutenant Klaatuus](#lieutenant-klaatuus) | Cure/don't-cure logic, totem moving (bards) |
 | [Tyrax Terrolus](#tyrax-terrolus) | Offensive toggle, cure curse, banner joust |
