@@ -1,0 +1,356 @@
+# Instance files
+
+<div class="ogre-beta" markdown>
+**OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
+</div>
+
+The helpers Classic's instance files called - none of them had a page in Classic's docs. In the new bot an instance is a JSON file the bot runs itself, so most of these are a line in that file now, not a script call.
+
+> **:warning: An old call does nothing now - it does not give an error**
+>
+> The new bot does not keep the old names. A call to an old method silently does nothing and a read of an old member gives `NULL`. Find your name below and write what the row says instead.
+
+## At a glance
+
+| What happened | Names |
+|---|---|
+| ⚠️ Arguments changed | 22 |
+| ✏️ Renamed | 10 |
+| ➡️ Lives somewhere else | 48 |
+| 📄 In a data file now | 160 |
+| ⛔ Not ported yet | 2 |
+| ⛔ Removed | 40 |
+| **Total** | **282** |
+
+## Worked examples
+
+One real Classic line per kind of change, and the line that replaces it.
+
+### 📄 In a data file now: `call Obj_OgreIH.Get_Chest`
+
+```
+; before (Classic)
+call Obj_OgreIH.Get_Chest
+; after (new bot)
+{ "stepId": "named5.chest", "do": "loot", "op": "chest", "boss": true }
+```
+
+## Obj_OgreIH
+
+**Note A** (10 rows below): For-who is argument 0.
+
+**Note B** (3 rows below): An encounter action used as an IC step runs on the IC runner only; it reaches the rest of the group only through `sendTo` on the verbs that have one (campSpot, ogreBotUIOption, actorInteract doubleClick, castAbility, movement stopFollow/jump/jumpRoute, assist).
+
+| Old call | Today | Write instead | What changed | Notes |
+|---|---|---|---|---|
+| `Obj_OgreIH:AcceptReward` | does nothing | `OgreBotAPI.Windows:AcceptReward` | ⚠️ Arguments changed | For-who is argument 0 (the helper had none - it always meant the group in zone); the reward is argument 1, a number or a name. |
+| `Obj_OgreIH:Actor_Click` | does nothing | `actorInteract` | 📄 In a data file now | Real use (one box): Ogre/EQ2/IC/default/Rage of Cthurath/_13_The Fabled Castle Highhold - Thresinet's. A click that cannot act fails the step's onFail. |
+| `Obj_OgreIH:Actor_ClickQueued` | does nothing | `actorInteract` | 📄 In a data file now | To move the whole group through a clicked teleporter and wait for it, use the `teleporter` step ( RegisterPlanVerb("teleporter"); (every campspot off, every toon clicks its nearest actor of that name, waits until the whole group has moved, campspots back on)). |
+| `call Obj_OgreIH.AnyZoneAvailableToBeRun` | does nothing | `ogre ic` | ➡️ Lives somewhere else |  |
+| `Obj_OgreIH:AutoTarget_AddActor` | does nothing | `autotarget` | 📄 In a data file now | Real use: Ogre/EQ2/IC/default/Rage of Cthurath/_15_The Fabled Ssraeshza Temple - Inner. The `named` step arms AutoTarget for its own named. |
+| `Obj_OgreIH:AutoTarget_ClearActors` | does nothing | `autotarget` | 📄 In a data file now | Real use: Ogre/EQ2/IC/default/Rage of Cthurath/_15_The Fabled Ssraeshza Temple - Inner. |
+| `Obj_OgreIH:AutoTarget_SetScanRadius` | does nothing | `autotarget` | 📄 In a data file now | Real use: Ogre/EQ2/IC/default/Rage of Cthurath/_15_The Fabled Ssraeshza Temple - Inner (op set, radius 15). The `named` step sets its own pull radius with `scanRadius`. |
+| `call Obj_OgreIH.Buy_From_Merchant` | does nothing | `merchant` | 📄 In a data file now | `actor` is required - there is no "auto" merchant pick. It acts where it stands: the merchant must be in reach. |
+| `Obj_OgreIH:BuyFromMerchant` | does nothing | `OgreBotAPI.Merchant:Buy` | ⚠️ Arguments changed | For-who is argument 0. In an IC file the awaitable form is the `merchant` verb, which opens the merchant too. |
+| `Obj_OgreIH:CallGH` | does nothing | `recover` | 📄 In a data file now | Outside IC: OgreBotAPI.Movement:CallGH[fw]. |
+| `Obj_OgreIH:CallHome` | does nothing | `recover` | 📄 In a data file now |  |
+| `call Obj_OgreIH.CallToGH` | does nothing | `recover` | 📄 In a data file now | _OnlyIfAvailableNow has no twin: the flow decides Call to Guild Hall vs Call to Home per toon. |
+| `Obj_OgreIH:CancelGroupWaterBreathing` | does nothing | `OgreBotAPI.Abilities:CancelGroupWaterBreathing` | ⚠️ Arguments changed | Note A |
+| `Obj_OgreIH:CancelMaintained` | does nothing | `cancelMaintained` | 📄 In a data file now | An encounter action used as an IC step runs on the IC runner only; it reaches the rest of the group only through `sendTo` on the verbs that have one (campSpot, ogreBotUIOption, actorInteract doubleClick, castAbility, movement stopFollow/jump/jumpRoute, assist). Outside a data file: OgreBotAPI.Abilities:CancelMaintainedFor. |
+| `Obj_OgreIH:CastGroupWaterBreathing` | does nothing | `OgreBotAPI.Abilities:CastGroupWaterBreathing` | ⚠️ Arguments changed | Note A |
+| `Obj_OgreIH:CCS` | does nothing | `campSpot` | 📄 In a data file now |  |
+| `Obj_OgreIH:CCS_Actor` | does nothing | `campSpot` | 📄 In a data file now |  |
+| `Obj_OgreIH:CCS_Actor_Behind` | does nothing | `campSpot` | 📄 In a data file now | Fight positioning - the encounter file's job. Each box runs it for itself. |
+| `Obj_OgreIH:CCS_Actor_Position` | does nothing | `campSpot` | 📄 In a data file now | Fight positioning - the encounter file's job. |
+| `Obj_OgreIH.CD` | reads NULL | `zoneOut` | 📄 In a data file now | `call Obj_OgreIH.CD.ZoneOut` becomes `{ "do": "zoneOut", "op": "door", "name": "exit" }`; `CD.GetIntoZone` is not written at all. |
+| `Obj_OgreIH:ChangeCampSpot` | does nothing | `campSpot` | 📄 In a data file now | To walk the group spot to spot and wait for it, use a `path` step `using: campspot` ( RegisterPlanVerb("path"); (moves the GROUP's campspot spot to spot, waits until everyone is within groupWithin of the spot, fails naming who is missing); (keys: using campspot\|nav, spots, waitForCombat, fromStart, exitOnActorAggro)). |
+| `Obj_OgreIH:ChangeCastStackListBoxItem` | does nothing | `castStack` | 📄 In a data file now | An encounter action used as an IC step runs on the IC runner only; it reaches the rest of the group only through `sendTo` on the verbs that have one (campSpot, ogreBotUIOption, actorInteract doubleClick, castAbility, movement stopFollow/jump/jumpRoute, assist). For the group: OgreBotAPI.CastStack:SetEntry - the IC setup list ships one such row. |
+| `Obj_OgreIH:ChangeOgreBotUIOption` | does nothing | `ogreBotUIOption` | 📄 In a data file now | Real use: Ogre/EQ2/IC/default/Rage of Cthurath/_15_The Fabled Ssraeshza Temple - Inner. The write is recorded and reverted when the run ends (; RevertSetup on every terminal path). Zone-wide preamble options belong in the IC setup list, not the file ( (Set_VariousOptions converted to the IC setup command list: raw command rows the user can edit, gated solo/duo/group, run at the start of every zone)). |
+| `Obj_OgreIH:ChangeZoneTo` | does nothing | `OgreBotAPI.Zone:ChangeZoneTo` | ⚠️ Arguments changed | For-who is argument 0, the toon to follow argument 1. |
+| `Obj_OgreIH.Check_Item_Exists` | reads NULL | `hasItem` | 📄 In a data file now |  |
+| `Obj_OgreIH.Check_Quest_Exists` | reads NULL | `OgreBotAPI.Quest.Have` | ⚠️ Arguments changed | Drop the first argument: ${OgreBotAPI.Quest.Have["&lt;quest name&gt;"]}. The 'no quest given -&gt; TRUE' switch was the caller's - write it in the script (if there is no quest to check, do not ask). |
+| `Obj_OgreIH:ClearCampSpot` | does nothing | `campSpot` | 📄 In a data file now | `sendTo` is not accepted on op clear. For the group the sendTo form is op clearAll (-CS_ClearAll), which also drops the relative layer - real use Ogre/EQ2/IC/test/Rage of Cthurath/_05_Gerion - Dominion of. |
+| `Obj_OgreIH:ClearRelativeCampSpot` | does nothing | `campSpot` | 📄 In a data file now |  |
+| `call Obj_OgreIH.ClearTrashUntilNamedSpawns` | does nothing | `trash` | 📄 In a data file now | `{"do":"trash", "radius":<_Radius>, "until":"<_NamedNPC>"}` (omit `until` for the "Doesnotexist" default). It ends on an empty circle, as Classic's did; for waves that keep coming until the named spawns add `"whenEmpty":"wait"`. |
+| `call Obj_OgreIH.Close_Merchent` | does nothing | — | ⛔ Removed | Nothing calls it - delete the line. The IC `merchant` verb leaves the window open, as Classic's Buy_From_Merchant did (640-718). |
+| `Obj_OgreIH:ConversationBubble` | does nothing | `actorInteract` | 📄 In a data file now | An encounter action used as an IC step runs on the IC runner only; it reaches the rest of the group only through `sendTo` on the verbs that have one (campSpot, ogreBotUIOption, actorInteract doubleClick, castAbility, movement stopFollow/jump/jumpRoute, assist). Outside a data file: OgreBotAPI.Comms:ConversationBubble. |
+| `Obj_OgreIH.CoV` | reads NULL | `ISXOgreEQ2.TravelMesh:GoGroup` | ➡️ Lives somewhere else |  |
+| `Obj_OgreIH.DebugMessage` | reads NULL | — | ⛔ Removed | (returns the "&lt;time&gt;: Ogre_IH:" echo prefix). New: the log carries its own subsystem prefix (ogre::log::Echo(ogre::log::Sub::IC, ...), e.g.). |
+| `Obj_OgreIH.DuoMode` | reads NULL | `ogre ic` | ➡️ Lives somewhere else | See Obj_OgreIH.SoloMode. |
+| `Obj_OgreIH:EQ2_onLootWindowAppeared` | does nothing | `OgreBotAPI.Looting` | ✏️ Renamed | An event handler, not something a zone calls; see Obj_OgreIH.LastLootWindowAppeared. |
+| `call Obj_OgreIH.EveryoneHaveItem` | does nothing | `groupQuery` | 📄 In a data file now | A `groupQuery` step with `question` "itemCount" and `item` "&lt;name&gt;", e.g. { "do":"groupQuery", "var":"bot", "question":"itemCount", "item":"Mechanized Platinum Repository of Reconstruction" }; then `bot.allYes` (everyone has it), `bot.noWho` (a for-who of those without it) or `bot.yesCount`. From a script: ${ISXOgreEQ2.Comms.GroupQuery[&lt;fw&gt;, -question, itemCount, -item, &lt;name&gt;]}.<br>Every member said whether it had the item; the caller waited and read the answers. |
+| `Obj_OgreIH:ExamineInventoryItem` | does nothing | `OgreBotAPI.Inventory:Examine` | ⚠️ Arguments changed | Note A |
+| `Obj_OgreIH:FaceActor` | does nothing | `OgreBotAPI.Movement:FaceActor` | ⚠️ Arguments changed | For-who is argument 0 on OgreBotAPI (the helper always meant the group in zone). |
+| `Obj_OgreIH:FaceAngle` | does nothing | `OgreBotAPI.Movement:FaceAngle` | ⚠️ Arguments changed | Note A |
+| `Obj_OgreIH:FaceLoc` | does nothing | `OgreBotAPI.Movement:FaceLoc` | ⚠️ Arguments changed | Note A |
+| `Obj_OgreIH:FlyDown` | does nothing | `OgreBotAPI.Movement:FlyDown` | ⚠️ Arguments changed | Note A |
+| `Obj_OgreIH:FlyStop` | does nothing | `OgreBotAPI.Movement:FlyStop` | ⚠️ Arguments changed | Note A |
+| `Obj_OgreIH:FlyUp` | does nothing | `OgreBotAPI.Movement:FlyUp` | ⚠️ Arguments changed | Note A |
+| `call Obj_OgreIH.Get_Chest` | does nothing | `loot` | 📄 In a data file now | Example `after`: Ogre/EQ2/IC/test/Rage of Cthurath/_01_Oogothl Sprawl - Ver'Bohten (that call is Named5's, the boss). The new step searches 75 m, navs instead of a straight campspot line, and bounds every wait. |
+| `Obj_OgreIH.Get_IDFromActorQuery` | reads NULL | `resolve` | 📄 In a data file now | `{"do":"resolve", "find":{"name":"Operator of Fire", "nth":{"nearestTo":[12.03,-155.99,-77.45], "within":2}}, "as":"op"}` then {{seq.op.id}}. Classic's default distance is 2. Callers: Solusek Ros Tower: The Obsidian Core (Common + Solo, 5 each). |
+| `Obj_OgreIH.Get_NamedIndexExists` | reads NULL | `ogre ic` | ➡️ Lives somewhere else |  |
+| `Obj_OgreIH.Get_NPC_ID` | reads NULL | `OgreBotAPI.Actors.MobID` | ✏️ Renamed | MobID's body does not state Classic's Type = NPC\|NamedNPC filter - check before relying on it to skip a same-named object. |
+| `call Obj_OgreIH.Get_Shinies` | does nothing | `loot` | 📄 In a data file now |  |
+| `call Obj_OgreIH.Get_Shinies_Nav` | does nothing | `loot` | 📄 In a data file now | -NoGroup (the leader goes alone) has no key: the loot step brings the group. |
+| `call Obj_OgreIH.Get_Shinies_Nav_Options` | does nothing | `loot` | 📄 In a data file now |  |
+| `call Obj_OgreIH.Get_Shinies_Options` | does nothing | `loot` | 📄 In a data file now |  |
+| `Obj_OgreIH:GetToConcentration` | does nothing | `OgreBotAPI.Movement:GetToConcentration` | ⚠️ Arguments changed | Note A |
+| `Obj_OgreIH:Hail` | does nothing | `actorInteract` | 📄 In a data file now | Note B |
+| `call Obj_OgreIH.Handle_Mesh_ZoneIn_Process` | does nothing | `ogre ic` | ➡️ Lives somewhere else |  |
+| `call Obj_OgreIH.HandleAcceptReward` | does nothing | `ogre ic` | ➡️ Lives somewhere else |  |
+| `call Obj_OgreIH.HandleAutoAggroRingEventUntilNamedSpawns` | does nothing | `trash` | 📄 In a data file now | `{"do":"trash", "until":"<_NamedNPC>", "whenEmpty":"wait", "quietMs":<_SecondsToWait x 1000>, "radius":<the ring>}` - quietMs is Classic's restarting clock. Unlike Classic the step also PULLS what stands inside `radius`: size it to the ring. |
+| `call Obj_OgreIH.HandleMultipleRewards` | does nothing | `reward` | 📄 In a data file now | `{"do":"reward", "choose":2}` or `{"do":"reward", "choose":"<reward name>"}`. The choice is PINNED, not rotated. |
+| `Obj_OgreIH.HandleMultipleRewards_LootValue` | reads NULL | — | ⛔ Removed | Write the reward you want in the `reward` step's `choose`. |
+| `Obj_OgreIH.HandleMultipleRewards_ToggleLoot` | reads NULL | — | ⛔ Removed | Write the reward you want in the `reward` step's `choose`. |
+| `call Obj_OgreIH.HandleNamedw` | does nothing | `named` | 📄 In a data file now | -NoChests / -NoShinies = leave the loot step out; -trash names have no step of their own (see Obj_OgreIH.ClearTrashUntilNamedSpawns). |
+| `call Obj_OgreIH.HandleNamedw_ref` | does nothing | `named` | 📄 In a data file now | See Obj_OgreIH.HandleNamedw. |
+| `Obj_OgreIH:HoldUp` | does nothing | `movement` | 📄 In a data file now | holdUp has no `sendTo`; for the group outside a data file: OgreBotAPI.Movement:HoldUp[fw]. |
+| `Obj_OgreIH:Jump` | does nothing | `movement` | 📄 In a data file now |  |
+| `Obj_OgreIH:Jump_Me` | does nothing | `movement` | 📄 In a data file now |  |
+| `call Obj_OgreIH.KeepGroupBehindOnNPC` | does nothing | `campSpot` | 📄 In a data file now | Fight positioning - the encounter file's job, not the IC's. |
+| `call Obj_OgreIH.KeepGroupBehindOnTarget` | does nothing | `campSpot` | 📄 In a data file now | Fight positioning - write it in the named's encounter file. Each box runs the op for itself. |
+| `call Obj_OgreIH.KeepInfrontBehindOnNPC` | does nothing | `campSpot` | 📄 In a data file now | Real use of the same split: Ogre/EQ2/Encounters/test/Rage of Cthurath/Gerion - Dominion of Pain/The Exhumed (atAngleFromActor :82-117, its _status explains the Classic mapping). |
+| `call Obj_OgreIH.KillActorType` | does nothing | `trash` | 📄 In a data file now | `{"do":"trash", "radius":<_Radius>, "types":["<_Type>"]}` - `types` takes NPC / NamedNPC / Special exactly (the content only ever passed NPC, the default). _MoveToNPC TRUE -&gt; `"move":"nav"` or `"campspot"`. |
+| `call Obj_OgreIH.KillAll` | does nothing | `named` | 📄 In a data file now | `named` is one named and the kill LINE decides. Killing every mob of a trash name has no single verb. -SetUpFor is automatic: the named step sends the generic setup at the engage. |
+| `call Obj_OgreIH.KillAll_Ref` | does nothing | `named` | 📄 In a data file now | See Obj_OgreIH.KillAll. |
+| `Obj_OgreIH.KillAll_Timer_MinTimeInLoop` | reads NULL | `named` | 📄 In a data file now | An internal timer of KillAll; see Obj_OgreIH.KillAll. |
+| `Obj_OgreIH.KillAll_Timer_ReTargetTimer` | reads NULL | `named` | 📄 In a data file now | An internal timer of KillAll; see Obj_OgreIH.KillAll. |
+| `Obj_OgreIH.LastLootWindowAppeared` | reads NULL | `OgreBotAPI.Looting` | ✏️ Renamed | In an IC file use the `waitForLoot` step ( RegisterPlanVerb("waitForLoot"); (hold while OgreBot is looting or the scanner still sees something in reach; bounded by limitMs)) rather than reading it. |
+| `Obj_OgreIH:LetsGo` | does nothing | `campSpot` | 📄 In a data file now |  |
+| `Obj_OgreIH.Merchant_Window_Open` | reads NULL | — | ⛔ Removed | A zone does not ask: the IC `merchant` verb opens the window and buys in one awaitable flow ( act_merchant). |
+| `Obj_OgreIH:Message` | does nothing | `announce` | 📄 In a data file now | Classic relayed to every session. A plain `announce` prints on the IC runner's console only; add `"console": true` for every session. |
+| `Obj_OgreIH:Message_FailedNamed` | does nothing | `announce` | 📄 In a data file now |  |
+| `Obj_OgreIH:Message_FailedToKill` | does nothing | `named` | 📄 In a data file now |  |
+| `Obj_OgreIH:Message_FailedZone` | does nothing | `announce` | 📄 In a data file now | Example `after`: Ogre/EQ2/IC/default/Rage of Cthurath/_16_The Fabled Zavith'loa - The Lost - the per-named announce that replaced the failure-only message; it reports whatever the named step decided. |
+| `Obj_OgreIH:Message_FailedZoneOut` | does nothing | `zoneOut` | 📄 In a data file now |  |
+| `Obj_OgreIH:Message_NamedDoesNotExistSkipping` | does nothing | `named` | 📄 In a data file now | Classic scored a missing named as SUCCESS; the new verdict does not. Say it with an `announce` reading {{ic.run.verdicts.&lt;stepId&gt;}} if you want the line. |
+| `Obj_OgreIH:MonkeyInMiddle` | does nothing | `campSpot` | 📄 In a data file now | A fight formation - it belongs in the named's encounter file. Each box runs it for itself. |
+| `Obj_OgreIH.MyFunctionName` | reads NULL | — | ⛔ Removed | (a template member: declares two variables, echoes nothing - MyBool is FALSE - and returns nothing). It does nothing to port. |
+| `call Obj_OgreIH.NamedSpawnWait` | does nothing | `named` | 📄 In a data file now | Classic waited for a TYPE change; the named step's gate reads the named standing. Check a named that stands as a NoKill NPC before it turns. |
+| `Obj_OgreIH.Obj_OgreTravelMesh` | reads NULL | `OgreBotAPI.Travel:MeshGroup` | ✏️ Renamed | For-who is argument 0 on OgreBotAPI. |
+| `Obj_OgreIH.OC_Command` | reads NULL | — | ⛔ Removed | Note B |
+| `Obj_OgreIH:Pause` | does nothing | `OgreBotAPI.Bot:Pause` | ⚠️ Arguments changed | For-who is argument 0. In a data file `botPause` pauses this box only. |
+| `Obj_OgreIH:PetBackOff` | does nothing | `pet` | 📄 In a data file now | Note B |
+| `Obj_OgreIH.Quest_Step_Checker` | reads NULL | `questStep` | 📄 In a data file now | The callers ask `["Paludal Removal","2","Check","false"]` (step 2 not yet done - Fordel Midst: Wayward Manor, 2 sites) while killing muck diggers: loop `until` `{"questStep":{"quest":"Paludal Removal","step":2,"done":true}}`. Only the Check key is asked by the content, so only Check is ported. |
+| `call Obj_OgreIH.Reply_Option` | does nothing | `replyDialog` | 📄 In a data file now | Contains, not equals: pick text that only one reply has. |
+| `Obj_OgreIH:Resume` | does nothing | `OgreBotAPI.Bot:Resume` | ⚠️ Arguments changed | For-who is argument 0. In a data file `botPause` with value false resumes this box only. |
+| `Obj_OgreIH:Revive` | does nothing | `recover` | 📄 In a data file now | The file's `onWipe` list is where it usually goes, not the step list. |
+| `call Obj_OgreIH.RunInstance` | does nothing | `ogre ic` | ➡️ Lives somewhere else |  |
+| `call Obj_OgreIH.RunInstanceController` | does nothing | `ogre ic` | ➡️ Lives somewhere else |  |
+| `call Obj_OgreIH.Select_Zone_Version` | does nothing | `ogre ic` | ➡️ Lives somewhere else | OgreBotAPI.Zone:SelectVersion only clicks OK on an open select window and ignores the version - it is not this helper. |
+| `Obj_OgreIH:SellToMerchant` | does nothing | `OgreBotAPI.Merchant:Sell` | ⚠️ Arguments changed | Note A |
+| `Obj_OgreIH:Set_Debug_Mode` | does nothing | — | ⛔ Removed | See Obj_OgreIH.OC_Command. |
+| `Obj_OgreIH:Set_Disable_AEsEncounters` | does nothing | `ogreBotUIOption` | 📄 In a data file now | Options an automated writer sets are recorded and reverted at the run's end (; RevertSetup on every terminal path). |
+| `Obj_OgreIH:Set_Follow` | does nothing | `ogre ic` | ➡️ Lives somewhere else |  |
+| `Obj_OgreIH:Set_IgnoreCollisionCheck` | does nothing | `ogreBotUIOption` | 📄 In a data file now | Real use, the same option: Ogre/EQ2/IC/default/Rage of Cthurath/_15_The Fabled Ssraeshza Temple - Inner (on) and :483-489 (off). |
+| `Obj_OgreIH:Set_NoMove` | does nothing | `movement` | 📄 In a data file now |  |
+| `call Obj_OgreIH.Set_PriestAscension` | does nothing | `ogre ic` | ➡️ Lives somewhere else |  |
+| `call Obj_OgreIH.Set_VariousOptions` | does nothing | `ogre ic` | ➡️ Lives somewhere else | Not written in an IC file at all - the user's setup list runs it at every zone start, and the profile reload at the run's end puts things back. |
+| `Obj_OgreIH:Set_ZoneInformation` | does nothing | `ogre ic` | ➡️ Lives somewhere else | Not a call any more: write the envelope keys at the top of the IC file. |
+| `Obj_OgreIH:SetCampSpot` | does nothing | `campSpot` | 📄 In a data file now | The `path` and `named` steps set the group's campspots themselves; a separate SetCampSpot is rarely needed in an IC file. |
+| `Obj_OgreIH:SetUpFor` | does nothing | `named` | 📄 In a data file now | Outside a named step: OgreBotAPI.Bot:SetUpFor[fw]. |
+| `call Obj_OgreIH.Shiniesw` | does nothing | `loot` | 📄 In a data file now | The Skip shinies operator option ends the step at once. |
+| `call Obj_OgreIH.Shiniesw_Options` | does nothing | `loot` | 📄 In a data file now |  |
+| `call Obj_OgreIH.SkipPuzzles` | does nothing | `actorInteract` | 📄 In a data file now | Zone puzzles that belong to no fight are also cased in OgreBotAPI.Zone:SpecialZoneSpecific. |
+| `Obj_OgreIH.SoloMode` | reads NULL | `ogre ic` | ➡️ Lives somewhere else | No step `when` condition reads solo/duo/group; split by variant (`[Solo]`) in the file instead. |
+| `Obj_OgreIH.SpecialDebugMode` | reads NULL | — | ⛔ Removed | A debug echo, not behaviour. Read the IC log instead. |
+| `call Obj_OgreIH.Specialwait` | does nothing | `OgreBotAPI:Special` | ⚠️ Arguments changed | The pause / wait / resume around it is not part of the verb. |
+| `call Obj_OgreIH.TargetID` | does nothing | `actorInteract` | 📄 In a data file now | Losing the arbitration is not a failure to act. Real use: Ogre/EQ2/IC/default/Rage of Cthurath/_13_The Fabled Castle Highhold - Thresinet's. |
+| `Obj_OgreIH:Tradeskill_Close` | does nothing | — | ⛔ Removed | Nothing in the new bot needs it - delete the line. |
+| `Obj_OgreIH.Tradeskill_vis` | reads NULL | — | ⛔ Removed | Nothing in the new bot needs it - delete the line. |
+| `call Obj_OgreIH.UpdateZoneData` | does nothing | `ogre ic` | ➡️ Lives somewhere else |  |
+| `Obj_OgreIH:Use_Item` | does nothing | `useItem` | 📄 In a data file now | An encounter action used as an IC step runs on the IC runner only; it reaches the rest of the group only through `sendTo` on the verbs that have one (campSpot, ogreBotUIOption, actorInteract doubleClick, castAbility, movement stopFollow/jump/jumpRoute, assist). For the group outside a data file: OgreBotAPI.Inventory:Use[fw,item]. |
+| `call Obj_OgreIH.WaitWhileLootWindowExists` | does nothing | `waitForLoot` | 📄 In a data file now | Bounded: limitMs (default 120 s) then proceed with a warning. |
+| `call Obj_OgreIH.Zone_To_CoV_Instances` | does nothing | `ISXOgreEQ2.TravelMesh:GoGroup` | ➡️ Lives somewhere else |  |
+| `Obj_OgreIH:ZoneDoor` | does nothing | `zoneOut` | 📄 In a data file now | One box picking a row in an open door window: zoneDoorWindow op choose; OgreBotAPI.Travel:ZoneDoorFor[fw,option]. |
+| `Obj_OgreIH:ZoneDoorTest` | does nothing | `zoneOut` | 📄 In a data file now |  |
+| `Obj_OgreIH.ZoneIn_ObjectName` | reads NULL | `ISXOgreEQ2.TravelMesh:GoGroup` | ➡️ Lives somewhere else | An IC file does not name a door: IC zones in by itself when you are not in the file's zone. |
+| `Obj_OgreIH.ZoneLockedAt` | reads NULL | `ogre ic` | ➡️ Lives somewhere else |  |
+| `Obj_OgreIH.ZoneLockTime` | reads NULL | `ogre ic` | ➡️ Lives somewhere else |  |
+| `Obj_OgreIH.ZoneName` | reads NULL | `ISXOgreEQ2.IC.Zone` | ✏️ Renamed | In a native IC file you write the name once, as the envelope's `zone` (plus `variants`), and never read it. |
+| `Obj_OgreIH.ZoneNavigation` | reads NULL | `zoneOut` | 📄 In a data file now | `ZoneNavigation.ZoneOut` becomes a `zoneOut` step. `ZoneNavigation.GetIntoZone` is not written at all - the instance controller gets the group into the zone itself. `ZoneNavigation.EndOfZone` is done by the instance controller before the exit. |
+| `Obj_OgreIH.ZoneShortName` | reads NULL | — | ⛔ Removed | Leave it out: an IC file's `zone` is the zone's full name. |
+| `call Obj_OgreIH.ZoneSpecialwait` | does nothing | `OgreBotAPI.Zone:SpecialZoneSpecific` | ⚠️ Arguments changed | Only some of Classic's per-zone cases are ported; the pause / wait / resume around it is not part of the verb. |
+
+## Object_Instance_Inherit
+
+| Old call | Today | Write instead | What changed | Notes |
+|---|---|---|---|---|
+| `Object_Instance_Inherit:Actor_Click` | does nothing | `actorInteract` | 📄 In a data file now | Real use (one box): Ogre/EQ2/IC/default/Rage of Cthurath/_13_The Fabled Castle Highhold - Thresinet's. A click that cannot act fails the step's onFail. |
+| `Object_Instance_Inherit.bHandleRunAllNamedFailure` | reads NULL | `ogre ic` | ➡️ Lives somewhere else |  |
+| `Object_Instance_Inherit:CallGH` | does nothing | `recover` | 📄 In a data file now | This copy sends to &lt;me&gt; only, not the group; the `recover` step acts for the whole group. Outside IC: OgreBotAPI.Movement:CallGH[fw]. |
+| `Object_Instance_Inherit:CallHome` | does nothing | `recover` | 📄 In a data file now | This copy casts for &lt;me&gt; only. |
+| `Object_Instance_Inherit.CD` | reads NULL | `zoneOut` | 📄 In a data file now | `call Obj_OgreIH.CD.ZoneOut` becomes `{ "do": "zoneOut", "op": "door", "name": "exit" }`; `CD.GetIntoZone` is not written at all. |
+| `Object_Instance_Inherit:ChangeCampSpot` | does nothing | `campSpot` | 📄 In a data file now | To walk the group spot to spot and wait for it, use a `path` step `using: campspot` ( RegisterPlanVerb("path"); (moves the GROUP's campspot spot to spot, waits until everyone is within groupWithin of the spot, fails naming who is missing); (keys: using campspot\|nav, spots, waitForCombat, fromStart, exitOnActorAggro)). |
+| `Object_Instance_Inherit:ChangeOgreBotUIOption` | does nothing | `ogreBotUIOption` | 📄 In a data file now | Real use: Ogre/EQ2/IC/default/Rage of Cthurath/_15_The Fabled Ssraeshza Temple - Inner. The write is recorded and reverted when the run ends (; RevertSetup on every terminal path). Zone-wide preamble options belong in the IC setup list, not the file ( (Set_VariousOptions converted to the IC setup command list: raw command rows the user can edit, gated solo/duo/group, run at the start of every zone)). |
+| `Object_Instance_Inherit:ClearCampSpot` | does nothing | `campSpot` | 📄 In a data file now | `sendTo` is not accepted on op clear. For the group the sendTo form is op clearAll (-CS_ClearAll), which also drops the relative layer - real use Ogre/EQ2/IC/test/Rage of Cthurath/_05_Gerion - Dominion of. |
+| `Object_Instance_Inherit:ClearRelativeCampSpot` | does nothing | `campSpot` | 📄 In a data file now |  |
+| `call Object_Instance_Inherit.ClearTrashUntilNamedSpawns` | does nothing | `trash` | 📄 In a data file now | `{"do":"trash", "radius":<_Radius>, "until":"<_NamedNPC>"}` - as Obj_OgreIH.ClearTrashUntilNamedSpawns. |
+| `Object_Instance_Inherit.CoV` | reads NULL | `ISXOgreEQ2.TravelMesh:GoGroup` | ➡️ Lives somewhere else |  |
+| `Object_Instance_Inherit.CurrentPoint` | reads NULL | `progress` | 📄 In a data file now | Instance_Files reach this objectdef through (`#includeoptional ...`), as This.&lt;name&gt;. |
+| `Object_Instance_Inherit.DebugMode` | reads NULL | — | ⛔ Removed | (echoes the loop's decisions). New: every step action is traced to the log. |
+| `Object_Instance_Inherit.DuoMode` | reads NULL | `ogre ic` | ➡️ Lives somewhere else | See Obj_OgreIH.SoloMode. |
+| `Object_Instance_Inherit:EQ2_onLootWindowAppeared` | does nothing | `OgreBotAPI.Looting` | ✏️ Renamed | An event handler, not something a zone calls; see Obj_OgreIH.LastLootWindowAppeared. |
+| `Object_Instance_Inherit.Get_IDFromActorQuery` | reads NULL | `resolve` | 📄 In a data file now | `{"do":"resolve", "find":{"name":"Operator of Fire", "nth":{"nearestTo":[12.03,-155.99,-77.45], "within":2}}, "as":"op"}` then {{seq.op.id}}. Classic's default distance is 2. Callers: Solusek Ros Tower: The Obsidian Core (Common + Solo, 5 each). |
+| `Object_Instance_Inherit.Get_NPC_ID` | reads NULL | `OgreBotAPI.Actors.MobID` | ✏️ Renamed | This copy has no numeric-id passthrough. MobID's body does not state Classic's Type = NPC\|NamedNPC filter - check before relying on it to skip a same-named object. |
+| `call Object_Instance_Inherit.HandleAcceptReward` | does nothing | `ogre ic` | ➡️ Lives somewhere else | This copy sends to igw: (not igzw:). |
+| `call Object_Instance_Inherit.HandleFailedNamed_CheckToTryAgain` | does nothing | `ogre ic` | ➡️ Lives somewhere else |  |
+| `call Object_Instance_Inherit.HandleRunAllNamed` | does nothing | `ogre ic` | ➡️ Lives somewhere else |  |
+| `call Object_Instance_Inherit.HandleZoneIn` | does nothing | `ogre ic` | ➡️ Lives somewhere else | Called from Lostone zone files as `call This.HandleZoneIn` - in a native file it is not written at all. |
+| `call Object_Instance_Inherit.HandleZoneOut` | does nothing | `zoneOut` | 📄 In a data file now |  |
+| `Object_Instance_Inherit:Jump` | does nothing | `movement` | 📄 In a data file now |  |
+| `Object_Instance_Inherit:Jump_Me` | does nothing | `movement` | 📄 In a data file now |  |
+| `Object_Instance_Inherit.LastLootWindowAppeared` | reads NULL | `OgreBotAPI.Looting` | ✏️ Renamed | In an IC file use the `waitForLoot` step ( RegisterPlanVerb("waitForLoot"); (hold while OgreBot is looting or the scanner still sees something in reach; bounded by limitMs)) rather than reading it. |
+| `Object_Instance_Inherit:LetsGo` | does nothing | `campSpot` | 📄 In a data file now |  |
+| `Object_Instance_Inherit:MonkeyInMiddle` | does nothing | `campSpot` | 📄 In a data file now | A fight formation - it belongs in the named's encounter file. Each box runs it for itself. |
+| `call Object_Instance_Inherit.NamedSpawnWait` | does nothing | `named` | 📄 In a data file now | Classic waited for a TYPE change; the named step's gate reads the named standing. Check a named that stands as a NoKill NPC before it turns. |
+| `Object_Instance_Inherit.OC_Command` | reads NULL | — | ⛔ Removed | An encounter action used as an IC step runs on the IC runner only; it reaches the rest of the group only through `sendTo` on the verbs that have one (campSpot, ogreBotUIOption, actorInteract doubleClick, castAbility, movement stopFollow/jump/jumpRoute, assist). |
+| `call Object_Instance_Inherit.Reply_Option` | does nothing | `replyDialog` | 📄 In a data file now | Contains, not equals: pick text that only one reply has. |
+| `Object_Instance_Inherit.RestartStartingPoint` | reads NULL | `ogre ic` | ➡️ Lives somewhere else |  |
+| `call Object_Instance_Inherit.RunInstance` | does nothing | `ogre ic` | ➡️ Lives somewhere else |  |
+| `call Object_Instance_Inherit.RunInstanceController` | does nothing | `ogre ic` | ➡️ Lives somewhere else | This copy relays FAILED/Completed only; it does not set bLastInstanceSuccessful. |
+| `Object_Instance_Inherit:Set_Debug_Mode` | does nothing | — | ⛔ Removed | See Obj_OgreIH.OC_Command. |
+| `Object_Instance_Inherit:Set_Disable_AEsEncounters` | does nothing | `ogreBotUIOption` | 📄 In a data file now | Options an automated writer sets are recorded and reverted at the run's end (; RevertSetup on every terminal path). |
+| `call Object_Instance_Inherit.Set_Follow` | does nothing | `ogre ic` | ➡️ Lives somewhere else |  |
+| `Object_Instance_Inherit:Set_NoMove` | does nothing | `movement` | 📄 In a data file now |  |
+| `call Object_Instance_Inherit.Set_PriestAscension` | does nothing | `ogre ic` | ➡️ Lives somewhere else |  |
+| `call Object_Instance_Inherit.Set_VariousOptions` | does nothing | `ogre ic` | ➡️ Lives somewhere else | An older copy (no overseer / grind / no-trade rows; group cure stacks for `all`). Not written in an IC file at all - the user's setup list runs it at every zone start, and the profile reload at the run's end puts things back. |
+| `Object_Instance_Inherit:SetCampSpot` | does nothing | `campSpot` | 📄 In a data file now | This copy takes no arguments and sends 1.5 / 200. The `path` and `named` steps set the group's campspots themselves; a separate SetCampSpot is rarely needed in an IC file. |
+| `Object_Instance_Inherit:SetUpFor` | does nothing | `named` | 📄 In a data file now | Outside a named step: OgreBotAPI.Bot:SetUpFor[fw]. |
+| `call Object_Instance_Inherit.Shiniesw_Options` | does nothing | `loot` | 📄 In a data file now |  |
+| `Object_Instance_Inherit.SoloMode` | reads NULL | `ogre ic` | ➡️ Lives somewhere else | No step `when` condition reads solo/duo/group; split by variant (`[Solo]`) in the file instead. |
+| `Object_Instance_Inherit:Tradeskill_Close` | does nothing | — | ⛔ Removed | Nothing in the new bot needs it - delete the line. |
+| `Object_Instance_Inherit.Tradeskill_vis` | reads NULL | — | ⛔ Removed | Nothing in the new bot needs it - delete the line. |
+| `Object_Instance_Inherit:Use_Item` | does nothing | `useItem` | 📄 In a data file now | An encounter action used as an IC step runs on the IC runner only; it reaches the rest of the group only through `sendTo` on the verbs that have one (campSpot, ogreBotUIOption, actorInteract doubleClick, castAbility, movement stopFollow/jump/jumpRoute, assist). For the group outside a data file: OgreBotAPI.Inventory:Use[fw,item]. |
+| `call Object_Instance_Inherit.Zone_To_CoV_Instances` | does nothing | `ISXOgreEQ2.TravelMesh:GoGroup` | ➡️ Lives somewhere else |  |
+| `Object_Instance_Inherit.ZoneLockedAt` | reads NULL | `ogre ic` | ➡️ Lives somewhere else |  |
+| `Object_Instance_Inherit.ZoneLockTime` | reads NULL | `ogre ic` | ➡️ Lives somewhere else |  |
+| `Object_Instance_Inherit.ZoneName` | reads NULL | `ISXOgreEQ2.IC.Zone` | ✏️ Renamed | In a native IC file you write the name once, as the envelope's `zone` (plus `variants`), and never read it. |
+| `Object_Instance_Inherit.ZoneOutStartingPoint` | reads NULL | `zoneOut` | 📄 In a data file now |  |
+| `Object_Instance_Inherit.ZoneRetryCounter` | reads NULL | `ogre ic` | ➡️ Lives somewhere else |  |
+| `Object_Instance_Inherit.ZoneRetryLimit` | reads NULL | `ogre ic` | ➡️ Lives somewhere else |  |
+| `Object_Instance_Inherit.ZoneShortName` | reads NULL | — | ⛔ Removed | Leave it out: an IC file's `zone` is the zone's full name. |
+| `call Object_Instance_Inherit.ZoneSpecialwait` | does nothing | `OgreBotAPI.Zone:SpecialZoneSpecific` | ⚠️ Arguments changed | Only some of Classic's per-zone cases are ported; the pause / wait / resume around it is not part of the verb. |
+
+## Obj_ICInfo
+
+**Note A** (9 rows below): Classic's own upkeep of the in-an-IC-group flag - nothing to call. To ask whether the group is running IC, see bInICGroup.
+
+| Old call | Today | Write instead | What changed | Notes |
+|---|---|---|---|---|
+| `Obj_ICInfo:AfterProfileLoad` | does nothing | — | ⛔ Removed | Note A |
+| `Obj_ICInfo.bInICGroup` | reads NULL | — | ⛔ Removed | Ask the group: ${ISXOgreEQ2.Comms.GroupQuery[${Me.Name},-question,"LavishScript[\${ISXOgreEQ2.IC.Running}]"]} returns an id; wait on .Done[id], then .Result[id] is JSON - "anyYes" = someone in the group is running IC, "yesWho" = who.<br>. Nothing in Classic read the flag. Removed 2026-10-14 with the new bot's stubs (Roster.InICGroup, Zone:CheckICPartyStatus) and the five event names; a script asks with groupQuery instead. |
+| `Obj_ICInfo:CheckICPartyStatus` | does nothing | — | ⛔ Removed | Ask the group: ${ISXOgreEQ2.Comms.GroupQuery[${Me.Name},-question,"LavishScript[\${ISXOgreEQ2.IC.Running}]"]} returns an id; wait on .Done[id], then .Result[id] is JSON - "anyYes" = someone in the group is running IC, "yesWho" = who.<br>(IC running -&gt; broadcast the status; else arm the clear and ask the leader). Nothing in Classic read the flag. Removed 2026-10-14 with the new bot's stubs (Roster.InICGroup, Zone:CheckICPartyStatus) and the five event names; a script asks with groupQuery instead. |
+| `Obj_ICInfo:OgreEvent_AnnounceInICGroup` | does nothing | — | ⛔ Removed | Note A |
+| `Obj_ICInfo:OgreEvent_AnnounceLeftICGroup` | does nothing | — | ⛔ Removed | Note A |
+| `Obj_ICInfo:OgreEvent_CheckICPartyStatus` | does nothing | — | ⛔ Removed | Note A |
+| `Obj_ICInfo:OgreEvent_ICInfo_ClearInICGroup` | does nothing | — | ⛔ Removed | Note A |
+| `Obj_ICInfo:OgreEvent_ICInfo_JoinedInICGroup` | does nothing | — | ⛔ Removed | Note A |
+| `Obj_ICInfo:PartyChange` | does nothing | — | ⛔ Removed | Note A |
+| `Obj_ICInfo.Timer_AnnounceInICGroup` | reads NULL | — | ⛔ Removed | Note A |
+| `Obj_ICInfo.Timer_ClearInICGroup` | reads NULL | — | ⛔ Removed | Note A |
+
+## Obj_LICH
+
+| Old call | Today | Write instead | What changed | Notes |
+|---|---|---|---|---|
+| `Obj_LICH.BaseFolder` | reads NULL | — | ⛔ Removed | (the Lostone instance-file folder). fight logic is encounter files under fixed roots, started by the named step's engage hand-off, not scripts found through a folder variable. |
+| `call Obj_LICH.BossLootSettings` | does nothing | `loot` | 📄 In a data file now | Example: Ogre/EQ2/IC/default/Rage of Cthurath/_16_The Fabled Zavith'loa - The Lost. The step now WAITS with the Leader Only window left open while it still holds a no-trade item. |
+| `call Obj_LICH.CampSpotJump` | does nothing | `movement` | 📄 In a data file now | An encounter action used as an IC step runs on the IC runner only; it reaches the rest of the group only through `sendTo` on the verbs that have one (campSpot, ogreBotUIOption, actorInteract doubleClick, castAbility, movement stopFollow/jump/jumpRoute, assist). |
+| `call Obj_LICH.CampSpotKill` | does nothing | `named` | 📄 In a data file now | Example: Ogre/EQ2/IC/default/Rage of Cthurath/_16_The Fabled Zavith'loa - The Lost. |
+| `call Obj_LICH.ChronoDungeon` | does nothing | — | ⛔ Not ported yet | DEFERRED - Chrono zones are not converted yet. |
+| `call Obj_LICH.DoZoneEndTasks` | does nothing | `ogre ic` | ➡️ Lives somewhere else | The lostone/tools/lo_restock run has no counterpart (searched for restock). |
+| `call Obj_LICH.DoZoneOut` | does nothing | `zoneOut` | 📄 In a data file now | The door op matches the actor's Name only. Example `after`: Ogre/EQ2/IC/default/Rage of Cthurath/_14_The Fabled Ossuary - Resonance of; the zone's ZoneExitName is "Exit". |
+| `Obj_LICH.ExpAcronym` | reads NULL | — | ⛔ Removed | The IC file's own `expansion` key groups it for browsing; it does not locate scripts. |
+| `Obj_LICH.FindNavLocStartingIndex` | reads NULL | `path` | 📄 In a data file now | Not a file key; `fromStart: true` turns it off. |
+| `call Obj_LICH.FlySwimDown` | does nothing | `OgreBotAPI.Movement:FlyDown` | ⚠️ Arguments changed | Two calls and a wait of your own. |
+| `call Obj_LICH.FlySwimUp` | does nothing | `OgreBotAPI.Movement:FlyUp` | ⚠️ Arguments changed | Two calls and a wait of your own: the duration is not an argument. |
+| `Obj_LICH.FolderBaseScripts` | reads NULL | — | ⛔ Removed | (_ignore_base_scripts/, for RunScriptBase). fight logic is encounter files under fixed roots, started by the named step's engage hand-off, not scripts found through a folder variable. |
+| `Obj_LICH.FolderExpBase` | reads NULL | — | ⛔ Removed | /:1771. fight logic is encounter files under fixed roots, started by the named step's engage hand-off, not scripts found through a folder variable. |
+| `Obj_LICH.FolderExpLogs` | reads NULL | — | ⛔ Removed | /:1773 (a log folder). The IC log is IC's own. |
+| `Obj_LICH.FolderExpScripts` | reads NULL | — | ⛔ Removed | /:1772 (the kill scripts RunScript/RunScriptWait launch). fight logic is encounter files under fixed roots, started by the named step's engage hand-off, not scripts found through a folder variable. |
+| `call Obj_LICH.Get_Chest` | does nothing | `loot` | 📄 In a data file now | Example `after`: Ogre/EQ2/IC/default/Rage of Cthurath/_16_The Fabled Zavith'loa - The Lost (Named1's chest). |
+| `call Obj_LICH.Get_Shiny` | does nothing | `loot` | 📄 In a data file now | Classic spun unbounded on a no-trade shiny's loot window (953-956); the new pause-on-no-trade leaves it and pauses IC instead. Example: Ogre/EQ2/IC/default/Rage of Cthurath/_16_The Fabled Zavith'loa - The Lost. |
+| `Obj_LICH.GetActorDistanceFromLoc` | reads NULL | `actorNear` | 📄 In a data file now | The data form asks the threshold question (is one within N of the loc) rather than returning a distance. |
+| `call Obj_LICH.GetAggroWaitForCombat` | does nothing | `named` | 📄 In a data file now |  |
+| `Obj_LICH.GroupCheckUp` | reads NULL | `zoneOut` | 📄 In a data file now | Only DoZoneOut called it. |
+| `Obj_LICH:HODefaultSettings` | does nothing | `OgreBotAPI.Options:Revert` | ➡️ Lives somewhere else | No call is needed: Ogre/EQ2/Encounters/test/Rage of Cthurath/Gerion - Dominion of Pain/The Exhumed (_status :3) records the conversion of the Dominion of Pain :421 call - the HO legs the fight wrote are reverted to the PLAYER's values, not Classic's defaults. |
+| `Obj_LICH.InterceptDetriment` | reads NULL | `castAbility` | 📄 In a data file now | A fight mechanic: the encounter file's job, not the IC's. |
+| `call Obj_LICH.InterceptDetrimentScript` | does nothing | `castAbility` | 📄 In a data file now | The rule lives and dies with the fight; nothing to start or end. |
+| `Obj_LICH.InterceptDetrimentScriptEnd` | reads NULL | `castAbility` | 📄 In a data file now |  |
+| `Obj_LICH.IsActorNearLoc` | reads NULL | `actorNear` | 📄 In a data file now |  |
+| `call Obj_LICH.MoveToAreaNoTarget` | does nothing | `campSpot` | 📄 In a data file now | Example `after`: Ogre/EQ2/IC/test/Rage of Cthurath/_05_Gerion - Dominion of (that file's _comment :29 records the pairing). The same call at became the named step's `spot`. |
+| `call Obj_LICH.MoveToLoc` | does nothing | `path` | 📄 In a data file now | _FastMove has no counterpart here. |
+| `call Obj_LICH.NavigateLocIndex` | does nothing | `path` | 📄 In a data file now | Flags: -ExitOnActorAggro -&gt; `exitOnActorAggro`; -DoNotWaitForCombat -&gt; `waitForCombat: false`; -TimeOutIfNoProgress -&gt; `waitForCombat: { noProgressMs }`; -StartNearestTo / -StartingIndex -&gt; the step joins at the spot the group stands near by itself, `fromStart: true` forces spot 1; -ExitOnActorExists, -GetShinyRange, -PauseForResource have no key. The example's file cut Classic's 20-odd points to one nav spot; `using: "campspot"` walks every point like Classic did. Example `after`: Ogre/EQ2/IC/default/Rage of Cthurath/_16_The Fabled Zavith'loa - The Lost. |
+| `call Obj_LICH.NavigateToLoc` | does nothing | `path` | 📄 In a data file now | Example `after`: Ogre/EQ2/IC/test/Rage of Cthurath/_05_Gerion - Dominion of; that file's _comment (29) records the pairing. The converted step navs and keeps Classic's no-combat-wait as `waitForCombat: false`. |
+| `Obj_LICH.NPCIsAggro` | reads NULL | `path` | 📄 In a data file now | Its only shipped use was NavigateLocIndex -ExitOnActorAggro. |
+| `call Obj_LICH.RunScript` | does nothing | `named` | 📄 In a data file now | e.g. Dominion of Pain :209 g_dominion_zerada_h1 -&gt; Ogre/EQ2/Encounters/test/Rage of Cthurath/Gerion - Dominion of Pain/Dominator. |
+| `call Obj_LICH.RunScriptBase` | does nothing | `runscript` | 📄 In a data file now | An encounter action used as an IC step runs on the IC runner only; it reaches the rest of the group only through `sendTo` on the verbs that have one (campSpot, ogreBotUIOption, actorInteract doubleClick, castAbility, movement stopFollow/jump/jumpRoute, assist). A whole zone delegated to a new-bot script is the envelope's `run: { "iss": ... }`. |
+| `call Obj_LICH.RunScriptWait` | does nothing | `named` | 📄 In a data file now | Example: g_sanctum_kessatras_h1 became Ogre/EQ2/Encounters/default/Rage of Cthurath/The Fabled Ssraeshza Temple - Inner Sanctum/Kessatras; the IC step is Ogre/EQ2/IC/default/Rage of Cthurath/_15_The Fabled Ssraeshza Temple - Inner. The hatch verb `runscript` exists but runs one box's script and does not wait. |
+| `call Obj_LICH.SetDefaultZoneOptions` | does nothing | `ogre ic` | ➡️ Lives somewhere else | A delegated `run:{iss}` zone can still label the options: ISXOgreEQ2.IC:SetFileOptionLabel. |
+| `Obj_LICH:SetExpansion` | does nothing | — | ⛔ Removed | The IC file's `expansion` key is for browsing. |
+| `Obj_LICH.SkipZoneBossMob` | reads NULL | `named` | 📄 In a data file now | Example: Ogre/EQ2/IC/default/Rage of Cthurath/_16_The Fabled Zavith'loa - The Lost. |
+| `call Obj_LICH.UseAutoPortal` | does nothing | `teleporter` | 📄 In a data file now | `{"do":"teleporter", "walkOnto":[<portal>], "landing":[<post-port loc>]}` - `landing` is required with walkOnto. One caller: the Fabled Temple of the Faceless (walkOnto -353.197,15.365,154.861, landing -353.972,47.527,138.927). |
+| `call Obj_LICH.UsePortalActor` | does nothing | `teleporter` | 📄 In a data file now | The new step FAILS if the actor is not there and names who did not go through. -GroupTakeTurns has no key: each toon clicks its own nearest. Example: Ogre/EQ2/IC/test/Rage of Cthurath/_01_Oogothl Sprawl - Ver'Bohten. |
+| `Obj_LICH.ValidPoint3f` | reads NULL | — | ⛔ Removed | (FALSE when two or more axes are 0 - a NULL loc guard). New: coordinates in a data file are checked when the file loads - spots are required numbers, so there is no runtime guard to call. |
+| `Obj_LICH.Version` | reads NULL | — | ⛔ Removed | ("1.2", the helper library's version). the LostOne helper library does not exist in the new bot: IC steps are compiled verbs. |
+| `call Obj_LICH.WaitForCombat` | does nothing | `waitForCombat` | 📄 In a data file now |  |
+| `call Obj_LICH.WaitForLootWindowToClose` | does nothing | `waitForLoot` | 📄 In a data file now |  |
+
+## Instance-file helper functions
+
+| Old call | Today | Write instead | What changed | Notes |
+|---|---|---|---|---|
+| `CastInterrupt` | not defined - the new bot does not load Classic's framework, so the name does not exist | `castInterrupt` | 📄 In a data file now | In the fight file use `castInterrupt` (optionally `mob`), triggered by the `namedCasting` condition; each toon picks its own fastest ready interrupt and aims it at the casting mob.<br>Paused the bot, cleared the ability queue and the current cast, had each class fire its own interrupt ability by name, then resumed. |
+| `CheckGroupSetup` | not defined - the new bot does not load Classic's framework, so the name does not exist | `OgreBotAPI.Roster.CountGroupBy` | ➡️ Lives somewhere else | Ask directly when you need it: ${OgreBotAPI.Roster.CountGroupBy[Archetype,priest]} &gt; 0. In IC and fight files, address the archetype in `sendTo` (igw:{{me}}+priest) instead of branching on a flag.<br>Set four script flags saying whether the group (you included) had a fighter, scout, mage or priest, so the HO helper could pick who starts. |
+| `CheckTargetEffect` | not defined - the new bot does not load Classic's framework, so the name does not exist | `hasDet` | 📄 In a data file now | Use the `hasDet` condition with `actor` "@target" (or the mob's name) and the effect's `main` / `back` icon ids. The new read goes by icon ids, not by name, and never asks the server.<br>Returned TRUE when your target carried an effect of the given name (checking up to N effect slots). |
+| `click_shiny` | not defined - the new bot does not load Classic's framework, so the name does not exist | `loot` | 📄 In a data file now | Use a `loot` step with `op` "shinies" (give `within` 5 if you really mean only the ones at your feet; the default is 75 m and the group goes to them).<br>Clicked a shiny lying within 5 m and counted it. |
+| `EnterPortal` | not defined - the new bot does not load Classic's framework, so the name does not exist | `teleporter` | 📄 In a data file now | Use a `teleporter` step with the portal's exact `name` (and `landing` [x,y,z] where it puts you); every toon clicks it and the step waits until the whole group has moved. If the portal needs a specific verb rather than a click, use `actorInteract` `op` "verb" with `sendTo` instead.<br>Stopped the group, faced an in-zone portal, had every toon apply a verb to it (default "Teleport"), waited, and set a campspot on the far side. |
+| `function_Handle_Startup_Process` | not defined - the new bot does not load Classic's framework, so the name does not exist | `ogre ic` | ➡️ Lives somewhere else | Nothing to call: an IC zone file is loaded and run by the Instance Controller (`ogre ic`). A zone that still needs a LavishScript file names it in the zone file's `run` (`{ "iss": "..." }`), and that script reports with ISXOgreEQ2.IC:Complete or ISXOgreEQ2.IC:Fail.<br>The first line of every Classic instance file: loaded the helper objects, created the zone's instance object, stored the zone names, and (unless -NoIC) ran the zone through the instance controller. |
+| `function_Load_Ogre_Objects` | not defined - the new bot does not load Classic's framework, so the name does not exist | — | ⛔ Removed | Delete the call. IC zone files are plain data and need no helper objects; scripts reach the bot through OgreBotAPI and ISXOgreEQ2, which always exist while the extension is loaded.<br>Created every instance helper object in the calling script: the JSON helper, Obj_OgreIH, Obj_OgreUtilities and Obj_LICH (optionally telling Obj_LICH which expansion). |
+| `function_Load_OgreUtilities` | not defined - the new bot does not load Classic's framework, so the name does not exist | — | ⛔ Removed | Delete the call. The new bot's script API (OgreBotAPI and ISXOgreEQ2) exists whenever the extension is loaded; there is no helper object to create.<br>Created the Obj_OgreUtilities helper object in the calling script (or started the OgreUtilities loader script when the source was not installed). |
+| `GetActorEffectIncrements` | not defined - the new bot does not load Classic's framework, so the name does not exist | `hasDet` | 📄 In a data file now | Use `hasDet` with `actor` set to the mob (name or id), the effect's `main` / `back` icon ids, and `compare` + `value`; or read `detIncrements` as a value.<br>Returned how many increments an effect of the given name had on the actor with the given ID, or -1 when absent. |
+| `GetArchetypeFromClass` | not defined - the new bot does not load Classic's framework, so the name does not exist | `OgreBotAPI.Roster.ArchetypeOf` | ✏️ Renamed | Read ${OgreBotAPI.Roster.ArchetypeOf[&lt;class&gt;]} instead of calling the function and reading Return; compare the result without caring about case.<br>Returned the archetype (fighter, scout, mage or priest) for a class name. |
+| `GetTargetEffectIncrements` | not defined - the new bot does not load Classic's framework, so the name does not exist | `hasDet` | 📄 In a data file now | Use `hasDet` with `actor` "@target", the effect's `main` / `back` icon ids, and `compare` + `value` on the increments (the det must also be present). To use the count as a number, read `detIncrements`.<br>Returned how many increments (stacks) an effect of the given name had on your target, or -1 when absent. |
+| `initialize_move_to_next_boss` | not defined - the new bot does not load Classic's framework, so the name does not exist | `path` | 📄 In a data file now | Drop the call. The move is the `path` step to that named; the buff-up before a pull is the `named` step's own; option writes the zone needs go in an `ogreBotUIOption` step or your IC setup list.<br>Prepared the group to travel to the next named: announced it, made everyone follow the leader, switched the no-stun/no-daze/no-interrupt style blocks off and cast monitoring on, summoned pets, set a campspot, pre-buffed, and set up a solo mercenary. |
+| `Intercept` | not defined - the new bot does not load Classic's framework, so the name does not exist | `castAbility` | 📄 In a data file now | In the named's fight file: a rule triggered on that chat line (`chatMatch`), gated on `afflicted` (`kind` arcane, `who` group, `uncurable` true, `name` the member), doing `castAbility` Intercept with `target` that member, sent to the fighter.<br>During a named fight, when a chat line said a member's affliction was 'beneficial to their survival', the fighter targeted each group member carrying an uncurable arcane affliction and cast Intercept on them, with assist switched off for non-fighters while it worked. |
+| `kill_trash` | not defined - the new bot does not load Classic's framework, so the name does not exist | `waitForCombat` | 📄 In a data file now | Use a `waitForCombat` step; `path` and `named` steps already hold for aggro at every spot, so most of these calls need nothing.<br>Sent pets in, let scouts move to melee in a full group, waited for combat to end, re-camped the group where the leader stood, waited for dead members and for the group to gather. |
+| `mend_and_rune_swap` | not defined - the new bot does not load Classic's framework, so the name does not exist | `beltAdorn` | 📄 In a data file now | Write a `beltAdorn` action with `type` (stun, stifle, mez, fear or medic) for the members who need it. For the repair, have one toon `useItem` the Mechanized Platinum Repository of Reconstruction: every toon near a repair bot repairs by itself.<br>Checked every member's belt condition with a helper script, summoned a repair bot and repaired when the belt was worn, then swapped each archetype's belt rune (stun, stifle, mez, fear) where needed, pausing the bot if a swap failed. |
+| `move_if_needed` | not defined - the new bot does not load Classic's framework, so the name does not exist | `path` | 📄 In a data file now | Write the spots as one `path` step with `exitOnActorAggro` set to the named's exact name, so the walk ends where the group is when it aggros; the `named` step after it fights there. (There is no 'stop when within 25 m' key.)<br>Used in a row to chase a wandering named: while the named was more than 25 m away and not fighting anyone, moved the group to the next listed spot; once it was close or engaged, stopped moving. |
+| `move_to_next_waypoint` | not defined - the new bot does not load Classic's framework, so the name does not exist | `path` | 📄 In a data file now | Write the spots as one `path` step (`using` "nav" or "campspot", `spots` [[x,y,z],...]); it gathers and holds for aggro at every spot. Add a `loot` step with `op` "shinies" where shinies were the point.<br>Moved the whole group's campspot to one spot, waited for arrival, killed anything that aggroed, walked to and clicked any shiny within the scan radius, came back, and waited for the group to gather. |
+| `MoveInRelationToActorID` | not defined - the new bot does not load Classic's framework, so the name does not exist | `campSpot` | 📄 In a data file now | Use `campSpot` `op` "atAngleFromActor" with the actor's `id`, `dist`, `angle` and `sendTo`. Here 0 is BEHIND and 180 is IN FRONT, so Classic's 0 becomes 180; test side angles. Pass `includeNpcSize` false to match Classic.<br>Set a campspot for the named members at a distance and an angle around an actor given by ID, measured from the way the actor faces (0 = in front, clockwise). |
+| `MoveInRelationToNamed` | not defined - the new bot does not load Classic's framework, so the name does not exist | `campSpot` | 📄 In a data file now | Use `campSpot` `op` "atAngleFromActor" with the named's `name`, `dist`, `angle` and `sendTo`. Note the angle is measured differently: here 0 is BEHIND and 180 is IN FRONT, so Classic's 0 becomes 180; side angles are not verified, so test them. Classic did not add the mob's size: pass `includeNpcSize` false to match.<br>Set a campspot for the named members at a distance and an angle around a named, measured from the way the named faces (0 = in front, clockwise). |
+| `Obj_InstanceControllerXML` | not defined - the new bot does not load Classic's framework, so the name does not exist | `ogre ic` | ➡️ Lives somewhere else | Set the zone's options in the instance controller (`ogre ic`) or in the zone's IC JSON file. To change an OgreBot option from a script use OgreBotAPI.Options:Set[all,&lt;id&gt;,&lt;value&gt;].<br>Classic's instance-controller settings object: instance files set per-file options (Set_ICFileOption), reset them (Reset_ICFileOptions) and changed OgreBot options through it (ChangeUIOptionViaCode). |
+| `Obj_Kord` | not defined - the new bot does not load Classic's framework, so the name does not exist | `ogre ic` | ➡️ Lives somewhere else | Do not port the object. The end-of-script reset is IC's own: the setup list's revert (a profile reload) runs when the zone ends.<br>One author's helper library for instance files: walk the group to a spot, pull and kill a named, kill trash on the way, set heroic-opportunity roles, repair and swap belt runes, and (when the script ends) put the group's assist, cure and HO settings back. |
+| `Obj_Kord.HO` | not defined - the new bot does not load Classic's framework, so the name does not exist | `heroicOpportunity` | 📄 In a data file now | Use a `heroicOpportunity` action with `op` "set" and `start` / `starter` / `wheel`, one per audience (`sendTo` the archetype that should start, and another with `start` false for the rest).<br>Set heroic-opportunity roles for the group: starter and wheel on, all icons allowed, and HO starting either off, on for everyone (not scouts in duo), or on for one archetype only. |
+| `Obj_Kord.HO_Starter_Finisher` | not defined - the new bot does not load Classic's framework, so the name does not exist | `heroicOpportunity` | 📄 In a data file now | Use `heroicOpportunity` `op` "set" with `start` true sent to the starting archetype; set "last to complete" with an `ogreBotUIOption` step (id checkbox_settings_ho_last_to_complete) sent to the finishing archetype, and `heroicOpportunity` `op` "disableIcon" for the icons.<br>Made one archetype start heroic opportunities and another finish them (last to complete), with each archetype's first icon disabled. |
+| `Obj_Kord.Initial_Settings_for_BoZ_Zones` | not defined - the new bot does not load Classic's framework, so the name does not exist | `loot` | 📄 In a data file now | Mark the last boss's chest step `loot` `op` "chest" with `boss` true, and turn on the IC option "Do not loot no-trade boss chest": the step then leaves a no-trade window open for you and waits until it is gone.<br>Ticked the IC file option "PAUSE TO LOOT LAST BOSS", so the last boss's chest waited for a human to loot it. |
+| `Obj_Kord.Initial_Settings_for_SoD_Zones` | not defined - the new bot does not load Classic's framework, so the name does not exist | `heroicOpportunity` | 📄 In a data file now | Put a `heroicOpportunity` step with `op` "set" and `start` false at the top of the zone file, or add the equivalent option row to your IC setup list if you want it for every zone.<br>Ran once at the top of each Scars of Destruction (and Rage of Cthurath) zone and turned heroic-opportunity starting off for the whole group. |
+| `Obj_Kord.Initialise_move_to_next_boss` | not defined - the new bot does not load Classic's framework, so the name does not exist | `path` | 📄 In a data file now | Drop the call. The move itself is the `path` step to that named; the buff-up before a pull is the `named` step's own; option writes the zone needs go in an `ogreBotUIOption` step (or your IC setup list if you want them everywhere). Resuming part-way is automatic: IC starts where the group stands.<br>… |
+| `Obj_Kord.Kill_trash` | not defined - the new bot does not load Classic's framework, so the name does not exist | `waitForCombat` | 📄 In a data file now | Use a `waitForCombat` step; `path` and `named` steps already hold for aggro at every spot, so most of these lines need nothing at all.<br>Waited until the group was on its campspot, sent pets in, waited for combat to end and dead members to be rezzed, then re-camped the group where the leader stood and waited for it to gather. |
+| `Obj_Kord.Mend_and_rune_swap` | not defined - the new bot does not load Classic's framework, so the name does not exist | `beltAdorn` | 📄 In a data file now | Write a `beltAdorn` action with `type` (stun, stifle, mez, fear or medic), sent to the members who need it. For the repair, have one toon `useItem` the Mechanized Platinum Repository of Reconstruction: every toon near a repair bot repairs by itself.<br>Outside solo/duo, summoned a Mechanized Platinum Repository of Reconstruction from the first archetype that had one and had everyone repair, then changed the belt rune (stun, fear, ...) for everyone or for one archetype. |
+| `Obj_Kord.Move_to_next_waypoint` | not defined - the new bot does not load Classic's framework, so the name does not exist | `path` | 📄 In a data file now | Write the spots as one `path` step (`using` "nav" or "campspot", `spots` [[x,y,z],...]); it gathers the group and holds for aggro at every spot by itself. Add a `loot` step with `op` "shinies" where the old line was there to grab shinies.<br>Moved the whole group's campspot to one spot, waited for arrival, killed anything that aggroed, walked to and clicked any shiny within the scan radius, came back, and waited for the group to gather. |
+| `Obj_Kord.Prepull` | not defined - the new bot does not load Classic's framework, so the name does not exist | `named` | 📄 In a data file now | Drop it: a `named` step clears aggro on arrival at its `spot` and buffs up before the pull by itself.<br>Set a campspot (on the given spot, though every content call passes none), killed anything already in combat, and pre-buffed before a pull. |
+| `Obj_Kord.Tank_n_Spank` | not defined - the new bot does not load Classic's framework, so the name does not exist | `named` | 📄 In a data file now | Use a `named` step with `name` and `spot`; it walks the group there, arms the pull, waits for the kill line and runs the after-fight res. The in-fight positioning goes in that named's fight file as a `campSpot` action with `op` "atAngleFromActor" (180 for fighters, 0 for the rest).<br>Moved the group to the kill spot, sent pets in, targeted the named, and while it was alive kept the group positioned on it (fighter in front, others behind) until it died, then waited for combat to end and for dead members to be rezzed. |
+| `Ogre_Auto_Instance` | not defined - the new bot does not load Classic's framework, so the name does not exist | `ogre ic` | ➡️ Lives somewhere else | Nothing to create: IC runs the zone file. Zone-wide steps go in the zone file's `steps`; a named's special handling goes in that named's fight file.<br>The running zone's instance object (the zone script's own objectdef, created by the startup function); content called its methods, e.g. a Norrath-time update or a named's special move. |
+| `Ogre_Instance_Controller` | not defined - the new bot does not load Classic's framework, so the name does not exist | `ogre ic` | ➡️ Lives somewhere else | The instance controller is part of the new bot - open it with `ogre ic`. Zone lists, the per-file options and switches such as skip-shinies are set in its panel or in the zone's IC JSON file; a script does not drive it. An instance file as a whole becomes an IC JSON file.<br>Classic's instance controller object: instance files called it to pick zones (ZoneSet), read the zone name (.CleanZoneName), read its switches (.bSkipShinies, .bLowGearMode, the per-file options) and change OgreBot options (ChangeUIOptionViaCode). |
+| `SetInitialHOSettings` | not defined - the new bot does not load Classic's framework, so the name does not exist | `heroicOpportunity` | 📄 In a data file now | Use `heroicOpportunity` `op` "set" (`start` / `starter` / `wheel`, sent to whom) and `op` "clearIcons" to re-enable icons; for the same defaults at the start of every zone, put the option rows in your IC setup list instead.<br>Put heroic-opportunity settings back to the author's defaults: HO abilities on, starting off, starter and wheel on for everyone but rangers, offensive-only wheel, and every archetype icon re-enabled. |
+| `SetInitialInstanceSettings` | not defined - the new bot does not load Classic's framework, so the name does not exist | `ogre ic` | ➡️ Lives somewhere else | Put the settings you want in the IC setup list (`ogre ic`, setup tab): its rows run at the start of every zone, can be limited to solo/duo/group, and are undone by a profile reload when the run ends.<br>At the start of a zone, wrote the author's preferred group settings: smart loot off, assist and auto-target by role, grind options and the cast stack on, cures and interrupts on, pack pony off, and the default heroic-opportunity settings. |
+| `SetLootForLastBoss` | not defined - the new bot does not load Classic's framework, so the name does not exist | `loot` | 📄 In a data file now | Mark the boss chest's `loot` step `boss` true and use the IC option "Do not loot no-trade boss chest"; the step sets the loot options for that chest and puts them back after.<br>Before the last boss, turned off 'Loot everything' for the group so the loot window stopped on no-trade items instead of taking them. |
+| `SetupAllCures` | not defined - the new bot does not load Classic's framework, so the name does not exist | `cures` | 📄 In a data file now | In the fight file use `cures` with `op` "disable" (and "enable" after); add `castStack` entries for any class ability that cures as a side effect.<br>Turned all curing on or off for the group (both cure cast-stack switches, plus the shadowknight abilities that also cure), for fights where a detrimental must not be cured. |
+| `SetupAllInterrupts` | not defined - the new bot does not load Classic's framework, so the name does not exist | `abilities` | 📄 In a data file now | In the fight file use `abilities` with `op` "interrupts" and `enabled` false (true after); add a `castStack` entry and `cancelMaintained` for class abilities that interrupt as a side effect.<br>Turned all interrupting on or off for the group (the No Interrupts option plus the swashbuckler's Daring Advance, cancelled when turning off), for fights that must not be interrupted. |
+| `SetupAscensionsFighter` | not defined - the new bot does not load Classic's framework, so the name does not exist | `castStack` | 📄 In a data file now | In the fight file use `castStack` (`op` "set", `ability`, `value` false, sent to fighters) for each ascension the tank has, and set them back to true when the fight is over.<br>Turned the fighter's 31 ascension spells (Etherealist, Thaumaturgist, Geomancer) on or off in the cast stack, so a tank was not stuck on a long cast when it had to snap aggro. |
+| `Tank_at_KillSpot` | not defined - the new bot does not load Classic's framework, so the name does not exist | `named` | 📄 In a data file now | Use a `named` step with `name` and `spot`.<br>Moved the group to the kill spot, sent pets in, targeted the named and waited where it stood until the named died, then waited for combat to end and dead members to be rezzed. |
+| `Tank_in_Place` | not defined - the new bot does not load Classic's framework, so the name does not exist | `named` | 📄 In a data file now | Use a `named` step with `name` and no `spot` (it fights where the group stands).<br>Without moving, sent pets in, targeted the named and waited until it died, then waited for combat to end and dead members to be rezzed. |
+| `Tank_n_Spank` | not defined - the new bot does not load Classic's framework, so the name does not exist | `named` | 📄 In a data file now | Use a `named` step with `name` and `spot`. Put the in-fight positioning in the named's fight file as a `campSpot` action `op` "atAngleFromActor" (180 for fighters, 0 for the rest).<br>Moved the group to the kill spot, sent pets in, targeted the named, and while it was alive re-positioned the group on it (fighter in front, others behind) every ten seconds, then waited for combat to end and dead members to be rezzed. |
+| `Tank_n_Spank_Ensure_Group_Behind` | not defined - the new bot does not load Classic's framework, so the name does not exist | `named` | 📄 In a data file now | Use a `named` step; in the fight file add `campSpot` `op` "atAngleFromActor" with `angle` 180 sent to fighters and 0 to the rest, and `castStack` entries switching the ascensions off for the fight.<br>Turned the tank's ascension spells off, pulled the named at the kill spot, kept the fighter in front of it and everyone else behind it every three seconds until it died, then turned the ascensions back on. |
+| `Tank_n_Spank_Move_Named_Target` | not defined - the new bot does not load Classic's framework, so the name does not exist | `named` | 📄 In a data file now | Use a `named` step with `name` and `spot`; in the named's fight file, re-camp the group on the target with a `campSpot` action (for example `op` "atAngleFromActor" on the mob, repeated on a timer) while it moves.<br>Moved the group to the kill spot and pulled the named, then kept moving the group's campspot onto whatever was targeted every four seconds until the named died. |
+| `UseChronoDungeonItem` | not defined - the new bot does not load Classic's framework, so the name does not exist | — | ⛔ Not ported yet | Not ported - there is no replacement yet; use the item by hand before starting the zone.<br>Unless already in the level-130 version, found the group member holding the most 'Chrono Dungeons: [Level 130]' items, had them use one and confirm, and waited for the group to zone into the chrono version. |
+| `ZoneOut` | not defined - the new bot does not load Classic's framework, so the name does not exist | `zoneOut` | 📄 In a data file now | Use a `zoneOut` step: `op` "door" with the exit's `name` (and `destination` "1" to keep picking the first row), or `op` "endOfZone" for the boss exit. The pause-at-end hold is built into the step.<br>At the end of a zone: if 'Pause at end of zone' was ticked, paused the bot until you resumed it; then had everyone click the exit, picked the first row of the door list, and waited for the group to arrive. |
+
+## Not in the new bot yet
+
+If your script needs one of these, leave it out for now and tell us - this list is what still needs work.
+
+- `call Obj_LICH.ChronoDungeon` - not ported yet
+- `UseChronoDungeonItem` - not ported yet
