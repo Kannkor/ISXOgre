@@ -1,7 +1,7 @@
 # Ask query system
 
 <div class="ogre-beta" markdown>
-**OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
+**OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../index.md).
 </div>
 
 The calls Classic's *Ask Query System* page described - one question asked of the whole group, answered by every session - and what each one is in the new bot.

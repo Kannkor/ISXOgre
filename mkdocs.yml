@@ -111,20 +111,6 @@ nav:
               - "Relay Groups": EQ2/bot/ogrebot/relay-groups.md
               - "Uplink Info": EQ2/bot/ogrebot/uplink-info.md
               - "Class tab": EQ2/bot/ogrebot/class-tab.md
-          - "Coming from Classic":
-              - "Start here": EQ2/bot/developer/index.md
-              - "Camp spot": EQ2/bot/developer/campspot.md
-              - "Console commands": EQ2/bot/developer/console.md
-              - "OgreBotAPI": EQ2/bot/developer/ogrebotapi.md
-              - "Ask query system": EQ2/bot/developer/ask.md
-              - "Preferred group members": EQ2/bot/developer/preferred.md
-              - "Detrimentals": EQ2/bot/developer/detrimentals.md
-              - "ISXOgre (old extension)": EQ2/bot/developer/isxogre.md
-              - "OgreEvents": EQ2/bot/developer/events.md
-              - "OgreCraft": EQ2/bot/developer/ogrecraft.md
-              - "Instance files": EQ2/bot/developer/instance.md
-              - "Other Classic objects": EQ2/bot/developer/objects.md
-              - "OgreBot option ids": EQ2/bot/developer/options.md
       - "Windows":
           - "Everyday":
               - "OgreBot": EQ2/bot/windows/ogremini.md
@@ -173,6 +159,23 @@ nav:
               - "Welcome to OgreBot": EQ2/bot/windows/tour-intro.md
               - "EQ2Codex API Token": EQ2/bot/windows/codextoken.md
               - "Pushover Account": EQ2/bot/windows/pushovercreds.md
+      - "Developers":
+          - EQ2/bot/developer/index.md
+          - "Converting your scripts": EQ2/bot/developer/converting.md
+          - "Coming from Classic":
+              - EQ2/bot/developer/coming-from-classic/index.md
+              - "Camp spot": EQ2/bot/developer/coming-from-classic/campspot.md
+              - "Console commands": EQ2/bot/developer/coming-from-classic/console.md
+              - "OgreBotAPI": EQ2/bot/developer/coming-from-classic/ogrebotapi.md
+              - "Ask query system": EQ2/bot/developer/coming-from-classic/ask.md
+              - "Preferred group members": EQ2/bot/developer/coming-from-classic/preferred.md
+              - "Detrimentals": EQ2/bot/developer/coming-from-classic/detrimentals.md
+              - "ISXOgre (old extension)": EQ2/bot/developer/coming-from-classic/isxogre.md
+              - "OgreEvents": EQ2/bot/developer/coming-from-classic/events.md
+              - "OgreCraft": EQ2/bot/developer/coming-from-classic/ogrecraft.md
+              - "Instance files": EQ2/bot/developer/coming-from-classic/instance.md
+              - "Other Classic objects": EQ2/bot/developer/coming-from-classic/objects.md
+              - "OgreBot option ids": EQ2/bot/developer/coming-from-classic/options.md
   # <<< new OgreBot docs
   - "OgreBot Classic":
     - EQ2/index.md

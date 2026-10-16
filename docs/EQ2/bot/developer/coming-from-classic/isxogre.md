@@ -1,7 +1,7 @@
 # ISXOgre (the old extension)
 
 <div class="ogre-beta" markdown>
-**OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
+**OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../index.md).
 </div>
 
 Everything Classic's *ISXOgre API Reference* page described (except the detrimentals, which have [their own page](detrimentals.md)), and what each one is in the new bot.

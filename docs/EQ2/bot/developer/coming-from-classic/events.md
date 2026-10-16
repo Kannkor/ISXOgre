@@ -1,7 +1,7 @@
 # OgreEvents
 
 <div class="ogre-beta" markdown>
-**OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
+**OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../index.md).
 </div>
 
 The events Classic's *OgreEvents* page listed, and whether the new bot still raises each one.

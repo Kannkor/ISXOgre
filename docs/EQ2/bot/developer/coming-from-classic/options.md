@@ -1,7 +1,7 @@
 # OgreBot option ids
 
 <div class="ogre-beta" markdown>
-**OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
+**OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../index.md).
 </div>
 
 Scripts and MCP buttons change OgreBot's options by id: `oc !c -ChangeOgreBotUIOption <who> <id> <value>`, `OgreBotAPI.Options:Set[<who>,<id>,<value>]`, or read one with `${OgreBotAPI.Options.Value[<id>]}`. Most ids are the same in the new bot (690 of them exist there). The ones below are Classic ids the new bot does not have.

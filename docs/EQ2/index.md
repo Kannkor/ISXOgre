@@ -11,7 +11,7 @@ Welcome to the EQ2 section of ISXOgre documentation. Here you'll find everything
 
 - [The super secret project](bot/super-secret-project.md) - The story behind the full rewrite
 - [User guide](bot/index.md) - Every window of the new OgreBot, and what each option does
-- [Coming from Classic](bot/developer/index.md) - What changed for scripts, and how to convert them
+- [Developers](bot/developer/index.md) - Converting your Classic scripts, and what changed for script writers
 
 <!-- <<< new OgreBot docs -->
 ### New Users

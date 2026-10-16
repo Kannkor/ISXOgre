@@ -1,7 +1,7 @@
 # Other Classic objects
 
 <div class="ogre-beta" markdown>
-**OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
+**OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../index.md).
 </div>
 
 The Classic objects scripts used that Classic's docs never had a page for (`GetInfoOb`, `ClassInfo`, `TabConfig`, `Ob_AutoTarget`, …), and what each name is in the new bot. None of these objects exists in the new bot.

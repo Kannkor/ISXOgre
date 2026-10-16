@@ -1,0 +1,1145 @@
+# OgreBot for EverQuest II - documentation, Windows (part 2 of 4)
+
+OgreBot is in beta testing. For OgreBot Classic see https://kannkor.github.io/ISXOgre/EQ2/
+This file is ONE PIECE of the documentation: Windows (part 2 of 4) - Windows - Running content; Windows - Loot and items.
+The entire documentation in one document: https://kannkor.github.io/ISXOgre/EQ2/bot/llms-full.txt
+Index of every page and of every file like this one: https://kannkor.github.io/ISXOgre/EQ2/bot/llms.txt
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/npccast.md
+
+# NPC Cast Monitoring
+
+> **:bulb: In game - the ? button on this window says**
+>
+> Two tabs. **Monitor** writes down every spell a mob casts, with its name and spell number. **Watch list** watches the mobs listed for your current zone, and when one starts a listed spell, the bot can interrupt it or run your commands.
+>
+> **Monitor**
+>
+> - **Start** / **Stop** - turns the log on and off. It keeps running while you fight, zone or die, until you press Stop.
+> - **my target + its target** - logs your target and your target's target. These are the only spells that come with a **name**, because the name is read off your cast bars. Target the mob, or target the tank the mob is attacking.
+> - **+ named NPCs nearby** / **+ every NPC nearby** - also logs other casters within 100 metres. Their spells show a spell number but no name, unless you have seen that spell on your cast bar before.
+> - **Copy** - puts the whole list on your clipboard, ready to paste.
+> - **Clear** - empties the list for this zone.
+> - Each zone has its own list, saved to the file named under it. Send that file, or paste the copied list, to whoever asked for it.
+>
+> **Watch list**
+>
+> - **Add the spell my target is casting** - press it while your target's cast bar is up.
+> - **Add by hand** - type a mob name and a spell number.
+> - **interrupt** - the bot interrupts that spell with an interrupt you have ready.
+> - **label** / **commands** - opens a small editor under the spell. Type, then **Save** or **Cancel**.
+> - **remove** / **remove mob** - stop watching a spell or a whole mob here.
+>
+> **Good to know**
+>
+> - The Watch list only works when **NPC Cast Monitoring** is ticked on OgreBot's Settings tab. While it is off, a red bar tells you when a button cannot do anything. Interrupts and commands also need OgreBot open and not paused. The Monitor needs none of that.
+> - **Scan radius** takes 5 to 500. Leave it empty to use the default.
+> - Your changes go in your own list, so updates never remove them. **Reset my edits** deletes them all for this zone, with no undo.
+
+**Open it:** Type `ogre npccast` (also `ogre npccastmonitoring`, `ogre npccast panel` or `ogre npccast config`). If the window is already open, this does nothing. `ogre npccast status` prints the watch status in the console instead.
+
+## What it is for
+
+This window has two tabs. **Monitor** writes down every spell a mob casts, with the spell's name and its ability id, so you can copy the list or send the file to whoever asked for it. It only records; it never makes the bot do anything. **Watch list** watches the mobs listed for the zone you are in, found by their exact name. When a watched mob starts casting one of the listed spells, the bot can interrupt it, run your own commands, or both. Each zone has a shipped list that comes with the bot, and your own list on top of it. Everything you change on the Watch list goes into your own list, so a bot update never removes it. The window opens on the Monitor tab.
+
+## Header and tabs
+
+The top line shows the zone and a count. On the Monitor tab the count is how many spells are in the log. On the Watch list tab it is how many mobs and spells are listed and how many mobs are being watched right now.
+
+| Control | What it does | Default |
+|---|---|---|
+| **Monitor** | Shows the Monitor tab: the log of what mobs cast. Display only - changes what you see, not what the bot does.<br>*The window always opens on this tab.* | shown |
+| **Watch list** | Shows the Watch list tab: the mobs and spells watched in this zone, and what the bot does about them. Display only - changes what you see, not what the bot does. |  |
+
+## Monitor: what to log, Start and Stop
+
+Pick whose spells to log, then press Start. One of the three buttons is always lit. Your target and your target's target are logged in every choice.
+
+| Control | What it does | Default |
+|---|---|---|
+| **my target + its target** | Logs the spells of your target and of your target's target. Players are left out. These are the only spells that come with a name, because the name is read off your cast bars. Target the mob, or target the tank the mob is attacking.<br>*Your choice is not saved. After you restart the game it is back to this one.* | on |
+| **+ named NPCs nearby** | Also logs every named NPC within 100 meters of you. Their spells show the ability id but no name, unless that spell was once named from your cast bars.<br>*Changing this while the Monitor runs takes effect at once.* | off |
+| **+ every NPC nearby** | Also logs every NPC within 100 meters of you, named or not. Their spells show the ability id but no name, unless that spell was once named from your cast bars. | off |
+| **Start / Stop** | Start begins logging and the button turns into a red Stop. It checks four times a second and keeps going while you fight, zone or die, until you press Stop. Stop saves the log and stops; the list stays on screen.<br>*Closing the window does not stop it. It also runs while OgreBot is closed or paused, and with NPC Cast Monitoring unticked.* |  |
+
+## Monitor: the log
+
+One row per mob and spell, in the order they were first seen. A grey bar above the log says what your last button press did. With either of the 'nearby' choices, a second grey bar explains why some spells have no name.
+
+## Monitor: Copy, Clear and the file
+
+Under the log: whether the Monitor is running ('monitoring') or 'stopped', the two buttons, and the file the log is saved to.
+
+| Control | What it does |
+|---|---|
+| **Copy** | Puts the whole log on your clipboard as text, ready to paste: a line with the zone name, a line naming the columns, then one line per row (mob \| spell \| ability id \| cast time \| seen). The grey bar says how many lines were copied.<br>*Greyed out while the log is empty.* |
+| **Clear** | Empties the log for this zone, and its saved file too. Spell names already learned are kept.<br>*No confirmation and no undo. Greyed out while the log is empty.* |
+
+## Watch list tab
+
+The Watch list always shows the zone you are in right now. Everything below is on this tab.
+
+## Watch list: header
+
+On this tab the zone name is the name of the zone's list file. The counts on the right say how many mobs and spells are listed and how many mobs are being watched right now.
+
+## Watch list: adding spells
+
+| Control | What it does | Default |
+|---|---|---|
+| **Add the spell my target is casting** | Target a mob while its cast bar is up and press this. The mob's name and the spell it is casting are added to your list for this zone. The result shows in a green (worked) or red (did not work) bar under the buttons.<br>*The spell is added with no label and no action, so nothing happens yet. Tick interrupt or add commands afterwards.* |  |
+| **mob name (box)** | The name of the mob to add, exactly as the game shows it. Capital letters do not matter.<br>*This box is not cleared after adding (the number and label boxes are), so you can add several spells for the same mob.* | empty |
+| **ability id (box)** | The spell's number (its ability id). Anything that is not a digit is removed. Cleared after adding. | empty |
+| **label (optional) (box)** | A name you give the spell so you know what it is. Only shown in this window. Cleared after adding. | empty |
+| **Add by hand** | Adds the typed mob and spell number to your list for this zone. Nothing happens if the mob name or the number is empty.<br>*If that mob already has that spell in your list, nothing changes (the label is not updated).* |  |
+
+## Watch list: zone settings and files
+
+| Control | What it does | Default |
+|---|---|---|
+| **Scan radius (box)** | How far away (in meters) mobs are watched in this zone. The grey number is the value in use when the box is empty. | empty (50) |
+| **Set** | Saves the scan radius into your list for this zone. It must be from 5 to 500. An empty box or 0 removes your value, so the shipped value (or 50) is used again.<br>*A number outside 5-500 is refused: a red bar says so and nothing is saved. Check the footer's 'scanning to' number for the value in use.* |  |
+| **scan players instead of NPCs** | When ticked, this zone watches players instead of NPCs. Saved into your list for this zone at once.<br>*Only useful for testing in a guild hall with other players casting.* | off |
+| **Reload** | Reads the lists for the zone you are in again from disk. Use it after you edit a list file by hand. |  |
+| **Import Classic custom** | Copies the converted custom lists from OgreBot Classic into your own list folder. A zone you already have your own list for is skipped, never overwritten. The console says how many files were copied and skipped.<br>*This works even when NPC Cast Monitoring is turned off.* |  |
+| **Reset my edits** | Deletes your own list for this zone, so only the shipped list is left. Everything you added, removed or changed in this zone is gone, including the scan radius and the players setting.<br>*There is no confirmation and no undo.* |  |
+
+## Watch list: messages
+
+Bars under the buttons tell you what happened. Green or red is the result of your last capture or edit: when something you pressed could not be done (monitoring is off, no zone is loaded, a scan radius out of range, a list file that cannot be read or written), a red bar says why. Other red bars are problems with a list file. Grey bars are notes.
+
+## Watch list: the list
+
+One block per mob. Under each mob is one row per spell. A yellow 'yours' tag means the mob or spell comes from your own list. 'radius N' is a distance set just for that mob. 'watch only' means the mob has no spells listed. A long list of commands is cut short on its row; hold the mouse over it to read all of it.
+
+| Control | What it does | Default |
+|---|---|---|
+| **Mob name / arrow** | Click to fold a mob's spells away or show them again. Display only - changes what you see, not what the bot does.<br>*Folds are forgotten when the window is reopened.* | open |
+| **remove mob** | Stops watching this mob in this zone. A mob from your own list is deleted from it. A mob from the shipped list is switched off in your list, so it stays off after updates.<br>*No confirmation. To get a shipped mob back, use Reset my edits (which undoes all your edits in this zone).* |  |
+| **interrupt** | When ticked and this mob starts casting this spell, the bot targets that mob and casts an interrupt spell that is ready right now. Saved at once.<br>*Nothing is cast if you have no interrupt ready, or while OgreBot is closed or paused.* | as the list says |
+| **label** | Opens a small editor right under this spell's row, with a box holding its current name. Type a new name and press Save. Cancel closes the editor without saving.<br>*Saving an empty box removes the name you gave it. A spell from the shipped list then shows its shipped name again.* |  |
+| **commands** | Opens a small editor right under this spell's row, with the commands the bot runs each time this mob starts this spell, one per line. The row shows how many commands are set and what they are.<br>*Commands only run while OgreBot is open and not paused.* |  |
+
+## Watch list: editing a label or commands
+
+Pressing label or commands opens this editor under the spell's row.
+
+| Control | What it does |
+|---|---|
+| **Editor box** | The name or the command lines you are editing. What you type is kept while the list refreshes. Only one editor is open at a time; opening another one drops what you had not saved.<br>*Pressing Enter does not save. Use the Save button.* |
+| **Save** | Saves the editor's text into your own list for this zone and closes the editor. For commands, empty lines are skipped, and saving an empty box removes your commands; a spell from the shipped list then uses its shipped commands again. |
+| **Cancel** | Closes the editor. Nothing is saved. |
+| **remove** | Removes this spell from the mob. A spell from your own list is deleted. A shipped spell is switched off in your list.<br>*Removing the last spell of a mob you added removes that mob too. A mob from the shipped list stays watched.* |
+
+## Watch list: footer
+
+Shows how far the bot scans and for what (NPCs or players), and where the shipped list and your own list for this zone are stored on disk.
+
+## What the window shows
+
+- Monitor header: the zone the log belongs to - the same name the Watch list tab shows - and 'N spell(s) logged', the number of rows in the log.
+- Monitor log columns: Mob, Spell (its name, or a grey '(no name yet)'), Ability ID, Cast time (seconds, from the latest cast) and Seen (how many times that mob cast it). One cast counts once, even though the Monitor sees it several times while the cast bar is up. Casting the same spell again counts again.
+- Monitor grey bars: the result of your last Start, Stop, Copy or Clear. With either 'nearby' choice, a second bar says that casts from mobs that are not your target (or your target's target) only get an ability id.
+- Monitor footer: 'monitoring' in green while it runs, 'stopped' when it does not, and 'saved to' the log file for this zone.
+- Zone name (both tabs): the file name used for the zone, for example Castle_Vacrul_Caverns_of_the_Forsaken_Heroic_II. '(no zone)' when nothing is loaded.
+- 'N mob(s) · N ability entr(ies) · watching N': how many mobs and spells are listed, and how many mobs the scan is watching right now.
+- Green bar: your last capture worked (or that spell was already in your list). Red bar: your last capture or edit did not work, with the reason (no target, not casting, monitoring off, radius out of range, and so on).
+- Red 'OFF' bar: NPC Cast Monitoring is turned off on OgreBot's Settings tab. The list is empty and nothing is watched.
+- Grey 'OgreBot is closed' bar: mobs are still watched, but nothing is interrupted and no commands run until OgreBot is open.
+- Grey 'Per-cast logging is off' bar: shows until you tick NPCCastDebug on OgreBot's Debug tab.
+- Red file bars: the shipped list or your list for this zone cannot be read, your file uses the old 'nomerge' spelling, or some spell numbers in it are not valid and were skipped.
+- Grey 'REPLACES' bar: your file is set to replace the shipped list instead of adding to it.
+- Mob tags: 'yours' = from your list, 'radius N' = a distance set just for that mob, 'watch only' = no spells listed.
+- Spell rows: the spell number, its label ('(no label)' if none), the interrupt box, how many commands it runs, and a 'yours' tag when it comes from your list.
+- Watch list footer: 'scanning to N for NPCs/players' is the widest distance in use (the zone radius or the biggest per-mob radius). 'shipped:' and 'yours:' are the two list files for this zone.
+
+## Good to know
+
+- The Monitor and the Watch list are separate. The Monitor only writes down what mobs cast; it never interrupts or runs anything, and it needs neither the NPC Cast Monitoring checkbox nor OgreBot open.
+- Spell names in the Monitor only come from your cast bars (your target and your target's target), and only when the cast lasts longer than about a quarter of a second. Once a spell's name is known, it shows for that spell everywhere, in every zone and next time too.
+- Each zone keeps its own Monitor log. Zone while it runs and the old zone's log is saved and the new zone's saved log comes back. Send the file named under the log, or paste what Copy gives you.
+- The Monitor keeps running after you close the window. Press Stop (or type `ogre npccast monitor off`) to end it. The console can also start it: `ogre npccast monitor`, `ogre npccast monitor named` or `ogre npccast monitor all`.
+- The Watch list is switched by the 'NPC Cast Monitoring' checkbox on OgreBot's 'Settings' tab. While it is off, the list is empty and capturing, reloading, adding, removing and editing are refused with a red bar saying so. Only Import still works.
+- Entering a zone that has a list (shipped or yours) ticks that checkbox for you, once per zone. If you untick it, it stays off until you next enter a zone that has a list, or your profile is loaded again.
+- A watched mob starting a spell that is not listed (or a 'watch only' mob) does not interrupt or run anything. It only lets encounter scripts know the mob is casting.
+- Interrupts and commands only happen while OgreBot is open and not paused.
+- Reset my edits deletes all your Watch list edits for this zone at once, with no confirmation.
+- The Watch list only covers the zone you are standing in. To edit another zone's list, go there or edit its file.
+- With NPC Cast Monitoring off, an empty Watch list says so and asks you to turn it on - adding needs it on.
+
+### The Monitor with named NPCs nearby
+
+With **+ named NPCs nearby** picked, a second grey bar explains the missing names. The named NPC at the bottom was never on your cast bars, so its spells have no name yet:
+
+![Monitor with named NPCs nearby](../assets/npccast/mon-named.png)
+
+### The Monitor before you start
+
+Nothing logged yet, so Copy and Clear are greyed out:
+
+![Monitor before Start](../assets/npccast/mon-empty.png)
+
+### Watch list: a mob folded away
+
+The first mob is folded shut. The last mob has no spells listed, so it is 'watch only':
+
+![A folded mob](../assets/npccast/folded.png)
+
+### Watch list: no list yet, and switched off
+
+A zone with nothing listed, after a capture that failed (the target was not casting), with OgreBot closed and debug logging off:
+
+![Empty zone](../assets/npccast/empty.png)
+
+With the NPC Cast Monitoring checkbox turned off in OgreBot:
+
+![Monitoring off](../assets/npccast/off.png)
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/effecttracker.md
+
+# Effect Tracker
+
+> **:bulb: In game - the ? button on this window says**
+>
+> Records what effects are called and what they say they do, into a shared per-zone data set for encounter writers.
+>
+> **What you can do here**
+>
+> - **Player** - record the detrimentals that land on you.
+> - **NPC** - record the effects on NPCs that are fighting.
+> - **Merge zone** - combine every character's capture file for the zone you are in into one. It works with Player and NPC off too.
+> - **Search** and click a row to read everything recorded for an effect.
+> - **Right-click a row** to copy its coding details.
+>
+> **Good to know**
+>
+> - Both start off in every new session. The window opens shrunk; click **Expand**.
+> - Each effect is examined once, ever, so a zone you ran before may show nothing new.
+> - It switches itself off while the Encounter Recorder runs.
+
+**Open it:** Type `ogre effecttracker` (or `ogre oet`). `ogre effecttracker on` turns on the player capture and `ogre effecttracker npc on` the NPC capture; both also open the window. `ogre effecttracker off` turns both off.
+
+## What it is for
+
+Effect Tracker records what effects are called and what they say they do. With Player on, it records every detrimental that lands on you. With NPC on, it records the effects on NPCs that are fighting. It opens each new effect's examine window, copies its text, and closes it again. Each effect is only looked at once, ever, and the results go into a shared per-zone data set that encounter writers use. This window turns the capture on and off and lets you browse what was captured in the zone you are in.
+
+## Header
+
+The green line shows the zone, your character, how many effects are waiting to be examined, and the name of the last effect captured.
+
+| Control | What it does | Default |
+|---|---|---|
+| **Shrink / Expand** | Shrink folds the window down to a small title bar with just an Expand button, so it is out of your way. Expand brings it back to the size it was before you shrank it (940 by 600 the first time, because the window opens shrunk). Display only - the capture keeps running while shrunk.<br>*The window always opens shrunk. Click Expand to see the list.* | shrunk (the window opens small) |
+
+## Turning the capture on and off
+
+| Control | What it does | Default |
+|---|---|---|
+| **Player: off / Player: ON** | Turns on (or off) recording of the detrimentals that land on you. When turned on it also looks at the detrimentals already on you.<br>*Effects already recorded before (by any of your characters) are skipped, so a zone you have done before may capture nothing new. It is not saved: it starts off again in every new session. Turning off the last of Player and NPC saves what was captured straight away.* | off |
+| **NPC: off / NPC: ON** | Turns on (or off) recording of the effects on NPCs and named NPCs that have a target (are fighting). Up to 10 effects per NPC.<br>*It only captures during combat, because that is when NPCs carry the effects.* | off |
+| **Merge zone** | Combines every character's capture file for the zone you are in into one merged file for the zone. Your own latest captures are saved first, so they are included. The console says how many records were added and updated.<br>*It works whether Player or NPC is on or not. Outside a zone it says 'not in a zone' and does nothing.* |  |
+
+## Browsing what was captured
+
+| Control | What it does | Default |
+|---|---|---|
+| **Player dets (N)** | Shows the detrimentals your character has recorded in this zone. The number is how many there are. Display only. | selected |
+| **NPC effects (N)** | Shows the NPC effects recorded in this zone (shared by all your characters). Display only. |  |
+| **search name / icon key / effect text / actor (box)** | Shows only the effects whose name, description, icon key, effect text or mob names contain what you type. Capital letters do not matter. It searches after you stop typing or press Enter. Display only. | empty |
+| **Clear** | Empties the search box and shows everything again. Display only. |  |
+| **descriptions (server reads)** | When ticked, the tracker also asks the game server for each new effect's description, one effect at a time. When unticked, names and effect text are still captured from the examine window; only the description is missing.<br>*It is not saved: it is ticked again in every new session. The footer shows how many server reads were used.* | on |
+
+## The list
+
+One row per captured effect: its name, its icon key (two numbers), how many lines of text it has, '+desc' if it has a description, 'on <mob>' for NPC effects, any crowd control it causes in yellow, and a red note if the capture failed.
+
+| Control | What it does |
+|---|---|
+| **Click a row** | Opens the row to show everything recorded for that effect: icon numbers, duration, counters, the description, each line of effect text, and the mobs it was seen with (named mobs are starred). Click it again to close it. Display only.<br>*Dragging across text selects it for copying instead of opening the row.* |
+| **Right-click a row > Copy coding details** | Copies the effect's name, icon numbers, duration, the mob it was on, and all its text to the Windows clipboard, ready to paste into an encounter file or a note.<br>*If another program is holding the clipboard, the console says it could not copy.* |
+
+## Footer
+
+Record count (and 'showing N of M' when there are more than 250 matches; the file still has them all), how many effects were captured this session, how many effects are already known and will never be examined again, how many examine windows were opened, any timeouts or windows that were not ours, and how many server reads were used.
+
+## What the window shows
+
+- Header line: zone file name, your character, 'N/8 examining' while effects wait to be read, and 'last:' the last effect captured.
+- Red 'Disarmed' bar: the Encounter Recorder or one of the old OgreBot effect tracker scripts is running. They use the same examine window, so the tracker switches itself off and refuses to turn on until they stop.
+- Row name in red with '[examine timed out]' (or another reason): the capture failed. An 'Unknown_...' name means the effect could not be named. These are tried again later in the session, up to a limit.
+- Yellow brackets such as [Stun Root]: crowd control found in the effect text (Stifle, Stun, Fear, Mez, Root).
+- Open row, first line: main and backdrop icon numbers, the key, maxDuration (-1 means it lasts until removed), increments (counters), the actor type and the capture result.
+- Open row, bottom: the mobs that were around when it landed. A star marks named mobs.
+- Coloured text: some effect lines carry the game's own colour, and the window shows it the same way.
+- Empty list: 'Nothing captured for this zone yet' (turn Player or NPC on and fight), 'Armed, and nothing captured yet', or 'Nothing matches' for a search.
+
+## Good to know
+
+- Player and NPC are not saved: both start off in every new session. Turning either on opens this window (shrunk) so you can always see it is running.
+- An effect is examined only once, ever, across all your characters. A zone you already ran may show nothing new; that is normal.
+- Starting the Encounter Recorder switches Effect Tracker off. Turn it back on after the recorder stops.
+- While the tracker is working, you will see effect examine windows flash open and close. That is how it reads them.
+- The list only shows the zone you are in, and only after capture has been turned on (or Merge zone pressed) this session.
+
+### As it opens
+
+The window opens shrunk. Click **Expand**:
+
+![Shrunk](../assets/effecttracker/shrunk.png)
+
+### NPC effects, searched
+
+![NPC effects](../assets/effecttracker/npc.png)
+
+### Blocked by the Encounter Recorder
+
+![Blocked](../assets/effecttracker/blocked.png)
+
+### Right-click a record
+
+![Right-click menu](../assets/effecttracker/rightclick.png)
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/hideeffects.md
+
+# Hide Effects
+
+> **:bulb: In game - the ? button on this window says**
+>
+> Hides clutter (guild buffs, pets, always-on class buffs) from your character's effects window, using lists of effect names.
+>
+> **What you can do here**
+>
+> - **Run** - check the effects on you and hide every one on a list for your class.
+> - **List hidden**, **Clear all**, **Un-hide id** - see what the game is hiding, or show it again.
+> - **Add** / **remove** - change the names in a group.
+> - **Reset my edits** - undo every Add and remove you made, in all groups.
+>
+> **Good to know**
+>
+> - Nothing is hidden until you press **Run**. Effects that land later need another Run.
+> - Removing a name does not un-hide it; use **Clear all** or **Un-hide id**.
+> - Plain `ogre hideeffects` runs the hide; `ogre hideeffects panel` opens this window.
+
+**Open it:** Type `ogre hideeffects panel`. If the window is already open, this does nothing. Plain `ogre hideeffects` does not open the window: it runs the hide straight away (the same as the Run button).
+
+## What it is for
+
+Hide Effects clears clutter out of your character's effects window. It keeps lists of effect names that nobody needs to see (guild buffs, pets, always-on class buffs and so on). When you press Run, it looks at every effect on your character and tells the game to hide the ones whose name is on a list that applies to you. The lists are split into groups: some apply to everyone, some only to one class or archetype. Your own additions and removals are kept in a separate file, so bot updates never undo them.
+
+## Header
+
+Shows the character, class and archetype the lists are matched against. 'run in progress…' appears on the right while a run is working.
+
+## Buttons
+
+| Control | What it does | Default |
+|---|---|---|
+| **Run** | Checks every effect on your character, one at a time, and hides each one whose name is on a list that applies to your class. A list name also matches the same name with a rank after it (for example 'Aspect of Genius' also hides 'Aspect of Genius IV'). The console says what it checked and what it hid.<br>*It only runs when you press it; it does not keep hiding new effects afterwards. If you zone or log out while it is still checking names, the run is dropped - press Run again. Pressing it again during a run only says a run is already going.* |  |
+| **List hidden** | Asks the game to print the list of effects it is hiding. The list appears in your EQ2 chat window, with the id of each one. |  |
+| **Clear all** | Tells the game to show every hidden effect again.<br>*No confirmation. Press Run to hide them again.* |  |
+| **effect id (box)** | The id of one hidden effect, as shown by List hidden. Anything that is not a digit is removed. | empty |
+| **Un-hide id** | Tells the game to show that one hidden effect again. Nothing happens if the box is empty. |  |
+| **Reload list** | Reads all the hide lists from disk again. Use it after editing a list file by hand. |  |
+| **Reset my edits** | Deletes the file that holds your Add and remove changes, so every group loses those changes at once. A list file you put in your own custom folder by hand is not touched.<br>*No confirmation and no undo.* |  |
+
+## The lists
+
+One block per group, with the groups that apply to you first. The tag says what kind of group it is (general, ascension, subclass or archetype) and whether it 'applies' to you or is for an 'other class' (greyed out). A yellow 'custom file' tag means the group comes from a file in your own folder. The number on the right is how many names are in it.
+
+| Control | What it does | Default |
+|---|---|---|
+| **Group name / arrow** | Click to fold a group away or open it again. Display only - changes what you see, not what the bot does. | open |
+| **remove** | Takes this name off the group, so Run no longer hides it. Saved at once in your own file.<br>*It does not show the effect again if it is already hidden. Use Clear all or Un-hide id for that.* |  |
+| **add a name to <group> (box)** | Type the name of an effect to add to this group. Capital letters do not matter. | empty |
+| **Add** | Adds the typed name to this group and saves it at once in your own file. Nothing happens if the box is empty.<br>*The name is not checked against the game, so a typo is saved and simply never matches.* |  |
+
+## Footer
+
+Left: how many groups and names apply to your character. Right: the last run - how many effects it checked, how many were on your lists, how many it hid, how many effect names it had to look up, and how many it could not read in time ('not ready', in red). The note in brackets says how the run went, for example 'running' while it hides and 'done' when it has finished.
+
+## What the window shows
+
+- Header: character name - class (archetype). '(no character)' before a character is loaded.
+- 'run in progress…': a run is still checking names or hiding effects.
+- Grey 'Not in world' bar: you can still edit the lists, but Run needs a character in the world.
+- Group tag 'applies' (green): this group is used for your character. 'other class' (grey): it is not, but you can still edit it.
+- 'custom file' (yellow): the group comes from a list file in your own save folder.
+- Footer 'last run': scanned = effects checked, matched = on your lists, hid = hidden, name reads = names looked up, not ready = names the game never supplied in time.
+- The window keeps itself up to date: the 'run in progress' marker, the footer and the 'Not in world' bar change on their own as a run goes and when you zone, within about a second.
+
+## Good to know
+
+- Nothing is hidden until you press Run (or type `ogre hideeffects`). New effects that land later are not hidden until you run it again.
+- Removing a name from a list does not un-hide it. Use Clear all or Un-hide id.
+- If one effect name is in two applying groups, the first group (general, then ascension, then your class, then your archetype) is the one credited.
+- Reset my edits undoes all your Add/remove changes in every group at once (a list file you added by hand stays).
+
+### More groups, folded
+
+Groups for other classes are listed after yours, greyed out:
+
+![Folded groups](../assets/hideeffects/folded.png)
+
+### While a run is working
+
+![Run in progress](../assets/hideeffects/running.png)
+
+### Not in the world
+
+![Not in world](../assets/hideeffects/notinworld.png)
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/eq2radar.md
+
+# Radar
+
+> **:bulb: In game - the ? button on this window says**
+>
+> A live map of what is around you. You are the ringed dot in the middle; the cyan wedge is the way you face. Click any dot to target it.
+>
+> **What you can do here**
+>
+> - **zoom / dim / height** - how far you see, how solid the background is, and hiding other floors.
+> - **types** - pick which kinds of things are drawn (saved at once).
+> - **verify** - check the radar's list against the game; the answer is in the console.
+> - **Gear** - colours, rotation, labels, full screen, click-through, name lists, and **Save**.
+> - **auto-hide** (clean mode) - no title bar, controls fade; point at the top-left corner to get them back.
+>
+> **Good to know**
+>
+> - Zoom, dim, height and the gear settings only stick if you press **Save**.
+> - Stuck behind click-through? `ogre radar settings` or `ogre radar click off`.
+> - A line under the title tells you when no data has come in for a while, and who a clicked dot targeted.
+> - The X (or `ogre end radar`) turns the radar off. `ogre radar` does nothing if it is already open.
+
+**Open it:** Type `ogre radar` in the console. `ogre end radar` (or the X on its title bar) turns it off again. The OgreBot Load tab boxes "Radar on" / "Radar off" do the same when a profile loads.
+
+## What it is for
+
+A live map of everything around you: mobs, players, pets, corpses, chests, doors and more, each drawn as a coloured dot around you in the middle. Click a dot to target it. It only shows things; it never moves or fights for you, and it keeps working while OgreBot is paused. The title bar reads Ogre Radar. Your look (zoom, colours, lists, and so on) is saved to one file shared by every character on this PC.
+
+## Toolbar
+
+The strip across the top. The zoom, dim and height sliders change only what you see; they do not change what the bot reads.
+
+| Control | What it does | Default |
+|---|---|---|
+| **zoom** | How far the radar reaches, in game units from you to the nearer edge of the window. Drag left to zoom in, right to see further (10 to 400). Display only - changes what you see, not what the bot does.<br>*Only kept for good if you press Save in the settings.* | 100 (the radar radius) |
+| **dim** | How solid the radar's background is. 100% is a solid panel, 0% is see-through so only the dots are drawn over the game. The same setting as background in the settings.<br>*Only kept for good if you press Save in the settings.* | 94% |
+| **height** | Hides things more than this many units above or below you, so in a tower or a building you see your own floor. Shows ±N when on. Either end of the slider means off.<br>*Only kept for good if you press Save in the settings.* | off |
+| **types** | Opens the Radar Types window, where you pick which kinds of things are drawn. Press again to close it. |  |
+| **verify** | Checks the bot's list of nearby things against a fresh read of the game and prints the result in the console. If the list had gone wrong it is rebuilt.<br>*The answer is in the console, not on the radar.* |  |
+| **⚙ (gear, in the toolbar)** | Opens and closes the settings drawer over the radar. |  |
+| **⚙ (gear, in the title bar)** | The same as the toolbar gear: opens and closes the settings drawer. |  |
+| **Title bar close (X)** | Turns the radar off and closes it and the Radar Types window. Same as `ogre end radar`. |  |
+
+## The scope
+
+You are the white dot with the cyan ring in the middle; the cyan wedge shows which way you face. The rings mark a third, two thirds and all of the zoom distance. In the top right of the toolbar is the zone name.
+
+| Control | What it does |
+|---|---|
+| **Click a dot** | Targets that actor. It works while OgreBot is paused, and it takes priority over the bot's own targeting for that click.<br>*Dots stay clickable even when click-through is on. For 4 seconds the line at the top of the radar says what you targeted (name, level, distance, health, type), whether or not the readout is switched on.* |
+
+## Settings - Display
+
+Open with either gear. The drawer covers the radar; Close (at the bottom) or the gear puts it away. While it is open the radar always takes the mouse, even if click-through is on.
+
+| Control | What it does | Default |
+|---|---|---|
+| **colour by: type** | Colours each dot by what it is (npc, named, player, pet...), using the Colours - by type list. | on |
+| **colour by: con** | Colours each dot by its con colour (grey, green, blue, white, yellow, orange, red) using the Colours - by con list. Things with no con keep their type colour. | off |
+| **rotation (heading-up / north-up)** | heading-up turns the map with you, so straight ahead is always up. north-up keeps north at the top and turns the facing wedge instead. | heading-up |
+| **labels** | Writes each dot's name beside it. | on |
+| **grid** | The outline, range rings and crosshair. Off leaves only the dots. | on |
+| **updates: −** | Reads the game one time fewer per second. |  |
+| **updates (slider)** | How many times a second the radar re-reads the game, 1 to 30. More gives fresher positions but costs more game time. This is the only setting in the drawer that costs anything.<br>*Not saved by Save: it goes back to 5 when the extension reloads.* | 5 / sec |
+| **updates: +** | Reads the game one time more per second (up to 30). |  |
+| **chunk: − / +** | Steps through off, 25, 50, 100, 150, 250, 400. When more actors are around than this number, one update is spread over several game frames, which smooths out the worst frame but makes positions a little older.<br>*Not saved by Save. With 100 things or fewer around, the default 100 does nothing, so there is no need to turn it off. The hint next to it says the same.* | 100 /frame |
+| **glide** | Slides dots smoothly between updates instead of letting them jump. Costs the game nothing. | on |
+| **blip size** | Size of each dot, 4 to 18 pixels. Named mobs are drawn 3 pixels bigger. | 8px |
+| **label size** | Size of the name text, 7 to 20 pixels. | 9.5px |
+| **background** | The same setting as dim on the toolbar: 0% is fully see-through (the radar is still clickable), 100% solid. | 94% |
+| **auto-hide** | Turns clean mode on or off. In clean mode the title bar is removed and the toolbar fades out; hover the top-left corner of the radar to bring the controls back. See Clean mode below. | off |
+| **click-through** | When ON, your mouse clicks go through the radar to the game, except on the dots and the toolbar, which still work.<br>*If you get stuck, `ogre radar click off` gives the mouse back and `ogre radar settings` opens this drawer.* | off |
+
+## Settings - Full screen
+
+| Control | What it does | Default |
+|---|---|---|
+| **Full screen: on / off** | Stretches the radar over the whole game screen, minus the offsets below. Turning it on also turns click-through on, so you can still play. Turning it off puts the window back where it was. | off |
+| **offsets px: top / right / bottom / left** | Pixels to leave free at each edge of the screen when full screen is on (for example to keep your hot bars clear).<br>*Typing a number does nothing until you press apply.* | 0 |
+| **apply** | Re-fits the full-screen radar using the offsets you typed.<br>*Only does something while full screen is on.* |  |
+
+## Settings - Colours
+
+One row per kind of thing (by type) and one per con colour. Click a swatch to open the colour picker above the list.
+
+| Control | What it does |
+|---|---|
+| **Swatch (coloured dot)** | Opens the colour picker for that row. The picker's heading uses the row's own name (named, tradeskill, nokill...). |
+| **#hex box** | Type a colour as # plus six hex digits (for example #ff8a3d). It applies as soon as the text is a valid colour.<br>*Anything else is ignored.* |
+| **Picker: #hex box** | The picked colour as text; type a colour here to set it. |
+| **Picker: R / G / B sliders** | Mix the colour from red, green and blue (0 to 255). The dots change as you drag. |
+| **Picker: preset swatches** | Click one to use that colour. |
+| **Picker: done** | Closes the picker. The colour you picked stays. |
+
+## Settings - Lists
+
+Each entry is part of a name and is matched without caring about capitals: 'darkpaw' matches 'a Darkpaw brute'. Saved lists are kept when you press Save. Temporary lists are never saved; they last until the game's UI reloads.
+
+| Control | What it does | Default |
+|---|---|---|
+| **whitelist ON / off (saved)** | When ON, only things whose name matches an entry are drawn.<br>*An empty whitelist is ignored rather than hiding everything.* | off |
+| **blacklist ON / off (saved)** | When ON, things whose name matches an entry are hidden. | off |
+| **whitelist ON / off (temporary)** | Same as the saved whitelist, for this session only. | off |
+| **blacklist ON / off (temporary)** | Same as the saved blacklist, for this session only. | off |
+| **name fragment, then Enter or Add (placeholder)** | Type part of a name. Enter does the same as Add. | empty |
+| **Add** | Adds the typed text to that list (skipped if it is already there). |  |
+| **✕ (remove entry)** | Removes that entry from the list. |  |
+
+## Settings - Debug, Save and Reset
+
+The report buttons print to the console, not the radar. They are for tracking down problems.
+
+| Control | What it does | Default |
+|---|---|---|
+| **readout (shown / hidden)** | Shows a line at the top of the radar: how many things are drawn out of how many were read, and what the radar costs the game (time per frame and share of the CPU).<br>*Messages for you use the same line and show even when the readout is hidden: "no data for N s" when the radar has had nothing from the game for over 3 seconds, and what a clicked dot targeted.* | hidden |
+| **verify cache** | Same as the verify button on the toolbar. |  |
+| **perf** | Prints the radar's cost report to the console. |  |
+| **status** | Prints the radar's current settings and state to the console. |  |
+| **ui dump** | Prints the radar window's own drawing numbers to the console. |  |
+| **dump** | Prints the first 10 things from the last update (name, type, distance, level, health, con, position) to the console. |  |
+| **fields: full** | Reads everything the radar can show, including level, health and con. The lit button is the one in use. | full |
+| **fields: lean** | Stops reading level, health and con: fewer game reads, but those three stop updating on the radar.<br>*Not saved. It goes back to full when the extension reloads.* |  |
+| **reset perf** | Zeroes the radar's cost counters so the next perf report starts from now. |  |
+| **force a scan** | Makes the radar re-read the game once, right away. |  |
+| **Save** | Saves the radar's look and lists (everything in this drawer except updates and chunk, plus zoom, dim and height) to OgreSave\EQ2\Radar.json. The next time the radar opens it starts this way. One file for every character on this PC.<br>*The grey text next to Close confirms the save.* |  |
+| **Reset all** | Puts every setting in the drawer back to the defaults, including zoom, dim, height, colours, the type choices and the saved lists (they are emptied). Nothing is written until you press Save.<br>*Close and reopen the radar without saving to get your saved settings back.* |  |
+| **Close** | Closes the drawer. Unsaved changes stay in effect until the radar closes. |  |
+
+## Clean mode (auto-hide)
+
+With auto-hide on, the radar becomes a clean overlay: the title bar is gone (so no X, lock or ?) and the toolbar fades out. The space stays reserved at the top. A faint corner mark in the top-left shows where to point.
+
+| Control | What it does |
+|---|---|
+| **Hot corner (top-left)** | Point the mouse at the top-left corner of the radar (about 130 by 24 pixels) and the toolbar comes back. Move away and it fades again after a moment.<br>*The controls stay up while the settings drawer is open.* |
+| **? (beside the gear)** | Opens this help. It only appears in clean mode, because the title bar and its ? are gone. |
+
+## What the window shows
+
+- Your character: the white dot with the cyan ring in the middle. The cyan wedge is the way you face.
+- Dot colours (colour by type, the default): npc orange, named orange and bigger with a glow, nokill (guards, merchants) grey, special yellow, players blue, pets light green, your pet bright green, mercenaries teal, corpses dark grey, tradeskill stations purple, resources (harvest nodes) teal-green, chests amber, doors brown, anything else grey. Every colour can be changed in the settings.
+- Dot shapes: players and mercenaries are rounded squares; everything else is round. Named mobs are 3 pixels bigger with an orange glow.
+- Faded dots: corpses and anything at 0% health.
+- Your target: its dot turns white with a white halo and its name goes white and bold.
+- Rings: a third, two thirds and all of the zoom distance, measured to the nearer edge of the window. A tall window sees further up and down than sideways.
+- Top right of the toolbar: the zone you are in.
+- Only the 250 nearest things are drawn.
+
+## Good to know
+
+- Zoom, dim, height and every setting in the drawer are only kept for good if you press Save. Close and reopen the radar without saving and they go back to what you last saved (if you have never saved, your changes last until the game's UI reloads). Exception: choices in the Radar Types window save themselves. Only the type choice is saved - your other changes still wait for Save.
+- updates and chunk are not saved at all; they return to 5 per second and 100 when the extension reloads.
+- In clean mode there is no title bar and no X. Use the hot corner to get the controls back, or type `ogre end radar` to close it.
+- If the radar stops you clicking the game, turn click-through on. If you then cannot reach the radar's settings, type `ogre radar settings`; `ogre radar click off` gives the mouse back, and `ogre radar uireset` puts every radar setting back to default (like Reset all - not saved until you press Save).
+- Full screen turns click-through on for you.
+- `ogre radar` when the radar is already open does nothing and prints nothing.
+
+## Clean mode, step by step
+
+![Clean mode: nothing but the dots and a faint corner mark](../assets/eq2radar/clean.png)
+
+![The hot corner](../assets/eq2radar/hotcorner.png)
+
+Point at the top-left corner and the controls come back, with a **?** beside the gear:
+
+![Clean mode with the controls shown](../assets/eq2radar/clean-revealed.png)
+
+## The readout line
+
+Turn on **readout** in the Debug part of the settings to get a line at the top of the radar: how many things are drawn out of how many were read, and what the radar costs.
+
+![The readout line](../assets/eq2radar/readout.png)
+
+Clicking a dot writes what you targeted there for 4 seconds - even with the readout off:
+
+![After clicking a dot](../assets/eq2radar/blipclick.png)
+
+## The colour picker
+
+![The colour picker](../assets/eq2radar/picker.png)
+
+## The whole settings drawer
+
+![All settings](../assets/eq2radar/settings.png)
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/eq2radarfilters.md
+
+# Radar Types
+
+> **:bulb: In game - the ? button on this window says**
+>
+> Picks which kinds of things the Radar draws. A lit button is shown; a dim one is hidden.
+>
+> **What you can do here**
+>
+> - **Click a type** (npc, named, pc, pet, corpse, chest, door...) to show or hide it.
+> - **other** covers anything not in the list.
+> - **[all]** shows everything; when everything is on it reads **[none]** and hides everything.
+>
+> **Good to know**
+>
+> - Each click is saved straight away. Only the type choice is saved - other radar changes still wait for **Save**.
+> - The dot on each button is that type's colour on the radar (change it under the radar's gear).
+> - Open and close it with **types** on the radar.
+
+**Open it:** Press **types** on the Radar's toolbar (open the radar first with `ogre radar`). Press types again, or the X, to close it.
+
+## What it is for
+
+Picks which kinds of things the Radar draws: mobs, named, players, pets, corpses, chests, doors and so on. Each button is one kind; lit means shown. Your choices are saved as soon as you click, so they are still there the next time you open the radar. It changes only what the radar shows, never what the bot does.
+
+## Type buttons
+
+The coloured dot on each button is the colour that kind is drawn in on the radar (change it in the radar's settings, Colours - by type).
+
+| Control | What it does | Default |
+|---|---|---|
+| **[all] / [none]** | If anything is hidden, [all] shows every kind again. If everything is already shown, the button reads [none] and hides every kind, so you can then turn on just the ones you want. |  |
+| **npc** | Mobs you can fight. | shown |
+| **named** | Named mobs. | shown |
+| **nokill** | NPCs you cannot attack, such as guards and merchants. | shown |
+| **special** | Objects the game marks as special, usually things you can click. | shown |
+| **pc** | Other players. | shown |
+| **pet** | Pets that are not yours (your own pet is mypet). | shown |
+| **mypet** | Your own pet. | shown |
+| **merc** | Mercenaries. | shown |
+| **corpse** | Corpses. | shown |
+| **tradeskill** | Crafting stations (forges, sewing tables and the like). | shown |
+| **resource** | Harvest nodes. | shown |
+| **chest** | Treasure chests. | shown |
+| **door** | Doors. | shown |
+| **other** | Anything that is none of the kinds above. | shown |
+| **Title bar close (X)** | Closes this window only. The radar keeps running. |  |
+
+## What the window shows
+
+- A lit button means that kind is drawn on the radar; a dim one means it is hidden.
+- The line under the buttons: '[all] selects everything, or clears it when everything is on'.
+
+## Good to know
+
+- Every click saves your type choice straight away. Only the type choice: any other change you made on the radar and did not save yet (zoom, dim, colours...) still waits for the radar's Save.
+- You never appear on the radar as a dot you can hide; you are always the marker in the middle.
+- Closing the radar (its X or `ogre end radar`) closes this window too.
+
+## Beside the radar
+
+![Radar Types next to the radar, with doors, resources, tradeskill and special turned off](../assets/eq2radarfilters/with-radar.png)
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/nav.md
+
+# Nav
+
+> **:bulb: In game - the ? button on this window says**
+>
+> The stop button for navigation. It pops up whenever the bot walks or flies your character somewhere, and closes when the trip ends.
+>
+> **What you can do here**
+>
+> - **STOP** - end the trip where you are. Safe to press at any time.
+> - **Pause / Resume** - hold the trip and keep the route; Resume carries on from here.
+> - **Close** - hide the window; the trip keeps going.
+> - Watch the progress bar, waypoint count and distance left. **Waiting for mesh** means the zone's map is still loading; the trip starts by itself when it is ready.
+>
+> **Good to know**
+>
+> - Pausing OgreBot does not stop a trip - use STOP (or `ogre nav stop`).
+> - While nav is paused nothing else will move your character until you Resume or STOP.
+> - `ogre nav -nopanel` stops it popping up; `ogre nav panel` opens it by hand.
+
+**Open it:** It opens by itself whenever your character starts a navigation trip, whoever started it (you, Instance Controller, the travel router...), and closes when the trip ends. To open it by hand type `ogre nav panel`. `ogre nav -nopanel` stops it popping up; `ogre nav -panel` turns that back on and opens it.
+
+## What it is for
+
+The stop button for navigation. While the bot walks or flies your character somewhere along the navigation map, this small window shows how far along it is and gives you a big STOP and a Pause. Navigation keeps going while OgreBot is paused, so this window is how you stop it.
+
+## Status
+
+The top line is the state (Moving in green, Failed in red, Arrived highlighted) and why. The bar and the line under it show the waypoint you are on out of the whole route, and the distance still to go. The next line names the navigation map loaded for this zone. A red note appears when the trip is paused, nav is switched off, or OgreBot is paused.
+
+## Buttons
+
+| Control | What it does |
+|---|---|
+| **STOP** | Ends the trip right where you are. The route is thrown away. It is safe to press at any time: if something else has since taken over moving your character, STOP leaves that alone.<br>*Greyed out when no trip is running.* |
+| **Pause / Resume** | Pause stops walking but keeps the route, so Resume carries on from where you stopped without planning again. While paused, nav still holds the character: follow or the camp spot will not move it until you Resume or STOP.<br>*Greyed out when no trip is running. Turns yellow and reads Resume while paused.* |
+| **Close** | Closes the window. The trip carries on. The window comes back on the next trip (unless you turned that off with `ogre nav -nopanel`). |
+| **Title bar close (X)** | Hides the window, like Close. It comes back on the next trip. |
+
+## What the window shows
+
+- State word: Moving, Landing (coming down from flight), Waiting for mesh (the navigation map for this zone is still downloading; the trip starts by itself when it is ready), Arrived, Failed, or Idle.
+- Reason, next to the state: why the trip is doing what it does, for example 'navmesh route', 'waiting for the navmesh', 'stuck', or 'OgreBot closed'.
+- Bar and 'waypoint X of Y - N u to go': how far along the route you are, and the distance left in game units. 'waiting for the navmesh to land' while the map is still coming; 'no route' when idle.
+- 'mesh <zone> - N polys': the navigation map in use. 'no mesh loaded yet (loads on the first trip in a zone)' is normal before your first trip in a zone.
+- Red notes: 'Paused here. The route is kept - Resume carries on from this point.' / 'Nav is switched OFF - `ogre nav -on`' / 'OgreBot is paused. This trip keeps going; STOP ends it.'
+
+## Good to know
+
+- Pausing OgreBot does NOT stop a navigation trip. Use STOP here, or type `ogre nav stop` (also `ogre end nav`).
+- The window closes itself as soon as a trip ends, so you rarely see Arrived or Failed in it. The console says how the trip ended.
+- While nav is paused it keeps control of your character, so nothing else (follow, camp spot) will move it until you Resume or STOP.
+
+## Other states
+
+Paused with the Pause button:
+
+![Paused](../assets/nav/paused.png)
+
+OgreBot paused while a trip runs:
+
+![OgreBot paused](../assets/nav/botpaused.png)
+
+Waiting for the zone's navigation map:
+
+![Waiting for the navmesh](../assets/nav/waiting.png)
+
+Opened by hand with no trip running:
+
+![Idle](../assets/nav/idle.png)
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/safefall.md
+
+# Safe Fall Trainer
+
+> **:bulb: In game - the ? button on this window says**
+>
+> Trains Safe Fall for you: mount, fly up, dismount, fall, land, remount, repeat. Every landing is a skill-up chance.
+>
+> **What you can do here**
+>
+> - **Flight time** - how long each climb lasts, in ticks (10 ticks = 1 second, 5 to 600).
+> - **Start** - target yourself, mount up and begin. It is dimmed, and does nothing, while a run is going or you are not in the world.
+> - **Stop** - end training where you are.
+> - Watch the phase, rounds, falls trained and ramps as it runs. "started at" is the flight time this run began with.
+>
+> **Good to know**
+>
+> - Clear your target to stop it; any target (even a mob) keeps it going.
+> - Every 100 rounds the flight grows by half a second, up to 25 seconds.
+> - Zoning ends the run. Do not mix it with follow, nav or a camp spot.
+
+**Open it:** Type `ogre safefall panel`. `ogre safefall on` (or `ogre safefall on 45` for a 4.5 second flight) starts training without the window, `ogre safefall off` stops it, and a bare `ogre safefall` prints its status in the console.
+
+## What it is for
+
+Trains your Safe Fall skill for you. It targets you, mounts up, then repeats: fly straight up for the flight time, dismount so you fall, wait until you land, remount, and go again. Every landing is a Safe Fall skill-up chance. Every 100 rounds the flight gets half a second longer so the falls get higher. It runs until you stop it, untarget yourself, or leave the world.
+
+## Start, Stop and flight time
+
+| Control | What it does | Default |
+|---|---|---|
+| **Start** | Starts training with the flight time in the box: targets you, mounts up, waits 7 seconds, then begins the climb-and-fall loop.<br>*Dimmed, and does nothing, while training runs or while you are not in the world. To change the flight time, press Stop first.* |  |
+| **Stop** | Stops training and stops the climb. You stay wherever you are (mounted or not).<br>*Dimmed, and does nothing, when nothing is running.* |  |
+| **Flight time (… ticks)** | How long each climb lasts, in ticks: 1 tick is 0.1 second, so 30 is 3 seconds (shown to the right). Allowed 5 to 600.<br>*A number outside 5 to 600 turns the box red and Start refuses. The box follows the running value until you type in it; empty it to hand it back.* | 30 ticks (3.0 s) |
+
+## Status
+
+Read-only. It updates four times a second.
+
+## What the window shows
+
+- Pill next to SAFE FALL: 'running' (green), 'idle', or 'not in world' (red).
+- Phase: what it is doing now - starting, flying up, stopping climb, dismounting, falling (1/2), falling (2/2), landed, remounting, idle.
+- Round: how many rounds since the last flight-time increase, out of 100.
+- Falls trained: completed climb-and-fall rounds since you pressed Start.
+- Ramps taken: how many times the flight time has grown this run.
+- In world / Target / Flying: yes or no. Target means you have something targeted (training stops when you have nothing targeted). Flying means you are flying on your mount.
+- Deadline: the current flight time in milliseconds. It never goes above 25000 (25 seconds), even if the ticks keep growing.
+- The long line: flight ticks and seconds, the flight time this run started at ('not started yet' before the first Start), the ramp rule, ramps so far and falls so far.
+- The note box: the last thing that happened, for example 'dismounted - falling', 'self-target lost', 'left the world'.
+
+## Good to know
+
+- The quickest way to stop is to clear your target: training ends as soon as you have nothing targeted. Clicking a mob does not stop it - any target keeps it going.
+- Zoning, camping or going to character select ends the run; it does not pick up again afterwards.
+- It does not check whether something else is moving your character. Do not run it together with other movement (follow, nav, camp spot).
+- Typing `ogre safefall on` while training is running starts over from round 0 (the Start button is dimmed then, so it cannot do this by accident).
+- `ogre safefall panel` when the window is already open does nothing and prints nothing.
+
+## Before you start
+
+![Idle, before Start](../assets/safefall/idle.png)
+
+A flight time outside 5 to 600 ticks turns the box red:
+
+![A bad flight time](../assets/safefall/badticks.png)
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/smartloot.md
+
+# SmartLoot
+
+> **:bulb: In game - the ? button on this window says**
+>
+> Decides who gets each drop from a Leader Only loot window. You list the items, a cap for each, and which characters collect them.
+>
+> **What you can do here**
+>
+> - **Add items** by name, or from the loot window, your bags, or an examine window.
+> - **Set a cap** per item: Never, a Limit (up to N each), or unlimited.
+> - **Tick a character** to say they collect an item; the number is how many they already have.
+> - **+ Character** adds one column by name; **+ Group** and **+ Raid** add a column for everyone in your group or raid who does not have one yet (mercenaries left out). The number on the button is how many it would add.
+> - **Save** writes your changes. **Revert** throws them away. Running `ogre smartloot` again while this is open changes nothing.
+>
+> **Good to know**
+>
+> - A drop goes to the lowest group or raid slot that collects it and is still under the cap.
+> - It only runs on a Leader Only loot window, and only when the OgreBot Loot tab has both **Enable options below** (Leader Only) and **Smart Loot** ticked.
+> - The x on a character column deletes that character's whole entry when you Save.
+
+**Open it:** Type `ogre smartloot` or `ogre sl`. If the window is already open, this does nothing, and your unsaved changes stay. Scripts can use `ISXOgreEQ2.Loot:Config[all]` to open it and `ISXOgreEQ2.Loot:Config[all,close]` to close it.
+
+## What it is for
+
+SmartLoot hands out drops from a Leader Only loot window. It decides who gets each item from per-item caps and a per-character list of what each character collects and how many they already have. This window edits that data: the caps and, for each character, a checkbox plus a have-count. When a Leader Only window opens, SmartLoot goes through the raid (or group), lowest slot first. It gives the item to the first character who collects it and is still under the cap, then adds 1 to their have-count.
+
+## Save and Revert
+
+| Control | What it does |
+|---|---|
+| **Revert** | Throws away every unsaved edit and reloads the caps and the character list from disk. Items added this session and empty character columns disappear.<br>*Greyed out when there are no unsaved changes. Also use it after you fix a damaged file (see the red banner).* |
+| **Save** | Saves only what changed: custom caps go to ItemLootCustomData.json, the character list goes to CharacterLootData.json. Your edits are combined with the file as it is now, so have-counts SmartLoot added while the window was open are kept. SmartLoot then starts using the new data right away.<br>*Greyed out when there is nothing to save. If a file cannot be read, it is not saved and the changes stay unsaved.* |
+
+## Filters (what you see)
+
+| Control | What it does | Default |
+|---|---|---|
+| **Filter items…** | Hides item rows whose name does not contain the text. Not case-sensitive. Display only; nothing is sent to the bot.<br>*Resets when the window is reopened.* | empty |
+| **Filter characters (name, *Team:X)…** | Hides character columns. Separate terms with commas. A term is part of a name, a saved for-who team as *Team:Name, or a bare team name. A column shows if any term matches. Display only.<br>*Typing here cancels the single-column view you get by clicking a name. An unknown team shows 'no team named "X"' in the info text. Teams come from the saved for-who groups.* | empty |
+| **My group only** | Toggle. Shows only the columns of characters in your current group (mercenaries excluded). When you are solo it shows just you. Display only.<br>*Highlighted when on. Info text says 'not grouped - showing you' when solo.* | off |
+| **Show all** | Clears the character filter box, turns off My group only, and clears a clicked-on single column. Display only.<br>*Does not clear the item filter box.* |  |
+
+## Adding items
+
+| Control | What it does | Default |
+|---|---|---|
+| **Add item by name…** | Text box for an item name. Pressing Enter does the same as Add. | empty |
+| **Add** | Adds a row for the typed item name. If the item has no base or custom cap yet, it gets a custom cap of Limit 1. Nobody is marked as collecting it.<br>*The name is not checked against the game, so a typo makes a row that never matches loot. Matching is not case-sensitive. The box clears after you add.* |  |
+| **From loot window** | Adds a row for every item in the open loot window, without colour codes in the names. Items with no existing cap get Limit 1.<br>*With no loot window open it adds nothing and the console shows 'add from loot window: 0 item(s)'.* |  |
+| **From inventory** | Adds a row for every distinct item in your bags. Items with no existing cap get Limit 1.<br>*Can add a lot of rows at once. Does nothing when you are not in the game world. The console shows 'add from inventory: N new item(s) of M in bags'.* |  |
+| **From examine** | Reads the item name from whichever EQ2 examine window is open and adds it as a row (Limit 1 if it has no cap).<br>*With no examine window open it adds nothing and the console shows 'add from examine: no examine window is open - open one (or type the name).'* |  |
+
+## Who a change applies to, and characters
+
+| Control | What it does | Default |
+|---|---|---|
+| **That character** | A checkbox or have-count edit in a cell changes only that cell's character.<br>*This choice is not saved. It resets to That character every time the window opens.* | selected (on) |
+| **Whole group** | A cell checkbox or have-count edit is applied to every non-mercenary member of your current group, whichever column you clicked.<br>*If you are not in a group, nothing changes and the console says 'You are not in a group - nothing was changed.' Checking a box can add new columns for group members.* | off |
+| **Whole raid** | Same as Whole group, but for every non-mercenary raid member.<br>*If you are not in a raid, nothing changes.* | off |
+| **Everyone in the file** | A cell edit is applied to every character column the window knows. That is you, everyone in the loot file, and columns added this session.<br>*It ignores the column filters, so hidden columns are changed too.* | off |
+| **Add character…** | Text box for a character name. Pressing Enter does the same as + Character. | empty |
+| **+ Character** | Adds an empty column for the typed character. Nothing is marked as unsaved.<br>*An empty column is only saved once it has at least one checked item. Revert or reopen drops it. The same name in any letter case is treated as the same character.* |  |
+| **Sync from inventory** | For your current character only: for every item that has a base or custom cap, if you hold it (bag stacks summed plus equipped copies), your have-count is set to that number and you are marked as collecting it. Items you do not hold are left alone.<br>*This also marks you as collecting every capped item you hold, including base-list items capped at Never, and the tooltip says so. It never lowers a count for an item you no longer hold.* |  |
+
+## The grid
+
+| Control | What it does | Default |
+|---|---|---|
+| **<character name>** | Click to show only this character's column. Click again to show all. Display only.<br>*Your own name is highlighted.* |  |
+| **× (remove column)** | Removes the character's column. On Save it deletes their whole SmartLoot entry: every item they collect and every have-count.<br>*It is not a hide. There is no confirmation. Your own column comes back empty after reopen.* |  |
+| **Group** | Marks every non-mercenary member of your group as collecting this item. Anyone who was not already collecting it starts with a have-count of 0.<br>*Disabled with the tooltip 'You are not in a group' when you are solo. It ignores the scope row.* |  |
+| **Raid** | Marks every non-mercenary raid member as collecting this item.<br>*Only shown while you are in a raid.* |  |
+| **Never** | Sets the item's cap to 0. SmartLoot will never assign it to anyone.<br>*If the base cap is already 0, the custom override is removed.* | cap comes from the custom file, else the base file, else 0 (Never) |
+| **Limit** | Sets a numeric cap: each character collects up to N. It keeps the current N, or uses 1 when switching from Never or ∞. |  |
+| **∞** | Sets the cap to -1 (unlimited). Every character who collects the item always qualifies.<br>*The footer calls this 'Unlimited'.* |  |
+| **Number box (Limit only)** | The N for Limit. It takes effect as you type. Values below 1 become 1.<br>*A value equal to the base cap removes the custom override. If nobody collects the item and it was not added this session, its row can then disappear from the grid.* | 1 |
+| **reset** | Removes the custom cap, so the shipped base cap applies again.<br>*Only shown (next to an orange 'default N') when a custom cap overrides a known base cap. If no one collects the item and it was not added this session, the row disappears (it only lives in the base list).* |  |
+| **Checkbox (per character)** | Checked means the character collects this item, starting with a have-count of 0. Unchecking removes the item and its have-count for that character. Follows the scope row.<br>*SmartLoot only considers checked characters.* | unchecked unless the ledger has an entry |
+| **Number box (per character)** | How many of this item the character already has. It takes effect as you type. A negative number becomes 0. Follows the scope row.<br>*Hidden while the checkbox is off. It is ignored for characters who do not collect the item. SmartLoot adds 1 each time it gives the character this item.* | 0 |
+| **× (remove item)** | Removes the row. It deletes the custom cap and unmarks every character from collecting the item (their have-counts are lost on Save).<br>*A base cap from the shipped list (ItemLootData.json) stays, because that file is never changed. No confirmation.* |  |
+
+## What the window shows
+
+- Title 'SmartLoot — X': X is the character this session is logged into. That column's header is highlighted and is always the first column.
+- Dot and 'unsaved changes': orange means some edit is not saved yet. Save and Revert are enabled only then.
+- Red banner: appears when a loot file could not be read. It reads '⚠ CharacterLootData.json (ledger) / ItemLootCustomData.json (custom caps) is unreadable — Save is blocked from overwriting it. Fix or remove the file, then Revert.'
+- Info text: 'showing X of Y characters' when any column filter is on, plus notes such as 'only Brutus (click the name again to show all)', 'not grouped - showing you', or 'no team named "X"'.
+- Rows: items with a custom cap, plus every item any character collects, plus items added this session. It never shows the whole base list. Rows are sorted by name, ignoring case.
+- Item column: the item name (hover for the full name), plus the Group and Raid mini buttons.
+- Cap column: the segmented control shows the effective cap (custom, else base, else 0). A grey 'default' means the value comes from the base file. An orange 'default N' plus a 'reset' link means a custom value overrides base N (an unlimited base shows as ∞). Nothing extra appears for a custom-only item.
+- Character cells: the checkbox means 'this character collects this item'. The number is its have-count.
+- How SmartLoot uses it: only on a 'Leader Only' loot window, and only when both OgreBot Loot tab options 'Enable options below' (Leader Only) and 'Smart Loot' are on. It goes through the raid (or group), lowest slot first, checking the item and then its adornments. The first member who collects it, whose cap is not 0, and who is under the cap (or the cap is unlimited) gets it. Their have-count goes up by 1. An item with no cap in either file counts as Never.
+
+## Good to know
+
+- The × on a character column deletes that character's whole SmartLoot entry when you Save: every item they collect and every have-count. It is not a hide, and there is no confirmation.
+- The × on an item row unmarks every character from collecting that item. If the item is in the shipped base list, its base cap still applies.
+- The scope row (That character / Whole group / Whole raid / Everyone in the file) changes who every checkbox and have-count edit hits. It resets to 'That character' each time the window opens. 'Everyone in the file' also changes characters hidden by the column filters.
+- A group or raid edit made while you are not grouped or not in a raid changes nothing. The only message is in the console.
+- The per-row Group and Raid buttons always act on your group or raid, whatever the scope row says.
+- Sync from inventory only updates the character this session is logged into. It also marks you as collecting every capped item you hold, and never lowers a count for an item you no longer have.
+- A newly added character column is not saved until at least one item is checked for it.
+- An item with no cap anywhere counts as Never, so nobody gets it even if their box is checked.
+- Using reset, or typing a Limit equal to the base cap, can make a row disappear if nobody collects the item.
+- Messages from Add, From loot window, From inventory, From examine and group/raid edits go to the console, not the window.
+- SmartLoot only hands out items when the OgreBot Loot tab has both 'Enable options below' (Leader Only) and 'Smart Loot' ticked. If they were never set they count as off; the Instance Controller ticks them for the group when it runs a zone.
+
+## When a loot file cannot be read
+
+![The warning banner](../assets/smartloot/banner.png)
+
+If a SmartLoot file on disk is damaged, a red banner names it and **Save** will not overwrite it. Fix or remove the file, then press **Revert**.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/potcb.md
+
+# Potency / Crit Bonus / Fervor
+
+> **:bulb: In game - the ? button on this window says**
+>
+> Records your Potency, Crit Bonus and Fervor during fights and shows averages, lows, highs and time at cap. It only measures; it changes nothing.
+>
+> **What you can do here**
+>
+> - **Stop / Start** - pause and carry on recording. The numbers are kept.
+> - **Reset** - throw away every number and start the session over.
+> - **Hover** a figure for more detail.
+>
+> **Good to know**
+>
+> - **At cap** is when the game says the stat is capped. **At peak** is time at your best value this session.
+> - Closing the window does not stop recording; use **Stop** or `ogre potcb off`.
+
+**Open it:** Type `ogre potcb` (or `ogre cbpot`). This opens the window and starts recording. `ogre potcb off` (or `ogre end potcb`) stops recording and closes it.
+
+## What it is for
+
+This window records your Potency, Crit Bonus and Fervor several times a second and shows how they behaved during your fights: the average, lowest and highest value in combat, how much of the time the game said the stat was capped, and how much of the time you were at your best value. It is a measuring tool only; it does not change what the bot does. All the averages are weighted by time, so a slow frame does not count more than a smooth one.
+
+## Start, Stop and Reset
+
+The green text on the left says 'sampling every 200 ms' while recording, or 'stopped'.
+
+| Control | What it does | Default |
+|---|---|---|
+| **Start / Stop** | Stop pauses the recording. Start carries on from where it stopped; the numbers so far are kept. The time while stopped is not counted. | Stop (recording starts when the window is opened) |
+| **Reset** | Throws away every number and starts the session over. Recording keeps going if it was on.<br>*No confirmation.* |  |
+
+## The table
+
+One row per stat. Hover most numbers for more detail.
+
+## What the window shows
+
+- Now: the value right now.
+- Combat avg: your average while in combat (hover for how long you have been in combat). Out of combat you are usually unbuffed, so combat is what matters.
+- Min / Max: the lowest and highest value seen in combat.
+- At cap: the share of combat time the game's own tooltip said the stat had reached its cap.
+- At peak: the share of combat time you were at (or within 0.1% of) the highest value seen this session. When a new highest value appears, this starts again from zero, so it is optimistic early on.
+- Spread: a small bar chart of your combat time split into ten steps from 0% to 100% of your peak. The right-most (green) bar is time spent near your peak. Hover a bar for its exact share. Like At peak, it starts again when a new peak appears.
+- Peak: the highest value seen this session, in or out of combat (hover for how long ago it was set).
+- All avg: the average over the whole session, in and out of combat (hover for the overall min and max).
+- 'no combat time yet': recording, but you have not been in combat. 'no samples yet': the stat has not been read yet.
+- Footer: how long the session has been recording and how much of it was in combat.
+
+## Good to know
+
+- Closing the window with the X does not stop the recording. Use Stop, or `ogre potcb off`.
+- Opening the window with `ogre potcb` always starts recording.
+- Zoning is not counted as time, so a long zone-in does not inflate 'At peak'.
+- The numbers are lost when the bot is unloaded; nothing is saved to a file.
+
+### Just started, before any combat
+
+![Before combat](../assets/potcb/nocombat.png)
+
+### Stopped
+
+![Stopped](../assets/potcb/stopped.png)
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/transmute.md
+
+# Level Transmuting
+
+> **:bulb: In game - the ? button on this window says**
+>
+> Levels your Transmuting skill: buys cheap transmuter's stones from Barnaby Blunderbuss in Butcherblock and transmutes them, round after round.
+>
+> **What you can do here**
+>
+> - **Buy** sets how many stones to hold after each visit. Leftover stones are used first.
+> - **round(s)** is the most visits one run makes. The run also stops when your skill is capped.
+> - **Start** begins the run. **Stop** ends it. **Refresh** redraws the window.
+> - **Buys** shows the merchant visits and how many stones they really added.
+> - **Transmutes** shows how many stones were tried and how many really got used up. If any failed, it says why: the cast was refused, the ability never became ready, or the stone was still there afterwards.
+>
+> **Good to know**
+>
+> - Start pauses OgreBot for the run. When the run ends it resumes OgreBot, unless OgreBot was already paused.
+> - Start opens the Persona window on Skills > General to read your skill. It closes it again when the run ends, however it ends.
+> - Not next to Barnaby? The window tells you, and Start travels to him first, even with OgreBot closed. Stop ends the trip.
+> - Each stone costs 1 Gnomish Currency Exchange, not coin. Without any, the buy adds nothing and the run stops and says so.
+> - Only items named "Transmuter's Stone" or "Transmutation Stone" are ever transmuted.
+> - A round that buys nothing, or transmutes nothing, stops the run, so a problem never repeats for every round.
+> - Closing this window does not stop a run.
+
+**Open it:** Type `ogre leveltransmuting panel` (or `ogre lt panel`). Plain `ogre lt` only prints the status to the console. `ogre end leveltransmuting` stops a run but leaves the window open.
+
+## What it is for
+
+A skill-up grinder for the Transmuting tradeskill. You stand next to Barnaby Blunderbuss in Butcherblock. The bot buys Minor Lapis Lazuli Transmuter's Stones from him, transmutes them, and repeats until your Transmuting skill is capped or the round limit is reached. It only ever transmutes items whose name contains "Transmuter's Stone" or "Transmutation Stone" - nothing else in your bags is touched. It never walks: if you are not within 10 of Barnaby, it stops.
+
+## Header and the stones-only notice
+
+The dot is green while a run is going. Next to it is what the bot is doing right now.
+
+## The readout
+
+Merchant and Item are fixed - the tool only works with Barnaby and his cheapest stone. Transmuting is your skill as last read from the Persona window (it is read once at the start of each round, so it shows unavailable until a run has started). Rounds counts merchant visits out of the most you allowed. Transmuted is how many stones this run has transmuted so far. Last is the latest thing that happened.
+
+## Quantity and round limit
+
+| Control | What it does | Default |
+|---|---|---|
+| **Buy** | How many stones you want to be holding when each visit to Barnaby is done. The bot only buys the difference, so stones left over from the last round are used first. 1 to 800.<br>*Locked while a run is going. It is a total to hold, not an amount added every round.* | 60 |
+| **per visit, at most ... round(s)** | The hard stop: the most merchant visits one run will make. The run also stops earlier if the Transmuting skill is readable and capped. 1 to 500.<br>*If the skill cannot be read, this is the only thing that stops the run.* | 20 |
+
+## Start, Stop, Refresh
+
+| Control | What it does |
+|---|---|
+| **Start** | Starts a run with the two numbers above. Each round: read your Transmuting skill, check Barnaby is within 10, buy up to the Buy amount, then transmute every stone in your bags (at most 200 per round), 2 seconds apart.<br>*Greyed out while a run is going. Stops by itself if you do not have the Transmuting ability, or after 3 rounds in a row where the merchant purchase failed.* |
+| **Stop** | Stops the run straight away, even in the middle of buying or transmuting.<br>*Only active while a run is going.* |
+| **Refresh** | Redraws the window with the latest numbers. It does not change anything. |
+| **Title bar close (X)** | Closes the window only. A run that is going keeps going.<br>*Use Stop (or `ogre end leveltransmuting`) to stop the run.* |
+
+## When the skill cannot be read
+
+The bot reads your Transmuting skill from the Persona window, Utility skills tab, once at the start of every round. It never opens that window for you. If it is not open, Transmuting shows 'unavailable' in orange and a note appears; the run then stops only at the round limit. Before the first round of a run the skill has not been read yet, so the window also shows 'unavailable' and the note even when the Persona window is open.
+
+## What the window shows
+
+- Dot and phase text (top right): green dot = running. Phase is one of idle, waiting for the world, reading the Transmuting skill, looking for the merchant, buying, transmuting stones, BLOCKED - cannot transmute, stopped.
+- Box at the top: always there. It says the tool transmutes Transmuter's and Transmutation stones only, and that other items are transmuted by the Inventory Manager (`ogre im -tse`).
+- Transmuting: 'current / max' in green from the last round's read of the Persona window's Utility skills tab; 'unavailable' in orange when it could not be read, or when no round has run yet.
+- Rounds: 'N of M (buys issued: B)' - merchant visits started out of your limit.
+- Transmuted: 'N stones this run' - stones transmuted since Start.
+- Last: the latest step or the reason the run stopped, for example 'Unable to find  Barnaby Blunderbuss' or 'Transmuting is at its cap for this level'.
+- Footer: a reminder that the tool never walks and that the skill is read passively.
+
+## Good to know
+
+- Stand within 10 of Barnaby Blunderbuss (Butcherblock) before pressing Start. If he is further away the run stops at once with 'Unable to find  Barnaby Blunderbuss'.
+- Open the Persona window on the Utility skills tab first, or the run cannot tell when your skill is capped and will use every round you allowed.
+- Before you press Start, Transmuting always shows unavailable - the skill is only read when a round begins, and Refresh does not read it.
+- Buy is a target to hold, not an amount per round. If stones were left over, the next visit buys fewer (or none).
+- Any item whose name contains "Transmuter's Stone" or "Transmutation Stone" is transmuted, not just the ones this tool bought.
+- Closing the window does not stop a run.
+- Plain `ogre lt` prints the status; add `panel` to open the window.
+
+## When the Persona window is closed
+
+![Stopped, with the skill unreadable](../assets/transmute/idle.png)
+
+Without the Persona window open on the Utility skills tab, the skill reads **unavailable** and the round limit is the only stop. It also reads unavailable before your first run, because the skill is only read when a round starts.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/questcompare.md
+
+# Quest Compare
+
+> **:bulb: In game - the ? button on this window says**
+>
+> Shows whether each member of your group is on the same step of a quest as you.
+>
+> **What you can do here**
+>
+> - **Auto compare**: every time one of your quests updates, the group is asked to compare it. Turn it on for one character per group.
+> - **Compare again** asks about the last quest again, right now.
+> - **Legend** (title bar) shows what each icon means.
+>
+> **Good to know**
+>
+> - Green tick = same step. Red cross = different step (their line is shown). Orange ! = does not have the quest. Grey ? = did not answer.
+> - Ticking Auto compare here unticks it on the rest of your group.
+> - The window pops up by itself when an automatic compare finds someone out of step.
+
+**Open it:** Type `ogre questcompare` (or `ogre qc`). It also opens by itself when you tick Auto compare / Enable Quest Compare, and when an automatic compare finds someone out of step. `ogre end questcompare` closes it.
+
+## What it is for
+
+Checks whether everyone in your group is on the same step of a quest as you. One character is the reference. When its quest updates, it asks the rest of the group to compare their step with its own, and this window shows the answer: one row per group member with an icon. The comparison happens on each member's own session, so the character that is out of step also says so in its own console.
+
+## Quest and summary line
+
+The top line is the quest that was compared last. Under it is a one-line summary, for example 'Everyone is on your step' in green, or '1 not on your step, 1 does not have the quest' in red, followed by 'auto' if the compare was automatic and how long ago it happened.
+
+## The member rows
+
+One row per group member (not you). A member on a different step shows the first line of their quest step that differs from yours. See the Legend section for what each icon means.
+
+## Auto compare and Compare again
+
+| Control | What it does | Default |
+|---|---|---|
+| **Auto compare** | The same setting as OgreBot's Enable Quest Compare. On: every time one of YOUR quests updates (and then stays quiet for 1.5 seconds), the bot asks the group to compare that quest. Ticking it here also unticks it on everyone else in the group, so there is one reference per group.<br>*Solo there is nobody to ask, so nothing happens. An automatic compare stays quiet in the console when everyone is in step, and pops this window up when someone is not.* | off |
+| **Compare again** | Asks the group to compare the quest shown at the top again, right now.<br>*Greyed out until something has been compared once, and while a compare is still waiting for answers.* |  |
+| **Legend** | Shows or hides the icon legend over the window. Click anywhere on the legend to close it. |  |
+| **Title bar close (X)** | Closes the window. Auto compare keeps working and will reopen the window if it finds a problem. |  |
+
+## Legend - what the icons mean
+
+Press **Legend** in the title bar to see this. Green tick = on the same step as you. Red cross = on a different step (the row shows their line). Orange ! = does not have this quest at all. Grey ? = did not answer in time (zoning, or the bot is not loaded on that character). Three dots = still waiting for an answer. Empty ring = nothing compared yet.
+
+## What the window shows
+
+- Summary line: 'Reading your journal...' and 'Waiting for answers...' while a compare runs; 'Could not compare: <reason>' in orange when your own journal could not be read (for example 'not in your quest journal' or 'no active step to compare'); 'Waiting for your next quest update.' when Auto compare is on and nothing has been compared yet; 'Nothing compared yet.' otherwise; 'Not in a group' when a compare finished and you have no group members (the list then says 'No group members to compare with').
+- Rows: your group members only (up to 5). Raid members outside your group are not asked.
+- A different-step row shows the first line of THEIR step that differs from yours. Hover it to read the whole line.
+
+## Good to know
+
+- Only one character per group should have Auto compare on. Ticking it on one character unticks it on the rest of the group automatically.
+- The first compare has to come from a quest update (Auto compare) or from the `-CompareQuest` console command. Compare again only repeats the last quest.
+- To read its step, each character makes that quest the current one in its quest journal, so the quest selected in your journal changes.
+- A member who is zoning or does not have the bot loaded shows the grey ? - it is not the same as being out of step.
+- Completing a quest also counts as an update; the automatic check stays quiet about a quest that is gone.
+
+## Other states
+
+![Everyone on your step](../assets/questcompare/allgood.png) ![Waiting for answers](../assets/questcompare/waiting.png) ![Nothing compared yet](../assets/questcompare/empty.png)
+
+Left to right: everyone in step, a compare still waiting for answers, and a fresh window before anything was compared.

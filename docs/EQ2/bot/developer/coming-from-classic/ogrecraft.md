@@ -1,7 +1,7 @@
 # OgreCraft
 
 <div class="ogre-beta" markdown>
-**OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
+**OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../index.md).
 </div>
 
 What Classic's *OgreCraftAPI Reference* page described, plus the crafting bot's own `OgreCraft` object, and what each one is in the new bot.
