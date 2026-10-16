@@ -83,7 +83,6 @@ An encounter where the boss gains a defensive buff that must be countered by fig
 - Each non-tank player is assigned an order number at setup
 - Every 3 seconds, each player scans for their matching vat cube actor with an active yellow beam
 - If found, the player repositions 70% of the way from the vat cube toward the boss (standing in the beam path)
-- If the Camp Spot Pulse (CSP) setting is enabled, a jump is triggered after repositioning
 
 ### Player Notes
 

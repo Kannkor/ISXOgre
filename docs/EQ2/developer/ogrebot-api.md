@@ -65,9 +65,6 @@ Most methods accept a `_ForWho` parameter that controls which characters execute
 | `CCS(string _ForWho, float _X, float _Y, float _Z, uint _RoomID=0)` | Change camp spot with RoomID | `OgreBotAPI:CCS["all", 100.5, 25.0, -50.3, 0]` |
 | `CRCS(string _ForWho, float _X, float _Y, float _Z, uint _RoomID=0)` | Change relative camp spot | `OgreBotAPI:CRCS["all", 5.0, 0.0, 3.0, 0]` |
 | `ClearRCS(string _ForWho)` | Clear relative camp spot | `OgreBotAPI:ClearRCS["all"]` |
-| `EQ2Loc_Add(float _X, float _Y, float _Z, string _Label, uint _RoomID=0)` | Add a named EQ2 location marker | `OgreBotAPI:EQ2Loc_Add[100.5, 25.0, -50.3, "BossSpot", 0]` |
-| `EQ2Loc_P(string _Label)` | Print/display a named EQ2 location | `OgreBotAPI:EQ2Loc_P["BossSpot"]` |
-| `EQ2Loc_Delete(string _Label)` | Delete a named EQ2 location | `OgreBotAPI:EQ2Loc_Delete["BossSpot"]` |
 | `OFolIncDistance(string _ForWho)` | Increase follow distance | `OgreBotAPI:OFolIncDistance["all"]` |
 | `OFolDecDistance(string _ForWho)` | Decrease follow distance | `OgreBotAPI:OFolDecDistance["all"]` |
 | `Set_CampSpotJump_Handle(string _ForWho, point3f _Start, point3f _Jump, point3f _End, point3f _Completed, ... Args)` | Set campspot jump waypoints ([Args](#set_campspotjump_handle-args)) | `OgreBotAPI:Set_CampSpotJump_Handle["all", "0,0,0", "5,5,5", "10,0,10", "10,0,10"]` |
@@ -493,8 +490,6 @@ Most methods accept a `_ForWho` parameter that controls which characters execute
 | `F2PWindow_Check(string _ForWho)` | Check F2P window | `OgreBotAPI:F2PWindow_Check["all"]` |
 | `F2PWindow_SetOptions(string _ForWho, uint _Minutes)` | Set F2P options | `OgreBotAPI:F2PWindow_SetOptions["all", 60]` |
 | `SetDebugLoading(bool _TorF=TRUE)` | Enable debug loading messages | `OgreBotAPI:SetDebugLoading[TRUE]` |
-| `SetDeveloperLevel(string _ForWho, int _Value=0, bool _Silent=FALSE)` | Set developer level | `OgreBotAPI:SetDeveloperLevel["all", 0]` |
-| `Set_CSP(string _ForWho, bool _Value=TRUE, bool _Silent=FALSE)` | Set CSP (campspot processing) status | `OgreBotAPI:Set_CSP["all", TRUE]` |
 | `SpewSubscriptionStatus(string _ForWho)` | Display subscription status info | `OgreBotAPI:SpewSubscriptionStatus["all"]` |
 | `LogToonIn(string _ForWho, string _ToWho)` | Log a toon into a different character | `OgreBotAPI:LogToonIn["${Me.Name}", "AltCharName"]` |
 | `SetQuestion(string _ForWho, bool _Value=TRUE)` | Enable/disable question handling | `OgreBotAPI:SetQuestion["all", TRUE]` |
@@ -995,23 +990,17 @@ oc !ci -CancelDetrimental igw:${Me.Name} 110 55
 | `Get_PackPonyRunning()` | bool | Is pack pony running | `${OgreBotAPI.Get_PackPonyRunning}` |
 | `Get_RotationData()` | jsonvalue | Get current rotation data as JSON | `${OgreBotAPI.Get_RotationData}` |
 
-### CSP & Developer
+### Other checks
 
 | Member | Return | Description | Example |
 |--------|--------|-------------|---------|
-| `Get_CSP()` | bool | Get CSP status | `${OgreBotAPI.Get_CSP}` |
-| `NG()` | bool | No gravity status | `${OgreBotAPI.NG}` |
-| `InTesting()` | bool | In testing mode | `${OgreBotAPI.InTesting}` |
 | `Get_DebugLoading()` | bool | Debug loading enabled | `${OgreBotAPI.Get_DebugLoading}` |
 | `IsAPC(string _Type)` | bool | Is actor a PC | `${OgreBotAPI.IsAPC["type"]}` |
-| `ERE(int _EqualOrAbove)` | bool | Elite raid status | `${OgreBotAPI.ERE[1]}` |
 | `HaveSickness()` | bool | Has resurrection sickness | `${OgreBotAPI.HaveSickness}` |
 | `NPCUnkillableBug()` | bool | NPC unkillable bug check | `${OgreBotAPI.NPCUnkillableBug}` |
 | `CityRestrictions()` | bool | City restrictions apply | `${OgreBotAPI.CityRestrictions}` |
-| `UnauthPCsNearMe(float _Distance)` | bool | Unauthorized PCs nearby | `${OgreBotAPI.UnauthPCsNearMe[50.0]}` |
 | `CheckNoOffensiveOn()` | bool | No-offensive list check | `${OgreBotAPI.CheckNoOffensiveOn}` |
 | `CheckNoDefensiveOn()` | bool | No-defensive check | `${OgreBotAPI.CheckNoDefensiveOn}` |
-| `Get_CSP()` | bool | Get CSP (campspot processing) status | `${OgreBotAPI.Get_CSP}` |
 | `ClassInfo_GetValue(string _ForWho, string _Member)` | bool | Get class info value | `${OgreBotAPI.ClassInfo_GetValue["all", "Archetype"]}` |
 | `InEQ2Chars(string _Speaker, bool _FullAccountInfoOnly=FALSE)` | bool | Is speaker in EQ2 character list | `${OgreBotAPI.InEQ2Chars["PlayerName"]}` |
 | `Get_ReviveLocation(string _Option, bool _ExactMatch=FALSE)` | int | Get revive location option index | `${OgreBotAPI.Get_ReviveLocation["option", FALSE]}` |
@@ -1767,11 +1756,11 @@ function:bool Named1(string _NamedNPC="Boss Name")
     variable point3f KillSpot="100.0,25.0,-50.0"
 
     Obj_OgreIH:SetCampSpot
-    Obj_OgreIH:KWL_CCS["${KillSpot}"]
+    Obj_OgreIH:ChangeCampSpot["${KillSpot}"]
+    call Obj_OgreUtilities.HandleWaitForCampSpot 10
     wait 20
 
     call Obj_OgreUtilities.PreCombatBuff 5
-    call Obj_OgreIH.PortKillAllw "${_NamedNPC}"
 
     wait 20
     call Obj_OgreUtilities.HandleWaitForCombatWithNPC "${_NamedNPC}"

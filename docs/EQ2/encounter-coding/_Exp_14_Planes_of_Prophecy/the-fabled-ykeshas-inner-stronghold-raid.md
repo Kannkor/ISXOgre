@@ -29,10 +29,6 @@ A fight with detriment-triggered item usage and teleport handling.
 
 - When a specific detriment is detected, automatically uses the Fabled Ykeshan Warbeads item
 
-**Teleport Detection:**
-
-- Detects when a character is teleported to a specific location and warps them back to the group
-
 ### Player Notes
 
 - Keep Fabled Ykeshan Warbeads in inventory
