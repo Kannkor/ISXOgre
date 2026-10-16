@@ -62,6 +62,7 @@ nav:
       - EQ2/bot/index.md
       - "The super secret project": EQ2/bot/super-secret-project.md
       - "The basics": EQ2/bot/basics.md
+      - "What's new": EQ2/bot/whats-new.md
       - "OgreBot":
           - EQ2/bot/ogrebot/index.md
           - "Tabs":

@@ -90,6 +90,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - Greyed rows are commands that have not been ported to the new bot yet.
 > - The line under the search box says what was sent. Each command's own messages still go to the InnerSpace console.
 > - For the exact arguments a command takes, see its documentation.
+> - The bottom line names the OgreBot release you are on (the name the What's new page uses) and when the core was built. `ogre version` prints the same.
 
 **Open it:** Type `ogre ?` (or `ogre help`, or `ogre commands`). `ogre end commands` closes it.
 
