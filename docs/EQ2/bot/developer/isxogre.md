@@ -15,12 +15,12 @@ Everything Classic's *ISXOgre API Reference* page described (except the detrimen
 | What happened | Names |
 |---|---|
 | ⚠️ Arguments changed | 1 |
-| ✏️ Renamed | 6 |
+| ✏️ Renamed | 5 |
 | ➡️ Moved | 2 |
 | ➡️ Lives somewhere else | 10 |
 | ⛔ Not ported yet | 29 |
 | ⛔ Removed | 30 |
-| **Total** | **78** |
+| **Total** | **77** |
 
 ## Worked examples
 
@@ -83,7 +83,6 @@ return "${OgreBotAPI.Util.MD5["${_Input}"]}"
 | `ISXOgre.IsReady` | does nothing | `ISXOgreEQ2.Auth.Authorized` | ✏️ Renamed | Old answered NULL (no object) when not ready; new answers FALSE. `!${...}` and `wait N ${...}` behave the same; a `(exists)` test does not - it is always TRUE now. |
 | `ISXOgre.MD5` | does nothing | `OgreBotAPI.Util.MD5` | ➡️ Moved |  |
 | `ISXOgre.PatchVersion` | does nothing | `ogre patch status` | ➡️ Lives somewhere else | ReleaseId is a STRING, not an int - a numeric compare against it is meaningless. |
-| `ISXOgre.RaidElite` | does nothing | `ISXOgreEQ2.Auth.AccessLevelNum` | ✏️ Renamed | -1 means the server sent no level (old had no such value; 0 = none in both). The core calls the number advisory access data, not an authentication decision. |
 | `ISXOgre.ResolveCommand` | does nothing | — | ⛔ Not ported yet | Old: returns the text a command/alias resolves to (pISInterface-&gt;ResolveCommand), NULL if none. No Classic call sites. Public doc: NOT in. |
 | `ISXOgre.SkinName` | does nothing | — | ⛔ Removed | Old: returns cISXConfig.SkinName, the LGUI skin every Classic window loads with `ui -reload -skin ${ISXOgre.SkinName}`. The new bot has no LGUI layer: "We do NOT use the ISUI (LGUI) layer in this extension"; its windows are Ultralight HTML through ${ISXOgreX.UI}. Public doc: NOT in. |
 | `ISXOgre.TimeUTC` | does nothing | — | ⛔ Not ported yet | Old: returns float64 seconds since the Unix epoch (time(nullptr)). Classic's only site is commented out. Public doc: NOT in. |

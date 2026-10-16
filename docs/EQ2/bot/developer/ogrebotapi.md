@@ -17,14 +17,14 @@ Every name Classic's *OgreBotAPI Reference* page listed, and what it is in the n
 | ⚠️ Arguments changed | 50 |
 | ⚠️ Argument order changed | 6 |
 | ✏️ Renamed | 328 |
-| ➡️ Moved | 118 |
+| ➡️ Moved | 116 |
 | ➡️ Lives somewhere else | 7 |
 | 📄 In a data file now | 4 |
-| ⛔ Exists, does nothing yet | 68 |
-| ⛔ Not ported yet | 87 |
+| ⛔ Exists, does nothing yet | 67 |
+| ⛔ Not ported yet | 83 |
 | ⛔ Removed | 2 |
 | ✅ Works as is | 25 |
-| **Total** | **695** |
+| **Total** | **688** |
 
 The camp-spot calls are on the [Camp spot](campspot.md) page, the `Ask` calls on [Ask query system](ask.md) and the `…Preferred` calls on [Preferred group members](preferred.md).
 
@@ -120,15 +120,6 @@ Old names whose job is now in `OgreBotAPI.Abilities`.
 | `OgreBotAPI:SetUpFor_Dispells` | does nothing | `OgreBotAPI.Abilities:SetUpForDispells` | ✏️ Renamed |  |
 | `OgreBotAPI:Spew_Get_AbilityVia` | does nothing (stub) | `OgreBotAPI.Abilities:SpewAbilityVia` *(does nothing yet)* | ⛔ Exists, does nothing yet |  |
 | `OgreBotAPI:SpewAbility` | does nothing (stub) | `OgreBotAPI.Abilities:SpewAbility` *(does nothing yet)* | ⛔ Exists, does nothing yet |  |
-
-## OgreBotAPI.Access
-
-Old names whose job is now in `OgreBotAPI.Access`.
-
-| Old call | Today | Write instead | What changed | Notes |
-|---|---|---|---|---|
-| `OgreBotAPI.ERE` | reads NULL | `OgreBotAPI.Access.ERE` `[level=60]` | ➡️ Moved |  |
-| `OgreBotAPI.UnauthPCsNearMe` | reads NULL | `OgreBotAPI.Access.UnauthPCsNearMe` `[dist=999]` | ➡️ Moved |  |
 
 ## OgreBotAPI.Actors
 
@@ -232,7 +223,6 @@ Old names whose job is now in `OgreBotAPI.Bot`.
 | `OgreBotAPI.Get_ScriptBaseName` | reads NULL | `OgreBotAPI.Bot.ScriptBaseName` `[path,removeExtension=TRUE]` | ✏️ Renamed |  |
 | `OgreBotAPI.Get_Turbo` | does nothing (stub) | `OgreBotAPI.Bot.Turbo` *(does nothing yet)* | ⛔ Exists, does nothing yet |  |
 | `OgreBotAPI:Initialize` | does nothing | `OgreBotAPI.Bot:Initialize` `[fw,...]` | ➡️ Moved |  |
-| `OgreBotAPI.InTesting` | does nothing (stub) | `OgreBotAPI.Bot.InTesting` *(does nothing yet)* | ⛔ Exists, does nothing yet |  |
 | `OgreBotAPI:OnDeactivate` | does nothing | `OgreBotAPI.Bot:OnDeactivate` `[...]` | ➡️ Moved |  |
 | `OgreBotAPI:Pause` | does nothing | `OgreBotAPI.Bot:Pause` `[fw]` | ➡️ Moved |  |
 | `OgreBotAPI.Paused` | reads NULL | `OgreBotAPI.Bot.Paused` | ➡️ Moved |  |
@@ -403,7 +393,6 @@ Old names whose job is now in `OgreBotAPI.Debug`.
 | `OgreBotAPI:Echo` | does nothing | `OgreBotAPI.Debug:Echo` `[fw,text]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it.<br>Not taken any more: `_Message2`. |
 | `OgreBotAPI.Get_DebugLoading` | reads NULL | `OgreBotAPI.Debug.DebugLoading` | ✏️ Renamed |  |
 | `OgreBotAPI:Get_Faction` | does nothing | `OgreBotAPI.Debug:BroadcastStat` `[fw,type,value]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. Classic's second argument was a spewstat OBJECT to fill; the new verb emits the rows itself. The READ half, `Debug.SpewStat`, is a STUB. |
-| `OgreBotAPI.NG` | reads NULL | — | ⛔ Not ported yet |  |
 | `OgreBotAPI:SetDebugLoading` | does nothing | `OgreBotAPI.Debug:SetDebugLoading` `[fw,on=TRUE]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. gained a for-who; argument 0 *was* the bool. |
 | `OgreBotAPI:SetDebugMode` | does nothing | `OgreBotAPI.Debug:SetDebugMode` `[fw,on=TRUE]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. gained a for-who; argument 0 *was* the bool. |
 | `OgreBotAPI:Spew_BoZ_Research` | does nothing | `OgreBotAPI.Debug:SpewResearchWindow` `[fw]` | ✏️ Renamed |  |
@@ -626,7 +615,6 @@ Old names whose job is now in `OgreBotAPI.OneOff`.
 | `OgreBotAPI:HQEar_Recheck` | does nothing (stub) | `OgreBotAPI:HQEar_Recheck` *(does nothing yet)* | ⛔ Exists, does nothing yet |  |
 | `OgreBotAPI:HQEar_ReEquipOriginalEar` | does nothing (stub) | `OgreBotAPI:HQEar_ReEquipOriginalEar` *(does nothing yet)* | ⛔ Exists, does nothing yet |  |
 | `OgreBotAPI:HQEar_ReportStuckEar` | does nothing (stub) | `OgreBotAPI:HQEar_ReportStuckEar` *(does nothing yet)* | ⛔ Exists, does nothing yet |  |
-| `OgreBotAPI:NC` | does nothing | — | ⛔ Not ported yet | as S |
 | `OgreBotAPI.NPCUnkillableBug` | works | — | ✅ Works as is |  |
 | `OgreBotAPI:RO_FSD_BB_Brutas_DoNotNeedColdWater` | does nothing (stub) | `OgreBotAPI:RO_FSD_BB_Brutas_DoNotNeedColdWater` *(does nothing yet)* | ⛔ Exists, does nothing yet |  |
 | `OgreBotAPI:RO_FSD_BB_Brutas_DoNotNeedColdWater_Relay` | works | — | ✅ Works as is |  |
@@ -636,7 +624,6 @@ Old names whose job is now in `OgreBotAPI.OneOff`.
 | `OgreBotAPI.RoR_Epic_Available` | does nothing (stub) | `OgreBotAPI.RoR_Epic_Available` *(does nothing yet)* | ⛔ Exists, does nothing yet |  |
 | `OgreBotAPI:RoR_Epic_ChangeInCastStack` | does nothing (stub) | `OgreBotAPI:RoR_Epic_ChangeInCastStack` *(does nothing yet)* | ⛔ Exists, does nothing yet |  |
 | `OgreBotAPI.RoR_Epic_Ready` | does nothing (stub) | `OgreBotAPI.RoR_Epic_Ready` *(does nothing yet)* | ⛔ Exists, does nothing yet |  |
-| `OgreBotAPI:S` | does nothing | — | ⛔ Not ported yet |  |
 | `OgreBotAPI:Scribe_Empyral` | works | — | ✅ Works as is |  |
 | `OgreBotAPI:Special` | works | — | ✅ Works as is |  |
 | `OgreBotAPI:Test` | works | — | ✅ Works as is |  |
@@ -927,7 +914,7 @@ Old names whose job is now in `OgreBotAPI.Zone`.
 
 Old names with no home in a group: not ported yet, done somewhere else, or a line in a data file now.
 
-**Note A** (19 rows below): Classic-internal state (a cache, a timer, a handle). Not script-facing, and the new engine owns the equivalent state privately.
+**Note A** (18 rows below): Classic-internal state (a cache, a timer, a handle). Not script-facing, and the new engine owns the equivalent state privately.
 
 **Note B** (7 rows below): a fight-, item- or zone-specific one-off.
 
@@ -950,7 +937,6 @@ Old names with no home in a group: not ported yet, done somewhere else, or a lin
 | `OgreBotAPI.bDebugMode` | reads NULL | — | ⛔ Not ported yet | the debug-mode FLAG has no read member; `Debug:SetDebugMode` writes it and `Debug:DebugEcho` is gated on it, but nothing exposes the boolean. |
 | `OgreBotAPI.bInternal` | reads NULL | — | ⛔ Not ported yet | Note A |
 | `OgreBotAPI.bNoCollision` | reads NULL | — | ⛔ Not ported yet | Note A |
-| `OgreBotAPI.bNoGravity` | reads NULL | — | ⛔ Not ported yet | Note A |
 | `OgreBotAPI.bSetUpFor_HOs_Current_HeroicSurge` | reads NULL | — | ⛔ Not ported yet | Note A |
 | `OgreBotAPI.bSetUpFor_HOs_Obtained_Current_HeroicSurge` | reads NULL | — | ⛔ Not ported yet | Note A |
 | `OgreBotAPI:CastAbilityNoExportUntilCast` | does nothing | — | ⛔ Not ported yet | Note E |
@@ -1039,7 +1025,6 @@ If your script needs one of these, leave it out for now and tell us - this list 
 - `OgreBotAPI.bDebugMode` - not ported yet
 - `OgreBotAPI.bInternal` - not ported yet
 - `OgreBotAPI.bNoCollision` - not ported yet
-- `OgreBotAPI.bNoGravity` - not ported yet
 - `OgreBotAPI.bSetUpFor_HOs_Current_HeroicSurge` - not ported yet
 - `OgreBotAPI.bSetUpFor_HOs_Obtained_Current_HeroicSurge` - not ported yet
 - `OgreBotAPI:C4M` - exists, does nothing yet
@@ -1094,7 +1079,6 @@ If your script needs one of these, leave it out for now and tell us - this list 
 - `OgreBotAPI.InBattleGround` - exists, does nothing yet
 - `OgreBotAPI.InEQ2Chars` - exists, does nothing yet
 - `call OgreBotAPI.Interrupt_Mode` - not ported yet
-- `OgreBotAPI.InTesting` - exists, does nothing yet
 - `OgreBotAPI.IsItemTimeUntilReadyZero` - not ported yet
 - `OgreBotAPI:ItemDebug` - not ported yet
 - `OgreBotAPI.jvCacheEquipmentAdornmentNames` - not ported yet
@@ -1105,8 +1089,6 @@ If your script needs one of these, leave it out for now and tell us - this list 
 - `OgreBotAPI:Mount` - not ported yet
 - `OgreBotAPI:Myzer1` - not ported yet
 - `OgreBotAPI:Myzer2` - not ported yet
-- `OgreBotAPI:NC` - not ported yet
-- `OgreBotAPI.NG` - not ported yet
 - `OgreBotAPI:NoTanking` - not ported yet
 - `OgreBotAPI:NPC_CastMonitoring` - exists, does nothing yet
 - `OgreBotAPI.NPCsWithinRange` - exists, does nothing yet
@@ -1142,7 +1124,6 @@ If your script needs one of these, leave it out for now and tell us - this list 
 - `OgreBotAPI.RoR_Epic_Available` - exists, does nothing yet
 - `OgreBotAPI:RoR_Epic_ChangeInCastStack` - exists, does nothing yet
 - `OgreBotAPI.RoR_Epic_Ready` - exists, does nothing yet
-- `OgreBotAPI:S` - not ported yet
 - `OgreBotAPI:Set_VampiricRequiem_Cancelling_Active` - exists, does nothing yet
 - `OgreBotAPI:SetQuestion` - not ported yet
 - `OgreBotAPI:SetRelayGroup` - exists, does nothing yet

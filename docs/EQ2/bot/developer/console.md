@@ -20,11 +20,11 @@ What changed between the Classic console (V1) and the new console (V2) for every
 | ✏️ Renamed | 4 |
 | ➡️ Lives somewhere else | 1 |
 | 📄 In a data file now | 18 |
-| ⛔ Removed | 40 |
+| ⛔ Removed | 37 |
 | ✅ Works as is | 449 |
-| **Total** | **557** |
+| **Total** | **554** |
 
-449 of the 557 Classic commands are typed exactly as before (127 of those are other names - aliases - for a command, and keep working).
+449 of the 554 Classic commands are typed exactly as before (127 of those are other names - aliases - for a command, and keep working).
 
 ## 1. Commands you must change
 
@@ -152,7 +152,7 @@ oc !c -ConversationBubble auto 1
 | `-ROSGTFDispell` | Unknown command | `dispel` | 📄 In a data file now | Nothing to type: the dispel is coded in Ogre/EQ2/Encounters/default/Chains of Eternity/Siren's Grotto - Dissension [Raid]/Overlord. |
 | `-ROTOVI` | Unknown command | `broadcast` | 📄 In a data file now | Note A |
 
-### ⛔ Removed (40)
+### ⛔ Removed (37)
 
 | You typed | Today | Type instead | What changed | Notes |
 |---|---|---|---|---|
@@ -173,8 +173,6 @@ oc !c -ConversationBubble auto 1
 | `-HQEar_ReEquipOriginalEar` | Unknown command | — | ⛔ Removed | V1 -&gt; Command_HQEar_ReEquipOriginalEar :2393. |
 | `-HQEar_ReportStuckEar` | Unknown command | — | ⛔ Removed | V1 -&gt; Command_HQEar_ReportStuckEar :2381. |
 | `-Mount` | Unknown command | — | ⛔ Removed | Use `-Force_MountOn <fw>` or `-Force_MountOff <fw>`.<br>V1 -&gt; method Mount :6838 -&gt; OgreBotAPI:Mount -&gt; f_SummonMount = `EQ2Execute /summon_mount` with its already-mounted guard commented out, i.e. a mount TOGGLE. |
-| `-NC` | Unknown command | — | ⛔ Removed | V1 -&gt; Command_NC :2639 -&gt; OgreBotAPI:NC[fw, value] - the S/NC/NG movement-cheat family (speed / no-collision / no-gravity). |
-| `-NG` | Unknown command | — | ⛔ Removed | V1 -&gt; Command_NG :2650 -&gt; OgreBotAPI:NG[fw, value] - the S/NC/NG movement-cheat family (speed / no-collision / no-gravity). |
 | `-OgreACommandOB_AP` | Unknown command | — | ⛔ Removed | Not the same verb as -OgreCommandOB_AP (`ogre <cmd>`), which is live. |
 | `-Reload_DevBot` | Unknown command | — | ⛔ Removed | V1 -&gt; Command_Reload_DevBot :3769 -&gt; OgreBotAPI:Reload_DevBot (target `ogre dev`). |
 | `-ReloadOgreConsole` | Unknown command | — | ⛔ Removed | Close and reopen the panel: `ogre end console`, then `ogre console`.<br>V1 -&gt; Command_ReloadOgreConsole :4907 = `timedcommand 5 ogre console` + `timedcommnad 1 ogre end console` (typo: the close half never ran). |
@@ -187,7 +185,6 @@ oc !c -ConversationBubble auto 1
 | `-RODTFP` | Unknown command | — | ⛔ Removed | Removed on purpose. The Fitzpitzle countdown belongs in its encounter file (Ogre/EQ2/Encounters/default/Tears of Veeshan/The Fabled), which waits for the two spells' ability ids.<br>V1 -&gt; Command_RODTFP :4791 -&gt; g_RaidOb:RODTFP[ae] -&gt; Fitzpitzle:AE - fed by (`irc !c me -RODTFP <Target.Casting.Label>`), an on-screen AE countdown read off the target's cast bar BY NAME. REMOVED 2026-10-14 - the console verb is not coming back; the fight lives in the encounter file, whose `_status` carries the ability-id capture as a deferred to-do. |
 | `-RoR_Epic_ChangeInCastStack` | Unknown command | — | ⛔ Removed | V1 -&gt; Command_RoR_Epic_ChangeInCastStack :1593 -&gt; OgreBotAPI:RoR_Epic_ChangeInCastStack[fw, enabled] (enable/disable the RoR epic abilities in the cast stack). |
 | `-RunWalk` | Unknown command | — | ⛔ Removed | Use `-Run <fw>` or `-Walk <fw>`, which SET the mode through OgreBotAPI.Movement:SetRunMode and never flip. Decide which one the old line meant.<br>-Run and -Walk keep their V1 spelling but no longer toggle - see their own entries. |
-| `-s` | Unknown command | — | ⛔ Removed | V1 -&gt; Command_S :2661 -&gt; OgreBotAPI:S[fw, value] - the S/NC/NG movement-cheat family (speed / no-collision / no-gravity). |
 | `-SetQuestion` | Unknown command | — | ⛔ Removed | The effect is one option write: `-ChangeOgreBotUIOption <fw> checkbox_loot_donotlootshinies <TRUE\|FALSE>`. Note the polarity: SetQuestion TRUE set do-NOT-loot-shinies TRUE.<br>V1 -&gt; Command_SetQuestion :3735 -&gt; OgreBotAPI:SetQuestion, whose live line is `ChangeOgreBotUIOption[fw, checkbox_loot_donotlootshinies, value]` followed by `return`. |
 | `-Test` | Unknown command | — | ⛔ Removed | V1 -&gt; method Test :4928 = `timedcommand 0 run test` (whatever is). |
 | `-test1` | Unknown command | — | ⛔ Removed | V1 -&gt; Command_Test1 :2748 parses a for-who, two args and a tail and only `echo`es them - an arg-parsing scratch harness. |

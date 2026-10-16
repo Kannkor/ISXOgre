@@ -73,14 +73,14 @@ Every Classic name these pages cover so far, by what happened to it:
 |---|---|
 | ⚠️ Arguments changed | 198 |
 | ⚠️ Argument order changed | 20 |
-| ✏️ Renamed | 506 |
-| ➡️ Moved | 181 |
+| ✏️ Renamed | 505 |
+| ➡️ Moved | 179 |
 | ➡️ Lives somewhere else | 272 |
 | 📄 In a data file now | 210 |
-| ⛔ Exists, does nothing yet | 71 |
-| ⛔ Not ported yet | 332 |
-| ⛔ Removed | 177 |
+| ⛔ Exists, does nothing yet | 70 |
+| ⛔ Not ported yet | 328 |
+| ⛔ Removed | 174 |
 | ✅ Works as is | 495 |
-| **Total** | **2462** |
+| **Total** | **2451** |
 
 Can't find a name? Use the search box at the top - every old name is on one of these pages.
