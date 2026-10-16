@@ -73,10 +73,6 @@ A fight with a gate mechanic where players get ported to the other side. The mod
 
 ### What the Module Does
 
-**Gate Mechanic:**
-
-- When the message "Get back over the gate, stat!" is detected, the module handles recovery positioning
-
 **Jousting:**
 
 - Jousts away from dangerous AoE locations that spawn during the fight

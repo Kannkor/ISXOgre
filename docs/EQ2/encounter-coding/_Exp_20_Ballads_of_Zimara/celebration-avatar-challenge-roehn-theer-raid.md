@@ -16,10 +16,6 @@ This raid zone contains 1 boss encounter.
 
 Setup is automatic when engaged. Or you can use `Obj_OgreMCP:PasteButton[SetUpFor__,SetUpFor]` to do the set up immediately.
 
-### Requirements
-
-- **ERE (Effective Raid Elite)** must be unlocked to access this encounter's automation
-
 ### Overview
 
 A complex encounter with multiple overlapping mechanics including rune targeting, archetype-based tile positioning, incurable curse handling, soul-charged pair stacking, and add management. The boss has two variants (Chaos and Order) that are targeted by different raid groups.
@@ -62,7 +58,6 @@ A complex encounter with multiple overlapping mechanics including rune targeting
 
 ### Player Notes
 
-- ERE must be unlocked for this encounter to activate
 - Pay attention to archetype tiles during Inevitable Annihilation -- positioning is automated
 - Stay together with your pair partner during soul-charged mechanics
 - Fighters should react quickly to the "Big add" TTS alert

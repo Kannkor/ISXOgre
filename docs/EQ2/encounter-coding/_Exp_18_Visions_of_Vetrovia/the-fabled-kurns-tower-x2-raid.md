@@ -10,9 +10,8 @@ This zone has 5 boss encounters with OgreBot automation modules.
 |------|-------------|
 | [Haggle Baron Klok](#haggle-baron-klok) | Color cube jousting, elemental/arcane cure management, NPC cast monitoring |
 | [Sir Rouland](#sir-rouland) | Pact of Shadows coordinated cross-session curse curing |
-| [Ilenee's Betrayal / Ilenee's Despair](#ilenees-betrayal-ilenees-despair) | Port warning (minimal) |
 | [Ione the Lifebringer](#ione-the-lifebringer) | Host shell entry with special ability cycling |
-| [Warlord Kurn Machta](#warlord-kurn-machta) | Dance with Death jousting, Iron Maiden key/intercept, pain threshold cures, bone spawning, torture stack tracking |
+| [Warlord Kurn Machta](#warlord-kurn-machta) | Iron Maiden key/intercept, pain threshold cures, torture stack tracking |
 
 ---
 
@@ -78,26 +77,6 @@ A fight with a coordinated cross-session curse curing system requiring specific 
 
 ---
 
-## Ilenee's Betrayal / Ilenee's Despair
-
-Setup is automatic when engaged. Or you can use `Obj_OgreMCP:PasteButton[SetUpFor__,SetUpFor]` to do the set up immediately.
-
-### Overview
-
-A twin-named encounter with minimal automation.
-
-### What the Module Does
-
-**Port Warning:**
-
-- Tracks the text message about the twins parting ways (placeholder for future automation)
-
-### Player Notes
-
-- Minimal automation for this encounter
-
----
-
 ## Ione the Lifebringer
 
 Setup is automatic when engaged. Or you can use `Obj_OgreMCP:PasteButton[SetUpFor__,SetUpFor]` to do the set up immediately.
@@ -135,14 +114,9 @@ Setup is automatic when engaged. Or you can use `Obj_OgreMCP:PasteButton[SetUpFo
 
 ### Overview
 
-The most complex encounter in this zone with dual-mode operation (raid vs group), jousting, key mechanics, cure coordination, and bone spawning.
+The most complex encounter in this zone with dual-mode operation (raid vs group), key mechanics and cure coordination.
 
 ### What the Module Does
-
-**Dance with Death:**
-
-- Most characters joust to a far spot when detected (tank and healer1 stay)
-- Priests also request curse cure on themselves
 
 **Iron Maiden -- Group Mode:**
 
@@ -162,12 +136,6 @@ The most complex encounter in this zone with dual-mode operation (raid vs group)
 
 - Fighter reads the boss's stack count and broadcasts it group-wide
 - Group cures are disabled when stacks appear and re-enabled when they clear
-
-**Grim Vision Bone Spawning:**
-
-- When Grim Vision is detected, moves to discarded bones actors and jumps to wake them
-- Sets up auto-target with bones at descending HP tiers
-- Starts a 20-second kill timer when bones despawn
 
 ### Player Notes
 

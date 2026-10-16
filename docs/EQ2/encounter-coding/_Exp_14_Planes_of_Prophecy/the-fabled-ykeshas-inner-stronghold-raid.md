@@ -8,7 +8,7 @@ This zone has 1 boss encounter with an OgreBot automation module.
 
 | Boss | Description |
 |------|-------------|
-| [Ykesha](#ykesha) | Auto Warbeads item use, teleport detection (WIP) |
+| [Ykesha](#ykesha) | Auto Warbeads item use |
 
 ---
 
@@ -21,7 +21,7 @@ Setup is automatic when engaged. Or you can use `Obj_OgreMCP:PasteButton[SetUpFo
 
 ### Overview
 
-A fight with detriment-triggered item usage and teleport handling.
+A fight with detriment-triggered item usage.
 
 ### What the Module Does
 

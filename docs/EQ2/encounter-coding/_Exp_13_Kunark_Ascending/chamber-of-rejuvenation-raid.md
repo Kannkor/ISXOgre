@@ -50,7 +50,7 @@ A heavily scripted raid encounter with numerous mechanics including death touche
 
 - When a player is chosen to face off against a challenge NPC, the module identifies which archetype-specific NPC to target (Knight, Invoker, Deliverer, or Sower)
 - Disables campspot and movement, then targets the challenge NPC
-- When the challenge NPC dies, re-enables campspot and uses a speed boost to return to position
+- When the challenge NPC dies, re-enables campspot and uses Sprint to return to position
 
 **Summoned Detonator:**
 
