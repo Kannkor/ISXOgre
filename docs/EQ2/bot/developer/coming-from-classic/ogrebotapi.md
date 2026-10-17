@@ -14,10 +14,10 @@ Every name Classic's *OgreBotAPI Reference* page listed, and what it is in the n
 
 | What happened | Names |
 |---|---|
-| ⚠️ Arguments changed | 50 |
+| ⚠️ Arguments changed | 53 |
 | ⚠️ Argument order changed | 6 |
-| ✏️ Renamed | 328 |
-| ➡️ Moved | 116 |
+| ✏️ Renamed | 326 |
+| ➡️ Moved | 115 |
 | ➡️ Lives somewhere else | 7 |
 | 📄 In a data file now | 4 |
 | ⛔ Exists, does nothing yet | 67 |
@@ -32,22 +32,22 @@ The camp-spot calls are on the [Camp spot](campspot.md) page, the `Ask` calls on
 
 One real Classic line per kind of change, and the line that replaces it.
 
-### ✏️ Renamed: `OgreBotAPI:Message_NT`
+### ✏️ Renamed: `OgreBotAPI:ChangeOgreBotUIOption`
 
 ```
 ; before (Classic)
-OgreBotAPI:Message_NT[all,"WIP"]
+OgreBotAPI:ChangeOgreBotUIOption["all","checkbox_debug_casting",TRUE]
 ; after (new bot)
-OgreBotAPI.Comms:Message[all,"WIP"]
+OgreBotAPI.Options:Set["all","checkbox_debug_casting",TRUE]
 ```
 
-### ➡️ Moved: `OgreBotAPI:Message`
+### ➡️ Moved: `OgreBotAPI:Pause`
 
 ```
 ; before (Classic)
-OgreBotAPI:Message[all,"Add Up"]
+OgreBotAPI:Pause
 ; after (new bot)
-OgreBotAPI.Comms:Message[all,"Add Up"]
+OgreBotAPI.Bot:Pause
 ```
 
 ## OgreBotAPI.Abilities
@@ -301,9 +301,9 @@ Old names whose job is now in `OgreBotAPI.Comms`.
 | `OgreBotAPI:ExecuteEvent` | does nothing | `OgreBotAPI.Comms:ExecuteEvent` `[fw,name,...]` | ➡️ Moved |  |
 | `OgreBotAPI:ExecuteEvent_JSON` | does nothing | `OgreBotAPI.Comms:ExecuteEventJSON` `[fw,name,json]` | ⚠️ Arguments changed | The arguments are different: Classic took `(string _ForWho="all", string _EventName, ... Args)`, the new call takes `[fw,name,json]`. |
 | `OgreBotAPI:InjectChat` | does nothing | `OgreBotAPI.Comms:InjectChat` `[fw,chat]` | ➡️ Moved |  |
-| `OgreBotAPI:Message` | does nothing | `OgreBotAPI.Comms:Message` `[fw,text,noise,noisePlay]` | ➡️ Moved |  |
-| `OgreBotAPI:Message_NT` | does nothing | `OgreBotAPI.Comms:Message` `[fw,text,noise,noisePlay]` | ✏️ Renamed | identical to `Message` - the "no timestamp" distinction stopped existing when the stamp was removed. |
-| `OgreBotAPI:Message_Relay` | does nothing | `OgreBotAPI.Comms:Broadcast` `[fw,text,noise,noisePlay]` | ✏️ Renamed | renamed to `:Broadcast`. `:Message` renders locally; `:Broadcast` reaches the fleet. |
+| `OgreBotAPI:Message` | does nothing | `OgreBotAPI.Comms:Message` `[fw,text]` | ⚠️ Arguments changed | moved to `OgreBotAPI.Comms:Message` - renders on THIS session only. Classic's positional `noise, NoiseToPlay` became FLAGS after the text (2026-10-16): `-sound ding` (Classic `TRUE` / `Default`) or `-sound alarm` (Classic `Loud`) - both PLAY (ding.wav / chatalarm.wav, Ogre/Common/OgreSounds) - and `-tab <name>` (repeatable) also shows the line in that OgreConsole tab. A leftover positional `TRUE` is just ignored (no sound). SIGNATURE CHANGED - drop the positional noise / NoiseToPlay pair; for a sound put `"-sound","ding"` (Classic TRUE / Default) or `"-sound","alarm"` (Classic Loud) after the text. `"-tab","<name>"` also shows the line in that OgreConsole tab. |
+| `OgreBotAPI:Message_NT` | does nothing | `OgreBotAPI.Comms:Message` `[fw,text]` | ⚠️ Arguments changed | identical to `Message` - the "no timestamp" distinction stopped existing when the stamp was removed. Classic's positional `noise, NoiseToPlay` became FLAGS after the text (2026-10-16): `-sound ding` (Classic `TRUE` / `Default`) or `-sound alarm` (Classic `Loud`) - both PLAY (ding.wav / chatalarm.wav, Ogre/Common/OgreSounds) - and `-tab <name>` (repeatable) also shows the line in that OgreConsole tab. A leftover positional `TRUE` is just ignored (no sound). SIGNATURE CHANGED - drop the positional noise / NoiseToPlay pair; for a sound put `"-sound","ding"` (Classic TRUE / Default) or `"-sound","alarm"` (Classic Loud) after the text. `"-tab","<name>"` also shows the line in that OgreConsole tab. |
+| `OgreBotAPI:Message_Relay` | does nothing | `OgreBotAPI.Comms:Broadcast` `[fw,text]` | ⚠️ Arguments changed | renamed to `:Broadcast`. `:Message` renders locally; `:Broadcast` reaches the fleet. Classic's positional `noise, NoiseToPlay` became FLAGS after the text (2026-10-16): `-sound ding` (Classic `TRUE` / `Default`) or `-sound alarm` (Classic `Loud`) - both PLAY (ding.wav / chatalarm.wav, Ogre/Common/OgreSounds) - and `-tab <name>` (repeatable) also shows the line in that OgreConsole tab. A leftover positional `TRUE` is just ignored (no sound). SIGNATURE CHANGED - drop the positional noise / NoiseToPlay pair; for a sound put `"-sound","ding"` (Classic TRUE / Default) or `"-sound","alarm"` (Classic Loud) after the text. `"-tab","<name>"` also shows the line in that OgreConsole tab. |
 | `OgreBotAPI:OgreIRC_AuthIfInRaid` | does nothing | `OgreBotAPI.Comms:IrcAuthIfInRaid` `[fw,name]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it.<br>Not taken any more: `ToonName`. |
 | `OgreBotAPI:OptNum` | does nothing | `OgreBotAPI.Comms:ConversationBubble` `[fw,...]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. |
 | `OgreBotAPI:Pushover` | does nothing | `OgreBotAPI.Comms:Pushover` `[fw,message...,-title t,-priority n]` | ➡️ Moved |  |

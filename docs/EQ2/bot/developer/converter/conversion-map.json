@@ -340,7 +340,7 @@
   "OgreBotAPI.Comms.Stats": null,
   "OgreBotAPI.Comms.UplinkName": null,
   "OgreBotAPI.Comms:AddAnnounce": "[fw,ability,to,text]",
-  "OgreBotAPI.Comms:Broadcast": "[fw,text,noise,noisePlay]",
+  "OgreBotAPI.Comms:Broadcast": "[fw,text]",
   "OgreBotAPI.Comms:ConversationBubble": "[fw,...]",
   "OgreBotAPI.Comms:Emit": null,
   "OgreBotAPI.Comms:ExecuteEvent": "[fw,name,...]",
@@ -353,7 +353,7 @@
   "OgreBotAPI.Comms:IrcDisconnect": "[fw]",
   "OgreBotAPI.Comms:IrcReload": "[fw]",
   "OgreBotAPI.Comms:LogStats": null,
-  "OgreBotAPI.Comms:Message": "[fw,text,noise,noisePlay]",
+  "OgreBotAPI.Comms:Message": "[fw,text]",
   "OgreBotAPI.Comms:Pushover": "[fw,message...,-title t,-priority n]",
   "OgreBotAPI.Comms:Query": null,
   "OgreBotAPI.Comms:Query_Clear": null,
@@ -16390,15 +16390,11 @@
    "surface": "OgreBotAPI"
   },
   {
-   "argsCheck": "same-count",
-   "example": {
-    "after": "OgreBotAPI.Comms:Message[all,\"Add Up\"]",
-    "before": "OgreBotAPI:Message[all,\"Add Up\"]"
-   },
-   "howToFix": "Write `OgreBotAPI.Comms:Message` instead of `OgreBotAPI:Message`. New arguments: `[fw,text,noise,noisePlay]`.",
+   "howToFix": "Write `OgreBotAPI.Comms:Message` instead of `OgreBotAPI:Message`; the arguments changed: moved to `OgreBotAPI.Comms:Message` - renders on THIS session only. Classic's positional `noise, NoiseToPlay` became FLAGS after the text: `-sound ding` (Classic `TRUE` / `Default`) or `-sound alarm` (Classic `Loud`) - both PLAY (ding.wav / chatalarm.wav, Ogre/Common/OgreSounds) - and `-tab <name>` (repeatable) also shows the line in that OgreConsole tab. A leftover positional `TRUE` is just ignored (no sound). SIGNATURE CHANGED - drop the positional noise / NoiseToPlay pair; for a sound put `\"-sound\",\"ding\"` (Classic TRUE / Default) or `\"-sound\",\"alarm\"` (Classic Loud) after the text. `\"-tab\",\"<name>\"` also shows the line in that OgreConsole tab.",
    "id": "OgreBotAPI:Message",
    "newForm": "OgreBotAPI.Comms:Message",
-   "newSignature": "[fw,text,noise,noisePlay]",
+   "newSignature": "[fw,text]",
+   "note": "moved to `OgreBotAPI.Comms:Message` - renders on THIS session only. Classic's positional `noise, NoiseToPlay` became FLAGS after the text: `-sound ding` (Classic `TRUE` / `Default`) or `-sound alarm` (Classic `Loud`) - both PLAY (ding.wav / chatalarm.wav, Ogre/Common/OgreSounds) - and `-tab <name>` (repeatable) also shows the line in that OgreConsole tab. A leftover positional `TRUE` is just ignored (no sound). SIGNATURE CHANGED - drop the positional noise / NoiseToPlay pair; for a sound put `\"-sound\",\"ding\"` (Classic TRUE / Default) or `\"-sound\",\"alarm\"` (Classic Loud) after the text. `\"-tab\",\"<name>\"` also shows the line in that OgreConsole tab.",
    "oldCall": "OgreBotAPI:Message",
    "oldKinds": [
     "m"
@@ -16406,20 +16402,15 @@
    "oldName": "Message",
    "oldSignature": "(string _ForWho, string _Message, bool _Noise=FALSE, string NoiseToPlay=Default)",
    "oldSpellingToday": "does nothing - no error in any log (the method no longer exists)",
-   "status": "moved",
+   "status": "signature",
    "surface": "OgreBotAPI"
   },
   {
-   "argsCheck": "same-count",
-   "example": {
-    "after": "OgreBotAPI.Comms:Message[all,\"WIP\"]",
-    "before": "OgreBotAPI:Message_NT[all,\"WIP\"]"
-   },
-   "howToFix": "Write `OgreBotAPI.Comms:Message` instead of `OgreBotAPI:Message_NT`. New arguments: `[fw,text,noise,noisePlay]`.",
+   "howToFix": "Write `OgreBotAPI.Comms:Message` instead of `OgreBotAPI:Message_NT`; the arguments changed: identical to `Message` - the \"no timestamp\" distinction stopped existing when the stamp was removed. Classic's positional `noise, NoiseToPlay` became FLAGS after the text: `-sound ding` (Classic `TRUE` / `Default`) or `-sound alarm` (Classic `Loud`) - both PLAY (ding.wav / chatalarm.wav, Ogre/Common/OgreSounds) - and `-tab <name>` (repeatable) also shows the line in that OgreConsole tab. A leftover positional `TRUE` is just ignored (no sound). SIGNATURE CHANGED - drop the positional noise / NoiseToPlay pair; for a sound put `\"-sound\",\"ding\"` (Classic TRUE / Default) or `\"-sound\",\"alarm\"` (Classic Loud) after the text. `\"-tab\",\"<name>\"` also shows the line in that OgreConsole tab.",
    "id": "OgreBotAPI:Message_NT",
    "newForm": "OgreBotAPI.Comms:Message",
-   "newSignature": "[fw,text,noise,noisePlay]",
-   "note": "identical to `Message` - the \"no timestamp\" distinction stopped existing when the stamp was removed.",
+   "newSignature": "[fw,text]",
+   "note": "identical to `Message` - the \"no timestamp\" distinction stopped existing when the stamp was removed. Classic's positional `noise, NoiseToPlay` became FLAGS after the text: `-sound ding` (Classic `TRUE` / `Default`) or `-sound alarm` (Classic `Loud`) - both PLAY (ding.wav / chatalarm.wav, Ogre/Common/OgreSounds) - and `-tab <name>` (repeatable) also shows the line in that OgreConsole tab. A leftover positional `TRUE` is just ignored (no sound). SIGNATURE CHANGED - drop the positional noise / NoiseToPlay pair; for a sound put `\"-sound\",\"ding\"` (Classic TRUE / Default) or `\"-sound\",\"alarm\"` (Classic Loud) after the text. `\"-tab\",\"<name>\"` also shows the line in that OgreConsole tab.",
    "oldCall": "OgreBotAPI:Message_NT",
    "oldKinds": [
     "m"
@@ -16427,20 +16418,15 @@
    "oldName": "Message_NT",
    "oldSignature": "(string _ForWho, string _Message, bool _Noise=FALSE, string NoiseToPlay=Default)",
    "oldSpellingToday": "does nothing - no error in any log (the method no longer exists)",
-   "status": "renamed",
+   "status": "signature",
    "surface": "OgreBotAPI"
   },
   {
-   "argsCheck": "same-count",
-   "example": {
-    "after": "OgreBotAPI.Comms:Broadcast[all,\"Orb Spawned\",TRUE]",
-    "before": "OgreBotAPI:Message_Relay[all,\"Orb Spawned\",TRUE]"
-   },
-   "howToFix": "Write `OgreBotAPI.Comms:Broadcast` instead of `OgreBotAPI:Message_Relay`. New arguments: `[fw,text,noise,noisePlay]`.",
+   "howToFix": "Write `OgreBotAPI.Comms:Broadcast` instead of `OgreBotAPI:Message_Relay`; the arguments changed: renamed to `:Broadcast`. `:Message` renders locally; `:Broadcast` reaches the fleet. Classic's positional `noise, NoiseToPlay` became FLAGS after the text: `-sound ding` (Classic `TRUE` / `Default`) or `-sound alarm` (Classic `Loud`) - both PLAY (ding.wav / chatalarm.wav, Ogre/Common/OgreSounds) - and `-tab <name>` (repeatable) also shows the line in that OgreConsole tab. A leftover positional `TRUE` is just ignored (no sound). SIGNATURE CHANGED - drop the positional noise / NoiseToPlay pair; for a sound put `\"-sound\",\"ding\"` (Classic TRUE / Default) or `\"-sound\",\"alarm\"` (Classic Loud) after the text. `\"-tab\",\"<name>\"` also shows the line in that OgreConsole tab.",
    "id": "OgreBotAPI:Message_Relay",
    "newForm": "OgreBotAPI.Comms:Broadcast",
-   "newSignature": "[fw,text,noise,noisePlay]",
-   "note": "renamed to `:Broadcast`. `:Message` renders locally; `:Broadcast` reaches the fleet.",
+   "newSignature": "[fw,text]",
+   "note": "renamed to `:Broadcast`. `:Message` renders locally; `:Broadcast` reaches the fleet. Classic's positional `noise, NoiseToPlay` became FLAGS after the text: `-sound ding` (Classic `TRUE` / `Default`) or `-sound alarm` (Classic `Loud`) - both PLAY (ding.wav / chatalarm.wav, Ogre/Common/OgreSounds) - and `-tab <name>` (repeatable) also shows the line in that OgreConsole tab. A leftover positional `TRUE` is just ignored (no sound). SIGNATURE CHANGED - drop the positional noise / NoiseToPlay pair; for a sound put `\"-sound\",\"ding\"` (Classic TRUE / Default) or `\"-sound\",\"alarm\"` (Classic Loud) after the text. `\"-tab\",\"<name>\"` also shows the line in that OgreConsole tab.",
    "oldCall": "OgreBotAPI:Message_Relay",
    "oldKinds": [
     "m"
@@ -16448,7 +16434,7 @@
    "oldName": "Message_Relay",
    "oldSignature": "(string _ForWho, string _Message, bool _Noise=FALSE, string NoiseToPlay=Default)",
    "oldSpellingToday": "does nothing - no error in any log (the method no longer exists)",
-   "status": "renamed",
+   "status": "signature",
    "surface": "OgreBotAPI"
   },
   {

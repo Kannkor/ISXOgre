@@ -228,6 +228,13 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.10.17.017 {#r2026-10-17-017}
+
+*Saturday, October 17, 2026 at 1:21 AM EDT*
+
+- **New** · Other: **Script messages can play a sound and go to a console tab.** OgreBotAPI.Comms:Message and :Broadcast take "-sound","ding" or "-sound","alarm" after the text and play it, and "-tab" followed by a tab name also shows the line in that OgreConsole tab. Fight announcements that ask for a sound now play it instead of only printing it. The chest-drop ding is unchanged.
+- **Fixed** · Navigation: **Flying takes off and lands under overhangs and tree canopies.** Flight now knows about the open air under ledges, overhangs and tree canopies, so a trip can take off from a covered spot like the landing pad below the Ulteran Spire in Moors of Ykesha, and more trips fly instead of walking. Planning a long flight no longer causes a small hitch.
+
 ## 2026.10.16.024 {#r2026-10-16-024}
 
 *Friday, October 16, 2026 at 5:00 PM EDT*

@@ -71,10 +71,10 @@ Every Classic name these pages cover so far, by what happened to it:
 
 | What happened | Names |
 |---|---|
-| ⚠️ Arguments changed | 198 |
+| ⚠️ Arguments changed | 201 |
 | ⚠️ Argument order changed | 20 |
-| ✏️ Renamed | 505 |
-| ➡️ Moved | 179 |
+| ✏️ Renamed | 503 |
+| ➡️ Moved | 178 |
 | ➡️ Lives somewhere else | 272 |
 | 📄 In a data file now | 210 |
 | ⛔ Exists, does nothing yet | 70 |
