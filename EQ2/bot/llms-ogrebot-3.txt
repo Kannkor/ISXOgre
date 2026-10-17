@@ -1,0 +1,385 @@
+# OgreBot for EverQuest II - documentation, OgreBot (part 3 of 3)
+
+OgreBot is in beta testing. For OgreBot Classic see https://kannkor.github.io/ISXOgre/EQ2/
+This file is ONE PIECE of the documentation: OgreBot (part 3 of 3) - OgreBot - Tabs.
+The entire documentation in one document: https://kannkor.github.io/ISXOgre/EQ2/bot/llms-full.txt
+Index of every page and of every file like this one: https://kannkor.github.io/ISXOgre/EQ2/bot/llms.txt
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/debug.md
+
+# Debug
+
+Debug holds switches that make the bot explain itself. Each box turns on extra lines about one part of the bot: casting, the Cast Stack, HOs, assist, Overseer, and so on. The lines appear in this character's InnerSpace console and in its log file (ISXOgreEQ2.<session>.log in InnerSpace's extensions folder). None of these boxes changes what the bot does, except Visible Console Commands, which only changes how the bot's group commands show in OgreConsole. At the bottom, the Cast-Stack Dry-Run lists every Cast Stack entry and what it would do right now, without casting anything.
+
+## Debugging specifics (these are wired up and working)
+
+| Option | What it does | Default |
+|---|---|---|
+| **CastingDebug: logs one line each time the bot casts a spell - the spell name and its ID. (Light)** | Logs one line each time the bot casts something: the ability name and ID, or the item name, the cure target for cures, and what asked for the cast. | off |
+| **CastingProgressDebug: logs each step a cast goes through - issued, cast bar started, fired/completed (or skipped as already maintained). Useful for diagnosing casts that stall, interrupt, or never start. (Moderate)** | Logs each step of every cast: sent, cast bar started, finished, already up, or given up. Use it for casts that stall, get interrupted or never start. | off |
+| **CSDetailsDebug: logs the full saved settings of each spell as it casts (every option on that entry) plus who it actually resolved to and got cast on. Good for confirming a spell is set up and targeting the way you intended. (Moderate)** | Each time a Cast Stack entry casts, logs every saved option on that entry plus who it was actually cast on. Good for checking an entry is set up the way you meant. | off |
+| **CSEvalDebug: logs the bot's entire decision every game tick - your status, then every spell and why it was or was not picked. Best for finding why a spell will not fire. (VERY noisy - turn off when done)** | Logs the Cast Stack's whole decision every time it runs: your health, power and target, then every entry and why it was or was not picked. The best way to find why a spell will not fire.<br>*Very noisy. Turn it off when you are done.* | off |
+| **CSRecastDelayDebug: logs only the spells that were skipped because they are still on their recast-delay timer. (Light)** | Logs only the Cast Stack entries skipped because their own recast delay has not run out yet. | off |
+| **ConsumeItemsDebug: logs the step-by-step of each automatic consume - which item, when it was issued, and when the flow completed. The Consume Items tab fires on its own whenever an item comes off cooldown, so this is off by default and the consume happens silently; turn it on to see what it picked. Failures are shown either way. (Light - a few lines per consume)** | Logs each automatic use from the Consume Items tab step by step: which item, when it was used and when it finished. | off |
+| **CommsEventsDebug: logs the C3 comms receipt lines - '[Curse] <toon> -> igw:<x>: cure curse requested for <x>', '[GroupCure] ...' - one per session that receives the event. OFF by default: the -autocurse command that CAUSED them is already visible on the console, so these are duplicate narration in normal play and only earn their place while debugging the comms layer. (Light)** | Logs a line each time this character receives a cure-curse or group-cure request from another character.<br>*Every character that receives the request logs its own line.* | off |
+| **ForWhoDebug: logs one line each time a command is skipped because its forwho did not match this character - the command, the forwho it was aimed with, and the name this session weighed it against (an empty name means this session has not resolved its identity yet). Commands that DO match stay silent, so group-wide broadcasts do not spam. (Light)** | Logs a line each time a command is ignored because it was aimed at someone else: the command, who it was aimed at, and this character's name. Commands that do apply stay silent. | off |
+| **NPCCastDebug: logs one line each time a WATCHED named mob starts or stops casting - the actor, the ability ID and the base cast time. This is what tells you whether an encounter's interrupt rule is failing to DETECT the cast or failing to land the interrupt. (Moderate - one line per cast edge, only for mobs an active encounter is watching)** | Logs a line each time a mob that an encounter is watching starts or stops casting: the mob, the ability and its cast time. Tells you whether an interrupt rule failed to see the cast or failed to land the interrupt. | off |
+| **WhatIsTheBotDoing: logs the bot's reasoning as it enters and leaves routines - for example why it turned auto-attack off. Useful when the bot looks idle and you want to know what it decided. (Moderate)** | Logs why the bot did some things on its own: moving into or out of combat position, turning auto-attack off, dropping invisibility after combat, and follow changes.<br>*Follow and Come2Me lines go to the log file only.* | off |
+| **AnnounceDebug: logs each announce row weighed when a cast lands - which row matched (or that none did) and the text that went out. Use it when an announce fires on the wrong spell, or not at all. (Light - one line per announced cast)** | When a cast lands, logs each Announce tab row it checked, which one matched (or that none did), and the text sent. Use it when an announce fires on the wrong spell or not at all. | off |
+| **OverseerDebug: logs an Overseer run step by step - which window it is on, what it read there and what it clicked. The first thing to turn on for a run that stalls partway. (Moderate, and only during a run)** | Logs an Overseer run step by step: each stage it moves to, each agent assigned, each quest started or completed, and quests skipped for lack of agents. | off |
+| **OverseerAgentsDebug: logs the 'add agents to your collection' pass - each agent card, and whether it was added, a duplicate, converted or destroyed. It does not log which agent goes on which mission. (Light - only while agent cards are being used)** | Logs the 'add agents to your collection' pass step by step: each agent card, and whether it was added, a duplicate, converted or destroyed. | off |
+| **Keyboard dump - Shift stuck, or symbols will not type? Click it WHILE it is happening and send the console lines (same as `ogre keys`)** | Prints everything about the keyboard right now: which keys the game thinks are held (Shift, Caps Lock and others), which window has keyboard focus, and the last keys pressed. Same as typing `ogre keys`.<br>*The last keys cover only this visit to the world. Check the lines before sharing them.* |  |
+| **RewardWindowDebug: logs one line for each reward window that opens - its title and how many rewards it offers. (The line saying which reward was taken prints with or without this box.) (Light)** | Logs one line for each reward window that opens: its title and how many rewards it offers.<br>*The line saying which reward was taken prints whether this is on or off.* | off |
+| **DoHODebug: logs the solo HO (DoHO) step by step - the setup and its target, whether it ran the full election or only turned the HO'er's own legs back on, every HO option it set and for whom (here, or sent to the group), the prime, each HO counted as completed or expired, and why it stood down (done, timed out, target gone). Use it when a fight's HO does not open or the group does not join it. (Moderate - about 40 lines per HO)** | Logs the solo HO (Do HO) step by step: the setup and its target, every HO option it set and for whom, each HO completed or expired, and why it stopped. Use it when a fight's HO does not open or the group does not join in. | off |
+| **VisibleConsoleCommands: the bot's own group commands (DoHO options, encounter broadcasts, HO events, group travel) are sent as oc !c instead of the invisible oc !ci, so each one shows in OgreConsole. Delivery is the same either way - every session in the relay group gets them, this one included; only the display changes. (Noisy while on)** | The bot's own group commands (Do HO options, encounter messages, HO events, group travel) show up in OgreConsole so you can watch them. Normally they are sent hidden. Every character still receives them exactly the same way.<br>*Noisy while on.* | off |
+| **HeroicOpportunityDebug: logs each HO the bot opens - the actor, the starter ability it chose, whether the starter icon was visible and whether the timer was skipped. The HO engine spans five files and had one log line in all of them, so an HO that never starts was previously silent. (Light - one line per HO)** | Logs each HO the bot starts: the mob, the starter ability it chose, whether the starter icon was showing, and whether the wait timer was skipped. | off |
+| **AssistDebug: logs what assist decided, and names the three outcomes that look identical from outside - claiming a target, 'I am in control' and 'leave me alone'. Only speaks when the answer CHANGES, so it is safe to leave on. (Light)** | Logs who assist wants you to attack and why. It only logs when that answer changes, so it is safe to leave on. | off |
+| **ReapplyValueDebug: for every ward carrying an RW< value, logs its remaining damage against the value you set and whether that counts as depleted. Use it when a ward is not re-cast, or is re-cast constantly - it tells you which of the two numbers is wrong. (Noisy - one line per ward every tick)** | For every ward with a 'Reapply-ward <=' value, logs how much damage it has left, your value, and whether that counts as used up. Use it when a ward is not re-cast, or is re-cast all the time.<br>*Noisy: one line per ward each time the Cast Stack runs.* | off |
+| **AbilityViaDebug: logs each CastVia query exactly as the bot parsed it - every term, the options in effect, anything it was told to ignore, and which ability won (or that NOTHING matched, which otherwise looks the same as a deliberate hold). (Light - one line per query)** | When a script or command asks the bot to find an ability by description (CastVia), logs how the request was read, what was ruled out, and which ability won, or that nothing matched. | off |
+| **AliasesDebug: each time the alias list is rebuilt, logs every record and who it currently resolves to, or 'nobody live'. Separates an alias that failed to parse from one that simply has nobody online - downstream both just fail to match. (Light - once per rebuild)** | Each time the Aliases list is rebuilt, logs every alias and who it points to right now, or 'nobody live'. Tells a mistyped alias apart from one whose characters are simply not online. | off |
+| **ProfilePartsDebug: on profile load, logs whether Profile Parts is on and which tab is being read from which shared file, disabled mappings included. Use it when a tab shows settings you do not remember saving. (Light - once per load)** | When a profile loads, logs whether Profile Parts is on and which tab is being read from which shared file, including switched-off ones. Use it when a tab shows settings you do not remember saving. | off |
+| **LoadingProcessDebug: times each step of opening the bot - the ability export, the roster, the cast stack, every tab seed - so a slow or apparently hung load names the step responsible instead of one silent gap. (Light - once per load)** | Times each step of opening the bot (abilities, roster, Cast Stack, each tab), so a slow or stuck load shows which step is to blame. | off |
+
+## Deliberately not wired (the information is already there)
+
+| Option | What it does | Default |
+|---|---|---|
+| **Failed casts: already covered - CastingProgressDebug above reports every cast that was issued and did not complete, with the reason. A second flag for the same lines would only split one story across two switches.** | **Not active yet.** Does nothing. Casts that fail are already reported by CastingProgressDebug. | off |
+| **Queued commands: the command queue already logs unconditionally, so there is nothing here to turn ON. What this wants is the opposite - a MUTE - which is a different control and a different decision.** | **Not active yet.** Does nothing. The command queue already logs all the time. | off |
+| **Dispels: there is no dispel module in the new bot yet. A dispel is an ordinary cast-stack entry, and the walk trace already says why one was or was not picked. Wire this if dispels ever get their own handling.** | **Not active yet.** Does nothing. Dispels are ordinary Cast Stack entries, and CSEvalDebug already shows why one was or was not picked. | off |
+
+## Cast-Stack Dry-Run
+
+| Option | What it does | Default |
+|---|---|---|
+| **Evaluate every cast-order entry vs the live game state - what each would do right now (dry-run, never casts)** | One row per Cast Stack entry, in order: its number, its name, then 'WOULD CAST' in green (with the target), or the reason it would be skipped, such as 'recast delay still active' or 'no valid target'. Switched-off entries are greyed. The last column sums up the entry's settings. | empty until you press Evaluate |
+
+## Cast-Stack Dry-Run
+
+| Control | What it does |
+|---|---|
+| **Evaluate every entry now** | Checks every Cast Stack entry against your current target, group and state, and fills the list below with what each one would do right now. Nothing is cast.<br>*It also prints every entry and its saved settings to the console, so expect a burst of lines.* |
+
+## Good to know
+
+- Debug boxes are saved in your profile like any other setting. A noisy box you forget to untick stays on after a reload.
+- The log file starts fresh every time the extension loads. Copy it before you restart if you want to send it to someone.
+- A few WhatIsTheBotDoing lines (following, and the Come2Me command) go only to the log file, not the console.
+- The three boxes under 'Deliberately not wired' do nothing. They are there so you know why no switch exists for those topics.
+- The Keyboard dump includes the last keys you pressed since entering the world. If you just typed something private in game, do not paste the dump anywhere public.
+- Cast-Stack Dry-Run: the list only fills after you press 'Evaluate every entry now'. It is a snapshot of that moment; press it again to refresh. It also prints every entry, with all its saved settings, to the console.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/eq2chars.md
+
+# EQ2Chars
+
+EQ2Chars is your list of characters. It does two jobs. Every character on it is trusted: the bot obeys chat commands from them and, when 'Accept Invites' is ticked, accepts their group and raid invites. A character that also has an account and password can be logged in by the bot, for example with `ogre <name>`. The list is one list for the whole PC, not part of any profile. Fill in the form on the left and press Add / Save; the list on the right shows everything stored.
+
+| Option | What it does | Default |
+|---|---|---|
+| **Character:** | The character's name. Required. | empty |
+| **Account:** | The game account the character is on, used to log it in. Leave blank to only recognise the character (trusted for commands and invites, but no login). | empty |
+| **Password:** | The account's password. It is hidden as you type and goes straight to the private file on this PC, never into your profile. Blank keeps the stored password; a single - clears it.<br>*One password per account, shared by all its characters.* | empty |
+| **Server:** | The server the character plays on. The bot picks this server when logging the character in. Blank keeps the server already stored. | empty |
+| **Add / Save** | Saves the character with the account, password and server typed above. If the character is already listed, its entry is replaced (moved to the new account if you changed it). The password box is emptied afterwards. |  |
+| **Clear Fields** | Empties the four boxes on the form. The stored list is not touched. |  |
+| **Clear Character Name after Add** | After Add / Save, the Character box is emptied, ready for the next one. | off |
+| **Clear Account Name after Add** | After Add / Save, the Account box is emptied. Leave it off to add several characters on the same account without retyping it. | off |
+| **Add current Group/Raid** | Adds every player in your group or raid who is not already listed, as 'recognised only' (no login details). Mercenaries and pets are skipped. The first click only tells you how many it would add; click again within 15 seconds to confirm.<br>*Everyone added becomes someone whose commands and invites this character accepts.* |  |
+| **Your characters - click one to edit it, X to forget it** | Every stored character with its account and server. 'Recognised only' in the Account column means no login details are stored. | empty |
+
+## Your characters
+
+| Control | What it does | Default |
+|---|---|---|
+| **Search character or account** | Narrows the list to rows whose character or account contains what you type. The small x clears it. | empty |
+| **Character / Account / Server (column headers)** | Click a heading to sort by it; click it again to reverse the order. | sorted by Character |
+| **Click a row** | Loads that character into the form so you can change it. The password box stays empty; leaving it empty keeps the stored password. |  |
+| **x (forget this character)** | Removes the character from the list straight away. The bot stops trusting it and can no longer log it in.<br>*No confirmation.* |  |
+
+## Good to know
+
+- Passwords are kept in a file on this PC, Scripts\OgreSavePrivate\EQ2\Accounts.json. They are stored as plain text (not encrypted), so keep that folder to yourself and never send it to anyone. They are never put in a profile, so sharing a profile does not share them.
+- A password belongs to an account, not a character. Every character on the same account uses the one password.
+- The password box never shows a stored password. Leave it blank to keep the stored one; type a single - (minus) to clear it.
+- A character added with no account is 'recognised only': trusted for commands and invites, but the bot cannot log it in.
+- The x on a row forgets that character at once, with no confirmation.
+- Only the first 200 matching rows are drawn. Type in the search box to find the rest.
+- The Character, Account and Server boxes are ordinary settings: whatever is left in them is saved in your profile, and in a Save Custom Profile copy. Press Clear Fields before sharing a profile.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/key-binds.md
+
+# Key Binds
+
+Key Binds tells the bot which keys your game uses for moving, jumping, flying and so on. Whenever the bot has to press one of these keys for you, it presses the key set here, so if your Forward is not W the bot still walks. The tab shows eleven actions in two columns. Each has a box with its key, a Set button and a Clear button. To change one, click the key box or Set, then press the key you want. The change is saved straight away, for every EverQuest 2 character on this PC. The keys are kept in Scripts\OgreSave\EQ2\KeyBinds.json, not in your profile.
+
+| Option | What it does | Default |
+|---|---|---|
+| **(the key list)** | One row per action: its name, the key it uses, Set and Clear. Click the key or Set, then press a key to change it. | the standard keys |
+
+## Key Binds
+
+| Control | What it does | Default |
+|---|---|---|
+| **(key box)** | Shows the key the bot presses for this action. Click it to choose a new key, the same as Set. Grey means it is still the standard key. |  |
+| **Set** | Starts waiting for a key. The list is replaced by 'Press the key you want to use.' The next key you press becomes this action's key and is saved at once.<br>*Mouse buttons still work while it waits, so you can click Cancel.* |  |
+| **Clear** | Puts this action back to its standard key.<br>*Hidden while the action already uses its standard key.* |  |
+| **Cancel** | Only shown while waiting for a key. Stops waiting and keeps the old key. |  |
+| **Forward** | The key the bot holds to walk you forward when it moves you somewhere. | w |
+| **Backward** | The key the bot holds to back you up when it moves you. | s |
+| **Autorun** | The key the bot presses for its Autorun command. | Num Lock |
+| **Fly/Swim up** | The key the bot holds to rise while flying or swimming, both when it moves you and for its Fly Up command. | Home |
+| **Fly/Swim down** | The key the bot holds to sink while flying or swimming, both when it moves you and for its Fly Down command. It is also used to land a flying mount. | End |
+| **Jump** | The key the bot presses for its Jump command and for jumps along a travel path. | Space |
+| **Crouch** | The key the bot presses for its Crouch command. | Z |
+| **Look up** | **Not active yet.** Stored for later. Nothing in the bot presses this key yet. | Page Up |
+| **Look down** | **Not active yet.** Stored for later. Nothing in the bot presses this key yet. | Page Down |
+| **Zoom in** | **Not active yet.** Stored for later. Nothing in the bot presses this key yet. | Num + |
+| **Zoom out** | **Not active yet.** Stored for later. Nothing in the bot presses this key yet. | Num - |
+
+## Good to know
+
+- While the tab waits for your key press, every key is caught, so the game does not see it. Press the key, click Cancel, or wait 15 seconds.
+- If Set shows 'Reading the key list - press Set again in a moment', wait a moment and press Set again.
+- A grey key is the standard one. Clear only shows once you have changed a key, and puts it back to the standard one.
+- If two actions use the same key, an 'also used by ...' warning appears under it. The bot still allows it.
+- Changing a key updates all your EverQuest 2 sessions on this PC right away. No Save is needed.
+- Look up, Look down, Zoom in and Zoom out are stored, but nothing in the bot presses them yet.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/ogreconsole.md
+
+# OgreConsole
+
+OgreConsole is the window where Ogre shows messages from all your characters. The left column decides whether that window opens or closes when this character's profile loads, and whether Ogre may pop it open by itself. The right column sets up OgreIRC, which links your bot fleet to an IRC channel so you can send commands to it from IRC. The IRC settings are one set for the whole PC, not per character.
+
+## OgreConsole
+
+| Option | What it does | Default |
+|---|---|---|
+| **Show console on load (and right now)** | Opens OgreConsole each time this profile loads. Ticking it also opens it right now and unticks 'Hide console on load'.<br>*Unticking it does not close the console; it only stops the open on the next load.* | off |
+| **Hide console on load (and right now)** | Closes OgreConsole each time this profile loads. Ticking it also closes it right now and unticks 'Show console on load'.<br>*If both boxes end up ticked, hide wins.* | off |
+| **Never auto open OgreConsole** | Ogre never pops OgreConsole open by itself for an event, such as a tell passed on from another of your sessions. Your own commands and buttons still open it. | off |
+
+## OgreIRC
+
+| Option | What it does | Default |
+|---|---|---|
+| **Connect to IRC** | Connects to IRC each time this profile loads, and when you press 'Save OgreIRC information'. This box is saved per character profile, unlike the IRC details below.<br>*Unticking it never disconnects. By hand: `ogre irc` connects, `ogre end irc` disconnects.* | off |
+| **Uplink name:** | **Not active yet.** It is saved, but the IRC link always runs on this PC's own uplink. | empty |
+| **Server:** | The IRC server address to connect to. Required. | empty |
+| **Server port:** | The server's port. 6667 unless your server says otherwise. | 6667 (used when blank or invalid) |
+| **Server password:** | The server's password, if it has one. Leave blank if not.<br>*Shown as plain text on screen.* | empty |
+| **Nick:** | The name the bot uses in the IRC channel. This nick is always allowed to send commands. Required. | empty |
+| **Channel:** | The IRC channel the bot joins. Required. | empty |
+| **Channel password:** | The channel's key (password). Strongly recommended, because anyone in the channel who is on the Auth list can command your fleet.<br>*Shown as plain text on screen.* | empty |
+| **Auth list:** | IRC nicks allowed to send commands to your fleet, separated by commas. Your own nick above is always allowed. Commands from anyone else are ignored.<br>*Anyone in the channel can add a nick from IRC with -auth, so this list is not real protection - the channel password is. Nicks added that way are not written back here.* | empty |
+| **Save OgreIRC information** | Saves the IRC details above for this whole PC. If 'Connect to IRC' is ticked, it also applies them and connects. |  |
+
+## Good to know
+
+- The IRC settings are only stored when you press 'Save OgreIRC information'. They go to Scripts\OgreSavePrivate\Common\OgreConsoleIRC.json, shared by every character on this PC.
+- Ticking 'Connect to IRC' does not connect right away. It connects the next time this profile loads, or when you press 'Save OgreIRC information'. Unticking it never disconnects.
+- Anyone who can talk in the channel can give themselves command rights with -auth, and a command can do anything, including closing every session. Use a private channel with a password; that is the only real protection.
+- Currently the only thing that pops the console open by itself is an incoming tell passed on from another of your sessions. 'Never auto open' stops that too.
+- Whatever is in the IRC boxes, the two passwords included, is also saved in this character's profile on Save, and so in a Save Custom Profile copy. The log never shows the passwords.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/relay-groups.md
+
+# Relay Groups
+
+A relay group is a named channel that InnerSpace sessions use to talk to each other. Every EQ2 session joins 'ogre_everquest2' by itself, and the bot sends its fleet messages there: cast requests, cure requests, event messages, and the MCP and key-bind syncs. You only need this tab to use a different or extra group, for example to keep two separate fleets apart on one PC. The left side moves this character's fleet messages to another group; the right side joins extra groups each time the profile loads.
+
+| Option | What it does | Default |
+|---|---|---|
+| **Send this bot's fleet commands to another group:** | Sends this character's fleet messages (casts, cures, events, MCP and key-bind syncs) to the group named below instead of 'ogre_everquest2'. Takes effect as soon as you tick or untick it, and again at every profile load.<br>*Unticked always means 'ogre_everquest2', whatever the box below says.* | off |
+| **Group:** | The group to send to while the box above is ticked. This character joins it straight away. Blank means 'ogre_everquest2'.<br>*Letters, numbers and _ only.* | empty |
+| **Put it back when OgreBot closes:** | When OgreBot closes, this character goes back to sending to the group in 'Back to' (or 'ogre_everquest2' if that is blank). Unticked, it keeps sending to whatever group was in use.<br>*Matters because parts of Ogre, such as MCP, still send messages after OgreBot closes.* | off |
+| **Back to:** | The group to go back to when OgreBot closes. Blank means 'ogre_everquest2'. | empty |
+| **Also join these groups (joined on every profile load)** | Extra relay groups this character joins, in addition to the one it sends to. Each is joined when you add it and again every time the profile loads. | empty |
+| **Leave the groups above when OgreBot closes** | When OgreBot closes, this character leaves every group on the list above. It never leaves 'ogre_everquest2', even if that is on the list. | off |
+
+## Extra groups
+
+| Control | What it does | Default |
+|---|---|---|
+| **Relay group to auto-join** | Type a group name here, then press Add. | empty |
+| **Add** | Adds the typed group to the list and joins it straight away.<br>*Press Save to keep the list for next time.* |  |
+| **x (remove a row)** | Takes the group off the list. This character stays in it until OgreBot closes (and leaves only if the box below is ticked). |  |
+
+## Good to know
+
+- Changing the group only changes where THIS character sends. The others only hear it if they are in that group too, so set the same group on every character of that fleet.
+- This character never leaves 'ogre_everquest2', so it still hears everything sent there.
+- Group names can only use letters, numbers and _. Anything else is removed when you add a row, so the name you see is the one that is joined now and on every profile load.
+- Removing a row from the 'Also join' list does not leave that group now. It is left only when OgreBot closes, and only if 'Leave the groups above' is ticked.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/uplink-info.md
+
+# Uplink Info
+
+Uplink Info is the list of your other PCs. InnerSpace can link PCs together (each PC's InnerSpace is an 'uplink'), so your characters on different PCs can talk to each other. 'Connect to all' links this PC to every PC on the list; 'Disconnect from all' drops those links. MCP's Connect and Disconnect buttons use this same list. The list belongs to the PC, not to a character, and is saved as soon as you change it.
+
+| Option | What it does | Default |
+|---|---|---|
+| **Uplinks** | The PCs this PC can link to. The row for this PC is marked 'this PC - skipped'. | empty |
+| **Connect to all** | Links this PC to every other PC on the list, one after another. Same as MCP's Connect button.<br>*Does nothing if the list is empty or holds only this PC.* |  |
+| **Disconnect from all** | Drops the link from this PC to every other PC on the list. Same as MCP's Disconnect button. |  |
+
+## Uplinks
+
+| Control | What it does | Default |
+|---|---|---|
+| **Uplink name of another PC** | Type another PC's uplink name, then press Add or Enter. | empty |
+| **Add** | Adds the typed name to the list and saves it at once. A name already on the list is refused. |  |
+| **Add this PC** | Adds this PC's own uplink name to the list. The button shows the name once it is known. |  |
+| **x (remove this PC from the list)** | Takes that PC off the list and saves at once. It does not disconnect it. |  |
+
+## Good to know
+
+- Names must be each PC's InnerSpace uplink name, exactly. 'Add this PC' fills in this PC's name for you, so running it once on each PC and copying the names is the easy way.
+- This PC is always skipped when connecting, so it is fine to keep the same list on every PC.
+- The list is saved in Scripts\OgreSave\Common\Uplinks.json, shared by every game on this PC.
+- If several of your characters on this PC press Connect at almost the same moment (for example from an MCP button sent to all), only the first one does it; the rest are ignored for 3 seconds.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/class-tab.md
+
+# Class tab
+
+The class tab is named after your class (Coercer, Dirge, Channeler, and so on) and sits in the top group of tabs next to Settings and Setup. It only holds options for your own class, so every character sees a different tab. Thirteen classes have options here. Berserker, Wizard, Illusionist and Templar show only a heading with nothing below it, and every other class shows '(no class-specific options for ...)'. Most of these options came over from the old bot and are not active yet in the new bot. The ones that work today are the Channeler's Construct's Sacrifice pet health % and conduits, the Coercer's Possess Essence options, the Dirge's Confront Fear options, and the Conjuror and Necromancer Dimensional Storage box.
+
+## Assassin
+
+| Option | What it does | Default |
+|---|---|---|
+| **Exploit Weakness** | **Not active yet.** It is meant to control how the bot uses the Exploit Weakness ability. | off |
+
+## Brigand
+
+| Option | What it does | Default |
+|---|---|---|
+| **While Crimson Swath (Epic 2.0 buff) is up, cast Barrooms in cast stack ignoring # of NPCs.** | **Not active yet.** It is meant to let your Barroom abilities on the Cast Stack fire while Crimson Swath is up, even when too few mobs are in range for the area-attack rules. | off |
+
+## Channeler
+
+| Option | What it does | Default |
+|---|---|---|
+| **Use this conduit with Efficiency:** | Whenever your Efficiency buff is up, the bot casts the conduit picked in the drop-down beside it as soon as it is ready.<br>*Only while the bot is running. It does not need a target.* | off |
+| **(drop-down beside the box)** | The conduit to cast while Efficiency is up. The list shows your abilities that fit conduit slots 1 to 3, from your ability export.<br>*The saved value is the ability's name, so a choice carried over from an old profile works.* | empty |
+| **Use this conduit with Snap Channel:** | Whenever your Snap Channel buff is up, the bot casts the conduit picked in the drop-down beside it as soon as it is ready.<br>*Only while the bot is running. It does not need a target.* | off |
+| **(drop-down beside the box)** | The conduit to cast while Snap Channel is up. The list shows your abilities that fit conduit slots 4 to 8, from your ability export.<br>*The saved value is the ability's name, so a choice carried over from an old profile works.* | empty |
+| **When CastStack for Construct's Sacrifice says "UseChannelerTab" - only cast if pet health is at or above this %** | For a Construct's Sacrifice entry on your Cast Stack set to 'UseChannelerTab': the bot only casts it in combat, on your own pet, when the pet's health is at or above this %, and not while the buff is already on you.<br>*The ability export tags Construct's Sacrifice as 'UseChannelerTab' for you. Other types ignore this box.* | empty (counts as 0: any pet health) |
+
+## Coercer
+
+| Option | What it does | Default |
+|---|---|---|
+| **Intellectual Remedy rotation text to listen for: (Use Announce for calling out IR)** | **Not active yet.** In the old bot, several coercers took turns casting Intellectual Remedy (IR) by listening for this chat line.<br>*The hint in brackets means: the call-out itself is set up on the Announce tab.* | empty |
+| **Archetype Preference:** | The archetype (fighter, priest, mage or scout) Possess Essence is cast on: the first of you and your group of that archetype who is alive and in the zone - you first. If your pet came from a different essence and someone of this archetype is here, the bot dismisses the pet so the next Possess Essence goes to them.<br>*Empty means Possess Essence is never cast, as in the old bot. Only your group is searched, not the rest of a raid. The list offers fighter, priest, mage and scout.* | empty |
+| **Do not cast in combat.** | Possess Essence is not cast while you are in combat. | off |
+| **Cast outside of instances - such as overland zones and guild halls.** | Allows Possess Essence outside instances. Unticked, it is only cast inside instances. | off |
+
+## Conjuror
+
+| Option | What it does | Default |
+|---|---|---|
+| **Cancel Dimensional Storage in combat when you have no pet** | While the bot is running, if you are in combat with no pet out and Dimensional Storage is on you, the bot cancels Dimensional Storage so your stored pet can come back. It never casts Dimensional Storage itself. | off |
+| **Crystal Blast when Crystalline Destruction procs** | **Not active yet.** It is meant to cast Crystal Blast when Crystalline Destruction procs. | off |
+| **Do NOT automatically cast "Shockwave" while casting other abilities.** | **Not active yet.** In the old bot, Shockwave was slipped in automatically alongside your other casts unless this was ticked. The new bot does not do that automatic cast at all. | off |
+| **Do NOT automatically cast "Shadowstep" while casting other abilities.** | **Not active yet.** In the old bot, Shadowstep was slipped in automatically alongside your other casts unless this was ticked. The new bot does not do that automatic cast at all. | off |
+| **Do NOT automatically cast "Magic Leash" while casting other abilities.** | **Not active yet.** In the old bot, Magic Leash was slipped in automatically alongside your other casts unless this was ticked. The new bot does not do that automatic cast at all. | off |
+
+## Defiler
+
+| Option | What it does | Default |
+|---|---|---|
+| **Do not use leg bite.** | **Not active yet.** In the old bot, Leg Bite was cast automatically alongside your other abilities unless this was ticked.<br>*One encounter file (the Unseen) ticks it for 20 seconds, but nothing reads it yet.* | off |
+
+## Dirge
+
+| Option | What it does | Default |
+|---|---|---|
+| **COB rotation text to listen for: (Use Announce for calling out COB)** | **Not active yet.** In the old bot, several dirges took turns on their COB ability by listening for this chat line.<br>*The hint in brackets means: the call-out itself is set up on the Announce tab. For taking turns today, use the Ability Embargo tab.* | empty |
+| **Cast Confront Fear** | Your dirge casts Confront Fear on whoever is waiting for it: fighters first, then priests, then everyone else, oldest request first. Requests come from your other characters, the request text below, and your own revive sickness.<br>*Nothing is cast while it is unticked: requests still queue and are dropped after 2 minutes. Requests are sent by the 'Request confront fear' boxes on the Other tab of the character who died.* | off |
+| **Confront Fear text to listen for:Example: Need a confront fear** | When someone says a line containing this text in group, raid or a tell, your dirge adds them to its Confront Fear list. Capital letters do not matter.<br>*Empty means chat is not listened to. The cure itself still needs 'Cast Confront Fear' ticked.* | empty |
+| **Confront Fear text to listen for from other dirges: Example: Casting confront fear on** | When another player says a line containing this text in group, raid or a tell, your dirge takes the LAST word of that line as a name and removes that player from its Confront Fear list, so two dirges do not cure the same player.<br>*Put the name at the end of the line, for example 'Casting confront fear on Bob'. Your own lines are ignored. The bot does not say this line itself.* | empty |
+
+## Inquisitor
+
+| Option | What it does | Default |
+|---|---|---|
+| **Verdict On Epics @** | **Not active yet.** It is meant to use Verdict on epic mobs when they reach the health % typed in the box below. | off |
+| **(% box beside it)** | **Not active yet.** The mob health % for 'Verdict On Epics @'. | empty |
+| **Verdict On Epic Named @** | **Not active yet.** It is meant to use Verdict on named epic mobs when they reach the health % typed in the box below. | off |
+| **(% box beside it)** | **Not active yet.** The mob health % for 'Verdict On Epic Named @'. | empty |
+| **Verdict On Heroics @** | **Not active yet.** It is meant to use Verdict on heroic mobs when they reach the health % typed in the box below. | off |
+| **(% box beside it)** | **Not active yet.** The mob health % for 'Verdict On Heroics @'. | empty |
+| **Verdict On Heroic Named @** | **Not active yet.** It is meant to use Verdict on named heroic mobs when they reach the health % typed in the box below. | off |
+| **(% box beside it)** | **Not active yet.** The mob health % for 'Verdict On Heroic Named @'. | empty |
+
+## Mystic
+
+| Option | What it does | Default |
+|---|---|---|
+| **Do not use leg bite.** | **Not active yet.** In the old bot, Leg Bite was cast automatically alongside your other abilities unless this was ticked.<br>*One encounter file (the Unseen) ticks it for 20 seconds, but nothing reads it yet.* | off |
+
+## Necromancer
+
+| Option | What it does | Default |
+|---|---|---|
+| **Cancel Dimensional Storage in combat when you have no pet** | While the bot is running, if you are in combat with no pet out and Dimensional Storage is on you, the bot cancels Dimensional Storage so your stored pet can come back. It never casts Dimensional Storage itself. | off |
+| **Do NOT automatically cast "Shockwave" while casting other abilities.** | **Not active yet.** In the old bot, Shockwave was slipped in automatically alongside your other casts unless this was ticked. The new bot does not do that automatic cast at all. | off |
+| **Do NOT automatically cast "Shadowstep" while casting other abilities.** | **Not active yet.** In the old bot, Shadowstep was slipped in automatically alongside your other casts unless this was ticked. The new bot does not do that automatic cast at all. | off |
+| **Do NOT automatically cast "Magic Leash" while casting other abilities.** | **Not active yet.** In the old bot, Magic Leash was slipped in automatically alongside your other casts unless this was ticked. The new bot does not do that automatic cast at all. | off |
+
+## Ranger
+
+| Option | What it does | Default |
+|---|---|---|
+| **Exploit Weakness** | **Not active yet.** It is meant to control how the bot uses the Exploit Weakness ability. | off |
+| **Cancel Focus Aim** | **Not active yet.** It is meant to let the bot cancel your Focus Aim. | off |
+| **Cancel Wreak Havoc** | **Not active yet.** It is meant to let the bot cancel your Wreak Havoc.<br>*The bot does notice Wreak Havoc on its own (it lets you cast while moving), but this box plays no part in that.* | off |
+| **Cancel Tracing Shot** | **Not active yet.** It is meant to let the bot cancel your Tracing Shot. | off |
+
+## Troubador
+
+| Option | What it does | Default |
+|---|---|---|
+| **POTM rotation text to listen for: (Use Announce for calling out POTM)** | **Not active yet.** In the old bot, several troubadors took turns casting Perfection of the Maestro (POTM) by listening for this chat line.<br>*The hint in brackets means: the call-out itself is set up on the Announce tab. For taking turns today, use the Ability Embargo tab.* | empty |
+
+## Warlock
+
+| Option | What it does | Default |
+|---|---|---|
+| **Toggle Myth Click Automatically** | **Not active yet.** It is meant to let the bot switch your Mythical weapon's click on and off for you. | off |
+| **Do NOT Force Myth OFF for Dark Siphoning** | **Not active yet.** It belongs to 'Toggle Myth Click Automatically' above: it would stop the bot turning the Myth click off for Dark Siphoning. | off |
+| **Debugging for Myth** | **Not active yet.** It would print extra messages about the automatic Myth toggle. | off |
+
+## Good to know
+
+- Only your own class's options are shown. To see another class's tab, open the bot on a character of that class.
+- Most boxes here are saved with your profile but do nothing yet in the new bot. Each one below says so.
+- The three 'rotation text to listen for' boxes (Troubador POTM, Dirge COB, Coercer Intellectual Remedy) belong to an old way of taking turns that the new bot does not use. The Ability Embargo tab is the current way to share an ability between several players.
+- Channeler: the conduit drop-downs hold an ability NAME. A choice carried over from an old profile works; the bot finds that ability in your ability export.
+- Coercer: for the Possess Essence options to count, the Possess Essence entry in your Cast Stack must have the type 'UseCoercerTab' (the ability export sets this for you). With no Archetype Preference chosen, Possess Essence is never cast.
+- Dirge: 'Cast Confront Fear' must be ticked for your dirge to cure anyone - requests from the uplink, from chat, and your own revive sickness. Requests still queue while it is off and are dropped after 2 minutes.
