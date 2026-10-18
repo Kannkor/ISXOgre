@@ -228,6 +228,12 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.10.18.001 {#r2026-10-18-001}
+
+*Sunday, October 18, 2026 at 2:01 PM EDT*
+
+- **New** · Windows: **Your scripts can open their own windows.** A script or extension can now put its own window on Ogre's in-game UI, made from one HTML file: ISXOgreX.UI:Open shows it, ISXOgreX.UI.Value reads its checkboxes and text, ISXOgreX.UI:Set changes them, and the OgreUI_Opened and OgreUI_Closed events say when windows open and close. Two examples ship in Ogre/Common/OgreUI/examples, and the new Build your own window page explains it.
+
 ## 2026.10.17.017 {#r2026-10-17-017}
 
 *Saturday, October 17, 2026 at 1:21 AM EDT*
