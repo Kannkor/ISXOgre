@@ -220,18 +220,17 @@ The value is kept up to date as the player types, clicks and picks. Elements tha
 `Set` fires the element's `change` (and, for text, `input`) event, so your window's own script reacts just
 as it would if the player had done it. Setting a checkbox to the state it is already in fires nothing.
 
-**`Set` takes effect on the next frame.** Read the value straight after a `Set` and you get the old one;
-after a `waitframe` you get the new one:
+**You can read your own change straight back**, even inside an event handler:
 
 ```
 ISXOgreX.UI:Set[hello,hello-name,"Mirelle"]
-echo ${ISXOgreX.UI.Value[hello,hello-name]}      ; still the old name
-waitframe
 echo ${ISXOgreX.UI.Value[hello,hello-name]}      ; Mirelle
 ```
 
-`waitframe` (like `wait`) works in a `function`, not in an `atom`: an event handler cannot wait. If you set
-something from an event handler and need to read it back, do the reading in your `main` loop.
+The window applies a `Set` a moment after it is made. A `Value` read of an element you have just changed
+waits for that, which takes well under a millisecond. Anything your window's own script changes in its
+`change` or `input` handler, with `ogreUISet`, is in by then too. Reads of elements you have not just
+changed never wait.
 
 Put the value in double quotes when it has spaces or commas in it: `ISXOgreX.UI:Set[hello,hello-name,"Mirelle Dawn"]`.
 
@@ -319,8 +318,8 @@ atom(script) OnClosed(string name, string reason)
 | `Width`, `Height` | int | Its size on the screen, in pixels, after its scale. |
 
 Ogre can hide a window without closing it: for example, when the player has Ogre hide the windows that the
-InnerSpace console covers. A hidden window keeps the position it last had on screen. Like `Value`, the
-position is a frame behind a move.
+InnerSpace console covers. A hidden window keeps the position it last had on screen. While the player
+drags or resizes a window, the position can be a frame behind.
 
 ## The ? button
 
@@ -402,7 +401,7 @@ pISInterface->DetachEventTarget(ev, OnUIClosed);
 
 ## Pitfalls
 
-Each of these was checked in game on 2026-10-17.
+Each of these was checked in game on 2026-10-17 or 2026-10-18.
 
 | You try | What happens |
 |---|---|
@@ -413,9 +412,21 @@ Each of these was checked in game on 2026-10-17.
 | `<script src="...">`, `<link rel="stylesheet" href="...">`, `<img src="...">` | Nothing loads, whether the path is a full `file:///` path or a relative one; the UI log says `Not allowed to load local resource: file:///...`. The window has no web address (`about:blank`). Put styles and scripts inline in your file, and images in as inline SVG or `data:` URIs. |
 | `console.log('...')` | Goes to `<InnerSpace folder>\x64\Extensions\ISXDK35\OgreUIRuntime\ISXOgreUIHost.log`, as a line ending `CONSOLE: ...`, not to the InnerSpace console. Every session on the PC writes to that one file. |
 | A command over 8,191 bytes through `ogreCall('cmd', ...)` | Dropped, with only a line in that same log. |
-| Reading `Value` straight after `Set` | The old value. Wait one frame (`waitframe`). |
+| `<select>` | Drawn as a small empty box that cannot be clicked or opened. Use the gallery's dropdown. |
+| `<input type="number">` | No up/down arrows. Only digits can be typed: a letter empties the box. Use a text box, or the gallery's number field or stepper. |
+| `<input type="color">` | Drawn as a text box showing the color code; clicking it opens nothing. Use the gallery's color picker. |
+| `<datalist>` | No suggestions ever appear. Use the gallery's combobox. |
 | `</script>` written inside your script's text | Ends the block there, as in any HTML page. None of that block runs, the UI log says `UI:Open <name>: script error - SyntaxError: Unexpected EOF`, and the rest of it shows as text in your window. Split it: `'</scr' + 'ipt>'`. |
 | An error in your window's script | Nothing in the console. The UI log gets `UI:Open <name>: script error - <the error>`, and that block stops; the other blocks still run. |
+
+A `title="..."` on any element shows as a tooltip when the mouse rests on it: Ogre draws it for you.
+
+**Typing in your window.** While a text box in your window has the cursor, the keyboard types into it and
+the game does not see the keys. Your InnerSpace console key still opens the console.
+
+- **Escape** clears the box's text and keeps the cursor; a second Escape gives the keyboard back to the game.
+- **Enter** in a one-line text box runs your window's own Enter handling first, then gives the keyboard back
+  to the game. In a text area, Enter starts a new line.
 
 Modern JavaScript (arrow functions, `const`, template strings) works. Ogre's own windows are written in plain
 older JavaScript, which works too.
@@ -432,7 +443,7 @@ which replaces Ogre's entire UI and does not bring it back.
 |---|---|---|---|
 | `ISXOgreX.UI:Open` | method | `name`, `path`, optional `helpPath` | Opens window `name` from the file at `path`; nothing if it is already open. |
 | `ISXOgreX.UI:Close` | method | `name` | Closes window `name`. |
-| `ISXOgreX.UI:Set` | method | `name`, `id`, `value` | Changes element `id` in window `name` (next frame). |
+| `ISXOgreX.UI:Set` | method | `name`, `id`, `value` | Changes element `id` in window `name`; a `Value` read of it right after answers the new value. |
 | `ISXOgreX.UI.Value` | member | `name`, `id` | string: the element's value; `NULL` if the window is not open or there is no such element. |
 | `ISXOgreX.UI.Window` | member | `name` | The open window, or `NULL`. |
 | `.Name` | member of `Window` | - | string |

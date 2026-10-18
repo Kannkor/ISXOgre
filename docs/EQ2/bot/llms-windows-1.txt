@@ -20,11 +20,14 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 >
 > - **Pause / Resume** - Pause stops the bot acting on its own (casting, following, camp spot, looting, Auto-Hunt). The button turns yellow and reads Resume.
 > - **Hide Main / Show Main** - hides or shows the main OgreBot window. The bot keeps running.
+> - **The top line** shows your class. The **cog** in the title bar lets you choose what this window shows: your class, your character's name, and a line saying what the bot is doing. Tick what you want and press Done.
+> - **What the bot is doing** (the bottom line) - Paused, the ability it is casting (Cast: ...) or item it is using (Item: ...), who it is following, Campspot active, or Idle.
 >
 > **Good to know**
 >
 > - The X on this window stops OgreBot completely, the same as the X on the main window. Unsaved changes are lost.
-> - A yellow star (*) in the title bar means the profile has unsaved changes.
+> - A yellow star (*) in the title bar means the profile has unsaved changes. Hover over it to see that.
+> - Your choices from the cog are kept for next time.
 > - Pause only affects this character. Commands you send still work while paused.
 
 **Open it:** It opens by itself whenever OgreBot loads (type `ogre`), next to the main OgreBot window. `ogre end bot` closes both. Opening it again while it is open does nothing (typing `ogre` reloads the whole bot instead).

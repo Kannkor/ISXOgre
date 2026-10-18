@@ -228,6 +228,21 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.10.18.002 {#r2026-10-18-002}
+
+*Sunday, October 18, 2026 at 7:06 PM EDT*
+
+- **New** · Windows: **The small OgreBot window shows your class and what the bot is doing.** The small OgreBot window now has a line with your class, and a line saying what the bot is doing: paused, the ability or item it is using, who it is following, or that its camp spot is active. The cog in its title bar lets you choose what it shows. Hovering the yellow star now says it means unsaved changes.
+- **Changed** · Windows: **A window's value reads back at once after your script changes it.** After ISXOgreX.UI:Set changes an element in your own window, ISXOgreX.UI.Value now reads the new value straight away, even inside an event handler. Before, the read returned the old value until the next frame and a script had to waitframe first.
+- **Fixed** · Bot: **A cast that is out of range or out of sight gives up at once.** When the game says your target is too far away or out of sight, or the spell fizzles or is interrupted, the cast stack now moves on straight away instead of waiting 3 seconds. Auto-attack range messages are not mistaken for it.
+- **Fixed** · Bot: **Cures set to yourself no longer spam.** A cure in the cast stack aimed at yourself (@Me) kept starting and cancelling over and over when you had nothing it could cure. It now casts only when you actually have a detriment that cure removes, as OgreBot Classic did.
+- **Fixed** · Bot: **Trades from your own characters are accepted automatically.** When one of the characters on your EQ2Chars list accepts a trade with you, the bot now accepts it too, as OgreBot Classic did. Trades with anyone else are never accepted. To turn it off, tick "Do not auto accept trades from trusted toons" in the Pop up windows options.
+- **Fixed** · Windows: **Enter leaves a text box again.** Pressing Enter in a one-line text box in any Ogre window gives the keyboard back to the game, like a second Escape. On some PCs Enter did nothing and the box kept the keyboard. Restart the game after patching to get the fix.
+- **Fixed** · Windows: **Holding a key repeats in Ogre text boxes.** Holding an arrow key, Backspace, Delete or a letter in an Ogre text box now repeats it like any other Windows text box, at your Windows keyboard repeat speed. Hold Shift with an arrow to keep selecting text.
+- **Fixed** · Windows: **Migrated raw-command and Inviter buttons work again.** Raw-command buttons brought over from OgreBot Classic were wrapped in quotes and did nothing, and Inviter buttons invited nobody. Both are fixed: new imports come out right, and buttons already imported are fixed once, automatically, with a backup of your button file kept next to it.
+- **Fixed** · Windows: **The Restock profile picker can be clicked.** In the Inventory Manager, the Profile box on the Restock tab could not be opened, so you could only ever see the first profile. It is now a normal Ogre dropdown. The number boxes in the Inventory Manager and Auto-Login no longer empty themselves when a letter is typed.
+- **Fixed** · Console: **A restarted bot no longer reads as frozen for minutes.** After the bot was reloaded inside a running game, the session watch kept calling that session frozen for several minutes before saying it had recovered. It now sees the reloaded bot straight away.
+
 ## 2026.10.18.001 {#r2026-10-18-001}
 
 *Sunday, October 18, 2026 at 2:01 PM EDT*
