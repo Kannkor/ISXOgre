@@ -17,7 +17,7 @@ Invis Abilities lists the stealth abilities the bot may use to open a Cast Stack
 
 | Control | What it does |
 |---|---|
-| **Grip (drag)** | Drag a row up or down to change which opener is tried first. |
+| **Drag a row** | Drag a row up or down to change which opener is tried first. |
 | **Double-click a row** | Switches that ability off or back on. A switched-off row is struck through and never used. |
 | **x (remove)** | Removes that ability from the list. |
 

@@ -10,7 +10,7 @@ Despawn Event is the opposite of Spawn Events: it fires when something whose nam
 
 | Option | What it does | Default |
 |---|---|---|
-| **Configured Events** | Your despawn events. Click a row to edit it, double-click to switch it off or on, drag the grip to reorder, and click X to delete it.<br>*A switched-off row is kept but never fires.* | empty |
+| **Configured Events** | Your despawn events. Click a row to edit it, double-click to switch it off or on, drag a row to reorder, and click X to delete it.<br>*A switched-off row is kept but never fires.* | empty |
 
 ## Add an event
 

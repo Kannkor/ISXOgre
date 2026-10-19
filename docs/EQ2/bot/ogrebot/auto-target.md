@@ -52,7 +52,7 @@ Auto Target lets the bot pick its own targets from a list, instead of assisting 
 | Control | What it does | Default |
 |---|---|---|
 | **Working list — what the bot auto-targets (N)** | The rows Auto Target uses right now, top first. Each row shows its number, the name ('(any)' if blank), the health range ('HP any' or e.g. 'HP 20–80', ∞ for no upper limit) and badges for the ticked options (CC, AG, ANF, ANMe). | empty |
-| **Grip (drag)** | Drag a row up or down to change its priority. |  |
+| **Drag a row** | Drag a row up or down to change its priority. |  |
 | **Click a row's name** | Loads that row into the form on the left for editing; the row is highlighted. |  |
 | **Double-click a row** | Switches that row off or back on. A switched-off row is struck through and skipped, but keeps its place. |  |
 | **✎ (edit)** | Loads that row into the form for editing, the same as clicking its name. |  |

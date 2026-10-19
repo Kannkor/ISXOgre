@@ -10,7 +10,7 @@ Chat Events watches the game's incoming text for words you choose. When a line c
 
 | Option | What it does | Default |
 |---|---|---|
-| **Configured Events** | Your chat events. Each row shows the text it watches for, its command, and OC or Ding if ticked. Click a row to edit it, double-click to switch it off or on, drag the grip to reorder, and click X to delete it.<br>*A switched-off row is kept but never fires. The order does not change anything; every active row is checked.* | empty |
+| **Configured Events** | Your chat events. Each row shows the text it watches for, its command, and OC or Ding if ticked. Click a row to edit it, double-click to switch it off or on, drag a row to reorder, and click X to delete it.<br>*A switched-off row is kept but never fires. The order does not change anything; every active row is checked.* | empty |
 
 ## Add an event
 

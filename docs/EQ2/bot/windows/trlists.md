@@ -14,7 +14,7 @@
 > - **List** - click the box and type to find a list (they are in alphabetical order). Type a name that is not a list yet and pick **+ New list** (or press Enter) to make it.
 > - **New / Duplicate / Rename / Delete** act on the selected list. Duplicate copies the members, their order and the run mode.
 > - **Click a character** on the left to add it to the selected list. Use the **search** box to find a character or account. In **By account**, right-click an account and pick **Add all toons** (or open it and press **Add all**) to add the whole account - anyone already in the list is skipped.
-> - **Drag the grip** at the left of a member to change the order the list runs in.
+> - **Drag a member row** up or down to change the order the list runs in.
 > - **Chore buttons** on a row turn a chore on or off for that character. The **Everyone in** row does it for the whole list.
 > - **When run** - **Keep looping** (stays running and picks chores up as they come due - leave it overnight) or **One pass** (does what is due now, then stops).
 > - **Stagger start** - each session waits before its first login (is2 30 seconds, is3 60 seconds, and so on). Leave it on when one command starts lists on every session, or the server turns some logins away.

@@ -24,5 +24,5 @@ Unload is a list of commands the bot runs, top to bottom, when OgreBot closes. T
 - The list takes console commands. To run an in-game slash command, start the line with `eq2execute`.
 - Unlike the Load tab, a command you add here is NOT run when you add it. It only runs when OgreBot closes.
 - Commas and ] are removed from a command when you add it. A line that needs them will not run as typed.
-- Double-click a line to switch it off without deleting it. Drag the grip to change the order. The x removes it.
+- Double-click a line to switch it off without deleting it. Drag a row to change the order. The x removes it.
 

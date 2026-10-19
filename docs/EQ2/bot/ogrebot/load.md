@@ -34,5 +34,5 @@ Load holds things the bot does every time it loads your profile. The left side s
 - A command you add is run once straight away, so a typo shows up right then.
 - Commas and ] are removed from a command when you add it. A line that needs them will not run as typed.
 - Changing one of the three loot dropdowns does nothing by itself. It is used the next time the profile loads, or when you tick 'Set loot options' again.
-- Double-click a command to switch it off without deleting it. Drag the grip to change the order. The x removes it.
+- Double-click a command to switch it off without deleting it. Drag a row to change the order. The x removes it.
 

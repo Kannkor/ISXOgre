@@ -28,5 +28,5 @@ Pre-Cast casts one thing right BEFORE another. Each row says 'when the Cast Stac
 - An ability must be ready to be pre-cast. Items are not checked for readiness; the bot just tries them.
 - A row that points at itself (the same ability in both lists) is ignored.
 - 'Disable Pre-Cast tab' on the Settings tab switches this whole tab off. While a script has 'Dynamic Ignore Encounter CAs' or 'Dynamic Ignore PBAE CAs' ticked, pre-casts of that kind are skipped too.
-- In 'Pre-casts setup', drag the grip to change the order, double-click a row to switch it off, and the x removes it.
+- In 'Pre-casts setup', drag a row to change the order, double-click a row to switch it off, and the x removes it.
 

@@ -28,5 +28,5 @@ Post-Cast casts one thing right AFTER another has finished. Each row says 'after
 - Names match any rank: 'Assault' also matches 'Assault XIII'. An ability must be ready; items are just tried.
 - A row that points at itself is ignored, and a post-cast never sets off another post-cast or a pre-cast.
 - 'Disable Post-Cast tab' on the Settings tab switches this whole tab off. While a script has 'Dynamic Ignore Encounter CAs' or 'Dynamic Ignore PBAE CAs' ticked, post-casts of that kind are skipped too.
-- In 'Post-casts setup', drag the grip to change the order, double-click a row to switch it off, and the x removes it.
+- In 'Post-casts setup', drag a row to change the order, double-click a row to switch it off, and the x removes it.
 

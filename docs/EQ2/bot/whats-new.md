@@ -10,6 +10,13 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.10.19.001 {#r2026-10-19-001}
+
+*Monday, October 19, 2026 at 1:06 AM EDT*
+
+- **New** · Bot: **Cast Stack - select and move several rows, place new entries, see more on each row.** In the Cast order, click a row to select it (Ctrl+click or Shift+click to select several), then drag any selected row to move them all together. The editor has a new Place button: press it, then click a row, and the new entry goes just above that row. Each row now shows as many of its settings as fit, tags included, without opening it.
+- **Changed** · Bot: **Drag list rows by the row itself.** The drag handles (⠿) are gone from every list that can be reordered: the Cast Stack, Aliases, the order lists, Auto Target, the Instance Controller's Queue and Startup Options, and TaskRunner Lists. Press anywhere on a row and drag it; it only starts moving once the mouse has moved a few pixels, so clicking and double-clicking a row work as before.
+
 ## 2026.10.18.005 {#r2026-10-18-005}
 
 *Sunday, October 18, 2026 at 11:44 PM EDT*

@@ -17,7 +17,7 @@ Assist tells the bot whose fight to join. Pick people (or aliases such as @Tank)
 
 | Control | What it does |
 |---|---|
-| **Grip (drag)** | Drag a row up or down to change who is assisted first. |
+| **Drag a row** | Drag a row up or down to change who is assisted first. |
 | **Double-click a row** | Switches that name off or back on. A switched-off name is struck through and skipped, but keeps its place. |
 | **x (remove)** | Removes that name from the list. |
 

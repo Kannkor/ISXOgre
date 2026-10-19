@@ -227,6 +227,13 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.10.19.001 {#r2026-10-19-001}
+
+*Monday, October 19, 2026 at 1:06 AM EDT*
+
+- **New** · Bot: **Cast Stack - select and move several rows, place new entries, see more on each row.** In the Cast order, click a row to select it (Ctrl+click or Shift+click to select several), then drag any selected row to move them all together. The editor has a new Place button: press it, then click a row, and the new entry goes just above that row. Each row now shows as many of its settings as fit, tags included, without opening it.
+- **Changed** · Bot: **Drag list rows by the row itself.** The drag handles (⠿) are gone from every list that can be reordered: the Cast Stack, Aliases, the order lists, Auto Target, the Instance Controller's Queue and Startup Options, and TaskRunner Lists. Press anywhere on a row and drag it; it only starts moving once the mouse has moved a few pixels, so clicking and double-clicking a row work as before.
+
 ## 2026.10.18.005 {#r2026-10-18-005}
 
 *Sunday, October 18, 2026 at 11:44 PM EDT*
@@ -503,7 +510,7 @@ Auto Target lets the bot pick its own targets from a list, instead of assisting 
 | Control | What it does | Default |
 |---|---|---|
 | **Working list — what the bot auto-targets (N)** | The rows Auto Target uses right now, top first. Each row shows its number, the name ('(any)' if blank), the health range ('HP any' or e.g. 'HP 20–80', ∞ for no upper limit) and badges for the ticked options (CC, AG, ANF, ANMe). | empty |
-| **Grip (drag)** | Drag a row up or down to change its priority. |  |
+| **Drag a row** | Drag a row up or down to change its priority. |  |
 | **Click a row's name** | Loads that row into the form on the left for editing; the row is highlighted. |  |
 | **Double-click a row** | Switches that row off or back on. A switched-off row is struck through and skipped, but keeps its place. |  |
 | **✎ (edit)** | Loads that row into the form for editing, the same as clicking its name. |  |
@@ -553,7 +560,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogre
 
 # Cast Stack
 
-The Cast Stack is the bot's main casting list. Every turn the bot walks the Cast order from the top and casts the FIRST entry that is allowed right now, so the order is your priority. The tab has three columns. Abilities (left) lists this character's abilities plus your registered items; click one to start a new entry. The entry editor (middle) sets the entry's Type, Target and optional conditions and options; only fields marked with a red * are required, and the fields shown change with the ability and the Type you pick. Press Add to put it at the bottom of the Cast order, or ↑ Top to put it at the top. The Cast order (right) shows every entry coloured by its Type: click a name to edit it, double-click to switch it off, drag the grip to move it, and click ▶ to see its settings. Edits reach the running bot at once, but press Save at the top to keep them.
+The Cast Stack is the bot's main casting list. Every turn the bot walks the Cast order from the top and casts the FIRST entry that is allowed right now, so the order is your priority. The tab has three columns. Abilities (left) lists this character's abilities plus your registered items; click one to start a new entry. The entry editor (middle) sets the entry's Type, Target and optional conditions and options; only fields marked with a red * are required, and the fields shown change with the ability and the Type you pick. Press Add to put it at the bottom of the Cast order, ↑ Top to put it at the top, or Place and then click a row to put it just above that row. The Cast order (right) shows every entry coloured by its Type: click an entry to select it and open it in the editor, double-click to switch it off, drag an entry to move it, and click ▶ to see its settings. Ctrl+click or Shift+click entries to select several, then drag any one of them to move them all. Edits reach the running bot at once, but press Save at the top to keep them.
 
 ## Abilities (left column)
 
@@ -567,6 +574,7 @@ The Cast Stack is the bot's main casting list. Every turn the bot walks the Cast
 | Control | What it does |
 |---|---|
 | **↑ Top** | Adds the entry to the TOP of the Cast order instead, so it is checked first. |
+| **Place** | Choose where the entry goes: press Place (it reads Placing…), then click any row in the Cast order and the entry is added just above it. Press it again, or Cancel, to stop. |
 | **Update** | Shown while editing an existing entry: saves your changes to it. |
 | **+ New** | Shown while editing: adds a copy with your changes as a new entry at the bottom, leaving the original as it was. |
 | **Cancel** | Throws away what is in the editor without changing the Cast order. |
@@ -575,9 +583,10 @@ The Cast Stack is the bot's main casting list. Every turn the bot walks the Cast
 
 | Control | What it does |
 |---|---|
-| **⠿ (drag)** | Drag an entry up or down to change its priority. |
+| **Drag a row** | Press an entry and drag it up or down to change its priority - anywhere on the row; the drag starts once the mouse moves a few pixels, so a click is never taken for a drag. Dragging a selected entry moves every selected entry, kept in their order. |
 | **▶ / ▼** | Shows or hides the entry's settings under the row, or '(no options set)'. |
-| **Click an entry's name** | Opens the entry in the editor, where Update saves your changes. The row being edited is outlined. |
+| **Click an entry** | Selects the entry at once and, a moment later (after the double-click wait), opens it in the editor, where Update saves your changes. The entry being edited is always part of the selection: selecting a different entry closes the edit. |
+| **Ctrl+click / Shift+click a name** | Ctrl+click adds or removes one entry from the selection; Shift+click selects every entry from the last one you clicked. Selected entries are outlined and the heading counts them. Drag any selected entry to move them all together. A plain click selects just that entry. |
 | **Double-click an entry** | Switches the entry off or back on. A switched-off entry is struck through and never cast, but keeps its place. |
 | **✕ (remove)** | Removes the entry. The Undo button below can put it back. |
 | **↶ Undo remove (N)** | Puts the last removed entry back where it was. It remembers up to 25 removals. |
@@ -1046,7 +1055,7 @@ An alias is a nickname for one character, so your setup can say `*MainTank` inst
 
 ## Good to know
 
-- The alias list is drawn by its own code. Each row shows the alias, an arrow, and who it is for; NR means 'no raid'. Drag the grip to reorder, double-click a row to switch it off, and the x deletes it (after a confirm).
+- The alias list is drawn by its own code. Each row shows the alias, an arrow, and who it is for; NR means 'no raid'. Drag a row to reorder, double-click a row to switch it off, and the x deletes it (after a confirm).
 - Several rows can share one alias name. The first row, from the top, that finds a character in your group or raid wins, so later rows are backups. Drag rows to choose which one is tried first.
 - The name colour tells you two things. Green: used on the Cast Stack, and this row is the one the alias points to now. Yellow: used on the Cast Stack, but a different row (or nobody) wins right now. Orange: not used on the Cast Stack, but this row wins. Red: not used on the Cast Stack, and this row does not win.
 - With 'Enable Aliases' (Settings tab) off, no alias resolves: every row shows yellow or red and a line above the list says so.
@@ -1122,7 +1131,7 @@ Assist tells the bot whose fight to join. Pick people (or aliases such as @Tank)
 
 | Control | What it does |
 |---|---|
-| **Grip (drag)** | Drag a row up or down to change who is assisted first. |
+| **Drag a row** | Drag a row up or down to change who is assisted first. |
 | **Double-click a row** | Switches that name off or back on. A switched-off name is struck through and skipped, but keeps its place. |
 | **x (remove)** | Removes that name from the list. |
 
@@ -1264,7 +1273,7 @@ Chat Events watches the game's incoming text for words you choose. When a line c
 
 | Option | What it does | Default |
 |---|---|---|
-| **Configured Events** | Your chat events. Each row shows the text it watches for, its command, and OC or Ding if ticked. Click a row to edit it, double-click to switch it off or on, drag the grip to reorder, and click X to delete it.<br>*A switched-off row is kept but never fires. The order does not change anything; every active row is checked.* | empty |
+| **Configured Events** | Your chat events. Each row shows the text it watches for, its command, and OC or Ding if ticked. Click a row to edit it, double-click to switch it off or on, drag a row to reorder, and click X to delete it.<br>*A switched-off row is kept but never fires. The order does not change anything; every active row is checked.* | empty |
 
 ## Add an event
 
@@ -1432,7 +1441,7 @@ Despawn Event is the opposite of Spawn Events: it fires when something whose nam
 
 | Option | What it does | Default |
 |---|---|---|
-| **Configured Events** | Your despawn events. Click a row to edit it, double-click to switch it off or on, drag the grip to reorder, and click X to delete it.<br>*A switched-off row is kept but never fires.* | empty |
+| **Configured Events** | Your despawn events. Click a row to edit it, double-click to switch it off or on, drag a row to reorder, and click X to delete it.<br>*A switched-off row is kept but never fires.* | empty |
 
 ## Add an event
 
@@ -1608,7 +1617,7 @@ Invis Abilities lists the stealth abilities the bot may use to open a Cast Stack
 
 | Control | What it does |
 |---|---|
-| **Grip (drag)** | Drag a row up or down to change which opener is tried first. |
+| **Drag a row** | Drag a row up or down to change which opener is tried first. |
 | **Double-click a row** | Switches that ability off or back on. A switched-off row is struck through and never used. |
 | **x (remove)** | Removes that ability from the list. |
 
@@ -1734,7 +1743,7 @@ Load holds things the bot does every time it loads your profile. The left side s
 - A command you add is run once straight away, so a typo shows up right then.
 - Commas and ] are removed from a command when you add it. A line that needs them will not run as typed.
 - Changing one of the three loot dropdowns does nothing by itself. It is used the next time the profile loads, or when you tick 'Set loot options' again.
-- Double-click a command to switch it off without deleting it. Drag the grip to change the order. The x removes it.
+- Double-click a command to switch it off without deleting it. Drag a row to change the order. The x removes it.
 
 
 ---
@@ -2064,7 +2073,7 @@ Post-Cast casts one thing right AFTER another has finished. Each row says 'after
 - Names match any rank: 'Assault' also matches 'Assault XIII'. An ability must be ready; items are just tried.
 - A row that points at itself is ignored, and a post-cast never sets off another post-cast or a pre-cast.
 - 'Disable Post-Cast tab' on the Settings tab switches this whole tab off. While a script has 'Dynamic Ignore Encounter CAs' or 'Dynamic Ignore PBAE CAs' ticked, post-casts of that kind are skipped too.
-- In 'Post-casts setup', drag the grip to change the order, double-click a row to switch it off, and the x removes it.
+- In 'Post-casts setup', drag a row to change the order, double-click a row to switch it off, and the x removes it.
 
 
 ---
@@ -2095,7 +2104,7 @@ Pre-Cast casts one thing right BEFORE another. Each row says 'when the Cast Stac
 - An ability must be ready to be pre-cast. Items are not checked for readiness; the bot just tries them.
 - A row that points at itself (the same ability in both lists) is ignored.
 - 'Disable Pre-Cast tab' on the Settings tab switches this whole tab off. While a script has 'Dynamic Ignore Encounter CAs' or 'Dynamic Ignore PBAE CAs' ticked, pre-casts of that kind are skipped too.
-- In 'Pre-casts setup', drag the grip to change the order, double-click a row to switch it off, and the x removes it.
+- In 'Pre-casts setup', drag a row to change the order, double-click a row to switch it off, and the x removes it.
 
 
 ---
@@ -2134,7 +2143,7 @@ Spawn Events works like Chat Events, but it watches for things appearing around 
 
 | Option | What it does | Default |
 |---|---|---|
-| **Configured Events** | Your spawn events. Click a row to edit it, double-click to switch it off or on, drag the grip to reorder, and click X to delete it.<br>*A switched-off row is kept but never fires. Every active row is checked, so the order does not matter.* | empty |
+| **Configured Events** | Your spawn events. Click a row to edit it, double-click to switch it off or on, drag a row to reorder, and click X to delete it.<br>*A switched-off row is kept but never fires. Every active row is checked, so the order does not matter.* | empty |
 
 ## Add an event
 
@@ -2233,7 +2242,7 @@ Unload is a list of commands the bot runs, top to bottom, when OgreBot closes. T
 - The list takes console commands. To run an in-game slash command, start the line with `eq2execute`.
 - Unlike the Load tab, a command you add here is NOT run when you add it. It only runs when OgreBot closes.
 - Commas and ] are removed from a command when you add it. A line that needs them will not run as typed.
-- Double-click a line to switch it off without deleting it. Drag the grip to change the order. The x removes it.
+- Double-click a line to switch it off without deleting it. Drag a row to change the order. The x removes it.
 
 
 ---
@@ -6029,7 +6038,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - **List** - click the box and type to find a list (they are in alphabetical order). Type a name that is not a list yet and pick **+ New list** (or press Enter) to make it.
 > - **New / Duplicate / Rename / Delete** act on the selected list. Duplicate copies the members, their order and the run mode.
 > - **Click a character** on the left to add it to the selected list. Use the **search** box to find a character or account. In **By account**, right-click an account and pick **Add all toons** (or open it and press **Add all**) to add the whole account - anyone already in the list is skipped.
-> - **Drag the grip** at the left of a member to change the order the list runs in.
+> - **Drag a member row** up or down to change the order the list runs in.
 > - **Chore buttons** on a row turn a chore on or off for that character. The **Everyone in** row does it for the whole list.
 > - **When run** - **Keep looping** (stays running and picks chores up as they come due - leave it overnight) or **One pass** (does what is due now, then stops).
 > - **Stagger start** - each session waits before its first login (is2 30 seconds, is3 60 seconds, and so on). Leave it on when one command starts lists on every session, or the server turns some logins away.

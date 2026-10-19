@@ -10,7 +10,7 @@ Spawn Events works like Chat Events, but it watches for things appearing around 
 
 | Option | What it does | Default |
 |---|---|---|
-| **Configured Events** | Your spawn events. Click a row to edit it, double-click to switch it off or on, drag the grip to reorder, and click X to delete it.<br>*A switched-off row is kept but never fires. Every active row is checked, so the order does not matter.* | empty |
+| **Configured Events** | Your spawn events. Click a row to edit it, double-click to switch it off or on, drag a row to reorder, and click X to delete it.<br>*A switched-off row is kept but never fires. Every active row is checked, so the order does not matter.* | empty |
 
 ## Add an event
 

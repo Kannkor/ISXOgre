@@ -4,7 +4,7 @@
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
 
-The Cast Stack is the bot's main casting list. Every turn the bot walks the Cast order from the top and casts the FIRST entry that is allowed right now, so the order is your priority. The tab has three columns. Abilities (left) lists this character's abilities plus your registered items; click one to start a new entry. The entry editor (middle) sets the entry's Type, Target and optional conditions and options; only fields marked with a red * are required, and the fields shown change with the ability and the Type you pick. Press Add to put it at the bottom of the Cast order, or ↑ Top to put it at the top. The Cast order (right) shows every entry coloured by its Type: click a name to edit it, double-click to switch it off, drag the grip to move it, and click ▶ to see its settings. Edits reach the running bot at once, but press Save at the top to keep them.
+The Cast Stack is the bot's main casting list. Every turn the bot walks the Cast order from the top and casts the FIRST entry that is allowed right now, so the order is your priority. The tab has three columns. Abilities (left) lists this character's abilities plus your registered items; click one to start a new entry. The entry editor (middle) sets the entry's Type, Target and optional conditions and options; only fields marked with a red * are required, and the fields shown change with the ability and the Type you pick. Press Add to put it at the bottom of the Cast order, ↑ Top to put it at the top, or Place and then click a row to put it just above that row. The Cast order (right) shows every entry coloured by its Type: click an entry to select it and open it in the editor, double-click to switch it off, drag an entry to move it, and click ▶ to see its settings. Ctrl+click or Shift+click entries to select several, then drag any one of them to move them all. Edits reach the running bot at once, but press Save at the top to keep them.
 
 [![Cast Stack tab](../assets/ogrebot/tab-cast-stack.png)](../assets/ogrebot/tab-cast-stack.png "Click for full size")
 
@@ -20,6 +20,7 @@ The Cast Stack is the bot's main casting list. Every turn the bot walks the Cast
 | Control | What it does |
 |---|---|
 | **↑ Top** | Adds the entry to the TOP of the Cast order instead, so it is checked first. |
+| **Place** | Choose where the entry goes: press Place (it reads Placing…), then click any row in the Cast order and the entry is added just above it. Press it again, or Cancel, to stop. |
 | **Update** | Shown while editing an existing entry: saves your changes to it. |
 | **+ New** | Shown while editing: adds a copy with your changes as a new entry at the bottom, leaving the original as it was. |
 | **Cancel** | Throws away what is in the editor without changing the Cast order. |
@@ -28,9 +29,10 @@ The Cast Stack is the bot's main casting list. Every turn the bot walks the Cast
 
 | Control | What it does |
 |---|---|
-| **⠿ (drag)** | Drag an entry up or down to change its priority. |
+| **Drag a row** | Press an entry and drag it up or down to change its priority - anywhere on the row; the drag starts once the mouse moves a few pixels, so a click is never taken for a drag. Dragging a selected entry moves every selected entry, kept in their order. |
 | **▶ / ▼** | Shows or hides the entry's settings under the row, or '(no options set)'. |
-| **Click an entry's name** | Opens the entry in the editor, where Update saves your changes. The row being edited is outlined. |
+| **Click an entry** | Selects the entry at once and, a moment later (after the double-click wait), opens it in the editor, where Update saves your changes. The entry being edited is always part of the selection: selecting a different entry closes the edit. |
+| **Ctrl+click / Shift+click a name** | Ctrl+click adds or removes one entry from the selection; Shift+click selects every entry from the last one you clicked. Selected entries are outlined and the heading counts them. Drag any selected entry to move them all together. A plain click selects just that entry. |
 | **Double-click an entry** | Switches the entry off or back on. A switched-off entry is struck through and never cast, but keeps its place. |
 | **✕ (remove)** | Removes the entry. The Undo button below can put it back. |
 | **↶ Undo remove (N)** | Puts the last removed entry back where it was. It remembers up to 25 removals. |

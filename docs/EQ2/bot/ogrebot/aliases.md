@@ -25,7 +25,7 @@ An alias is a nickname for one character, so your setup can say `*MainTank` inst
 
 ## Good to know
 
-- The alias list is drawn by its own code. Each row shows the alias, an arrow, and who it is for; NR means 'no raid'. Drag the grip to reorder, double-click a row to switch it off, and the x deletes it (after a confirm).
+- The alias list is drawn by its own code. Each row shows the alias, an arrow, and who it is for; NR means 'no raid'. Drag a row to reorder, double-click a row to switch it off, and the x deletes it (after a confirm).
 - Several rows can share one alias name. The first row, from the top, that finds a character in your group or raid wins, so later rows are backups. Drag rows to choose which one is tried first.
 - The name colour tells you two things. Green: used on the Cast Stack, and this row is the one the alias points to now. Yellow: used on the Cast Stack, but a different row (or nobody) wins right now. Orange: not used on the Cast Stack, but this row wins. Red: not used on the Cast Stack, and this row does not win.
 - With 'Enable Aliases' (Settings tab) off, no alias resolves: every row shows yellow or red and a line above the list says so.

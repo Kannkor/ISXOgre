@@ -16,7 +16,7 @@ Chat Events watches the game's incoming text for words you choose. When a line c
 
 | Option | What it does | Default |
 |---|---|---|
-| **Configured Events** | Your chat events. Each row shows the text it watches for, its command, and OC or Ding if ticked. Click a row to edit it, double-click to switch it off or on, drag the grip to reorder, and click X to delete it.<br>*A switched-off row is kept but never fires. The order does not change anything; every active row is checked.* | empty |
+| **Configured Events** | Your chat events. Each row shows the text it watches for, its command, and OC or Ding if ticked. Click a row to edit it, double-click to switch it off or on, drag a row to reorder, and click X to delete it.<br>*A switched-off row is kept but never fires. The order does not change anything; every active row is checked.* | empty |
 
 ## Add an event
 
@@ -184,7 +184,7 @@ Despawn Event is the opposite of Spawn Events: it fires when something whose nam
 
 | Option | What it does | Default |
 |---|---|---|
-| **Configured Events** | Your despawn events. Click a row to edit it, double-click to switch it off or on, drag the grip to reorder, and click X to delete it.<br>*A switched-off row is kept but never fires.* | empty |
+| **Configured Events** | Your despawn events. Click a row to edit it, double-click to switch it off or on, drag a row to reorder, and click X to delete it.<br>*A switched-off row is kept but never fires.* | empty |
 
 ## Add an event
 
@@ -360,7 +360,7 @@ Invis Abilities lists the stealth abilities the bot may use to open a Cast Stack
 
 | Control | What it does |
 |---|---|
-| **Grip (drag)** | Drag a row up or down to change which opener is tried first. |
+| **Drag a row** | Drag a row up or down to change which opener is tried first. |
 | **Double-click a row** | Switches that ability off or back on. A switched-off row is struck through and never used. |
 | **x (remove)** | Removes that ability from the list. |
 
@@ -486,7 +486,7 @@ Load holds things the bot does every time it loads your profile. The left side s
 - A command you add is run once straight away, so a typo shows up right then.
 - Commas and ] are removed from a command when you add it. A line that needs them will not run as typed.
 - Changing one of the three loot dropdowns does nothing by itself. It is used the next time the profile loads, or when you tick 'Set loot options' again.
-- Double-click a command to switch it off without deleting it. Drag the grip to change the order. The x removes it.
+- Double-click a command to switch it off without deleting it. Drag a row to change the order. The x removes it.
 
 
 ---
@@ -816,7 +816,7 @@ Post-Cast casts one thing right AFTER another has finished. Each row says 'after
 - Names match any rank: 'Assault' also matches 'Assault XIII'. An ability must be ready; items are just tried.
 - A row that points at itself is ignored, and a post-cast never sets off another post-cast or a pre-cast.
 - 'Disable Post-Cast tab' on the Settings tab switches this whole tab off. While a script has 'Dynamic Ignore Encounter CAs' or 'Dynamic Ignore PBAE CAs' ticked, post-casts of that kind are skipped too.
-- In 'Post-casts setup', drag the grip to change the order, double-click a row to switch it off, and the x removes it.
+- In 'Post-casts setup', drag a row to change the order, double-click a row to switch it off, and the x removes it.
 
 
 ---
@@ -847,7 +847,7 @@ Pre-Cast casts one thing right BEFORE another. Each row says 'when the Cast Stac
 - An ability must be ready to be pre-cast. Items are not checked for readiness; the bot just tries them.
 - A row that points at itself (the same ability in both lists) is ignored.
 - 'Disable Pre-Cast tab' on the Settings tab switches this whole tab off. While a script has 'Dynamic Ignore Encounter CAs' or 'Dynamic Ignore PBAE CAs' ticked, pre-casts of that kind are skipped too.
-- In 'Pre-casts setup', drag the grip to change the order, double-click a row to switch it off, and the x removes it.
+- In 'Pre-casts setup', drag a row to change the order, double-click a row to switch it off, and the x removes it.
 
 
 ---
@@ -886,7 +886,7 @@ Spawn Events works like Chat Events, but it watches for things appearing around 
 
 | Option | What it does | Default |
 |---|---|---|
-| **Configured Events** | Your spawn events. Click a row to edit it, double-click to switch it off or on, drag the grip to reorder, and click X to delete it.<br>*A switched-off row is kept but never fires. Every active row is checked, so the order does not matter.* | empty |
+| **Configured Events** | Your spawn events. Click a row to edit it, double-click to switch it off or on, drag a row to reorder, and click X to delete it.<br>*A switched-off row is kept but never fires. Every active row is checked, so the order does not matter.* | empty |
 
 ## Add an event
 
@@ -985,7 +985,7 @@ Unload is a list of commands the bot runs, top to bottom, when OgreBot closes. T
 - The list takes console commands. To run an in-game slash command, start the line with `eq2execute`.
 - Unlike the Load tab, a command you add here is NOT run when you add it. It only runs when OgreBot closes.
 - Commas and ] are removed from a command when you add it. A line that needs them will not run as typed.
-- Double-click a line to switch it off without deleting it. Drag the grip to change the order. The x removes it.
+- Double-click a line to switch it off without deleting it. Drag a row to change the order. The x removes it.
 
 
 ---
