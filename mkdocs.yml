@@ -162,9 +162,10 @@ nav:
               - "Pushover Account": EQ2/bot/windows/pushovercreds.md
       - "Developers":
           - EQ2/bot/developer/index.md
-          - "Converting your scripts": EQ2/bot/developer/converting.md
-          - "Build your own window": EQ2/bot/developer/build-your-own-window.md
-          - "Add your own commands": EQ2/bot/developer/command-packs.md
+          - "Guides":
+              - "Converting your scripts": EQ2/bot/developer/converting.md
+              - "Build your own window": EQ2/bot/developer/build-your-own-window.md
+              - "Add your own commands": EQ2/bot/developer/command-packs.md
           - "Coming from Classic":
               - EQ2/bot/developer/coming-from-classic/index.md
               - "Camp spot": EQ2/bot/developer/coming-from-classic/campspot.md

@@ -1,7 +1,7 @@
 # OgreBot for EverQuest II - documentation, Developers
 
 OgreBot is in beta testing. For OgreBot Classic see https://kannkor.github.io/ISXOgre/EQ2/
-This file is ONE PIECE of the documentation: Developers - Developers.
+This file is ONE PIECE of the documentation: Developers - Developers; Developers - Guides.
 The entire documentation in one document: https://kannkor.github.io/ISXOgre/EQ2/bot/llms-full.txt
 Index of every page and of every file like this one: https://kannkor.github.io/ISXOgre/EQ2/bot/llms.txt
 
