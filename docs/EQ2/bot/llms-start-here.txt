@@ -228,6 +228,12 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.10.18.005 {#r2026-10-18-005}
+
+*Sunday, October 18, 2026 at 11:44 PM EDT*
+
+- **Fixed** · Bot: **Position-on-NPC buttons use your NPC target.** `-SetCS_PositionNPC`, `-SetCS_BehindNPC`, `-SetCS_InFrontNPC` and `-SetCS_NPC` did nothing when no NPC was given. Now a blank NPC means your NPC target: your target if it is an NPC you can fight, otherwise your target's target. OgreMCP buttons migrated from OgreBot Classic that used `${u_NPCTargetID}` now use `${ISXOgreEQ2.NPCTarget.ID}`, the new bot's name for it.
+
 ## 2026.10.18.004 {#r2026-10-18-004}
 
 *Sunday, October 18, 2026 at 10:50 PM EDT*
