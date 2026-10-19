@@ -10,6 +10,20 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.10.19.002 {#r2026-10-19-002}
+
+*Monday, October 19, 2026 at 3:32 PM EDT*
+
+- **New** · Bot: **Cast order filter - type to find a field or value.** The Cast order filter's field list and value lists now have a box at the top. Type in it to show only the matching choices, and press Enter to pick the first one.
+- **New** · Bot: **Cast Stack - abilities already in your Cast order are green, and Ctrl+click filters to one.** In the Cast Stack's Abilities list, an ability or item that already has an entry in your Cast order is shown in green, as in the old OgreBot. Ctrl+click a name in that list to filter the Cast order to just that ability. A filter value in double quotes, like "Assault", now matches the whole name only.
+- **New** · Bot: **Click a window's padlock to lock or unlock it.** The padlock in every window's title bar is now a button: click it to lock the window in place, and click again to unlock it. The right-click menu's Lock and Unlock still work too.
+- **New** · Bot: **Filter the Cast order by anything, and switch many entries on or off at once.** The Cast order has a filter: pick a field (anything an entry can have, plus every field of the ability's export, such as IsStun, IsAE or RecastTime), pick or type a value, and press Add to stack more filters. The Enable and Disable buttons then switch on or off everything the filter shows, or the entries you have selected.
+- **Changed** · Bot: **Ogre Options - navmesh downloads and Session watch are on the Ogre tab.** The EverQuest 2 tab in `ogre config` is gone: its two settings, Navmesh downloads and Session watch, are now on the Ogre tab. They work exactly as before and keep their saved values.
+- **Fixed** · Bot: **A locked window stays locked after you close and reopen it.** Locking a window from its right-click menu was forgotten when the window closed, so it reopened unlocked and movable. Lock and Unlock are now remembered, along with where the window is, just like Save Position.
+- **Fixed** · Bot: **Cast order filter - clear a filter before you add it.** A filter you are still building already filters the Cast order, but there was no way to undo it before pressing Add, and picking (none) as the field did nothing. A ✕ after Add now clears it, and picking (none) as the field clears it too.
+- **Fixed** · Bot: **No freeze while the fight files load.** When the bot loads, the game no longer freezes while the encounter (fight) files are read; on a cold start that freeze could last several seconds. The files are now read and checked in the background and put in place in under a millisecond, and the same goes for re-reading them after a change.
+- **Fixed** · Bot: **Session watch - no more "is gone" / "recovered" spam for sessions that are running fine.** On some PCs, Session watch announced every session as "is gone: it is no longer running" and then "recovered: heartbeats are back after 5 s", over and over, while the sessions were playing normally - the process InnerSpace lists for a session was not the one the bot runs in. A session now counts as gone when its name leaves the uplink's session list. Closing, crashing or relaunching a session is still announced.
+
 ## 2026.10.19.001 {#r2026-10-19-001}
 
 *Monday, October 19, 2026 at 1:06 AM EDT*

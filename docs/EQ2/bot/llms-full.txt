@@ -184,7 +184,7 @@ Every OgreBot window works the same way. This page covers what they all share.
 |---|---|
 | **Title** | The window's name. Drag it to move the window. |
 | **?** | Opens a short help box for this window. Its **Full documentation** button opens this guide. |
-| **Lock** | Shows when the window is locked. A locked window cannot be moved or resized. |
+| **Lock** | Click it to lock the window, and again to unlock it. A locked window cannot be moved or resized, and the padlock is lit while it is locked. Locking remembers the window's place, so it opens there, still locked, next time. |
 | **X** | Closes the window. |
 
 Some windows put extra buttons in the title bar too, for example a gear for settings.
@@ -201,7 +201,7 @@ Right-click a window's title bar for this menu:
 | **Save Position** | Remembers where the window is and how big it is. It opens there next time. |
 | **Scale + / Scale -** | Makes this window bigger or smaller. |
 | **Scale: use default** | Goes back to the size set in Ogre Options. |
-| **Lock / Unlock** | Stops the window from being moved or resized, or allows it again. |
+| **Lock / Unlock** | Stops the window from being moved or resized, or allows it again. Like the padlock, it is remembered for next time. |
 | **Reset** | Puts the window back where it first opened, at its first size. |
 
 ## The help box
@@ -226,6 +226,20 @@ What changed in OgreBot, release by release, newest first. Every release listed 
 A release is named by the day it was published and its number that day: **2026.10.16.005** is the fifth release on October 16, 2026. Releases with nothing you would notice are not listed, so the numbers can skip.
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
+
+## 2026.10.19.002 {#r2026-10-19-002}
+
+*Monday, October 19, 2026 at 3:32 PM EDT*
+
+- **New** · Bot: **Cast order filter - type to find a field or value.** The Cast order filter's field list and value lists now have a box at the top. Type in it to show only the matching choices, and press Enter to pick the first one.
+- **New** · Bot: **Cast Stack - abilities already in your Cast order are green, and Ctrl+click filters to one.** In the Cast Stack's Abilities list, an ability or item that already has an entry in your Cast order is shown in green, as in the old OgreBot. Ctrl+click a name in that list to filter the Cast order to just that ability. A filter value in double quotes, like "Assault", now matches the whole name only.
+- **New** · Bot: **Click a window's padlock to lock or unlock it.** The padlock in every window's title bar is now a button: click it to lock the window in place, and click again to unlock it. The right-click menu's Lock and Unlock still work too.
+- **New** · Bot: **Filter the Cast order by anything, and switch many entries on or off at once.** The Cast order has a filter: pick a field (anything an entry can have, plus every field of the ability's export, such as IsStun, IsAE or RecastTime), pick or type a value, and press Add to stack more filters. The Enable and Disable buttons then switch on or off everything the filter shows, or the entries you have selected.
+- **Changed** · Bot: **Ogre Options - navmesh downloads and Session watch are on the Ogre tab.** The EverQuest 2 tab in `ogre config` is gone: its two settings, Navmesh downloads and Session watch, are now on the Ogre tab. They work exactly as before and keep their saved values.
+- **Fixed** · Bot: **A locked window stays locked after you close and reopen it.** Locking a window from its right-click menu was forgotten when the window closed, so it reopened unlocked and movable. Lock and Unlock are now remembered, along with where the window is, just like Save Position.
+- **Fixed** · Bot: **Cast order filter - clear a filter before you add it.** A filter you are still building already filters the Cast order, but there was no way to undo it before pressing Add, and picking (none) as the field did nothing. A ✕ after Add now clears it, and picking (none) as the field clears it too.
+- **Fixed** · Bot: **No freeze while the fight files load.** When the bot loads, the game no longer freezes while the encounter (fight) files are read; on a cold start that freeze could last several seconds. The files are now read and checked in the background and put in place in under a millisecond, and the same goes for re-reading them after a change.
+- **Fixed** · Bot: **Session watch - no more "is gone" / "recovered" spam for sessions that are running fine.** On some PCs, Session watch announced every session as "is gone: it is no longer running" and then "recovered: heartbeats are back after 5 s", over and over, while the sessions were playing normally - the process InnerSpace lists for a session was not the one the bot runs in. A session now counts as gone when its name leaves the uplink's session list. Closing, crashing or relaunching a session is still announced.
 
 ## 2026.10.19.001 {#r2026-10-19-001}
 
@@ -560,7 +574,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogre
 
 # Cast Stack
 
-The Cast Stack is the bot's main casting list. Every turn the bot walks the Cast order from the top and casts the FIRST entry that is allowed right now, so the order is your priority. The tab has three columns. Abilities (left) lists this character's abilities plus your registered items; click one to start a new entry. The entry editor (middle) sets the entry's Type, Target and optional conditions and options; only fields marked with a red * are required, and the fields shown change with the ability and the Type you pick. Press Add to put it at the bottom of the Cast order, ↑ Top to put it at the top, or Place and then click a row to put it just above that row. The Cast order (right) shows every entry coloured by its Type: click an entry to select it and open it in the editor, double-click to switch it off, drag an entry to move it, and click ▶ to see its settings. Ctrl+click or Shift+click entries to select several, then drag any one of them to move them all. Edits reach the running bot at once, but press Save at the top to keep them.
+The Cast Stack is the bot's main casting list. Every turn the bot walks the Cast order from the top and casts the FIRST entry that is allowed right now, so the order is your priority. The tab has three columns. Abilities (left) lists this character's abilities plus your registered items; click one to start a new entry. The entry editor (middle) sets the entry's Type, Target and optional conditions and options; only fields marked with a red * are required, and the fields shown change with the ability and the Type you pick. Press Add to put it at the bottom of the Cast order, ↑ Top to put it at the top, or Place and then click a row to put it just above that row. The Cast order (right) shows every entry coloured by its Type: click an entry to select it and open it in the editor, double-click to switch it off, drag an entry to move it, and click ▶ to see its settings. The filter above the Cast order shows only the entries that match any mix of their own settings and their ability's export fields, and the Enable / Disable buttons switch what it shows (or what you selected) on or off together. Ctrl+click or Shift+click entries to select several, then drag any one of them to move them all. Edits reach the running bot at once, but press Save at the top to keep them.
 
 ## Abilities (left column)
 
@@ -583,6 +597,9 @@ The Cast Stack is the bot's main casting list. Every turn the bot walks the Cast
 
 | Control | What it does |
 |---|---|
+| **Filter: [field] [value] Add** | Shows only the Cast order entries that match. Pick a field, then a value: a name or text field takes what you type (it matches anywhere in the text), a Yes/No field takes TRUE or FALSE, a list field (Type, Target, the tags and roles) offers the values in use, and a number field takes 30, >30, <30, >=30, <=30 or !=30. Every field also takes (set) or (not set). The fields are everything an entry can have (Name, Type, Target, Disabled, Item, every option and flag, the embargo, allow and custom tags) and then every field of the ability's export, listed as Export: ... (for example Export: IsStun, Export: IsAE, Export: RecastTime, Export: Effects - the ability's effect lines). The filter applies as you type or pick; Add keeps it and starts another, and every added filter must match. |
+| **Added filters** | Each added filter, e.g. Type = CA or Export: IsStun = TRUE. The x removes one; Clear all removes them all. |
+| **Enable / Disable shown (N), or selected (N)** | Switches several entries on or off at once. With two or more entries selected it acts on those; otherwise, with a filter on, it acts on every entry the filter shows. The number is how many it would change. The buttons are hidden when there is no filter and no multi-selection, so the whole Cast Stack is never one stray click away from being switched off. |
 | **Drag a row** | Press an entry and drag it up or down to change its priority - anywhere on the row; the drag starts once the mouse moves a few pixels, so a click is never taken for a drag. Dragging a selected entry moves every selected entry, kept in their order. |
 | **▶ / ▼** | Shows or hides the entry's settings under the row, or '(no options set)'. |
 | **Click an entry** | Selects the entry at once and, a moment later (after the double-click wait), opens it in the editor, where Update saves your changes. The entry being edited is always part of the selection: selecting a different entry closes the edit. |
@@ -3449,9 +3466,8 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > **What you can do here**
 >
 > - **Account** - your Ogre login. Saving it while logged out tries to log in again.
-> - **Ogre** - the size of every window (UI scale), and whether windows hide or slide down when the InnerSpace console covers them.
+> - **Ogre** - the size of every window (UI scale); whether windows hide or slide down when the InnerSpace console covers them; navmesh downloads (all zones, only the zones you go to, or none); and the **Session watch**: the uplink announces a session that freezes, recovers or disappears, and fires an event for uplink scripts (off by default).
 > - **Theme** - pick a colour scheme, or change any colour. Changes show at once.
-> - **EverQuest 2** - download navmeshes for all zones, only the zones you go to, or none; and the **Session watch**: the uplink announces a session that freezes, recovers or disappears, and fires an event for uplink scripts (off by default).
 >
 > **Good to know**
 >
@@ -3464,13 +3480,13 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 
 ## What it is for
 
-Ogre Options holds the settings that belong to Ogre itself rather than to one character's bot: your Ogre account login, how big every window is drawn, what happens when the InnerSpace console opens over a window, the colour theme, and how EverQuest 2 navmeshes are downloaded. Everything here is shared by every session on this PC. Nothing is kept until you press Save (the Theme tab also has its own Save theme button).
+Ogre Options holds the settings that belong to Ogre itself rather than to one character's bot: your Ogre account login, how big every window is drawn, what happens when the InnerSpace console opens over a window, the colour theme, how navmeshes are downloaded, and whether the uplink watches for frozen sessions. Everything here is shared by every session on this PC. Nothing is kept until you press Save (the Theme tab also has its own Save theme button).
 
 ## Tabs
 
 | Control | What it does | Default |
 |---|---|---|
-| **Account / Ogre / Theme / EverQuest 2** | Switches the page. Save saves every tab at once, not just the one you are looking at. | Account |
+| **Account / Ogre / Theme** | Switches the page. Save saves every tab at once, not just the one you are looking at. | Account |
 
 ## Account tab
 
@@ -3486,6 +3502,8 @@ Ogre Options holds the settings that belong to Ogre itself rather than to one ch
 |---|---|---|
 | **UI scale — default for every window (right-click a window to override one)** | How big every Ogre window is drawn: 0.75, 0.9, 1 (100%), 1.1, 1.25 or 1.5. Applies to all windows as soon as you press Save. A window you scaled yourself (right-click its title bar, Scale + / Scale −) keeps its own size until you pick Scale: use default on it.<br>*The list opens inside the window and pushes the setting below it down, so every size is in view.* | 1 (100%) |
 | **Hide it (default: slide it below the console, then return it)** | What happens to an Ogre window that the InnerSpace console covers when you open it. Off: the window slides down below the console and moves back when the console closes. On: the window is hidden while the console is open.<br>*Like the UI scale, it takes effect when you press Save.* | off (slide it below) |
+| **Navmesh downloads** | Navmeshes are the zone maps the bot uses to walk and fly. **All zones, in the background**: every zone's mesh downloads while you play, the zone you are in first. **Only the zones I go to**: a zone's mesh downloads when you enter it or a route heads there. **Off**: nothing downloads, and nav tells you when a zone has no mesh.<br>*Takes effect as soon as you press Save. It is the same setting as `ogre patch mesh all\|ondemand\|off`.* | All zones, in the background |
+| **Announce sessions that freeze, recover or disappear** | Every session tells the uplink it is alive every 5 seconds. With this on, the uplink announces a session that goes silent (30 seconds, 90 while loading), comes back, or closes for any reason, and fires OgreEvent_SessionFrozen, OgreEvent_SessionRecovered and OgreEvent_SessionGone for scripts running in the uplink.<br>*Saved for the whole PC; Save also tells the uplink at once. `ogre sessions on\|off` turns it on or off until the uplink restarts.* | off |
 
 ## Theme tab - presets
 
@@ -3533,12 +3551,6 @@ Each row is one colour used across all windows. Click the square to open Hue / S
 | **Undo changes** | Goes back to the last saved theme. |
 | **saved / unsaved changes** | Tells you whether what you see has been saved. |
 
-## EverQuest 2 tab
-
-| Control | What it does | Default |
-|---|---|---|
-| **Navmesh downloads** | Navmeshes are the zone maps the bot uses to walk and fly. **All zones, in the background**: every zone's mesh downloads while you play, the zone you are in first. **Only the zones I go to**: a zone's mesh downloads when you enter it or a route heads there. **Off**: nothing downloads, and nav tells you when a zone has no mesh.<br>*Takes effect as soon as you press Save. It is the same setting as `ogre patch mesh all\|ondemand\|off`.* | All zones, in the background |
-
 ## Save and Close
 
 | Control | What it does |
@@ -3567,10 +3579,6 @@ Each row is one colour used across all windows. Click the square to open Hue / S
 ## Theme tab
 
 ![Theme tab](../assets/options/theme.png)
-
-## EverQuest 2 tab
-
-![EverQuest 2 tab](../assets/options/eq2.png)
 
 
 ---

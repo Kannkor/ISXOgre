@@ -775,9 +775,8 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > **What you can do here**
 >
 > - **Account** - your Ogre login. Saving it while logged out tries to log in again.
-> - **Ogre** - the size of every window (UI scale), and whether windows hide or slide down when the InnerSpace console covers them.
+> - **Ogre** - the size of every window (UI scale); whether windows hide or slide down when the InnerSpace console covers them; navmesh downloads (all zones, only the zones you go to, or none); and the **Session watch**: the uplink announces a session that freezes, recovers or disappears, and fires an event for uplink scripts (off by default).
 > - **Theme** - pick a colour scheme, or change any colour. Changes show at once.
-> - **EverQuest 2** - download navmeshes for all zones, only the zones you go to, or none; and the **Session watch**: the uplink announces a session that freezes, recovers or disappears, and fires an event for uplink scripts (off by default).
 >
 > **Good to know**
 >
@@ -790,13 +789,13 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 
 ## What it is for
 
-Ogre Options holds the settings that belong to Ogre itself rather than to one character's bot: your Ogre account login, how big every window is drawn, what happens when the InnerSpace console opens over a window, the colour theme, and how EverQuest 2 navmeshes are downloaded. Everything here is shared by every session on this PC. Nothing is kept until you press Save (the Theme tab also has its own Save theme button).
+Ogre Options holds the settings that belong to Ogre itself rather than to one character's bot: your Ogre account login, how big every window is drawn, what happens when the InnerSpace console opens over a window, the colour theme, how navmeshes are downloaded, and whether the uplink watches for frozen sessions. Everything here is shared by every session on this PC. Nothing is kept until you press Save (the Theme tab also has its own Save theme button).
 
 ## Tabs
 
 | Control | What it does | Default |
 |---|---|---|
-| **Account / Ogre / Theme / EverQuest 2** | Switches the page. Save saves every tab at once, not just the one you are looking at. | Account |
+| **Account / Ogre / Theme** | Switches the page. Save saves every tab at once, not just the one you are looking at. | Account |
 
 ## Account tab
 
@@ -812,6 +811,8 @@ Ogre Options holds the settings that belong to Ogre itself rather than to one ch
 |---|---|---|
 | **UI scale — default for every window (right-click a window to override one)** | How big every Ogre window is drawn: 0.75, 0.9, 1 (100%), 1.1, 1.25 or 1.5. Applies to all windows as soon as you press Save. A window you scaled yourself (right-click its title bar, Scale + / Scale −) keeps its own size until you pick Scale: use default on it.<br>*The list opens inside the window and pushes the setting below it down, so every size is in view.* | 1 (100%) |
 | **Hide it (default: slide it below the console, then return it)** | What happens to an Ogre window that the InnerSpace console covers when you open it. Off: the window slides down below the console and moves back when the console closes. On: the window is hidden while the console is open.<br>*Like the UI scale, it takes effect when you press Save.* | off (slide it below) |
+| **Navmesh downloads** | Navmeshes are the zone maps the bot uses to walk and fly. **All zones, in the background**: every zone's mesh downloads while you play, the zone you are in first. **Only the zones I go to**: a zone's mesh downloads when you enter it or a route heads there. **Off**: nothing downloads, and nav tells you when a zone has no mesh.<br>*Takes effect as soon as you press Save. It is the same setting as `ogre patch mesh all\|ondemand\|off`.* | All zones, in the background |
+| **Announce sessions that freeze, recover or disappear** | Every session tells the uplink it is alive every 5 seconds. With this on, the uplink announces a session that goes silent (30 seconds, 90 while loading), comes back, or closes for any reason, and fires OgreEvent_SessionFrozen, OgreEvent_SessionRecovered and OgreEvent_SessionGone for scripts running in the uplink.<br>*Saved for the whole PC; Save also tells the uplink at once. `ogre sessions on\|off` turns it on or off until the uplink restarts.* | off |
 
 ## Theme tab - presets
 
@@ -859,12 +860,6 @@ Each row is one colour used across all windows. Click the square to open Hue / S
 | **Undo changes** | Goes back to the last saved theme. |
 | **saved / unsaved changes** | Tells you whether what you see has been saved. |
 
-## EverQuest 2 tab
-
-| Control | What it does | Default |
-|---|---|---|
-| **Navmesh downloads** | Navmeshes are the zone maps the bot uses to walk and fly. **All zones, in the background**: every zone's mesh downloads while you play, the zone you are in first. **Only the zones I go to**: a zone's mesh downloads when you enter it or a route heads there. **Off**: nothing downloads, and nav tells you when a zone has no mesh.<br>*Takes effect as soon as you press Save. It is the same setting as `ogre patch mesh all\|ondemand\|off`.* | All zones, in the background |
-
 ## Save and Close
 
 | Control | What it does |
@@ -893,10 +888,6 @@ Each row is one colour used across all windows. Click the square to open Hue / S
 ## Theme tab
 
 ![Theme tab](../assets/options/theme.png)
-
-## EverQuest 2 tab
-
-![EverQuest 2 tab](../assets/options/eq2.png)
 
 
 ---

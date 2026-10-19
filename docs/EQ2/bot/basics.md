@@ -14,7 +14,7 @@ Every OgreBot window works the same way. This page covers what they all share.
 |---|---|
 | **Title** | The window's name. Drag it to move the window. |
 | **?** | Opens a short help box for this window. Its **Full documentation** button opens this guide. |
-| **Lock** | Shows when the window is locked. A locked window cannot be moved or resized. |
+| **Lock** | Click it to lock the window, and again to unlock it. A locked window cannot be moved or resized, and the padlock is lit while it is locked. Locking remembers the window's place, so it opens there, still locked, next time. |
 | **X** | Closes the window. |
 
 Some windows put extra buttons in the title bar too, for example a gear for settings.
@@ -31,7 +31,7 @@ Right-click a window's title bar for this menu:
 | **Save Position** | Remembers where the window is and how big it is. It opens there next time. |
 | **Scale + / Scale -** | Makes this window bigger or smaller. |
 | **Scale: use default** | Goes back to the size set in Ogre Options. |
-| **Lock / Unlock** | Stops the window from being moved or resized, or allows it again. |
+| **Lock / Unlock** | Stops the window from being moved or resized, or allows it again. Like the padlock, it is remembered for next time. |
 | **Reset** | Puts the window back where it first opened, at its first size. |
 
 ## The help box
