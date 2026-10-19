@@ -16,6 +16,7 @@
 > - **Stop after this zone** (shown while a list runs): the zone you are in finishes, then the list stops and the end-of-list actions run (call to the guild hall or home, camp). Run clears it.
 > - **Run** starts the list. **Pause** holds the Instance Controller only (OgreBot keeps running). **End** stops the run. While the end-of-list actions run (guild hall, home, camp), End cancels them: nothing more starts, and the client is not closed.
 > - **Options** decide what happens in and after each zone: loop the list, reset zones first, call home at the end, and more.
+> - **Summon merc if solo** (on by default): once you are inside the zone with nobody else in your group, it summons your mercenary (`merc resume`). On a zone-in that happens as you land, so the mercenary gets the rebuff time too.
 > - **Every option is also a command**: `ogre ic -skipshinies` turns one on, `ogre ic -skipshinies=off` turns it off, and one command can carry several. `ogre ic options` lists them all.
 > - **Zone file**: IC File Option 1-3 and IC File Args are for the zone you run. The zone file names the options and reads them.
 > - **Startup Options** are commands sent at the start of every zone, then undone when the run ends.
