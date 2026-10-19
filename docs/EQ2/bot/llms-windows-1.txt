@@ -987,6 +987,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > **What you can do here**
 >
 > - **Queue zones**: pick a zone on the left and double-click it (or Add). **Add all** queues every zone the list is showing (this folder, after the search and the variant filter), in its order. Drag rows to reorder.
+> - **Sort** (beside the Zones heading): the zones are listed by their number by default (**Sort: #**); click it for **Sort: A-Z**, by zone name. It is remembered, and Add all follows it.
 > - **Remove** and **Clear** sit beside the Queue heading. Remove takes out the highlighted row (click a row first; right-clicking the highlighted row does the same), Clear empties the queue. Each is greyed out until there is something for it to do.
 > - **Stop after this zone** (shown while a list runs): the zone you are in finishes, then the list stops and the end-of-list actions run (call to the guild hall or home, camp). Run clears it.
 > - **Run** starts the list. **Pause** holds the Instance Controller only (OgreBot keeps running). **End** stops the run. While the end-of-list actions run (guild hall, home, camp), End cancels them: nothing more starts, and the client is not closed.
