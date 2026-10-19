@@ -10,6 +10,12 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.10.19.003 {#r2026-10-19-003}
+
+*Monday, October 19, 2026 at 5:02 PM EDT*
+
+- **Fixed** · Navigation: **Navigation goes round objects in its way, guild hall amenities included.** Navigation now walks round the objects standing in its way - barrels, crates, banners and every amenity in your guild hall or house - instead of running into them over and over. If it does bump into something it did not see, it goes round that spot for the rest of the trip. In a guild hall or house it no longer clicks the exit door when it gets stuck.
+
 ## 2026.10.19.002 {#r2026-10-19-002}
 
 *Monday, October 19, 2026 at 3:32 PM EDT*
