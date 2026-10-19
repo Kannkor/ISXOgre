@@ -7173,6 +7173,7 @@
   "codextoon",
   "collection",
   "collections",
+  "commandpacks",
   "commands",
   "compare",
   "config",
@@ -7249,6 +7250,7 @@
   "overflow",
   "overseer",
   "packpony",
+  "packs",
   "patch",
   "patcher",
   "pdt",
@@ -30070,7 +30072,7 @@
    "howToFix": "-Opt_Num was the same reply click as -ConversationBubble and is gone. Write `-ConversationBubble <fw> <num>`; V1 had no for-who, so put `auto` first (the For Who window).",
    "id": "console:-Opt_Num",
    "newForm": "-ConversationBubble",
-   "note": "Old: -Opt_Num <num>\nNew: -ConversationBubble <fw> <num>   (OgreConsole/v2/commands/everquest2.json, row -ConversationBubble)\nV2 params: who, num (default 1).",
+   "note": "Old: -Opt_Num <num>\nNew: -ConversationBubble <fw> <num>   (Ogre/EQ2/Commands/everquest2.json, row -ConversationBubble)\nV2 params: who, num (default 1).",
    "oldCall": "-Opt_Num",
    "oldKinds": [
     "verb"
@@ -30088,7 +30090,7 @@
    "howToFix": "-Opt_Num was the same reply click as -ConversationBubble and is gone. Write `-ConversationBubble <fw> <num>`; V1 had no for-who, so put `auto` first (the For Who window).",
    "id": "console:-OptNum",
    "newForm": "-ConversationBubble",
-   "note": "Old: -OptNum <num>\nNew: -ConversationBubble <fw> <num>   (OgreConsole/v2/commands/everquest2.json, row -ConversationBubble)\nV2 params: who, num (default 1).",
+   "note": "Old: -OptNum <num>\nNew: -ConversationBubble <fw> <num>   (Ogre/EQ2/Commands/everquest2.json, row -ConversationBubble)\nV2 params: who, num (default 1).",
    "oldCall": "-OptNum",
    "oldKinds": [
     "verb"

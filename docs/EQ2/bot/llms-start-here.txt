@@ -228,6 +228,12 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.10.19.004 {#r2026-10-19-004}
+
+*Monday, October 19, 2026 at 7:22 PM EDT*
+
+- **New** · Console: **Add your own console commands with command packs.** Script writers can add their own OgreConsole commands, and they appear in the MCP command builder too. A pack is a folder under Scripts\OgreExternal, and its commands are typed with the pack's name, like -BJTools.Buff, so they can never replace one of OgreBot's own or clash with another pack; the Developers page "Add your own commands" shows how. Every pack command needs a For Who, and ogre commandpacks reloads them.
+
 ## 2026.10.19.003 {#r2026-10-19-003}
 
 *Monday, October 19, 2026 at 5:02 PM EDT*
