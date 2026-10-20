@@ -19,7 +19,9 @@ WHAT `fix` REWRITES - and nothing else:
   * an old call whose ONLY change is "the for-who is now argument 0" on an object that acted on its own
     session (every Ogre_CampSpot / Obj_* / OgreBotAPI method that had no for-who): `all` is inserted
     first - a script's own call only ever runs on the session running it, so that is what the old call did;
-  * a console verb that was renamed with the same arguments.
+  * a console verb that was renamed with the same arguments;
+  * a Classic framework variable renamed to a plain member: `${OgreRelayGroup}` (and `${OgreRelayGroup.Length}`
+    etc.) becomes `${ISXOgreEQ2.Auth.RelayGroup}` - the same text under its new name.
 Everything else - argument reorders, changed arguments, data-file moves, not-ported names - is left in
 place and listed as a TO-DO with the map's how-to-fix line. A person (or Claude, following the
 "Converting your scripts" page of the OgreBot docs) does those.
@@ -419,6 +421,18 @@ def fix_line(M, line, n, todo, own=frozenset()):
             todo.append((n, i, 'UNKNOWN', why))
     for u, why, row in unknown_objects(M, new, own) + raw_commands(M, new):
         todo.append((n, u, row['status'] if row else 'UNKNOWN', (row.get('howToFix') or '') if row else why))
+    # A Classic framework VARIABLE whose row says `renamed` to a plain member path - OgreRelayGroup ->
+    # ISXOgreEQ2.Auth.RelayGroup, which relay-heavy Classic scripts use on almost every relay line. `${Old}` and
+    # `${Old.Member}` read the same text under the new name, so the swap is mechanical. Only inside ${ }, and never
+    # `${Old[...]}` (a call with arguments is not a variable).
+    for name, fw in M.by_fw.items():
+        nf = fw.get('newForm') or ''
+        if fw['status'] != 'renamed' or not re.match(r'^[A-Za-z0-9_]+(?:\.[A-Za-z0-9_]+)+$', nf):
+            continue
+        pat = re.compile(r'\$\{%s(?=[}.])' % re.escape(name))
+        if pat.search(new):
+            new = pat.sub(lambda _m: '${' + nf, new)
+            todo.append((n, name, 'DONE', '-> ${%s}' % nf))
     for u in unmapped_hits(M, new, own):
         fw = M.by_fw.get(u)
         if fw:

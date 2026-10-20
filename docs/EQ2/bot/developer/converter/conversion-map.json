@@ -17997,7 +17997,7 @@
   {
    "argsCheck": "same-count",
    "example": {
-    "after": "relay ${OgreRelayGroup} -noredirect OgreBotAPI.Zone:ResetZone[\"igw:${Me.Name}\",\"${Obj_OgreUtilities.Obj_ZoneReset.Obj_ZoneReuseEntry.Get[${iCounter}].ZoneName}\"]",
+    "after": "relay ${ISXOgreEQ2.Auth.RelayGroup} -noredirect OgreBotAPI.Zone:ResetZone[\"igw:${Me.Name}\",\"${Obj_OgreUtilities.Obj_ZoneReset.Obj_ZoneReuseEntry.Get[${iCounter}].ZoneName}\"]",
     "before": "relay ${OgreRelayGroup} -noredirect OgreBotAPI:ResetZone[\"igw:${Me.Name}\",\"${Obj_OgreUtilities.Obj_ZoneReset.Obj_ZoneReuseEntry.Get[${iCounter}].ZoneName}\"]"
    },
    "howToFix": "Write `OgreBotAPI.Zone:ResetZone` instead of `OgreBotAPI:ResetZone`. New arguments: `[fw,...]`.",
@@ -20020,7 +20020,7 @@
   {
    "argsCheck": "same-count",
    "example": {
-    "after": "relay ${OgreRelayGroup} -noredirect OgreBotAPI.Zone:ToggleZoneReuse[\"igw:${Me.Name}\"]",
+    "after": "relay ${ISXOgreEQ2.Auth.RelayGroup} -noredirect OgreBotAPI.Zone:ToggleZoneReuse[\"igw:${Me.Name}\"]",
     "before": "relay ${OgreRelayGroup} -noredirect OgreBotAPI:ToggleZoneReuse[\"igw:${Me.Name}\"]"
    },
    "howToFix": "Write `OgreBotAPI.Zone:ToggleZoneReuse` instead of `OgreBotAPI:ToggleZoneReuse`. New arguments: `[fw]`.",
@@ -47078,7 +47078,7 @@
    "surface": "OldBot framework"
   },
   {
-   "howToFix": "Read ${ISXOgreEQ2.Auth.RelayGroup}. To send a command to your sessions, prefer the console's `oc !c` / `oc !ci` with a for-who instead of a raw relay.",
+   "howToFix": "Read ${ISXOgreEQ2.Auth.RelayGroup} - `ogre_convert.py fix` swaps every `${OgreRelayGroup}` (and `${OgreRelayGroup.Length}` etc.) for it. To send a command to your sessions, prefer the console's `oc !c` / `oc !ci` with a for-who instead of a raw relay.",
    "id": "OldBot framework|OgreRelayGroup",
    "newForm": "ISXOgreEQ2.Auth.RelayGroup",
    "note": "The name of the relay group every OgreBot session joins (default ogre_everquest2), used as `relay ${OgreRelayGroup} ...` to reach all your sessions.",

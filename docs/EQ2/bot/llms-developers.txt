@@ -110,7 +110,10 @@ python ogre_convert.py fix <file.iss> --in-place            (keeps the name - se
 - a Classic call that had no for-who, where the only change is "the for-who is now the first argument":
   it puts `all` first. A script's own call only ever runs on the session running it, so `all` there means
   "this session" - exactly what the old call did;
-- a console command that was renamed and takes the same arguments.
+- a console command that was renamed and takes the same arguments;
+- a Classic framework variable that was renamed to a plain member: `${OgreRelayGroup}` becomes
+  `${ISXOgreEQ2.Auth.RelayGroup}` (and `${OgreRelayGroup.Length}` becomes `${ISXOgreEQ2.Auth.RelayGroup.Length}`),
+  so a relay line like `relay ${OgreRelayGroup} ...` converts with no hand work.
 
 Everything else stays as it was and is printed as a to-do, with the map's how-to-fix text. Each line of
 the list says `DONE` (rewritten) or what is left (`signature`, `argOrder`, `notPorted`, `UNKNOWN`, ...).
