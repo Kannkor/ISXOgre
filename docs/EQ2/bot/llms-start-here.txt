@@ -228,6 +228,13 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.10.19.006 {#r2026-10-19-006}
+
+*Monday, October 19, 2026 at 10:46 PM EDT*
+
+- **Fixed** · Windows: **Analysis - + Target and + Cursor work, and the Scan tab shows every detail.** In ogre analysis, + Target and + Cursor now add the actor (+ Cursor gives you 3 seconds to put the mouse on it), and both are on the Scan tab too. Clicking a scan result shows all its details, a result can be sent to the Monitor tab, and scans can keep earlier results, add new spawns that match, and show chosen details as columns. Terms suggest detail names and offer the comparisons that suit them, and a scan that cannot run says why.
+- **Fixed** · Windows: **Analysis - copy and remove rows, and search the event logs after the fact.** In ogre analysis, the x that removes a scan result or a monitored actor can now actually be clicked; long rows used to cover it. Right-click any line to copy it, copy all of an actor's details, or remove it. On the Events tab, Search the log looks through everything already recorded (it used to miss older lines), and Record only lines containing is clearly the filter for what gets recorded from now on.
+
 ## 2026.10.19.005 {#r2026-10-19-005}
 
 *Monday, October 19, 2026 at 8:07 PM EDT*

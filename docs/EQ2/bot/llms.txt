@@ -6,15 +6,15 @@ To convert a Classic script, follow the procedure on the Converting your scripts
 
 ## Read it all
 
-- [Everything in one document](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-full.txt): the entire documentation, 648 KB. If that is too much to read at once, use the smaller pieces below - together they are the same text.
-- [Start here](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-start-here.txt): 42 KB - Start here
+- [Everything in one document](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-full.txt): the entire documentation, 653 KB. If that is too much to read at once, use the smaller pieces below - together they are the same text.
+- [Start here](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-start-here.txt): 43 KB - Start here
 - [OgreBot (part 1 of 3)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-ogrebot-1.txt): 98 KB - OgreBot; OgreBot - Tabs
 - [OgreBot (part 2 of 3)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-ogrebot-2.txt): 94 KB - OgreBot - Tabs
 - [OgreBot (part 3 of 3)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-ogrebot-3.txt): 43 KB - OgreBot - Tabs
 - [Windows (part 1 of 4)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-1.txt): 93 KB - Windows - Everyday; Windows - Running content
 - [Windows (part 2 of 4)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-2.txt): 87 KB - Windows - Running content; Windows - Loot and items
 - [Windows (part 3 of 4)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-3.txt): 96 KB - Windows - Crafting; Windows - Groups and accounts; Windows - Tools
-- [Windows (part 4 of 4)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-4.txt): 42 KB - Windows - Tools
+- [Windows (part 4 of 4)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-4.txt): 46 KB - Windows - Tools
 - [Developers](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers.txt): 56 KB - Developers; Developers - Guides
 
 Each page on its own, as plain Markdown, in menu order:

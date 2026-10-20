@@ -18,13 +18,16 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 >
 > **What you can do here**
 >
-> - **Monitor**: add actors (+ Target), turn **Monitoring** on, then click a moment in Timestamps to see everything that changed then. The x on an actor stops watching just that one.
-> - **Scan**: snapshot every actor matching your terms, then click two results to compare them.
-> - **Events**: logs of announcements, spawns, chat and other game events.
+> - **Monitor**: add actors (**+ Target**, or **+ Cursor** and put the mouse on one within 3 seconds), turn **Monitoring** on, then click a moment in Timestamps to see everything that changed then. The x on an actor stops watching just that one.
+> - **Scan**: build terms (type a detail name - it suggests them - pick how to compare, add a value), then **Scan**. Click a result to see all its details; Ctrl+click a second to compare the two. **+ Target** / **+ Cursor** put one actor in the results. **monitor** on a result sends it to the Monitor tab.
+> - **Events**: logs of announcements, spawns, chat and other game events. **Search the log** finds lines already recorded; **Record only lines containing** limits what is recorded from now on.
 > - **Sessions**: save what you recorded to a file, or load an earlier one.
 >
 > **Good to know**
 >
+> - Tick **Keep previous results** to add to the results instead of replacing them. **Add new spawns that match** adds actors as they appear.
+> - Pin a detail (the diamond) to show it as a column on every result.
+> - Right-click any line to copy it, copy all of an actor's details, or remove it. The x on a result or an actor removes just that one.
 > - Closing the window does not stop monitoring. Use `ogre end analysis`.
 > - **Taps** turns the event logs on and off.
 
@@ -49,8 +52,8 @@ Next to the tabs: the zone, scan progress while a scan runs, and the number of s
 | Control | What it does | Default |
 |---|---|---|
 | **Monitoring: ON / Monitoring: off** | Starts or stops recording the actors in the Actors list. While on, each one is read at the sample rate and every change is kept.<br>*Adding actors does not turn this on - press it after adding them.* | off |
-| **+ Target** | Adds your current target to the Actors list.<br>*Up to 24 actors. Nothing happens (a message in the console) with no target, or if it is already listed.* |  |
-| **+ Cursor** | Adds the actor under your mouse cursor to the Actors list.<br>*There is no countdown - see Open questions.* |  |
+| **+ Target** | Adds your current target to the Actors list.<br>*Up to 24 actors. With no target, or one already listed, the window says so in its warning line.* |  |
+| **+ Cursor** | Starts a 3-second countdown on the button ("Hover the actor... 3"); put the mouse on an actor, and when it ends that actor is added to the Actors list.<br>*If nothing is under the mouse when the countdown ends, the window says so.* |  |
 | **actor id (placeholder) + Add** | Adds an actor by its ID number. | empty |
 | **mechanics only** | Hides the always-changing details (location, heading, health, animation and the like) from the Timestamps list, so it shows only moments when something meaningful changed. Display only. | on |
 | **sample … ms** | How often each monitored actor is read, in milliseconds. Lower = finer detail.<br>*A plain text box: type a whole number from 100 to 10000 and press Enter or click away. Anything else puts the box back to the rate in use.* | 250 ms |
@@ -66,21 +69,34 @@ Work from left to right: pick an actor, then a detail or a moment.
 | **Click an actor (Actors list)** | Selects that actor. Its details fill the Members list and its moments fill Timestamps. |
 | **Click a detail (Members list)** | Shows every value that detail has had, with the time, in the History list. |
 | **Click a moment (Timestamps list)** | Fills 'What else changed at that instant' with every detail that changed at that moment. This is the main use of the tool - for example, what the NPC's animation and target were when it started a cast. |
+| **Right-click an actor or any line** | Copy this line; on an actor, Stop watching it. |
 
 ## Scan
 
-A scan takes a one-off snapshot of every actor matching your terms. It runs a little each frame, so a big scan takes a moment.
+Takes a snapshot of every actor that matches your terms - over 80 details each. Click a result to see all its details; Ctrl+click a second result to compare the two. Send any result to the Monitor tab.
 
 | Control | What it does | Default |
 |---|---|---|
-| **member (e.g. Type) (placeholder)** | The detail to match on, for example Type, Name, Level, Distance, IsNamed.<br>*Must be spelled exactly as the game names it, or the scan fails with a red message.* | empty |
-| **= (the small box)** | How to compare: = (equals), < (less than) or > (more than). For yes/no details, != means 'is not'. | = |
-| **value (placeholder)** | The value to compare against, for example NPC or 60. | empty |
+| **member (e.g. Name) (placeholder)** | The detail to match on. As you type, a list of matching details appears with their kind (text, number, yes/no); click one, or use the arrow keys and Enter. | empty |
+| **contains / is / is not, = < > ≤ ≥ ≠, or TRUE / FALSE** | How to compare, offered to suit the detail: text matches by contains (any case), is, or is not; numbers by = < > ≤ ≥ ≠; a yes/no detail is just TRUE or FALSE, with no value box. | contains for text, = for numbers, TRUE for yes/no |
+| **value (placeholder)** | The value to compare against, for example guard or 60. Enter adds the term. | empty |
 | **Add term** | Adds the term to the list below the bar. All terms must match (they are combined with AND). |  |
 | **× (on a term)** | Removes that term. |  |
-| **Scan / Scan EVERYTHING** | Runs the scan and fills Results. With no terms the button turns red and reads 'Scan EVERYTHING' - pressing it snapshots every actor in the zone.<br>*At most 2000 actors are kept, and the list shows up to 250 of them.* |  |
-| **Clear** | Empties Results and the Diff. |  |
-| **Click two results** | Compares the two actors you clicked, detail by detail, in the Diff list. Only details that differ are shown. A third click starts a new pair. |  |
+| **+ Target** | Puts your current target in the results and shows its details, without changing the terms. |  |
+| **+ Cursor** | Starts a 3-second countdown; the actor under the mouse when it ends goes in the results. |  |
+| **Scan / Scan EVERYTHING** | Runs the scan. With no terms the button turns red and reads 'Scan EVERYTHING' - pressing it snapshots every actor in the zone.<br>*If the scan cannot run, the window says why: the zone has only just loaded (try again in a moment) or a term does not work.* |  |
+| **Clear** | Empties the results. |  |
+| **Keep previous results** | A scan adds to the results instead of replacing them. An actor already listed is updated. | off |
+| **Monitor every result** | Every actor a scan finds is also added to the Monitor tab (up to 24). | off |
+| **Add new spawns that match** | An actor that spawns and matches the terms joins the results about 2 seconds later. | off |
+| **Click a result / Ctrl+click a second** | A click shows every detail of that result on the right. Ctrl+click (or Shift+click) another result compares the two, showing only the details that differ.<br>*The results line shows name, ID, type, level, health and distance, plus any columns you pinned. A line marked monitored is on the Monitor tab. Underneath the count, the window says how many actors could not be read (they despawned during the scan).* |  |
+| **monitor / × (on a result)** | monitor sends that actor to the Monitor tab; × removes it from the results. |  |
+| **Monitor all** | Sends every result to the Monitor tab, up to 24. |  |
+| **Refresh / Monitor (above the details)** | Refresh reads that actor again now. Monitor sends it to the Monitor tab. The line also says how long ago it was read, and 'no longer here' if it has gone. |  |
+| **filter members… + show empty** | Narrows the details shown by name or value. Empty details (blank, 0, FALSE) are hidden unless show empty is ticked. | show empty off |
+| **◇ / ◆ (on a detail)** | Shows that detail as a column on every result line (◆ = shown). The columns are listed on the bar above the results, each with an × to remove it. |  |
+| **Stop comparing** | Goes back from a comparison to the selected result's details. |  |
+| **Right-click a result or a detail** | Copy this line, Copy all its details (every detail of that result, one per line), Monitor it, or Remove from the results. |  |
 
 ## Events
 
@@ -90,9 +106,11 @@ Seven logs of game events: announce (big on-screen messages), despawn, spawn, ch
 |---|---|---|
 | **Taps: ON / Taps: off** | Switches the event logs on and off. It reads 'Taps: ON' while they are recording. | off (the button still says ON) |
 | **announce / despawn / spawn / choice / reward / text / chat (n)** | Picks which log is shown below. The number is how many lines it holds. | announce |
-| **add a substring filter… + Add filter** | Once any filter is set, only new lines that contain one of the filters are recorded (not case-sensitive). Applies to all seven logs.<br>*Lines already recorded are not removed.* | none (everything is recorded) |
+| **Search the log** | Shows only the recorded lines that contain what you type (any case), searching everything already recorded in the log shown - use it any time, after the fact. The count beside it says how many lines match.<br>*The same search as the filter box at the top of the other tabs (that box is hidden on this tab).* | empty |
+| **Record only lines containing + Add** | From now on, a NEW line is recorded only if it contains one of these words (any case). It works before the fact: lines already in the log are not touched. Applies to all seven logs.<br>*Lines already recorded are not removed.* | none (everything is recorded) |
 | **× (on a filter)** | Removes that filter. |  |
 | **Clear log** | Empties the log that is shown. The other logs are kept. |  |
+| **Right-click a line** | Copy this line, or Copy all the lines shown (the log shown, with the search applied). |  |
 
 ## Sessions
 
@@ -116,11 +134,13 @@ Seven logs of game events: announce (big on-screen messages), despawn, spawn, ch
 
 ## Good to know
 
-- Monitoring only reads actors the bot can currently see in the zone. If every list stays empty, the actor has despawned or the ID is from another zone - the console says so.
+- Monitoring only reads actors the bot can currently see in the zone. If every list stays empty, the actor has despawned or the ID is from another zone - the window says so.
 - Actor IDs are reused between zones, so a monitored ID from an old zone can point at a different actor now.
 - Closing the window does not stop monitoring or the event logs.
 - Turning monitoring or the event logs on (from anywhere) opens this window.
 - Everything is kept in memory only until you Export it.
+- Problems now show in the warning line under the tabs, not only in the console.
+- The right-click menu's own Copy only copies text you have selected; use Copy this line (or the copy items under it) to copy a row.
 
 ### Scan tab
 
