@@ -228,6 +228,12 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.10.19.005 {#r2026-10-19-005}
+
+*Monday, October 19, 2026 at 8:07 PM EDT*
+
+- **Fixed** · Windows: **Scaled-up windows - dropdowns open under their box, and dragging keeps up with the mouse.** In a window scaled above normal size, dropdowns, menus and tooltips opened far down and to the right of where they belong, and dragging the window moved it slower than the mouse. Both now behave the same at every scale, in OgreBot, the MCP, For Who, IC, Auto-Login, Task Runner Lists and the other windows.
+
 ## 2026.10.19.004 {#r2026-10-19-004}
 
 *Monday, October 19, 2026 at 7:22 PM EDT*

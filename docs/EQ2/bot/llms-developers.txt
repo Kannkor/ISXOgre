@@ -858,6 +858,7 @@ Each of these was checked in game on 2026-10-17 or 2026-10-18.
 | `<input type="color">` | Drawn as a text box showing the color code; clicking it opens nothing. Use the gallery's color picker. |
 | `<datalist>` | No suggestions ever appear. Use the gallery's combobox. |
 | `</script>` written inside your script's text | Ends the block there, as in any HTML page. None of that block runs, the UI log says `UI:Open <name>: script error - SyntaxError: Unexpected EOF`, and the rest of it shows as text in your window. Split it: `'</scr' + 'ipt>'`. |
+| A popup, menu or tooltip with `position: fixed`, placed at `getBoundingClientRect()` or mouse (`clientX`) numbers | Fine at normal size, but in a window the player has scaled up it opens far down and to the right of where it should. A scaled window becomes the frame `fixed` positions are measured in, in its own unscaled pixels. Place it with `ogrePlaceFixed(el, x, y)` instead, and turn a size taken off the screen into the element's own pixels with `/ ogreFixedScale(el)`. |
 | An error in your window's script | Nothing in the console. The UI log gets `UI:Open <name>: script error - <the error>`, and that block stops; the other blocks still run. |
 
 A `title="..."` on any element shows as a tooltip when the mouse rests on it: Ogre draws it for you.
@@ -897,6 +898,8 @@ which replaces Ogre's entire UI and does not bring it back.
 | `OgreUI_Closed` | event | `name`, `reason` | A window closed; `reason` is `closed` or `reload`. |
 | `ogreUISet` | function in your window | `name`, `id`, `value` | Same as `ISXOgreX.UI:Set`, from the window's own script. |
 | `ogreCall` | function in your window | `'cmd'`, command line | Runs one LavishScript command line on the next frame. |
+| `ogrePlaceFixed` | function in your window | element, `x`, `y`, optional margin | Puts a `position: fixed` element's top-left at screen position `x`, `y` (the numbers `getBoundingClientRect()` and mouse events give), kept on screen, at any window scale. The element must be showing. |
+| `ogreFixedScale` | function in your window | element | number: the scale the element is drawn at (1 in an unscaled window). A size measured on screen divided by it is the size in the element's own pixels. |
 | `OgreBotAPI.Options.Value` | member | setting id | string: an OgreBot setting; `""` if unknown. |
 
 ### In the EverQuest 2 bot
