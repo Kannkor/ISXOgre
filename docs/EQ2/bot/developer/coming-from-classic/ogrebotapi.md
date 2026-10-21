@@ -1,8 +1,8 @@
-# OgreBotAPI
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../index.md).
 </div>
+
+# OgreBotAPI
 
 Every name Classic's *OgreBotAPI Reference* page listed, and what it is in the new bot. The flat `OgreBotAPI:Name` list became groups (`OgreBotAPI.Movement`, `OgreBotAPI.Cures`, …): each section below is one group. Use your browser's find (Ctrl+F) with the old name.
 
@@ -140,7 +140,7 @@ Old names whose job is now in `OgreBotAPI.Actors`.
 | `OgreBotAPI.GetActorCountByType` | reads NULL | `OgreBotAPI.Actors.CountByType` `[-distance F,-Type S]` | ⚠️ Arguments changed | The arguments are different: Classic took `(... Args)`, the new call takes `[-distance F,-Type S]`. |
 | `OgreBotAPI.GetMobID` | reads NULL | `OgreBotAPI.Actors.MobID` `[name]` | ✏️ Renamed |  |
 | `OgreBotAPI:HailNPC` | does nothing | `OgreBotAPI.Actors:Hail` `[fw,nameOrId]` | ✏️ Renamed |  |
-| `OgreBotAPI.IsAPC` | reads NULL | `OgreBotAPI.Actors.IsPC` `[nameOrId]` | ✏️ Renamed |  |
+| `OgreBotAPI.IsAPC` | reads NULL | `OgreBotAPI.Actors.IsPC` `[actorType]` | ✏️ Renamed |  |
 | `OgreBotAPI:NPC_CastMonitoring` | does nothing (stub) | `OgreBotAPI.Actors:SetCastMonitoring` *(does nothing yet)* | ⛔ Exists, does nothing yet |  |
 | `OgreBotAPI.NPCsWithinRange` | does nothing (stub) | `OgreBotAPI.Actors.NPCsWithin` *(does nothing yet)* | ⛔ Exists, does nothing yet |  |
 | `OgreBotAPI:TargetAndDoubleClickActor` | does nothing | `OgreBotAPI.Actors:ClickQueued` `[fw,nameOrId,...]` | ✏️ Renamed | ONE difference to convert deliberately: Classic did `Actor[id,X]:DoTarget` and waited for the target to take BEFORE clicking; `:ClickQueued` clicks without that step. If the caller depends on the target being set afterwards, pair it with `Actors:Target`. `Actors:Click` is the immediate, un-queued form (no cast waits). |
