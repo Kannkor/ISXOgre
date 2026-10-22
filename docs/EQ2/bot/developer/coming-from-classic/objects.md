@@ -19,9 +19,9 @@ The Classic objects scripts used that Classic's docs never had a page for (`GetI
 | ➡️ Moved | 6 |
 | ➡️ Lives somewhere else | 160 |
 | 📄 In a data file now | 26 |
-| ⛔ Exists, does nothing yet | 3 |
+| ⛔ Exists, does nothing yet | 2 |
 | ⛔ Not ported yet | 197 |
-| ⛔ Removed | 50 |
+| ⛔ Removed | 51 |
 | **Total** | **602** |
 
 ## Worked examples
@@ -445,7 +445,7 @@ call Obj_OgreUtilities.HandleWaitForCombat -TimeOutIfNoProgress 30
 | `Obj_OgreUtilities.OgreNavLib` | not defined - the new bot does not load Classic's framework, so the name does not exist | automatic (no call) | ➡️ Lives somewhere else | Delete these lines: the new bot loads the current zone's navmesh by itself. To walk somewhere use OgreBotAPI.Movement:NavTo (or a `path` step with `using` "nav").<br>The OgreNav navigation library object inside Obj_OgreUtilities; content used it only to point it at a zone's map folder and load that map (ChangeLoadingPath, LoadMap, Set_AutoLoadMapOnZone). |
 | `Obj_Pushover` | not defined - the new bot does not load Classic's framework, so the name does not exist | `OgreBotAPI.Comms:Pushover` | ➡️ Lives somewhere else | Drop the exists check and call OgreBotAPI.Comms:Pushover directly - it is always there, and it drops the message itself (with one log line) when Pushover is not set up.<br>LostSync's Pushover object - scripts checked ${Obj_Pushover(exists)} before sending. |
 | `Obj_Pushover.PushoverSendMsg` | not defined - the new bot does not load Classic's framework, so the name does not exist | `OgreBotAPI.Comms:Pushover` | ⚠️ Arguments changed | Write OgreBotAPI.Comms:Pushover[all,"&lt;message&gt;",-title,"&lt;title&gt;",-priority,&lt;n&gt;]. The sound is accepted but ignored (the log says so). The new bot already pushes tells and SmartLoot assignments by itself.<br>Sent a Pushover notification: PushoverSendMsg "&lt;title&gt;" "&lt;message&gt;" "&lt;sound&gt;" &lt;priority&gt;. |
-| `Obj_SpewStats` | not defined - the new bot does not load Classic's framework, so the name does not exist | `OgreBotAPI.Debug.SpewStat` *(does nothing yet)* | ⛔ Exists, does nothing yet | To report a stat to chat use OgreBotAPI.Debug:BroadcastStat (or the console `-SpewStat`). Reading a stat back into a script (OgreBotAPI.Debug.SpewStat) exists but does not work yet, so a script that needs your potency has no working read today.<br>OgreBot's stat reporter: read your stats, currencies, factions, skills and recipe counts from the game windows, either returned to the script (GetSpewStat, e.g. potency) or sent to chat. |
+| `Obj_SpewStats` | not defined - the new bot does not load Classic's framework, so the name does not exist | — | ⛔ Removed | To report a stat to chat use OgreBotAPI.Debug:BroadcastStat (or the console `-SpewStat`). Reading a stat back into a script is not ported: the stub that stood for it (OgreBotAPI.Debug.SpewStat) did nothing and was removed 2026-10-22.<br>OgreBot's stat reporter: read your stats, currencies, factions, skills and recipe counts from the game windows, either returned to the script (GetSpewStat, e.g. potency) or sent to chat. |
 | `Object_Timer` | not defined - the new bot does not load Classic's framework, so the name does not exist | `timer` | 📄 In a data file now | In fight and IC files use the `timer` action and the `timerLeft` / `timerExpired` conditions. In a hand-written script use ISXOgreEQ2.Scheduler: :FireEvent[delayMs,event,...,-key &lt;k&gt;] to fire an event later, .Remaining[&lt;key&gt;] for the time left.<br>A countdown object scripts declared (`variable Object_Timer Timer_X`): set it for some milliseconds/seconds, read TimeLeft / SecondsLeft, and optionally fire a named event when it ran out. |
 | `ogre bookcase` | not defined - the new bot does not load Classic's framework, so the name does not exist | — | ⛔ Removed | Delete the line - there is no replacement.<br>Classic's bookcase tool. |
 | `ogre craft2int` | not defined - the new bot does not load Classic's framework, so the name does not exist | — | ⛔ Removed | Delete the line. To craft, use `ogre craft`.<br>Classic's internal craft2 loader. |
@@ -911,7 +911,6 @@ If your script needs one of these, leave it out for now and tell us - this list 
 - `GroupCureOb.Noxious` - not ported yet
 - `GroupCureOb.NumOfPCsAfflicted` - not ported yet
 - `Obj_OgreUtilities.Obj_OgreResources` - not ported yet
-- `Obj_SpewStats` - exists, does nothing yet
 - `ogre meshuiint` - not ported yet
 - `ogre travelint` - not ported yet
 - `OgreBackwardKey` - not ported yet

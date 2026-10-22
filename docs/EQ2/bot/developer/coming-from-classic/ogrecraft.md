@@ -31,9 +31,9 @@ One real Classic line per kind of change, and the line that replaces it.
 
 ```
 ; before (Classic)
-OgreCraft:AddRecipeName[100,"Voidpiercer's Crossbow of Endurance"]
+OgreCraft:AddRecipeName[3,"${ItemCraft}"]
 ; after (new bot)
-ISXOgreEQ2.Craft:AddRecipe["Voidpiercer's Crossbow of Endurance",100]
+ISXOgreEQ2.Craft:AddRecipe["${ItemCraft}",3]
 ```
 
 ### ✏️ Renamed: `OgreCraft.Crafting`
@@ -58,7 +58,7 @@ while !${ISXOgreEQ2.Craft.IsReady}
 
 | Old call | Today | Write instead | What changed | Notes |
 |---|---|---|---|---|
-| `OgreCraftAPI:AddLastScribedRecipe` | does nothing | `OgreBotAPI.Craft:AddLastScribedRecipe` | ➡️ Moved | Same argument order [forwho, quantity]. Says so and does nothing if nothing was scribed this session. |
+| `OgreCraftAPI:AddLastScribedRecipe` | does nothing | `OgreBotAPI.Craft:AddLastScribedRecipe` | ➡️ Moved | Same argument order [forwho, quantity]. Says so and does nothing if nothing was scribed this session ( AddLastScribedRecipe). |
 | `OgreCraftAPI:AddRecipe` | does nothing | `ISXOgreEQ2.Craft:AddRecipe` | ➡️ Moved | Same arguments, same order. Also accepts 'lastknownrecipe'. For another session: OgreBotAPI.Craft:AddRecipe[forwho,nameOrID,qty]. |
 | `OgreCraftAPI:AddRecipeListFromFile` | does nothing | `ISXOgreEQ2.Craft:AddRecipeListFromFile` | ➡️ Moved | The argument is the name of one of your saved queues; the extension is optional. There is no for-who door: OgreBotAPI.Craft does not register it. |
 | `OgreCraftAPI:AddRecipeNameForWho` | does nothing | `OgreBotAPI.Craft:AddRecipe` | ⚠️ Argument order changed | Renamed AND reordered. OgreCraft (ogre craftold) order: [forwho, quantity, name]. OgreCraftAPI (ogre craft) and the doc: [forwho, name, quantity]. New: [forwho, name\|id\|lastknownrecipe, quantity]. The name is now required - there is no default; pass lastknownrecipe explicitly. |
@@ -89,7 +89,7 @@ while !${ISXOgreEQ2.Craft.IsReady}
 
 | Old call | Today | Write instead | What changed | Notes |
 |---|---|---|---|---|
-| `OgreCraft:AddLastScribedRecipe` | does nothing | `OgreBotAPI.Craft:AddLastScribedRecipe` | ➡️ Moved | Same argument order [forwho, quantity]. Says so and does nothing if nothing was scribed this session. |
+| `OgreCraft:AddLastScribedRecipe` | does nothing | `OgreBotAPI.Craft:AddLastScribedRecipe` | ➡️ Moved | Same argument order [forwho, quantity]. Says so and does nothing if nothing was scribed this session ( AddLastScribedRecipe). |
 | `OgreCraft:AddRecipeID` | does nothing | `ISXOgreEQ2.Craft:AddRecipe` | ⚠️ Argument order changed | Classic order [quantity, id]; new order [id, quantity]. Renamed too (AddRecipeID and AddRecipeName are one call now). |
 | `OgreCraft:AddRecipeListFromFile` | does nothing | `ISXOgreEQ2.Craft:AddRecipeListFromFile` | ➡️ Moved | The argument is the name of one of your saved queues; the extension is optional. There is no for-who door: OgreBotAPI.Craft does not register it. |
 | `OgreCraft:AddRecipeName` | does nothing | `ISXOgreEQ2.Craft:AddRecipe` | ⚠️ Argument order changed | Classic order [quantity, name]; new order [name, quantity] (quantity defaults to 1). Renamed too. For another session, OgreBotAPI.Craft:AddRecipe takes the same two with the for-who in front. |

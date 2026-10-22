@@ -10,6 +10,21 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.10.22.001 {#r2026-10-22-001}
+
+*Thursday, October 22, 2026 at 5:32 PM EDT*
+
+- **Changed** · Bot: **Every yes/no setting and argument takes the same words.** Yes/no settings and command or script arguments now all read the same words, in any casing: true, yes, on and 1 for yes; false, no, off and 0 for no. Some places used to take only TRUE, and others took any word that started with T or Y, so a word such as t or Yeah now reads as no.
+- **Fixed** · Navigation: **Closing OgreBot no longer stops a crafting walk, and a paused walk resumes.** A walk started by `ogre craft` now keeps going when you close OgreBot; before, it stopped straight away. A walk you started yourself, paused when OgreBot closed, can now be resumed instead of pausing again at once. A bot walk that was already paused when you closed OgreBot now stops, as other bot walks do.
+- **Fixed** · Navigation: **Flying keeps its height over narrow ridges.** A flight over a narrow ridge could pass just above its top instead of at the usual height; it now keeps its full clearance over ridges of any width. Some flights that were refused, such as a take-off right at the edge of a zone's flying area or a way out from under an overhang, now fly.
+- **Fixed** · Navigation: **No more "props: could not write" spam when a group zones in together.** Every session in a zone saves that zone's file of learned objects, and when a whole group zoned in at once their saves could collide. A save that failed then tried again on every frame, flooding every session's console for as long as you stayed in the zone. Each session now saves through its own temporary file, and a failed save warns once and tries again in under a minute and a half, at a random moment so the sessions don't collide again.
+- **Fixed** · Navigation: **Routes cross the seams inside a zone's walking map more freely.** A zone's walking map is built in pieces, and a long edge between two pieces could join to only four of the pieces beside it, leaving stretches of the seam closed or crossable one way only. Every crossing is now joined, so some routes are shorter and a few that could not be found before now are.
+- **Fixed** · Navigation: **Routes no longer cut through walls after a blocked spot.** When a route had to be planned again around a spot the bot had learned it gets stuck on, and no full way round was found, the route it walked could run through a wall or over the very spot it was avoiding. It now walks only the open part of the route, as far as it can get toward the goal.
+- **Fixed** · Navigation: **Walking around barrels, crates and other objects works in more places.** The bot now finds a way around an object in its path in more places - beside walls, in doorways and on steep ground - where it used to give up. It also keeps its distance from the object on every step, where a route could clip the object's edge.
+- **Fixed** · Navigation: **Walking maps rebuilt - fewer false walls, fewer stuck spots.** The walking maps for every zone have been rebuilt. Some maps had thin slivers and lined-up edges that the bot read as a wall where the way was open, most of all in the Plane of Water, so a route could stop short or bend around nothing. Those spots are now walkable, so routes are more direct and characters get stuck less.
+- **Fixed** · Setup: **Running both bots no longer uses up your PC limit twice.** The new bot now identifies your PC the same way the classic bot does. Before, a PC that ran both bots in the same day counted as two PCs, and with enough PCs the classic bot refused to log in with "IP/Computer limit exceeded".
+- **Removed** · Console: **The ChangeRadarYAxis console command is gone.** The ChangeRadarYAxis command never did anything in the new bot, so it has been removed from the console and the MCP command list. Typing it now prints "Unknown command entered" instead of silently doing nothing.
+
 ## 2026.10.19.006 {#r2026-10-19-006}
 
 *Monday, October 19, 2026 at 10:46 PM EDT*

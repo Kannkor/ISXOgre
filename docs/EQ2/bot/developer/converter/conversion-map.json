@@ -81,7 +81,6 @@
   "OgreBotAPI.Abilities:ApplyVerbIDFor": null,
   "OgreBotAPI.Abilities:ApplyVerbQueuedFor": null,
   "OgreBotAPI.Abilities:CancelCasting": null,
-  "OgreBotAPI.Abilities:CancelCastingOld": null,
   "OgreBotAPI.Abilities:CancelGroupWaterBreathing": null,
   "OgreBotAPI.Abilities:CancelInvis": null,
   "OgreBotAPI.Abilities:CancelMaintained": null,
@@ -112,25 +111,19 @@
   "OgreBotAPI.Abilities:Load": null,
   "OgreBotAPI.Abilities:NoCasting": null,
   "OgreBotAPI.Abilities:Rebuff": null,
-  "OgreBotAPI.Abilities:ResolveBuffCheck": null,
   "OgreBotAPI.Abilities:SetAOEsDisabled": null,
   "OgreBotAPI.Abilities:SetCancelCurrentCast": null,
   "OgreBotAPI.Abilities:SetDispellsEnabled": null,
   "OgreBotAPI.Abilities:SetInterruptsEnabled": null,
   "OgreBotAPI.Abilities:SetStunsEnabled": null,
   "OgreBotAPI.Abilities:SetUpForDispells": null,
-  "OgreBotAPI.Abilities:SetVampiricRequiemCancelling": null,
   "OgreBotAPI.Abilities:SpewAbility": null,
-  "OgreBotAPI.Abilities:SpewAbilityVia": null,
   "OgreBotAPI.Abilities:TrackerAdd": null,
   "OgreBotAPI.Access": null,
   "OgreBotAPI.Access:SetLevel": "[fw,value,silent]",
   "OgreBotAPI.Actors": null,
   "OgreBotAPI.Actors.CountByName": "[name,...]",
   "OgreBotAPI.Actors.CountByType": "[-distance F,-Type S]",
-  "OgreBotAPI.Actors.CurrentImmunityRune": null,
-  "OgreBotAPI.Actors.CursorTooltipText": null,
-  "OgreBotAPI.Actors.CursorTooltipVisible": null,
   "OgreBotAPI.Actors.IsPC": "[actorType]",
   "OgreBotAPI.Actors.MobID": "[name]",
   "OgreBotAPI.Actors.NPCsWithin": "[distance]",
@@ -203,7 +196,6 @@
   "OgreBotAPI.Bot:End": "[fw]",
   "OgreBotAPI.Bot:EndScript": "[fw,script]",
   "OgreBotAPI.Bot:ExitClient": "[fw,seconds=30]",
-  "OgreBotAPI.Bot:FlushQueued": "[fw]",
   "OgreBotAPI.Bot:Initialize": "[fw,...]",
   "OgreBotAPI.Bot:ListSetups": "[fw]",
   "OgreBotAPI.Bot:Load": "[fw]",
@@ -214,7 +206,6 @@
   "OgreBotAPI.Bot:Reload": "[fw]",
   "OgreBotAPI.Bot:Resume": "[fw]",
   "OgreBotAPI.Bot:RunScript": "[fw,script,rest]",
-  "OgreBotAPI.Bot:SetTurbo": "[fw,turbo=300,ignoreLimits=FALSE]",
   "OgreBotAPI.Bot:SetUpFor": "[fw,what]",
   "OgreBotAPI.CampSpot": null,
   "OgreBotAPI.CampSpot.Active": null,
@@ -304,7 +295,6 @@
   "OgreBotAPI.Client:SetCameraPitch": "[fw,pitch]",
   "OgreBotAPI.Client:SetMousePosition": "[fw,x,y]",
   "OgreBotAPI.Client:SetMousePositionMiddle": "[fw]",
-  "OgreBotAPI.Client:SetRadarYAxis": "[fw,value]",
   "OgreBotAPI.Combat": null,
   "OgreBotAPI.Combat.InCombat": null,
   "OgreBotAPI.Combat.IsReady": null,
@@ -357,11 +347,7 @@
   "OgreBotAPI.Comms:Pushover": "[fw,message...,-title t,-priority n]",
   "OgreBotAPI.Comms:Query": null,
   "OgreBotAPI.Comms:Query_Clear": null,
-  "OgreBotAPI.Comms:ReportClear": null,
-  "OgreBotAPI.Comms:ReportListIrc": null,
-  "OgreBotAPI.Comms:ReportSpew": null,
   "OgreBotAPI.Comms:ReportVersion": "[fw,compareTo]",
-  "OgreBotAPI.Comms:Reporting": null,
   "OgreBotAPI.Comms:ResetStats": null,
   "OgreBotAPI.Comms:SendTell": "[speaker,...]",
   "OgreBotAPI.Comms:SetRelayGroup": "[fw,value]",
@@ -424,7 +410,6 @@
   "OgreBotAPI.Debug.DebugLoading": null,
   "OgreBotAPI.Debug.DebugPrefix": null,
   "OgreBotAPI.Debug.Kannkor": null,
-  "OgreBotAPI.Debug.SpewStat": "[type]",
   "OgreBotAPI.Debug.Version": null,
   "OgreBotAPI.Debug:BroadcastStat": "[fw,type,value]",
   "OgreBotAPI.Debug:DebugEcho": "[fw,a,b]",
@@ -531,10 +516,8 @@
   "OgreBotAPI.Inventory:Examine": "[fw,item]",
   "OgreBotAPI.Inventory:ExamineAll": "[fw,item...]",
   "OgreBotAPI.Inventory:InitAdornmentInfo": "[fw]",
-  "OgreBotAPI.Inventory:KronoWindowCheck": "[fw]",
   "OgreBotAPI.Inventory:PoPTempAdorns": "[fw,...]",
   "OgreBotAPI.Inventory:RedeemKrono": "[fw]",
-  "OgreBotAPI.Inventory:SpewOverseerMissions": "[fw]",
   "OgreBotAPI.Inventory:SpewSlotNames": "[fw]",
   "OgreBotAPI.Inventory:Unpack": "[fw,...]",
   "OgreBotAPI.Inventory:UnpackConsumeFamiliars": "[fw,...]",
@@ -676,7 +659,6 @@
   "OgreBotAPI.Quest:CheckKunarkAscending": "[fw,...]",
   "OgreBotAPI.Quest:CheckToShare": "[fw,...]",
   "OgreBotAPI.Quest:CompareUpdate": "[fw,...]",
-  "OgreBotAPI.Quest:DailyMissionReset": "[fw]",
   "OgreBotAPI.Quest:Delete": "[fw,name]",
   "OgreBotAPI.Quest:ShareAllMissions": "[fw,...]",
   "OgreBotAPI.Quest:ShareMission": "[fw,...]",
@@ -834,7 +816,6 @@
   "OgreBotAPI.Zone": null,
   "OgreBotAPI.Zone.CityRestrictions": null,
   "OgreBotAPI.Zone.CleanName": "[name]",
-  "OgreBotAPI.Zone.InBattleGround": null,
   "OgreBotAPI.Zone.InGuildHall": null,
   "OgreBotAPI.Zone.InHouse": null,
   "OgreBotAPI.Zone.InHouseAccess": null,
@@ -857,26 +838,16 @@
   "OgreBotAPI.Zone:Zone": "[fw,zone,...]",
   "OgreBotAPI:AddNoOffensiveOn": null,
   "OgreBotAPI:ArcannaseEffigyOfRebirth": null,
-  "OgreBotAPI:C4M": null,
   "OgreBotAPI:DoVDebuff": null,
   "OgreBotAPI:DoVDebuff_Half": null,
   "OgreBotAPI:F2PWindow_SetOptions": null,
-  "OgreBotAPI:GO_CryptofDalnir_WizardsDen_EventHeroic_King": null,
   "OgreBotAPI:GetFlag": null,
-  "OgreBotAPI:HQEar_ReEquipOriginalEar": null,
-  "OgreBotAPI:HQEar_Recheck": null,
-  "OgreBotAPI:HQEar_ReportStuckEar": null,
   "OgreBotAPI:LoadAutoTargetList": null,
   "OgreBotAPI:NoTarget": null,
   "OgreBotAPI:Prepare_TankSwapping": null,
-  "OgreBotAPI:RO_FSD_BB_Brutas_DoNotNeedColdWater": null,
-  "OgreBotAPI:RO_FSD_BB_Brutas_DoNotNeedColdWater_Relay": null,
-  "OgreBotAPI:RO_FSD_BB_Brutas_NeedColdWater": null,
-  "OgreBotAPI:RO_FSD_BB_Brutas_NeedColdWater_Relay": null,
   "OgreBotAPI:RemoveNoOffensiveOn": null,
   "OgreBotAPI:Remove_Prepare_TankSwapping": null,
   "OgreBotAPI:ResetFor_Intercept": null,
-  "OgreBotAPI:RoR_Epic_ChangeInCastStack": null,
   "OgreBotAPI:Scribe_Empyral": null,
   "OgreBotAPI:SetUpFor_Intercept": null,
   "OgreBotAPI:Special": null,
@@ -1027,7 +998,6 @@
   "-ChangeCastStackListBoxItemByTag",
   "-ChangeLootOptions",
   "-ChangeOgreBotUIOption",
-  "-ChangeRadarYAxis",
   "-ChangeZoneTo",
   "-CheckGear",
   "-CheckKunarkAscendingRequirements",
@@ -3249,16 +3219,6 @@
    ],
    [
     "rest",
-    false
-   ]
-  ],
-  "-changeradaryaxis": [
-   [
-    "forwho",
-    false
-   ],
-   [
-    "string",
     false
    ]
   ],
@@ -10294,17 +10254,16 @@
    "surface": "OgreBotAPI"
   },
   {
-   "howToFix": "The new name `OgreBotAPI:C4M` exists but does nothing yet - treat it as not ported.",
+   "howToFix": "Removed on purpose - there is no replacement.",
    "id": "OgreBotAPI:C4M",
-   "newForm": "OgreBotAPI:C4M",
    "oldCall": "OgreBotAPI:C4M",
    "oldKinds": [
     "m"
    ],
    "oldName": "C4M",
    "oldSignature": "(string _Value)",
-   "oldSpellingToday": "resolves, but the target is a stub - returns FALSE/empty and does nothing",
-   "status": "stub",
+   "oldSpellingToday": "does nothing - no error in any log (the method no longer exists)",
+   "status": "removed",
    "surface": "OgreBotAPI"
   },
   {
@@ -10430,17 +10389,16 @@
    "surface": "OgreBotAPI"
   },
   {
-   "howToFix": "The new name `OgreBotAPI.Abilities:CancelCastingOld` exists but does nothing yet - treat it as not ported.",
+   "howToFix": "Removed on purpose - there is no replacement.",
    "id": "OgreBotAPI:CancelCasting_OLD",
-   "newForm": "OgreBotAPI.Abilities:CancelCastingOld",
    "oldCall": "OgreBotAPI:CancelCasting_OLD",
    "oldKinds": [
     "m"
    ],
    "oldName": "CancelCasting_OLD",
    "oldSignature": "(string _ForWho=all, string _UnlessCasting=\"DoesNotExist\")",
-   "oldSpellingToday": "resolves, but the target is a stub - returns FALSE/empty and does nothing",
-   "status": "stub",
+   "oldSpellingToday": "does nothing - no error in any log (the method no longer exists)",
+   "status": "removed",
    "surface": "OgreBotAPI"
   },
   {
@@ -11076,15 +11034,8 @@
    "surface": "OgreBotAPI"
   },
   {
-   "argsCheck": "same-count",
-   "example": {
-    "after": "OgreBotAPI.Client:SetRadarYAxis[\"${_CommandForWho}\",\"${_Value}\"]",
-    "before": "OgreBotAPI:ChangeRadarYAxis[\"${_CommandForWho}\",\"${_Value}\"]"
-   },
-   "howToFix": "Write `OgreBotAPI.Client:SetRadarYAxis` instead of `OgreBotAPI:ChangeRadarYAxis`. New arguments: `[fw,value]`.",
+   "howToFix": "Removed on purpose - there is no replacement.",
    "id": "OgreBotAPI:ChangeRadarYAxis",
-   "newForm": "OgreBotAPI.Client:SetRadarYAxis",
-   "newSignature": "[fw,value]",
    "oldCall": "OgreBotAPI:ChangeRadarYAxis",
    "oldKinds": [
     "m"
@@ -11092,7 +11043,7 @@
    "oldName": "ChangeRadarYAxis",
    "oldSignature": "(string _ForWho, bool _Value)",
    "oldSpellingToday": "does nothing - no error in any log (the method no longer exists)",
-   "status": "renamed",
+   "status": "removed",
    "surface": "OgreBotAPI"
   },
   {
@@ -12266,46 +12217,42 @@
    "surface": "OgreBotAPI"
   },
   {
-   "howToFix": "The new name `OgreBotAPI.Actors.CursorTooltipText` exists but does nothing yet - treat it as not ported.",
+   "howToFix": "Removed on purpose - there is no replacement.",
    "id": "OgreBotAPI:CursorActor_Tooltip_Text",
-   "newForm": "OgreBotAPI.Actors.CursorTooltipText",
    "oldCall": "OgreBotAPI.CursorActor_Tooltip_Text",
    "oldKinds": [
     "x"
    ],
    "oldName": "CursorActor_Tooltip_Text",
    "oldSignature": "()",
-   "oldSpellingToday": "resolves, but the target is a stub - returns FALSE/empty and does nothing",
-   "status": "stub",
+   "oldSpellingToday": "reads NULL - no error in any log (the member no longer exists)",
+   "status": "removed",
    "surface": "OgreBotAPI"
   },
   {
-   "howToFix": "The new name `OgreBotAPI.Actors.CursorTooltipVisible` exists but does nothing yet - treat it as not ported.",
+   "howToFix": "Removed on purpose - there is no replacement.",
    "id": "OgreBotAPI:CursorActor_Tooltip_Visible",
-   "newForm": "OgreBotAPI.Actors.CursorTooltipVisible",
    "oldCall": "OgreBotAPI.CursorActor_Tooltip_Visible",
    "oldKinds": [
     "x"
    ],
    "oldName": "CursorActor_Tooltip_Visible",
    "oldSignature": "()",
-   "oldSpellingToday": "resolves, but the target is a stub - returns FALSE/empty and does nothing",
-   "status": "stub",
+   "oldSpellingToday": "reads NULL - no error in any log (the member no longer exists)",
+   "status": "removed",
    "surface": "OgreBotAPI"
   },
   {
-   "howToFix": "The new name `OgreBotAPI.Quest:DailyMissionReset` exists but does nothing yet - treat it as not ported.",
+   "howToFix": "Removed on purpose - there is no replacement.",
    "id": "OgreBotAPI:DailyEtherealMissionReset",
-   "newForm": "OgreBotAPI.Quest:DailyMissionReset",
-   "newSignature": "[fw]",
    "oldCall": "OgreBotAPI:DailyEtherealMissionReset",
    "oldKinds": [
     "m"
    ],
    "oldName": "DailyEtherealMissionReset",
    "oldSignature": "()",
-   "oldSpellingToday": "resolves, but the target is a stub - returns FALSE/empty and does nothing",
-   "status": "stub",
+   "oldSpellingToday": "does nothing - no error in any log (the method no longer exists)",
+   "status": "removed",
    "surface": "OgreBotAPI"
   },
   {
@@ -13397,18 +13344,16 @@
    "surface": "OgreBotAPI"
   },
   {
-   "howToFix": "The new name `OgreBotAPI.Bot:FlushQueued` exists but does nothing yet - treat it as not ported.",
+   "howToFix": "Removed on purpose - there is no replacement.",
    "id": "OgreBotAPI:FlushQueued",
-   "newForm": "OgreBotAPI.Bot:FlushQueued",
-   "newSignature": "[fw]",
    "oldCall": "OgreBotAPI:FlushQueued",
    "oldKinds": [
     "m"
    ],
    "oldName": "FlushQueued",
    "oldSignature": "()",
-   "oldSpellingToday": "resolves, but the target is a stub - returns FALSE/empty and does nothing",
-   "status": "stub",
+   "oldSpellingToday": "does nothing - no error in any log (the method no longer exists)",
+   "status": "removed",
    "surface": "OgreBotAPI"
   },
   {
@@ -13590,17 +13535,16 @@
    "surface": "OgreBotAPI"
   },
   {
-   "howToFix": "The new name `OgreBotAPI:GO_CryptofDalnir_WizardsDen_EventHeroic_King` exists but does nothing yet - treat it as not ported.",
+   "howToFix": "Removed on purpose - there is no replacement.",
    "id": "OgreBotAPI:GO_CryptofDalnir_WizardsDen_EventHeroic_King",
-   "newForm": "OgreBotAPI:GO_CryptofDalnir_WizardsDen_EventHeroic_King",
    "oldCall": "OgreBotAPI:GO_CryptofDalnir_WizardsDen_EventHeroic_King",
    "oldKinds": [
     "m"
    ],
    "oldName": "GO_CryptofDalnir_WizardsDen_EventHeroic_King",
    "oldSignature": "(string _ForWho=all, int _Value)",
-   "oldSpellingToday": "resolves, but the target is a stub - returns FALSE/empty and does nothing",
-   "status": "stub",
+   "oldSpellingToday": "does nothing - no error in any log (the method no longer exists)",
+   "status": "removed",
    "surface": "OgreBotAPI"
   },
   {
@@ -14239,9 +14183,9 @@
   },
   {
    "argsCheck": "unknown",
-   "howToFix": "Write `OgreBotAPI.Actors.CurrentImmunityRune` instead of `OgreBotAPI.Get_CurrentImmunityRune`.",
+   "howToFix": "Write `OgreBotAPI.Inventory.CurrentImmunityRune` instead of `OgreBotAPI.Get_CurrentImmunityRune`.",
    "id": "OgreBotAPI:Get_CurrentImmunityRune",
-   "newForm": "OgreBotAPI.Actors.CurrentImmunityRune",
+   "newForm": "OgreBotAPI.Inventory.CurrentImmunityRune",
    "oldCall": "OgreBotAPI.Get_CurrentImmunityRune",
    "oldKinds": [
     "x"
@@ -14322,11 +14266,11 @@
   },
   {
    "argsCheck": "same-count",
-   "howToFix": "Write `OgreBotAPI.Debug:BroadcastStat` instead of `OgreBotAPI:Get_Faction`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. Classic's second argument was a spewstat OBJECT to fill; the new verb emits the rows itself. The READ half, `Debug.SpewStat`, is a STUB.",
+   "howToFix": "Write `OgreBotAPI.Debug:BroadcastStat` instead of `OgreBotAPI:Get_Faction`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. Classic's second argument was a spewstat OBJECT to fill; the new verb emits the rows itself.",
    "id": "OgreBotAPI:Get_Faction",
    "newForm": "OgreBotAPI.Debug:BroadcastStat",
    "newSignature": "[fw,type,value]",
-   "note": "The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. Classic's second argument was a spewstat OBJECT to fill; the new verb emits the rows itself. The READ half, `Debug.SpewStat`, is a STUB.",
+   "note": "The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. Classic's second argument was a spewstat OBJECT to fill; the new verb emits the rows itself.",
    "oldCall": "OgreBotAPI:Get_Faction",
    "oldKinds": [
     "m"
@@ -15257,45 +15201,42 @@
    "surface": "OgreBotAPI"
   },
   {
-   "howToFix": "The new name `OgreBotAPI:HQEar_ReEquipOriginalEar` exists but does nothing yet - treat it as not ported.",
+   "howToFix": "Removed on purpose - there is no replacement.",
    "id": "OgreBotAPI:HQEar_ReEquipOriginalEar",
-   "newForm": "OgreBotAPI:HQEar_ReEquipOriginalEar",
    "oldCall": "OgreBotAPI:HQEar_ReEquipOriginalEar",
    "oldKinds": [
     "m"
    ],
    "oldName": "HQEar_ReEquipOriginalEar",
    "oldSignature": "(string _ForWho=all)",
-   "oldSpellingToday": "resolves, but the target is a stub - returns FALSE/empty and does nothing",
-   "status": "stub",
+   "oldSpellingToday": "does nothing - no error in any log (the method no longer exists)",
+   "status": "removed",
    "surface": "OgreBotAPI"
   },
   {
-   "howToFix": "The new name `OgreBotAPI:HQEar_Recheck` exists but does nothing yet - treat it as not ported.",
+   "howToFix": "Removed on purpose - there is no replacement.",
    "id": "OgreBotAPI:HQEar_Recheck",
-   "newForm": "OgreBotAPI:HQEar_Recheck",
    "oldCall": "OgreBotAPI:HQEar_Recheck",
    "oldKinds": [
     "m"
    ],
    "oldName": "HQEar_Recheck",
    "oldSignature": "(string _ForWho=all)",
-   "oldSpellingToday": "resolves, but the target is a stub - returns FALSE/empty and does nothing",
-   "status": "stub",
+   "oldSpellingToday": "does nothing - no error in any log (the method no longer exists)",
+   "status": "removed",
    "surface": "OgreBotAPI"
   },
   {
-   "howToFix": "The new name `OgreBotAPI:HQEar_ReportStuckEar` exists but does nothing yet - treat it as not ported.",
+   "howToFix": "Removed on purpose - there is no replacement.",
    "id": "OgreBotAPI:HQEar_ReportStuckEar",
-   "newForm": "OgreBotAPI:HQEar_ReportStuckEar",
    "oldCall": "OgreBotAPI:HQEar_ReportStuckEar",
    "oldKinds": [
     "m"
    ],
    "oldName": "HQEar_ReportStuckEar",
    "oldSignature": "(string _ForWho=all, string _ToWhere=OC)",
-   "oldSpellingToday": "resolves, but the target is a stub - returns FALSE/empty and does nothing",
-   "status": "stub",
+   "oldSpellingToday": "does nothing - no error in any log (the method no longer exists)",
+   "status": "removed",
    "surface": "OgreBotAPI"
   },
   {
@@ -15476,17 +15417,16 @@
    "surface": "OgreBotAPI"
   },
   {
-   "howToFix": "The new name `OgreBotAPI.Zone.InBattleGround` exists but does nothing yet - treat it as not ported.",
+   "howToFix": "Removed on purpose - there is no replacement.",
    "id": "OgreBotAPI:InBattleGround",
-   "newForm": "OgreBotAPI.Zone.InBattleGround",
    "oldCall": "OgreBotAPI.InBattleGround",
    "oldKinds": [
     "x"
    ],
    "oldName": "InBattleGround",
    "oldSignature": "()",
-   "oldSpellingToday": "resolves, but the target is a stub - returns FALSE/empty and does nothing",
-   "status": "stub",
+   "oldSpellingToday": "reads NULL - no error in any log (the member no longer exists)",
+   "status": "removed",
    "surface": "OgreBotAPI"
   },
   {
@@ -16077,18 +16017,16 @@
    "surface": "OgreBotAPI"
   },
   {
-   "howToFix": "The new name `OgreBotAPI.Inventory:KronoWindowCheck` exists but does nothing yet - treat it as not ported.",
+   "howToFix": "Removed on purpose - there is no replacement.",
    "id": "OgreBotAPI:KronoWindowCheck",
-   "newForm": "OgreBotAPI.Inventory:KronoWindowCheck",
-   "newSignature": "[fw]",
    "oldCall": "OgreBotAPI:KronoWindowCheck",
    "oldKinds": [
     "m"
    ],
    "oldName": "KronoWindowCheck",
    "oldSignature": "()",
-   "oldSpellingToday": "resolves, but the target is a stub - returns FALSE/empty and does nothing",
-   "status": "stub",
+   "oldSpellingToday": "does nothing - no error in any log (the method no longer exists)",
+   "status": "removed",
    "surface": "OgreBotAPI"
   },
   {
@@ -16989,18 +16927,16 @@
    "surface": "OgreBotAPI"
   },
   {
-   "howToFix": "The new name `OgreBotAPI.Inventory:SpewOverseerMissions` exists but does nothing yet - treat it as not ported.",
+   "howToFix": "Removed on purpose - there is no replacement.",
    "id": "OgreBotAPI:Overseer_SpewMissionsInInventory",
-   "newForm": "OgreBotAPI.Inventory:SpewOverseerMissions",
-   "newSignature": "[fw]",
    "oldCall": "OgreBotAPI:Overseer_SpewMissionsInInventory",
    "oldKinds": [
     "m"
    ],
    "oldName": "Overseer_SpewMissionsInInventory",
    "oldSignature": "(string _ForWho=\"all\")",
-   "oldSpellingToday": "resolves, but the target is a stub - returns FALSE/empty and does nothing",
-   "status": "stub",
+   "oldSpellingToday": "does nothing - no error in any log (the method no longer exists)",
+   "status": "removed",
    "surface": "OgreBotAPI"
   },
   {
@@ -17419,69 +17355,55 @@
    "surface": "OgreBotAPI"
   },
   {
-   "howToFix": "The new name `OgreBotAPI:RO_FSD_BB_Brutas_DoNotNeedColdWater` exists but does nothing yet - treat it as not ported.",
+   "howToFix": "Removed on purpose - there is no replacement.",
    "id": "OgreBotAPI:RO_FSD_BB_Brutas_DoNotNeedColdWater",
-   "newForm": "OgreBotAPI:RO_FSD_BB_Brutas_DoNotNeedColdWater",
    "oldCall": "OgreBotAPI:RO_FSD_BB_Brutas_DoNotNeedColdWater",
    "oldKinds": [
     "m"
    ],
    "oldName": "RO_FSD_BB_Brutas_DoNotNeedColdWater",
    "oldSignature": "(string _ForWho, string _Toon)",
-   "oldSpellingToday": "resolves, but the target is a stub - returns FALSE/empty and does nothing",
-   "status": "stub",
+   "oldSpellingToday": "does nothing - no error in any log (the method no longer exists)",
+   "status": "removed",
    "surface": "OgreBotAPI"
   },
   {
-   "argsCheck": "unknown",
-   "example": {
-    "after": "OgreBotAPI:RO_FSD_BB_Brutas_DoNotNeedColdWater_Relay[\"all\",\"${Me.Name}\"]",
-    "before": "OgreBotAPI:RO_FSD_BB_Brutas_DoNotNeedColdWater_Relay[\"all\",\"${Me.Name}\"]"
-   },
-   "howToFix": "Nothing to change.",
+   "howToFix": "Removed on purpose - there is no replacement.",
    "id": "OgreBotAPI:RO_FSD_BB_Brutas_DoNotNeedColdWater_Relay",
-   "newForm": "OgreBotAPI:RO_FSD_BB_Brutas_DoNotNeedColdWater_Relay",
    "oldCall": "OgreBotAPI:RO_FSD_BB_Brutas_DoNotNeedColdWater_Relay",
    "oldKinds": [
     "m"
    ],
    "oldName": "RO_FSD_BB_Brutas_DoNotNeedColdWater_Relay",
    "oldSignature": "(string _ForWho, string _Toon)",
-   "oldSpellingToday": "works",
-   "status": "unchanged",
+   "oldSpellingToday": "does nothing - no error in any log (the method no longer exists)",
+   "status": "removed",
    "surface": "OgreBotAPI"
   },
   {
-   "howToFix": "The new name `OgreBotAPI:RO_FSD_BB_Brutas_NeedColdWater` exists but does nothing yet - treat it as not ported.",
+   "howToFix": "Removed on purpose - there is no replacement.",
    "id": "OgreBotAPI:RO_FSD_BB_Brutas_NeedColdWater",
-   "newForm": "OgreBotAPI:RO_FSD_BB_Brutas_NeedColdWater",
    "oldCall": "OgreBotAPI:RO_FSD_BB_Brutas_NeedColdWater",
    "oldKinds": [
     "m"
    ],
    "oldName": "RO_FSD_BB_Brutas_NeedColdWater",
    "oldSignature": "(string _ForWho, string _Toon)",
-   "oldSpellingToday": "resolves, but the target is a stub - returns FALSE/empty and does nothing",
-   "status": "stub",
+   "oldSpellingToday": "does nothing - no error in any log (the method no longer exists)",
+   "status": "removed",
    "surface": "OgreBotAPI"
   },
   {
-   "argsCheck": "unknown",
-   "example": {
-    "after": "OgreBotAPI:RO_FSD_BB_Brutas_NeedColdWater_Relay[\"bard\",\"${Me.Name}\"]",
-    "before": "OgreBotAPI:RO_FSD_BB_Brutas_NeedColdWater_Relay[\"bard\",\"${Me.Name}\"]"
-   },
-   "howToFix": "Nothing to change.",
+   "howToFix": "Removed on purpose - there is no replacement.",
    "id": "OgreBotAPI:RO_FSD_BB_Brutas_NeedColdWater_Relay",
-   "newForm": "OgreBotAPI:RO_FSD_BB_Brutas_NeedColdWater_Relay",
    "oldCall": "OgreBotAPI:RO_FSD_BB_Brutas_NeedColdWater_Relay",
    "oldKinds": [
     "m"
    ],
    "oldName": "RO_FSD_BB_Brutas_NeedColdWater_Relay",
    "oldSignature": "(string _ForWho, string _Toon)",
-   "oldSpellingToday": "works",
-   "status": "unchanged",
+   "oldSpellingToday": "does nothing - no error in any log (the method no longer exists)",
+   "status": "removed",
    "surface": "OgreBotAPI"
   },
   {
@@ -17767,17 +17689,16 @@
    "surface": "OgreBotAPI"
   },
   {
-   "howToFix": "The new name `OgreBotAPI.Comms:ReportListIrc` exists but does nothing yet - treat it as not ported.",
+   "howToFix": "Removed on purpose - there is no replacement.",
    "id": "OgreBotAPI:ReportForList_IRC",
-   "newForm": "OgreBotAPI.Comms:ReportListIrc",
    "oldCall": "OgreBotAPI:ReportForList_IRC",
    "oldKinds": [
     "m"
    ],
    "oldName": "ReportForList_IRC",
    "oldSignature": "(string _ForWho=all)",
-   "oldSpellingToday": "resolves, but the target is a stub - returns FALSE/empty and does nothing",
-   "status": "stub",
+   "oldSpellingToday": "does nothing - no error in any log (the method no longer exists)",
+   "status": "removed",
    "surface": "OgreBotAPI"
   },
   {
@@ -17794,17 +17715,16 @@
    "surface": "OgreBotAPI"
   },
   {
-   "howToFix": "The new name `OgreBotAPI.Comms:ReportClear` exists but does nothing yet - treat it as not ported.",
+   "howToFix": "Removed on purpose - there is no replacement.",
    "id": "OgreBotAPI:Report_ClearList",
-   "newForm": "OgreBotAPI.Comms:ReportClear",
    "oldCall": "OgreBotAPI:Report_ClearList",
    "oldKinds": [
     "m"
    ],
    "oldName": "Report_ClearList",
    "oldSignature": "(int _Value=1)",
-   "oldSpellingToday": "resolves, but the target is a stub - returns FALSE/empty and does nothing",
-   "status": "stub",
+   "oldSpellingToday": "does nothing - no error in any log (the method no longer exists)",
+   "status": "removed",
    "surface": "OgreBotAPI"
   },
   {
@@ -17836,31 +17756,29 @@
    "surface": "OgreBotAPI"
   },
   {
-   "howToFix": "The new name `OgreBotAPI.Comms:ReportSpew` exists but does nothing yet - treat it as not ported.",
+   "howToFix": "Removed on purpose - there is no replacement.",
    "id": "OgreBotAPI:Report_SpewList",
-   "newForm": "OgreBotAPI.Comms:ReportSpew",
    "oldCall": "OgreBotAPI:Report_SpewList",
    "oldKinds": [
     "m"
    ],
    "oldName": "Report_SpewList",
    "oldSignature": "(int _Value=1)",
-   "oldSpellingToday": "resolves, but the target is a stub - returns FALSE/empty and does nothing",
-   "status": "stub",
+   "oldSpellingToday": "does nothing - no error in any log (the method no longer exists)",
+   "status": "removed",
    "surface": "OgreBotAPI"
   },
   {
-   "howToFix": "The new name `OgreBotAPI.Comms:Reporting` exists but does nothing yet - treat it as not ported.",
+   "howToFix": "Removed on purpose - there is no replacement.",
    "id": "OgreBotAPI:Reporting",
-   "newForm": "OgreBotAPI.Comms:Reporting",
    "oldCall": "OgreBotAPI:Reporting",
    "oldKinds": [
     "m"
    ],
    "oldName": "Reporting",
    "oldSignature": "(string _Value)",
-   "oldSpellingToday": "resolves, but the target is a stub - returns FALSE/empty and does nothing",
-   "status": "stub",
+   "oldSpellingToday": "does nothing - no error in any log (the method no longer exists)",
+   "status": "removed",
    "surface": "OgreBotAPI"
   },
   {
@@ -18012,17 +17930,16 @@
    "surface": "OgreBotAPI"
   },
   {
-   "howToFix": "The new name `OgreBotAPI.Abilities:ResolveBuffCheck` exists but does nothing yet - treat it as not ported.",
+   "howToFix": "Removed on purpose - there is no replacement.",
    "id": "OgreBotAPI:ResolveBuffCheck",
-   "newForm": "OgreBotAPI.Abilities:ResolveBuffCheck",
    "oldCall": "OgreBotAPI:ResolveBuffCheck",
    "oldKinds": [
     "m"
    ],
    "oldName": "ResolveBuffCheck",
    "oldSignature": "(string _ForWho=all)",
-   "oldSpellingToday": "resolves, but the target is a stub - returns FALSE/empty and does nothing",
-   "status": "stub",
+   "oldSpellingToday": "does nothing - no error in any log (the method no longer exists)",
+   "status": "removed",
    "surface": "OgreBotAPI"
   },
   {
@@ -18171,17 +18088,16 @@
    "surface": "OgreBotAPI"
   },
   {
-   "howToFix": "The new name `OgreBotAPI:RoR_Epic_ChangeInCastStack` exists but does nothing yet - treat it as not ported.",
+   "howToFix": "Removed on purpose - there is no replacement.",
    "id": "OgreBotAPI:RoR_Epic_ChangeInCastStack",
-   "newForm": "OgreBotAPI:RoR_Epic_ChangeInCastStack",
    "oldCall": "OgreBotAPI:RoR_Epic_ChangeInCastStack",
    "oldKinds": [
     "m"
    ],
    "oldName": "RoR_Epic_ChangeInCastStack",
    "oldSignature": "(string _ForWho=\"all\", bool _Enabled=TRUE)",
-   "oldSpellingToday": "resolves, but the target is a stub - returns FALSE/empty and does nothing",
-   "status": "stub",
+   "oldSpellingToday": "does nothing - no error in any log (the method no longer exists)",
+   "status": "removed",
    "surface": "OgreBotAPI"
   },
   {
@@ -19024,17 +18940,16 @@
    "surface": "OgreBotAPI"
   },
   {
-   "howToFix": "The new name `OgreBotAPI.Abilities:SetVampiricRequiemCancelling` exists but does nothing yet - treat it as not ported.",
+   "howToFix": "Removed on purpose - there is no replacement.",
    "id": "OgreBotAPI:Set_VampiricRequiem_Cancelling_Active",
-   "newForm": "OgreBotAPI.Abilities:SetVampiricRequiemCancelling",
    "oldCall": "OgreBotAPI:Set_VampiricRequiem_Cancelling_Active",
    "oldKinds": [
     "m"
    ],
    "oldName": "Set_VampiricRequiem_Cancelling_Active",
    "oldSignature": "(string _ForWho=\"all\", int _Time=10)",
-   "oldSpellingToday": "resolves, but the target is a stub - returns FALSE/empty and does nothing",
-   "status": "stub",
+   "oldSpellingToday": "does nothing - no error in any log (the method no longer exists)",
+   "status": "removed",
    "surface": "OgreBotAPI"
   },
   {
@@ -19541,17 +19456,16 @@
    "surface": "OgreBotAPI"
   },
   {
-   "howToFix": "The new name `OgreBotAPI.Abilities:SpewAbilityVia` exists but does nothing yet - treat it as not ported.",
+   "howToFix": "Removed on purpose - there is no replacement.",
    "id": "OgreBotAPI:Spew_Get_AbilityVia",
-   "newForm": "OgreBotAPI.Abilities:SpewAbilityVia",
    "oldCall": "OgreBotAPI:Spew_Get_AbilityVia",
    "oldKinds": [
     "m"
    ],
    "oldName": "Spew_Get_AbilityVia",
    "oldSignature": "(... Args)",
-   "oldSpellingToday": "resolves, but the target is a stub - returns FALSE/empty and does nothing",
-   "status": "stub",
+   "oldSpellingToday": "does nothing - no error in any log (the method no longer exists)",
+   "status": "removed",
    "surface": "OgreBotAPI"
   },
   {
@@ -20494,18 +20408,16 @@
    "surface": "OgreBotAPI"
   },
   {
-   "howToFix": "The new name `OgreBotAPI.Bot:SetTurbo` exists but does nothing yet - treat it as not ported.",
+   "howToFix": "Removed on purpose - there is no replacement.",
    "id": "OgreBotAPI:Update_Turbo",
-   "newForm": "OgreBotAPI.Bot:SetTurbo",
-   "newSignature": "[fw,turbo=300,ignoreLimits=FALSE]",
    "oldCall": "OgreBotAPI:Update_Turbo",
    "oldKinds": [
     "m"
    ],
    "oldName": "Update_Turbo",
    "oldSignature": "(string _ForWho=\"all\", int _Turbo=300, bool _bIgnoreLimits=FALSE)",
-   "oldSpellingToday": "resolves, but the target is a stub - returns FALSE/empty and does nothing",
-   "status": "stub",
+   "oldSpellingToday": "does nothing - no error in any log (the method no longer exists)",
+   "status": "removed",
    "surface": "OgreBotAPI"
   },
   {
@@ -29480,10 +29392,6 @@
    "v2Row": "-NoTarget"
   },
   {
-   "example": {
-    "after": "oc !ci -DoNotMove igw:${Me.Name}",
-    "before": "oc !ci -DoNotMove igw:${Me.Name}"
-   },
    "howToFix": "Nothing to change.",
    "id": "console:-DoNotMove",
    "newForm": "-DoNotMove",
@@ -30192,8 +30100,8 @@
   },
   {
    "example": {
-    "after": "oc !ci -Disband",
-    "before": "oc !ci -Disband"
+    "after": "oc !c -disband ${Me.Name}",
+    "before": "oc !c -disband ${Me.Name}"
    },
    "howToFix": "Nothing to change.",
    "id": "console:-Disband",
@@ -32333,8 +32241,8 @@
   },
   {
    "example": {
-    "after": "oc !ci -UplinkOptionChange ${Me.Name} checkbox_settings_disablecaststack TRUE",
-    "before": "oc !ci -UplinkOptionChange ${Me.Name} checkbox_settings_disablecaststack TRUE"
+    "after": "oc !ci -UplinkOptionChange \"${Me.Name}\" \"checkbox_settings_loot\" \"TRUE\" \"TRUE\"",
+    "before": "oc !ci -UplinkOptionChange \"${Me.Name}\" \"checkbox_settings_loot\" \"TRUE\" \"TRUE\""
    },
    "howToFix": "Nothing to change.",
    "id": "console:-UplinkOptionChange",
@@ -33286,22 +33194,16 @@
    "v2Row": "-Spew_BoZ_Research"
   },
   {
-   "howToFix": "Nothing to change.",
+   "howToFix": "Removed on purpose - there is no replacement.",
    "id": "console:-ChangeRadarYAxis",
-   "newForm": "-ChangeRadarYAxis",
    "oldCall": "-ChangeRadarYAxis",
    "oldKinds": [
     "verb"
    ],
    "oldName": "-ChangeRadarYAxis",
-   "oldSpellingToday": "works",
-   "status": "unchanged",
-   "surface": "console",
-   "v2Params": [
-    "who:forwho",
-    "value:string"
-   ],
-   "v2Row": "-ChangeRadarYAxis"
+   "oldSpellingToday": "prints \"Unknown command entered\" on every session that receives it - nothing runs",
+   "status": "removed",
+   "surface": "console"
   },
   {
    "example": {
@@ -34876,8 +34778,8 @@
   },
   {
    "example": {
-    "after": "oc !ci -RunScriptOB All lostone/lo_ogreic_watcher",
-    "before": "oc !ci -RunScriptOB All lostone/lo_ogreic_watcher"
+    "after": "oc !c -RunScriptOB igw:${Me.Name} lostone/lo_grr_toon",
+    "before": "oc !c -RunScriptOB igw:${Me.Name} lostone/lo_grr_toon"
    },
    "howToFix": "Nothing to change.",
    "id": "console:-RunScriptOB",
@@ -41421,8 +41323,8 @@
   },
   {
    "example": {
-    "after": "while !${ISXOgreEQ2.Craft.QueueUpdated} && ${iTimeOut:Inc} < 5",
-    "before": "while !${OgreCraft.QueueUpdated} && ${iTimeOut:Inc} < 5"
+    "after": "while !${ISXOgreEQ2.Craft.QueueUpdated}",
+    "before": "while !${OgreCraft.QueueUpdated}"
    },
    "howToFix": "Write `ISXOgreEQ2.Craft.QueueUpdated` instead of `OgreCraftAPI.QueueUpdated`.",
    "id": "OgreCraftAPI.QueueUpdated",
@@ -41637,8 +41539,8 @@
   },
   {
    "example": {
-    "after": "ISXOgreEQ2.Craft:AddRecipe[\"Voidpiercer's Crossbow of Endurance\",100]",
-    "before": "OgreCraft:AddRecipeName[100,\"Voidpiercer's Crossbow of Endurance\"]"
+    "after": "ISXOgreEQ2.Craft:AddRecipe[\"${ItemCraft}\",3]",
+    "before": "OgreCraft:AddRecipeName[3,\"${ItemCraft}\"]"
    },
    "howToFix": "Write `ISXOgreEQ2.Craft:AddRecipe` instead of `OgreCraft:AddRecipeName`, and reorder the arguments: Classic order [quantity, name]; new order [name, quantity] (quantity defaults to 1). Renamed too. For another session, OgreBotAPI.Craft:AddRecipe takes the same two with the for-who in front.",
    "id": "OgreCraft.AddRecipeName",
@@ -41835,8 +41737,8 @@
   },
   {
    "example": {
-    "after": "while !${ISXOgreEQ2.Craft.QueueUpdated} && ${iTimeOut:Inc} < 5",
-    "before": "while !${OgreCraft.QueueUpdated} && ${iTimeOut:Inc} < 5"
+    "after": "while !${ISXOgreEQ2.Craft.QueueUpdated}",
+    "before": "while !${OgreCraft.QueueUpdated}"
    },
    "howToFix": "Write `ISXOgreEQ2.Craft.QueueUpdated` instead of `OgreCraft.QueueUpdated`.",
    "id": "OgreCraft.QueueUpdated",
@@ -43802,7 +43704,7 @@
    "howToFix": "This is authored in a data file now: `zoneOut`.",
    "id": "Obj_OgreIH.ZoneNavigation",
    "newForm": "zoneOut",
-   "note": "`ZoneNavigation.ZoneOut` becomes a `zoneOut` step. `ZoneNavigation.GetIntoZone` is not written at all - the instance controller gets the group into the zone itself. `ZoneNavigation.EndOfZone` is done by the instance controller before the exit.",
+   "note": "`ZoneNavigation.ZoneOut` becomes a `zoneOut` step: `{ \"do\": \"zoneOut\", \"op\": \"auto\" }` is the same built-in zone out (the nearest \"zone exit\" / \"exit\" / \"zone_exit\" / \"exit_spawned\" anywhere in the zone, walked to and clicked); `ZoneOut` with names becomes `op` \"auto\" with those `name`s. `ZoneNavigation.GetIntoZone` is not written at all - the instance controller gets the group into the zone itself. `ZoneNavigation.EndOfZone` is done by the instance controller before the exit.",
    "oldCall": "Obj_OgreIH.ZoneNavigation",
    "oldKinds": [
     "v"
@@ -46892,14 +46794,13 @@
    "surface": "OldBot framework"
   },
   {
-   "howToFix": "To report a stat to chat use OgreBotAPI.Debug:BroadcastStat (or the console `-SpewStat`). Reading a stat back into a script (OgreBotAPI.Debug.SpewStat) exists but does not work yet, so a script that needs your potency has no working read today.",
+   "howToFix": "To report a stat to chat use OgreBotAPI.Debug:BroadcastStat (or the console `-SpewStat`).",
    "id": "OldBot framework|Obj_SpewStats",
-   "newForm": "OgreBotAPI.Debug.SpewStat",
    "note": "OgreBot's stat reporter: read your stats, currencies, factions, skills and recipe counts from the game windows, either returned to the script (GetSpewStat, e.g. potency) or sent to chat.",
    "oldCall": "Obj_SpewStats",
    "oldName": "Obj_SpewStats",
    "oldSpellingToday": "not defined - the new bot does not load Classic's framework, so the name does not exist",
-   "status": "stub",
+   "status": "removed",
    "surface": "OldBot framework"
   },
   {
@@ -47290,7 +47191,7 @@
    "surface": "OldBot framework"
   },
   {
-   "howToFix": "Use a `zoneOut` step: `op` \"door\" with the exit's `name` (and `destination` \"1\" to keep picking the first row), or `op` \"endOfZone\" for the boss exit. The pause-at-end hold is built into the step.",
+   "howToFix": "Use a `zoneOut` step: `op` \"door\" with the exit's `name` (and `destination` \"1\" to keep picking the first row), `op` \"endOfZone\" for the boss exit, or `op` \"auto\" for the nearest exit anywhere in the zone. Every zone file needs one (`op` \"none\" to stay in the zone). The pause-at-end hold is built into the step.",
    "id": "OldBot framework|ZoneOut",
    "newForm": "zoneOut",
    "note": "At the end of a zone: if 'Pause at end of zone' was ticked, paused the bot until you resumed it; then had everyone click the exit, picked the first row of the door list, and waited for the group to arrive.",

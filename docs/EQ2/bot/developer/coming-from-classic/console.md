@@ -20,11 +20,11 @@ What changed between the Classic console (V1) and the new console (V2) for every
 | ✏️ Renamed | 4 |
 | ➡️ Lives somewhere else | 1 |
 | 📄 In a data file now | 18 |
-| ⛔ Removed | 37 |
-| ✅ Works as is | 449 |
+| ⛔ Removed | 38 |
+| ✅ Works as is | 448 |
 | **Total** | **554** |
 
-449 of the 554 Classic commands are typed exactly as before (127 of those are other names - aliases - for a command, and keep working).
+448 of the 554 Classic commands are typed exactly as before (127 of those are other names - aliases - for a command, and keep working).
 
 ## 1. Commands you must change
 
@@ -152,7 +152,7 @@ oc !c -ConversationBubble auto 1
 | `-ROSGTFDispell` | Unknown command | `dispel` | 📄 In a data file now | Nothing to type: the dispel is coded in Ogre/EQ2/Encounters/default/Chains of Eternity/Siren's Grotto - Dissension [Raid]/Overlord. |
 | `-ROTOVI` | Unknown command | `broadcast` | 📄 In a data file now | Note A |
 
-### ⛔ Removed (37)
+### ⛔ Removed (38)
 
 | You typed | Today | Type instead | What changed | Notes |
 |---|---|---|---|---|
@@ -161,6 +161,7 @@ oc !c -ConversationBubble auto 1
 | `-AscensionEmbargo_Change_Disable_Status` | Unknown command | — | ⛔ Removed | V1 -&gt; Command_AscensionEmbargo_Change_Disable_Status :3055. |
 | `-AscensionEmbargo_Remove_DoNotCombo` | Unknown command | — | ⛔ Removed | V1 -&gt; Command_AscensionEmbargo_Remove_DoNotCombo :3075. |
 | `-cfw` | as the first thing on a line (`-cfw <who> -Verb ...`): works, for that line only. On a line by itself: does nothing - the lasting default it set is gone | — | ⛔ Removed | As the FIRST thing after `oc !c` / `oc !ci` (`oc !ci -cfw igw:${Me.Name} -letsgo`) it still works: the new console reads it as that one line's for-who, and the verb's empty for-who takes it (the tool skips that form). Only `-cfw <who>` on a line by itself is gone - it set a lasting default for later lines. Put the for-who on each of those later verbs instead (it is argument 1).<br>V1 -&gt; Command_Set_CustomCFW :1440 wrote This.Default_CFW - a PERSISTENT default that every later `auto` for-who resolved to (Get_CommandForWho :1449). |
+| `-ChangeRadarYAxis` | Unknown command | — | ⛔ Removed | V1 -&gt; method ChangeRadarYAxis :5075 -&gt; OgreBotAPI:ChangeRadarYAxis :5085 (toggle the radar Y axis). The V2 row ran OgreBotAPI.Client:SetRadarYAxis, a stub that did nothing; both were removed 2026-10-22. |
 | `-cs-jo` | Unknown command | — | ⛔ Removed | Write the two steps it did: `-campspot <who> <min> <max>` then `-joustoff <joustoff>` (Classic: -cs-jo &lt;who&gt; &lt;joustoff&gt; &lt;min&gt; &lt;max&gt;; defaults auto, auto+casters, 2, 200). An MCP button is split for you.<br>**Old:** `-cs-jo <fw> <joustoff> <min> <max>`<br>**New:** `-campspot <fw> <min> <max> -joustoff <joustoff>` |
 | `-cs-jo-ji` | Unknown command | — | ⛔ Removed | Write the three steps it did: `-campspot <who> <min> <max>`, `-joustoff <joustoff>`, `-joustin <joustin>` (Classic: -cs-jo-ji &lt;who&gt; &lt;joustoff&gt; &lt;min&gt; &lt;max&gt; &lt;joustin&gt;; defaults auto, auto+casters, 2, 200, auto). An MCP button is split for you.<br>**Old:** `-cs-jo-ji <fw> <joustoff> <min> <max> <joustin>`<br>**New:** `-campspot <fw> <min> <max> -joustoff <joustoff> -joustin <joustin>` |
 | `-Deity_Spend` | Unknown command | — | ⛔ Removed | V1 label. V1 -&gt; Command_Deity_Spend -&gt; OgreBotAPI:SpendDietyPoints, whose only working line (the QueueCommand) is commented out - a no-op on Classic too. |
@@ -196,7 +197,7 @@ oc !c -ConversationBubble auto 1
 
 ## 2. Every other command, A to Z
 
-These 449 commands are typed exactly as in Classic. An alias is another name for a command; it keeps working.
+These 448 commands are typed exactly as in Classic. An alias is another name for a command; it keeps working.
 
 | You typed | Notes |
 |---|---|
@@ -322,7 +323,6 @@ These 449 commands are typed exactly as in Classic. An alias is another name for
 | `-ChangeCastStackListBoxItemByTag` |  |
 | `-ChangeLootOptions` |  |
 | `-ChangeOgreBotUIOption` |  |
-| `-ChangeRadarYAxis` |  |
 | `-ChangeZoneTo` |  |
 | `-CheckGear` |  |
 | `-CheckKunarkAscendingRequirements` |  |
