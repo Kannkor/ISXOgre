@@ -78,7 +78,8 @@ Loot decides what the bot does when a loot window opens. Nothing on the left hal
 
 | Control | What it does | Default |
 |---|---|---|
-| **Exact item name to always loot** | Type an item name here, then press Add or Enter to put it on the list. | empty |
+| **Exact item name** | Type an item name here (or fill it with From examine), then press Add or Enter to put it on the list. | empty |
+| **From examine** | Fills the name box with the item in the examine window you have open (examine the item in game first). Press Add to put it on the list.<br>*It only fills the box - nothing is added until you press Add. With no item examine window open, the box is left as it was and the window says 'Examine the item first, then press From examine'.* |  |
 | **Add** | Adds the typed name to the Auto-Loot list. It takes effect on the next loot window. |  |
 | **x (remove row)** | Removes that name from your list. |  |
 

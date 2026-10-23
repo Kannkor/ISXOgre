@@ -14,6 +14,8 @@ with `lstype`. The two you will use most are `ISXOgreEQ2` and `OgreBotAPI`.
 
 - **Moving a Classic script over?** Start with [Converting your scripts](converting.md). It has a tool
   that checks a script and fixes what it safely can, and a step-by-step procedure you can hand to Claude.
+- **Want the Instance Controller to run a zone it does not know?** [Write your own zone files](zone-files.md)
+  shows how a zone file is laid out, every step it can use, and how to check it.
 - **Want a window of your own in game?** [Build your own window](build-your-own-window.md) shows how a script
   or an extension opens one, reads and changes what is in it, and reacts to clicks.
 - **Looking up one name?** [Coming from Classic](coming-from-classic/index.md) lists Classic's API

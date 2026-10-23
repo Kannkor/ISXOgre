@@ -1,8 +1,8 @@
-# Console commands (OgreConsole)
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../index.md).
 </div>
+
+# Console commands (OgreConsole)
 
 What changed between the Classic console (V1) and the new console (V2) for every command you type after `oc !c` or `oc !ci`, or put on an MCP button.
 
@@ -15,22 +15,22 @@ What changed between the Classic console (V1) and the new console (V2) for every
 
 | What happened | Names |
 |---|---|
-| ⚠️ Arguments changed | 35 |
+| ⚠️ Arguments changed | 36 |
 | ⚠️ Argument order changed | 10 |
-| ✏️ Renamed | 4 |
+| ✏️ Renamed | 12 |
 | ➡️ Lives somewhere else | 1 |
 | 📄 In a data file now | 18 |
-| ⛔ Removed | 38 |
-| ✅ Works as is | 448 |
+| ⛔ Removed | 36 |
+| ✅ Works as is | 441 |
 | **Total** | **554** |
 
-448 of the 554 Classic commands are typed exactly as before (127 of those are other names - aliases - for a command, and keep working).
+441 of the 554 Classic commands are typed exactly as before (126 of those are other names - aliases - for a command, and keep working).
 
 ## 1. Commands you must change
 
 Every Classic console command that does not work as typed any more. Sorted by what to do.
 
-### ⚠️ Arguments changed (35)
+### ⚠️ Arguments changed (36)
 
 #### ⚠️ Arguments changed: `-ZoneDoor`
 
@@ -75,6 +75,7 @@ oc !c -ZoneDoor auto "${UserInput}"
 | `-SetUpFor` | runs, arguments mean something else | `-SetUpFor` | ⚠️ Arguments changed | Pass the named mob's exact name, or nothing to auto-detect. A module phrase that is not the mob's name (e.g. 'Master' for The Djinn Master, 'reset') no longer matches - it logs "no encounter owns mob".<br>**Old:** `-SetUpFor <fw> <words after "Set up for">`<br>**New:** `-SetUpFor <fw> [<named mob name>] [<restart>]`<br>restart FALSE leaves a setup that is already running alone. |
 | `-SpewStat` | runs, arguments mean something else | `-SpewStat` | ⚠️ Arguments changed | Write the type as its own flag: `-SpewStat <fw> -item Foo oc` instead of `-SpewStat <fw> item_Foo oc`.<br>**Old:** `-SpewStat <fw> <prefix_value> <where>`<br>**New:** `-SpewStat <fw> <-type> <value> <where>`<br>The old mashed form is still READ: maps an unknown type through MapLegacyToken and takes `where` from the old slot, so most old lines still work. deity_* tokens are dropped, and a token it cannot map errors loudly. |
 | `-SpewStats` | runs, arguments mean something else | `-SpewStat` | ⚠️ Arguments changed | Write the type as its own flag: `-SpewStat <fw> -item Foo oc` instead of `-SpewStat <fw> item_Foo oc`.<br>**Old:** `-SpewStats <fw> <prefix_value> <where>`<br>**New:** `-SpewStats <fw> <-type> <value> <where>`<br>The old mashed form is still READ: maps an unknown type through MapLegacyToken and takes `where` from the old slot, so most old lines still work. deity_* tokens are dropped, and a token it cannot map errors loudly. |
+| `-Unpack` | runs, arguments mean something else | `-Unpack` | ⚠️ Arguments changed | Write the reward choice as `-pick <choice>`: `-Unpack <fw> "<item>" -pick <number \| name \| lowest>`. A line with no choice needs no change.<br>**Old:** `-Unpack <fw> <item> <choice>`<br>**New:** `-Unpack <fw> <item> [-qty <N> \| -all] [-pick <number \| name \| lowest>]`<br>… |
 | `-Walk` | runs, arguments mean something else | `-Walk` | ⚠️ Arguments changed | Nothing to retype; check the intent - V2 does what the name says.<br>**Old:** `-Walk <fw> - flipped the current mode (a -Walk sent to a box already walking made it run). New: -Walk <fw> - sets walk; a box already there is left alone` |
 | `-ZoneDoor` | runs, arguments mean something else | `-ZoneDoor` | ⚠️ Arguments changed | Insert the for-who as the first argument. V1 had NO for-who: every session that heard the line acted. V2 reads argument 1 as the for-who, so an unconverted line's value lands in the for-who slot and the real argument falls back to its default - silently. Write `auto` there; that is what the MCP migration writes.<br>**Old:** `-ZoneDoor <dooroption>`<br>**New:** `-ZoneDoor <fw> <dooroption>`<br>V2 params: who, dooroption (default 1). The V1 -...ForWho twins (already for-who first) are now aliases of the same row. |
 | `-ZoneDoorOption` | runs, arguments mean something else | `-ZoneDoor` | ⚠️ Arguments changed | Insert the for-who as the first argument. V1 had NO for-who: every session that heard the line acted. V2 reads argument 1 as the for-who, so an unconverted line's value lands in the for-who slot and the real argument falls back to its default - silently. Write `auto` there; that is what the MCP migration writes.<br>**Old:** `-ZoneDoorOption <dooroption>`<br>**New:** `-ZoneDoorOption <fw> <dooroption>`<br>V2 params: who, dooroption (default 1). The V1 -...ForWho twins (already for-who first) are now aliases of the same row. |
@@ -103,29 +104,37 @@ oc !ci -assist igw:${Me.Name} ${Me.Name}
 | `-Profile` | runs, arguments in the wrong places | `-LoadProfile` | ⚠️ Argument order changed | Move the for-who to the first argument.<br>**Old:** `-Profile <profilename> <fw>`<br>**New:** `-Profile <fw> <profilename>` |
 | `-ProfileForWho` | runs, arguments in the wrong places | `-LoadProfile` | ⚠️ Argument order changed | Move the for-who to the first argument.<br>**Old:** `-ProfileForWho <profilename> <fw>`<br>**New:** `-ProfileForWho <fw> <profilename>` |
 
-### ✏️ Renamed (4)
+### ✏️ Renamed (12)
 
-#### ✏️ Renamed: `-OptNum`
+#### ✏️ Renamed: `-ApplyVerbForWho`
 
 ```
 ; before (Classic)
-oc !c -OptNum 1
+oc !ci -ApplyVerbForWho igw:${Me.Name} "boss_01_knight_light" "Touch"
 ; after (new bot)
-oc !c -ConversationBubble auto 1
+oc !ci -ApplyVerb igw:${Me.Name} "boss_01_knight_light" "Touch"
 ```
 
 | You typed | Today | Type instead | What changed | Notes |
 |---|---|---|---|---|
+| `-Apply_VerbForWho` | Unknown command | `-ApplyVerb` | ✏️ Renamed | The ForWho row is gone; write `-ApplyVerb` with the same arguments - the for-who stays first. An MCP button is converted for you. |
+| `-ApplyVerbForWho` | Unknown command | `-ApplyVerb` | ✏️ Renamed | The ForWho row is gone; write `-ApplyVerb` with the same arguments - the for-who stays first. An MCP button is converted for you. |
+| `-ApplyVerbIDForWho` | Unknown command | `-ApplyVerbID` | ✏️ Renamed | The ForWho row is gone; write `-ApplyVerbID` with the same arguments - the for-who stays first. An MCP button is converted for you. |
+| `-ApplyVerbIDQueuedForWho` | Unknown command | `-ApplyVerbIDQueued` | ✏️ Renamed | The ForWho row is gone; write `-ApplyVerbIDQueued` with the same arguments - the for-who stays first. An MCP button is converted for you. |
+| `-ApplyVerbQueuedForWho` | Unknown command | `-ApplyVerbQueued` | ✏️ Renamed | The ForWho row is gone; write `-ApplyVerbQueued` with the same arguments - the for-who stays first. An MCP button is converted for you. |
 | `-OgreCraft_AddRecipesFromQuest` | Unknown command | `-OgreCraft_StartQuest` | ✏️ Renamed | Replace the verb name; the arguments are the same (`<fw>`).<br>It does MORE than V1: V1 only QUEUED the quest's recipes (with a 6/3 quantity guess); V2 is a flow that crafts the current quest's pending recipe steps, one of each per pass, until none is pending. The for-who now filters; V1 ran it on every session that heard the line. |
 | `-Opt_Num` | Unknown command | `-ConversationBubble` | ✏️ Renamed | -Opt_Num was the same reply click as -ConversationBubble and is gone. Write `-ConversationBubble <fw> <num>`; V1 had no for-who, so put `auto` first (the For Who window).<br>**Old:** `-Opt_Num <num>`<br>**New:** `-ConversationBubble <fw> <num> (row -ConversationBubble)`<br>V2 params: who, num (default 1). |
 | `-OptNum` | Unknown command | `-ConversationBubble` | ✏️ Renamed | -Opt_Num was the same reply click as -ConversationBubble and is gone. Write `-ConversationBubble <fw> <num>`; V1 had no for-who, so put `auto` first (the For Who window).<br>**Old:** `-OptNum <num>`<br>**New:** `-ConversationBubble <fw> <num> (row -ConversationBubble)`<br>V2 params: who, num (default 1). |
 | `-Set_VampiricRequiem_Cancelling_Active` | Unknown command | `-CancelOnCast` | ✏️ Renamed | Write `-CancelOnCast <fw> <ability>` naming the trigger ability (for the old verb: Vampiric Requiem), and configure what it cancels in the Cancel On Cast tab. |
+| `-Unpack_EmpyralStones` | Unknown command | `-Unpack` | ✏️ Renamed | Use `-Unpack <fw> "Empyral Stones" -all -pick lowest` (or `-pick "<stone name>"` for one kind).<br>**Old:** `-Unpack_EmpyralStones <fw> [Lowest \| <stone name>]`<br>**New:** `-Unpack <fw> "Empyral Stones" -all -pick lowest` |
+| `-Unpack_PlanarStones` | Unknown command | `-Unpack` | ✏️ Renamed | Use `-Unpack <fw> "Planar Stones" -all -pick lowest` (or `-pick "<stone name>"` for one kind).<br>**Old:** `-Unpack_PlanarStones <fw> [Lowest \| <stone name>]`<br>**New:** `-Unpack <fw> "Planar Stones" -all -pick lowest` |
+| `-Unpack_Quantity` | Unknown command | `-Unpack` | ✏️ Renamed | Use `-Unpack <fw> "<item>" -qty <N>` (add `-pick <choice>` when the window offers a choice). Name the item - the old "examine" default (the item in the open examine window) is gone.<br>**Old:** `-Unpack_Quantity <fw> <item> <N> <choice>`<br>**New:** `-Unpack <fw> <item> -qty <N> -pick <choice>` |
 
 ### ➡️ Lives somewhere else (1)
 
 | You typed | Today | Type instead | What changed | Notes |
 |---|---|---|---|---|
-| `-Ask` | Unknown command | `ISXOgreEQ2.Comms:Query` | ➡️ Lives somewhere else | IC file: the `groupQuery` step - counts, allYes / anyYes / allNo / anyNo, per-member flags, raw answers, ready-made for-who lists. Script: the same engine - ${ISXOgreEQ2.Comms.GroupQuery[&lt;fw&gt;, -question, &lt;question&gt;, ...]} starts it and reads as its id; then ${ISXOgreEQ2.Comms.GroupQuery.Done[id]} / .Result[id] (JSON, the same names), or the event OgreEvent_GroupQueryDone(id, json). |
+| `-Ask` | Unknown command | `OgreBotAPI.Comms:Query` | ➡️ Lives somewhere else | IC file: the `groupQuery` step - counts, allYes / anyYes / allNo / anyNo, per-member flags, raw answers, ready-made for-who lists. Script: the same engine - ${OgreBotAPI.Comms.GroupQuery[&lt;fw&gt;, -question, &lt;question&gt;, ...]} starts it and reads as its id; then ${OgreBotAPI.Comms.GroupQuery.Done[id]} / .Result[id] (JSON, the same names), or the event OgreEvent_GroupQueryDone(id, json). |
 
 ### 📄 In a data file now (18)
 
@@ -152,7 +161,7 @@ oc !c -ConversationBubble auto 1
 | `-ROSGTFDispell` | Unknown command | `dispel` | 📄 In a data file now | Nothing to type: the dispel is coded in Ogre/EQ2/Encounters/default/Chains of Eternity/Siren's Grotto - Dissension [Raid]/Overlord. |
 | `-ROTOVI` | Unknown command | `broadcast` | 📄 In a data file now | Note A |
 
-### ⛔ Removed (38)
+### ⛔ Removed (36)
 
 | You typed | Today | Type instead | What changed | Notes |
 |---|---|---|---|---|
@@ -177,7 +186,7 @@ oc !c -ConversationBubble auto 1
 | `-OgreACommandOB_AP` | Unknown command | — | ⛔ Removed | Not the same verb as -OgreCommandOB_AP (`ogre <cmd>`), which is live. |
 | `-Reload_DevBot` | Unknown command | — | ⛔ Removed | V1 -&gt; Command_Reload_DevBot :3769 -&gt; OgreBotAPI:Reload_DevBot (target `ogre dev`). |
 | `-ReloadOgreConsole` | Unknown command | — | ⛔ Removed | Close and reopen the panel: `ogre end console`, then `ogre console`.<br>V1 -&gt; Command_ReloadOgreConsole :4907 = `timedcommand 5 ogre console` + `timedcommnad 1 ogre end console` (typo: the close half never ran). |
-| `-Report_Back` | Unknown command | — | ⛔ Removed | Ask with groupQuery instead - the IC step `groupQuery`, or from a script ${ISXOgreEQ2.Comms.GroupQuery[&lt;fw&gt;, -question, ...]}: -item -&gt; question `itemCount`; -ScriptRunning and -CommandForMe -&gt; a LavishScript[...] question; -resolve_of_slot -&gt; loot distribution's own `lootBid`.<br>Classic callers: (EveryoneHaveItem),/654 (the resolve auction - replaced by lootBid), + + (OgreAutoQuest - not ported). |
+| `-Report_Back` | Unknown command | — | ⛔ Removed | Ask with groupQuery instead - the IC step `groupQuery`, or from a script ${OgreBotAPI.Comms.GroupQuery[&lt;fw&gt;, -question, ...]}: -item -&gt; question `itemCount`; -ScriptRunning and -CommandForMe -&gt; a LavishScript[...] question; -resolve_of_slot -&gt; loot distribution's own `lootBid`.<br>Classic callers: (EveryoneHaveItem),/654 (the resolve auction - replaced by lootBid), + + (OgreAutoQuest - not ported). |
 | `-ReportForList_IRC` | Unknown command | — | ⛔ Removed | V1 -&gt; Command_ReportForList_IRC :3322 -&gt; OgreBotAPI:ReportForList_IRC (the roll-call emitter). It was an IRC roll call - who ANSWERED (i.e. is actually running the bot), ordered by actor id - with one consumer, Trakanon's Toxic Life rotation. |
 | `-Reporting` | Unknown command | — | ⛔ Removed | Any replacement has to answer "who is actually going to act", not "who is in my group" - see the -Reporting verdict in. |
 | `-ResolveBuffCheck` | Unknown command | — | ⛔ Removed | V1 sits inside a /* Need to remove this */ block (810-814), so V1 itself already answered "Unknown command"; its method Command_ResolveBuffCheck :3839 called OgreBotAPI:ResolveBuffCheck. |
@@ -190,14 +199,12 @@ oc !c -ConversationBubble auto 1
 | `-Test` | Unknown command | — | ⛔ Removed | V1 -&gt; method Test :4928 = `timedcommand 0 run test` (whatever is). |
 | `-test1` | Unknown command | — | ⛔ Removed | V1 -&gt; Command_Test1 :2748 parses a for-who, two args and a tail and only `echo`es them - an arg-parsing scratch harness. |
 | `-test2` | Unknown command | — | ⛔ Removed | V1 -&gt; Command_Test2 :2771, the twin of -test1 (echo only). |
-| `-Unpack_EmpyralStones` | Unknown command | — | ⛔ Removed | Use `-Unpack <fw> <itemname> <unpackoption>` naming the container.<br>V1 -&gt; Command_Unpack_EmpyralStones :2726 -&gt; OgreBotAPI:Unpack_EmpyralStones[fw, option=Lowest]. |
-| `-Unpack_PlanarStones` | Unknown command | — | ⛔ Removed | Use `-Unpack <fw> <itemname> <unpackoption>` naming the container.<br>V1 -&gt; Command_Unpack_PlanarStones :2737 -&gt; OgreBotAPI:Unpack_PlanarStones[fw, option=Lowest]. |
 | `-Update_Turbo` | Unknown command | — | ⛔ Removed | V1 -&gt; Command_Update_Turbo :2238 -&gt; OgreBotAPI:Update_Turbo[fw, 300] (LavishScript turbo). |
 | `-VampiricRequiem_AbilityCancel` | Unknown command | — | ⛔ Removed | The generic version is the Cancel On Cast tab: it cancels when the configured trigger is cast; to trigger it by hand use `-CancelOnCast <fw> <ability>`.<br>V1 -&gt; Command_VampiricRequiem_AbilityCancel :1694 -&gt; OgreBotAPI:VampiricRequiem_AbilityCancel -&gt; run TabConfig.VampiricRequiem.Handle_Cancel now. |
 
 ## 2. Every other command, A to Z
 
-These 448 commands are typed exactly as in Classic. An alias is another name for a command; it keeps working.
+These 441 commands are typed exactly as in Classic. An alias is another name for a command; it keeps working.
 
 | You typed | Notes |
 |---|---|
@@ -223,13 +230,8 @@ These 448 commands are typed exactly as in Classic. An alias is another name for
 | `-Alias_ChangeEntryFor` |  |
 | `-Alias_RemoveEntry` |  |
 | `-AltarOfTheAncients` |  |
-| `-Apply_VerbForWho` |  |
 | `-ApplyTempAdorn` |  |
 | `-ApplyTempAdorns` | An alias of `-ApplyTempAdorn` - it works as typed. |
-| `-ApplyVerbForWho` | An alias of `-Apply_VerbForWho` - it works as typed. |
-| `-ApplyVerbIDForWho` |  |
-| `-ApplyVerbIDQueuedForWho` |  |
-| `-ApplyVerbQueuedForWho` |  |
 | `-ArcannaseEffigyOfRebirth` |  |
 | `-AReward` | An alias of `-AcceptReward` - it works as typed. |
 | `-AssistForWho` |  |
@@ -628,10 +630,8 @@ These 448 commands are typed exactly as in Classic. An alias is another name for
 | `-UnflagToon` |  |
 | `-UnmarkToon` |  |
 | `-Unmentor` |  |
-| `-Unpack` |  |
 | `-Unpack_Consume_Familiars` |  |
 | `-Unpack_Familiars` |  |
-| `-Unpack_Quantity` |  |
 | `-UO` | An alias of `-UplinkOptionChange` - it works as typed. |
 | `-UOS` | An alias of `-UplinkOptionSilent` - it works as typed. |
 | `-UplinkOption` | An alias of `-UplinkOptionChange` - it works as typed. |

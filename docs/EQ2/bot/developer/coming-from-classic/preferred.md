@@ -1,8 +1,8 @@
-# Preferred group members
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../index.md).
 </div>
+
+# Preferred group members
 
 The `…Preferred` calls Classic's *Preferred Group & Raid Members* page described - pick the best member of an archetype in a fixed priority order - and what each one is in the new bot.
 
@@ -15,19 +15,18 @@ The `…Preferred` calls Classic's *Preferred Group & Raid Members* page describ
 | What happened | Names |
 |---|---|
 | ✏️ Renamed | 9 |
-| ⛔ Not ported yet | 4 |
+| ➡️ Lives somewhere else | 3 |
+| ⛔ Not ported yet | 1 |
 | **Total** | **13** |
 
 ## The Preferred calls
 
-**Note A** (3 rows below): The new surface returns values instead: `${OgreBotAPI.Roster.SortGroupByID[...]}` / `.GroupIDBy` / `.GroupNameBy` / `.RaidIDBy` / `.RaidNameBy` and the four `*Preferred` forms. Mind the argument order - Roster takes (mode, search, ...), Classic took (search, mode, ...).
-
 | Old call | Today | Write instead | What changed | Notes |
 |---|---|---|---|---|
-| `GetInfoOb:Get_GroupIDsPreferred` | does nothing | — | ⛔ Not ported yet | Note A |
-| `GetInfoOb:Get_GroupNamesPreferred` | does nothing | — | ⛔ Not ported yet | Note A |
+| `GetInfoOb:Get_GroupIDsPreferred` | does nothing | `${OgreBotAPI.Roster.SortGroupByID[<mode>,<search>]}` | ➡️ Lives somewhere else |  |
+| `GetInfoOb:Get_GroupNamesPreferred` | does nothing | `${OgreBotAPI.Roster.SortGroupByID[<mode>,<search>]}` | ➡️ Lives somewhere else |  |
 | `GetInfoOb:Get_RaidIDsPreferred` | does nothing | `OgreBotAPI.Roster.RaidIDPreferred` | ✏️ Renamed | it has NO consumer callers - both apparent 'call sites' are prose inside a BLOCK COMMENT in describing how the tier-keyed ordering works. My site counter strips `;`-prefixed lines but not block comments, so entries with 1-2 sites are worth eyeballing. |
-| `GetInfoOb:Get_RaidNamesPreferred` | does nothing | — | ⛔ Not ported yet | Note A |
+| `GetInfoOb:Get_RaidNamesPreferred` | does nothing | `${OgreBotAPI.Roster.SortGroupByID[<mode>,<search>]}` | ➡️ Lives somewhere else |  |
 | `GetInfoOb.GetClassPreferredOrder` | reads NULL | — | ⛔ Not ported yet | the class-priority ladder. It survives as the ORDERING inside `Roster.*Preferred`, but is not exposed as a read of its own. |
 | `OgreBotAPI.GetGroupIDPreferred` | reads NULL | `OgreBotAPI.Roster.GroupIDPreferred` | ✏️ Renamed |  |
 | `GetInfoOb.GetGroupIDPreferred_` | reads NULL | `OgreBotAPI.Roster.GroupIDPreferred` | ✏️ Renamed |  |
@@ -42,7 +41,4 @@ The `…Preferred` calls Classic's *Preferred Group & Raid Members* page describ
 
 If your script needs one of these, leave it out for now and tell us - this list is what still needs work.
 
-- `GetInfoOb:Get_GroupIDsPreferred` - not ported yet
-- `GetInfoOb:Get_GroupNamesPreferred` - not ported yet
-- `GetInfoOb:Get_RaidNamesPreferred` - not ported yet
 - `GetInfoOb.GetClassPreferredOrder` - not ported yet

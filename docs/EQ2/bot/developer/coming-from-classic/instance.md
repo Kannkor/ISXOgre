@@ -1,8 +1,8 @@
-# Instance files
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../index.md).
 </div>
+
+# Instance files
 
 The helpers Classic's instance files called - none of them had a page in Classic's docs. In the new bot an instance is a JSON file the bot runs itself, so most of these are a line in that file now, not a script call.
 
@@ -78,7 +78,7 @@ call Obj_OgreIH.Get_Chest
 | `Obj_OgreIH.DebugMessage` | reads NULL | — | ⛔ Removed | (returns the "&lt;time&gt;: Ogre_IH:" echo prefix). New: the log carries its own subsystem prefix (ogre::log::Echo(ogre::log::Sub::IC, ...), e.g.). |
 | `Obj_OgreIH.DuoMode` | reads NULL | `ogre ic` | ➡️ Lives somewhere else | See Obj_OgreIH.SoloMode. |
 | `Obj_OgreIH:EQ2_onLootWindowAppeared` | does nothing | `OgreBotAPI.Looting` | ✏️ Renamed | An event handler, not something a zone calls; see Obj_OgreIH.LastLootWindowAppeared. |
-| `call Obj_OgreIH.EveryoneHaveItem` | does nothing | `groupQuery` | 📄 In a data file now | A `groupQuery` step with `question` "itemCount" and `item` "&lt;name&gt;", e.g. { "do":"groupQuery", "var":"bot", "question":"itemCount", "item":"Mechanized Platinum Repository of Reconstruction" }; then `bot.allYes` (everyone has it), `bot.noWho` (a for-who of those without it) or `bot.yesCount`. From a script: ${ISXOgreEQ2.Comms.GroupQuery[&lt;fw&gt;, -question, itemCount, -item, &lt;name&gt;]}.<br>Every member said whether it had the item; the caller waited and read the answers. |
+| `call Obj_OgreIH.EveryoneHaveItem` | does nothing | `groupQuery` | 📄 In a data file now | A `groupQuery` step with `question` "itemCount" and `item` "&lt;name&gt;", e.g. { "do":"groupQuery", "var":"bot", "question":"itemCount", "item":"Mechanized Platinum Repository of Reconstruction" }; then `bot.allYes` (everyone has it), `bot.noWho` (a for-who of those without it) or `bot.yesCount`. From a script: ${OgreBotAPI.Comms.GroupQuery[&lt;fw&gt;, -question, itemCount, -item, &lt;name&gt;]}.<br>Every member said whether it had the item; the caller waited and read the answers. |
 | `Obj_OgreIH:ExamineInventoryItem` | does nothing | `OgreBotAPI.Inventory:Examine` | ⚠️ Arguments changed | Note A |
 | `Obj_OgreIH:FaceActor` | does nothing | `OgreBotAPI.Movement:FaceActor` | ⚠️ Arguments changed | For-who is argument 0 on OgreBotAPI (the helper always meant the group in zone). |
 | `Obj_OgreIH:FaceAngle` | does nothing | `OgreBotAPI.Movement:FaceAngle` | ⚠️ Arguments changed | Note A |
@@ -239,8 +239,8 @@ call Obj_OgreIH.Get_Chest
 | Old call | Today | Write instead | What changed | Notes |
 |---|---|---|---|---|
 | `Obj_ICInfo:AfterProfileLoad` | does nothing | — | ⛔ Removed | Note A |
-| `Obj_ICInfo.bInICGroup` | reads NULL | — | ⛔ Removed | Ask the group: ${ISXOgreEQ2.Comms.GroupQuery[${Me.Name},-question,"LavishScript[\${ISXOgreEQ2.IC.Running}]"]} returns an id; wait on .Done[id], then .Result[id] is JSON - "anyYes" = someone in the group is running IC, "yesWho" = who.<br>. Nothing in Classic read the flag. Removed 2026-10-14 with the new bot's stubs (Roster.InICGroup, Zone:CheckICPartyStatus) and the five event names; a script asks with groupQuery instead. |
-| `Obj_ICInfo:CheckICPartyStatus` | does nothing | — | ⛔ Removed | Ask the group: ${ISXOgreEQ2.Comms.GroupQuery[${Me.Name},-question,"LavishScript[\${ISXOgreEQ2.IC.Running}]"]} returns an id; wait on .Done[id], then .Result[id] is JSON - "anyYes" = someone in the group is running IC, "yesWho" = who.<br>(IC running -&gt; broadcast the status; else arm the clear and ask the leader). Nothing in Classic read the flag. Removed 2026-10-14 with the new bot's stubs (Roster.InICGroup, Zone:CheckICPartyStatus) and the five event names; a script asks with groupQuery instead. |
+| `Obj_ICInfo.bInICGroup` | reads NULL | — | ⛔ Removed | Ask the group: ${OgreBotAPI.Comms.GroupQuery[${Me.Name},-question,"LavishScript[\${ISXOgreEQ2.IC.Running}]"]} returns an id; wait on .Done[id], then .Result[id] is JSON - "anyYes" = someone in the group is running IC, "yesWho" = who.<br>. Nothing in Classic read the flag. Removed 2026-10-14 with the new bot's stubs (Roster.InICGroup, Zone:CheckICPartyStatus) and the five event names; a script asks with groupQuery instead. |
+| `Obj_ICInfo:CheckICPartyStatus` | does nothing | — | ⛔ Removed | Ask the group: ${OgreBotAPI.Comms.GroupQuery[${Me.Name},-question,"LavishScript[\${ISXOgreEQ2.IC.Running}]"]} returns an id; wait on .Done[id], then .Result[id] is JSON - "anyYes" = someone in the group is running IC, "yesWho" = who.<br>(IC running -&gt; broadcast the status; else arm the clear and ask the leader). Nothing in Classic read the flag. Removed 2026-10-14 with the new bot's stubs (Roster.InICGroup, Zone:CheckICPartyStatus) and the five event names; a script asks with groupQuery instead. |
 | `Obj_ICInfo:OgreEvent_AnnounceInICGroup` | does nothing | — | ⛔ Removed | Note A |
 | `Obj_ICInfo:OgreEvent_AnnounceLeftICGroup` | does nothing | — | ⛔ Removed | Note A |
 | `Obj_ICInfo:OgreEvent_CheckICPartyStatus` | does nothing | — | ⛔ Removed | Note A |

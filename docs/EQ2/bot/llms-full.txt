@@ -227,6 +227,57 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.10.23.001 {#r2026-10-23-001}
+
+*Friday, October 23, 2026 at 3:32 PM EDT*
+
+- **New** · Bot: **No attacking or casting in the main cities unless you allow it.** In the main cities (the Qeynos, Freeport and Neriak districts and villages) the bot no longer turns on auto-attack, casts its Cast Stack, faces the mob, moves behind, in front or into melee, sends the pet or mercenary, loots in combat or auto-targets mobs that hate you, as in the classic bot. Tick Allow City Casting on the Settings tab to allow them there. Abilities you ask for by command or script still cast.
+- **New** · Bot: **No offence on a mob can match part of a name.** For script writers: `OgreBotAPI:AddNoOffensiveOn["all","<mob>",FALSE]` (and `-AddNoOffensiveOn <who> <mob> FALSE`) now holds offence on any target whose name contains `<mob>`. Left out or TRUE, it matches the whole name only, as before. The third argument used to be ignored.
+- **New** · Bot: **Scripts can add an Announce entry.** `OgreBotAPI.Comms:AddAnnounce[<who>,<ability>,<to>,<text>]` now adds an entry to the Announce tab: the ability by name or id, where to announce (Group, Raid, Tell To Target, In-Game Command or Execute In Console) and the text, which can use *Target* and *Ability*. It shows on the tab at once. Save the profile to keep it.
+- **New** · Bot: **Scripts can add and remove Chat, Spawn and Despawn Events entries.** `OgreBotAPI.Events:AddChatEntry`, `AddSpawnEntry` and `AddDespawnEntry` now add an entry to that tab (the text to watch for, OC, Ding and the code to run), and `RemoveChatEntry`, `RemoveSpawnEntry` and `RemoveDespawnEntry` remove every entry with that text, or all of them with `all`. The entries show on the tab at once and fire like ones you added there. Save the profile to keep them.
+- **New** · Windows: **Ability Details window.** `ogre abilitydetails` shows everything your ability export holds about each ability: every rank, a search (a name, an ID, or a test like `IsInterrupt = TRUE`), and every field of the one you pick, with copy. `ogre abilitydetails Assault` opens it on the rank the bot uses; a rank's full name or an ID opens that exact rank. Scripts use `OgreBotAPI.Abilities:AbilityDetails[all,"Assault"]`.
+- **New** · Other: **Scripts can read reward windows, reply dialogs and the casting bar.** For script writers: `OgreBotAPI.Windows` now answers `RewardID`, `RewardLinkID`, `RewardName` (pick a reward by number or name), `RewardWindowID`, `ReplyExists` and `CastingWindowVisible`. `:AcceptNoChoiceReward` clicks Receive on a reward with no choice, `:SpewRewardWindowIDs` lists the reward windows, and `OgreBotAPI.Comms:SpewConversationBubbles` lists an NPC's replies. Before, these did nothing.
+- **New** · Other: **Scripts can watch mobs for NPC cast monitoring again.** `OgreBotAPI.Actors:SetCastMonitoring[who,-watch,"<mob>",-radius,80]` adds mobs to NPC cast monitoring and ticks NPC Cast Monitoring. `-unwatch "<mob>"` and `-clear` remove only what scripts added, so zone and fight-file watches stay. `ogre npccast watch`, `unwatch`, `clear` and `radius` now do the same, and `watch` also ticks NPC Cast Monitoring.
+- **Changed** · Bot: **A movement block now holds follow too, and replaces Movement:Freeze.** `OgreBotAPI.Movement:Block` (and a fight file's `block`) now holds everything: the camp spot, follow, combat movement (behind, in front, melee), new nav trips and queued moves, and it stops the move under way. `Movement:Freeze` and `Movement:Unfreeze` are gone; use `Block` and `Unblock` instead. Come2Me, Move2Area and jousting no longer stop nav trips or queued moves from starting: they only keep the camp spot from pulling you back.
+- **Changed** · Bot: **Fight files now refuse a misspelt field on a template step.** A template step in a fight file (`tankSwap`, `getAwayToCure`, `dispel` and the rest) with a field that template does not read, usually a typo, is now a load error that names the field; before, it was silently ignored. `await`, `awaitWhen`, `awaitTimeout` and `onFail` are refused on a template step too, since they never reached its steps, and a `getAwayToCure` with `reportIn` on now needs its `event`. `tankSwap`'s `op` now accepts any case, so `"Prepare"` works.
+- **Changed** · Instance Controller: **Every zone file now says how it leaves the zone.** A zone file with no `zoneOut` step is no longer loaded, and the load says which file and how to fix it. Add `{ "stepId": "exit", "do": "zoneOut", "op": "auto" }` as its last step for the built-in zone out (the nearest exit anywhere in the zone, as Classic did), a `door` step naming its exit, or `"op": "none"` to stay in the zone.
+- **Changed** · Instance Controller: **Loading zone files now says misspelt keys and checks every step.** When IC loads zone files, a key that nothing reads, usually a typo, is now said as a warning that names the nearest key IC does read, and the file still loads. Steps inside loops are now checked like every other step, and the actions zone files share with fight files are checked by the same rules. A file with a real mistake is still skipped, and `ogre ic reload` says why.
+- **Changed** · Instance Controller: **Zoning out drops Consecrate and Open Wounds, and gathers the group in one zone version.** Before the group moves to a zone exit, a Paladin's Consecrate and a Berserker's Open Wounds are cancelled, as Classic did. After zoning out, anyone who landed in another version of the new zone (Phantom Seas 3 instead of 2) is asked to change to the leader's, up to three times.
+- **Changed** · Navigation: **A stopped trip says Stopped, not Failed.** When a trip is ended on purpose (you press STOP, or the bot that started the walk ends it, such as crafting once it reaches the station), `ogre nav status` and the nav window now say Stopped. Failed now means only that navigation could not get there, for example when stuck or when there is no route. A trip that has already arrived keeps saying Arrived when something stops it afterwards, as a finished travel route does.
+- **Changed** · Console: **One Unpack command that can unpack them all and pick the reward.** `-Unpack` now takes options after the item: `-qty 5` unpacks five, `-all` keeps going until none is left (Planar Stones: `-Unpack auto "Planar Stones" -all -pick lowest`), and `-pick` chooses the reward when there is a choice - a number, a reward name, or `lowest` for the one you have fewest of. If a reward window is already open it waits up to 10 seconds for it to close. `-Unpack_Quantity` is gone: use `-Unpack` with `-qty`.
+- **Changed** · Other: **Actors:ApplyVerbID takes a For Who first.** `OgreBotAPI.Actors:ApplyVerbID` now takes a For Who first, like the other apply-verb calls: `Actors:ApplyVerbID[all,${ActorID},"Destroy"]`. A call without the For Who no longer does anything, so put `all` in front.
+- **Changed** · Other: **More script calls take who they are for first.** For script writers: `OgreBotAPI.IM:Open`, `IM:Close`, `IM:Stop`, `Travel:SpewZoneDoorOptions`, `Bot:OnDeactivate`, `OgreBotAPI:UpdateNPCTarget` and `OgreBotAPI:TestAll` now take who they are for as the first argument, like every other call: `OgreBotAPI.IM:Open["all"]`. A call with no arguments still means everyone.
+- **Changed** · Other: **Script objects have one name each.** Abilities, AutoHunt, CampSpot, CastStack, Comms, ForWho, IM, Loot, Movement and Roster used to answer under two names. They now answer only under OgreBotAPI: write ${OgreBotAPI.CampSpot}, not ${ISXOgreEQ2.CampSpot}, which now reads NULL. Everything that ships with the bot already uses the one name.
+- **Fixed** · Bot: **AnnounceCasted passes its seconds.** `OgreBotAPI.Abilities:AnnounceCasted["all",<caster>,<seconds>]` tells the group it may cast while moving for that many seconds. Before, it read the seconds from the caster's name, so the window was always 0 seconds.
+- **Fixed** · Bot: **Camp spot 3D distance turns on with TRUE.** For script writers: `OgreBotAPI.CampSpot:SetUse3D["all"]` and `OgreBotAPI.CampSpot:SetUse3D["all",TRUE]` now turn 3D distance on, as Classic's `Set_Use3D` did. Before, both turned it off: the value was read as a number, so only 1 meant on. FALSE, 0, yes/no and on/off work too.
+- **Fixed** · Bot: **Item-use relays send again.** `OgreBotAPI.Inventory:UseRelay` and `OgreBotAPI.Inventory:UseOnPlayerRelay` now send the item use to every session, and each session's for-who decides who uses it, the same as `Abilities:CastRelay`. Before, they only printed "relay NOT sent". `UseOnPlayerRelay` uses the item on the sender if you name no player.
+- **Fixed** · Bot: **Mission sharing stops if you leave the zone.** Auto Share Missions, -ShareQuestsForZone and ShareQuestWhenAble wait for your group to gather before sharing a zone's missions. If you leave that zone before then, the rest is no longer shared there and the console says so, as in the classic bot. -ShareQuestsForZone for a zone you are not in now shares nothing.
+- **Fixed** · Bot: **Seven script calls read the right argument.** `OgreBotAPI.Movement:SetForwardKey`, `SetBackwardKey`, `SetFlyUpKey`, `SetFlyDownKey` and `UseWithoutOgreBot` read their value after the for-who (`[all,1]`); they used the for-who itself as the value. `OgreBotAPI.Abilities:Dump[all,<file>]` writes that file, not one named after the for-who. `OgreBotAPI.Travel:ZoneDoor[<door>]` (no for-who) picks that door; it always picked door 1.
+- **Fixed** · Bot: **SmartLoot changes reach every character.** A cap saved in SmartLoot on one character is now used by every character's looting straight away; before, the others kept the caps they had loaded until their profile reloaded. An open SmartLoot window now updates when another character saves, and saving on two characters no longer erases the other one's cap changes. If you have unsaved edits when another character saves, a banner says so: Save keeps both, Revert loads theirs.
+- **Fixed** · Windows: **Level Transmuting says what really stops a run.** When the Transmuting skill cannot be read, the Level Transmuting window no longer says the round limit is the only stop: a trip, a buy or a transmute that fails still ends the run. The Rounds line now counts buy visits finished, and asking for more than 800 stones now says each stone costs 1 Gnomish Currency Exchange, not coin.
+- **Fixed** · Instance Controller: **A hunt step puts AutoTarget back the way it was.** A zone's hunt step turns AutoTarget on with a 35 meter radius while it hunts. It left them that way for the rest of the zone. Now, when the hunt ends, AutoTarget, its radius and its out-of-combat scanning go back to how they were.
+- **Fixed** · Instance Controller: **Loop no longer runs a zone again inside the instance it just finished.** With Stay in zone and Loop on, a zone file that never zoned out stayed in the finished instance, and Loop started the same zone again there. A list now refuses to start a zone again in the instance it just finished and says why. Stop and Run clears this, so you can still start a zone where you stand.
+- **Fixed** · Navigation: **A flight that lands to walk the rest sets off without a second pause.** When a flight found partway that it could not finish the trip and came down to walk the rest, navigation worked out that walk twice in a row, so the character stood still after landing for longer than it needed to. It now works the walk out once and sets off.
+- **Fixed** · Navigation: **Long routes no longer freeze the game, and long swims that used to give up now finish.** Working out a long route, such as a long swim in the Plane of Water, could freeze the game for a second or two. Navigation now works the route out a little at a time, so the game keeps running and the nav window says Planning while the character waits. Long swims that used to stop partway now find their way to the end.
+- **Fixed** · Navigation: **No more "trip FAILED" when a walk ends normally.** When a craft walk reached its station or a travel route finished, the log said "nav: trip FAILED". A trip that something ends on purpose now says "nav: stopped" (or nothing, if it had already arrived), and real failures, such as being stuck, still say FAILED. When a flight lands and walks the rest of the way, `ogre nav status` now says it is walking instead of still showing the flight route.
+- **Fixed** · Crafting: **ogre end craft always says what it stopped.** `ogre end craft` printed nothing when no craft was running, for example just after a queue had given up on a recipe. It now always prints a "craft: stopping" line, and says when no craft was running or when it also stopped a craft walk.
+- **Fixed** · Console: **-ReplyDialog picks from the reply window, by number or by text.** `-ReplyDialog` (and `OgreBotAPI.Windows:Reply` in scripts) now answers the reply window a clicked item or object opens, as Classic did: a number picks that reply, and text picks the first reply that contains it. Before, it clicked a reply in the NPC conversation window instead and ignored text.
+- **Fixed** · Console: **ApplyVerbQueued waits for the verb's cast again.** `-ApplyVerbQueued` and `-ApplyVerbIDQueued` (and `OgreBotAPI.Actors:ApplyVerbQueued` / `:ApplyVerbIDQueued`) wait their turn, then up to 5 seconds for the cast bar to be free, apply the verb, and wait for any cast it starts to finish (up to 4 seconds) before the next cast. Before, the by-name one applied the verb at once and waited for nothing. The encounter files' queued verbs work the same way.
+- **Fixed** · Console: **Authorizing an IRC nick by raid works.** `-AuthIfInRaid` (`OgreBotAPI.Comms:IrcAuthIfInRaid`) authorizes the nick again when the named character is in the raid. Before, it only worked on a character whose name matched the nick.
+- **Fixed** · Console: **Cast stack by tag can match part of a tag.** `-ChangeCastStackListBoxItemByTag` and `OgreBotAPI.CastStack:SetEntryByTag` now honour partial: TRUE changes every entry whose tag contains the word (any case), as Classic did. `-ChangeCastStackListBoxItem` no longer shows a partial box; its fourth word is the silent flag, which is what Classic did with it.
+- **Fixed** · Console: **Consuming familiars answers the right window.** `-Unpack_Consume_Familiars` and `-Consume_Familiars` now read and answer the familiar's own reply window, as Classic did. Before, they read and clicked the NPC conversation window instead, so the familiar's reply was never answered.
+- **Fixed** · Console: **ogre tempadorns works with an adornment and slot.** `ogre tempadorns <adorn> <slot>` did nothing: the adornment was read as who the command was for. It now applies the temporary adornment.
+- **Fixed** · Console: **The Overseer "add quests" command works.** The Overseer_AutoAddOverseerQuests console command (and OgreBotAPI.Overseer:AutoAddQuests in a script) used to do nothing. It now uses every Overseer mission scroll in your bags and Overseer bag to add its quest, the same pass the daily Overseer run makes. It waits if a daily run is in progress.
+- **Fixed** · Other: **Five more script calls now work.** These OgreBotAPI calls used to do nothing: Bot:ListSetups lists this zone's encounter setups, Travel.ZoneDoorValue gives a destination's row in the open zone-door window and Travel:SpewZoneDoorOptions lists every row, Zone:ResetUpdateInfo re-reads the Zone Reuse window (Zone.ResetUpdating and Zone.ResetReady follow it), and Quest:ShareQuestWhenAble shares a quest once your group has arrived.
+- **Fixed** · Other: **Script calls check who they are for.** For script writers: `OgreBotAPI.Windows:CloseExamine`, `Debug:Echo`, `SetDebugMode`, `SetDebugLoading`, `SpewVariables`, `SpewInternalVariables`, `Client:SetMousePosition`, `SetMousePositionMiddle`, `Inventory:SpewSlotNames`, `InitAdornmentInfo` and `Bot:Initialize` now act only on the characters their first argument names, and read their values after it. Before, they ran on every character, and `Debug:Echo["all","hi"]` printed "all hi".
+- **Fixed** · Other: **Script calls for tank swaps and counting nearby NPCs now work.** `OgreBotAPI:Prepare_TankSwapping[who]` and `OgreBotAPI:Remove_Prepare_TankSwapping[who]` did nothing before. They now run the same steps as a fight file's tank swap setup and teardown. `${OgreBotAPI.Actors.NPCsWithin[radius]}` now counts the live NPCs within that radius of you, the same count the bot uses for area attacks.
+- **Fixed** · Other: **Scripts can ask whether an equipped item can be used now.** `${OgreBotAPI.Inventory.SlotAvailable[cloak]}` and `${OgreBotAPI.Inventory.SlotNumAvailable[20]}` did nothing before. They now say whether the item in that equipment slot can be used right now, so a clicky on cooldown reads FALSE. A slot name or number that does not exist reads FALSE and says so in the console.
+- **Fixed** · Other: **Two more script reads work.** Two OgreBotAPI reads used to always say FALSE: Roster.InEQ2Chars[name] says whether a character is one of yours (add TRUE to ask whether it also has a full login stored), and Zone.ResetZoneData[zone,key] gives a zone's Zone Reuse entry - ZoneName, IsSet, Resettable, TimeLeft or TextTimeLeft, or TRUE when the zone is listed if you give no key.
+- **Removed** · Console: **The ApplyVerb...ForWho console commands have new names.** The ForWho apply-verb commands are gone. Use the new names with the same arguments, For Who first: `-ApplyVerbForWho` and `-Apply_VerbForWho` are now `-ApplyVerb`, `-ApplyVerbIDForWho` is `-ApplyVerbID`, `-ApplyVerbQueuedForWho` is `-ApplyVerbQueued`, and `-ApplyVerbIDQueuedForWho` is `-ApplyVerbIDQueued`. Your MCP buttons are changed for you, and the script converter changes them too.
+- **Removed** · Other: **Comms:SetRelayGroup removed.** For script writers: `OgreBotAPI.Comms:SetRelayGroup` is gone. It never did anything - every session uses the one relay group. To send a command to other sessions, use `oc !c` or `oc !ci`.
+- **Removed** · Other: **Every apply-verb call is on OgreBotAPI.Actors.** `OgreBotAPI.Abilities:ApplyVerbFor`, `:ApplyVerbIDFor` and `:ApplyVerbQueuedFor` are gone. Use `OgreBotAPI.Actors:ApplyVerb`, `Actors:ApplyVerbID` and the new `Actors:ApplyVerbQueued`, with the same arguments (For Who first). `Actors:ApplyVerbQueued` also takes the optional wait (in tenths of a second, default 40) that `Actors:ApplyVerbIDQueued` takes.
+- **Removed** · Other: **Script names that never did anything are gone.** These OgreBotAPI names did nothing and have been removed, so they read NULL like any unknown name: ArraySearch, IndexSearch, IndexSearchJSON, IndexMatch, GE_CheckSkip, the three RoR_Epic reads, Get_PackPonyRunning (use Inventory.PackPonyRunning), Test, Bot.QueuedCommands, Bot.Turbo, Abilities.RotationData, Comms.ReportKey and ReportValue, Roster.ClassValue (use ISXOgreEQ2.Class.Is) Zone.ResetInfoAvailable (use Zone.ResetReady) and ISXOgreEQ2.Nav's NavZone, NavPoints and ToPoint.
+
 ## 2026.10.22.001 {#r2026-10-22-001}
 
 *Thursday, October 22, 2026 at 5:32 PM EDT*
@@ -723,7 +774,7 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Dynamic Ignore Counter CAs** | While ticked, the Cast Stack skips 'counter' abilities, mostly reactive stances that deal damage when you are hit.<br>*The Disable AEs (area effects) command ticks it unless told to allow counters.* | off (not saved; clears on reload) |
 | **Attack NPC with 100% HP** | The bot ignores the '% NPC HP to attack' and '% NPC HP for pet to attack' settings on the Setup tab and treats a mob at any health as fair game. That covers hostile Cast Stack attacks, sending the pet or mercenary, moving into combat range, Turn Off Attack and Cancel Invis After Combat. | off |
 | **Cast while moving** | Normally the bot will not start a spell while you are moving; melee arts and a few class, buff or zone exceptions are allowed. Tick this to let it cast anything while moving. It applies to the Cast Stack and to the bot's other casts, such as HOs. | off |
-| **Allow City Casting** | **Not active yet.**  | off |
+| **Allow City Casting** | In the main cities (the Qeynos, Freeport and Neriak districts and villages) the bot does not cast its Cast Stack, turn on auto-attack, face the mob, send the pet or mercenary, loot in combat or auto-target mobs that hate you. Tick this to allow all of that in cities too. Abilities you ask for by command or script still cast. | off |
 
 ## Cast Stack (3 of 5)
 
@@ -829,6 +880,7 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Ignore NPC HP to move** | The combat moves (behind, in front, into melee range) ignore the '% NPC HP to move into attack range' setting on the Setup tab and start as soon as you have a mob you can attack. | off |
 | **Interrupt Mode** | **Not active yet.**  | off |
 | **Disable Bulwark of Order** | Fighters: the bot normally watches chat for a mob announcing a big hit and casts Bulwark of Order timed to meet it. Tick this to stop it answering new warnings. A Bulwark already counting down still goes out. | off |
+| **Disable anti-fear (crouch and walk while feared)** | When you are feared, the bot crouches you and switches you to walking, so you do not run as far; when the fear ends it stands you up and switches you back to running - only what it changed (already walking or crouched stays that way). It works only while OgreBot is loaded; pausing OgreBot freezes it (nothing changes until you resume). Tick this to switch it off - anything it changed is put back at once. |  |
 | **Disable Auto-Defensives** | **Not active yet.**  | off |
 | **Enable CD T4 Weapons** | **Not active yet.**  | off |
 
@@ -882,6 +934,7 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Do not loot Corpses** | When looting is on, corpses are skipped. Chests and shinies are still looted. | off |
 | **Do not loot chests** | When looting is on, chests are skipped. This also applies to the Instance Controller's chest-looting step. | off |
 | **Loot InCombat** | Lets the bot loot corpses, chests and shinies within reach while you are in combat. It is separate from 'Loot Corpses/Chests', which only covers out of combat, so tick both to loot at all times. | off |
+| **Move to loot-bugged mobs** | Off unless you tick it. The Instance Controller turns it on for its runs (a Startup Options row). Needs 'Loot Corpses/Chests'. When the mob you have targeted is stuck in the 'dead but not lootable' state and is too far away to loot, but no more than 40 m away, the bot moves you to it so the fix can use the Loot action on it, then moves you back to where you were. Only a character that has that mob targeted moves. The move takes priority over the camp spot: the camp spot does not pull you back until you are back. It gives up after 20 seconds getting there or 20 seconds getting back, and a zone with no navigation mesh is skipped. |  |
 | **Accept Invites** | Accepts group and raid invites from characters on your EQ2Chars list. With the Other tab's option for anyone in range also on, it accepts invites from any nearby player. | off |
 | **Accept No Choice Rewards** | When a reward window appears that offers only one reward and nothing to choose, the bot accepts it. New quest offers and reward windows with choices are left alone. | off |
 | **Accept Res** | When someone offers you a resurrect, the bot waits the time set in 'Wait __ 10ths/second to accept RES' on the Setup tab, then accepts, but only if you are still dead and the window is still open. | off |
@@ -889,6 +942,8 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Accept Raid Ready Checks** | Accepts raid ready checks automatically. | off |
 | **Accept Dungeon is Ready** | Accepts dungeon finder 'Dungeon: ... is ready' pop-ups and Battle for Felwithe match prompts. It also accepts group-option votes started by characters on your EQ2Chars list. | off |
 | **Do not auto accept quests** | By default the bot accepts every quest offered to you. Tick this to stop that. The accept-quest command also respects it.<br>*The Get Quest tool ticks this for itself while it runs and puts it back afterwards.* | off (so quests ARE auto-accepted) |
+| **Do not auto accept trades from trusted toons** | By default, when one of the characters on your EQ2Chars list accepts a trade with you, the bot accepts it too. Tick this to stop that. Trades with anyone else are never auto accepted. | off (so trades from your own characters ARE auto-accepted) |
+| **Do not auto-repair with Mender bots** | By default, when a repair bot (a Mender bot) is put down within 8 m of you while you are out of combat, the bot repairs your gear at it. Tick this to stop that. That includes a Mender bot the Instance Controller summons with 'Summon Mender bot to sell': it still sells, it just does not repair first. The repair command still works. | off (so a nearby repair bot IS used) |
 
 ## On Load
 
@@ -909,7 +964,9 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **No Available Setups** | On zone-in the bot normally lists the fights in this zone that have encounter setups. Tick this to hide that automatic message. Asking for the list yourself still shows it. | off |
 | **Auto Share Missions** | Shortly after zoning in, if you are the group leader, the bot shares your quests and missions for this zone with the group. This works even while the bot is paused. | off |
 | **Disable DBC Claim** | **Not active yet.**  | off |
-| **Try to keep Familiar up** | **Not active yet.** After every zone-in to an instance (not overland, not a guild hall) the bot summons your familiar. If it was already up that dismisses it, and the 'Your Familiar has been dismissed' message makes the bot summon it again - so it is up either way. Any other time that message appears, it is summoned again too, with a message on the console and in OgreConsole. Adventure level 100 and up (read once when OgreBot loads). | off |
+| **Try to keep Familiar up** | After every zone-in to an instance (not overland, not a guild hall) the bot summons your familiar. If it was already up that dismisses it, and the 'Your Familiar has been dismissed' message makes the bot summon it again - so it is up either way. Any other time that message appears, it is summoned again too, with a message on the console and in OgreConsole. Adventure level 100 and up (read once when OgreBot loads). | off |
+| **Do not summon mount** | When OgreBot loads and after every zone-in, the bot summons your equipped mount if you are not on it - not in combat, not on a griffon (adventure level 100 and up). It says so on the console and in OgreConsole when it does - a mount should never just drop. Tick this to stop it. |  |
+| **Do not check mercenary buff** | When OgreBot loads and after every zone-in, a character with a hired mercenary is checked for the mercenary buff you keep after summoning and dismissing one (for example Mercenary Battalion: Season 8). If it is missing you get a message on the console and in OgreConsole - the mercenary is never summoned. The buff names come with the bot; to add one, put it in OgreSave/EQ2/ZoneSummons/custom/MercenaryBuffs.json as {"mercenaryBuffs": ["Name"]}. Tick this to stop the check. |  |
 
 ## Unorganized
 
@@ -1871,7 +1928,8 @@ Loot decides what the bot does when a loot window opens. Nothing on the left hal
 
 | Control | What it does | Default |
 |---|---|---|
-| **Exact item name to always loot** | Type an item name here, then press Add or Enter to put it on the list. | empty |
+| **Exact item name** | Type an item name here (or fill it with From examine), then press Add or Enter to put it on the list. | empty |
+| **From examine** | Fills the name box with the item in the examine window you have open (examine the item in game first). Press Add to put it on the list.<br>*It only fills the box - nothing is added until you press Add. With no item examine window open, the box is left as it was and the window says 'Examine the item first, then press From examine'.* |  |
 | **Add** | Adds the typed name to the Auto-Loot list. It takes effect on the next loot window. |  |
 | **x (remove row)** | Removes that name from your list. |  |
 
@@ -2088,8 +2146,6 @@ Pack Pony sends your Artisan's Pack Pony out to gather harvests by itself. With 
 | **Conversation 2 - Option 2 (10-19 / 70-79 / 110-120 harvests)** | When the pony asks its second question, the bot picks reply 2. | off |
 | **Conversation 2 - Option 3 (20-29 / 80-89 / 120-130 harvests)** | When the pony asks its second question, the bot picks reply 3. This is also used when no box in this group is ticked. | off (used anyway when none is ticked) |
 | **Conversation 2 - Option 4 (30-39 / 90-95 / 131-140 harvests)** | When the pony asks its second question, the bot picks reply 4. | off |
-| **Conversation 2 - Option 5 (40-49 / 96-99 harvests)** | When the pony asks its second question, the bot picks reply 5. | off |
-| **Conversation 2 - Option 6 (50-59 harvests)** | When the pony asks its second question, the bot picks reply 6. | off |
 | **Conversation 3 - Option 1 (VoV 120-125 / PoM 110 / Thalumbra harvests / RoC 135)** | When the pony asks its third question ('Gather harvests from ...'), the bot picks reply 1. | off |
 | **Conversation 3 - Option 2 (RoR 125 / EP 110 harvests)** | When the pony asks its third question, the bot picks reply 2. This is also used when no box in this group is ticked. | off (used anyway when none is ticked) |
 | **Conversation 3 - Option 3 (BoZimara 125-130 / Luclin 110-120 harvests)** | When the pony asks its third question, the bot picks reply 3. | off |
@@ -2100,6 +2156,7 @@ Pack Pony sends your Artisan's Pack Pony out to gather harvests by itself. With 
 - The character needs the 'Summon Artisan's Pack Pony' ability, or the run does not start.
 - It never starts while you are in combat, while the bot is paused, or while another conversation window is open.
 - If no box in a group is ticked, the bot uses option 3 for Conversations 1 and 2, and option 2 for Conversation 3.
+- The boxes follow your earlier picks, the way the pony's questions do: Conversation 2 shows the replies the pony offers after your Conversation 1 pick (six under 1-59 harvests, five under 60-99, four under 100+), and Conversation 3 is only asked under 100+ harvests. Where a reply is not known (Special Events, Conversation 3 below 100) the boxes read 'placeholder' and can still be picked, in case the game adds one. A ticked box your path does not offer says 'not offered ..., pick another'. The options listed on this page are the ones shown for 100+ harvests, 120-130.
 - The wait timers are kept only while the session runs. After a reload the bot tries again straight away.
 - The harvest ranges in the box names describe what each reply meant in the old bot. The bot clicks the reply by its number (Option 1 = the first reply), so check them in game if the pony's replies change.
 
@@ -2381,6 +2438,7 @@ Debug holds switches that make the bot explain itself. Each box turns on extra l
 | **CommsEventsDebug: logs the C3 comms receipt lines - '[Curse] <toon> -> igw:<x>: cure curse requested for <x>', '[GroupCure] ...' - one per session that receives the event. OFF by default: the -autocurse command that CAUSED them is already visible on the console, so these are duplicate narration in normal play and only earn their place while debugging the comms layer. (Light)** | Logs a line each time this character receives a cure-curse or group-cure request from another character.<br>*Every character that receives the request logs its own line.* | off |
 | **ForWhoDebug: logs one line each time a command is skipped because its forwho did not match this character - the command, the forwho it was aimed with, and the name this session weighed it against (an empty name means this session has not resolved its identity yet). Commands that DO match stay silent, so group-wide broadcasts do not spam. (Light)** | Logs a line each time a command is ignored because it was aimed at someone else: the command, who it was aimed at, and this character's name. Commands that do apply stay silent. | off |
 | **NPCCastDebug: logs one line each time a WATCHED named mob starts or stops casting - the actor, the ability ID and the base cast time. This is what tells you whether an encounter's interrupt rule is failing to DETECT the cast or failing to land the interrupt. (Moderate - one line per cast edge, only for mobs an active encounter is watching)** | Logs a line each time a mob that an encounter is watching starts or stops casting: the mob, the ability and its cast time. Tells you whether an interrupt rule failed to see the cast or failed to land the interrupt. | off |
+| **CombatMoveDebug: logs in-combat movement (Move behind / in front / to melee) in detail - each time the maneuver changes, every input it decided on (the target, your position and heading, the mob's position, heading and HeadingTo, the angle, the behind/front point, who the mob is targeting, each check); while it moves, once a second, where the goal is and whether you got closer (flags MOVING AWAY FROM ITS GOAL). Turn it on when a toon walks the wrong way in combat. (Heavy while moving - one line a second, four per change)** | Logs Move behind / Move in front / Move to melee in detail: every time the maneuver changes, the target, where you and the mob are, which way the mob faces, the point it is walking to and every check it made; while moving, once a second, whether you are getting closer. Turn it on when a toon walks the wrong way in combat. |  |
 | **WhatIsTheBotDoing: logs the bot's reasoning as it enters and leaves routines - for example why it turned auto-attack off. Useful when the bot looks idle and you want to know what it decided. (Moderate)** | Logs why the bot did some things on its own: moving into or out of combat position, turning auto-attack off, dropping invisibility after combat, and follow changes.<br>*Follow and Come2Me lines go to the log file only.* | off |
 | **AnnounceDebug: logs each announce row weighed when a cast lands - which row matched (or that none did) and the text that went out. Use it when an announce fires on the wrong spell, or not at all. (Light - one line per announced cast)** | When a cast lands, logs each Announce tab row it checked, which one matched (or that none did), and the text sent. Use it when an announce fires on the wrong spell or not at all. | off |
 | **OverseerDebug: logs an Overseer run step by step - which window it is on, what it read there and what it clicked. The first thing to turn on for a run that stalls partway. (Moderate, and only during a run)** | Logs an Overseer run step by step: each stage it moves to, each agent assigned, each quest started or completed, and quests skipped for lack of agents. | off |
@@ -2767,7 +2825,16 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 
 ## What it is for
 
-The small OgreBot window is a two-button remote for the bot. Pause stops the bot from acting on its own and Resume starts it again. Hide Main hides the big OgreBot window and Show Main brings it back. OgreBot normally loads with the big window hidden, so this small window is what you see.
+The small OgreBot window is a remote for the bot and a quick look at what it is doing. The top line shows your class. Pause stops the bot from acting on its own and Resume starts it again. Hide Main hides the big OgreBot window and Show Main brings it back. The bottom line says what the bot is doing right now. The cog in the title bar picks which of the two lines you see. OgreBot normally loads with the big window hidden, so this small window is what you see.
+
+## The top line and the status line
+
+Both lines update by themselves while the bot runs. Here the character name is turned on in the cog, and the bot is following someone.
+
+| Control | What it does | Default |
+|---|---|---|
+| **Top line** | Shows your class, for example Templar. If you tick Character name in the cog, your name comes first: Kannkor · Templar. If neither is ticked, the line goes away and the buttons get the room. | your class |
+| **Status line (bottom)** | What the bot is doing right now. Only the first of these that is true shows: Paused, then Cast: and the ability the bot is casting, then Item: and the item it is using, then Following and who it follows, then Campspot active, and otherwise Idle.<br>*Cast: and Item: show only what the bot itself casts or uses, not what you click.* | shown |
 
 ## Pause and Resume
 
@@ -2785,18 +2852,33 @@ The small OgreBot window is a two-button remote for the bot. Pause stops the bot
 
 | Control | What it does | Default |
 |---|---|---|
-| *** (yellow star)** | The profile has changes that are not saved yet. Save them on the big OgreBot window. | hidden |
+| **\* (yellow star)** | The profile has changes that are not saved yet. Hover over it to see that. Save them on the big OgreBot window. | hidden |
 | **Title bar close (X)** | Shuts OgreBot down completely, the same as the X on the big window. Both windows close, movement and HUDs stop, the profile is unloaded, and unsaved changes are thrown away.<br>*To just get the big window out of the way, use Hide Main.* |  |
+
+## Choosing what the window shows
+
+The cog in the title bar opens a short list in place of the buttons. Tick what you want to see and press Done.
+
+| Control | What it does | Default |
+|---|---|---|
+| **Title bar cog** | Opens the list. Click the cog again to close it without saving. |  |
+| **Class** | Shows your class on the top line. | on |
+| **Character name** | Shows your character's name on the top line, in front of the class. | off |
+| **What the bot is doing** | Shows the status line under the buttons. | on |
+| **Done** | Saves your ticks, closes the list and brings the buttons back. The choice is kept for next time. |  |
 
 ## What the window shows
 
+- Top line: your class, with your name in front when it is picked in the cog.
 - Pause (green) = the bot is running. Resume (yellow) = the bot is paused.
 - Show Main = the big window is hidden. Hide Main = it is on screen.
+- Bottom line: Paused, Cast: ..., Item: ..., Following ..., Campspot active, or Idle.
 
 ## Good to know
 
 - The X on this small window stops OgreBot. It is not a minimize.
 - Pause only stops what the bot decides by itself. Commands from you or your group still run.
+- The cog's choice is saved for the whole computer, not for each character.
 
 ## Paused, with the main window hidden
 
@@ -3725,6 +3807,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 >
 > - Closing this window stops a running list, the same as End.
 > - If a zone fails, the group stays in that zone and the list stops.
+> - Every zone file must say how it leaves the zone. Reload skips a file that does not, and the log says what to add.
 > - While IC travels the group to a zone, OgreBot is paused, so buffs that drop at each zone line are not recast out in the world. A toon that gets attacked on the way is resumed to fight, then paused again. On arrival everyone is resumed and has a few seconds to rebuff before the zone starts.
 > - Settings (including Max wait per zone) and the queue are saved, and shared by every character on this PC.
 
@@ -3757,23 +3840,26 @@ The Instance Controller (IC) runs a list of instanced zones for you, one after a
 | **Up** | Goes up one folder in the browse list and clears the selected file.<br>*Disabled at a root's top level.* |  |
 | **search** | Filters the browse list to files whose zone name or path contains the text. Not case-sensitive. It applies about 0.2 seconds after you stop typing.<br>*Not saved, so it clears when the extension reloads.* | empty |
 | **any variant / [Solo] / [Heroic] / ...** | Two jobs. (1) Hides files that do not have this variant. (2) Every zone you queue is tagged with this variant, which decides which instance the zone-in travels to. 'any variant (browse only)' turns the filter off and tags nothing. The choices are every variant found in the loaded zone files. Saved.<br>*With 'any', queuing a file that has 2+ variants pops up a pick-one menu at the row.* | any variant |
-| **Reload** | Re-reads every zone file from the three roots. Prints 'N zone(s) from M file(s) - X skipped, Y warning(s)'. The selected file is cleared if it no longer exists.<br>*A queued row whose file vanished fails with 'press Reload' when the row starts.* |  |
+| **Reload** | Re-reads every zone file from the three roots. Prints 'N zone(s) from M file(s) - X skipped, Y warning(s)'. The selected file is cleared if it no longer exists. A zone file that does not say how it leaves the zone is skipped, and the log names the file and the line to add (see Write your own zone files).<br>*A queued row whose file vanished fails with 'press Reload' when the row starts.* |  |
 
 ## Run tab - the zone list
 
-| Control | What it does |
-|---|---|
-| **Folder row (name + file count)** | Single click opens that folder. |
-| **Zone row (click)** | Selects the file. The add bar then shows its name, and its difficulty menu if it has one.<br>*Zone files marked as disabled are hidden.* |
-| **Zone row (double-click)** | Adds the zone to the end of the queue, tagged with the chosen variant and the remembered difficulty. With no variant chosen: a file with 0 or 1 variants is added directly; a file with 2 or more opens a pick-one popup at the row. The pick is checked against the zone file; a pick it does not allow is refused, and the error lists the allowed values. The new row becomes the highlighted one.<br>*The popup pick is one-off. It does not change the variant filter.* |
+| Control | What it does | Default |
+|---|---|---|
+| **Sort: # / Sort: A-Z** | Flips the order of the Zones list: by the files' number (Sort: #, the default) or by zone name (Sort: A-Z). The button names the order shown. Add all queues in the same order. Saved. | Sort: # |
+| **Folder row (name + file count)** | Single click opens that folder. |  |
+| **Zone row (click)** | Selects the file. The add bar then shows its name, and its difficulty menu if it has one.<br>*Zone files marked as disabled are hidden.* |  |
+| **Zone row (double-click)** | Adds the zone to the end of the queue, tagged with the chosen variant and the remembered difficulty. With no variant chosen: a file with 0 or 1 variants is added directly; a file with 2 or more opens a pick-one popup at the row. The pick is checked against the zone file; a pick it does not allow is refused, and the error lists the allowed values. The new row becomes the highlighted one.<br>*The popup pick is one-off. It does not change the variant filter.* |  |
 
 ## Run tab - the queue
 
 | Control | What it does |
 |---|---|
 | **Queue row (click)** | Highlights the row. This is the target for Remove and for right-click remove. It does NOT choose where Run starts. |
-| **Grip ⠶ (drag)** | Drag to reorder the queue. It is a move, not a swap: rows in between shift one place. The moved row becomes highlighted. Saved.<br>*It works even while a list is running.* |
+| **Drag a row** | Press a row and drag it up or down to reorder the queue - anywhere on the row; the drag starts once the mouse moves a few pixels, so a click is never taken for a drag. It is a move, not a swap: rows in between shift one place. The moved row becomes highlighted. Saved.<br>*It works even while a list is running.* |
 | **Right-click a row** | Removes the row, but only if it is already the highlighted one. A right-click on any other row does nothing (it is only noted in the log).<br>*The highlight is the confirmation step.* |
+| **Remove** | Removes the highlighted queue row (right-clicking the highlighted row does the same). Saved.<br>*Greyed out until a row is highlighted - click one first. Not blocked while a list runs.* |
+| **Clear** | Empties the whole queue, with no confirmation. Saved.<br>*Greyed out while the queue is empty. Not blocked while a list runs.* |
 
 ## Run tab - adding to the queue
 
@@ -3782,32 +3868,47 @@ The Instance Controller (IC) runs a list of instanced zones for you, one after a
 | **Difficulty ('choose…' until set)** | A difficulty that stays chosen while you browse. It is added to rows queued from files that have a difficulty menu, and checked against that file when you add. The bot does NOT use it during a run yet: when the row starts, IC only logs 'the difficulty on this row is recorded but not acted on yet'.<br>*Only shown when the selected file has a difficulty menu (a list of choices). Saved.* | empty |
 | **Difficulty number box (e.g. '1-80')** | Same as the Difficulty dropdown, for files that use a number range. It takes effect when you press Enter or click away. Also recorded only, not used yet.<br>*Only shown when the selected file uses a range. The range is checked when you add, not while you type.* | empty |
 | **Add** | Queues the selected file exactly like a double-click, including the variant popup.<br>*Disabled until a file is selected.* |  |
+| **Add all** | Queues every zone the Zones list is showing (this folder, after the search and the variant filter), in the list's order, each tagged with the variant chosen up top and the remembered difficulty. With no variant chosen, a file with 2 or more variants is left out. One console line says how many were added and why any were left out (already queued, needs a variant, refused).<br>*Greyed out when the list shows no zone files (folders are not zones). A zone already in the queue is not added again.* |  |
 
 ## Run tab - options
 
+When the window is too short for every option, the option grid scrolls (the lists and the footer stay on screen). The picture here is the grid as it opens; the next section's picture is the same grid scrolled down. Every tick-box is also a console switch, and `ogre ic options` lists them all.
+
 | Control | What it does | Default |
 |---|---|---|
-| **Loop list** | After the last row finishes, the list starts again at row 1. The setting is checked again before each next row. It is turned OFF automatically when a safety check stops the list: fewer than 10 free inventory slots, the group shrank, or a member is dead. | off |
-| **Ogre IM** | **Not active yet.** The checkbox is greyed out. Its value is only saved.<br>*Tooltip says 'not wired yet'.* | off |
-| **Halt at end of zone** | When a zone's steps finish cleanly, IC pauses itself inside the zone, before the exit and zone-out steps. OgreBot keeps running. The Pause button becomes Resume; pressing it runs the zone-out and the list continues. If the group leaves the zone while held, the zone counts as done and IC stays paused until Resume.<br>*A zone file's own zone-out step can do the hold instead. That way also sends an OgreConsole message and speaks '<name> IC' aloud (text-to-speech). Not applied to a failed zone.* | off |
-| **Zone in first** | When a row starts and you are not standing in its zone, the travel system takes the whole group there (the queued variant picks the instance). The file starts when you arrive. If there is no route, IC warns and runs where you stand. Off = always runs where you stand.<br>*Zoning in always runs the file from the top; a named # or Resume point is dropped. Zone-in gives up after 20 minutes.* | ON |
-| **Reset zones first** | Only during a zone-in. It first checks the lockout table (read again from the Zone Reuse window if the bot's copy is more than 15 minutes old; if it cannot be read within 30 seconds, the zone-in goes ahead without the check). Locked and not resettable: the zone is SKIPPED and the list moves on. Otherwise it runs 'oc !c -ResetZone igw:<you> <zone>' so every member resets, then travels. Off = lockouts are not checked; the group goes into the instance it is locked to.<br>*A locked zone that cannot be reset is skipped, not failed. This option never spends a Force reset charge.* | ON |
-| **Skip the boss** | A named that the zone file marks as the boss is not fought. It ends as 'skipped - Do NOT Kill Boss is on'.<br>*Only affects nameds the zone file marks as the boss.* | off |
-| **Skip no-trade shinies** | In a 'loot shinies' step, a shiny whose loot window holds a no-trade item is left alone and named in the log.<br>*A zone file that sets its own no-trade rule on the step overrides this option.* | off |
-| **Skip no-trade boss chest** | At a chest the zone file marks as the boss chest, a no-trade item in the loot window makes IC leave that chest unlooted.<br>*Non-boss chests always loot no-trade items unless the zone file says otherwise. The zone file's own no-trade rule overrides this.* | off |
-| **Call to guild hall** | When the list ends, pauses the group's bots and runs the go-to-guild-hall command (GetToGH) for you. It also sends 'oc !ci -GetToGH igwbn:<you>' so the rest of the group does the same. Waits up to 180 seconds, then moves on.<br>*Ticking it unticks Call to home (only one can be on). Runs only when the list completes or a safety check stops it: NOT after a failed zone, NOT after End, NOT when a row could not start.* | off |
-| **Call to home** | When the list ends, pauses the group's bots and casts Call to Home for you and the group through a console command. Done when a zone change is seen, or after 90 seconds.<br>*Either/or with Call to guild hall. Same end-of-list triggers.* | off |
-| **Camp out** | After any call home or guild-hall call, camps THIS character to the login screen. The client closes once the toon has left the world. If still busy after 120 seconds, or still in world afterwards, the camp counts as failed.<br>*Only the IC character is camped; nothing is sent to the rest of the group.* | off |
-| **Exit the client even if the camp fails** | Only if Camp out is on AND the camp failed: runs 'exit', closing the client with the toon still in the world. A loud warning goes to the log.<br>*Does nothing without Camp out.* | off |
-| **After a lost zone: Call to guild hall / Call to home / nothing** | When a zone is given up because all its wipe-recovery tries are used: everyone is revived first (up to 60 seconds), then this runs. 'Call to guild hall' = go to the guild hall (GetToGH), up to 180 seconds. 'Call to home' = cast Call to Home, up to 90 seconds. 'nothing' = revive only. The list then moves on to the next row.<br>*A zone file with its own after-wipe list replaces this completely.* | Call to guild hall (callgh) |
+| **Loop list** | After the last row finishes, the list starts again at row 1. It is read again before each next row, so unticking it during a list ends the list at its last row. When a whole pass only skipped zones (every zone on the list locked), the list waits until the first lockout ends instead of going round again at once. It is turned OFF automatically when a safety check stops the list: fewer than 10 free inventory slots, the group shrank, or a member is dead.<br>*A zone never starts again inside the instance it just finished. If a zone's exit did not take the group out, the list stops and says why; Stop and Run starts it where you stand. Also a console switch: `ogre ic -loop` (`=off` turns it off).* | off |
+| **Ogre IM** | Between zones, at most once every 30 minutes, runs the Inventory Manager (`ogre im -destroy -tse`) and the list waits for it. In a guild hall it also uses the depot and sells (`-depot -sell`), then the group repairs. The first one is due 30 minutes after the list starts. One that comes due while you are flying or dead is skipped until the next 30 minutes.<br>*Only after a zone that ran (not one that was skipped), and not when Stop after this zone ends the list. If the IM is still going after 30 minutes, the list goes on without it. Also a console switch: `ogre ic -im` (`=off` turns it off).* | off |
+| **Summon Mender bot to sell** | With Ogre IM, outside a guild hall: the IM also sells to a mender bot (`-sell`). A mender bot already within 10 m is used; otherwise, when a Mechanized Platinum Repository of Reconstruction is in your bags and ready, IC uses it to summon one. The bot is targeted so the sell picks it. The sell waits (up to a minute) for the automatic repair at the bot to end, because that repair closes the bot's window.<br>*No item, item not ready, or no bot 15 seconds after the summon: the IM runs without the sell, and the log says why. Does nothing in a guild hall (it has its own merchant) or with Ogre IM off. Also a console switch: `ogre ic -summonMenderToSell` (`=off` turns it off).* | off |
+| **Zone in first** | When a row starts and you are not standing in its zone, the travel system takes the whole group there (the queued variant picks the instance), and the file starts on arrival. The group's bots are paused for the trip, so buffs that drop at each zone line are not recast out in the world. On arrival IC waits for the group (up to 2 minutes, then it names who is missing and goes on), resumes everyone and gives 8 seconds to rebuff before the file starts. If there is no route, IC warns and runs where you stand. Off = always runs where you stand.<br>*Zoning in always runs the file from the top; a named # or Resume point is dropped. Zone-in gives up after 20 minutes. Also a console switch: `ogre ic -zoneIn` (`=off` turns it off).* | ON |
+| **Summon merc if solo** | Once inside the zone, when nobody else is in your group (your mercenary not out either), IC summons your mercenary (`merc resume`). On a zone-in it happens as the group lands, so the mercenary gets the rebuff time too; when you start already standing in the zone, it happens as the run starts.<br>*A character with no mercenary hired just gets the game's own one-line answer. Also a console switch: `ogre ic -summonMercIfSolo` (`=off` turns it off).* | ON |
+| **Reset zones first** | Only during a zone-in. It first checks the lockout table (read again from the Zone Reuse window if the bot's copy is more than 15 minutes old; if it cannot be read within 30 seconds, the zone-in goes ahead without the check). Locked and not resettable: the zone is SKIPPED and the list moves on. Otherwise it runs 'oc !c -ResetZone igw:<you> <zone>' so every member resets, then travels. Off = lockouts are not checked; the group goes into the instance it is locked to.<br>*A locked zone that cannot be reset is skipped, not failed. This option never spends a Force reset charge. Also a console switch: `ogre ic -resetZones` (`=off` turns it off).* | ON |
+| **Skip dead/missing checks** | The list does NOT stop when someone has left the group or a member is dead - checked when Run starts and before each next row. The free inventory slots check (at least 10) still stops it.<br>*Without it, either one stops the list, turns Loop list off and runs the end-of-list actions. Also a console switch: `ogre ic -skipGroupChecks` (`=off` turns it off).* | off |
+| **Halt at end of zone** | When a zone's steps finish cleanly, IC pauses itself inside the zone, before the exit and zone-out steps. OgreBot keeps running. The Pause button becomes Resume; pressing it runs the zone-out and the list continues. If the group leaves the zone while held, the zone counts as done and IC stays paused until Resume.<br>*A zone file's own zone-out step can do the hold instead. That way also sends an OgreConsole message and speaks '<name> IC' aloud (text-to-speech). Not applied to a failed zone. Also a console switch: `ogre ic -haltAtEnd` (`=off` turns it off).* | off |
+| **Call to GH after each zone** | When a zone's steps are done (after any Halt at end of zone), the group is called to the guild hall INSTEAD of zoning out: the group's bots are paused, you run GetToGH and the rest of the group is sent the same, and the bots are resumed when everyone has landed. Nothing of the zone file's exit runs; the next zone starts from the guild hall. A call that fails, or takes more than 180 seconds, ends the zone all the same (a carry-on failure, like a failed exit).<br>*When it is on, Stay until a zone is ready is not used. Also a console switch: `ogre ic -callGHAfterEachZone` (`=off` turns it off).* | off |
+| **Stay until a zone is ready** | When a zone's steps are done, before the zone-out, the group waits INSIDE the zone until a zone still on the list can be run: not locked, or resettable. The zone you are in counts too: it is zoned out of, reset and run again. The lockout table is read once; when nothing is ready, it is read again when the first lockout among those zones ends. Untick it to let the group go.<br>*Not used when Call to GH after each zone is on, or when Stop after this zone is ticked (there is no next zone to wait for). Also a console switch: `ogre ic -stayInZoneUntilZoneReady` (`=off` turns it off).* | off |
+| **After a lost zone: Call to guild hall / Call to home / nothing** | When a zone is given up because all its wipe-recovery tries are used: everyone is revived first (up to 60 seconds), then this runs. 'Call to guild hall' = go to the guild hall (GetToGH), up to 180 seconds. 'Call to home' = cast Call to Home, up to 90 seconds. 'nothing' = revive only. The list then moves on to the next row.<br>*A zone file with its own after-wipe list replaces this completely. Also a console switch: `ogre ic -afterWipe=callgh` (or `callhome`, `none`).* | Call to guild hall (callgh) |
+| **Skip the boss** | A named that the zone file marks as the boss is not fought. It ends as 'skipped - Do NOT Kill Boss is on'.<br>*Only affects nameds the zone file marks as the boss. Also a console switch: `ogre ic -skipBoss` (`=off` turns it off).* | off |
+| **Skip shinies** | No shiny is looted at all: every shinies step of the zone file ends at once as 'skipped - the Skip shinies option is on'.<br>*Wins over whatever the zone file says about no-trade shinies. Also a console switch: `ogre ic -skipShinies` (`=off` turns it off).* | off |
+| **Pause for no-trade shinies** | In a shinies step, a shiny whose loot window holds a no-trade item is NOT looted: its window is left open for you and IC pauses itself (the group keeps playing), with a console message and a '<name> shiny' text-to-speech. Take the item, then press Resume; the step goes on to the next shiny. Loot everything is turned off for the group while the step runs, so the auto-loot leaves the item too.<br>*A zone file that sets its own no-trade rule on the step overrides this option. Also a console switch: `ogre ic -pauseForNoTradeShinies` (`=off` turns it off).* | off |
+| **Do not loot no-trade boss chest** | When the step for a named the zone file marks as the boss begins (before the kill), your Leader Only loot is set to take tradable items and Smart Loot only (not loot everything, no distribution, not in combat); your loot options are put back after the loot step. A Leader Only loot window that still holds a no-trade item is left open for you, with a console message and a '<name> boss chest' text-to-speech, and IC waits until it is gone.<br>*Free For All windows are not touched - each character's own loot options take them. Non-boss chests loot no-trade items as usual unless the zone file says otherwise. The zone file's own no-trade rule overrides this. Also a console switch: `ogre ic -doNotLootNoTradeBossChest` (`=off` turns it off).* | off |
+
+## Run tab - more options (scroll down)
+
+| Control | What it does | Default |
+|---|---|---|
+| **Call to guild hall** | When the list ends, pauses the group's bots and runs the go-to-guild-hall command (GetToGH) for you. It also sends 'oc !ci -GetToGH igwbn:<you>' so the rest of the group does the same. Waits up to 180 seconds, then moves on.<br>*Ticking it unticks Call to home (only one can be on). Runs only when the list completes or a safety check stops it: NOT after a failed zone, NOT after End, NOT when a row could not start. Also a console switch: `ogre ic -callGH` (`=off` turns it off).* | off |
+| **Call to home** | When the list ends, pauses the group's bots and casts Call to Home for you and the group through a console command. Done when a zone change is seen, or after 90 seconds.<br>*Either/or with Call to guild hall. Same end-of-list triggers. Also a console switch: `ogre ic -callHome` (`=off` turns it off).* | off |
+| **Camp out** | After any call to the guild hall or home, camps the whole group: the rest of the group is sent a camp-to-desktop first, then this character camps to the login screen. Each client closes once its character has left the world. If this character's camp is still busy after 120 seconds, or the character is still in the world afterwards, the camp counts as failed.<br>*Same end-of-list triggers as Call to guild hall. The others' camp is their own, with its own retry. Also a console switch: `ogre ic -campAtEnd` (`=off` turns it off).* | off |
+| **Exit even if the camp fails** | Only with Camp out on. If this character's camp failed, runs 'exit' and closes the client with the character still in the world, with a loud warning in the log. The rest of the group is also sent an exit with a 90-second countdown along with its camp, so a client whose camp failed is closed too (one whose camp worked is gone by then).<br>*Does nothing without Camp out. Also a console switch: `ogre ic -exitIfCampFails` (`=off` turns it off).* | off |
+| **IC File Option 1 / 2 / 3** | Three tick-boxes for the zone file you run: the zone file decides what each one means and reads it (`ISXOgreEQ2.IC.FileOption[n]` in a script, `{{ic.options.fileOption1}}` in the file). Each box shows the name the zone file gives it (its `fileOptions`, or what its running script set with `ISXOgreEQ2.IC:SetFileOptionLabel`), else 'IC File Option 1', 2 or 3. Saved.<br>*The names follow the zone that is running, else the file selected in the Zones list. A zone file that does not use them ignores them. Also console switches: `ogre ic -fileOption1` (2, 3; `=off` turns one off).* | off |
+| **IC File Args** | Text for the zone file to read (`ISXOgreEQ2.IC.FileArgs` in a script, `{{ic.options.fileArgs}}` in the file). It is sent and saved when you press Enter or leave the box, not on every key.<br>*Also a console switch: `ogre ic -fileArgs=<text>`.* | empty |
 
 ## Run tab - bottom row
 
 | Control | What it does | Default |
 |---|---|---|
-| **Remove** | Removes the highlighted queue row. Saved.<br>*Not blocked while a list runs.* |  |
-| **Clear** | Empties the whole queue, with no confirmation. Saved.<br>*Not blocked while a list runs.* |  |
 | **named #** | Type which named you are on (1, 2, 3...) and press Enter, or just press Run. Only works for the queue row whose zone you are standing in: that row's next run starts at that named's lead-in (its walk and pre-fight steps). The row shows 'start at step N (named X)'. Used once. 1 or blank = from the top. If you are not in a queued zone, it is ignored with a warning.<br>*The box empties once it is used. A file with no such named is refused.* | blank |
+| **Stop after this zone** | Shown only while a list runs. The zone you are in finishes as always (its steps, then Halt at end of zone or Call to GH after each zone), then the list stops as if that were its last row - no Ogre IM, no loop wait, no next zone, no Stay until a zone is ready - and the end-of-list actions run. Untick it to carry on.<br>*Run clears it, and so does the list stopping. Not saved. A failed zone still stops the list without the end-of-list actions. Also a console switch: `ogre ic -stopAfterZone` (`=off` turns it off).* | off |
 | **Pause / Resume** | Turns IC's own pause on or off. While paused, IC does nothing: no zone steps advance, the zone-in stops, and the list waits. Actions already started keep going. OgreBot's pause is NOT touched. Also releases a Halt at end of zone hold.<br>*The window keeps updating while IC is paused (for example when OgreBot is paused or resumed). Run also clears the pause.* | running |
 | **Resume** | Only shown when you stand in a queued zone whose last run was stopped mid-zone. That row restarts at the step where it stopped, then Run fires.<br>*The stop point is not saved to disk.* | hidden |
 | **Run** | Starts the list. It starts at the queue row for the zone you are standing in, otherwise row 1, never the highlighted row. It clears IC's pause, checks the row's choices against the zone file again, and runs the safety checks (at least 10 free slots, nobody dead). Each row then runs in turn: zone-in, apply startup options, zone steps, exit.<br>*Greyed out while running, while the end-of-list actions of the last list are still going (press End to cancel them first), with an empty queue, or if OgreBot is not loaded with a profile. Refuses right after a zone-in while the bot is still learning what is around it. A failed zone stops the list and IC stays in the zone.* |  |
@@ -3823,7 +3924,7 @@ The Instance Controller (IC) runs a list of instanced zones for you, one after a
 | **Startup row (click)** | Highlights the row. Display only; you need it before a right-click remove. |  |
 | **Checkbox** | Enables or disables the row without deleting it. A disabled row is struck through and never runs. | enabled |
 | **S / D / G** | Turns on or off whether the row runs when solo, duo or grouped. Players are counted and mercenaries are not: 1 = solo, 2 = duo, 3+ = group. The mode you are in right now is ringed. You cannot turn off the last lit letter (a warning is shown). | S, D and G all on for a new row |
-| **Grip ⠶ (drag)** | Drag to reorder. It is a move, not a swap. Order matters because rows run top to bottom. |  |
+| **Drag a row** | Press a row (not its tick box or S/D/G chips) and drag it up or down to reorder; the drag starts once the mouse moves a few pixels. It is a move, not a swap. Order matters because rows run top to bottom. |  |
 | **Right-click a row** | Deletes the row, but only if it is the highlighted one.<br>*Here the window itself does the check; for the queue the bot does it.* |  |
 | **a console command, e.g. oc !ci -ChangeOgreBotUIOption igw:${Me.Name} checkbox_settings_loot TRUE** | The command for a new row. It is run exactly as written, as a console command, at the start of every zone.<br>*${Me.Name} is expanded when the row runs.* | empty |
 | **label (optional)** | An optional display name for the new row. If blank, the command itself is shown. | empty |
@@ -3834,7 +3935,7 @@ The Instance Controller (IC) runs a list of instanced zones for you, one after a
 
 | Control | What it does | Default |
 |---|---|---|
-| **Max wait per zone (seconds) + Set** | A safety limit. A zone still running this many seconds after it started is stopped where it stands. 0 = no limit. Applies to normal zone files and to zones run by a LavishScript (.iss) file.<br>*Saved with the other IC settings (panel.json), so it survives a reload. From reading the code, time spent paused or held appears to count toward it, because the zone's start time is never adjusted.* | 3600 (60 minutes) |
+| **Max wait per zone (seconds) + Set** | A safety limit. A zone still running this many seconds after it started is stopped where it stands. 0 = no limit. Applies to normal zone files and to zones run by a LavishScript (.iss) file.<br>*Saved with the other IC settings (panel.json), so it survives a reload. Time IC spends paused or halted, and time spent staying in a finished zone, does not count toward it.* | 3600 (60 minutes) |
 | **Refresh** | Marks the bot's copy of the lockout table as out of date. It does NOT read it now: the table is re-read from the Zone Reuse window the next time a zone-in needs it.<br>*The status shows 'stale' until then.* |  |
 
 ## What the window shows
@@ -3846,11 +3947,11 @@ The Instance Controller (IC) runs a list of instanced zones for you, one after a
 - Zones list file rows: the zone name (or path) plus chips - one per variant (e.g. [Solo], [Heroic]) or "no variants"; a difficulty chip (a range "1-80" or choices "normal/expert"); ".iss" when the file hands the run to a LavishScript file. Hover shows the zone name and root/path.
 - Zones list empty messages tell apart: "no zone files loaded", "this root is empty - try test (4)", "nothing in this folder matches", "nothing matches the filter".
 - Queue header: "Queue (n)".
-- Queue rows: grip, label (zone name + variant), and grey sub-text - "diff X" when a difficulty is set; "start at step N (named 3)" when a start point is set; otherwise "stopped at step N (stepId)" when there is a Resume point. While a list runs, a ▶ marks the row it is on.
+- Queue rows: label (zone name + variant), and grey sub-text - "diff X" when a difficulty is set; "start at step N (named 3)" when a start point is set; otherwise "stopped at step N (stepId)" when there is a Resume point. While a list runs, a ▶ marks the row it is on.
 - Add-bar text: "Double-click a zone to queue it", or "<zone> as [Heroic]", or "<zone> — double-click to choose a variant".
 - Status line (the first that applies is shown): 1. orange "HELD inside the zone" - zone - press Resume to zone out; 2. orange "Instance Controller is PAUSED"; 3. while running: bold state (zoning in / launching / running), the zone or zone-in destination and current travel hop, "list r/t (loop)", the phase (enter / steps / wipe / exit) with "(wipe recovery w of max[, given up])", "/ stepId", and a note; 4. orange "END OF LIST - <call to guild hall | call to home | camp | exit> in progress"; 5. "completed <zone> - note", orange "completed with failures <zone> - N step(s) did not do their job" (for example a named never spawned), or red "failed <zone> - note"; 6. red "OgreBot is not loaded - IC drives its verbs, so it needs a profile open"; 7. otherwise "N zone(s) loaded". A skipped zone shows as "completed" with the skip reason.
 - Shrunk strip: a shorter version of the same status, e.g. "IC idle - N zone(s)".
-- Startup Options rows: grip, checkbox, label, grey monospace command, and S/D/G chips (lit = runs in that mode, ringed = your current mode).
+- Startup Options rows: checkbox, label, grey monospace command, and S/D/G chips (lit = runs in that mode, ringed = your current mode).
 - Startup Options status: "E of T enabled · K would run now (solo|duo|group)".
 - Settings - Lock table: green "fresh - N row(s)" (read in the last 15 minutes and not marked out of date), or orange "stale", plus "a refresh is armed" while a re-read is waiting.
 - Settings - Content roots: default = Scripts/Ogre/EQ2/IC/default, test = Scripts/Ogre/EQ2/IC/test, custom = Scripts/OgreSave/EQ2/IC/custom.
@@ -3862,12 +3963,12 @@ The Instance Controller (IC) runs a list of instanced zones for you, one after a
 - Run starts at the queue row for the zone you are standing in, otherwise at row 1. The highlighted row does not decide where Run starts.
 - Pausing IC does not pause OgreBot, and pausing OgreBot does not stop IC. A paused OgreBot with IC running is the normal way to move through a zone.
 - The Difficulty setting is saved on the row but a run does not use it yet.
-- Ogre IM is greyed out and does nothing yet.
+- When the window is short, the options scroll: scroll them down for At end of list and Zone file.
 - A failed zone stops the list and leaves the group in that zone so it can be looked at. No end-of-list action (guild hall, home, camp) runs.
 - A zone lost to a wipe is different: everyone is revived, the After a lost zone choice runs, and the list moves on.
 - End-of-list actions run only when the list completes or a safety check stops it (fewer than 10 free bag slots, someone left the group, or someone is dead). Never after End.
 - End cancels the end-of-list actions while they run. Anything not yet started never runs and an unfinished camp is stopped (the client is not closed); a trip to the guild hall or a Call to Home already under way finishes on its own. Closing the window does not cancel them.
-- Camp out camps only the IC character, not the rest of the group.
+- Camp out camps the whole group, not just the IC character.
 - Zoning in always runs the zone file from the top. A named # or Resume point only applies when you are already standing in that zone.
 - Reload profile when the run ends (on by default) reloads the profile of every group member at the end of each zone. It also throws away any change you made by hand during the run.
 - The search text is not saved.
@@ -4727,7 +4828,7 @@ The stop button for navigation. While the bot walks or flies your character some
 
 ## Status
 
-The top line is the state (Moving in green, Failed in red, Arrived highlighted) and why. The bar and the line under it show the waypoint you are on out of the whole route, and the distance still to go. The next line names the navigation map loaded for this zone. A red note appears when the trip is paused, nav is switched off, or OgreBot is paused.
+The top line is the state (Moving in green, Failed in red, Arrived highlighted, Stopped plain) and why. The bar and the line under it show the waypoint you are on out of the whole route, and the distance still to go. The next line names the navigation map loaded for this zone. A red note appears when the trip is paused, nav is switched off, or OgreBot is paused.
 
 ## Buttons
 
@@ -4740,7 +4841,7 @@ The top line is the state (Moving in green, Failed in red, Arrived highlighted) 
 
 ## What the window shows
 
-- State word: Moving, Landing (coming down from flight), Waiting for mesh (the navigation map for this zone is still downloading; the trip starts by itself when it is ready), Arrived, Failed, or Idle.
+- State word: Moving, Planning (the route is being worked out, a little at a time so the game never freezes; the character waits until it is ready), Landing (coming down from flight), Waiting for mesh (the navigation map for this zone is still downloading; the trip starts by itself when it is ready), Arrived, Stopped (something ended the trip on purpose: you pressed STOP, or the bot that started the walk ended it), Failed (navigation could not get there, for example stuck or no route), or Idle.
 - Reason, next to the state: why the trip is doing what it does, for example 'navmesh route', 'waiting for the navmesh', 'stuck', or 'OgreBot closed'.
 - Bar and 'waypoint X of Y - N u to go': how far along the route you are, and the distance left in game units. 'waiting for the navmesh to land' while the map is still coming; 'no route' when idle.
 - 'mesh <zone> - N polys': the navigation map in use. 'no mesh loaded yet (loads on the first trip in a zone)' is normal before your first trip in a zone.
@@ -4749,7 +4850,7 @@ The top line is the state (Moving in green, Failed in red, Arrived highlighted) 
 ## Good to know
 
 - Pausing OgreBot does NOT stop a navigation trip. Use STOP here, or type `ogre nav stop` (also `ogre end nav`).
-- The window closes itself as soon as a trip ends, so you rarely see Arrived or Failed in it. The console says how the trip ended.
+- The window closes itself as soon as a trip ends, so you rarely see Arrived, Stopped or Failed in it. The console says how the trip ended.
 - While nav is paused it keeps control of your character, so nothing else (follow, camp spot) will move it until you Resume or STOP.
 
 ## Other states
@@ -4865,7 +4966,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - It only runs on a Leader Only loot window, and only when the OgreBot Loot tab has both **Enable options below** (Leader Only) and **Smart Loot** ticked.
 > - The x on a character column deletes that character's whole entry when you Save.
 
-**Open it:** Type `ogre smartloot` or `ogre sl`. If the window is already open, this does nothing, and your unsaved changes stay. Scripts can use `ISXOgreEQ2.Loot:Config[all]` to open it and `ISXOgreEQ2.Loot:Config[all,close]` to close it.
+**Open it:** Type `ogre smartloot` or `ogre sl`. If the window is already open, this does nothing, and your unsaved changes stay. Scripts can use `OgreBotAPI.Loot:Config[all]` to open it and `OgreBotAPI.Loot:Config[all,close]` to close it.
 
 ## What it is for
 
@@ -5056,11 +5157,11 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - A round that buys nothing, or transmutes nothing, stops the run, so a problem never repeats for every round.
 > - Closing this window does not stop a run.
 
-**Open it:** Type `ogre leveltransmuting panel` (or `ogre lt panel`). Plain `ogre lt` only prints the status to the console. `ogre end leveltransmuting` stops a run but leaves the window open.
+**Open it:** Type `ogre leveltransmuting` (or `ogre lt`). Typing it again while the window is open just refreshes it. `ogre lt status` prints the status to the console instead. `ogre end leveltransmuting` stops a run but leaves the window open.
 
 ## What it is for
 
-A skill-up grinder for the Transmuting tradeskill. You stand next to Barnaby Blunderbuss in Butcherblock. The bot buys Minor Lapis Lazuli Transmuter's Stones from him, transmutes them, and repeats until your Transmuting skill is capped or the round limit is reached. It only ever transmutes items whose name contains "Transmuter's Stone" or "Transmutation Stone" - nothing else in your bags is touched. It never walks: if you are not within 10 of Barnaby, it stops.
+A skill-up grinder for the Transmuting tradeskill. The bot buys Minor Lapis Lazuli Transmuter's Stones from Barnaby Blunderbuss in Butcherblock Mountains, transmutes them, and repeats until your Transmuting skill is capped or the round limit is reached. You do not have to stand next to him: if you are not within 10 of Barnaby, Start travels to him first, from another zone too. OgreBot is paused for the run, and the Persona window is opened on Skills > General to read your skill; when the run ends, however it ends, the window is closed again and OgreBot resumes if it was running. It only ever transmutes items whose name contains "Transmuter's Stone" or "Transmutation Stone" - nothing else in your bags is touched.
 
 ## Header and the stones-only notice
 
@@ -5068,53 +5169,58 @@ The dot is green while a run is going. Next to it is what the bot is doing right
 
 ## The readout
 
-Merchant and Item are fixed - the tool only works with Barnaby and his cheapest stone. Transmuting is your skill as last read from the Persona window (it is read once at the start of each round, so it shows unavailable until a run has started). Rounds counts merchant visits out of the most you allowed. Transmuted is how many stones this run has transmuted so far. Last is the latest thing that happened.
+Merchant and Item are fixed - the tool only works with Barnaby and the Minor Lapis Lazuli Transmuter's Stone. Transmuting is your skill as last read from the Persona window (Start reads it, then it is read again at the start of each round, so it shows unavailable until a run has read it). Rounds counts the rounds started out of the most you allowed. Buys shows the visits to Barnaby and how many stones your bags really gained. Transmutes shows how many stones were tried and how many really got used up. Last is the latest thing that happened.
 
 ## Quantity and round limit
 
 | Control | What it does | Default |
 |---|---|---|
 | **Buy** | How many stones you want to be holding when each visit to Barnaby is done. The bot only buys the difference, so stones left over from the last round are used first. 1 to 800.<br>*Locked while a run is going. It is a total to hold, not an amount added every round.* | 60 |
-| **per visit, at most ... round(s)** | The hard stop: the most merchant visits one run will make. The run also stops earlier if the Transmuting skill is readable and capped. 1 to 500.<br>*If the skill cannot be read, this is the only thing that stops the run.* | 20 |
+| **per visit, at most ... round(s)** | The hard stop: the most rounds one run will make. Each round is one visit to Barnaby. The run also stops earlier if the Transmuting skill is readable and capped. 1 to 500.<br>*If the skill cannot be read, the run cannot tell when you are capped and goes on until this limit.* | 20 |
 
 ## Start, Stop, Refresh
 
 | Control | What it does |
 |---|---|
-| **Start** | Starts a run with the two numbers above. Each round: read your Transmuting skill, check Barnaby is within 10, buy up to the Buy amount, then transmute every stone in your bags (at most 200 per round), 2 seconds apart.<br>*Greyed out while a run is going. Stops by itself if you do not have the Transmuting ability, or after 3 rounds in a row where the merchant purchase failed.* |
-| **Stop** | Stops the run straight away, even in the middle of buying or transmuting.<br>*Only active while a run is going.* |
-| **Refresh** | Redraws the window with the latest numbers. It does not change anything. |
+| **Start** | Starts a run with the two numbers above. It pauses OgreBot and opens the Persona window on Skills > General to read your Transmuting skill. Then, each round: read the skill and stop if it is capped; travel to Barnaby if he is not within 10; buy up to the Buy amount; then transmute every stone in your bags (at most 200 per round), one at a time, waiting 2 seconds after each.<br>*Greyed out while a run is going. The run can also stop by itself - see Good to know below.* |
+| **Stop** | Stops the run straight away, even in the middle of buying, travelling or transmuting. It closes the Persona window and resumes OgreBot if it was running before you pressed Start.<br>*Only active while a run is going.* |
+| **Refresh** | Redraws the window with the latest numbers. It does not change anything, and it does not read the skill. |
 | **Title bar close (X)** | Closes the window only. A run that is going keeps going.<br>*Use Stop (or `ogre end leveltransmuting`) to stop the run.* |
 
 ## When the skill cannot be read
 
-The bot reads your Transmuting skill from the Persona window, Utility skills tab, once at the start of every round. It never opens that window for you. If it is not open, Transmuting shows 'unavailable' in orange and a note appears; the run then stops only at the round limit. Before the first round of a run the skill has not been read yet, so the window also shows 'unavailable' and the note even when the Persona window is open.
+The bot reads your Transmuting skill from the Persona window, Skills > General, which Start opens itself. It reads it once when the window opens and again at the start of every round. If the window is closed during a run, the next round opens it again. If the Transmuting row still does not read, Transmuting shows 'unavailable' in orange and a note appears; the run then cannot tell when you are capped and goes on until the round limit, unless a trip, a buy or a transmute fails first and stops it. Before your first run the skill has not been read yet, so the window shows 'unavailable' and a note saying it is read when you press Start.
 
 ## What the window shows
 
-- Dot and phase text (top right): green dot = running. Phase is one of idle, waiting for the world, reading the Transmuting skill, looking for the merchant, buying, transmuting stones, BLOCKED - cannot transmute, stopped.
+- Dot and phase text (top right): green dot = running. Phase is one of idle, waiting for the world, opening the Persona window, travelling to the merchant, reading the Transmuting skill, looking for the merchant, buying, transmuting stones, BLOCKED - cannot transmute, stopped.
 - Box at the top: always there. It says the tool transmutes Transmuter's and Transmutation stones only, and that other items are transmuted by the Inventory Manager (`ogre im -tse`).
-- Transmuting: 'current / max' in green from the last round's read of the Persona window's Utility skills tab; 'unavailable' in orange when it could not be read, or when no round has run yet.
-- Rounds: 'N of M (buys issued: B)' - merchant visits started out of your limit.
-- Transmuted: 'N stones this run' - stones transmuted since Start.
-- Last: the latest step or the reason the run stopped, for example 'Unable to find  Barnaby Blunderbuss' or 'Transmuting is at its cap for this level'.
-- Footer: a reminder that the tool never walks and that the skill is read passively.
+- Note about Barnaby (only while stopped): shown when you are not within 10 of him. It says you are not in Butcherblock Mountains, how far you are from him, or that he is not in view - and that Start will travel or walk to him first.
+- Transmuting: 'current / max' in green from the last read of the Persona window's Skills > General page; 'unavailable' in orange when it could not be read, or before any run has read it.
+- Rounds: 'N of M (buy visits finished: B)' - rounds started out of your limit, and how many visits to Barnaby finished their buy.
+- Buys: 'N visits, S stones bought' - S is how many stones your bags really gained. It adds 'X added nothing' and turns orange when a visit added no stones.
+- Transmutes: 'D of T done' - stones tried, and stones that really left your bags. Green once one is done. When any failed it turns orange and says why: cast refused, never ready, or not used up.
+- Last: the latest step or the reason the run stopped, for example 'transmuting 60 stone(s)' or 'Transmuting is at its cap for this level'.
+- Footer: a reminder that Start pauses OgreBot, opens the Persona window (Skills > General) and travels to Barnaby when you are not within 10, and that Stop, or the run ending any other way, closes the Persona window and resumes OgreBot if it was running.
 
 ## Good to know
 
-- Stand within 10 of Barnaby Blunderbuss (Butcherblock) before pressing Start. If he is further away the run stops at once with 'Unable to find  Barnaby Blunderbuss'.
-- Open the Persona window on the Utility skills tab first, or the run cannot tell when your skill is capped and will use every round you allowed.
-- Before you press Start, Transmuting always shows unavailable - the skill is only read when a round begins, and Refresh does not read it.
+- You do not have to stand next to Barnaby Blunderbuss. Start travels to him in Butcherblock Mountains when you are not within 10, even with OgreBot closed. Stop ends the trip. If two trips still leave him out of reach, or one trip takes over 20 minutes, the run stops.
+- Start opens the Persona window on Skills > General itself and closes it again when the run ends, however it ends. You do not need to open it first.
+- Start pauses OgreBot for the run. When the run ends it resumes OgreBot, unless OgreBot was already paused.
+- Each stone costs 1 Gnomish Currency Exchange, not coin. Without any, the buy adds nothing and the run stops and says so.
+- Before your first run, Transmuting shows unavailable - the skill is first read when you press Start, and Refresh does not read it.
 - Buy is a target to hold, not an amount per round. If stones were left over, the next visit buys fewer (or none).
-- Any item whose name contains "Transmuter's Stone" or "Transmutation Stone" is transmuted, not just the ones this tool bought.
+- Any item in your bags whose name contains "Transmuter's Stone" or "Transmutation Stone" is transmuted, not just the ones this tool bought.
+- The run stops by itself when a visit's buy adds no stones, when a round uses up none of the stones it tried, when the merchant window fails 3 rounds in a row, or when you do not have the Transmuting ability (the stones it bought stay in your bags).
 - Closing the window does not stop a run.
-- Plain `ogre lt` prints the status; add `panel` to open the window.
+- `ogre lt` opens the window; `ogre lt status` prints the status to the console instead.
 
-## When the Persona window is closed
+## Before the first run
 
-![Stopped, with the skill unreadable](../assets/transmute/idle.png)
+![Stopped, before the first run](../assets/transmute/idle.png)
 
-Without the Persona window open on the Utility skills tab, the skill reads **unavailable** and the round limit is the only stop. It also reads unavailable before your first run, because the skill is only read when a round starts.
+Before your first run the skill has not been read, so Transmuting reads **unavailable** and the note says it is read when you press Start: Start opens the Persona window on Skills > General itself. If the Transmuting row still cannot be read during a run, the run cannot tell when you are capped and goes on until the round limit, unless a trip, a buy or a transmute fails first and stops it.
 
 
 ---
@@ -6635,6 +6741,88 @@ With no terms the Scan button turns red:
 
 ---
 
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/abilitydetails.md
+
+# Ability Details
+
+> **:bulb: In game - the ? button on this window says**
+>
+> Shows everything your ability export holds about each of your abilities. Use it to answer "why won't the bot cast this?"
+>
+> **What you can do here**
+>
+> - **Search** - type part of a name, an ID, or a test such as `IsInterrupt = TRUE` or `HOIconID = NULL`. Everything you type must match.
+> - **Click a row** to see every field of that ability on the right. The `*` marks the rank the bot uses.
+> - **Copy JSON** copies the whole entry. Right-click a field to copy its value or a search test for it.
+> - `ogre abilitydetails <name or id>` opens the window on that ability.
+>
+> **Good to know**
+>
+> - The export leaves out flags that are false, so `IsAE = FALSE` matches nothing - use `IsAE != TRUE`. The footer lists the fields an entry does not have.
+> - The window only reads your export. If an ability is missing, make a new export with `ogre export`.
+
+**Open it:** Type `ogre abilitydetails`, or `ogre abilitydetails <name or id>` to open it on one ability (for example `ogre abilitydetails Assault` or `ogre abilitydetails Assault X`). A script opens it with `OgreBotAPI.Abilities:AbilityDetails[<forwho>,"<name or id>"]`. `ogre end abilitydetails` closes it.
+
+## What it is for
+
+Shows everything your ability export holds about each of your abilities: every rank of every line, and every field of the one you pick. It is the place to look when the bot will not cast something, or casts a different rank than you expected. The window only reads your export file - it never asks the game - so what you see is exactly what the bot works from. If OgreBot is not open yet, the window reads your export itself; it never changes it.
+
+## The status line
+
+Whose export this is, how many entries it holds (every rank of every ability) and how many ability lines that makes. The `*` in the list marks the rank the bot uses for each line - the highest rank your level allows. It turns red when there is no export for this character yet, or when the export is too old for the bot, and an **Ability Export** button appears.
+
+| Control | What it does |
+|---|---|
+| **Ability Export** | Opens the Ability Export window, where you make a fresh export. Shown only when there is no export or it is out of date.<br>*When the export finishes the window shows the new one by itself.* |
+
+## Search and the list
+
+Every ability in your export, sorted by name with each line's ranks together, lowest level first. Lvl and Tier are the rank's level and spell tier. The count under the search box shows how many match out of the total.
+
+| Control | What it does |
+|---|---|
+| **Search** | Filters the list as you type. Words match the ability's name. A number matches its ID or its line ID (and names with that number in them). A test such as `IsInterrupt = TRUE`, `HOIconID = NULL` or `Level >= 100` checks a field, exactly the way CastVia and TypeID check it. Everything you type must match.<br>*A field name typed without a comparison and a value is shown in orange under the box and ignored until you finish it.* |
+| **Click a row** | Shows every field of that rank on the right. |
+| **Right-click a row** | Copy name or Copy ID of that rank. |
+
+## The selected ability
+
+Every field the export holds for that rank, exactly as written: the name, IDs, level and tier first, then the rest A to Z, then the effect lines in order. The footer lists the fields this entry does NOT have. The export leaves a flag out when it is false, so those fields read as NULL - that is why `IsAE = FALSE` matches nothing. Use `IsAE != TRUE` instead.
+
+| Control | What it does |
+|---|---|
+| **Copy JSON** | Copies the whole entry, in the same order as the window shows it. |
+| **Right-click a field** | Copy value copies the value. Copy as a search term copies `Field = value`, which you can paste into the search box to find every ability with the same value. |
+| **Title bar close (X)** | Closes the window. Same as `ogre end abilitydetails`. |
+
+## Opening it on one ability
+
+`ogre abilitydetails Assault` (the ability's own name, no rank) selects the rank the bot uses. A specific rank's full name (`Assault X`) or an ID selects exactly that rank, and the line under its name says which rank the bot uses instead. Either way the search is filled in with the ability's name, so all its ranks are listed. If nothing matches, nothing is selected, the line says so in orange and the console says it too.
+
+## What the window shows
+
+- `*` in the list and after the selected name: the rank the bot uses for that line (the highest rank your level allows).
+- The orange line under the search box: a test you have not finished (a field name with no comparison or no value). It does not filter until it is complete.
+- Status line '(Loaded by this window - OgreBot is not open.)': OgreBot has not been opened, so the window read your export itself. OgreBot reads it again when it opens.
+
+## Good to know
+
+- The window shows your own character's export only.
+- It shows the export, not the game. An ability you trained after your last export is not in it - make a new export with `ogre export`.
+- The export leaves out flags that are false. Test them with `!= TRUE` (or `= NULL`), not `= FALSE`.
+- Typing a field name such as `Level` on its own starts a test, not a name search.
+
+## Other states
+
+![A test in the search box](../assets/abilitydetails/query.png) ![An unfinished test](../assets/abilitydetails/badterm.png)
+
+![Nothing matches](../assets/abilitydetails/notfound.png) ![No export yet](../assets/abilitydetails/noexport.png)
+
+A finished test in the search box, an unfinished one (shown in orange and ignored), a name that matches nothing, and a character with no export yet.
+
+
+---
+
 Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/pulsebudget.md
 
 # Pulse Budget
@@ -7124,6 +7312,8 @@ with `lstype`. The two you will use most are `ISXOgreEQ2` and `OgreBotAPI`.
 
 - **Moving a Classic script over?** Start with [Converting your scripts](converting.md). It has a tool
   that checks a script and fixes what it safely can, and a step-by-step procedure you can hand to Claude.
+- **Want the Instance Controller to run a zone it does not know?** [Write your own zone files](zone-files.md)
+  shows how a zone file is laid out, every step it can use, and how to check it.
 - **Want a window of your own in game?** [Build your own window](build-your-own-window.md) shows how a script
   or an extension opens one, reads and changes what is in it, and reacts to clicks.
 - **Looking up one name?** [Coming from Classic](coming-from-classic/index.md) lists Classic's API
@@ -8208,3 +8398,615 @@ For a person or an AI writing a pack:
 - [ ] Each parameter has `name`, a `type` from the table, and a `description`. Each `default` is text.
 - [ ] Every `${name}` in a step matches a parameter's `name`.
 - [ ] `ogre commandpacks` reports your pack with the number of commands you expect, and no problem lines.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/zone-files.md
+
+# Write your own zone files
+
+A **zone file** tells the Instance Controller (IC) how to run one instanced zone: where the group walks, which
+nameds it kills, what it loots, and how it leaves. It is a JSON file. IC reads it from the top, one step at a
+time, on the character that runs IC, and that character leads the group through it.
+
+The zone files that ship with Ogre are written the same way, so the best way to learn is to open one beside this
+page. The examples below are cut from `Oogothl Sprawl - Ver'Bohten Atoll` and `Gerion - Dominion of Pain`, both in
+`Scripts\Ogre\EQ2\IC\default\Rage of Cthurath\`.
+
+> **No promises.** Use this at your own risk, and expect it to change. That said, Kannkor works hard to keep
+> things backwards compatible.
+
+## Quick start
+
+1. Make the folder `Scripts\OgreSave\EQ2\IC\custom\` if it is not there. Folders inside it are fine; the IC window
+   shows them as folders.
+2. Copy a shipped zone file into it to start from, and give it a name of your own.
+3. Edit it. Then press **Reload** in the IC window. It prints `N zone(s) from M file(s) - X skipped, Y warning(s)`.
+   If anything was skipped, type `ogre ic reload` in the console: it prints one line per problem, saying which file
+   and what is wrong.
+4. Pick **custom** in the IC window's root list, queue your zone, and press **Run**.
+
+## Where zone files go
+
+| Root | Folder | What it is |
+|---|---|---|
+| default | `Scripts\Ogre\EQ2\IC\default\` | The zone files that ship with Ogre. An update can replace them, so do not keep your changes here. |
+| test | `Scripts\Ogre\EQ2\IC\test\` | Zone files that are still being tested. |
+| custom | `Scripts\OgreSave\EQ2\IC\custom\` | Yours. Ogre's updates never touch this folder. |
+
+- Every file ending in `.json`, in any folder under a root, is read.
+- A number at the start of a file name, like `_01_`, sorts the list: numbered files come first, in number order.
+- Every root loads. The same file in two roots shows up twice in the IC window: they are separate files, and
+  neither replaces the other.
+
+## A zone file, start to finish
+
+The top of the file says which zone it is for:
+
+```json
+{
+  ...
+  "zone": "Oogothl Sprawl: Ver'Bohten Atoll",
+  "variants": [
+    "[Solo]",
+    "[Heroic]"
+  ],
+  "expansion": "Rage of Cthurath",
+  ...
+  "progression": "sequential",
+  "entrance": {
+    "loc": [
+      -859.879944,
+      169.465637,
+      127.360184
+    ],
+    "tolerance": 10
+  },
+  "rerunWholeZoneAfterWipe": true,
+  "steps": [
+```
+
+Then come the **steps**. Each named gets a few: walk to it, kill it, loot its chest and the shinies, and say how it
+went:
+
+```json
+    {
+      "stepId": "named1.walk",
+      "do": "path",
+      "using": "nav",
+      "spots": [
+        [
+          -793.151367,
+          144.102356,
+          353.17868
+        ]
+      ]
+    },
+    {
+      "stepId": "named1",
+      "do": "named",
+      "name": "Glorfab Flit",
+      "spot": [
+        -755.151001,
+        144.302704,
+        340.9729
+      ]
+    },
+    {
+      "stepId": "named1.chest",
+      "do": "loot",
+      "op": "chest"
+    },
+    {
+      "stepId": "named1.shinies",
+      "do": "loot",
+      "op": "shinies"
+    },
+    {
+      "stepId": "named1.said",
+      "do": "announce",
+      "message": "Ver'Bohten Atoll 1/5: Glorfab Flit - {{ic.run.verdicts.named1}}, chest {{ic.run.verdicts.named1.chest}}, shinies {{ic.run.verdicts.named1.shinies}}"
+    },
+```
+
+And the file ends with **the way out**: walk to the exit, then click it. Every zone file must have a way out (see
+[The way out](#the-way-out)):
+
+```json
+    {
+      "stepId": "exit.walk",
+      "do": "path",
+      "using": "nav",
+      "spots": [
+        [
+          -772.972534,
+          299.070923,
+          249.26976
+        ]
+      ]
+    },
+    {
+      "stepId": "exit.door",
+      "do": "zoneOut",
+      "op": "door",
+      "name": "Exit"
+    }
+  ]
+}
+```
+
+## The top of the file
+
+| Key | Needed | What it does |
+|---|---|---|
+| `zone` | yes | The zone's name as the game shows it, without the difficulty: `"Oogothl Sprawl: Ver'Bohten Atoll"`. IC uses it to tell whether you are standing in the zone, and to travel there. |
+| `variants` | yes | Every difficulty this file covers, as the game writes it: `["[Solo]", "[Heroic]"]`. Use `[]` for a zone with no difficulty in its name. The IC window offers these when you queue the file. |
+| `steps` | | The main list of steps. Most files only need this one. |
+| `enter`, `exit` | | Steps to run before `steps`, and after them. See [How a run goes](#how-a-run-goes). |
+| `entrance` | | Where the zone-in puts you: `{ "loc": [x, y, z], "tolerance": 10 }` (tolerance in meters, 30 if left out). Wipe recovery uses it to know the group is back at the zone-in. A file with nameds and no `entrance` loads with a warning. |
+| `progression` | | `"sequential"` (the default) or `"open"`. When a run starts part-way, or after a wipe, IC works out which nameds are already dead. With `sequential`, a named that is still standing means every named before it in the file is dead. With `open`, nameds can die in any order, so only the ones IC saw die count. |
+| `enabled` | | `false` hides the file in the IC window, and it will not run. Write `true` or `false`, not `"false"`. |
+| `rerunWholeZoneAfterWipe` | | `true`: after a wipe recovery, run the whole file again from the top. For zones with teleporters inside, where the group cannot walk back to where it died. Starting such a zone part-way is only allowed where the group already stands. |
+| `wipeAttempts` | | How many times wipe recovery may run before IC gives the zone up: `0` to `10`, `2` if left out. |
+| `onWipe` | | Your own wipe recovery steps (see [`recover`](#recover)). Leave it out for the built-in recovery. `[]` means no recovery: the first wipe gives the zone up. |
+| `afterWipe` | | Your own steps for when the zone is given up. Leave it out for the built-in ones: revive, then whatever the IC window's **After a lost zone** says. |
+| `fileOptions` | | Up to 3 names for the IC window's **IC File Option 1-3** boxes: `["Skip the side named"]`. Your steps read the boxes as `{{ic.options.fileOption1}}` (`TRUE` or `FALSE`), and the **IC File Args** box as `{{ic.options.fileArgs}}`. |
+| `options` | | Your own values for this file. Steps read them as `{{ic.zone.options.<name>}}`. IC itself does nothing with them. |
+| `difficulty` | | A difficulty menu for the IC window: `{ "choices": ["Easy", "Hard"] }` or `{ "minValue": 1, "maxValue": 5 }`. The run does not use it yet. |
+| `run` | | Hands the zone to a script instead of steps: `{ "iss": "<path under Scripts>" }`, or to another zone file in the same root: `{ "json": "<path>" }`. A file has steps or `run`, never both. A script must call `ISXOgreEQ2.IC:Complete` when it is done, or the run counts as failed. |
+| `expansion`, `author` | | Notes for people. IC does not use them. |
+
+**A key IC does not read does nothing, and Reload says so.** It is a warning, so the file still loads. The line
+names the key and the nearest key IC does read (see [Checking your file](#checking-your-file)). A key starting with
+`_`, like `_comment`, is a note: it is never said, so use it for notes.
+
+## How a run goes
+
+- **Before the first step**, IC applies your Startup Options. After a zone-in, it waits until everyone has
+  arrived, then gives the group a few seconds to rebuff.
+- **The lists run in order: `enter`, then `steps`, then `exit`.** One step at a time, on the character that runs
+  IC. Steps like `path`, `named`, `loot` and `zoneOut` move the whole group; most other actions act on the IC
+  character alone unless they take `sendTo` (see [Other actions](#other-actions)).
+- **A step that fails** ends its list (see `onFail` below). If `enter` fails, `steps` does not run. `exit` still runs
+  after a failure.
+- **When `steps` finish**, **Halt at end of zone** pauses IC right there, inside the zone. The zone end options
+  (Call to guild hall after each zone, Stay in zone until a zone is ready) run at the `zoneOut` step.
+- **A `zoneOut` that takes the group out ends its list.** Anything after it in that list is skipped.
+- **End**, **Max wait per zone** and closing the IC window stop the run where it stands. `exit` does not run.
+- **Wipes** are watched during `enter` and `steps`. IC runs the wipe recovery, then starts the zone again, leaving
+  out what is already done. After `wipeAttempts` recoveries, IC gives the zone up: the `afterWipe` steps run, `exit`
+  does not, and the list moves on to the next zone.
+- **Starting part-way.** The IC window's **named #** starts a zone at a named: IC backs up over the steps that lead
+  to it (its walk, for instance) so they run too. It only works when you are already standing in that zone. A run
+  that zones in always starts from the top.
+
+## Steps
+
+```json
+{ "stepId": "named1.chest", "do": "loot", "op": "chest" }
+```
+
+Every step that does something has a **`do`**: the action. The rest of the keys belong to that action. All the
+actions are listed in [The steps, one by one](#the-steps-one-by-one).
+
+| Key | What it does |
+|---|---|
+| `stepId` | The step's name. It shows in the log and the IC window, and the step's result is kept under it. |
+| `onFail` | `"fail"` or `"proceed"`. With `fail`, a step that fails ends its list. With `proceed`, the list goes on. A step in a list starts as `fail`; a step inside a loop starts as `proceed`. |
+| `when` | A condition. The step runs only when it is true; when it is false the step is skipped, and that is not a failure. The conditions are the ones fight files use (an example is in [Loops](#loops)). |
+| `throttleMs` | Skips the step if it ran less than this many milliseconds ago. Handy inside loops. |
+
+**Name your steps the way the shipped files do.** Call each named `named1`, `named2`, ..., and the steps that belong
+to it `named1.walk`, `named1.chest`, `named1.said`. IC relies on this. **Skip the boss** leaves out the boss and
+every step named after it. **named #** and resuming after a stop back up to the steps of the named before.
+A named with no `stepId` cannot be remembered as done.
+
+### Waiting
+
+```json
+{ "stepId": "settle", "wait": "ms", "limitMs": 1500, "onTimeout": "proceed" }
+```
+
+A `wait` step holds the list. `limitMs` and `onTimeout` are always needed: there are no defaults.
+
+- `"wait": "ms"` is a fixed pause of `limitMs` milliseconds. Its `onTimeout` must be `"proceed"`.
+- `"wait": <condition>` holds until the condition is true, for at most `limitMs`. Then `onTimeout` decides:
+  `"proceed"` goes on, `"fail"` ends the list.
+- `"wait": "atCampSpot"` holds until the IC character stands at its camp spot (see the loop below).
+
+### Loops
+
+`repeat` runs its own `steps` again and again. `{ "times": 3 }` runs them 3 times.
+`{ "until": <condition>, "max": 10 }` runs them until the condition is true, but never more than `max` times;
+`max` is required.
+
+`forEach` runs its `steps` once for each actor it finds (`"find"`) or each spot in a list
+(`"spots": [[x, y, z], ...]`). `"as"` names the one being visited. Inside, `{{seq.<as>.x}}`, `.y`, `.z`, `.loc`,
+`.id`, `.name` and `.distance` read it.
+
+Here the group runs to each light the boss calls, while the lights are up and the boss is not on top of them:
+
+```json
+    {
+      "stepId": "named1.lights",
+      "when": [
+        {
+          "count": {
+            "of": "actors",
+            "find": {
+              "query": "Name == \"boss_01_knight_light\" && Distance < 100"
+            },
+            "compare": ">=",
+            "value": 1
+          }
+        },
+        ...
+      ],
+      "repeat": {
+        "until": [
+          ...
+        ],
+        "max": 10
+      },
+      "steps": [
+        {
+          "stepId": "named1.light",
+          "forEach": {
+            "find": {
+              "query": "Name == \"boss_01_knight_light\" && Distance < 100"
+            },
+            "as": "light",
+            "max": 1
+          },
+          "steps": [
+            ...
+            {
+              "stepId": "named1.light.go.group",
+              "do": "campSpot",
+              "op": "setLoc",
+              "x": "{{seq.light.x}}",
+              "y": "{{seq.light.y}}",
+              "z": "{{seq.light.z}}",
+              "sendTo": "igwbn:{{me}}"
+            },
+            {
+              "stepId": "named1.light.there",
+              "wait": "atCampSpot",
+              "limitMs": 15000,
+              "onTimeout": "proceed"
+            },
+            ...
+```
+
+A loop step has no `do` of its own: the work goes in its `steps`. Loops can sit inside loops.
+
+The steps inside a loop are checked when the file loads, the same as every other step.
+
+### Values you can use in text
+
+Anything in `{{ }}` inside a step's text is filled in when the step runs. The `ic` ones:
+
+| Value | What it holds |
+|---|---|
+| `{{ic.zone.name}}`, `{{ic.zone.variant}}`, `{{ic.zone.fullName}}` | The zone, its difficulty (`[Heroic]`), and both together. |
+| `{{ic.zone.tier}}` | Which root the file came from: `default`, `test` or `custom`. |
+| `{{ic.zone.file}}` | The file's path inside its root. |
+| `{{ic.zone.entrance}}` | The file's `entrance`. |
+| `{{ic.zone.options.<name>}}` | The file's own `options`. |
+| `{{ic.options.<name>}}` | The IC window's options, as `TRUE`/`FALSE` (or text): `haltAtEnd`, `loop`, `zoneIn`, `resetZones`, `afterWipe`, `skipBoss`, `skipShinies`, `pauseForNoTradeShinies`, `doNotLootNoTradeBossChest`, `summonMenderToSell`, `callGHAfterEachZone`, `stayInZoneUntilZoneReady`, `skipGroupChecks`, `fileOption1` to `fileOption3`, `fileArgs`. |
+| `{{ic.run.verdicts.<stepId>}}` | How a step ended. `named`, `loot` and `zoneOut` steps record one: `killed`, `looted`, `zonedOut` and so on. |
+| `{{ic.run.id}}`, `{{ic.run.attempts}}` | This run's id, and how many tries it has had (1, then one more after each wipe recovery). |
+| `{{ic.run.completed}}`, `{{ic.run.skipped}}` | The steps (by `stepId`) known to be done or skipped. |
+| `{{ic.list.name}}`, `{{ic.list.entry}}`, `{{ic.list.of}}` | The list this run is part of, which row it is, and how many rows there are. Empty when the zone was run on its own. |
+| `{{ic.group.size}}`, `{{ic.group.mode}}` | How many are in the group, and `group` or `raid`. |
+| `{{me}}` | The IC character's name. |
+| `{{encounter.<name>}}` | A value saved during this run, for example a [`groupQuery`](#groupquery) answer. |
+
+- A name that does not exist reads as empty text. Only the first word after `ic.` is checked when the file loads,
+  so `{{ic.option.loop}}` is refused, but a misspelling further in (`{{ic.zone.nmae}}`) just reads empty.
+- A LavishScript value is written `LavishScript["${Me.Name}"]`. A bare `${...}` is refused when the file loads.
+- While a zone runs, `ogre ic value` in the console prints all of these, and `ogre ic value run.id` prints one.
+
+## The way out
+
+**Every zone file must say how it leaves the zone.** It needs a `zoneOut` step somewhere in `enter`, `steps` or
+`exit` (inside a loop counts). A file without one is skipped when IC loads it, with this line in the log:
+
+```
+no way out: every zone file states its exit - add { "stepId": "exit", "do": "zoneOut", "op": "auto" } as its last step ...
+```
+
+That way a zone never just ends with the group still standing in it, and you can always see from the file how it
+leaves. (Files that hand the zone to a script with `run` are left out of this rule: the script leaves its own way.)
+
+| `op` | What it does |
+|---|---|
+| `door` | Clicks the exit you name: `{ "do": "zoneOut", "op": "door", "name": "Exit" }`. The name must be exact. |
+| `auto` | The built-in zone out, the same as Classic's: finds the nearest clickable exit named `zone exit`, `exit`, `zone_exit` or `exit_spawned` anywhere in the zone, walks the group there and clicks it. If it finds none, the step fails, and the log lists what is clickable nearby, so you can see the exit's real name and use it with `door`. |
+| `endOfZone` | Like `auto`, but only looks within `searchWithin` meters (100 if left out). For the exit that appears near the last boss once it is dead. If it is not there, that is not a failure, and the next step runs: put a fallback after it. |
+| `none` | Stays in the zone, on purpose. The zone end options still run first. It takes no other keys. |
+
+Keys for `door`, `auto` and `endOfZone`:
+
+| Key | Default | What it does |
+|---|---|---|
+| `name` | `door`: required. `auto`, `endOfZone`: the four names above | The exit to click. `auto` and `endOfZone` also take a list of names. |
+| `destination` | the last row | When the zone list pops up, which row to pick: its text, or its number (1 = the first). |
+| `within` | `30` | How close the group must be to click. |
+| `walk` | `door`: `false`. `auto`, `endOfZone`: `true` | Walk the group to the exit when it is farther than `within`. With `false`, walk there with a `path` step first. |
+| `findLimitMs` | `10000` | How long to look for the exit. |
+| `zoneLimitMs` | `40000` | Zoning must start this soon after the click. IC clicks once more, then gives up. |
+| `groupLimitMs` | `120000` | How long to wait for everyone to arrive in the new zone. |
+
+What happens at a `zoneOut` step, in order:
+
+1. **Halt at end of zone**, if it is ticked: IC halts here, inside the zone, until you press Resume.
+2. The zone end options: **Call to guild hall after each zone** or **Stay in zone until a zone is ready**.
+3. Just before the group moves to the exit, a Paladin's Consecrate and a Berserker's Open Wounds are cancelled, so
+   they do not pull more on the way.
+4. Everyone clicks the exit, and the zone list's row is picked for everyone.
+5. In the new zone, IC waits for the group. Anyone who lands in a different copy of the zone (Phantom Seas 3
+   instead of 2) is asked to come to the leader's copy, up to three times.
+
+A zone out that fails does not fail the zone: the run still counts as done, with a failure noted.
+
+**With Loop on**, a zone never starts again inside the instance it just finished. If a zone's exit did not take the
+group out, the list stops and says so. Stop and Run starts it again where you stand.
+
+## The steps, one by one
+
+### path
+
+Moves the group along a list of spots, in order. At each spot it waits until everyone is there, alive and out of
+combat, then goes on.
+
+```json
+{ "stepId": "named1.walk", "do": "path", "using": "nav", "spots": [[-793.151367, 144.102356, 353.17868]] }
+```
+
+| Key | Default | What it does |
+|---|---|---|
+| `using` | required | `"nav"`: everyone finds their own way there. `"campspot"`: moves the group's camp spot from spot to spot, in straight lines. |
+| `spots` | required | The spots, `[x, y, z]` each, in order. |
+| `groupWithin` | `10` | How close to the spot everyone must be before going on. |
+| `spotLimitMs` | `30000` | Time allowed per spot. Fights, pauses and deaths do not count. |
+| `onSpotTimeout` | `"retry"` | When a spot takes too long: `"retry"` it once, then fail; `"fail"`; or `"proceed"` to the next spot. |
+| `waitForCombat` | `true` | Hold at each spot while anything is fighting the group. `false` to not hold, or the keys of [`waitForCombat`](#waitforcombat). |
+| `fly` | `false` | With `nav`: fly where it can. |
+| `waitForStragglers` | `true` | With `nav`: wait for anyone who falls far behind on the way. |
+| `exitOnActorAggro` | | An actor's name. The walk ends the moment it is fighting the group. |
+| `fromStart` | `false` | With `campspot`: always start at the first spot. Without it, a group already near a later spot joins the walk there. |
+| `sendTo` | the whole group | Who walks. |
+
+### named
+
+Kills a named: buffs up, walks to the kill spot, pulls, fights, waits for it to die, then holds until the fight is
+over.
+
+```json
+{ "stepId": "named1", "do": "named", "name": "Glorfab Flit", "spot": [-755.151001, 144.302704, 340.9729] }
+```
+
+| Key | Default | What it does |
+|---|---|---|
+| `name` | required | The named's exact name. |
+| `spot` | | Where to fight it. |
+| `navTo` | `false` | `true`: walk the group to the named itself, wherever it is, and fight it there. |
+| `aliases` | | Other names it shows up or dies under: `["A Shade of X"]`. |
+| `boss` | `false` | `true` for the zone's last boss: **Skip the boss** and the boss chest options apply to it. |
+| `spawnWaitMs` | `0` | How long to wait for it to show up. |
+| `pullLimitMs` | `30000` | It must be fighting the group this soon after the pull. |
+| `limitMs` | `3600000` | The longest the whole fight may take. |
+| `scanRadius` | `50` | How far out to look for it when pulling. |
+| `scanHeight` | | How far up or down to look for it when pulling. |
+| `prebuffMs` | `10000` | How long to let the group buff up first. `0` for no buff-up. |
+| `waitForCombat` | `true` | The hold after the kill, as for `path`. |
+
+It records `killed`, `alreadyDead`, `skipped` (Skip the boss), `neverSpawned` or `timedOut`. A named that never
+spawns does not fail the zone; the run goes on and notes it.
+
+### loot
+
+Loots the chest, or the shinies. The group goes to them if needed, waits for the looting, then goes back.
+
+```json
+{ "stepId": "named1.chest", "do": "loot", "op": "chest" }
+```
+
+| Key | Default | What it does |
+|---|---|---|
+| `op` | required | `"chest"` or `"shinies"`. |
+| `within` | `75` | How far to look. |
+| `boss` | `false` | `true` on the boss chest: **Skip no-trade boss chest** applies to it. |
+| `back` | `true` | Go back to where the step started afterwards. |
+| `noTrade` | the IC window's options | `"loot"` or `"skip"`: what to do with no-trade items, for this step only. |
+
+It records `looted`, `nothingToLoot`, `left` (something was left, said in the log) or `skipped`. A loot step never
+fails the zone.
+
+### zoneOut
+
+The way out. See [The way out](#the-way-out).
+
+### teleporter
+
+Takes the group through a teleporter inside the zone. Everyone clicks it, then IC waits until everyone has moved.
+
+```json
+{ "stepId": "named2.teleporter", "do": "teleporter", "name": "telelport crystal", "landing": [-870.090027, 200.009995, 278.209991] }
+```
+
+| Key | Default | What it does |
+|---|---|---|
+| `name` | required | The teleporter's exact name. Copy it from the game: this one really is spelt `telelport crystal`. |
+| `landing` | | Where it puts the group. With it, a run that starts part-way can begin on the far side. |
+| `walkOnto` | | For a portal you walk onto instead of clicking: its `[x, y, z]`. Needs `landing`. Use it instead of `name`. |
+| `limitMs` | `20000` | How long everyone has to get through. |
+
+### hunt
+
+Kills everything with a name like `name`, until `until` appears. For nameds that spawn after their adds die.
+
+```json
+{ "stepId": "named3.hunt", "do": "hunt", "name": "Mucktail", "until": "Vexven Mucktail" }
+```
+
+| Key | Default | What it does |
+|---|---|---|
+| `name` | required | Part of the name of the mobs to kill. |
+| `until` | required | The exact name of what ends the hunt: once it is up, the group goes to it and the step ends. |
+| `untilLine` | | A chat line that ends the hunt too, when part of it matches. |
+| `spots` | | Where to look from when nothing is in sight, in turn. |
+| `limitMs` | `900000` | The longest the hunt may take. |
+
+Running out of time does not fail the zone. During the hunt, the IC character's AutoTarget is on, with a 35 meter
+radius. When the hunt ends, it goes back to how it was.
+
+### waitForCombat
+
+Holds while anything is fighting the group. `path` and `named` do this by themselves; this step is for the places
+in between.
+
+```json
+{ "stepId": "settle", "do": "waitForCombat", "noProgressMs": 20000, "onNoProgress": "moveOn" }
+```
+
+| Key | Default | What it does |
+|---|---|---|
+| `settleMs` | `2000` | When a mob is close, give it this long to join in first. |
+| `settleWithin` | `15` | How close "close" is, in meters. |
+| `noProgressMs` | `15000` | A fight where nothing changes for this long is stuck. |
+| `onNoProgress` | `"moveOn"` | A stuck fight: `"moveOn"` and leave it, or `"fail"`. A named is never left. |
+| `limitMs` | none | The longest the step may hold. Reaching it while still fighting fails the step. |
+
+### waitForLoot
+
+Waits until OgreBot has looted everything in reach.
+
+| Key | Default | What it does |
+|---|---|---|
+| `settleMs` | `3000` | Give the loot this long to show up. |
+| `limitMs` | `120000` | The longest it waits. `0` for no limit. |
+| `onTimeout` | `"proceed"` | At the limit: `"proceed"` or `"fail"`. |
+
+### trash
+
+Clears every mob inside a circle around where the step starts, one at a time. Can also hold for waves.
+
+```json
+{ "stepId": "ring.trash", "do": "trash", "radius": 40, "until": "Ring Master", "whenEmpty": "wait", "quietMs": 60000 }
+```
+
+| Key | Default | What it does |
+|---|---|---|
+| `radius` | `30` | The circle, in meters. |
+| `types` | `["NPC"]` | What counts: `"NPC"`, `"NamedNPC"`, `"Special"`. |
+| `until` | | An exact name. The step ends when it appears. |
+| `whenEmpty` | `"done"` | When the circle is clear: `"done"`, or `"wait"` for the next wave. |
+| `quietMs` | `60000` | With `wait`: the step ends after this long with nothing in the circle and nothing fighting the group. |
+| `move` | `"none"` | `"nav"` or `"campspot"` to walk to mobs more than 20 meters away. The group comes back at the end. |
+| `limitMs` | `600000` | The longest it may take. Reaching it fails the step. |
+
+### reward
+
+Takes a reward from the reward window.
+
+```json
+{ "stepId": "boss.reward", "do": "reward", "choose": 2 }
+```
+
+| Key | Default | What it does |
+|---|---|---|
+| `choose` | required | Which reward: its number (1 = the first) or its name. |
+| `limitMs` | `5000` | How long to wait for the window. |
+| `sendTo` | the whole group | Who takes it. |
+
+### groupQuery
+
+Asks the whole group a question and saves the answers, so later steps can act on them.
+
+```json
+{ "stepId": "bots", "do": "groupQuery", "var": "bots", "question": "itemCount", "item": "Mechanized Platinum Repository of Reconstruction" }
+```
+
+| Key | What it does |
+|---|---|
+| `var` | The name the answers are saved under. |
+| `question` | `"itemCount"` with `item`, `"abilityReady"` with `ability`, `"slotResolve"` with `slot`, or `LavishScript["${...}"]`, which each member works out for themselves. |
+| `compare`, `value` | Together: turns each answer into a yes or a no, for example `"compare": ">="`, `"value": 1`. |
+| `sendTo` | Who is asked. The whole group if left out. |
+| `limitMs` | How long to wait for answers: `3000` if left out. |
+
+The answers are read as `{{encounter.<var>.<answer>}}`: `askedCount`, `answeredCount`, `yesCount`, `noCount`,
+`missingCount`, `allYes`, `anyYes`, `allNo`, `anyNo`, `yesWho`, `noWho`, `missingWho`, and for each member
+`answer.<Name>`, `yes.<Name>`, `no.<Name>`, `missing.<Name>`.
+
+### progress
+
+Marks a step as done (`"op": "complete"`) or skipped (`"op": "skip"`), so a later start or resume leaves it out.
+
+```json
+{ "stepId": "progress.1", "do": "progress", "op": "complete", "id": "named1" }
+```
+
+### recover
+
+The wipe recovery steps, for `onWipe` and `afterWipe`. `op` is `"revive"`, `"evac"` (back to the `entrance`),
+`"callGH"` or `"callHome"`. `limitMs` is how long each may take. A `revive` can take `at`: the row of the revive
+window to use, like `"Entrance"`.
+
+```json
+"onWipe": [
+  { "stepId": "wipe.revive", "do": "recover", "op": "revive", "limitMs": 20000 }
+]
+```
+
+## Other actions
+
+These come from fight files, and the shipped zone files use them too. They run on the IC character. Add
+`sendTo` to have others do it as well: `"sendTo": "igwbn:{{me}}"` is everyone in the group but the IC character.
+
+| Action | What it does |
+|---|---|
+| `announce` | Writes `message` in the IC character's console. `"console": true` sends it to every character's console. |
+| `autotarget` | The IC character's AutoTarget: `"op": "addActor"` with `name`, `"removeActor"`, `"clear"`, or `"set"` with `radius`, `height` or `enabled`. |
+| `campSpot` | Camp spots: `"op": "enable"`, `"setLoc"` with `x`, `y`, `z`, or `"clearAll"`. Takes `sendTo`. |
+| `actorInteract` | Clicks an actor by `name` (`"op": "doubleClick"`, which takes `sendTo`), or targets it (`"op": "target"`). An actor that is not there fails the step, so it is often written with `"onFail": "proceed"`. |
+| `movement` | `"op": "setRunMode"` with `"mode": "walk"` or `"run"`. Takes `sendTo`. IC sets running back when the zone ends. |
+| `ogreBotUIOption` | Ticks or unticks an OgreBot option by its `id` (`"value": "TRUE"` / `"FALSE"`), or puts it back (`"op": "restore"`). Takes `sendTo`. |
+| `raw` | Runs any InnerSpace `command` on the IC character. |
+
+These are checked when the file loads, by the same rules fight files use. A missing key the action needs, or a wrong
+`op`, skips the file. A key the action does not read is a warning.
+
+## Checking your file
+
+Press **Reload** after every change. A file with a problem is **skipped**: it does not show in the IC window, and
+`ogre ic reload` says why, one line per problem, like this:
+
+```
+custom/My Zone.json: steps[3]: path: `using` must be "campspot" or "nav"
+```
+
+`steps[3]` is the third step in `steps`; a step inside a loop shows as `steps[5].steps[1]`.
+
+Some things only **warn**: the file still loads, but read the warning. The most common is a key nothing reads, which
+is usually a typo:
+
+```
+custom/My Zone.json: steps[3]: path: 'spotLimitMS' is not a field of this action - nothing reads it, so as written it does nothing - did you mean 'spotLimitMs'?
+```
+
+Two mistakes are not caught when the file loads: a misspelt condition (in `when`, `wait` or `until`), and two
+steps with the same `stepId`. So watch the log the first time a new file runs.
+
+## Checklist
+
+- [ ] `zone` and `variants` match what the game shows for the zone.
+- [ ] Every named step has a `stepId` (`named1`, `named2`, ...), and the steps that go with it are named after it
+      (`named1.walk`, `named1.chest`).
+- [ ] The last boss has `"boss": true`.
+- [ ] The file has an `entrance`.
+- [ ] The file has a `zoneOut` step: `auto`, or `door` with the exit's name.
+- [ ] **Reload** says `0 skipped, 0 warning(s)`.

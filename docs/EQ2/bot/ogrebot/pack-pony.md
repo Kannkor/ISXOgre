@@ -21,8 +21,6 @@ Pack Pony sends your Artisan's Pack Pony out to gather harvests by itself. With 
 | **Conversation 2 - Option 2 (10-19 / 70-79 / 110-120 harvests)** | When the pony asks its second question, the bot picks reply 2. | off |
 | **Conversation 2 - Option 3 (20-29 / 80-89 / 120-130 harvests)** | When the pony asks its second question, the bot picks reply 3. This is also used when no box in this group is ticked. | off (used anyway when none is ticked) |
 | **Conversation 2 - Option 4 (30-39 / 90-95 / 131-140 harvests)** | When the pony asks its second question, the bot picks reply 4. | off |
-| **Conversation 2 - Option 5 (40-49 / 96-99 harvests)** | When the pony asks its second question, the bot picks reply 5. | off |
-| **Conversation 2 - Option 6 (50-59 harvests)** | When the pony asks its second question, the bot picks reply 6. | off |
 | **Conversation 3 - Option 1 (VoV 120-125 / PoM 110 / Thalumbra harvests / RoC 135)** | When the pony asks its third question ('Gather harvests from ...'), the bot picks reply 1. | off |
 | **Conversation 3 - Option 2 (RoR 125 / EP 110 harvests)** | When the pony asks its third question, the bot picks reply 2. This is also used when no box in this group is ticked. | off (used anyway when none is ticked) |
 | **Conversation 3 - Option 3 (BoZimara 125-130 / Luclin 110-120 harvests)** | When the pony asks its third question, the bot picks reply 3. | off |
@@ -33,6 +31,7 @@ Pack Pony sends your Artisan's Pack Pony out to gather harvests by itself. With 
 - The character needs the 'Summon Artisan's Pack Pony' ability, or the run does not start.
 - It never starts while you are in combat, while the bot is paused, or while another conversation window is open.
 - If no box in a group is ticked, the bot uses option 3 for Conversations 1 and 2, and option 2 for Conversation 3.
+- The boxes follow your earlier picks, the way the pony's questions do: Conversation 2 shows the replies the pony offers after your Conversation 1 pick (six under 1-59 harvests, five under 60-99, four under 100+), and Conversation 3 is only asked under 100+ harvests. Where a reply is not known (Special Events, Conversation 3 below 100) the boxes read 'placeholder' and can still be picked, in case the game adds one. A ticked box your path does not offer says 'not offered ..., pick another'. The options listed on this page are the ones shown for 100+ harvests, 120-130.
 - The wait timers are kept only while the session runs. After a reload the bot tries again straight away.
 - The harvest ranges in the box names describe what each reply meant in the old bot. The bot clicks the reply by its number (Option 1 = the first reply), so check them in game if the pony's replies change.
 

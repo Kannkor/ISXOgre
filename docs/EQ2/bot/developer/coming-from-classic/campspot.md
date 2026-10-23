@@ -1,8 +1,8 @@
-# Camp spot
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../index.md).
 </div>
+
+# Camp spot
 
 Everything Classic's *CampSpot System Reference* and *CampSpot Jump* pages described - the `Ogre_CampSpot` object, the movement locks, the `OgreBotAPI` camp-spot calls, the camp-spot console commands and `Obj_CampSpotJump` - and what each one is in the new bot.
 
@@ -14,14 +14,14 @@ Everything Classic's *CampSpot System Reference* and *CampSpot Jump* pages descr
 
 | What happened | Names |
 |---|---|
-| ⚠️ Arguments changed | 20 |
-| ✏️ Renamed | 52 |
+| ⚠️ Arguments changed | 23 |
+| ✏️ Renamed | 49 |
 | ➡️ Moved | 11 |
-| ➡️ Lives somewhere else | 9 |
+| ➡️ Lives somewhere else | 10 |
 | 📄 In a data file now | 2 |
-| ⛔ Removed | 7 |
+| ⛔ Removed | 8 |
 | ✅ Works as is | 34 |
-| **Total** | **135** |
+| **Total** | **137** |
 
 ## The big change: these calls need a for-who now
 
@@ -89,9 +89,9 @@ Calls written `Ogre_CampSpot:…` (methods) and `${Ogre_CampSpot.…}` (members)
 | `Ogre_CampSpot:ClearCampSpot` | does nothing | `OgreBotAPI.CampSpot:ClearCampSpot` `[fw]` | ➡️ Moved |  |
 | `Ogre_CampSpot:ClearRelative` | does nothing | `OgreBotAPI.CampSpot:ClearRelative` `[fw]` | ➡️ Moved |  |
 | `Ogre_CampSpot.CSZoneName` | reads NULL | `OgreBotAPI.CampSpot.Zone` | ✏️ Renamed |  |
-| `Ogre_CampSpot:Disable` | does nothing | `OgreBotAPI.Movement:Block` `[fw,reason]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. Renamed on purpose: Classic's `Disable` ADDS a block and `Enable` REMOVES one. Next to `CampSpot:Enable` / `:Disable` (which arm and disarm the LEASH) that polarity reads backwards, and it already cost this port a wrong mapping. The verbs now say what they do. `[fw, reason]` - the reason name is REQUIRED; an unnamed block could never be released. |
+| `Ogre_CampSpot:Disable` | does nothing | `OgreBotAPI.Movement:Block` `[fw,reason]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. Renamed on purpose: Classic's `Disable` ADDS a block and `Enable` REMOVES one. Next to `CampSpot:Enable` / `:Disable` (which arm and disarm the LEASH) that polarity reads backwards, and it already cost this port a wrong mapping. The verbs now say what they do. `[fw, reason]` - the reason name is REQUIRED; an unnamed block could never be released. A block holds everything - the camp spot, follow, new nav trips and queued moves - and stops the move under way; release it by name with `:Unblock`. Classic's follow ignored blocks, and its camp spot `:Disable` held only the camp spot, so a converted block is stricter: a toon that should keep following through the hold needs no block. |
 | `Ogre_CampSpot.Disabled` | reads NULL | `OgreBotAPI.Movement.Blocked` `[reason]` | ✏️ Renamed | `[reason]` asks about that hold; no argument asks whether ANY hold is active. |
-| `Ogre_CampSpot.DistanceFromAbsoluteCampSpot` | reads NULL | `${Math.Distance[${ISXOgreEQ2.CampSpot.AnchorLoc},${Me.Loc}]}` | ➡️ Lives somewhere else |  |
+| `Ogre_CampSpot.DistanceFromAbsoluteCampSpot` | reads NULL | `${Math.Distance[${OgreBotAPI.CampSpot.AnchorLoc},${Me.Loc}]}` | ➡️ Lives somewhere else |  |
 | `Ogre_CampSpot.DistanceFromCampSpot` | reads NULL | `OgreBotAPI.CampSpot.DistanceTo` | ✏️ Renamed |  |
 | `Ogre_CampSpot:Enable` | does nothing | `OgreBotAPI.Movement:Unblock` `[fw,reason]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. Renamed on purpose: Classic's `Disable` ADDS a block and `Enable` REMOVES one. Next to `CampSpot:Enable` / `:Disable` (which arm and disarm the LEASH) that polarity reads backwards, and it already cost this port a wrong mapping. The verbs now say what they do. `[fw, reason]` releases THAT hold only. |
 | `Ogre_CampSpot.Get_AbsoluteCampSpot` | reads NULL | `OgreBotAPI.CampSpot.AnchorLoc` | ✏️ Renamed | `"x,y,z"` string, same shape as `.EffectiveLoc`, so it feeds `Math.Distance` directly; components are `.AnchorX/.AnchorY/.AnchorZ`. Empty string when no spot is set. |
@@ -110,24 +110,24 @@ Calls written `Ogre_CampSpot:…` (methods) and `${Ogre_CampSpot.…}` (members)
 | `Ogre_CampSpot.RelativeCampSpotLoc` | reads NULL | `OgreBotAPI.CampSpot.EffectiveLoc` | ✏️ Renamed | components are `.EffectiveX/.EffectiveY/.EffectiveZ`. The RAW anchor is the separate `.AnchorLoc`; the two differ by exactly the sticky offset whenever a relative is in play. |
 | `Ogre_CampSpot.RelativeLoc` | reads NULL | `OgreBotAPI.CampSpot.RelativeLoc` | ➡️ Moved |  |
 | `Ogre_CampSpot.sc_ItemsAffectingMovement` | reads NULL | `OgreBotAPI.Movement.BlockReasons` | ✏️ Renamed |  |
-| `Ogre_CampSpot:Set_CampSpot` | does nothing | `OgreBotAPI.CampSpot:SetHere` `[fw,howClose,howFar]` | ✏️ Renamed | do not convert this to :SetLoc - the arguments are bands, not a location |
+| `Ogre_CampSpot:Set_CampSpot` | does nothing | `OgreBotAPI.CampSpot:SetHere` `[fw,howClose=2,howFar=200]` | ✏️ Renamed | do not convert this to :SetLoc - the arguments are bands, not a location |
 | `Ogre_CampSpot:Set_CCS` | does nothing | `OgreBotAPI.CampSpot:SetLoc` `[fw,x,y,z]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. Set_CCS took NO for-who (`method Set_CCS(float LocX, float LocY, float LocZ)`) - it was local-only. The new verb takes a for-who first, so you must INSERT one: use `all`. The for-who is a gate on the session running the line, not a broadcast, so `all` acts on this session only - exactly what the old call did. 33 call sites use this form. |
 | `Ogre_CampSpot:Set_ChangeCampSpot` | does nothing | `OgreBotAPI.CampSpot:SetLoc` `[fw,x,y,z]` | ✏️ Renamed |  |
-| `Ogre_CampSpot:Set_ChangeCampSpotBy` | does nothing | `OgreBotAPI.CampSpot:NudgeBy` `[fw,dx,dy,dz]` | ✏️ Renamed |  |
-| `Ogre_CampSpot:Set_ChangeRelativeCampSpotBy` | does nothing | `OgreBotAPI.CampSpot:NudgeRelativeBy` `[fw,dx,dy,dz]` | ✏️ Renamed |  |
-| `Ogre_CampSpot:Set_CS` | does nothing | `OgreBotAPI.CampSpot:SetHere` `[fw,howClose,howFar]` | ✏️ Renamed |  |
-| `Ogre_CampSpot:Set_Formation_Circle` | does nothing | `OgreBotAPI.CampSpot:SetFormation` `[fw,kind,dist,circleSpots]` | ✏️ Renamed | pass kind `circle`<br>Not taken any more: `_Z`, `_UseRelative`. |
-| `Ogre_CampSpot:Set_Formation_MonkeyInMiddle` | does nothing | `OgreBotAPI.CampSpot:SetFormation` `[fw,kind,dist,circleSpots]` | ✏️ Renamed | pass kind `monkey`<br>Not taken any more: `_Z`, `_Middle`, `_UseRelative`. |
-| `Ogre_CampSpot:Set_Formation_MonkeyInMiddleRaid` | does nothing | `OgreBotAPI.CampSpot:SetFormation` `[fw,kind,dist,circleSpots]` | ✏️ Renamed | pass kind `monkeyraid`<br>Not taken any more: `_Y`, `_Z`, `_CircleSpots`, `_UseRelative`. |
-| `Ogre_CampSpot:Set_HowClose` | does nothing | `OgreBotAPI.CampSpot:SetHowClose` `[fw,v]` | ✏️ Renamed |  |
-| `Ogre_CampSpot:Set_HowFar` | does nothing | `OgreBotAPI.CampSpot:SetHowFar` `[fw,v]` | ✏️ Renamed |  |
-| `Ogre_CampSpot:Set_Relative` | does nothing | `OgreBotAPI.CampSpot:SetRelativeLoc` `[fw,x,y,z]` | ✏️ Renamed |  |
-| `Ogre_CampSpot:Set_Use3D` | does nothing | `OgreBotAPI.CampSpot:SetUse3D` `[fw,0/1]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. |
+| `Ogre_CampSpot:Set_ChangeCampSpotBy` | does nothing | `OgreBotAPI.CampSpot:NudgeBy` `[fw,dx=0,dy=0,dz=0]` | ✏️ Renamed |  |
+| `Ogre_CampSpot:Set_ChangeRelativeCampSpotBy` | does nothing | `OgreBotAPI.CampSpot:NudgeRelativeBy` `[fw,dx=0,dy=0,dz=0]` | ✏️ Renamed |  |
+| `Ogre_CampSpot:Set_CS` | does nothing | `OgreBotAPI.CampSpot:SetHere` `[fw,howClose=2,howFar=200]` | ✏️ Renamed |  |
+| `Ogre_CampSpot:Set_Formation_Circle` | does nothing | `OgreBotAPI.CampSpot:SetFormation` `[fw,kind=circle,dist=7,x=myX,y=myY,z=myZ,useRelative=FALSE,middle="",circleSpots=0]` | ⚠️ Arguments changed | SIGNATURE CHANGED - put the kind `circle` after the for-who: Classic (ForWho, Distance, X, Y, Z, UseRelative) -&gt; SetFormation[fw, circle, dist, x, y, z, useRelative]. The arguments keep their order after the kind. |
+| `Ogre_CampSpot:Set_Formation_MonkeyInMiddle` | does nothing | `OgreBotAPI.CampSpot:SetFormation` `[fw,kind=circle,dist=7,x=myX,y=myY,z=myZ,useRelative=FALSE,middle="",circleSpots=0]` | ⚠️ Arguments changed | SIGNATURE CHANGED - put the kind `monkey` after the for-who, and the middle AFTER useRelative: Classic (ForWho, Distance, X, Y, Z, Middle, UseRelative) -&gt; SetFormation[fw, monkey, dist, x, y, z, useRelative, middle]. |
+| `Ogre_CampSpot:Set_Formation_MonkeyInMiddleRaid` | does nothing | `OgreBotAPI.CampSpot:SetFormation` `[fw,kind=circle,dist=7,x=myX,y=myY,z=myZ,useRelative=FALSE,middle="",circleSpots=0]` | ⚠️ Arguments changed | SIGNATURE CHANGED - put the kind `monkeyraid` after the for-who; the middle for-who and the circle spots move to the end: Classic (ForWho, MiddleForWho, Distance, X, Y, Z, CircleSpots, UseRelative) -&gt; SetFormation[fw, monkeyraid, dist, x, y, z, useRelative, middle, circleSpots]. |
+| `Ogre_CampSpot:Set_HowClose` | does nothing | `OgreBotAPI.CampSpot:SetHowClose` `[fw,v=0]` | ✏️ Renamed |  |
+| `Ogre_CampSpot:Set_HowFar` | does nothing | `OgreBotAPI.CampSpot:SetHowFar` `[fw,v=0]` | ✏️ Renamed |  |
+| `Ogre_CampSpot:Set_Relative` | does nothing | `OgreBotAPI.CampSpot:SetRelativeLoc` `[fw,x=0,y=0,z=0]` | ✏️ Renamed |  |
+| `Ogre_CampSpot:Set_Use3D` | does nothing | `OgreBotAPI.CampSpot:SetUse3D` `[fw,on=TRUE]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. |
 | `Ogre_CampSpot.uAllowMovement` | reads NULL | `OgreBotAPI.Movement.BlockCount` | ✏️ Renamed |  |
 | `Ogre_CampSpot.UsingRelative` | reads NULL | `OgreBotAPI.CampSpot.RelativeActive` | ✏️ Renamed | NOT `.UsingRelativeBy`, and this is the trap. `UsingRelativeBy` reports the MODE and is TRUE for a RelativeBy state with a 0,0,0 offset - where `.RelativeActive` is correctly FALSE. Pinned by CampSpotTests; confusing the two fails 4 checks. |
 | `Ogre_CampSpot.UsingRelativeBy` | reads NULL | `OgreBotAPI.CampSpot.UsingRelativeBy` | ➡️ Moved |  |
-| `Ogre_CampSpot.UsingRelativeByCS` | reads NULL | `${ISXOgreEQ2.CampSpot.RelativeX} / .RelativeY / .RelativeZ (any non-zero)` | ➡️ Lives somewhere else | use `.RelativeActive` unless you specifically need this half alone. |
-| `Ogre_CampSpot.UsingRelativeCS` | reads NULL | `${Math.Distance[${ISXOgreEQ2.CampSpot.AnchorLoc},${ISXOgreEQ2.CampSpot.EffectiveLoc}]}` | ➡️ Lives somewhere else | non-zero == TRUE. For the plain "is a relative in effect" question use `.RelativeActive`. |
+| `Ogre_CampSpot.UsingRelativeByCS` | reads NULL | `${OgreBotAPI.CampSpot.RelativeX} / .RelativeY / .RelativeZ (any non-zero)` | ➡️ Lives somewhere else | use `.RelativeActive` unless you specifically need this half alone. |
+| `Ogre_CampSpot.UsingRelativeCS` | reads NULL | `${Math.Distance[${OgreBotAPI.CampSpot.AnchorLoc},${OgreBotAPI.CampSpot.EffectiveLoc}]}` | ➡️ Lives somewhere else | non-zero == TRUE. For the plain "is a relative in effect" question use `.RelativeActive`. |
 | `Ogre_CampSpot.ValidCampSpotOptions` | reads NULL | `OgreBotAPI.CampSpot.ValidOptions` | ✏️ Renamed | the inherited Object_Movement allowance is a SEPARATE term from the `Allow Camp Spot` config box - both are tested. Does NOT test whether the leash is armed (that is `.Enabled`) nor the annulus (that is `.AtCampSpot`). |
 | `Ogre_CampSpot.ValidCampSpotOptionsCommon` | reads NULL | `OgreBotAPI.CampSpot.ValidOptionsCommon` | ✏️ Renamed | `.ValidOptions` = this AND the current zone matches the capture zone. |
 | `Ogre_CampSpot.ValidStayAtCampSpotOptions` | reads NULL | `OgreBotAPI.CampSpot.Leashing` | ✏️ Renamed | Leashing is the bot's own answer, made on its pulse - true while it is actually walking you back. It is also false when the leash is switched off or you are in a different zone from where the spot was set, which Classic's test did not check. |
@@ -144,8 +144,8 @@ Classic kept the movement lock on `Obj_Movement`, reachable as `Obj_CampSpot` an
 | `Obj_Movement.AllowMovement` | reads NULL | `OgreBotAPI.Movement.AllowMovement` | ➡️ Moved |  |
 | `Obj_CampSpot:Clear` | does nothing | `OgreBotAPI.Movement:ClearBlocks` `[fw]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). `CampSpot:Release` (LetsGo) also clears them. |
 | `Obj_Movement:Clear` | does nothing | `OgreBotAPI.Movement:ClearBlocks` `[fw]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). `CampSpot:Release` (LetsGo) also clears them. |
-| `Obj_CampSpot:Disable` | does nothing | `OgreBotAPI.Movement:Block` `[fw,reason]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. Renamed on purpose: Classic's `Disable` ADDS a block and `Enable` REMOVES one. Next to `CampSpot:Enable` / `:Disable` (which arm and disarm the LEASH) that polarity reads backwards, and it already cost this port a wrong mapping. The verbs now say what they do. `[fw, reason]` - the reason name is REQUIRED; an unnamed block could never be released. |
-| `Obj_Movement:Disable` | does nothing | `OgreBotAPI.Movement:Block` `[fw,reason]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. Renamed on purpose: Classic's `Disable` ADDS a block and `Enable` REMOVES one. Next to `CampSpot:Enable` / `:Disable` (which arm and disarm the LEASH) that polarity reads backwards, and it already cost this port a wrong mapping. The verbs now say what they do. `[fw, reason]` - the reason name is REQUIRED; an unnamed block could never be released. |
+| `Obj_CampSpot:Disable` | does nothing | `OgreBotAPI.Movement:Block` `[fw,reason]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. Renamed on purpose: Classic's `Disable` ADDS a block and `Enable` REMOVES one. Next to `CampSpot:Enable` / `:Disable` (which arm and disarm the LEASH) that polarity reads backwards, and it already cost this port a wrong mapping. The verbs now say what they do. `[fw, reason]` - the reason name is REQUIRED; an unnamed block could never be released. A block holds everything - the camp spot, follow, new nav trips and queued moves - and stops the move under way; release it by name with `:Unblock`. Classic's follow ignored blocks, and its camp spot `:Disable` held only the camp spot, so a converted block is stricter: a toon that should keep following through the hold needs no block. |
+| `Obj_Movement:Disable` | does nothing | `OgreBotAPI.Movement:Block` `[fw,reason]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. Renamed on purpose: Classic's `Disable` ADDS a block and `Enable` REMOVES one. Next to `CampSpot:Enable` / `:Disable` (which arm and disarm the LEASH) that polarity reads backwards, and it already cost this port a wrong mapping. The verbs now say what they do. `[fw, reason]` - the reason name is REQUIRED; an unnamed block could never be released. A block holds everything - the camp spot, follow, new nav trips and queued moves - and stops the move under way; release it by name with `:Unblock`. Classic's follow ignored blocks, and its camp spot `:Disable` held only the camp spot, so a converted block is stricter: a toon that should keep following through the hold needs no block. |
 | `Obj_CampSpot.Disabled` | reads NULL | `OgreBotAPI.Movement.Blocked` `[reason]` | ✏️ Renamed | `[reason]` asks about that hold; no argument asks whether ANY hold is active. |
 | `Obj_Movement.Disabled` | reads NULL | `OgreBotAPI.Movement.Blocked` `[reason]` | ✏️ Renamed | `[reason]` asks about that hold; no argument asks whether ANY hold is active. |
 | `Obj_CampSpot:Enable` | does nothing | `OgreBotAPI.Movement:Unblock` `[fw,reason]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. Renamed on purpose: Classic's `Disable` ADDS a block and `Enable` REMOVES one. Next to `CampSpot:Enable` / `:Disable` (which arm and disarm the LEASH) that polarity reads backwards, and it already cost this port a wrong mapping. The verbs now say what they do. `[fw, reason]` releases THAT hold only. |
@@ -161,18 +161,20 @@ The flat `OgreBotAPI:` camp-spot calls. They moved into `OgreBotAPI.CampSpot`.
 
 | Old call | Today | Write instead | What changed | Notes |
 |---|---|---|---|---|
-| `OgreBotAPI:CampSpot` | does nothing | `OgreBotAPI.CampSpot:SetHere` `[fw,howClose,howFar]` | ✏️ Renamed |  |
+| `OgreBotAPI:CampSpot` | does nothing | `OgreBotAPI.CampSpot:SetHere` `[fw,howClose=2,howFar=200]` | ✏️ Renamed |  |
 | `OgreBotAPI:CCS` | does nothing | `OgreBotAPI.CampSpot:SetLoc` `[fw,x,y,z]` | ✏️ Renamed | Not taken any more: `_RoomID`. |
 | `OgreBotAPI:ChangeCampSpot` | does nothing | `OgreBotAPI.CampSpot:SetLoc` `[fw,x,y,z]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. took coordinates at arg 0 with no for-who. The new form requires one: `OgreBotAPI.CampSpot:SetLoc["all",x,y,z]`. |
 | `OgreBotAPI:ChangeCampSpotWho` | does nothing | `OgreBotAPI.CampSpot:SetLoc` `[fw,x,y,z]` | ✏️ Renamed |  |
 | `OgreBotAPI:ClearRCS` | does nothing | `OgreBotAPI.CampSpot:ClearRelative` `[fw]` | ✏️ Renamed |  |
-| `OgreBotAPI:CRCS` | does nothing | `OgreBotAPI.CampSpot:SetRelativeLoc` `[fw,x,y,z]` | ✏️ Renamed | Not taken any more: `_RoomID`. |
+| `OgreBotAPI:CRCS` | does nothing | `OgreBotAPI.CampSpot:SetRelativeLoc` `[fw,x=0,y=0,z=0]` | ✏️ Renamed | Not taken any more: `_RoomID`. |
 | `OgreBotAPI:LetsGo` | does nothing | `OgreBotAPI.CampSpot:Release` `[fw]` | ✏️ Renamed |  |
-| `OgreBotAPI:SetCS_BehindNPC` | does nothing | `OgreBotAPI.CampSpot:SetLocBehindActor` `[fw,nameOrId,dist,skipIfAggro]` | ✏️ Renamed |  |
-| `OgreBotAPI:SetCS_InFrontNPC` | does nothing | `OgreBotAPI.CampSpot:SetLocInFrontOfActor` `[fw,nameOrId,dist,skipIfAggro]` | ✏️ Renamed |  |
-| `OgreBotAPI:SetCS_NPC` | does nothing | `OgreBotAPI.CampSpot:SetLocAtAngleFromActor` `[fw,angle,nameOrId,dist,skipIfAggro,includeNpcSize=TRUE]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. was a dead stub; `:SetLocAtAngleFromActor` is the working port. |
-| `OgreBotAPI:SetCS_NPC_ForWho` | does nothing | `OgreBotAPI.CampSpot:SetLocAtAngleFromActor` `[fw,angle,nameOrId,dist,skipIfAggro,includeNpcSize=TRUE]` | ✏️ Renamed | Angle 0 = behind the actor, 180 = in front (as Classic). The extra last argument (include the NPC's size in the distance) defaults to TRUE. |
-| `OgreBotAPI:SetCS_PositionNPC` | does nothing | `OgreBotAPI.CampSpot:SetLocByRole` `[fw,nameOrId,dist,skipIfAggro]` | ✏️ Renamed |  |
+| `OgreBotAPI:PulseCircleMovement` | does nothing | `OgreBotAPI.CampSpot:SetLocAtAngleFromActor["<forwho>",<angle>,<nameOrId>,<dist>]` | ➡️ Lives somewhere else | `:SetLocAtAngleFromActor` places the camp spot at one angle/distance from an actor; `:SetLocBehindActor` / `:SetLocInFrontOfActor` / `:SetLocByRole` are the fixed-bearing forms. A converted encounter drives the rotation itself and calls one of these per spot. |
+| `OgreBotAPI:SetCS_BehindNPC` | does nothing | `OgreBotAPI.CampSpot:SetLocBehindActor` `[fw,nameOrId,dist=3,skipIfAggro=FALSE]` | ✏️ Renamed |  |
+| `OgreBotAPI:SetCS_InFrontNPC` | does nothing | `OgreBotAPI.CampSpot:SetLocInFrontOfActor` `[fw,nameOrId,dist=3,skipIfAggro=FALSE]` | ✏️ Renamed |  |
+| `OgreBotAPI:SetCS_NPC` | does nothing | `OgreBotAPI.CampSpot:SetLocAtAngleFromActor` `[fw,angle,nameOrId,dist=3,skipIfAggro=FALSE,includeNpcSize=TRUE]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. was a dead stub; `:SetLocAtAngleFromActor` is the working port. |
+| `OgreBotAPI:SetCS_NPC_ForWho` | does nothing | `OgreBotAPI.CampSpot:SetLocAtAngleFromActor` `[fw,angle,nameOrId,dist=3,skipIfAggro=FALSE,includeNpcSize=TRUE]` | ✏️ Renamed | Angle 0 = behind the actor, 180 = in front (as Classic). The extra last argument (include the NPC's size in the distance) defaults to TRUE. |
+| `OgreBotAPI:SetCS_PositionNPC` | does nothing | `OgreBotAPI.CampSpot:SetLocByRole` `[fw,nameOrId,dist=3,skipIfAggro=FALSE]` | ✏️ Renamed |  |
+| `OgreBotAPI.ZoneReset_FullZoneInformationAvailable` | reads NULL | — | ⛔ Removed | Not ported: the new bot's `OgreBotAPI.Zone.ResetInfoAvailable` was a stub that did nothing, and it was removed 2026-10-22. Classic's said whether its last update could open the Zone Reuse table or only had the zone names; the new bot's zone list changes only when a table read finishes, so `OgreBotAPI.Zone.ResetReady` (read at least once, not being re-read) is the question to ask. |
 
 ## Camp-spot console commands
 

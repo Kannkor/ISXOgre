@@ -26,13 +26,13 @@
 > - A round that buys nothing, or transmutes nothing, stops the run, so a problem never repeats for every round.
 > - Closing this window does not stop a run.
 
-**Open it:** Type `ogre leveltransmuting panel` (or `ogre lt panel`). Plain `ogre lt` only prints the status to the console. `ogre end leveltransmuting` stops a run but leaves the window open.
+**Open it:** Type `ogre leveltransmuting` (or `ogre lt`). Typing it again while the window is open just refreshes it. `ogre lt status` prints the status to the console instead. `ogre end leveltransmuting` stops a run but leaves the window open.
 
 [![Level Transmuting](../assets/transmute/window.png)](../assets/transmute/window.png "Click for full size")
 
 ## What it is for
 
-A skill-up grinder for the Transmuting tradeskill. You stand next to Barnaby Blunderbuss in Butcherblock. The bot buys Minor Lapis Lazuli Transmuter's Stones from him, transmutes them, and repeats until your Transmuting skill is capped or the round limit is reached. It only ever transmutes items whose name contains "Transmuter's Stone" or "Transmutation Stone" - nothing else in your bags is touched. It never walks: if you are not within 10 of Barnaby, it stops.
+A skill-up grinder for the Transmuting tradeskill. The bot buys Minor Lapis Lazuli Transmuter's Stones from Barnaby Blunderbuss in Butcherblock Mountains, transmutes them, and repeats until your Transmuting skill is capped or the round limit is reached. You do not have to stand next to him: if you are not within 10 of Barnaby, Start travels to him first, from another zone too. OgreBot is paused for the run, and the Persona window is opened on Skills > General to read your skill; when the run ends, however it ends, the window is closed again and OgreBot resumes if it was running. It only ever transmutes items whose name contains "Transmuter's Stone" or "Transmutation Stone" - nothing else in your bags is touched.
 
 ## Header and the stones-only notice
 
@@ -42,7 +42,7 @@ The dot is green while a run is going. Next to it is what the bot is doing right
 
 ## The readout
 
-Merchant and Item are fixed - the tool only works with Barnaby and his cheapest stone. Transmuting is your skill as last read from the Persona window (it is read once at the start of each round, so it shows unavailable until a run has started). Rounds counts merchant visits out of the most you allowed. Transmuted is how many stones this run has transmuted so far. Last is the latest thing that happened.
+Merchant and Item are fixed - the tool only works with Barnaby and the Minor Lapis Lazuli Transmuter's Stone. Transmuting is your skill as last read from the Persona window (Start reads it, then it is read again at the start of each round, so it shows unavailable until a run has read it). Rounds counts the rounds started out of the most you allowed. Buys shows the visits to Barnaby and how many stones your bags really gained. Transmutes shows how many stones were tried and how many really got used up. Last is the latest thing that happened.
 
 [![The readout](../assets/transmute/readout.png)](../assets/transmute/readout.png "Click for full size")
 
@@ -53,7 +53,7 @@ Merchant and Item are fixed - the tool only works with Barnaby and his cheapest 
 | Control | What it does | Default |
 |---|---|---|
 | **Buy** | How many stones you want to be holding when each visit to Barnaby is done. The bot only buys the difference, so stones left over from the last round are used first. 1 to 800.<br>*Locked while a run is going. It is a total to hold, not an amount added every round.* | 60 |
-| **per visit, at most ... round(s)** | The hard stop: the most merchant visits one run will make. The run also stops earlier if the Transmuting skill is readable and capped. 1 to 500.<br>*If the skill cannot be read, this is the only thing that stops the run.* | 20 |
+| **per visit, at most ... round(s)** | The hard stop: the most rounds one run will make. Each round is one visit to Barnaby. The run also stops earlier if the Transmuting skill is readable and capped. 1 to 500.<br>*If the skill cannot be read, the run cannot tell when you are capped and goes on until this limit.* | 20 |
 
 ## Start, Stop, Refresh
 
@@ -61,40 +61,45 @@ Merchant and Item are fixed - the tool only works with Barnaby and his cheapest 
 
 | Control | What it does |
 |---|---|
-| **Start** | Starts a run with the two numbers above. Each round: read your Transmuting skill, check Barnaby is within 10, buy up to the Buy amount, then transmute every stone in your bags (at most 200 per round), 2 seconds apart.<br>*Greyed out while a run is going. Stops by itself if you do not have the Transmuting ability, or after 3 rounds in a row where the merchant purchase failed.* |
-| **Stop** | Stops the run straight away, even in the middle of buying or transmuting.<br>*Only active while a run is going.* |
-| **Refresh** | Redraws the window with the latest numbers. It does not change anything. |
+| **Start** | Starts a run with the two numbers above. It pauses OgreBot and opens the Persona window on Skills > General to read your Transmuting skill. Then, each round: read the skill and stop if it is capped; travel to Barnaby if he is not within 10; buy up to the Buy amount; then transmute every stone in your bags (at most 200 per round), one at a time, waiting 2 seconds after each.<br>*Greyed out while a run is going. The run can also stop by itself - see Good to know below.* |
+| **Stop** | Stops the run straight away, even in the middle of buying, travelling or transmuting. It closes the Persona window and resumes OgreBot if it was running before you pressed Start.<br>*Only active while a run is going.* |
+| **Refresh** | Redraws the window with the latest numbers. It does not change anything, and it does not read the skill. |
 | **Title bar close (X)** | Closes the window only. A run that is going keeps going.<br>*Use Stop (or `ogre end leveltransmuting`) to stop the run.* |
 
 ## When the skill cannot be read
 
-The bot reads your Transmuting skill from the Persona window, Utility skills tab, once at the start of every round. It never opens that window for you. If it is not open, Transmuting shows 'unavailable' in orange and a note appears; the run then stops only at the round limit. Before the first round of a run the skill has not been read yet, so the window also shows 'unavailable' and the note even when the Persona window is open.
+The bot reads your Transmuting skill from the Persona window, Skills > General, which Start opens itself. It reads it once when the window opens and again at the start of every round. If the window is closed during a run, the next round opens it again. If the Transmuting row still does not read, Transmuting shows 'unavailable' in orange and a note appears; the run then cannot tell when you are capped and goes on until the round limit, unless a trip, a buy or a transmute fails first and stops it. Before your first run the skill has not been read yet, so the window shows 'unavailable' and a note saying it is read when you press Start.
 
 [![When the skill cannot be read](../assets/transmute/skillhint.png)](../assets/transmute/skillhint.png "Click for full size")
 
 ## What the window shows
 
-- Dot and phase text (top right): green dot = running. Phase is one of idle, waiting for the world, reading the Transmuting skill, looking for the merchant, buying, transmuting stones, BLOCKED - cannot transmute, stopped.
+- Dot and phase text (top right): green dot = running. Phase is one of idle, waiting for the world, opening the Persona window, travelling to the merchant, reading the Transmuting skill, looking for the merchant, buying, transmuting stones, BLOCKED - cannot transmute, stopped.
 - Box at the top: always there. It says the tool transmutes Transmuter's and Transmutation stones only, and that other items are transmuted by the Inventory Manager (`ogre im -tse`).
-- Transmuting: 'current / max' in green from the last round's read of the Persona window's Utility skills tab; 'unavailable' in orange when it could not be read, or when no round has run yet.
-- Rounds: 'N of M (buys issued: B)' - merchant visits started out of your limit.
-- Transmuted: 'N stones this run' - stones transmuted since Start.
-- Last: the latest step or the reason the run stopped, for example 'Unable to find  Barnaby Blunderbuss' or 'Transmuting is at its cap for this level'.
-- Footer: a reminder that the tool never walks and that the skill is read passively.
+- Note about Barnaby (only while stopped): shown when you are not within 10 of him. It says you are not in Butcherblock Mountains, how far you are from him, or that he is not in view - and that Start will travel or walk to him first.
+- Transmuting: 'current / max' in green from the last read of the Persona window's Skills > General page; 'unavailable' in orange when it could not be read, or before any run has read it.
+- Rounds: 'N of M (buy visits finished: B)' - rounds started out of your limit, and how many visits to Barnaby finished their buy.
+- Buys: 'N visits, S stones bought' - S is how many stones your bags really gained. It adds 'X added nothing' and turns orange when a visit added no stones.
+- Transmutes: 'D of T done' - stones tried, and stones that really left your bags. Green once one is done. When any failed it turns orange and says why: cast refused, never ready, or not used up.
+- Last: the latest step or the reason the run stopped, for example 'transmuting 60 stone(s)' or 'Transmuting is at its cap for this level'.
+- Footer: a reminder that Start pauses OgreBot, opens the Persona window (Skills > General) and travels to Barnaby when you are not within 10, and that Stop, or the run ending any other way, closes the Persona window and resumes OgreBot if it was running.
 
 ## Good to know
 
-- Stand within 10 of Barnaby Blunderbuss (Butcherblock) before pressing Start. If he is further away the run stops at once with 'Unable to find  Barnaby Blunderbuss'.
-- Open the Persona window on the Utility skills tab first, or the run cannot tell when your skill is capped and will use every round you allowed.
-- Before you press Start, Transmuting always shows unavailable - the skill is only read when a round begins, and Refresh does not read it.
+- You do not have to stand next to Barnaby Blunderbuss. Start travels to him in Butcherblock Mountains when you are not within 10, even with OgreBot closed. Stop ends the trip. If two trips still leave him out of reach, or one trip takes over 20 minutes, the run stops.
+- Start opens the Persona window on Skills > General itself and closes it again when the run ends, however it ends. You do not need to open it first.
+- Start pauses OgreBot for the run. When the run ends it resumes OgreBot, unless OgreBot was already paused.
+- Each stone costs 1 Gnomish Currency Exchange, not coin. Without any, the buy adds nothing and the run stops and says so.
+- Before your first run, Transmuting shows unavailable - the skill is first read when you press Start, and Refresh does not read it.
 - Buy is a target to hold, not an amount per round. If stones were left over, the next visit buys fewer (or none).
-- Any item whose name contains "Transmuter's Stone" or "Transmutation Stone" is transmuted, not just the ones this tool bought.
+- Any item in your bags whose name contains "Transmuter's Stone" or "Transmutation Stone" is transmuted, not just the ones this tool bought.
+- The run stops by itself when a visit's buy adds no stones, when a round uses up none of the stones it tried, when the merchant window fails 3 rounds in a row, or when you do not have the Transmuting ability (the stones it bought stay in your bags).
 - Closing the window does not stop a run.
-- Plain `ogre lt` prints the status; add `panel` to open the window.
+- `ogre lt` opens the window; `ogre lt status` prints the status to the console instead.
 
-## When the Persona window is closed
+## Before the first run
 
-![Stopped, with the skill unreadable](../assets/transmute/idle.png)
+![Stopped, before the first run](../assets/transmute/idle.png)
 
-Without the Persona window open on the Utility skills tab, the skill reads **unavailable** and the round limit is the only stop. It also reads unavailable before your first run, because the skill is only read when a round starts.
+Before your first run the skill has not been read, so Transmuting reads **unavailable** and the note says it is read when you press Start: Start opens the Persona window on Skills > General itself. If the Transmuting row still cannot be read during a run, the run cannot tell when you are capped and goes on until the round limit, unless a trip, a buy or a transmute fails first and stops it.
 

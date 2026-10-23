@@ -1,8 +1,8 @@
-# Detrimentals
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../index.md).
 </div>
+
+# Detrimentals
 
 What Classic's *Detrimentals System* page described - the detrimental members and events of the old `ISXOgre` extension, and the `AskDetrimentals` helper - and what each one is in the new bot.
 
@@ -46,7 +46,7 @@ The old `ISXOgre` extension is not loaded with the new bot, so every `${ISXOgre.
 
 ## AskDetrimentals
 
-**Note A** (7 rows below): IC file: the `groupQuery` step - counts, allYes / anyYes / allNo / anyNo, per-member flags, raw answers, ready-made for-who lists. Script: the same engine - ${ISXOgreEQ2.Comms.GroupQuery[&lt;fw&gt;, -question, &lt;question&gt;, ...]} starts it and reads as its id; then ${ISXOgreEQ2.Comms.GroupQuery.Done[id]} / .Result[id] (JSON, the same names), or the event OgreEvent_GroupQueryDone(id, json).
+**Note A** (7 rows below): IC file: the `groupQuery` step - counts, allYes / anyYes / allNo / anyNo, per-member flags, raw answers, ready-made for-who lists. Script: the same engine - ${OgreBotAPI.Comms.GroupQuery[&lt;fw&gt;, -question, &lt;question&gt;, ...]} starts it and reads as its id; then ${OgreBotAPI.Comms.GroupQuery.Done[id]} / .Result[id] (JSON, the same names), or the event OgreEvent_GroupQueryDone(id, json).
 
 **Note B** (6 rows below): Det NOT present: Classic answered NULL; the new read answers 0. Test exists first rather than relying on NULL.
 
@@ -74,10 +74,10 @@ The old `ISXOgre` extension is not loaded with the new bot, so every `${ISXOgre.
 | `ISXOgre.DetrimentalInfo[main,back,Type]` | does nothing | `ISXOgreEQ2.Det.DetrimentalInfo[main,back,Type]` | ➡️ Moved | Note C |
 | `ISXOgre.DetrimentalInfo[main,back,UsesRemaining]` | does nothing | `ISXOgreEQ2.Det.DetrimentalInfo[main,back,UsesRemaining]` | ➡️ Moved | Note C |
 | `ISXOgre.DetrimentalInfo_JSON[main,back,-ExtraFields]` | does nothing | `ISXOgreEQ2.Det.DetrimentalInfo_JSON[main,back,-ExtraFields]` | ➡️ Moved | The extra fields are live server reads, empty on the first touch - the same caveat the doc gave. |
-| `OgreBotAPI.Ask` | does nothing | `ISXOgreEQ2.Comms:Query` | ➡️ Lives somewhere else | Note A |
-| `OgreBotAPI.Ask_AllFalse` | does nothing | `ISXOgreEQ2.Comms:Query` | ➡️ Lives somewhere else | Note A |
-| `OgreBotAPI.Ask_AllTrue` | does nothing | `ISXOgreEQ2.Comms:Query` | ➡️ Lives somewhere else | Note A |
-| `OgreBotAPI.Ask_AnyFalse` | does nothing | `ISXOgreEQ2.Comms:Query` | ➡️ Lives somewhere else | Note A |
-| `OgreBotAPI.Ask_AnyTrue` | does nothing | `ISXOgreEQ2.Comms:Query` | ➡️ Lives somewhere else | Note A |
-| `OgreBotAPI.Ask_CountTrue` | does nothing | `ISXOgreEQ2.Comms:Query` | ➡️ Lives somewhere else | Note A |
-| `OgreBotAPI.Ask_Json` | does nothing | `ISXOgreEQ2.Comms:Query` | ➡️ Lives somewhere else | Note A |
+| `OgreBotAPI.Ask` | does nothing | `OgreBotAPI.Comms:Query` | ➡️ Lives somewhere else | Note A |
+| `OgreBotAPI.Ask_AllFalse` | does nothing | `OgreBotAPI.Comms:Query` | ➡️ Lives somewhere else | Note A |
+| `OgreBotAPI.Ask_AllTrue` | does nothing | `OgreBotAPI.Comms:Query` | ➡️ Lives somewhere else | Note A |
+| `OgreBotAPI.Ask_AnyFalse` | does nothing | `OgreBotAPI.Comms:Query` | ➡️ Lives somewhere else | Note A |
+| `OgreBotAPI.Ask_AnyTrue` | does nothing | `OgreBotAPI.Comms:Query` | ➡️ Lives somewhere else | Note A |
+| `OgreBotAPI.Ask_CountTrue` | does nothing | `OgreBotAPI.Comms:Query` | ➡️ Lives somewhere else | Note A |
+| `OgreBotAPI.Ask_Json` | does nothing | `OgreBotAPI.Comms:Query` | ➡️ Lives somewhere else | Note A |

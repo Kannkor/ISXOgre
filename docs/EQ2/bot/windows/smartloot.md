@@ -22,7 +22,7 @@
 > - It only runs on a Leader Only loot window, and only when the OgreBot Loot tab has both **Enable options below** (Leader Only) and **Smart Loot** ticked.
 > - The x on a character column deletes that character's whole entry when you Save.
 
-**Open it:** Type `ogre smartloot` or `ogre sl`. If the window is already open, this does nothing, and your unsaved changes stay. Scripts can use `ISXOgreEQ2.Loot:Config[all]` to open it and `ISXOgreEQ2.Loot:Config[all,close]` to close it.
+**Open it:** Type `ogre smartloot` or `ogre sl`. If the window is already open, this does nothing, and your unsaved changes stay. Scripts can use `OgreBotAPI.Loot:Config[all]` to open it and `OgreBotAPI.Loot:Config[all,close]` to close it.
 
 [![SmartLoot](../assets/smartloot/window.png)](../assets/smartloot/window.png "Click for full size")
 

@@ -8,6 +8,88 @@ Index of every page and of every file like this one: https://kannkor.github.io/I
 
 ---
 
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/auto-hunt.md
+
+# Auto-Hunt (not finished)
+
+> **:warning: Not finished**
+>
+> OgreBot marks this tab as not finished (its name is struck through). Some options below work and some do not yet - each one says which.
+
+Auto-Hunt is a simple grinding mode. The bot looks for a mob near you, targets it and opens the fight with the first ready ability from your Pull Abilities list; your Cast Stack then fights as usual. This tab is marked not finished: the mob choice and safety settings work, but the walking part does not. The Auto Hunt and Movement Only boxes and the nav path list do nothing yet, so the bot never walks a route; it pulls what comes within the scan radius. To switch it on, use the OgreConsole command `-autohunt` with hunt, movement or off. It only runs while OgreBot is open with a profile loaded and the bot is not paused.
+
+## Auto-Hunt
+
+| Option | What it does | Default |
+|---|---|---|
+| **Auto Hunt** | **Not active yet.** It will be the on/off switch for Auto-Hunt. For now, start and stop it with the OgreConsole command `-autohunt` (hunt, movement or off). | off |
+| **Movement Only** | **Not active yet.** It will make Auto-Hunt walk without pulling. The command `-autohunt movement` exists, but for now it does not walk anywhere; it only holds you still while a safety check is tripped. | off |
+
+## Auto Hunt Options
+
+| Option | What it does | Default |
+|---|---|---|
+| **Scan radius (box)** | How far around you the bot looks for a mob to pull, and for mobs attacking your group. Leave it blank to use 35. | empty (35 is used) |
+| **Check Aggro** | While anyone in your group (or raid) is in combat, the bot stops pulling and holds still. Your normal combat settings handle the fight. | off |
+| **Check HP @** | While anyone in your group (or raid) has less health than the % in the box beside it, the bot stops pulling and holds still.<br>*A group member who is not in the zone counts as low health. A blank box never stops the hunt.* | off |
+| **Check HP @ (box)** | The health % used by Check HP @. Only used while Check HP @ is ticked. | empty (never stops the hunt) |
+| **Check Mana @** | While anyone in your group (or raid) has less power than the % in the box beside it, the bot stops pulling and holds still. | off |
+| **Check Mana @ (box)** | The power % used by Check Mana @. Only used while Check Mana @ is ticked. | empty (never stops the hunt) |
+| **Check if any group members dead** | While anyone in your group (or raid) is dead, the bot stops pulling and holds still.<br>*A group member who is not in the zone also counts as dead, so the hunt waits for them to arrive.* | off |
+
+## Ignore mobs by con
+
+| Option | What it does | Default |
+|---|---|---|
+| **Gray** | The bot never pulls gray-con mobs.<br>*A gray mob already attacking your group is still fought.* | off |
+| **Green** | The bot never pulls green-con mobs. | off |
+| **Blue** | The bot never pulls blue-con mobs. | off |
+| **White (even)** | The bot never pulls white-con (even) mobs. | off |
+| **Yellow** | The bot never pulls yellow-con mobs. | off |
+| **Orange** | The bot never pulls orange-con mobs. | off |
+| **Red** | The bot never pulls red-con mobs. | off |
+| **Non-Aggro** | The bot only pulls mobs that would attack you on sight. Mobs that leave you alone are skipped. | off |
+| **Named** | The bot never pulls named mobs.<br>*Even when unticked, normal mobs in range are pulled before named ones.* | off |
+
+## Pull Abilities
+
+| Option | What it does | Default |
+|---|---|---|
+| **First ready one is used; drag order = priority** | Your pull list. When the bot has a mob targeted and you are out of combat, it uses the first entry from the top that is ready. Type in the box above to find one of your abilities or items; picking it adds it. Drag rows to change the order, double-click a row to switch it off or on.<br>*With an empty list the bot targets mobs but never pulls them.* | empty |
+
+## Behaviour
+
+| Option | What it does | Default |
+|---|---|---|
+| **Campspot** | When the bot finds a mob to pull, it sets a camp spot where you stand and holds you there for the fight. When no mob is left, it clears that camp spot again.<br>*It only sets and clears this character's own camp spot, not the group's.* | off |
+| **CS-JO-JI** | Right now this does exactly the same as Campspot. | off |
+| **Prebuff** | Before each pull, the bot targets you, turns auto-attack on and waits 3 seconds, so your normal buffs have time to go out. Then it targets the mob.<br>*It does not cast buffs itself; your Cast Stack does that.* | off |
+| **Use IRC** | **Not active yet.**  | off |
+| **Ignore Collision** | Normally the bot skips mobs it cannot see (a wall or hill in the way). Tick this to let it pull those too. | off |
+| **Delay After Combat** | **Not active yet.**  | off |
+| **Pause on Exquisite Chest drop** | While an Exquisite chest is lying within 50 of you, the bot stops pulling and holds still, so you can deal with it.<br>*It carries on by itself once the chest is gone.* | off |
+
+## Nav Paths
+
+| Option | What it does | Default |
+|---|---|---|
+| **Add a nav point** | **Not active yet.** It will list named places in the zone to add to the route; for now the list is always empty.<br>*Opened, it says 'No named nav points yet - not built in the new bot'.* | empty |
+| **Nav Path Order** | **Not active yet.** It will hold the route Auto-Hunt walks, in order. It is saved with your profile, but nothing uses it. | empty |
+| **Clear** | Empties the Nav Path Order list. Press Save at the top to keep the change. |  |
+| **Loop path** | **Not active yet.** It will make the route start over when it reaches the end. | off |
+
+## Good to know
+
+- Ticking Auto Hunt does not start anything. Use `-autohunt` in OgreConsole (hunt / movement / off). That choice is not saved with your profile, so Auto-Hunt starts off every time the bot is loaded fresh.
+- A mob that is already attacking your group is targeted before any new pull, whatever its con. The con, Non-Aggro and Named filters only decide which NEW mob to pull. With 'Check Aggro' ticked the bot instead holds still and leaves that fight to your normal combat settings.
+- 'Check if any group members dead' and 'Check HP @' also count a group member who is not in the zone. The hunt waits until they arrive.
+- Pulls only happen while you are out of combat, and only if at least one entry in the pull list is ready to use. With an empty list the bot targets a mob and just waits.
+- If the Scan radius box is blank, the bot looks 35 around you.
+- Movement mode (`-autohunt movement`) does not walk anywhere yet and never pulls. The safety checks still apply in it: while one of them is tripped (Check Aggro, HP, Mana, dead members, Exquisite chest), the bot holds you still.
+
+
+---
+
 Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/cancel-on-cast.md
 
 # Cancel On Cast
@@ -590,7 +672,8 @@ Loot decides what the bot does when a loot window opens. Nothing on the left hal
 
 | Control | What it does | Default |
 |---|---|---|
-| **Exact item name to always loot** | Type an item name here, then press Add or Enter to put it on the list. | empty |
+| **Exact item name** | Type an item name here (or fill it with From examine), then press Add or Enter to put it on the list. | empty |
+| **From examine** | Fills the name box with the item in the examine window you have open (examine the item in game first). Press Add to put it on the list.<br>*It only fills the box - nothing is added until you press Add. With no item examine window open, the box is left as it was and the window says 'Examine the item first, then press From examine'.* |  |
 | **Add** | Adds the typed name to the Auto-Loot list. It takes effect on the next loot window. |  |
 | **x (remove row)** | Removes that name from your list. |  |
 
@@ -807,8 +890,6 @@ Pack Pony sends your Artisan's Pack Pony out to gather harvests by itself. With 
 | **Conversation 2 - Option 2 (10-19 / 70-79 / 110-120 harvests)** | When the pony asks its second question, the bot picks reply 2. | off |
 | **Conversation 2 - Option 3 (20-29 / 80-89 / 120-130 harvests)** | When the pony asks its second question, the bot picks reply 3. This is also used when no box in this group is ticked. | off (used anyway when none is ticked) |
 | **Conversation 2 - Option 4 (30-39 / 90-95 / 131-140 harvests)** | When the pony asks its second question, the bot picks reply 4. | off |
-| **Conversation 2 - Option 5 (40-49 / 96-99 harvests)** | When the pony asks its second question, the bot picks reply 5. | off |
-| **Conversation 2 - Option 6 (50-59 harvests)** | When the pony asks its second question, the bot picks reply 6. | off |
 | **Conversation 3 - Option 1 (VoV 120-125 / PoM 110 / Thalumbra harvests / RoC 135)** | When the pony asks its third question ('Gather harvests from ...'), the bot picks reply 1. | off |
 | **Conversation 3 - Option 2 (RoR 125 / EP 110 harvests)** | When the pony asks its third question, the bot picks reply 2. This is also used when no box in this group is ticked. | off (used anyway when none is ticked) |
 | **Conversation 3 - Option 3 (BoZimara 125-130 / Luclin 110-120 harvests)** | When the pony asks its third question, the bot picks reply 3. | off |
@@ -819,6 +900,7 @@ Pack Pony sends your Artisan's Pack Pony out to gather harvests by itself. With 
 - The character needs the 'Summon Artisan's Pack Pony' ability, or the run does not start.
 - It never starts while you are in combat, while the bot is paused, or while another conversation window is open.
 - If no box in a group is ticked, the bot uses option 3 for Conversations 1 and 2, and option 2 for Conversation 3.
+- The boxes follow your earlier picks, the way the pony's questions do: Conversation 2 shows the replies the pony offers after your Conversation 1 pick (six under 1-59 harvests, five under 60-99, four under 100+), and Conversation 3 is only asked under 100+ harvests. Where a reply is not known (Special Events, Conversation 3 below 100) the boxes read 'placeholder' and can still be picked, in case the game adds one. A ticked box your path does not offer says 'not offered ..., pick another'. The options listed on this page are the ones shown for 100+ harvests, 120-130.
 - The wait timers are kept only while the session runs. After a reload the bot tries again straight away.
 - The harvest ranges in the box names describe what each reply meant in the old bot. The bot clicks the reply by its number (Option 1 = the first reply), so check them in game if the pony's replies change.
 
@@ -1021,59 +1103,3 @@ Unload is a list of commands the bot runs, top to bottom, when OgreBot closes. T
 - Unlike the Load tab, a command you add here is NOT run when you add it. It only runs when OgreBot closes.
 - Commas and ] are removed from a command when you add it. A line that needs them will not run as typed.
 - Double-click a line to switch it off without deleting it. Drag a row to change the order. The x removes it.
-
-
----
-
-Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/admin.md
-
-# Admin
-
-Admin is for sharing profiles and for Profile Parts. The left side saves a shareable copy of your current profile, and imports profiles other people give you. The right side, Profile Parts, lets several characters share one tab's settings: you point a tab (for example the Cast Stack) at a shared file, and every character pointed at that file reads and saves that tab there. The Clear Item Effect Cache button makes the bot look at your usable items again.
-
-## Administration
-
-| Option | What it does | Default |
-|---|---|---|
-| **Use file name** | The file name for the shareable copy, without .json. Leave blank to use 'SingleProfile' plus your class, for example SingleProfileBerserker.<br>*No slashes or '..' allowed.* | empty |
-| **Use profile name** | The profile name stored inside the shareable copy. This is the name the other person sees after importing it. Leave blank to use your class name. | empty |
-| **Save Custom Profile** | Writes a shareable copy of the profile you are running to Scripts\OgreSave\EQ2\OgreBot\Profiles\Samples\<file name>.json. Your Aliases and Relay Groups are left out.<br>*Refuses if that file already exists.* |  |
-
-## Importing Profiles
-
-| Option | What it does | Default |
-|---|---|---|
-| **Refresh List** | Reads the Profiles\Import folder again and shows the files you can import in the list below.<br>*The list does not update by itself; press this after dropping in a file.* |  |
-| **Import Profile** | Imports the file selected in the list below: every profile in it is added next to yours (renamed with _1, _2 if the name is taken) and not loaded. With nothing selected it says so and does nothing. |  |
-| **Profiles you can import** | The .json files in Scripts\OgreSave\EQ2\OgreBot\Profiles\Import. Click a name to select it (it is highlighted), then press Import Profile. Click it again to clear the selection. | empty until you press Refresh List |
-| **Clear Item Effect Cache** | Forgets everything the bot learned about what your usable items do, then examines the items on your Cast Stack again right away. Use it when an item's effect changed or was read wrong.<br>*The cache is shared by every character on this PC.* |  |
-
-## Profile Parts
-
-| Option | What it does | Default |
-|---|---|---|
-| **Enable Profile Parts** | Master switch. On: each tab listed below loads from, and saves to, its shared file. Off: every tab uses your own profile, and the list is kept for later.<br>*Takes effect at once by reloading your profile. Save your other changes first.* | off |
-| **New file name** | Name for a new, empty shared file, without .json. | empty |
-| **Create** | Creates the empty shared file Profiles\Shared\<name>.json so it appears in the File list.<br>*Refuses if a file with that name already exists; pick it from the File list instead.* |  |
-| **Tab:** | Which part of your profile to share: the list shows your profile's saved sections, one per tab. | empty |
-| **File:** | Which shared file that tab should use: the files in Profiles\Shared. | empty |
-| **Add AND load tab immediately** | Points the chosen tab at the chosen file and reloads your profile, so that tab now shows and saves the shared settings. Choosing a tab that is already listed moves it to the new file.<br>*Needs Enable Profile Parts ticked to have any effect.* |  |
-| **Profile Parts in use** | Each shared tab and the file it uses ('from <file>.json'). A struck-through row ('would use') is switched off and uses your own profile. | empty |
-
-## Profile Parts
-
-| Control | What it does |
-|---|---|
-| **Double-click a row** | Switches that mapping off (the tab goes back to your own profile) or back on. The mapping is kept either way.<br>*Reloads your profile at once.* |
-| **x (stop sharing this tab)** | Removes the mapping. The tab goes back to your own profile's settings, which were never changed while it was shared.<br>*Reloads your profile at once. The shared file itself is not deleted.* |
-
-## Good to know
-
-- Save Custom Profile never overwrites. If a file with that name already exists in Profiles\Samples, it refuses; pick another name.
-- The shared copy leaves out your Aliases and Relay Groups, because those name your own characters and sessions. Everything else is included as it is right now, including tabs that come from Profile Parts.
-- To import, drop the .json file into Scripts\OgreSave\EQ2\OgreBot\Profiles\Import, press Refresh List, click the file's name in the list, then press Import Profile.
-- Imported profiles are added next to yours and never replace one. If the name is taken, _1, _2 and so on is added. They are not loaded; pick one from the Profiles menu.
-- Profile Parts files live in Scripts\OgreSave\EQ2\OgreBot\Profiles\Shared. Any character pointed at the same file shares that tab: a change saved by one changes it for all of them.
-- Every Profile Parts change (Enable, Add, the X, a double-click) takes effect immediately by reloading your profile from its saved files. Unsaved changes on other tabs are lost, so press Save first.
-- In the Profile Parts list, double-click a row to switch that mapping off or back on (a struck-through row loads and saves your own profile instead). Hover a row to see this.
-- Clear Item Effect Cache clears one file shared by every character on this PC (Scripts\OgreSave\EQ2\OgreBot\ItemEffectDB.json).

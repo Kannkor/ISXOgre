@@ -31,7 +31,7 @@ The stop button for navigation. While the bot walks or flies your character some
 
 ## Status
 
-The top line is the state (Moving in green, Failed in red, Arrived highlighted) and why. The bar and the line under it show the waypoint you are on out of the whole route, and the distance still to go. The next line names the navigation map loaded for this zone. A red note appears when the trip is paused, nav is switched off, or OgreBot is paused.
+The top line is the state (Moving in green, Failed in red, Arrived highlighted, Stopped plain) and why. The bar and the line under it show the waypoint you are on out of the whole route, and the distance still to go. The next line names the navigation map loaded for this zone. A red note appears when the trip is paused, nav is switched off, or OgreBot is paused.
 
 [![Status](../assets/nav/status.png)](../assets/nav/status.png "Click for full size")
 
@@ -48,7 +48,7 @@ The top line is the state (Moving in green, Failed in red, Arrived highlighted) 
 
 ## What the window shows
 
-- State word: Moving, Landing (coming down from flight), Waiting for mesh (the navigation map for this zone is still downloading; the trip starts by itself when it is ready), Arrived, Failed, or Idle.
+- State word: Moving, Planning (the route is being worked out, a little at a time so the game never freezes; the character waits until it is ready), Landing (coming down from flight), Waiting for mesh (the navigation map for this zone is still downloading; the trip starts by itself when it is ready), Arrived, Stopped (something ended the trip on purpose: you pressed STOP, or the bot that started the walk ended it), Failed (navigation could not get there, for example stuck or no route), or Idle.
 - Reason, next to the state: why the trip is doing what it does, for example 'navmesh route', 'waiting for the navmesh', 'stuck', or 'OgreBot closed'.
 - Bar and 'waypoint X of Y - N u to go': how far along the route you are, and the distance left in game units. 'waiting for the navmesh to land' while the map is still coming; 'no route' when idle.
 - 'mesh <zone> - N polys': the navigation map in use. 'no mesh loaded yet (loads on the first trip in a zone)' is normal before your first trip in a zone.
@@ -57,7 +57,7 @@ The top line is the state (Moving in green, Failed in red, Arrived highlighted) 
 ## Good to know
 
 - Pausing OgreBot does NOT stop a navigation trip. Use STOP here, or type `ogre nav stop` (also `ogre end nav`).
-- The window closes itself as soon as a trip ends, so you rarely see Arrived or Failed in it. The console says how the trip ended.
+- The window closes itself as soon as a trip ends, so you rarely see Arrived, Stopped or Failed in it. The console says how the trip ended.
 - While nav is paused it keeps control of your character, so nothing else (follow, camp spot) will move it until you Resume or STOP.
 
 ## Other states

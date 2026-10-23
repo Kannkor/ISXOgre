@@ -1,8 +1,8 @@
-# Coming from Classic
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../index.md).
 </div>
+
+# Coming from Classic
 
 These pages are for people who wrote their own Classic scripts, raid modules, instance files or console lines, and want them to work with the new bot. Look a name up on the page where Classic's own developer docs described it.
 
@@ -71,16 +71,16 @@ Every Classic name these pages cover so far, by what happened to it:
 
 | What happened | Names |
 |---|---|
-| ⚠️ Arguments changed | 201 |
-| ⚠️ Argument order changed | 20 |
-| ✏️ Renamed | 502 |
-| ➡️ Moved | 178 |
-| ➡️ Lives somewhere else | 272 |
+| ⚠️ Arguments changed | 218 |
+| ⚠️ Argument order changed | 31 |
+| ✏️ Renamed | 517 |
+| ➡️ Moved | 175 |
+| ➡️ Lives somewhere else | 287 |
 | 📄 In a data file now | 210 |
-| ⛔ Exists, does nothing yet | 45 |
-| ⛔ Not ported yet | 328 |
-| ⛔ Removed | 203 |
-| ✅ Works as is | 492 |
-| **Total** | **2451** |
+| ⛔ Exists, does nothing yet | 2 |
+| ⛔ Not ported yet | 315 |
+| ⛔ Removed | 217 |
+| ✅ Works as is | 478 |
+| **Total** | **2450** |
 
 Can't find a name? Use the search box at the top - every old name is on one of these pages.

@@ -28,7 +28,18 @@
 
 ## What it is for
 
-The small OgreBot window is a two-button remote for the bot. Pause stops the bot from acting on its own and Resume starts it again. Hide Main hides the big OgreBot window and Show Main brings it back. OgreBot normally loads with the big window hidden, so this small window is what you see.
+The small OgreBot window is a remote for the bot and a quick look at what it is doing. The top line shows your class. Pause stops the bot from acting on its own and Resume starts it again. Hide Main hides the big OgreBot window and Show Main brings it back. The bottom line says what the bot is doing right now. The cog in the title bar picks which of the two lines you see. OgreBot normally loads with the big window hidden, so this small window is what you see.
+
+## The top line and the status line
+
+Both lines update by themselves while the bot runs. Here the character name is turned on in the cog, and the bot is following someone.
+
+[![The top line and the status line](../assets/ogremini/lines.png)](../assets/ogremini/lines.png "Click for full size")
+
+| Control | What it does | Default |
+|---|---|---|
+| **Top line** | Shows your class, for example Templar. If you tick Character name in the cog, your name comes first: Kannkor · Templar. If neither is ticked, the line goes away and the buttons get the room. | your class |
+| **Status line (bottom)** | What the bot is doing right now. Only the first of these that is true shows: Paused, then Cast: and the ability the bot is casting, then Item: and the item it is using, then Following and who it follows, then Campspot active, and otherwise Idle.<br>*Cast: and Item: show only what the bot itself casts or uses, not what you click.* | shown |
 
 ## Pause and Resume
 
@@ -52,18 +63,35 @@ The small OgreBot window is a two-button remote for the bot. Pause stops the bot
 
 | Control | What it does | Default |
 |---|---|---|
-| *** (yellow star)** | The profile has changes that are not saved yet. Save them on the big OgreBot window. | hidden |
+| **\* (yellow star)** | The profile has changes that are not saved yet. Hover over it to see that. Save them on the big OgreBot window. | hidden |
 | **Title bar close (X)** | Shuts OgreBot down completely, the same as the X on the big window. Both windows close, movement and HUDs stop, the profile is unloaded, and unsaved changes are thrown away.<br>*To just get the big window out of the way, use Hide Main.* |  |
+
+## Choosing what the window shows
+
+The cog in the title bar opens a short list in place of the buttons. Tick what you want to see and press Done.
+
+[![Choosing what the window shows](../assets/ogremini/cog.png)](../assets/ogremini/cog.png "Click for full size")
+
+| Control | What it does | Default |
+|---|---|---|
+| **Title bar cog** | Opens the list. Click the cog again to close it without saving. |  |
+| **Class** | Shows your class on the top line. | on |
+| **Character name** | Shows your character's name on the top line, in front of the class. | off |
+| **What the bot is doing** | Shows the status line under the buttons. | on |
+| **Done** | Saves your ticks, closes the list and brings the buttons back. The choice is kept for next time. |  |
 
 ## What the window shows
 
+- Top line: your class, with your name in front when it is picked in the cog.
 - Pause (green) = the bot is running. Resume (yellow) = the bot is paused.
 - Show Main = the big window is hidden. Hide Main = it is on screen.
+- Bottom line: Paused, Cast: ..., Item: ..., Following ..., Campspot active, or Idle.
 
 ## Good to know
 
 - The X on this small window stops OgreBot. It is not a minimize.
 - Pause only stops what the bot decides by itself. Commands from you or your group still run.
+- The cog's choice is saved for the whole computer, not for each character.
 
 ## Paused, with the main window hidden
 

@@ -153,6 +153,7 @@ nav:
               - "Ability Export": EQ2/bot/windows/exportgui.md
               - "Exporting Abilities": EQ2/bot/windows/aexport.md
               - "Analysis": EQ2/bot/windows/analysis.md
+              - "Ability Details": EQ2/bot/windows/abilitydetails.md
               - "Pulse Budget": EQ2/bot/windows/pulsebudget.md
               - "Lag": EQ2/bot/windows/lag.md
               - "Migration Assistant": EQ2/bot/windows/migrate.md
@@ -166,6 +167,7 @@ nav:
               - "Converting your scripts": EQ2/bot/developer/converting.md
               - "Build your own window": EQ2/bot/developer/build-your-own-window.md
               - "Add your own commands": EQ2/bot/developer/command-packs.md
+              - "Write your own zone files": EQ2/bot/developer/zone-files.md
           - "Coming from Classic":
               - EQ2/bot/developer/coming-from-classic/index.md
               - "Camp spot": EQ2/bot/developer/coming-from-classic/campspot.md
