@@ -10,6 +10,12 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.10.24.004 {#r2026-10-24-004}
+
+*Saturday, October 24, 2026 at 6:18 PM EDT*
+
+- **New** · Other: **Scripts get a timer - ogretimer.** Scripts can declare a countdown: `variable ogretimer Timer_X` (stopped) or `variable ogretimer Timer_X = 1500` (running, ms), then `Timer_X:SetSeconds[20]` and read `${Timer_X.TimeLeft}` (ms left), `.SecondsLeft` and `.Running`. It has OgreBot Classic's Object_Timer methods and members (Set, SetSeconds, SetMinutes, SetHours, SetMinimum, Inc, Dec, Stop), so converting means changing only the `variable` line. A value that is not a number is refused and says so.
+
 ## 2026.10.24.002 {#r2026-10-24-002}
 
 *Saturday, October 24, 2026 at 4:43 PM EDT*

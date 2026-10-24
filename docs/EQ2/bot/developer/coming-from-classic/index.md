@@ -71,16 +71,16 @@ Every Classic name these pages cover so far, by what happened to it:
 
 | What happened | Names |
 |---|---|
-| ⚠️ Arguments changed | 218 |
+| ⚠️ Arguments changed | 235 |
 | ⚠️ Argument order changed | 31 |
-| ✏️ Renamed | 517 |
+| ✏️ Renamed | 502 |
 | ➡️ Moved | 175 |
 | ➡️ Lives somewhere else | 287 |
-| 📄 In a data file now | 210 |
+| 📄 In a data file now | 209 |
 | ⛔ Exists, does nothing yet | 2 |
 | ⛔ Not ported yet | 315 |
 | ⛔ Removed | 217 |
 | ✅ Works as is | 478 |
-| **Total** | **2450** |
+| **Total** | **2451** |
 
 Can't find a name? Use the search box at the top - every old name is on one of these pages.

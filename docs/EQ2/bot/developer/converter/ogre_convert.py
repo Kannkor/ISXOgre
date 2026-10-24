@@ -512,6 +512,21 @@ def fix_line(M, line, n, todo, own=frozenset()):
         if pat.search(new):
             new = pat.sub(lambda _m: '${' + nf, new)
             todo.append((n, name, 'DONE', '-> ${%s}' % nf))
+    # A Classic framework TYPE renamed to a new-bot type - Object_Timer -> ogretimer (2026-10-24): the same methods and
+    # members, so swapping the declared type is the whole conversion. Only where it IS the type: `variable[(scope)]
+    # <Old> <name>` and `declarevariable <name> <Old>`; any other use is still said below.
+    for name, fw in M.by_fw.items():
+        nf = fw.get('newForm') or ''
+        if fw['status'] != 'renamed' or not re.match(r'^[a-z][a-z0-9_]*$', nf):
+            continue
+        pats = (re.compile(r'(\bvariable(?:\([a-z]+\))?\s+)%s(?=\s)' % re.escape(name)),
+                re.compile(r'(\bdeclarevariable\s+\S+\s+)%s(?=\s|$)' % re.escape(name)))
+        hit = False
+        for pat in pats:
+            if pat.search(new):
+                new = pat.sub(lambda _m: _m.group(1) + nf, new); hit = True
+        if hit:
+            todo.append((n, name, 'DONE', '-> %s' % nf))
     for u in unmapped_hits(M, new, own):
         fw = M.by_fw.get(u)
         if fw:

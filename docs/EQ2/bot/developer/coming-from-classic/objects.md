@@ -14,16 +14,16 @@ The Classic objects scripts used that Classic's docs never had a page for (`GetI
 
 | What happened | Names |
 |---|---|
-| ⚠️ Arguments changed | 66 |
+| ⚠️ Arguments changed | 83 |
 | ⚠️ Argument order changed | 10 |
-| ✏️ Renamed | 84 |
+| ✏️ Renamed | 69 |
 | ➡️ Moved | 6 |
 | ➡️ Lives somewhere else | 168 |
-| 📄 In a data file now | 26 |
+| 📄 In a data file now | 25 |
 | ⛔ Exists, does nothing yet | 1 |
 | ⛔ Not ported yet | 189 |
 | ⛔ Removed | 52 |
-| **Total** | **602** |
+| **Total** | **603** |
 
 ## Worked examples
 
@@ -38,13 +38,13 @@ call Obj_OgreUtilities.NavToLoc "-665.449280,79.212479,102.971169"
 OgreBotAPI.Movement:NavTo[all,-665.449280,79.212479,102.971169]
 ```
 
-### ✏️ Renamed: `GetInfoOb.GetBaseClass`
+### ✏️ Renamed: `Abilities.GetIndexByName`
 
 ```
 ; before (Classic)
-sBaseClass:Set["${GetInfoOb.GetBaseClass[${Me.Raid[${iCounter}].Class}]}"]
+if !${Abilities.GetIndexByName["${This.NoHateAbility}"]}
 ; after (new bot)
-sBaseClass:Set["${OgreBotAPI.Roster.BaseClassOf[${Me.Raid[${iCounter}].Class}]}"]
+if !${OgreBotAPI.Abilities.ID["${This.NoHateAbility}"]}
 ```
 
 ### ➡️ Moved: `GetInfoOb.Alias`
@@ -445,7 +445,8 @@ call Obj_OgreUtilities.HandleWaitForCombat -TimeOutIfNoProgress 30
 | `Obj_Pushover` | not defined - the new bot does not load Classic's framework, so the name does not exist | `OgreBotAPI.Comms:Pushover` | ➡️ Lives somewhere else | Drop the exists check and call OgreBotAPI.Comms:Pushover directly - it is always there, and it drops the message itself (with one log line) when Pushover is not set up.<br>LostSync's Pushover object - scripts checked ${Obj_Pushover(exists)} before sending. |
 | `Obj_Pushover.PushoverSendMsg` | not defined - the new bot does not load Classic's framework, so the name does not exist | `OgreBotAPI.Comms:Pushover` | ⚠️ Arguments changed | Write OgreBotAPI.Comms:Pushover[all,"&lt;message&gt;",-title,"&lt;title&gt;",-priority,&lt;n&gt;]. The sound is accepted but ignored (the log says so). The new bot already pushes tells and SmartLoot assignments by itself.<br>Sent a Pushover notification: PushoverSendMsg "&lt;title&gt;" "&lt;message&gt;" "&lt;sound&gt;" &lt;priority&gt;. |
 | `Obj_SpewStats` | not defined - the new bot does not load Classic's framework, so the name does not exist | — | ⛔ Removed | To report a stat to chat use OgreBotAPI.Debug:BroadcastStat (or the console `-SpewStat`). Reading a stat back into a script is not ported: the stub that stood for it (OgreBotAPI.Debug.SpewStat) did nothing and was removed 2026-10-22.<br>OgreBot's stat reporter: read your stats, currencies, factions, skills and recipe counts from the game windows, either returned to the script (GetSpewStat, e.g. potency) or sent to chat. |
-| `Object_Timer` | not defined - the new bot does not load Classic's framework, so the name does not exist | `timer` | 📄 In a data file now | In fight and IC files use the `timer` action and the `timerLeft` / `timerExpired` conditions. In a hand-written script use ISXOgreEQ2.Scheduler: :FireEvent[delayMs,event,...,-key &lt;k&gt;] to fire an event later, .Remaining[&lt;key&gt;] for the time left.<br>A countdown object scripts declared (`variable Object_Timer Timer_X`): set it for some milliseconds/seconds, read TimeLeft / SecondsLeft, and optionally fire a named event when it ran out. |
+| `Object_OgreTravelMesh_Traveling` | not defined - the new bot does not load Classic's framework, so the name does not exist | `ISXOgreEQ2.TravelMesh.TMActive` | ✏️ Renamed | Read ${ISXOgreEQ2.TravelMesh.TMActive} - TRUE while a travel-mesh route is running. `ogre_convert.py fix` swaps it.<br>Classic's travel mesh global: TRUE while it was moving the character zone to zone. Side scripts waited on it (`while ${Object_OgreTravelMesh_Traveling}`). |
+| `Object_Timer` | not defined - the new bot does not load Classic's framework, so the name does not exist | `ogretimer` | ✏️ Renamed | Declare `variable ogretimer Timer_X` (or `variable ogretimer Timer_X = 1500` to start it running, in ms) - the core's countdown, with the same methods and members (Set, SetSeconds, SetMinutes, SetHours, SetMinimum..., Inc / Dec..., Stop; TimeLeft in ms, SecondsLeft). `ogre_convert.py fix` swaps the type in every declaration; then remove the `#include` of OgreCommon/Object_Timer.inc. An ogretimer only counts down: to fire an event when time runs out use ISXOgreEQ2.Scheduler:FireEvent[ms,&lt;event&gt;]. In fight and IC files use the `timer` action and the `timerLeft` / `timerExpired` conditions.<br>… |
 | `ogre bookcase` | not defined - the new bot does not load Classic's framework, so the name does not exist | — | ⛔ Removed | Delete the line - there is no replacement.<br>Classic's bookcase tool. |
 | `ogre craft2int` | not defined - the new bot does not load Classic's framework, so the name does not exist | — | ⛔ Removed | Delete the line. To craft, use `ogre craft`.<br>Classic's internal craft2 loader. |
 | `ogre ica` | not defined - the new bot does not load Classic's framework, so the name does not exist | — | ⛔ Removed | Delete the line - there is no replacement.<br>Classic's instance-controller assistant. |
@@ -625,40 +626,42 @@ call Obj_OgreUtilities.HandleWaitForCombat -TimeOutIfNoProgress 30
 
 **Note A** (11 rows below): the ability export does not carry this field (it has 46; this is not one of them), so there is nothing to read it from. `${OgreBotAPI.Abilities.InfoRaw[<nameOrId>]}` dumps the whole record if you want to confirm what IS there.
 
+**Note B** (3 rows below): The arguments are different: Classic took `(string AbilityName)`, the new call takes `[nameOrId,field]`.
+
 | Old call | Today | Write instead | What changed | Notes |
 |---|---|---|---|---|
-| `SpellOb.AbilityExists` | reads NULL | `OgreBotAPI.Abilities.ID` | ✏️ Renamed | resolve by id, not by name (Rule 10) |
-| `SpellOb.AbilityName` | reads NULL | `OgreBotAPI.Abilities.ShortName` | ✏️ Renamed | the catalog answers by id; Rule 10 forbids resolving an ability by NAME without per-site approval |
-| `SpellOb.AllowRaid` | reads NULL | `OgreBotAPI.Abilities.Info` | ✏️ Renamed | pass `"AllowRaid"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"AllowRaid"]}` |
+| `SpellOb.AbilityExists` | reads NULL | `OgreBotAPI.Abilities.ID` `[name]` | ✏️ Renamed | resolve by id, not by name (Rule 10) |
+| `SpellOb.AbilityName` | reads NULL | `OgreBotAPI.Abilities.ShortName` `[nameOrId]` | ✏️ Renamed | the catalog answers by id; Rule 10 forbids resolving an ability by NAME without per-site approval |
+| `SpellOb.AllowRaid` | reads NULL | `OgreBotAPI.Abilities.Info` `[nameOrId,field]` | ⚠️ Arguments changed | The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. pass `"AllowRaid"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"AllowRaid"]}` |
 | `SpellOb.BLAdvantage` | reads NULL | — | ⛔ Not ported yet | Note A |
 | `SpellOb.BLPrimal` | reads NULL | — | ⛔ Not ported yet | Note A |
 | `SpellOb.BLPrimalMinSavLevel` | reads NULL | — | ⛔ Not ported yet | Note A |
-| `SpellOb.CastingTime` | reads NULL | `OgreBotAPI.Abilities.Info` | ✏️ Renamed | pass `"CastingTime"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"CastingTime"]}` |
-| `SpellOb.ConcentrationCost` | reads NULL | `OgreBotAPI.Abilities.Info` | ✏️ Renamed | pass `"ConcentrationCost"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"ConcentrationCost"]}` |
+| `SpellOb.CastingTime` | reads NULL | `OgreBotAPI.Abilities.Info` `[nameOrId,field]` | ⚠️ Arguments changed | The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. pass `"CastingTime"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"CastingTime"]}` |
+| `SpellOb.ConcentrationCost` | reads NULL | `OgreBotAPI.Abilities.Info` `[nameOrId,field]` | ⚠️ Arguments changed | The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. pass `"ConcentrationCost"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"ConcentrationCost"]}` |
 | `SpellOb.ConvertToInt64` | reads NULL | `OgreBotAPI.Util.ToInt` `[s]` | ✏️ Renamed |  |
 | `SpellOb.DamageType` | reads NULL | — | ⛔ Not ported yet | Note A |
 | `SpellOb.DamageTypeGroup` | reads NULL | — | ⛔ Not ported yet | Note A |
 | `SpellOb.DescRestrictions` | reads NULL | — | ⛔ Not ported yet | Note A |
-| `SpellOb.EffectRadius` | reads NULL | `OgreBotAPI.Abilities.Info` | ✏️ Renamed | pass `"EffectRadius"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"EffectRadius"]}` |
+| `SpellOb.EffectRadius` | reads NULL | `OgreBotAPI.Abilities.Info` `[nameOrId,field]` | ⚠️ Arguments changed | The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. pass `"EffectRadius"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"EffectRadius"]}` |
 | `SpellOb.FeralAdvantage` | reads NULL | — | ⛔ Not ported yet | Note A |
 | `SpellOb.FeralPrimal` | reads NULL | — | ⛔ Not ported yet | Note A |
-| `SpellOb.GetAbilityExFullName` | reads NULL | `OgreBotAPI.Abilities.Info` | ✏️ Renamed |  |
-| `SpellOb.GetAbilityFullName` | reads NULL | `OgreBotAPI.Abilities.Info` | ✏️ Renamed |  |
-| `SpellOb.GetAbilityNameNum` | reads NULL | `OgreBotAPI.Abilities.Info` | ✏️ Renamed |  |
-| `SpellOb.GetAbilityShortName` | reads NULL | `OgreBotAPI.Abilities.ShortName` | ✏️ Renamed |  |
-| `SpellOb.ID` | reads NULL | `OgreBotAPI.Abilities.Info` | ✏️ Renamed | pass `"ID"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"ID"]}` |
+| `SpellOb.GetAbilityExFullName` | reads NULL | `OgreBotAPI.Abilities.Info` `[nameOrId,field]` | ⚠️ Arguments changed | Note B |
+| `SpellOb.GetAbilityFullName` | reads NULL | `OgreBotAPI.Abilities.Info` `[nameOrId,field]` | ⚠️ Arguments changed | Note B |
+| `SpellOb.GetAbilityNameNum` | reads NULL | `OgreBotAPI.Abilities.Info` `[nameOrId,field]` | ⚠️ Arguments changed | Note B |
+| `SpellOb.GetAbilityShortName` | reads NULL | `OgreBotAPI.Abilities.ShortName` `[nameOrId]` | ✏️ Renamed |  |
+| `SpellOb.ID` | reads NULL | `OgreBotAPI.Abilities.Info` `[nameOrId,field]` | ⚠️ Arguments changed | The arguments are different: Classic took `(string AbilityName)`, the new call takes `[nameOrId,field]`. pass `"ID"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"ID"]}` |
 | `SpellOb.IsAStun` | reads NULL | — | ⛔ Not ported yet | Note A |
-| `SpellOb.MaxRange` | reads NULL | `OgreBotAPI.Abilities.Info` | ✏️ Renamed | pass `"MaxRange"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"MaxRange"]}` |
-| `SpellOb.MinRange` | reads NULL | `OgreBotAPI.Abilities.Info` | ✏️ Renamed | pass `"MinRange"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"MinRange"]}` |
-| `SpellOb.Name` | reads NULL | `OgreBotAPI.Abilities.Info` | ✏️ Renamed | pass `"Name"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"Name"]}` |
-| `SpellOb.PowerCost` | reads NULL | `OgreBotAPI.Abilities.Info` | ✏️ Renamed | pass `"PowerCost"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"PowerCost"]}` |
-| `SpellOb.RecastTime` | reads NULL | `OgreBotAPI.Abilities.Info` | ✏️ Renamed | pass `"RecastTime"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"RecastTime"]}` |
-| `SpellOb.RecoveryTime` | reads NULL | `OgreBotAPI.Abilities.Info` | ✏️ Renamed | pass `"RecoveryTime"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"RecoveryTime"]}` |
-| `SpellOb.SpellBookType` | reads NULL | `OgreBotAPI.Abilities.Info` | ✏️ Renamed | pass `"SpellBookType"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"SpellBookType"]}` |
+| `SpellOb.MaxRange` | reads NULL | `OgreBotAPI.Abilities.Info` `[nameOrId,field]` | ⚠️ Arguments changed | The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. pass `"MaxRange"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"MaxRange"]}` |
+| `SpellOb.MinRange` | reads NULL | `OgreBotAPI.Abilities.Info` `[nameOrId,field]` | ⚠️ Arguments changed | The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. pass `"MinRange"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"MinRange"]}` |
+| `SpellOb.Name` | reads NULL | `OgreBotAPI.Abilities.Info` `[nameOrId,field]` | ⚠️ Arguments changed | The arguments are different: Classic took `(string AbilityIDX)`, the new call takes `[nameOrId,field]`. pass `"Name"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"Name"]}` |
+| `SpellOb.PowerCost` | reads NULL | `OgreBotAPI.Abilities.Info` `[nameOrId,field]` | ⚠️ Arguments changed | The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. pass `"PowerCost"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"PowerCost"]}` |
+| `SpellOb.RecastTime` | reads NULL | `OgreBotAPI.Abilities.Info` `[nameOrId,field]` | ⚠️ Arguments changed | The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. pass `"RecastTime"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"RecastTime"]}` |
+| `SpellOb.RecoveryTime` | reads NULL | `OgreBotAPI.Abilities.Info` `[nameOrId,field]` | ⚠️ Arguments changed | The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. pass `"RecoveryTime"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"RecoveryTime"]}` |
+| `SpellOb.SpellBookType` | reads NULL | `OgreBotAPI.Abilities.Info` `[nameOrId,field]` | ⚠️ Arguments changed | The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. pass `"SpellBookType"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"SpellBookType"]}` |
 | `SpellOb.SpiritualAdvantage` | reads NULL | — | ⛔ Not ported yet | Note A |
 | `SpellOb.SpiritualPrimal` | reads NULL | — | ⛔ Not ported yet | Note A |
-| `SpellOb.TargetType` | reads NULL | `OgreBotAPI.Abilities.Info` | ✏️ Renamed | pass `"TargetType"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"TargetType"]}` |
-| `SpellOb.VerifyID` | reads NULL | `OgreBotAPI.Abilities.ID` | ✏️ Renamed |  |
+| `SpellOb.TargetType` | reads NULL | `OgreBotAPI.Abilities.Info` `[nameOrId,field]` | ⚠️ Arguments changed | The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. pass `"TargetType"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"TargetType"]}` |
+| `SpellOb.VerifyID` | reads NULL | `OgreBotAPI.Abilities.ID` `[name]` | ✏️ Renamed |  |
 
 ## g_RaidOb
 
@@ -766,11 +769,11 @@ call Obj_OgreUtilities.HandleWaitForCombat -TimeOutIfNoProgress 30
 
 | Old call | Today | Write instead | What changed | Notes |
 |---|---|---|---|---|
-| `Abilities.Ability` | reads NULL | `OgreBotAPI.Abilities.ID` | ✏️ Renamed |  |
-| `Abilities.AddIndex` | reads NULL | `OgreBotAPI.Abilities.ID` | ✏️ Renamed |  |
-| `Abilities.GetIndexBy` | reads NULL | `OgreBotAPI.Abilities.ID` | ✏️ Renamed |  |
-| `Abilities.GetIndexByID` | reads NULL | `OgreBotAPI.Abilities.ID` | ✏️ Renamed |  |
-| `Abilities.GetIndexByName` | reads NULL | `OgreBotAPI.Abilities.ID` | ✏️ Renamed |  |
+| `Abilities.Ability` | reads NULL | `OgreBotAPI.Abilities.ID` `[name]` | ✏️ Renamed |  |
+| `Abilities.AddIndex` | reads NULL | `OgreBotAPI.Abilities.ID` `[name]` | ⚠️ Arguments changed | The arguments are different: Classic took ``, the new call takes `[name]`. |
+| `Abilities.GetIndexBy` | reads NULL | `OgreBotAPI.Abilities.ID` `[name]` | ✏️ Renamed | Not taken any more: `_Value`. |
+| `Abilities.GetIndexByID` | reads NULL | `OgreBotAPI.Abilities.ID` `[name]` | ✏️ Renamed |  |
+| `Abilities.GetIndexByName` | reads NULL | `OgreBotAPI.Abilities.ID` `[name]` | ✏️ Renamed |  |
 
 ## OgreBotDebug
 

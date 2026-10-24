@@ -109,9 +109,9 @@ Old names whose job is now in `OgreBotAPI.Abilities`.
 | `OgreBotAPI:Enable_Dispells` | does nothing | `OgreBotAPI.Abilities:SetDispellsEnabled` `[fw,on=TRUE]` | ✏️ Renamed |  |
 | `OgreBotAPI:Enable_Interrupts` | does nothing | `OgreBotAPI.Abilities:SetInterruptsEnabled` `[fw,on=TRUE]` | ✏️ Renamed |  |
 | `OgreBotAPI:Enable_Stuns` | does nothing | `OgreBotAPI.Abilities:SetStunsEnabled` `[fw,on=TRUE]` | ⚠️ Arguments changed | the ON half of a collapsed polarity pair. `OgreBotAPI.Abilities:SetStunsEnabled["all",TRUE]` (TRUE is the default, so `["all"]` also works). Pass TRUE as the value argument. |
-| `OgreBotAPI.Get_AbilityInfo` | reads NULL | `OgreBotAPI.Abilities.Info` | ✏️ Renamed |  |
-| `OgreBotAPI.Get_AbilityInfo_RawData` | reads NULL | `OgreBotAPI.Abilities.InfoRaw` | ✏️ Renamed |  |
-| `OgreBotAPI.Get_AbilityShortName` | reads NULL | `OgreBotAPI.Abilities.ShortName` | ✏️ Renamed |  |
+| `OgreBotAPI.Get_AbilityInfo` | reads NULL | `OgreBotAPI.Abilities.Info` `[nameOrId,field]` | ✏️ Renamed |  |
+| `OgreBotAPI.Get_AbilityInfo_RawData` | reads NULL | `OgreBotAPI.Abilities.InfoRaw` `[nameOrId]` | ✏️ Renamed | Not taken any more: `_Member`. |
+| `OgreBotAPI.Get_AbilityShortName` | reads NULL | `OgreBotAPI.Abilities.ShortName` `[nameOrId]` | ✏️ Renamed |  |
 | `OgreBotAPI.Get_AbilityTypeID` | reads NULL | `OgreBotAPI.Abilities.TypeID` | ✏️ Renamed |  |
 | `OgreBotAPI.Get_AbilityTypeID_Ref` | reads NULL | `OgreBotAPI.Abilities.TypeIDRef` | ✏️ Renamed |  |
 | `OgreBotAPI.Get_AbilityVia` | reads NULL | — | ⛔ Not ported yet |  |
@@ -119,7 +119,7 @@ Old names whose job is now in `OgreBotAPI.Abilities`.
 | `OgreBotAPI.Get_HOIconAbility` | reads NULL | `OgreBotAPI.Abilities.HOIconAbility` | ✏️ Renamed |  |
 | `OgreBotAPI.Get_InterruptID` | reads NULL | `OgreBotAPI.Abilities.InterruptID` | ✏️ Renamed |  |
 | `OgreBotAPI.Get_RotationData` | reads NULL | — | ⛔ Removed | Not ported: the new bot's `OgreBotAPI.Abilities.RotationData` was a stub that did nothing, and it was removed 2026-10-22. |
-| `OgreBotAPI.GetAbilityID` | reads NULL | `OgreBotAPI.Abilities.ID` | ✏️ Renamed |  |
+| `OgreBotAPI.GetAbilityID` | reads NULL | `OgreBotAPI.Abilities.ID` `[name]` | ✏️ Renamed |  |
 | `OgreBotAPI.HaveMaintained` | reads NULL | `OgreBotAPI.Abilities.HaveMaintained` | ➡️ Moved |  |
 | `OgreBotAPI:ItemEmbargo_AddRotateTimer` | does nothing | `OgreBotAPI.Abilities:AddEmbargo` `[fw,id,durationSec=0]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. same verb as `AbilityEmbargo_AddRotateTimer` - they shared one id store and are one verb now. `[id, durationSeconds]`, no for-who. |
 | `OgreBotAPI:NoCasting` | does nothing | `OgreBotAPI.Abilities:NoCasting` `[fw]` | ➡️ Moved | Not taken any more: `_TorF`. |

@@ -16,6 +16,13 @@
    "status": "renamed"
   },
   {
+   "howToFix": "Write ${OgreBotAPI.Inventory.PackPonyRunning} - TRUE while the pack pony run is going.",
+   "id": "script-exists:OgrePackPony",
+   "pattern": "Script\\[\\s*\"?Buffer:OgrePackPony\"?\\s*\\]\\(exists\\)",
+   "replace": "OgreBotAPI.Inventory.PackPonyRunning",
+   "status": "renamed"
+  },
+  {
    "howToFix": "Drop the check and run `ogre cl` (Craft Lite) - it turns the crafting reactions ON, and doing that when they are already on changes nothing. ${ISXOgreEQ2.Craft.Running} says whether a craft run is in progress.",
    "id": "script-exists:OgreCraft",
    "pattern": "Script\\[\\s*\"?Buffer:OgreCraft\"?\\s*\\]\\(exists\\)",
@@ -62,15 +69,15 @@
   "OgreBotAPI.Abilities.Count": null,
   "OgreBotAPI.Abilities.HOIconAbility": null,
   "OgreBotAPI.Abilities.HaveMaintained": null,
-  "OgreBotAPI.Abilities.ID": null,
-  "OgreBotAPI.Abilities.Info": null,
-  "OgreBotAPI.Abilities.InfoRaw": null,
+  "OgreBotAPI.Abilities.ID": "[name]",
+  "OgreBotAPI.Abilities.Info": "[nameOrId,field]",
+  "OgreBotAPI.Abilities.InfoRaw": "[nameOrId]",
   "OgreBotAPI.Abilities.InterruptID": null,
   "OgreBotAPI.Abilities.Loaded": null,
   "OgreBotAPI.Abilities.RawCount": null,
   "OgreBotAPI.Abilities.Ready": null,
   "OgreBotAPI.Abilities.ScrollMaintainedDuration": null,
-  "OgreBotAPI.Abilities.ShortName": null,
+  "OgreBotAPI.Abilities.ShortName": "[nameOrId]",
   "OgreBotAPI.Abilities.TypeID": null,
   "OgreBotAPI.Abilities.TypeIDRef": null,
   "OgreBotAPI.Abilities:AbilityDetails": "[fw,\"name or id\"]",
@@ -7535,7 +7542,6 @@
   "Object_OgreResources": "objectdef",
   "Object_OgreTaskListTemplate": "objectdef",
   "Object_OgreTravelMesh": "objectdef",
-  "Object_OgreTravelMesh_Traveling": "global",
   "Object_Ogre_LootDistributionCharacterInfo": "objectdef",
   "Object_Ogre_LootDistributionItemInfo": "objectdef",
   "Object_Overseer": "objectdef",
@@ -13765,10 +13771,15 @@
    "surface": "OgreBotAPI"
   },
   {
-   "argsCheck": "unknown",
-   "howToFix": "Write `OgreBotAPI.Abilities.ID` instead of `OgreBotAPI.GetAbilityID`.",
+   "argsCheck": "same-count",
+   "example": {
+    "after": "variable uint uDebuffAbilityID=${OgreBotAPI.Abilities.ID[${DoV${Me.Archetype}DebuffSpell}]}",
+    "before": "variable uint uDebuffAbilityID=${OgreBotAPI.GetAbilityID[${DoV${Me.Archetype}DebuffSpell}]}"
+   },
+   "howToFix": "Write `OgreBotAPI.Abilities.ID` instead of `OgreBotAPI.GetAbilityID`. New arguments: `[name]`.",
    "id": "OgreBotAPI:GetAbilityID",
    "newForm": "OgreBotAPI.Abilities.ID",
+   "newSignature": "[name]",
    "oldCall": "OgreBotAPI.GetAbilityID",
    "oldKinds": [
     "x"
@@ -14153,10 +14164,15 @@
    "surface": "OgreBotAPI"
   },
   {
-   "argsCheck": "unknown",
-   "howToFix": "Write `OgreBotAPI.Abilities.Info` instead of `OgreBotAPI.Get_AbilityInfo`.",
+   "argsCheck": "same-count",
+   "example": {
+    "after": "This.OffensiveStanceFullName:Set[\"${OgreBotAPI.Abilities.Info[\"${This.OffensiveStance}\",\"Name\"]}\"]",
+    "before": "This.OffensiveStanceFullName:Set[\"${OgreBotAPI.Get_AbilityInfo[\"${This.OffensiveStance}\",\"Name\"]}\"]"
+   },
+   "howToFix": "Write `OgreBotAPI.Abilities.Info` instead of `OgreBotAPI.Get_AbilityInfo`. New arguments: `[nameOrId,field]`.",
    "id": "OgreBotAPI:Get_AbilityInfo",
    "newForm": "OgreBotAPI.Abilities.Info",
+   "newSignature": "[nameOrId,field]",
    "oldCall": "OgreBotAPI.Get_AbilityInfo",
    "oldKinds": [
     "x"
@@ -14168,10 +14184,14 @@
    "surface": "OgreBotAPI"
   },
   {
-   "argsCheck": "unknown",
-   "howToFix": "Write `OgreBotAPI.Abilities.InfoRaw` instead of `OgreBotAPI.Get_AbilityInfo_RawData`.",
+   "argsCheck": "compatible",
+   "argsDropped": [
+    "_Member"
+   ],
+   "howToFix": "Write `OgreBotAPI.Abilities.InfoRaw` instead of `OgreBotAPI.Get_AbilityInfo_RawData`. New arguments: `[nameOrId]`.",
    "id": "OgreBotAPI:Get_AbilityInfo_RawData",
    "newForm": "OgreBotAPI.Abilities.InfoRaw",
+   "newSignature": "[nameOrId]",
    "oldCall": "OgreBotAPI.Get_AbilityInfo_RawData",
    "oldKinds": [
     "x"
@@ -14183,10 +14203,15 @@
    "surface": "OgreBotAPI"
   },
   {
-   "argsCheck": "unknown",
-   "howToFix": "Write `OgreBotAPI.Abilities.ShortName` instead of `OgreBotAPI.Get_AbilityShortName`.",
+   "argsCheck": "same-count",
+   "example": {
+    "after": "switch ${OgreBotAPI.Abilities.ShortName[\"${CurrentSpellName}\"]}",
+    "before": "switch ${OgreBotAPI.Get_AbilityShortName[\"${CurrentSpellName}\"]}"
+   },
+   "howToFix": "Write `OgreBotAPI.Abilities.ShortName` instead of `OgreBotAPI.Get_AbilityShortName`. New arguments: `[nameOrId]`.",
    "id": "OgreBotAPI:Get_AbilityShortName",
    "newForm": "OgreBotAPI.Abilities.ShortName",
+   "newSignature": "[nameOrId]",
    "oldCall": "OgreBotAPI.Get_AbilityShortName",
    "oldKinds": [
     "x"
@@ -21414,9 +21439,10 @@
    "surface": "OgreBotAPI"
   },
   {
-   "howToFix": "Write `OgreBotAPI.Abilities.ID` instead of `Abilities.Ability`.",
+   "howToFix": "Write `OgreBotAPI.Abilities.ID` instead of `Abilities.Ability`. New arguments: `[name]`.",
    "id": "Abilities.Ability",
    "newForm": "OgreBotAPI.Abilities.ID",
+   "newSignature": "[name]",
    "oldCall": "Abilities.Ability",
    "oldKinds": [
     "v"
@@ -21427,10 +21453,12 @@
    "surface": "Abilities"
   },
   {
-   "argsCheck": "unknown",
-   "howToFix": "Write `OgreBotAPI.Abilities.ID` instead of `Abilities.AddIndex`.",
+   "argsCheck": "differs",
+   "howToFix": "Write `OgreBotAPI.Abilities.ID` instead of `Abilities.AddIndex`; the arguments changed: The arguments are different: Classic took ``, the new call takes `[name]`.",
    "id": "Abilities.AddIndex",
    "newForm": "OgreBotAPI.Abilities.ID",
+   "newSignature": "[name]",
+   "note": "The arguments are different: Classic took ``, the new call takes `[name]`.",
    "oldCall": "Abilities.AddIndex",
    "oldKinds": [
     "x"
@@ -21438,14 +21466,18 @@
    "oldName": "AddIndex",
    "oldSignature": "()",
    "oldSpellingToday": "reads NULL - no error in any log (the member no longer exists)",
-   "status": "renamed",
+   "status": "signature",
    "surface": "Abilities"
   },
   {
-   "argsCheck": "unknown",
-   "howToFix": "Write `OgreBotAPI.Abilities.ID` instead of `Abilities.GetIndexBy`.",
+   "argsCheck": "compatible",
+   "argsDropped": [
+    "_Value"
+   ],
+   "howToFix": "Write `OgreBotAPI.Abilities.ID` instead of `Abilities.GetIndexBy`. New arguments: `[name]`.",
    "id": "Abilities.GetIndexBy",
    "newForm": "OgreBotAPI.Abilities.ID",
+   "newSignature": "[name]",
    "oldCall": "Abilities.GetIndexBy",
    "oldKinds": [
     "x"
@@ -21457,10 +21489,15 @@
    "surface": "Abilities"
   },
   {
-   "argsCheck": "unknown",
-   "howToFix": "Write `OgreBotAPI.Abilities.ID` instead of `Abilities.GetIndexByID`.",
+   "argsCheck": "same-count",
+   "example": {
+    "after": "CureAbility:SetReference[\"Abilities.Ability[${OgreBotAPI.Abilities.ID[${iAbilityID}]}]\"]",
+    "before": "CureAbility:SetReference[\"Abilities.Ability[${Abilities.GetIndexByID[${iAbilityID}]}]\"]"
+   },
+   "howToFix": "Write `OgreBotAPI.Abilities.ID` instead of `Abilities.GetIndexByID`. New arguments: `[name]`.",
    "id": "Abilities.GetIndexByID",
    "newForm": "OgreBotAPI.Abilities.ID",
+   "newSignature": "[name]",
    "oldCall": "Abilities.GetIndexByID",
    "oldKinds": [
     "x"
@@ -21472,10 +21509,15 @@
    "surface": "Abilities"
   },
   {
-   "argsCheck": "unknown",
-   "howToFix": "Write `OgreBotAPI.Abilities.ID` instead of `Abilities.GetIndexByName`.",
+   "argsCheck": "same-count",
+   "example": {
+    "after": "if !${OgreBotAPI.Abilities.ID[\"${This.NoHateAbility}\"]}",
+    "before": "if !${Abilities.GetIndexByName[\"${This.NoHateAbility}\"]}"
+   },
+   "howToFix": "Write `OgreBotAPI.Abilities.ID` instead of `Abilities.GetIndexByName`. New arguments: `[name]`.",
    "id": "Abilities.GetIndexByName",
    "newForm": "OgreBotAPI.Abilities.ID",
+   "newSignature": "[name]",
    "oldCall": "Abilities.GetIndexByName",
    "oldKinds": [
     "x"
@@ -27085,10 +27127,11 @@
    "surface": "ProfileConfig"
   },
   {
-   "argsCheck": "unknown",
-   "howToFix": "Write `OgreBotAPI.Abilities.ID` instead of `SpellOb.AbilityExists`.",
+   "argsCheck": "same-count",
+   "howToFix": "Write `OgreBotAPI.Abilities.ID` instead of `SpellOb.AbilityExists`. New arguments: `[name]`.",
    "id": "SpellOb.AbilityExists",
    "newForm": "OgreBotAPI.Abilities.ID",
+   "newSignature": "[name]",
    "note": "resolve by id, not by name (Rule 10)",
    "oldCall": "SpellOb.AbilityExists",
    "oldKinds": [
@@ -27101,10 +27144,11 @@
    "surface": "SpellOb"
   },
   {
-   "argsCheck": "unknown",
-   "howToFix": "Write `OgreBotAPI.Abilities.ShortName` instead of `SpellOb.AbilityName`.",
+   "argsCheck": "same-count",
+   "howToFix": "Write `OgreBotAPI.Abilities.ShortName` instead of `SpellOb.AbilityName`. New arguments: `[nameOrId]`.",
    "id": "SpellOb.AbilityName",
    "newForm": "OgreBotAPI.Abilities.ShortName",
+   "newSignature": "[nameOrId]",
    "note": "the catalog answers by id; Rule 10 forbids resolving an ability by NAME without per-site approval",
    "oldCall": "SpellOb.AbilityName",
    "oldKinds": [
@@ -27117,11 +27161,12 @@
    "surface": "SpellOb"
   },
   {
-   "argsCheck": "unknown",
-   "howToFix": "Write `OgreBotAPI.Abilities.Info` instead of `SpellOb.AllowRaid`.",
+   "argsCheck": "differs",
+   "howToFix": "Write `OgreBotAPI.Abilities.Info` instead of `SpellOb.AllowRaid`; the arguments changed: The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. pass `\"AllowRaid\"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,\"AllowRaid\"]}`",
    "id": "SpellOb.AllowRaid",
    "newForm": "OgreBotAPI.Abilities.Info",
-   "note": "pass `\"AllowRaid\"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,\"AllowRaid\"]}`",
+   "newSignature": "[nameOrId,field]",
+   "note": "The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. pass `\"AllowRaid\"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,\"AllowRaid\"]}`",
    "oldCall": "SpellOb.AllowRaid",
    "oldKinds": [
     "x"
@@ -27129,7 +27174,7 @@
    "oldName": "AllowRaid",
    "oldSignature": "(int64 AbilityIDX)",
    "oldSpellingToday": "reads NULL - no error in any log (the member no longer exists)",
-   "status": "renamed",
+   "status": "signature",
    "surface": "SpellOb"
   },
   {
@@ -27172,11 +27217,12 @@
    "surface": "SpellOb"
   },
   {
-   "argsCheck": "unknown",
-   "howToFix": "Write `OgreBotAPI.Abilities.Info` instead of `SpellOb.CastingTime`.",
+   "argsCheck": "differs",
+   "howToFix": "Write `OgreBotAPI.Abilities.Info` instead of `SpellOb.CastingTime`; the arguments changed: The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. pass `\"CastingTime\"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,\"CastingTime\"]}`",
    "id": "SpellOb.CastingTime",
    "newForm": "OgreBotAPI.Abilities.Info",
-   "note": "pass `\"CastingTime\"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,\"CastingTime\"]}`",
+   "newSignature": "[nameOrId,field]",
+   "note": "The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. pass `\"CastingTime\"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,\"CastingTime\"]}`",
    "oldCall": "SpellOb.CastingTime",
    "oldKinds": [
     "x"
@@ -27184,15 +27230,16 @@
    "oldName": "CastingTime",
    "oldSignature": "(int64 AbilityIDX)",
    "oldSpellingToday": "reads NULL - no error in any log (the member no longer exists)",
-   "status": "renamed",
+   "status": "signature",
    "surface": "SpellOb"
   },
   {
-   "argsCheck": "unknown",
-   "howToFix": "Write `OgreBotAPI.Abilities.Info` instead of `SpellOb.ConcentrationCost`.",
+   "argsCheck": "differs",
+   "howToFix": "Write `OgreBotAPI.Abilities.Info` instead of `SpellOb.ConcentrationCost`; the arguments changed: The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. pass `\"ConcentrationCost\"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,\"ConcentrationCost\"]}`",
    "id": "SpellOb.ConcentrationCost",
    "newForm": "OgreBotAPI.Abilities.Info",
-   "note": "pass `\"ConcentrationCost\"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,\"ConcentrationCost\"]}`",
+   "newSignature": "[nameOrId,field]",
+   "note": "The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. pass `\"ConcentrationCost\"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,\"ConcentrationCost\"]}`",
    "oldCall": "SpellOb.ConcentrationCost",
    "oldKinds": [
     "x"
@@ -27200,7 +27247,7 @@
    "oldName": "ConcentrationCost",
    "oldSignature": "(int64 AbilityIDX)",
    "oldSpellingToday": "reads NULL - no error in any log (the member no longer exists)",
-   "status": "renamed",
+   "status": "signature",
    "surface": "SpellOb"
   },
   {
@@ -27259,11 +27306,12 @@
    "surface": "SpellOb"
   },
   {
-   "argsCheck": "unknown",
-   "howToFix": "Write `OgreBotAPI.Abilities.Info` instead of `SpellOb.EffectRadius`.",
+   "argsCheck": "differs",
+   "howToFix": "Write `OgreBotAPI.Abilities.Info` instead of `SpellOb.EffectRadius`; the arguments changed: The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. pass `\"EffectRadius\"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,\"EffectRadius\"]}`",
    "id": "SpellOb.EffectRadius",
    "newForm": "OgreBotAPI.Abilities.Info",
-   "note": "pass `\"EffectRadius\"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,\"EffectRadius\"]}`",
+   "newSignature": "[nameOrId,field]",
+   "note": "The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. pass `\"EffectRadius\"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,\"EffectRadius\"]}`",
    "oldCall": "SpellOb.EffectRadius",
    "oldKinds": [
     "x"
@@ -27271,7 +27319,7 @@
    "oldName": "EffectRadius",
    "oldSignature": "(int64 AbilityIDX)",
    "oldSpellingToday": "reads NULL - no error in any log (the member no longer exists)",
-   "status": "renamed",
+   "status": "signature",
    "surface": "SpellOb"
   },
   {
@@ -27301,10 +27349,12 @@
    "surface": "SpellOb"
   },
   {
-   "argsCheck": "unknown",
-   "howToFix": "Write `OgreBotAPI.Abilities.Info` instead of `SpellOb.GetAbilityExFullName`.",
+   "argsCheck": "differs",
+   "howToFix": "Write `OgreBotAPI.Abilities.Info` instead of `SpellOb.GetAbilityExFullName`; the arguments changed: The arguments are different: Classic took `(string AbilityName)`, the new call takes `[nameOrId,field]`.",
    "id": "SpellOb.GetAbilityExFullName",
    "newForm": "OgreBotAPI.Abilities.Info",
+   "newSignature": "[nameOrId,field]",
+   "note": "The arguments are different: Classic took `(string AbilityName)`, the new call takes `[nameOrId,field]`.",
    "oldCall": "SpellOb.GetAbilityExFullName",
    "oldKinds": [
     "x"
@@ -27312,14 +27362,16 @@
    "oldName": "GetAbilityExFullName",
    "oldSignature": "(string AbilityName)",
    "oldSpellingToday": "reads NULL - no error in any log (the member no longer exists)",
-   "status": "renamed",
+   "status": "signature",
    "surface": "SpellOb"
   },
   {
-   "argsCheck": "unknown",
-   "howToFix": "Write `OgreBotAPI.Abilities.Info` instead of `SpellOb.GetAbilityFullName`.",
+   "argsCheck": "differs",
+   "howToFix": "Write `OgreBotAPI.Abilities.Info` instead of `SpellOb.GetAbilityFullName`; the arguments changed: The arguments are different: Classic took `(string AbilityName)`, the new call takes `[nameOrId,field]`.",
    "id": "SpellOb.GetAbilityFullName",
    "newForm": "OgreBotAPI.Abilities.Info",
+   "newSignature": "[nameOrId,field]",
+   "note": "The arguments are different: Classic took `(string AbilityName)`, the new call takes `[nameOrId,field]`.",
    "oldCall": "SpellOb.GetAbilityFullName",
    "oldKinds": [
     "x"
@@ -27327,14 +27379,16 @@
    "oldName": "GetAbilityFullName",
    "oldSignature": "(string AbilityName)",
    "oldSpellingToday": "reads NULL - no error in any log (the member no longer exists)",
-   "status": "renamed",
+   "status": "signature",
    "surface": "SpellOb"
   },
   {
-   "argsCheck": "unknown",
-   "howToFix": "Write `OgreBotAPI.Abilities.Info` instead of `SpellOb.GetAbilityNameNum`.",
+   "argsCheck": "differs",
+   "howToFix": "Write `OgreBotAPI.Abilities.Info` instead of `SpellOb.GetAbilityNameNum`; the arguments changed: The arguments are different: Classic took `(string AbilityName)`, the new call takes `[nameOrId,field]`.",
    "id": "SpellOb.GetAbilityNameNum",
    "newForm": "OgreBotAPI.Abilities.Info",
+   "newSignature": "[nameOrId,field]",
+   "note": "The arguments are different: Classic took `(string AbilityName)`, the new call takes `[nameOrId,field]`.",
    "oldCall": "SpellOb.GetAbilityNameNum",
    "oldKinds": [
     "x"
@@ -27342,14 +27396,19 @@
    "oldName": "GetAbilityNameNum",
    "oldSignature": "(string AbilityName)",
    "oldSpellingToday": "reads NULL - no error in any log (the member no longer exists)",
-   "status": "renamed",
+   "status": "signature",
    "surface": "SpellOb"
   },
   {
-   "argsCheck": "unknown",
-   "howToFix": "Write `OgreBotAPI.Abilities.ShortName` instead of `SpellOb.GetAbilityShortName`.",
+   "argsCheck": "same-count",
+   "example": {
+    "after": "variable string SpellShortName=${OgreBotAPI.Abilities.ShortName[\"${_SpellFullName}\"]}",
+    "before": "variable string SpellShortName=${SpellOb.GetAbilityShortName[\"${_SpellFullName}\"]}"
+   },
+   "howToFix": "Write `OgreBotAPI.Abilities.ShortName` instead of `SpellOb.GetAbilityShortName`. New arguments: `[nameOrId]`.",
    "id": "SpellOb.GetAbilityShortName",
    "newForm": "OgreBotAPI.Abilities.ShortName",
+   "newSignature": "[nameOrId]",
    "oldCall": "SpellOb.GetAbilityShortName",
    "oldKinds": [
     "x"
@@ -27361,11 +27420,12 @@
    "surface": "SpellOb"
   },
   {
-   "argsCheck": "unknown",
-   "howToFix": "Write `OgreBotAPI.Abilities.Info` instead of `SpellOb.ID`.",
+   "argsCheck": "differs",
+   "howToFix": "Write `OgreBotAPI.Abilities.Info` instead of `SpellOb.ID`; the arguments changed: The arguments are different: Classic took `(string AbilityName)`, the new call takes `[nameOrId,field]`. pass `\"ID\"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,\"ID\"]}`",
    "id": "SpellOb.ID",
    "newForm": "OgreBotAPI.Abilities.Info",
-   "note": "pass `\"ID\"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,\"ID\"]}`",
+   "newSignature": "[nameOrId,field]",
+   "note": "The arguments are different: Classic took `(string AbilityName)`, the new call takes `[nameOrId,field]`. pass `\"ID\"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,\"ID\"]}`",
    "oldCall": "SpellOb.ID",
    "oldKinds": [
     "x"
@@ -27373,7 +27433,7 @@
    "oldName": "ID",
    "oldSignature": "(string AbilityName)",
    "oldSpellingToday": "reads NULL - no error in any log (the member no longer exists)",
-   "status": "renamed",
+   "status": "signature",
    "surface": "SpellOb"
   },
   {
@@ -27390,11 +27450,12 @@
    "surface": "SpellOb"
   },
   {
-   "argsCheck": "unknown",
-   "howToFix": "Write `OgreBotAPI.Abilities.Info` instead of `SpellOb.MaxRange`.",
+   "argsCheck": "differs",
+   "howToFix": "Write `OgreBotAPI.Abilities.Info` instead of `SpellOb.MaxRange`; the arguments changed: The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. pass `\"MaxRange\"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,\"MaxRange\"]}`",
    "id": "SpellOb.MaxRange",
    "newForm": "OgreBotAPI.Abilities.Info",
-   "note": "pass `\"MaxRange\"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,\"MaxRange\"]}`",
+   "newSignature": "[nameOrId,field]",
+   "note": "The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. pass `\"MaxRange\"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,\"MaxRange\"]}`",
    "oldCall": "SpellOb.MaxRange",
    "oldKinds": [
     "x"
@@ -27402,15 +27463,16 @@
    "oldName": "MaxRange",
    "oldSignature": "(int64 AbilityIDX)",
    "oldSpellingToday": "reads NULL - no error in any log (the member no longer exists)",
-   "status": "renamed",
+   "status": "signature",
    "surface": "SpellOb"
   },
   {
-   "argsCheck": "unknown",
-   "howToFix": "Write `OgreBotAPI.Abilities.Info` instead of `SpellOb.MinRange`.",
+   "argsCheck": "differs",
+   "howToFix": "Write `OgreBotAPI.Abilities.Info` instead of `SpellOb.MinRange`; the arguments changed: The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. pass `\"MinRange\"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,\"MinRange\"]}`",
    "id": "SpellOb.MinRange",
    "newForm": "OgreBotAPI.Abilities.Info",
-   "note": "pass `\"MinRange\"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,\"MinRange\"]}`",
+   "newSignature": "[nameOrId,field]",
+   "note": "The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. pass `\"MinRange\"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,\"MinRange\"]}`",
    "oldCall": "SpellOb.MinRange",
    "oldKinds": [
     "x"
@@ -27418,15 +27480,16 @@
    "oldName": "MinRange",
    "oldSignature": "(int64 AbilityIDX)",
    "oldSpellingToday": "reads NULL - no error in any log (the member no longer exists)",
-   "status": "renamed",
+   "status": "signature",
    "surface": "SpellOb"
   },
   {
-   "argsCheck": "unknown",
-   "howToFix": "Write `OgreBotAPI.Abilities.Info` instead of `SpellOb.Name`.",
+   "argsCheck": "differs",
+   "howToFix": "Write `OgreBotAPI.Abilities.Info` instead of `SpellOb.Name`; the arguments changed: The arguments are different: Classic took `(string AbilityIDX)`, the new call takes `[nameOrId,field]`. pass `\"Name\"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,\"Name\"]}`",
    "id": "SpellOb.Name",
    "newForm": "OgreBotAPI.Abilities.Info",
-   "note": "pass `\"Name\"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,\"Name\"]}`",
+   "newSignature": "[nameOrId,field]",
+   "note": "The arguments are different: Classic took `(string AbilityIDX)`, the new call takes `[nameOrId,field]`. pass `\"Name\"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,\"Name\"]}`",
    "oldCall": "SpellOb.Name",
    "oldKinds": [
     "x"
@@ -27434,15 +27497,16 @@
    "oldName": "Name",
    "oldSignature": "(string AbilityIDX)",
    "oldSpellingToday": "reads NULL - no error in any log (the member no longer exists)",
-   "status": "renamed",
+   "status": "signature",
    "surface": "SpellOb"
   },
   {
-   "argsCheck": "unknown",
-   "howToFix": "Write `OgreBotAPI.Abilities.Info` instead of `SpellOb.PowerCost`.",
+   "argsCheck": "differs",
+   "howToFix": "Write `OgreBotAPI.Abilities.Info` instead of `SpellOb.PowerCost`; the arguments changed: The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. pass `\"PowerCost\"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,\"PowerCost\"]}`",
    "id": "SpellOb.PowerCost",
    "newForm": "OgreBotAPI.Abilities.Info",
-   "note": "pass `\"PowerCost\"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,\"PowerCost\"]}`",
+   "newSignature": "[nameOrId,field]",
+   "note": "The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. pass `\"PowerCost\"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,\"PowerCost\"]}`",
    "oldCall": "SpellOb.PowerCost",
    "oldKinds": [
     "x"
@@ -27450,15 +27514,16 @@
    "oldName": "PowerCost",
    "oldSignature": "(int64 AbilityIDX)",
    "oldSpellingToday": "reads NULL - no error in any log (the member no longer exists)",
-   "status": "renamed",
+   "status": "signature",
    "surface": "SpellOb"
   },
   {
-   "argsCheck": "unknown",
-   "howToFix": "Write `OgreBotAPI.Abilities.Info` instead of `SpellOb.RecastTime`.",
+   "argsCheck": "differs",
+   "howToFix": "Write `OgreBotAPI.Abilities.Info` instead of `SpellOb.RecastTime`; the arguments changed: The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. pass `\"RecastTime\"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,\"RecastTime\"]}`",
    "id": "SpellOb.RecastTime",
    "newForm": "OgreBotAPI.Abilities.Info",
-   "note": "pass `\"RecastTime\"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,\"RecastTime\"]}`",
+   "newSignature": "[nameOrId,field]",
+   "note": "The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. pass `\"RecastTime\"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,\"RecastTime\"]}`",
    "oldCall": "SpellOb.RecastTime",
    "oldKinds": [
     "x"
@@ -27466,15 +27531,16 @@
    "oldName": "RecastTime",
    "oldSignature": "(int64 AbilityIDX)",
    "oldSpellingToday": "reads NULL - no error in any log (the member no longer exists)",
-   "status": "renamed",
+   "status": "signature",
    "surface": "SpellOb"
   },
   {
-   "argsCheck": "unknown",
-   "howToFix": "Write `OgreBotAPI.Abilities.Info` instead of `SpellOb.RecoveryTime`.",
+   "argsCheck": "differs",
+   "howToFix": "Write `OgreBotAPI.Abilities.Info` instead of `SpellOb.RecoveryTime`; the arguments changed: The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. pass `\"RecoveryTime\"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,\"RecoveryTime\"]}`",
    "id": "SpellOb.RecoveryTime",
    "newForm": "OgreBotAPI.Abilities.Info",
-   "note": "pass `\"RecoveryTime\"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,\"RecoveryTime\"]}`",
+   "newSignature": "[nameOrId,field]",
+   "note": "The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. pass `\"RecoveryTime\"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,\"RecoveryTime\"]}`",
    "oldCall": "SpellOb.RecoveryTime",
    "oldKinds": [
     "x"
@@ -27482,15 +27548,16 @@
    "oldName": "RecoveryTime",
    "oldSignature": "(int64 AbilityIDX)",
    "oldSpellingToday": "reads NULL - no error in any log (the member no longer exists)",
-   "status": "renamed",
+   "status": "signature",
    "surface": "SpellOb"
   },
   {
-   "argsCheck": "unknown",
-   "howToFix": "Write `OgreBotAPI.Abilities.Info` instead of `SpellOb.SpellBookType`.",
+   "argsCheck": "differs",
+   "howToFix": "Write `OgreBotAPI.Abilities.Info` instead of `SpellOb.SpellBookType`; the arguments changed: The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. pass `\"SpellBookType\"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,\"SpellBookType\"]}`",
    "id": "SpellOb.SpellBookType",
    "newForm": "OgreBotAPI.Abilities.Info",
-   "note": "pass `\"SpellBookType\"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,\"SpellBookType\"]}`",
+   "newSignature": "[nameOrId,field]",
+   "note": "The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. pass `\"SpellBookType\"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,\"SpellBookType\"]}`",
    "oldCall": "SpellOb.SpellBookType",
    "oldKinds": [
     "x"
@@ -27498,7 +27565,7 @@
    "oldName": "SpellBookType",
    "oldSignature": "(int64 AbilityIDX)",
    "oldSpellingToday": "reads NULL - no error in any log (the member no longer exists)",
-   "status": "renamed",
+   "status": "signature",
    "surface": "SpellOb"
   },
   {
@@ -27528,11 +27595,12 @@
    "surface": "SpellOb"
   },
   {
-   "argsCheck": "unknown",
-   "howToFix": "Write `OgreBotAPI.Abilities.Info` instead of `SpellOb.TargetType`.",
+   "argsCheck": "differs",
+   "howToFix": "Write `OgreBotAPI.Abilities.Info` instead of `SpellOb.TargetType`; the arguments changed: The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. pass `\"TargetType\"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,\"TargetType\"]}`",
    "id": "SpellOb.TargetType",
    "newForm": "OgreBotAPI.Abilities.Info",
-   "note": "pass `\"TargetType\"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,\"TargetType\"]}`",
+   "newSignature": "[nameOrId,field]",
+   "note": "The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. pass `\"TargetType\"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,\"TargetType\"]}`",
    "oldCall": "SpellOb.TargetType",
    "oldKinds": [
     "x"
@@ -27540,14 +27608,15 @@
    "oldName": "TargetType",
    "oldSignature": "(int64 AbilityIDX)",
    "oldSpellingToday": "reads NULL - no error in any log (the member no longer exists)",
-   "status": "renamed",
+   "status": "signature",
    "surface": "SpellOb"
   },
   {
-   "argsCheck": "unknown",
-   "howToFix": "Write `OgreBotAPI.Abilities.ID` instead of `SpellOb.VerifyID`.",
+   "argsCheck": "same-count",
+   "howToFix": "Write `OgreBotAPI.Abilities.ID` instead of `SpellOb.VerifyID`. New arguments: `[name]`.",
    "id": "SpellOb.VerifyID",
    "newForm": "OgreBotAPI.Abilities.ID",
+   "newSignature": "[name]",
    "oldCall": "SpellOb.VerifyID",
    "oldKinds": [
     "x"
@@ -47202,14 +47271,25 @@
    "surface": "OldBot framework"
   },
   {
-   "howToFix": "In fight and IC files use the `timer` action and the `timerLeft` / `timerExpired` conditions. In a hand-written script use ISXOgreEQ2.Scheduler: :FireEvent[delayMs,event,...,-key <k>] to fire an event later, .Remaining[<key>] for the time left.",
+   "howToFix": "Read ${ISXOgreEQ2.TravelMesh.TMActive} - TRUE while a travel-mesh route is running. `ogre_convert.py fix` swaps it.",
+   "id": "OldBot framework|Object_OgreTravelMesh_Traveling",
+   "newForm": "ISXOgreEQ2.TravelMesh.TMActive",
+   "note": "Classic's travel mesh global: TRUE while it was moving the character zone to zone. Side scripts waited on it (`while ${Object_OgreTravelMesh_Traveling}`).",
+   "oldCall": "Object_OgreTravelMesh_Traveling",
+   "oldName": "Object_OgreTravelMesh_Traveling",
+   "oldSpellingToday": "not defined - the new bot does not load Classic's framework, so the name does not exist",
+   "status": "renamed",
+   "surface": "OldBot framework"
+  },
+  {
+   "howToFix": "Declare `variable ogretimer Timer_X` (or `variable ogretimer Timer_X = 1500` to start it running, in ms) - the core's countdown, with the same methods and members (Set, SetSeconds, SetMinutes, SetHours, SetMinimum..., Inc / Dec..., Stop; TimeLeft in ms, SecondsLeft). `ogre_convert.py fix` swaps the type in every declaration; then remove the `#include` of OgreCommon/Object_Timer.inc. An ogretimer only counts down: to fire an event when time runs out use ISXOgreEQ2.Scheduler:FireEvent[ms,<event>]. In fight and IC files use the `timer` action and the `timerLeft` / `timerExpired` conditions.",
    "id": "OldBot framework|Object_Timer",
-   "newForm": "timer",
+   "newForm": "ogretimer",
    "note": "A countdown object scripts declared (`variable Object_Timer Timer_X`): set it for some milliseconds/seconds, read TimeLeft / SecondsLeft, and optionally fire a named event when it ran out.",
    "oldCall": "Object_Timer",
    "oldName": "Object_Timer",
    "oldSpellingToday": "not defined - the new bot does not load Classic's framework, so the name does not exist",
-   "status": "dataFile",
+   "status": "renamed",
    "surface": "OldBot framework"
   },
   {
