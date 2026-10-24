@@ -1,0 +1,485 @@
+# OgreBot for EverQuest II - documentation, Start here
+
+OgreBot is in beta testing. For OgreBot Classic see https://kannkor.github.io/ISXOgre/EQ2/
+This file is ONE PIECE of the documentation: Start here - Start here.
+The entire documentation in one document: https://kannkor.github.io/ISXOgre/EQ2/bot/llms-full.txt
+Index of every page and of every file like this one: https://kannkor.github.io/ISXOgre/EQ2/bot/llms.txt
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/index.md
+
+# OgreBot - User Guide
+
+This guide explains every window of the new OgreBot: what each one is for, and what every option on it does.
+
+Every page starts with a picture of the window, then goes through it one area at a time. The area being
+described is outlined in **pink** in its picture.
+
+> **:memo: Examples use made-up names**
+>
+> Every name in these pictures - Kannkor, Brutus, Mirelle, Tobbin - is made up. Nothing here shows a real
+> character, account, guild or server.
+
+## Where to start
+
+- New to the bot? Read [The basics](basics.md) first. It covers the window buttons every window shares.
+- Setting up a character: [OgreBot](ogrebot/index.md), then its [Settings](ogrebot/settings.md) and
+  [Cast Stack](ogrebot/cast-stack.md) tabs.
+- Running zones: the [Instance Controller](windows/ic.md).
+- Sharing out loot: [SmartLoot](windows/smartloot.md).
+
+## Help inside the game
+
+Every window has a **?** in its title bar. Click it for a short explanation of that window. The
+**Full documentation** button in that box opens this guide.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/super-secret-project.md
+
+# The super secret project
+
+Where to even start! I guess a super brief history of how OgreBot became to be. I'd guess the basics of my story was the same as most people's here. A friend wanted me to play eq2 with them (they wanted me to make a bot, as I had done so for eq1). I said sure, but I was ONLY playing 1 toon. Pretty sure I made a troubadour. I was coding at low levels but it was hard back then. It logically only made sense, to have a second account for a priest. It's only 2 accounts, that's basically just 1 account.
+
+Then I was killing slow... so may as well add some dps to the group... 3 accounts is barely more than the 2 I already have. It's only 1 more. Yes, you can absolutely hear the "justification" to myself about how this is all fine. The friend who got me into eq2, I'm pretty sure at this stage, is absolutely laughing his ass off, because he new this would happen, and he knew exactly what was coming next.
+
+Well, if I'm already at 3, then I may as well just have my own group. Then there were 6.
+
+Okay, fast forward almost 20 years or something now. Lax/Innerspace comes out with LGUI2 (it's what OgreCraft2's UI is done in). It provided a TON more options for dealing with GUIs, but LGUI2 isn't very friendly. I find it way over complicated, it was very new, so minimal documentation or examples. I made it work, but still didn't like it.
+
+Then others, decided to bring in external GUIs. I thought this was an interesting idea, but the problem is, EVERYTHING is tied to my current GUI, that changing would be an absolute nightmare. It would basically be a rewrite of Ogrebot... and for what? To change the GUI?
+
+Then a friend (don't tell him I called him that) and I were talking and joking... How long would it take, to rewrite Ogrebot from scratch, and make it work with a new GUI. With basically full parity (meaning, no loss of features). Our estimate was over a year. That assumes I focus the majority of my time there. That was absolutely not going to be worth it. Full stop, no thanks.
+
+I didn't want to code untolds above tier 20, because Dominion of Pain sucks, so I was looking for a way to distract myself. I thought I'd look into these alternate GUIs to run some performance bench marks. If a new fancy GUI would be a net loss in performance, that's not worth it, at all. FPS (frames per second, not first person shooter) is way more important than having a fancy dancy GUI.
+
+Did a bunch of research, and choose one. It is built using HTML (basically a webpage). This is fantastic, because HTML is likely the most common language ever (I didn't actually check to see if that's true, but almost every single website uses html). That means there's infinite amount of examples, and support etc etc.
+
+I figured, okay, lets load this up, see how it works, do some performance tests, then go from there.
+
+A WEEK LATER, I finally get it working. Like... me working on it every spare moment I have for an entire week. I was ready to bash my head into a wall.
+
+Now that I've wasted a week, figured I should do some performance tests. I figured sink or swim new GUI. I created 3 identical GUIs. One in LGUI1, one in LGUI2, and one in this newGUI. They had something like 50 checkboxes, 50 labels etc.
+
+I then had the same script monitor the fps while idle, then I started sending information to them every frame (this isn't realistic, but it's a good test). It was doing I think almost 200 changes to the GUI every frame. (a label that goes from 1, to 2, to 3, sliders going up like a progress bar etc). I figured put it under stress and see what happens.
+
+Here's the results (higher numbers are better)
+
+Static:
+
+NewGUI: 45.7
+
+LGUI1: 39.4
+
+LGUI2: 33.2
+
+Under extreme load:
+
+NewGUI: 41.9
+
+LGUI1: 36.7
+
+LGUI2: 26.1
+
+Well, that tells two stories. LGUI2 is bad on performance, is difficult to work with, and is in the garbage.
+
+NewGUI is actually better than LGUI1 in performance, and looks better. How about that.
+
+Okay, cool story, time to move on... ... ...
+
+I started messing around to see what it looked like, and what it was capable of doing. Thought it would be nifty, but honestly, a rewrite of Ogrebot still was not worth it. Too time consuming.
+
+But for a new project... maybe.
+
+So I started a new extension, got things loaded up, but wasn't sure what new project to work on. I thought okay, I'll just re-create something of Ogre. I'll do OgreConsole, keep it simple, doesn't require any external things like isxeq2, it simply displays information.
+
+Did that, was pretty nifty. But it was basically a listbox. I used 1 element. May as well do another window. Was curious how it could handle something like MCP. Being able to drag and resize, how it could handle right clicking with new windows, swapping buttons, frame in frame (static vs changing buttons), etc. This was going to be a good test.
+
+It was.. overall.. pretty simple. It was HTML... webpages. Almost anything you want to do, has 25309235 examples available.
+
+Okay, so the GUI works. How am I going to make it actually usable. I've always known that lavishscript is "slow" overall, and here I am using an extension written in c++ (which is very fast). Well, lets go down that road a little bit, and see if I can figure out how to do more stuff in c++, then start testing performance, to see where this goes. As you can tell, performance is likely the highest priority I have. I want more FPS, and never want to lose any FPS. Could I move any big number crunching, into c++. For example, there's HUNDREDS of checks for Ogrebot to find an ability it wants to cast from the caststack. I start down that road....
+
+Okay, have a mock of that working, but the real test is having an actual cast stack. Well, what if we just made a little mock up of Ogrebot's GUI, then loaded the caststack in, and see how it goes.
+
+Well, in order to have a usable caststack, you need an export, so gotta load that up too.
+
+Here's where it became very obvious to me. Loading the export in lavishscript, you know when you load ogrebot, and it has that bed red message of "Loading..." on top of the GUI, most of that time is loading the export and pulling it apart (finding the highest ability etc). It's something like 2-5 seconds.
+
+I have the export in c++, and did the same thing, had it pull out the highest abilities etc. I load it... it loads. Like.. instantly. Okay, I must have missed something... oh no. It's done.. instantly.
+
+Pretty sure I pivoted, and started running tests. Just simple tests.
+
+In lavishscript, doing ${Me.Name}, ${Me.Health}. Doing it both in lavish and in c++. Ran them a few hundred thousand times, turns out c++ does them 3 to 10 times faster (depending, string vs int etc). Everything, is just insanely faster in c++. Okay, how much can I do solely in c++?
+
+Apparently, I started rewriting Ogrebot, in c++, as kind of a, lets see how this goes. Every time I ran performance tests, with the new GUI, and c++, it absolutely destroyed lavishscript and LGUI1 (that's what Ogrebot is currently in). Apparently I was going down this rabbit hole, that I said was not worth it at all.
+
+I had to take a pause and started thinking. Okay, if I'm doing this, it's going to break *EVERYTHING*. Every single side script out there that touches my GUI. If I'm basically re-doing it in c++, that's going to break OgreBotAPI... breaking everything. I had to decide, am I okay with breaking everything? If I'm going to break things, then I may as well fix things too. For example, I'm sure you've all heard of the famous "ForWho". That decides who listens to the various commands. Almost everything has a forwho... but did you know, 27 things either did not have a forwho, or had it in the wrong spot? But i couldn't change it, because it would break things. GUESS WHAT! I'M ALREADY BREKAING THINGS!
+
+I still have not told anyone except my "friend" that got me into this mess. He was sworn to secrecy, because I knew where he lives. Well.. I know he lives in USA.
+
+At the time of writing this portion of this, I'm still a long ways away from having something for alpha testers. Most of the important subsystems are built. The caststack, campspot, mcp, ogreconsole, osa. 100% within c++, and all with this new fancy html GUI. It's super speedy! And as I have been going along, I have been trying to put together a list of "what do I think works well" and "what needs improved". There are some seriously cool QoL (quality of life) features. I'll document them as I get there, but most of them you will be able to find on your own.
+
+So, what does this mean for the future of Ogre? It's changing with the times. It's getting a complete overhaul. A face lift (new GUI), and complete back end rewrites.
+
+Here's the short "good and bad" about this.
+
+The good:
+
+New, modern GUI that is much easier to use, and more familiar for people.
+
+FPS increase, although I'm not going to hold my breath until I get more and am able to use it in a zone etc.
+
+Everything has it's own TLO and datatypes, and for scripters, this means you can LSTYPE things! (if you're not a scripter, this won't mean anything).
+
+The bad:
+
+Every single script/side script out there, will stop working immediately. While this is really unfortunate, it was the only way to do this project. I'm going to have documents that explain, with examples, of how scripts can be updated to a new format that will work (basically instead of calling the GUI this way, you do it this way).
+
+I will also do my best to help people who have scripts, but got them from people who no longer play, and help you convert them.
+
+People will need to "learn" a new GUI, but I honestly don't think this will be a big deal. It looks modern, but the same. Once you see it, you'll understand.
+
+That's it for now. I would like to say, I have learnt my lesson.. by putting off doing untolds, I ended up with a much, much bigger project on my hands... but I have definitely not learned anything from this...
+
+&lt;fast forward like 2 months&gt;
+
+It's Oct 14th, 2026. I have said I am going to add some testers this week. So.. this is coming out for people to see and test, REAL soon.
+
+Anyone who was paying attention to my clues I was giving, one of them was this, a common phrase I say:
+
+`____ _______`
+
+4 letter word, space, 7 letter word. Only 1 person got it. I think everyone got caught up, on the 4 letter word had to be "ogre", but it wasn't.
+
+It was "full rewrite". One person did guess "ogre rewrite", which was half right, I suppose.
+
+Which then leads to a question of "full rewrite of what?", and the answer to that, is "EVERYTHING".
+
+Now, lets talk about what, everything means. Oh, it means everything. Every, single, thing.
+
+From authentication, to ogrebot, to craft (yes, another rewrite), to mcp, etc etc. When you are rewriting things, you know what that means? UPGRADES! So many things, got upgrades. When in doubt, right click.
+
+I took 20 years of Ogre content, and rewrote all of it. Was it worth it? I guess in the end, that depends on how you all think of it. So far, I am very pleased with it.
+
+P.S. the writing of this, was done entirely by me, with no AI.
+
+P.S.S. Of course, when I say "this", I mean this specific document only :)
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/basics.md
+
+# The basics
+
+Every OgreBot window works the same way. This page covers what they all share.
+
+## The title bar
+
+![A title bar](assets/basics/titlebar.png)
+
+| Part | What it does |
+|---|---|
+| **Title** | The window's name. Drag it to move the window. |
+| **?** | Opens a short help box for this window. Its **Full documentation** button opens this guide. |
+| **Lock** | Click it to lock the window, and again to unlock it. A locked window cannot be moved or resized, and the padlock is lit while it is locked. Locking remembers the window's place, so it opens there, still locked, next time. |
+| **X** | Closes the window. |
+
+Some windows put extra buttons in the title bar too, for example a gear for settings.
+
+## The right-click menu
+
+Right-click a window's title bar for this menu:
+
+![The right-click menu](assets/basics/menu.png)
+
+| Item | What it does |
+|---|---|
+| **Help** | The same as the **?** button. |
+| **Save Position** | Remembers where the window is and how big it is. It opens there next time. |
+| **Scale + / Scale -** | Makes this window bigger or smaller. |
+| **Scale: use default** | Goes back to the size set in Ogre Options. |
+| **Lock / Unlock** | Stops the window from being moved or resized, or allows it again. Like the padlock, it is remembered for next time. |
+| **Pin to back / Unpin from back** | A pinned window always stays behind every window that is not pinned, even when you click it. Remembered for next time. |
+| **When Console is open** | A sub-menu: what this window does when the InnerSpace console opens over it - **Use default**, **Slide below**, **Hide** or **Leave in place**. **Use default** follows the choice in Ogre Options (named in brackets); the other three are this window's own, whatever Ogre Options says. The ticked one is in force. Remembered for next time. |
+| **Reset** | Puts the window back where it first opened, at its first size, turns off Lock and Pin to back, and sets Console back to use default. |
+
+## The help box
+
+![The help box](assets/basics/help.png)
+
+The help box sits next to the window it explains. You can move it and close it like any other window.
+
+## Resizing
+
+Drag the right edge, the bottom edge, or the bottom-right corner of a window to resize it.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/whats-new.md
+
+# What's new
+
+What changed in OgreBot, release by release, newest first. Every release listed here was published to the patcher.
+
+A release is named by the day it was published and its number that day: **2026.10.16.005** is the fifth release on October 16, 2026. Releases with nothing you would notice are not listed, so the numbers can skip.
+
+Dates and times are US Eastern time (EST in winter, EDT in summer).
+
+## 2026.10.24.004 {#r2026-10-24-004}
+
+*Saturday, October 24, 2026 at 6:18 PM EDT*
+
+- **New** · Other: **Scripts get a timer - ogretimer.** Scripts can declare a countdown: `variable ogretimer Timer_X` (stopped) or `variable ogretimer Timer_X = 1500` (running, ms), then `Timer_X:SetSeconds[20]` and read `${Timer_X.TimeLeft}` (ms left), `.SecondsLeft` and `.Running`. It has OgreBot Classic's Object_Timer methods and members (Set, SetSeconds, SetMinutes, SetHours, SetMinimum, Inc, Dec, Stop), so converting means changing only the `variable` line. A value that is not a number is refused and says so.
+
+## 2026.10.24.002 {#r2026-10-24-002}
+
+*Saturday, October 24, 2026 at 4:43 PM EDT*
+
+- **New** · Setup: **Auto-login can launch an ISBoxer character set.** An auto-login profile can now name an ISBoxer character set (the list shows this PC's sets). Start launches that set through ISBoxer first, then logs your characters into the sessions it opened, and only launches a session that is still missing. Sessions opened under a game profile that does not load the new bot get it loaded before the login.
+- **Fixed** · Bot: **"Not enough concentration" rebuffs again.** When the game says "Not enough concentration", the bot again cancels your concentration buffs, so the cast stack can recast them into the slots you have. It tells the group "Max Concentration! Removing buffs and rebuffing." It does nothing if you have turned off the cast stack's buffs.
+- **Fixed** · Windows: **Old unpack MCP buttons work again.** MCP buttons that still used -Unpack_Quantity, a reward choice straight after the item, or the Empyral / Planar stone unpack rows stopped working when unpacking became one -Unpack command. They are now rewritten once to that command with -qty, -pick or -all, for example `-Unpack auto "Zon Zobboz Heritage Crate" -qty 20`. Your old MCP file is kept beside it as OgreMCP.json.unpackfix.bak.
+- **Fixed** · Windows: **The Auto-Login window resizes properly.** Making the Auto-Login window taller now makes the log at the bottom bigger too, and making it smaller again no longer lets you scroll the whole window so the log disappears. The column headers line up with the boxes under them, the number boxes keep one size, and Dry run and Start stay together when the window gets narrow.
+- **Fixed** · Crafting: **Exporting a few abilities is fast.** An ability export that names only some abilities ("Just these abilities", or the export crafting runs when a reaction bar shows an art it does not know) now looks at just those abilities. It used to read and examine every tradeskill ability in your book first, which could take well over a minute; a crafting round's few new arts now take seconds.
+- **Fixed** · Crafting: **Far Seas Crafting Station reactions are used.** Crafting at the Far Seas Crafting Station now answers its own reactions (Hold It, Pop Knuckles, Grounded, Concentrate Hard, Awaken and Extinguish). These six arts now ship with the bot in a new file, ReactionArtsSpecial.json, which is applied after the bot's own ability export, so an export can no longer lose or re-file them. Your own custom ReactionArts.json still overrides it.
+- **Fixed** · Crafting: **Quest crafting understands more step wordings.** Quest crafting now finds the recipe for steps such as "Cook the seasoned fish on the fire" (Svarni Seasoned Fish), "Craft a Child's Pillow for Alghoza", "Craft the scrolls of Enhanced Undead Control" (one Scroll of...) and "Craft some paper" (Sheaf of Paper - when several recipes fit, the one you scribed most recently is used). It crafts one, then checks the quest moved before making more.
+- **Fixed** · Console: **"ogre <name> -ph" loads the bot paused.** `ogre <name> -p` and `ogre <name> -ph` (and `ogre bot <name> -ph`) now log the character in and load the bot paused, with -ph also hiding the main window. The flag after the name used to be ignored, so the bot loaded running. A word after the name that is not -p or -ph is now refused with a message instead of being ignored.
+- **Fixed** · Console: **The uplink console window opens again.** The OgreConsole window in the InnerSpace uplink could fail with "Script file 'OgreConsole/uplink/OgreConsoleUplink' not found", because its script was never shipped with the new bot. It now ships under Scripts\Ogre\Common\OgreConsole, so the window opens when the console hub loads.
+- **Fixed** · Setup: **Auto-login sees sessions you opened yourself.** Auto-login now finds the EverQuest II sessions already open on that PC, including ones launched by ISBoxer or by hand, and logs into them instead of opening new ones. It used to see only sessions it had launched itself, so with ISBoxer it opened a full new set of sessions.
+- **Fixed** · Setup: **Auto-login Start from the panel finds your profile again.** Pressing Start (or Dry run) in the in-game auto-login window failed with "No profile named" for every profile, because the name reached the uplink with quote marks around it. The name now arrives as you typed it, including names with spaces. Desktop shortcuts were not affected.
+- **Fixed** · Setup: **The ISXOgreX InnerSpace profile is added whatever you named the game.** The migration now adds the "Everquest 2 ISXOgreX" InnerSpace profile under every InnerSpace game that runs EverQuest2.exe, whatever the game is called. It used to look only for a game named Everquest 2 or EverQuest II, so a game you made yourself (such as "EQ2") was skipped. If yours was skipped, load the new bot again and it is added.
+
+## 2026.10.24.001 {#r2026-10-24-001}
+
+*Saturday, October 24, 2026 at 12:46 AM EDT*
+
+- **New** · Bot: **TaskRunner can run your destroy list after the harvest depot.** TaskRunner Lists has a new chore option, **Destroy list after depot**. With it and **Harvest depot after** both on, a Pack Pony run deposits its harvests, then destroys the items on your Ogre IM destroy list (ogre im -destroy -end) to clear out the excess. It only runs when the depot finished.
+- **New** · Windows: **ogre ui report copies a report of your windows to paste.** If something looks wrong on screen (a stray box, a window you cannot find), type `ogre ui report` in the console: it copies a report of every Ogre window, and of anything drawn outside them, to the clipboard. Paste it to whoever is helping you, so they can see what was on screen without asking you to reproduce it.
+- **New** · Windows: **Pin a window to the back, and choose what it does when the console opens.** Right-click any Ogre window's title bar for two new settings, both remembered: **Pin to back** keeps it behind every window that is not pinned, and **When Console is open** picks what it does when the InnerSpace console opens over it (slide below, hide, leave in place, or use the default). The default is Ogre Options' "When the InnerSpace console covers a window", now a list with a third choice, **Leave it where it is**; if you had chosen to hide windows before, pick it again in that list.
+- **New** · Other: **The script converter follows your #include files.** ogre_convert.py now follows a script's own #include files, so a script split over several files is checked and converted in one run. It follows them on a dry run and on sweep, coverage and sites; add --follow-includes to convert them in place or into a folder. Classic's own files are never followed.
+- **Changed** · Windows: **Clicking the game takes your typing out of an Ogre box.** When you are typing in an Ogre box (the OgreConsole, a search box, a setting) and click on the game outside every Ogre window, the box lets go of the keyboard, so your keys go to the game again. Before, it kept the keyboard until you pressed Escape or Enter.
+- **Fixed** · Bot: **Balanced Synergy is cast by the group, in combat only.** Balanced Synergy no longer spams out of combat. A character with it in the cast stack as Custom asks the whole group to cast it 10 seconds later, only while fighting a target within its % to attack. Ignore Balanced Synergy now works, and a character running a solo HO for a fight does not join in.
+- **Fixed** · Bot: **Consume Status Ingots uses them all.** Consume Status Ingots no longer stops after a few. An item it cannot use, such as a tradeskill ingot, is skipped after two tries and it goes on to the next one, as the old bot did. Before, the first such item ended the whole run.
+- **Fixed** · Bot: **Hail works with Assist on.** With Assist on, -Hail no longer hails the character you assist instead of the NPC: the target now stays on the NPC until the hail is done. The same goes for anything else that has to target something for a moment, such as getting or using a flag and repairing gear. If the NPC is still not targeted after a second, the hail is skipped rather than hailing something else.
+- **Fixed** · Bot: **No Offensive and No Defensive go by the ability.** No Offensive now holds back every hostile ability in the cast stack, and No Defensive every beneficial one, whatever type the entry is, Custom included. Before, they went by the entry's type, so a Custom entry was never held back by either.
+- **Fixed** · Bot: **ogre ae says plainly when it could not write its report.** When `ogre ae` cannot save its report, it now says the report was NOT written and why (for example, Windows refused to create the folder). Before, the failure line ended in the file's path just like the success line, so it read as "here is your file" when there was no file.
+- **Fixed** · Bot: **Possess Essence pet swap and Channeler dissonance fixed.** The Coercer tab now dismisses a pet of the wrong essence so Possess Essence can go on your preferred archetype, but only once Possess Essence is off cooldown and never against your combat or instance settings. Construct's Sacrifice is no longer recast while it is already on you. Channelers no longer try abilities they lack the dissonance for.
+- **Fixed** · Bot: **Spew relay group reports the group in use.** OgreBotAPI.Comms:SpewRelayGroup now reports the relay group each character really sends to, including a group set in the Relay Groups tab, instead of always saying ogre_everquest2.
+- **Fixed** · Bot: **The ability research check makes sure the Knowledge book closes.** After checking ability research, the bot now makes sure the Knowledge book has closed, and closes it again if it comes back. It also closes the book when a check ends early. If the book still will not close, a warning in the log says so.
+- **Fixed** · Bot: **The relay group setting now moves OgreConsole lines too.** "Send this bot's fleet commands to another group" now also sends OgreConsole lines (such as oc !c -Jump) to that group, so two fleets can be kept apart. Typing a name into its box no longer joins a group for each letter typed: it only sets where this character sends. For a character to hear a group, add it to "Also join these groups".
+- **Fixed** · Windows: **Ogre windows stay when the game's screen size changes.** Changing the game's resolution or window size (loading a UI options file with `/load_custom_options_file`, for example) no longer makes every Ogre window disappear, including the HUDs, which then stayed gone even after reloading OgreBot. The windows now stay where they are, a window the smaller screen left off-screen is moved back onto it, and each one gets its own size back on a larger screen.
+- **Fixed** · Windows: **The MCP button builder shows which who is chosen.** In Build command, the who list (who ▾) now highlights the choice the field already holds, the way the For Who window does - Auto when the field is auto or blank. Lists for other settings highlight their current value too.
+- **Fixed** · Windows: **The OgreBot mini window stays small.** The OgreBot mini window keeps its own small size again, so it no longer grows over the windows beside it. Its cog makes it bigger only while you choose what it shows, so the Done button is never cut off, and it goes back on Done. It also no longer shows the unsaved-changes star; the main OgreBot window still does.
+- **Fixed** · Instance Controller: **Pausing the Instance Controller no longer counts against a step's wait.** Time the Instance Controller spends paused is no longer counted against the step it paused in. A walk paused part-way used to fail the moment you resumed it; now every step - walks, loot, nameds, waits - picks up where it stopped.
+- **Fixed** · Crafting: **Quest crafting makes steps that are just the recipe's name.** Quest crafting now crafts a quest step that is only the item's name, such as "Delectable Drink (0/4)", when a recipe in your book has exactly that name. Before, only steps that started with a word like Craft or Create were made, and the rest were left for you.
+- **Fixed** · Crafting: **Quest crafting waits for components you are still gathering.** Quest crafting no longer fails three times when a step needs a component you have not gathered yet. It says what it is missing and waits, counting again whenever your bags change, then crafts as soon as it is there; after 60 minutes it stops and names what is still missing. When the Begin button is not available, the message now names any missing items.
+
+## 2026.10.23.001 {#r2026-10-23-001}
+
+*Friday, October 23, 2026 at 3:32 PM EDT*
+
+- **New** · Bot: **No attacking or casting in the main cities unless you allow it.** In the main cities (the Qeynos, Freeport and Neriak districts and villages) the bot no longer turns on auto-attack, casts its Cast Stack, faces the mob, moves behind, in front or into melee, sends the pet or mercenary, loots in combat or auto-targets mobs that hate you, as in the classic bot. Tick Allow City Casting on the Settings tab to allow them there. Abilities you ask for by command or script still cast.
+- **New** · Bot: **No offence on a mob can match part of a name.** For script writers: `OgreBotAPI:AddNoOffensiveOn["all","<mob>",FALSE]` (and `-AddNoOffensiveOn <who> <mob> FALSE`) now holds offence on any target whose name contains `<mob>`. Left out or TRUE, it matches the whole name only, as before. The third argument used to be ignored.
+- **New** · Bot: **Scripts can add an Announce entry.** `OgreBotAPI.Comms:AddAnnounce[<who>,<ability>,<to>,<text>]` now adds an entry to the Announce tab: the ability by name or id, where to announce (Group, Raid, Tell To Target, In-Game Command or Execute In Console) and the text, which can use *Target* and *Ability*. It shows on the tab at once. Save the profile to keep it.
+- **New** · Bot: **Scripts can add and remove Chat, Spawn and Despawn Events entries.** `OgreBotAPI.Events:AddChatEntry`, `AddSpawnEntry` and `AddDespawnEntry` now add an entry to that tab (the text to watch for, OC, Ding and the code to run), and `RemoveChatEntry`, `RemoveSpawnEntry` and `RemoveDespawnEntry` remove every entry with that text, or all of them with `all`. The entries show on the tab at once and fire like ones you added there. Save the profile to keep them.
+- **New** · Windows: **Ability Details window.** `ogre abilitydetails` shows everything your ability export holds about each ability: every rank, a search (a name, an ID, or a test like `IsInterrupt = TRUE`), and every field of the one you pick, with copy. `ogre abilitydetails Assault` opens it on the rank the bot uses; a rank's full name or an ID opens that exact rank. Scripts use `OgreBotAPI.Abilities:AbilityDetails[all,"Assault"]`.
+- **New** · Other: **Scripts can read reward windows, reply dialogs and the casting bar.** For script writers: `OgreBotAPI.Windows` now answers `RewardID`, `RewardLinkID`, `RewardName` (pick a reward by number or name), `RewardWindowID`, `ReplyExists` and `CastingWindowVisible`. `:AcceptNoChoiceReward` clicks Receive on a reward with no choice, `:SpewRewardWindowIDs` lists the reward windows, and `OgreBotAPI.Comms:SpewConversationBubbles` lists an NPC's replies. Before, these did nothing.
+- **New** · Other: **Scripts can watch mobs for NPC cast monitoring again.** `OgreBotAPI.Actors:SetCastMonitoring[who,-watch,"<mob>",-radius,80]` adds mobs to NPC cast monitoring and ticks NPC Cast Monitoring. `-unwatch "<mob>"` and `-clear` remove only what scripts added, so zone and fight-file watches stay. `ogre npccast watch`, `unwatch`, `clear` and `radius` now do the same, and `watch` also ticks NPC Cast Monitoring.
+- **Changed** · Bot: **A movement block now holds follow too, and replaces Movement:Freeze.** `OgreBotAPI.Movement:Block` (and a fight file's `block`) now holds everything: the camp spot, follow, combat movement (behind, in front, melee), new nav trips and queued moves, and it stops the move under way. `Movement:Freeze` and `Movement:Unfreeze` are gone; use `Block` and `Unblock` instead. Come2Me, Move2Area and jousting no longer stop nav trips or queued moves from starting: they only keep the camp spot from pulling you back.
+- **Changed** · Bot: **Fight files now refuse a misspelt field on a template step.** A template step in a fight file (`tankSwap`, `getAwayToCure`, `dispel` and the rest) with a field that template does not read, usually a typo, is now a load error that names the field; before, it was silently ignored. `await`, `awaitWhen`, `awaitTimeout` and `onFail` are refused on a template step too, since they never reached its steps, and a `getAwayToCure` with `reportIn` on now needs its `event`. `tankSwap`'s `op` now accepts any case, so `"Prepare"` works.
+- **Changed** · Instance Controller: **Every zone file now says how it leaves the zone.** A zone file with no `zoneOut` step is no longer loaded, and the load says which file and how to fix it. Add `{ "stepId": "exit", "do": "zoneOut", "op": "auto" }` as its last step for the built-in zone out (the nearest exit anywhere in the zone, as Classic did), a `door` step naming its exit, or `"op": "none"` to stay in the zone.
+- **Changed** · Instance Controller: **Loading zone files now says misspelt keys and checks every step.** When IC loads zone files, a key that nothing reads, usually a typo, is now said as a warning that names the nearest key IC does read, and the file still loads. Steps inside loops are now checked like every other step, and the actions zone files share with fight files are checked by the same rules. A file with a real mistake is still skipped, and `ogre ic reload` says why.
+- **Changed** · Instance Controller: **Zoning out drops Consecrate and Open Wounds, and gathers the group in one zone version.** Before the group moves to a zone exit, a Paladin's Consecrate and a Berserker's Open Wounds are cancelled, as Classic did. After zoning out, anyone who landed in another version of the new zone (Phantom Seas 3 instead of 2) is asked to change to the leader's, up to three times.
+- **Changed** · Navigation: **A stopped trip says Stopped, not Failed.** When a trip is ended on purpose (you press STOP, or the bot that started the walk ends it, such as crafting once it reaches the station), `ogre nav status` and the nav window now say Stopped. Failed now means only that navigation could not get there, for example when stuck or when there is no route. A trip that has already arrived keeps saying Arrived when something stops it afterwards, as a finished travel route does.
+- **Changed** · Console: **One Unpack command that can unpack them all and pick the reward.** `-Unpack` now takes options after the item: `-qty 5` unpacks five, `-all` keeps going until none is left (Planar Stones: `-Unpack auto "Planar Stones" -all -pick lowest`), and `-pick` chooses the reward when there is a choice - a number, a reward name, or `lowest` for the one you have fewest of. If a reward window is already open it waits up to 10 seconds for it to close. `-Unpack_Quantity` is gone: use `-Unpack` with `-qty`.
+- **Changed** · Other: **Actors:ApplyVerbID takes a For Who first.** `OgreBotAPI.Actors:ApplyVerbID` now takes a For Who first, like the other apply-verb calls: `Actors:ApplyVerbID[all,${ActorID},"Destroy"]`. A call without the For Who no longer does anything, so put `all` in front.
+- **Changed** · Other: **More script calls take who they are for first.** For script writers: `OgreBotAPI.IM:Open`, `IM:Close`, `IM:Stop`, `Travel:SpewZoneDoorOptions`, `Bot:OnDeactivate`, `OgreBotAPI:UpdateNPCTarget` and `OgreBotAPI:TestAll` now take who they are for as the first argument, like every other call: `OgreBotAPI.IM:Open["all"]`. A call with no arguments still means everyone.
+- **Changed** · Other: **Script objects have one name each.** Abilities, AutoHunt, CampSpot, CastStack, Comms, ForWho, IM, Loot, Movement and Roster used to answer under two names. They now answer only under OgreBotAPI: write ${OgreBotAPI.CampSpot}, not ${ISXOgreEQ2.CampSpot}, which now reads NULL. Everything that ships with the bot already uses the one name.
+- **Fixed** · Bot: **AnnounceCasted passes its seconds.** `OgreBotAPI.Abilities:AnnounceCasted["all",<caster>,<seconds>]` tells the group it may cast while moving for that many seconds. Before, it read the seconds from the caster's name, so the window was always 0 seconds.
+- **Fixed** · Bot: **Camp spot 3D distance turns on with TRUE.** For script writers: `OgreBotAPI.CampSpot:SetUse3D["all"]` and `OgreBotAPI.CampSpot:SetUse3D["all",TRUE]` now turn 3D distance on, as Classic's `Set_Use3D` did. Before, both turned it off: the value was read as a number, so only 1 meant on. FALSE, 0, yes/no and on/off work too.
+- **Fixed** · Bot: **Item-use relays send again.** `OgreBotAPI.Inventory:UseRelay` and `OgreBotAPI.Inventory:UseOnPlayerRelay` now send the item use to every session, and each session's for-who decides who uses it, the same as `Abilities:CastRelay`. Before, they only printed "relay NOT sent". `UseOnPlayerRelay` uses the item on the sender if you name no player.
+- **Fixed** · Bot: **Mission sharing stops if you leave the zone.** Auto Share Missions, -ShareQuestsForZone and ShareQuestWhenAble wait for your group to gather before sharing a zone's missions. If you leave that zone before then, the rest is no longer shared there and the console says so, as in the classic bot. -ShareQuestsForZone for a zone you are not in now shares nothing.
+- **Fixed** · Bot: **Seven script calls read the right argument.** `OgreBotAPI.Movement:SetForwardKey`, `SetBackwardKey`, `SetFlyUpKey`, `SetFlyDownKey` and `UseWithoutOgreBot` read their value after the for-who (`[all,1]`); they used the for-who itself as the value. `OgreBotAPI.Abilities:Dump[all,<file>]` writes that file, not one named after the for-who. `OgreBotAPI.Travel:ZoneDoor[<door>]` (no for-who) picks that door; it always picked door 1.
+- **Fixed** · Bot: **SmartLoot changes reach every character.** A cap saved in SmartLoot on one character is now used by every character's looting straight away; before, the others kept the caps they had loaded until their profile reloaded. An open SmartLoot window now updates when another character saves, and saving on two characters no longer erases the other one's cap changes. If you have unsaved edits when another character saves, a banner says so: Save keeps both, Revert loads theirs.
+- **Fixed** · Windows: **Level Transmuting says what really stops a run.** When the Transmuting skill cannot be read, the Level Transmuting window no longer says the round limit is the only stop: a trip, a buy or a transmute that fails still ends the run. The Rounds line now counts buy visits finished, and asking for more than 800 stones now says each stone costs 1 Gnomish Currency Exchange, not coin.
+- **Fixed** · Instance Controller: **A hunt step puts AutoTarget back the way it was.** A zone's hunt step turns AutoTarget on with a 35 meter radius while it hunts. It left them that way for the rest of the zone. Now, when the hunt ends, AutoTarget, its radius and its out-of-combat scanning go back to how they were.
+- **Fixed** · Instance Controller: **Loop no longer runs a zone again inside the instance it just finished.** With Stay in zone and Loop on, a zone file that never zoned out stayed in the finished instance, and Loop started the same zone again there. A list now refuses to start a zone again in the instance it just finished and says why. Stop and Run clears this, so you can still start a zone where you stand.
+- **Fixed** · Navigation: **A flight that lands to walk the rest sets off without a second pause.** When a flight found partway that it could not finish the trip and came down to walk the rest, navigation worked out that walk twice in a row, so the character stood still after landing for longer than it needed to. It now works the walk out once and sets off.
+- **Fixed** · Navigation: **Long routes no longer freeze the game, and long swims that used to give up now finish.** Working out a long route, such as a long swim in the Plane of Water, could freeze the game for a second or two. Navigation now works the route out a little at a time, so the game keeps running and the nav window says Planning while the character waits. Long swims that used to stop partway now find their way to the end.
+- **Fixed** · Navigation: **No more "trip FAILED" when a walk ends normally.** When a craft walk reached its station or a travel route finished, the log said "nav: trip FAILED". A trip that something ends on purpose now says "nav: stopped" (or nothing, if it had already arrived), and real failures, such as being stuck, still say FAILED. When a flight lands and walks the rest of the way, `ogre nav status` now says it is walking instead of still showing the flight route.
+- **Fixed** · Crafting: **ogre end craft always says what it stopped.** `ogre end craft` printed nothing when no craft was running, for example just after a queue had given up on a recipe. It now always prints a "craft: stopping" line, and says when no craft was running or when it also stopped a craft walk.
+- **Fixed** · Console: **-ReplyDialog picks from the reply window, by number or by text.** `-ReplyDialog` (and `OgreBotAPI.Windows:Reply` in scripts) now answers the reply window a clicked item or object opens, as Classic did: a number picks that reply, and text picks the first reply that contains it. Before, it clicked a reply in the NPC conversation window instead and ignored text.
+- **Fixed** · Console: **ApplyVerbQueued waits for the verb's cast again.** `-ApplyVerbQueued` and `-ApplyVerbIDQueued` (and `OgreBotAPI.Actors:ApplyVerbQueued` / `:ApplyVerbIDQueued`) wait their turn, then up to 5 seconds for the cast bar to be free, apply the verb, and wait for any cast it starts to finish (up to 4 seconds) before the next cast. Before, the by-name one applied the verb at once and waited for nothing. The encounter files' queued verbs work the same way.
+- **Fixed** · Console: **Authorizing an IRC nick by raid works.** `-AuthIfInRaid` (`OgreBotAPI.Comms:IrcAuthIfInRaid`) authorizes the nick again when the named character is in the raid. Before, it only worked on a character whose name matched the nick.
+- **Fixed** · Console: **Cast stack by tag can match part of a tag.** `-ChangeCastStackListBoxItemByTag` and `OgreBotAPI.CastStack:SetEntryByTag` now honour partial: TRUE changes every entry whose tag contains the word (any case), as Classic did. `-ChangeCastStackListBoxItem` no longer shows a partial box; its fourth word is the silent flag, which is what Classic did with it.
+- **Fixed** · Console: **Consuming familiars answers the right window.** `-Unpack_Consume_Familiars` and `-Consume_Familiars` now read and answer the familiar's own reply window, as Classic did. Before, they read and clicked the NPC conversation window instead, so the familiar's reply was never answered.
+- **Fixed** · Console: **ogre tempadorns works with an adornment and slot.** `ogre tempadorns <adorn> <slot>` did nothing: the adornment was read as who the command was for. It now applies the temporary adornment.
+- **Fixed** · Console: **The Overseer "add quests" command works.** The Overseer_AutoAddOverseerQuests console command (and OgreBotAPI.Overseer:AutoAddQuests in a script) used to do nothing. It now uses every Overseer mission scroll in your bags and Overseer bag to add its quest, the same pass the daily Overseer run makes. It waits if a daily run is in progress.
+- **Fixed** · Other: **Five more script calls now work.** These OgreBotAPI calls used to do nothing: Bot:ListSetups lists this zone's encounter setups, Travel.ZoneDoorValue gives a destination's row in the open zone-door window and Travel:SpewZoneDoorOptions lists every row, Zone:ResetUpdateInfo re-reads the Zone Reuse window (Zone.ResetUpdating and Zone.ResetReady follow it), and Quest:ShareQuestWhenAble shares a quest once your group has arrived.
+- **Fixed** · Other: **Script calls check who they are for.** For script writers: `OgreBotAPI.Windows:CloseExamine`, `Debug:Echo`, `SetDebugMode`, `SetDebugLoading`, `SpewVariables`, `SpewInternalVariables`, `Client:SetMousePosition`, `SetMousePositionMiddle`, `Inventory:SpewSlotNames`, `InitAdornmentInfo` and `Bot:Initialize` now act only on the characters their first argument names, and read their values after it. Before, they ran on every character, and `Debug:Echo["all","hi"]` printed "all hi".
+- **Fixed** · Other: **Script calls for tank swaps and counting nearby NPCs now work.** `OgreBotAPI:Prepare_TankSwapping[who]` and `OgreBotAPI:Remove_Prepare_TankSwapping[who]` did nothing before. They now run the same steps as a fight file's tank swap setup and teardown. `${OgreBotAPI.Actors.NPCsWithin[radius]}` now counts the live NPCs within that radius of you, the same count the bot uses for area attacks.
+- **Fixed** · Other: **Scripts can ask whether an equipped item can be used now.** `${OgreBotAPI.Inventory.SlotAvailable[cloak]}` and `${OgreBotAPI.Inventory.SlotNumAvailable[20]}` did nothing before. They now say whether the item in that equipment slot can be used right now, so a clicky on cooldown reads FALSE. A slot name or number that does not exist reads FALSE and says so in the console.
+- **Fixed** · Other: **Two more script reads work.** Two OgreBotAPI reads used to always say FALSE: Roster.InEQ2Chars[name] says whether a character is one of yours (add TRUE to ask whether it also has a full login stored), and Zone.ResetZoneData[zone,key] gives a zone's Zone Reuse entry - ZoneName, IsSet, Resettable, TimeLeft or TextTimeLeft, or TRUE when the zone is listed if you give no key.
+- **Removed** · Console: **The ApplyVerb...ForWho console commands have new names.** The ForWho apply-verb commands are gone. Use the new names with the same arguments, For Who first: `-ApplyVerbForWho` and `-Apply_VerbForWho` are now `-ApplyVerb`, `-ApplyVerbIDForWho` is `-ApplyVerbID`, `-ApplyVerbQueuedForWho` is `-ApplyVerbQueued`, and `-ApplyVerbIDQueuedForWho` is `-ApplyVerbIDQueued`. Your MCP buttons are changed for you, and the script converter changes them too.
+- **Removed** · Other: **Comms:SetRelayGroup removed.** For script writers: `OgreBotAPI.Comms:SetRelayGroup` is gone. It never did anything - every session uses the one relay group. To send a command to other sessions, use `oc !c` or `oc !ci`.
+- **Removed** · Other: **Every apply-verb call is on OgreBotAPI.Actors.** `OgreBotAPI.Abilities:ApplyVerbFor`, `:ApplyVerbIDFor` and `:ApplyVerbQueuedFor` are gone. Use `OgreBotAPI.Actors:ApplyVerb`, `Actors:ApplyVerbID` and the new `Actors:ApplyVerbQueued`, with the same arguments (For Who first). `Actors:ApplyVerbQueued` also takes the optional wait (in tenths of a second, default 40) that `Actors:ApplyVerbIDQueued` takes.
+- **Removed** · Other: **Script names that never did anything are gone.** These OgreBotAPI names did nothing and have been removed, so they read NULL like any unknown name: ArraySearch, IndexSearch, IndexSearchJSON, IndexMatch, GE_CheckSkip, the three RoR_Epic reads, Get_PackPonyRunning (use Inventory.PackPonyRunning), Test, Bot.QueuedCommands, Bot.Turbo, Abilities.RotationData, Comms.ReportKey and ReportValue, Roster.ClassValue (use ISXOgreEQ2.Class.Is) Zone.ResetInfoAvailable (use Zone.ResetReady) and ISXOgreEQ2.Nav's NavZone, NavPoints and ToPoint.
+
+## 2026.10.22.001 {#r2026-10-22-001}
+
+*Thursday, October 22, 2026 at 5:32 PM EDT*
+
+- **Changed** · Bot: **Every yes/no setting and argument takes the same words.** Yes/no settings and command or script arguments now all read the same words, in any casing: true, yes, on and 1 for yes; false, no, off and 0 for no. Some places used to take only TRUE, and others took any word that started with T or Y, so a word such as t or Yeah now reads as no.
+- **Fixed** · Navigation: **Closing OgreBot no longer stops a crafting walk, and a paused walk resumes.** A walk started by `ogre craft` now keeps going when you close OgreBot; before, it stopped straight away. A walk you started yourself, paused when OgreBot closed, can now be resumed instead of pausing again at once. A bot walk that was already paused when you closed OgreBot now stops, as other bot walks do.
+- **Fixed** · Navigation: **Flying keeps its height over narrow ridges.** A flight over a narrow ridge could pass just above its top instead of at the usual height; it now keeps its full clearance over ridges of any width. Some flights that were refused, such as a take-off right at the edge of a zone's flying area or a way out from under an overhang, now fly.
+- **Fixed** · Navigation: **No more "props: could not write" spam when a group zones in together.** Every session in a zone saves that zone's file of learned objects, and when a whole group zoned in at once their saves could collide. A save that failed then tried again on every frame, flooding every session's console for as long as you stayed in the zone. Each session now saves through its own temporary file, and a failed save warns once and tries again in under a minute and a half, at a random moment so the sessions don't collide again.
+- **Fixed** · Navigation: **Routes cross the seams inside a zone's walking map more freely.** A zone's walking map is built in pieces, and a long edge between two pieces could join to only four of the pieces beside it, leaving stretches of the seam closed or crossable one way only. Every crossing is now joined, so some routes are shorter and a few that could not be found before now are.
+- **Fixed** · Navigation: **Routes no longer cut through walls after a blocked spot.** When a route had to be planned again around a spot the bot had learned it gets stuck on, and no full way round was found, the route it walked could run through a wall or over the very spot it was avoiding. It now walks only the open part of the route, as far as it can get toward the goal.
+- **Fixed** · Navigation: **Walking around barrels, crates and other objects works in more places.** The bot now finds a way around an object in its path in more places - beside walls, in doorways and on steep ground - where it used to give up. It also keeps its distance from the object on every step, where a route could clip the object's edge.
+- **Fixed** · Navigation: **Walking maps rebuilt - fewer false walls, fewer stuck spots.** The walking maps for every zone have been rebuilt. Some maps had thin slivers and lined-up edges that the bot read as a wall where the way was open, most of all in the Plane of Water, so a route could stop short or bend around nothing. Those spots are now walkable, so routes are more direct and characters get stuck less.
+- **Fixed** · Setup: **Running both bots no longer uses up your PC limit twice.** The new bot now identifies your PC the same way the classic bot does. Before, a PC that ran both bots in the same day counted as two PCs, and with enough PCs the classic bot refused to log in with "IP/Computer limit exceeded".
+- **Removed** · Console: **The ChangeRadarYAxis console command is gone.** The ChangeRadarYAxis command never did anything in the new bot, so it has been removed from the console and the MCP command list. Typing it now prints "Unknown command entered" instead of silently doing nothing.
+
+## 2026.10.19.006 {#r2026-10-19-006}
+
+*Monday, October 19, 2026 at 10:46 PM EDT*
+
+- **Fixed** · Windows: **Analysis - + Target and + Cursor work, and the Scan tab shows every detail.** In ogre analysis, + Target and + Cursor now add the actor (+ Cursor gives you 3 seconds to put the mouse on it), and both are on the Scan tab too. Clicking a scan result shows all its details, a result can be sent to the Monitor tab, and scans can keep earlier results, add new spawns that match, and show chosen details as columns. Terms suggest detail names and offer the comparisons that suit them, and a scan that cannot run says why.
+- **Fixed** · Windows: **Analysis - copy and remove rows, and search the event logs after the fact.** In ogre analysis, the x that removes a scan result or a monitored actor can now actually be clicked; long rows used to cover it. Right-click any line to copy it, copy all of an actor's details, or remove it. On the Events tab, Search the log looks through everything already recorded (it used to miss older lines), and Record only lines containing is clearly the filter for what gets recorded from now on.
+
+## 2026.10.19.005 {#r2026-10-19-005}
+
+*Monday, October 19, 2026 at 8:07 PM EDT*
+
+- **Fixed** · Windows: **Scaled-up windows - dropdowns open under their box, and dragging keeps up with the mouse.** In a window scaled above normal size, dropdowns, menus and tooltips opened far down and to the right of where they belong, and dragging the window moved it slower than the mouse. Both now behave the same at every scale, in OgreBot, the MCP, For Who, IC, Auto-Login, Task Runner Lists and the other windows.
+
+## 2026.10.19.004 {#r2026-10-19-004}
+
+*Monday, October 19, 2026 at 7:22 PM EDT*
+
+- **New** · Console: **Add your own console commands with command packs.** Script writers can add their own OgreConsole commands, and they appear in the MCP command builder too. A pack is a folder under Scripts\OgreExternal, and its commands are typed with the pack's name, like -BJTools.Buff, so they can never replace one of OgreBot's own or clash with another pack; the Developers page "Add your own commands" shows how. Every pack command needs a For Who, and ogre commandpacks reloads them.
+
+## 2026.10.19.003 {#r2026-10-19-003}
+
+*Monday, October 19, 2026 at 5:02 PM EDT*
+
+- **Fixed** · Navigation: **Navigation goes round objects in its way, guild hall amenities included.** Navigation now walks round the objects standing in its way - barrels, crates, banners and every amenity in your guild hall or house - instead of running into them over and over. If it does bump into something it did not see, it goes round that spot for the rest of the trip. In a guild hall or house it no longer clicks the exit door when it gets stuck.
+
+## 2026.10.19.002 {#r2026-10-19-002}
+
+*Monday, October 19, 2026 at 3:32 PM EDT*
+
+- **New** · Bot: **Cast order filter - type to find a field or value.** The Cast order filter's field list and value lists now have a box at the top. Type in it to show only the matching choices, and press Enter to pick the first one.
+- **New** · Bot: **Cast Stack - abilities already in your Cast order are green, and Ctrl+click filters to one.** In the Cast Stack's Abilities list, an ability or item that already has an entry in your Cast order is shown in green, as in the old OgreBot. Ctrl+click a name in that list to filter the Cast order to just that ability. A filter value in double quotes, like "Assault", now matches the whole name only.
+- **New** · Bot: **Click a window's padlock to lock or unlock it.** The padlock in every window's title bar is now a button: click it to lock the window in place, and click again to unlock it. The right-click menu's Lock and Unlock still work too.
+- **New** · Bot: **Filter the Cast order by anything, and switch many entries on or off at once.** The Cast order has a filter: pick a field (anything an entry can have, plus every field of the ability's export, such as IsStun, IsAE or RecastTime), pick or type a value, and press Add to stack more filters. The Enable and Disable buttons then switch on or off everything the filter shows, or the entries you have selected.
+- **New** · Navigation: **Navigation swims to a spot in the water, at its depth.** Give navigation a spot in the water and it now swims there and stops at that depth, not on the bottom or at the surface, and it swims through underwater tunnels near the bottom, clear of the rock overhead. A trip that starts in the water swims out to dry, open ground before it takes off. A flight can now land on open water and swim the rest of the way in, when that is closer than the nearest dry landing.
+- **Changed** · Bot: **Ogre Options - navmesh downloads and Session watch are on the Ogre tab.** The EverQuest 2 tab in `ogre config` is gone: its two settings, Navmesh downloads and Session watch, are now on the Ogre tab. They work exactly as before and keep their saved values.
+- **Fixed** · Bot: **A locked window stays locked after you close and reopen it.** Locking a window from its right-click menu was forgotten when the window closed, so it reopened unlocked and movable. Lock and Unlock are now remembered, along with where the window is, just like Save Position.
+- **Fixed** · Bot: **Cast order filter - clear a filter before you add it.** A filter you are still building already filters the Cast order, but there was no way to undo it before pressing Add, and picking (none) as the field did nothing. A ✕ after Add now clears it, and picking (none) as the field clears it too.
+- **Fixed** · Bot: **No freeze while the fight files load.** When the bot loads, the game no longer freezes while the encounter (fight) files are read; on a cold start that freeze could last several seconds. The files are now read and checked in the background and put in place in under a millisecond, and the same goes for re-reading them after a change.
+- **Fixed** · Bot: **Session watch - no more "is gone" / "recovered" spam for sessions that are running fine.** On some PCs, Session watch announced every session as "is gone: it is no longer running" and then "recovered: heartbeats are back after 5 s", over and over, while the sessions were playing normally - the process InnerSpace lists for a session was not the one the bot runs in. A session now counts as gone when its name leaves the uplink's session list. Closing, crashing or relaunching a session is still announced.
+
+## 2026.10.19.001 {#r2026-10-19-001}
+
+*Monday, October 19, 2026 at 1:06 AM EDT*
+
+- **New** · Bot: **Cast Stack - select and move several rows, place new entries, see more on each row.** In the Cast order, click a row to select it (Ctrl+click or Shift+click to select several), then drag any selected row to move them all together. The editor has a new Place button: press it, then click a row, and the new entry goes just above that row. Each row now shows as many of its settings as fit, tags included, without opening it.
+- **Changed** · Bot: **Drag list rows by the row itself.** The drag handles (⠿) are gone from every list that can be reordered: the Cast Stack, Aliases, the order lists, Auto Target, the Instance Controller's Queue and Startup Options, and TaskRunner Lists. Press anywhere on a row and drag it; it only starts moving once the mouse has moved a few pixels, so clicking and double-clicking a row work as before.
+
+## 2026.10.18.005 {#r2026-10-18-005}
+
+*Sunday, October 18, 2026 at 11:44 PM EDT*
+
+- **Fixed** · Bot: **Position-on-NPC buttons use your NPC target.** `-SetCS_PositionNPC`, `-SetCS_BehindNPC`, `-SetCS_InFrontNPC` and `-SetCS_NPC` did nothing when no NPC was given. Now a blank NPC means your NPC target: your target if it is an NPC you can fight, otherwise your target's target. OgreMCP buttons migrated from OgreBot Classic that used `${u_NPCTargetID}` now use `${ISXOgreEQ2.NPCTarget.ID}`, the new bot's name for it.
+
+## 2026.10.18.004 {#r2026-10-18-004}
+
+*Sunday, October 18, 2026 at 10:50 PM EDT*
+
+- **New** · Bot: **Instance Controller can summon your mercenary when you are solo.** A new Instance Controller option, "Summon merc if solo" (on by default), summons your mercenary once you are inside the zone with nobody else in your group. On a zone-in it happens as you land, so the mercenary also gets the rebuff time before the zone starts.
+- **Fixed** · Bot: **A mercenary no longer holds up the next zone.** Playing solo with a mercenary, the Instance Controller waited the full two minutes after every zone-out for the mercenary to arrive, because it waited for every group member to report in. A mercenary travels with you and is no longer waited for, so the list moves on to the next zone right away. Teleporters and the after-fight res check now skip it too.
+- **Fixed** · Bot: **Switching characters keeps OgreBot running.** `ogre login <character>` pauses OgreBot while the old character camps out, and the new character's OgreBot used to come up paused because of that. Now it comes up running if the old one was running, and paused if it was paused.
+
+## 2026.10.18.003 {#r2026-10-18-003}
+
+*Sunday, October 18, 2026 at 8:59 PM EDT*
+
+- **New** · Bot: **Edit an alias by clicking it.** On the OgreBot Aliases tab, click an alias to load it into the form, change its name, who it is for or No-Raid, and press Save Alias. Double-click still turns an alias on or off.
+- **New** · Bot: **Option to skip repairing at Mender bots.** When a Mender bot is put down near you, the bot repairs your gear at it. To turn that off, tick "Do not auto-repair with Mender bots" in the Pop up windows options on the Settings tab. A Mender bot the Instance Controller summons to sell to is still used for selling; it just does not repair first.
+- **New** · Bot: **Sort the Instance Controller's zones by name.** The Instance Controller's Zones list has a Sort button beside its heading. Click it to switch between "Sort: #" (by number, as before) and "Sort: A-Z" (by zone name). The choice is remembered, and Add all queues the zones in the order shown.
+- **New** · Windows: **Add items from the examine window.** The Inventory Manager Restock and Trade tabs, and the Auto-Loot item names list in OgreBot, have a From examine button. Examine an item in game, press it, and the item name is filled in for you, so there is nothing to mistype.
+- **Changed** · Bot: **Saving a profile says where it was saved.** When you save an OgreBot profile, the console now shows the full location of every file it wrote, so you can find it.
+- **Fixed** · Bot: **Switching characters keeps OgreBot small.** When you log a different character in on a session where OgreBot is open, OgreBot reloads for the new character with only its small window showing, the same as when it first loads. Use Show Main to open the full window.
+- **Fixed** · Windows: **Numpad Enter leaves a text box too.** Pressing Enter on the number pad in an Ogre text box now does what the main Enter key does: it enters the value and lets go of the box.
+- **Fixed** · Windows: **The cast stack list keeps its place.** The cast stack lists no longer jump back to the top when OgreBot refreshes them, for example when travel starts, your group changes, or you open the Target list. Only switching to the Cast Stack tab starts at the top.
+
+## 2026.10.18.002 {#r2026-10-18-002}
+
+*Sunday, October 18, 2026 at 7:06 PM EDT*
+
+- **New** · Windows: **The small OgreBot window shows your class and what the bot is doing.** The small OgreBot window now has a line with your class, and a line saying what the bot is doing: paused, the ability or item it is using, who it is following, or that its camp spot is active. The cog in its title bar lets you choose what it shows. Hovering the yellow star now says it means unsaved changes.
+- **Changed** · Windows: **A window's value reads back at once after your script changes it.** After ISXOgreX.UI:Set changes an element in your own window, ISXOgreX.UI.Value now reads the new value straight away, even inside an event handler. Before, the read returned the old value until the next frame and a script had to waitframe first.
+- **Fixed** · Bot: **A cast that is out of range or out of sight gives up at once.** When the game says your target is too far away or out of sight, or the spell fizzles or is interrupted, the cast stack now moves on straight away instead of waiting 3 seconds. Auto-attack range messages are not mistaken for it.
+- **Fixed** · Bot: **Cures set to yourself no longer spam.** A cure in the cast stack aimed at yourself (@Me) kept starting and cancelling over and over when you had nothing it could cure. It now casts only when you actually have a detriment that cure removes, as OgreBot Classic did.
+- **Fixed** · Bot: **Trades from your own characters are accepted automatically.** When one of the characters on your EQ2Chars list accepts a trade with you, the bot now accepts it too, as OgreBot Classic did. Trades with anyone else are never accepted. To turn it off, tick "Do not auto accept trades from trusted toons" in the Pop up windows options.
+- **Fixed** · Windows: **Enter leaves a text box again.** Pressing Enter in a one-line text box in any Ogre window gives the keyboard back to the game, like a second Escape. On some PCs Enter did nothing and the box kept the keyboard. Restart the game after patching to get the fix.
+- **Fixed** · Windows: **Holding a key repeats in Ogre text boxes.** Holding an arrow key, Backspace, Delete or a letter in an Ogre text box now repeats it like any other Windows text box, at your Windows keyboard repeat speed. Hold Shift with an arrow to keep selecting text.
+- **Fixed** · Windows: **Migrated raw-command and Inviter buttons work again.** Raw-command buttons brought over from OgreBot Classic were wrapped in quotes and did nothing, and Inviter buttons invited nobody. Both are fixed: new imports come out right, and buttons already imported are fixed once, automatically, with a backup of your button file kept next to it.
+- **Fixed** · Windows: **The Restock profile picker can be clicked.** In the Inventory Manager, the Profile box on the Restock tab could not be opened, so you could only ever see the first profile. It is now a normal Ogre dropdown. The number boxes in the Inventory Manager and Auto-Login no longer empty themselves when a letter is typed.
+- **Fixed** · Console: **A restarted bot no longer reads as frozen for minutes.** After the bot was reloaded inside a running game, the session watch kept calling that session frozen for several minutes before saying it had recovered. It now sees the reloaded bot straight away.
+
+## 2026.10.18.001 {#r2026-10-18-001}
+
+*Sunday, October 18, 2026 at 2:01 PM EDT*
+
+- **New** · Windows: **Your scripts can open their own windows.** A script or extension can now put its own window on Ogre's in-game UI, made from one HTML file: ISXOgreX.UI:Open shows it, ISXOgreX.UI.Value reads its checkboxes and text, ISXOgreX.UI:Set changes them, and the OgreUI_Opened and OgreUI_Closed events say when windows open and close. Two examples ship in Ogre/Common/OgreUI/examples, and the new Build your own window page explains it.
+
+## 2026.10.17.017 {#r2026-10-17-017}
+
+*Saturday, October 17, 2026 at 1:21 AM EDT*
+
+- **New** · Other: **Script messages can play a sound and go to a console tab.** OgreBotAPI.Comms:Message and :Broadcast take "-sound","ding" or "-sound","alarm" after the text and play it, and "-tab" followed by a tab name also shows the line in that OgreConsole tab. Fight announcements that ask for a sound now play it instead of only printing it. The chest-drop ding is unchanged.
+- **Fixed** · Navigation: **Flying takes off and lands under overhangs and tree canopies.** Flight now knows about the open air under ledges, overhangs and tree canopies, so a trip can take off from a covered spot like the landing pad below the Ulteran Spire in Moors of Ykesha, and more trips fly instead of walking. Planning a long flight no longer causes a small hitch.
+
+## 2026.10.16.024 {#r2026-10-16-024}
+
+*Friday, October 16, 2026 at 5:00 PM EDT*
+
+- **New** · Windows: **Full documentation opens the window's own page on the new docs site.** The Full documentation button in every window's help (the ? in its title bar) now opens that window's own page on the new OgreBot documentation site, which explains every window and option. Script writers will find a guide and a converter for moving OgreBot Classic scripts under Developers.
+- **New** · Windows: **New Commands panel opens with `ogre ?`** `ogre ?`, `ogre help` and `ogre commands` now open a window listing every `ogre` command you can use, searchable by name, other names or any word in the description. Run does exactly what typing `ogre <command>` does, End does what `ogre end <command>` does, and commands that take something after their name have a box for it. Commands not yet in the new bot are shown greyed out, so you can see what is still to come.
+- **New** · Instance Controller: **Instance Controller runs all 12 Rage of Cthurath heroic and solo zones.** The Instance Controller zone files and fight files for all 12 Rage of Cthurath [Heroic] and [Solo] zones are now in the default folder: Ver'Bohten Atoll, Coral Roost, The Chimeric Chain, The Graftwerk, Dominion of Pain, Ark of Ascension, Sacrificial Pursuits, Edge of Oblivion, Realm of Conquest, The Oculeum, Zruul's Dominion and The Obliviwrought Conclusion. Before release, a group of six completed all 12 zones in both versions, with 60 of 60 nameds killed each time.
+- **New** · Instance Controller: **Instance files can ask the whole group a question.** Instance files can now ask the whole group a question, such as "does everyone have a repair bot?" or "is anyone level 130 yet?", and act on the answers as yes/no results, counts, and lists of who said yes and who said no. Scripts can ask the same questions and get the answer back as an event or by checking when it is done. A misspelt answer in an instance file is now caught when the file loads, instead of silently doing nothing.
+- **New** · Crafting: **Scripts can see what crafting is doing.** Scripts can now see whether crafting is busy, which stage it is at, how far along it is (3 of 10), and whether the last queue was short on resources. Every kind of crafting run now announces when it ends, including auto tinkering and low level leveling. Scripts can also read the recipe you scribed most recently.
+- **New** · Console: **New `ogre version` shows which release you are on.** `ogre version` prints the OgreBot release you are on, by the same name this page uses, and when the core was built. The bottom of the Commands panel and of every window's help shows the release name too.
+- **New** · Other: **New Coming from Classic guides for your own scripts.** New "Coming from Classic" pages help you move your own OgreBot Classic scripts to the new bot, starting with camp spots and console commands. Each page lists what every old call does today and what to write instead, with real before and after lines, because an old name does not give an error in the new bot, it silently does nothing. A conversion tool looks up any old name, makes the safe rewrites for you, and checks a converted script for anything left over.
+- **New** · Other: **Session watch tells you when a session freezes or disappears.** Tick the new Session watch box on the EverQuest 2 tab of `ogre config` (off by default) and the uplink says in every OGRE console when a session goes silent for 30 seconds, comes back, or disappears, and fires an event your uplink scripts can act on. `ogre sessions` lists every session the uplink hears and when it was last heard; `ogre sessions on|off` turns the watch on or off until the uplink restarts. The uplink only announces; what to do about it is up to your script.
+- **Changed** · Bot: **Heroic Surge is turned off for fights that run heroic opportunities.** Any fight that sets up heroic opportunities now turns Heroic Surge off for that fight and puts it back afterwards. Before, Heroic Surge could start heroic opportunities on characters the fight had told not to.
+- **Changed** · Instance Controller: **Instance Controller panel shows zone file numbers.** The Instance Controller panel now shows each zone file's number, and ticked boxes show green.
+- **Changed** · Instance Controller: **Starting a zone part-way only begins where the group is standing.** In zones with teleporters inside them, a run you start part-way (for example "start at named 3", or a resume) now begins only where the group is standing: at the start of a walk, at a named, or where the step before would have left it. Anywhere else the Instance Controller refuses to start, says why, and nobody moves. This stops the group walking across ground the zone's teleporter is there to skip, such as the lava in The Graftwerk.
+- **Changed** · Other: **Classic OgrePing scripts can move to session watch.** The conversion tool now rewrites Classic OgrePing lines for you: starting it, checking it is running, and its timeout event. There is also a worked example of a pack-pony "restart a frozen session" script converted to the new events.
+- **Changed** · Other: **Coming from Classic guides now cover every Classic name.** The "Coming from Classic" pages now cover every Classic call, object, console command and option your scripts or buttons may use, including OgreBotAPI, camp spots, the ask system, events, crafting and instance files, and they honestly list what is not in the new bot yet. The conversion tool can now convert a script in place (keeping a copy of the original), checks MCP button files button by button, and lists the lines you should look at by hand. It does not convert instance files yet.
+- **Fixed** · Bot: **Camp spot buttons with an empty coordinate no longer move you.** A camp spot button whose coordinate comes back empty no longer moves your camp spot to a random spot; it now does nothing, as Classic did. Giving `x,y,z` as one value works again.
+- **Fixed** · Bot: **Detrimental checks look further down a mob's effect list.** The bot now checks the first 10 effects on a mob instead of 7, so a mechanic further down a busy raid mob's list is no longer missed.
+- **Fixed** · Bot: **Fight mechanics are more reliable.** A fight step that looks for something that is not there (a cloud, a totem, an add) now just skips instead of failing the whole mechanic, and a fight no longer ends early when the named briefly has no target. Spells a fight queues, like a dispel, now go before your normal rotation's next spell instead of being skipped. When a fight moves you, your camp spot follows to where you stop, so a knockback cannot send you flying back.
+- **Fixed** · Bot: **Fixes for move to area, item counts and script events.** Move to area works again without a target, and counting items in your bags now counts every stack and the Harvest Bag, by exact name or by part of the name. The "cast completed" and gear-condition events now fire for scripts that listen for them. An MCP button saved with a stray space no longer turns into a dead command, and a fight's text option sent to other sessions keeps its spaces.
+- **Fixed** · Bot: **New tactics for Lord Shomp and Senzu in heroic.** In The Chimeric Chain [Heroic], each mage now handles Lord Shomp's stormclouds on its own: when its dispel is ready it walks into range of a cloud, dispels it, and walks straight back to the group. In The Graftwerk [Heroic], Senzu now uses the same setup as the Untold version, with a scout running the heroic opportunities on the ring, so the group no longer wipes to the poison build-up.
+- **Fixed** · Bot: **Quest, bag and nearby lists are ready the first time.** Your quests, bags, nearby actors and window option lists no longer come back empty the first time a script reads them, and they stay correct if the game's extension is reloaded while you play. Checking whether you have a quest is now much faster, and the "do I have this quest" check for instance files and scripts now works (it always said no).
+- **Fixed** · Windows: **NPC Cast Monitoring window fixes.** With NPC Cast Monitoring turned off, an empty Watch list now tells you to turn it on instead of offering an Add that cannot work. The Monitor tab shows the same zone name as the Watch list, rows with long command lists no longer push their buttons off the window, and the import button is now called Import Classic custom.
+- **Fixed** · Instance Controller: **Better handling of nameds that are hard to reach or not yet attackable.** When a named is up but not attackable until the monsters around it are cleared, the Instance Controller now waits up to 60 seconds for it, and the clock stops while the group is fighting. A zone file can now widen how far up and down every member of the group looks for a named during the pull, which fixes the pull on Mrawl the Mutilator in The Oculeum. After that named dies, auto target goes back to the range it used before the pull.
+- **Fixed** · Instance Controller: **Instance Controller handles chests, early kills and clicks better.** A chest that your normal auto-loot opens before the Instance Controller looks now counts as looted instead of "no chest", and a named that dies early no longer makes the group buff up and walk to its spot. Clicking objects that start a cast now waits for your own spell to finish, so the click is not lost. Revived group members are walked back to the group even if they arrive late.
+- **Fixed** · Instance Controller: **Instance Controller never waits for the group in lava or deep water.** The Instance Controller now waits for anyone behind on the next dry ground, never in lava or deep water. It waits for the whole group, not just the leader, to arrive in the guild hall before it moves on. Resuming a paused Instance Controller no longer makes a recovery step, like reviving after a wipe, give up at once.
+- **Fixed** · Instance Controller: **More Rage of Cthurath fixes from tester runs.** The Ver'Bohten Atoll walking map was rebuilt: the group lands in the middle of Yligiyak Vok's platform, walks around the rock it got stuck on, and can reach the zone exit again. When more than one stormcloud is up in the Lord Shomp fight, each mage now goes to a different cloud. After Sir Rendal Cauldthorn dies in Dominion of Pain, the group moves down off his platform before looting, so nobody falls into the lava pit.
+- **Fixed** · Instance Controller: **Rage of Cthurath zone fixes.** Zruul's Dominion and Dominion of Pain now walk proven routes that avoid spots the game blocks. In Dominion of Pain the light puzzle moves the group to every light, and Dominator Zerada is fought on the floor, not on the grate that drops away. In Ark of Ascension the statue base is avoided while it stands, and Lord Shomp's stormcloud handling in The Chimeric Chain no longer causes a wipe.
+- **Fixed** · Instance Controller: **Shinies just off the walkable ground are collected.** A walk to a shiny or a chest now counts as arrived once it is within clicking range, so a shiny in a pocket or on a wall is no longer left behind. After looting, the walk back heads for the nearest walkable ground, so a looter who had been standing on top of an object no longer falls short and gives up.
+- **Fixed** · Navigation: **Characters no longer run past sharp corners.** The bot now turns the moment the path bends sharply, instead of at its next regular turn. On slower computers, characters were running a few metres past corners, and off a ledge when one was close.
+- **Fixed** · Navigation: **Flying lands safely and walks get stuck less.** Flying now lands in the open near a destination it cannot drop straight onto and walks the rest of the way in, and stops over open water land on the bottom instead of wedging at the surface. A walk that winds back and forth no longer counts as stuck. A mob that hates you but cannot reach you no longer stops the group for good.
+- **Fixed** · Navigation: **Travel carries on after a death or a loading screen.** Dying while travelling now revives you and the trip carries on from wherever you end up, and a travel order that arrives during a loading screen now starts once you are in instead of being lost. Going to the guild hall now ends any walk in progress first, instead of being held up for 3 minutes by a paused walk. Taking off to fly now always starts from dry ground.
+- **Fixed** · Console: **No more actor member errors from `ogre analysis`** `ogre analysis` no longer prints a "No such 'actor' member" error for each actor it checks.
+- **Fixed** · Console: **Old Hail and conversation buttons work again.** Old MCP Hail and conversation-option buttons are converted to the new commands automatically, so they work again.
+- **Fixed** · Setup: **Updates to the console and IRC hubs take effect straight away.** When an update replaces the uplink's console hub or IRC hub, the uplink now reloads it straight away instead of keeping the old one until InnerSpace restarts. IRC reconnects by itself once the sessions come back, if "Connect to IRC" is ticked.
+- **Removed** · Console: **Combined camp spot and joust commands retired.** The combined camp spot and joust commands `-cs-jo` and `-cs-jo-ji` are retired, because they only did half their job. MCP buttons that used them are split into the separate steps automatically.

@@ -1,0 +1,8 @@
+/* screenshots: keep them readable, never wider than the page, with a thin frame */
+.md-typeset img { max-width: 100%; border: 1px solid rgba(128,128,128,.35); border-radius: 6px; margin: .4em 0 .8em; }
+/* option tables: the first column is the control name - keep it from wrapping mid-word */
+.md-typeset table:not([class]) td:first-child { min-width: 9em; }
+.md-typeset table:not([class]) td { vertical-align: top; }
+/* the beta notice at the top of every published page (tools/publish.js betaBanner) */
+.md-typeset .ogre-beta { border: 1px solid #ffd23a; border-left-width: 4px; border-radius: 6px; padding: .5em .9em; margin: 0 0 1.2em; background: rgba(255, 210, 58, .08); }
+.md-typeset .ogre-beta p { margin: 0; }

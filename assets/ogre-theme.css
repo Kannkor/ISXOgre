@@ -1,0 +1,59 @@
+/* Ogre colours - green and black. The values are the in-game windows' own palette, so the site looks like the game.
+   It overrides whatever palette mkdocs.yml names, so mkdocs.yml needs no palette change. */
+
+/* ---- both schemes: a black header and tab bar, like a window title bar ---- */
+body[data-md-color-primary] {
+  --md-primary-fg-color:        #000000;
+  --md-primary-fg-color--light: #0d120d;
+  --md-primary-fg-color--dark:  #000000;
+  --md-primary-bg-color:        #5dff6a;   /* header text and icons */
+  --md-primary-bg-color--light: #86b386;
+}
+
+/* ---- dark (the default look) ---- */
+body[data-md-color-scheme="slate"][data-md-color-primary] {
+  --md-default-bg-color:          #060806;
+  --md-default-bg-color--light:   #0d120d;
+  --md-default-bg-color--lighter: #152015;
+  --md-default-bg-color--lightest:#1a2a1a;
+  --md-default-fg-color:          #cfeccf;
+  --md-default-fg-color--light:   #86b386;
+  --md-default-fg-color--lighter: #507050;
+  --md-default-fg-color--lightest:#1a2a1a;
+  --md-typeset-color:             #cfeccf;
+  --md-typeset-a-color:           #5dff6a;
+  --md-accent-fg-color:           #39ff4a;
+  --md-accent-fg-color--transparent: rgba(57, 255, 74, .10);
+  --md-accent-bg-color:           #000000;
+  --md-code-bg-color:             #0d120d;
+  --md-code-fg-color:             #cfeccf;
+  --md-typeset-table-color:       #1a2a1a;
+  --md-typeset-table-color--light:#0d120d;
+  --md-admonition-bg-color:       #0d120d;
+  --md-footer-bg-color:           #000000;
+  --md-footer-bg-color--dark:     #000000;
+  --md-footer-fg-color:           #86b386;
+  --md-footer-fg-color--light:    #507050;
+  --md-footer-fg-color--lighter:  #507050;
+}
+body[data-md-color-scheme="slate"] .md-typeset h1,
+body[data-md-color-scheme="slate"] .md-typeset h2,
+body[data-md-color-scheme="slate"] .md-typeset h3 { color: #d4ff3a; }   /* --og-heading */
+body[data-md-color-scheme="slate"] .md-nav__link--active,
+body[data-md-color-scheme="slate"] .md-nav__item .md-nav__link--active { color: #5dff6a; }
+body[data-md-color-scheme="slate"] .md-search__form { background-color: #152015; }
+
+/* ---- light (the toggle) ---- */
+body[data-md-color-scheme="default"][data-md-color-primary] {
+  --md-typeset-a-color:              #1f7a26;   /* --og-accent, a shade darker so it reads on white */
+  --md-accent-fg-color:              #1f9a2a;
+  --md-accent-fg-color--transparent: rgba(31, 154, 42, .10);
+  --md-accent-bg-color:              #ffffff;
+}
+body[data-md-color-scheme="default"] .md-search__form { background-color: #152015; }
+
+/* ---- buttons ({ .md-button }): Material draws them in the header colour, which is black here - use the green ---- */
+.md-typeset .md-button { color: #5dff6a; border-color: #1f9a2a; }
+.md-typeset .md-button:hover, .md-typeset .md-button:focus { color: #f0fff0; background-color: #1f9a2a; border-color: #1f9a2a; }
+body[data-md-color-scheme="default"] .md-typeset .md-button { color: #1f7a26; }
+body[data-md-color-scheme="default"] .md-typeset .md-button:hover { color: #ffffff; }

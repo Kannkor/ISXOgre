@@ -1,0 +1,773 @@
+# OgreBot for EverQuest II - documentation, Windows (part 4 of 4)
+
+OgreBot is in beta testing. For OgreBot Classic see https://kannkor.github.io/ISXOgre/EQ2/
+This file is ONE PIECE of the documentation: Windows (part 4 of 4) - Windows - Tools.
+The entire documentation in one document: https://kannkor.github.io/ISXOgre/EQ2/bot/llms-full.txt
+Index of every page and of every file like this one: https://kannkor.github.io/ISXOgre/EQ2/bot/llms.txt
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/aexport.md
+
+# Exporting Abilities
+
+> **:bulb: In game - the ? button on this window says**
+>
+> Shows the progress of an ability export. It opens by itself when an export starts and closes by itself when it ends.
+>
+> **What you can do here**
+>
+> - **Watch progress**: the ability being read, how many of your abilities have been looked at, and how many were kept or skipped.
+> - **Stop** ends the export. Closing this window does the same.
+>
+> **Good to know**
+>
+> - Stopping writes nothing - your old ability file is left as it was.
+> - On a tradeskill export the Examine window opens and closes for each ability. Leave the game window alone until it finishes.
+
+**Open it:** Opens by itself when an ability export starts - from Run export in the Ability Export window, or `ogre export -start`. It closes by itself shortly after the export ends.
+
+## What it is for
+
+A small progress window for an ability export. It shows which ability is being read, how far through the list the export is, and how many abilities were kept or skipped. It is the only way to see (and stop) an export while it runs - the big Ability Export window steps aside until the export ends.
+
+## Progress
+
+Top line: the ability being read right now. It says '(cached)' for an ability the export already knows it would skip, so it is not looked up again, and 'Complete' on the last frame.
+
+| Control | What it does |
+|---|---|
+| **Stop** | Stops the export. Nothing is written - your old file stays as it was - and OgreBot does not reload its abilities. If the big Ability Export window stepped aside for the export, it comes back. |
+| **Title bar close (X)** | Closing this window also stops the export, exactly like Stop.<br>*The window closes itself about a second and a half after a finished export - that does not stop anything.* |
+
+## What the window shows
+
+- Top line: the ability being read, '(cached)' for one the export skips without a lookup, 'Starting…' before the first one, and 'Complete' at the end.
+- n / total: abilities looked at so far out of all the abilities in your knowledge book.
+- The bar: the same progress as a percentage.
+- added · skipped: how many abilities this run kept for the file, and how many it passed over (passives, wrong tier or level, not in your selection, and so on). With 'Only abilities I don't have yet', the ones already in your file count as skipped - they stay in the file.
+
+## Good to know
+
+- The count is every ability in your knowledge book, not just the ones that end up in the file - most exports skip a lot of them.
+- On a tradeskill export the game's Examine window flickers open and shut for each tradeskill ability. Leave the game window alone until it finishes.
+- When the export finishes, OgreBot reloads your abilities and cast stack from the new file (unless you ticked 'Don't reload OgreBot when finished' or ran a dry run).
+
+![Starting](../assets/aexport/starting.png) ![Cached](../assets/aexport/cached.png) ![Complete](../assets/aexport/complete.png)
+
+Left to right: just opened, skipping a cached ability, and the final frame.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/analysis.md
+
+# Analysis
+
+> **:bulb: In game - the ? button on this window says**
+>
+> Watches NPCs during an encounter and records every change to them, so you can see what else changed at the moment something happened. It only watches; it never changes what the bot does.
+>
+> **What you can do here**
+>
+> - **Monitor**: add actors (**+ Target**, or **+ Cursor** and put the mouse on one within 3 seconds), turn **Monitoring** on, then click a moment in Timestamps to see everything that changed then. The x on an actor stops watching just that one.
+> - **Scan**: build terms (type a detail name - it suggests them - pick how to compare, add a value), then **Scan**. Click a result to see all its details; Ctrl+click a second to compare the two. **+ Target** / **+ Cursor** put one actor in the results. **monitor** on a result sends it to the Monitor tab.
+> - **Events**: logs of announcements, spawns, chat and other game events. **Search the log** finds lines already recorded; **Record only lines containing** limits what is recorded from now on.
+> - **Sessions**: save what you recorded to a file, or load an earlier one.
+>
+> **Good to know**
+>
+> - Tick **Keep previous results** to add to the results instead of replacing them. **Add new spawns that match** adds actors as they appear.
+> - Pin a detail (the diamond) to show it as a column on every result.
+> - Right-click any line to copy it, copy all of an actor's details, or remove it. The x on a result or an actor removes just that one.
+> - Closing the window does not stop monitoring. Use `ogre end analysis`.
+> - **Taps** turns the event logs on and off.
+
+**Open it:** Type `ogre analysis` (or `ogre anal`). `ogre end analysis` turns monitoring off (it does not close the window or stop the event logs).
+
+## What it is for
+
+A tool for working out how an encounter behaves. You pick a few NPCs and it records every change to them - health, animation, target, mood and over 80 other details - several times a second, so you can see exactly what else changed at the moment something happened. It can also take a snapshot of many NPCs at once and compare two of them side by side, and log announcements, spawns, chat and other game events. Nothing here changes what the bot does; it only watches and records.
+
+## Tabs and filter
+
+Next to the tabs: the zone, scan progress while a scan runs, and the number of samples and changes while monitoring is on.
+
+| Control | What it does | Default |
+|---|---|---|
+| **Monitor / Scan / Events / Sessions** | Switches the page shown.<br>*The window remembers the tab while the game is running.* | Monitor |
+| **filter… (placeholder)** | Narrows what is listed: on Monitor it filters the Members list by name, on Scan the results by name or type, on Events the log lines. Not case-sensitive. Display only.<br>*Does not filter the Actors or Timestamps lists.* | empty |
+| **Title bar close (X)** | Closes the window. Monitoring and the event logs keep running in the background.<br>*Turn Monitoring off first if you are done, or type `ogre end analysis`.* |  |
+
+## Monitor - buttons
+
+| Control | What it does | Default |
+|---|---|---|
+| **Monitoring: ON / Monitoring: off** | Starts or stops recording the actors in the Actors list. While on, each one is read at the sample rate and every change is kept.<br>*Adding actors does not turn this on - press it after adding them.* | off |
+| **+ Target** | Adds your current target to the Actors list.<br>*Up to 24 actors. With no target, or one already listed, the window says so in its warning line.* |  |
+| **+ Cursor** | Starts a 3-second countdown on the button ("Hover the actor... 3"); put the mouse on an actor, and when it ends that actor is added to the Actors list.<br>*If nothing is under the mouse when the countdown ends, the window says so.* |  |
+| **actor id (placeholder) + Add** | Adds an actor by its ID number. | empty |
+| **mechanics only** | Hides the always-changing details (location, heading, health, animation and the like) from the Timestamps list, so it shows only moments when something meaningful changed. Display only. | on |
+| **sample … ms** | How often each monitored actor is read, in milliseconds. Lower = finer detail.<br>*A plain text box: type a whole number from 100 to 10000 and press Enter or click away. Anything else puts the box back to the rate in use.* | 250 ms |
+| **x on an actor row** | Stops watching just that actor. What was recorded for it is dropped with it. |  |
+| **Clear all** | Removes every actor from the Actors list, with everything recorded for them.<br>*No confirmation. Export on the Sessions tab first if you want to keep it.* |  |
+
+## Monitor - the four lists
+
+Work from left to right: pick an actor, then a detail or a moment.
+
+| Control | What it does |
+|---|---|
+| **Click an actor (Actors list)** | Selects that actor. Its details fill the Members list and its moments fill Timestamps. |
+| **Click a detail (Members list)** | Shows every value that detail has had, with the time, in the History list. |
+| **Click a moment (Timestamps list)** | Fills 'What else changed at that instant' with every detail that changed at that moment. This is the main use of the tool - for example, what the NPC's animation and target were when it started a cast. |
+| **Right-click an actor or any line** | Copy this line; on an actor, Stop watching it. |
+
+## Scan
+
+Takes a snapshot of every actor that matches your terms - over 80 details each. Click a result to see all its details; Ctrl+click a second result to compare the two. Send any result to the Monitor tab.
+
+| Control | What it does | Default |
+|---|---|---|
+| **member (e.g. Name) (placeholder)** | The detail to match on. As you type, a list of matching details appears with their kind (text, number, yes/no); click one, or use the arrow keys and Enter. | empty |
+| **contains / is / is not, = < > ≤ ≥ ≠, or TRUE / FALSE** | How to compare, offered to suit the detail: text matches by contains (any case), is, or is not; numbers by = < > ≤ ≥ ≠; a yes/no detail is just TRUE or FALSE, with no value box. | contains for text, = for numbers, TRUE for yes/no |
+| **value (placeholder)** | The value to compare against, for example guard or 60. Enter adds the term. | empty |
+| **Add term** | Adds the term to the list below the bar. All terms must match (they are combined with AND). |  |
+| **× (on a term)** | Removes that term. |  |
+| **+ Target** | Puts your current target in the results and shows its details, without changing the terms. |  |
+| **+ Cursor** | Starts a 3-second countdown; the actor under the mouse when it ends goes in the results. |  |
+| **Scan / Scan EVERYTHING** | Runs the scan. With no terms the button turns red and reads 'Scan EVERYTHING' - pressing it snapshots every actor in the zone.<br>*If the scan cannot run, the window says why: the zone has only just loaded (try again in a moment) or a term does not work.* |  |
+| **Clear** | Empties the results. |  |
+| **Keep previous results** | A scan adds to the results instead of replacing them. An actor already listed is updated. | off |
+| **Monitor every result** | Every actor a scan finds is also added to the Monitor tab (up to 24). | off |
+| **Add new spawns that match** | An actor that spawns and matches the terms joins the results about 2 seconds later. | off |
+| **Click a result / Ctrl+click a second** | A click shows every detail of that result on the right. Ctrl+click (or Shift+click) another result compares the two, showing only the details that differ.<br>*The results line shows name, ID, type, level, health and distance, plus any columns you pinned. A line marked monitored is on the Monitor tab. Underneath the count, the window says how many actors could not be read (they despawned during the scan).* |  |
+| **monitor / × (on a result)** | monitor sends that actor to the Monitor tab; × removes it from the results. |  |
+| **Monitor all** | Sends every result to the Monitor tab, up to 24. |  |
+| **Refresh / Monitor (above the details)** | Refresh reads that actor again now. Monitor sends it to the Monitor tab. The line also says how long ago it was read, and 'no longer here' if it has gone. |  |
+| **filter members… + show empty** | Narrows the details shown by name or value. Empty details (blank, 0, FALSE) are hidden unless show empty is ticked. | show empty off |
+| **◇ / ◆ (on a detail)** | Shows that detail as a column on every result line (◆ = shown). The columns are listed on the bar above the results, each with an × to remove it. |  |
+| **Stop comparing** | Goes back from a comparison to the selected result's details. |  |
+| **Right-click a result or a detail** | Copy this line, Copy all its details (every detail of that result, one per line), Monitor it, or Remove from the results. |  |
+
+## Events
+
+Seven logs of game events: announce (big on-screen messages), despawn, spawn, choice (choice-window text), reward (reward-window text), text (incoming text such as combat lines) and chat (chat lines, with speaker and channel). Each keeps its last 2000 lines.
+
+| Control | What it does | Default |
+|---|---|---|
+| **Taps: ON / Taps: off** | Switches the event logs on and off. It reads 'Taps: ON' while they are recording. | off (the button still says ON) |
+| **announce / despawn / spawn / choice / reward / text / chat (n)** | Picks which log is shown below. The number is how many lines it holds. | announce |
+| **Search the log** | Shows only the recorded lines that contain what you type (any case), searching everything already recorded in the log shown - use it any time, after the fact. The count beside it says how many lines match.<br>*The same search as the filter box at the top of the other tabs (that box is hidden on this tab).* | empty |
+| **Record only lines containing + Add** | From now on, a NEW line is recorded only if it contains one of these words (any case). It works before the fact: lines already in the log are not touched. Applies to all seven logs.<br>*Lines already recorded are not removed.* | none (everything is recorded) |
+| **× (on a filter)** | Removes that filter. |  |
+| **Clear log** | Empties the log that is shown. The other logs are kept. |  |
+| **Right-click a line** | Copy this line, or Copy all the lines shown (the log shown, with the search applied). |  |
+
+## Sessions
+
+| Control | What it does | Default |
+|---|---|---|
+| **name (blank = timestamped) (placeholder)** | The name to save under. Leave blank for a name like session_2026-09-27_201455. | empty |
+| **Export** | Saves the monitored actors (with everything recorded) and the scan results to a file in OgreSave/EQ2/Analysis.<br>*The event logs are not saved. A file with the same name is overwritten.* |  |
+| **Click a saved session** | Loads that file. It REPLACES the monitored actors and scan results you have now, and turns monitoring off.<br>*No confirmation - export first if you want to keep what is on screen.* |  |
+
+## What the window shows
+
+- Actors: name, ID, how many details have changed, and 'ticks' = how many moments something changed.
+- Members: [how many values recorded] detail name, latest value. Most-changed first. The always-changing details are dimmed.
+- History: time since the bot was loaded (minutes:seconds.milliseconds) and the value. The same clock is used in Timestamps and the event logs. Only the latest 400 are shown.
+- Timestamps: newest first - the time, and how many details changed at that moment.
+- What else changed at that instant: detail and value for everything that changed at the picked moment (always-changing ones dimmed).
+- Scan results: name, type, L level, health %, distance. A green left edge means that actor is also in your Monitor list.
+- Diff: detail, first actor's value, second actor's value. '—' means that actor has no value for it.
+- Red banner under the tabs: the last scan could not run (usually a misspelled detail name).
+- Footer: total samples, recorded changes and detail reads, and the query the last scan used.
+
+## Good to know
+
+- Monitoring only reads actors the bot can currently see in the zone. If every list stays empty, the actor has despawned or the ID is from another zone - the window says so.
+- Actor IDs are reused between zones, so a monitored ID from an old zone can point at a different actor now.
+- Closing the window does not stop monitoring or the event logs.
+- Turning monitoring or the event logs on (from anywhere) opens this window.
+- Everything is kept in memory only until you Export it.
+- Problems now show in the warning line under the tabs, not only in the console.
+- The right-click menu's own Copy only copies text you have selected; use Copy this line (or the copy items under it) to copy a row.
+
+### Scan tab
+
+![Scan tab](../assets/analysis/scan.png)
+
+With no terms the Scan button turns red:
+
+![Scan everything](../assets/analysis/scan-everything.png)
+
+### Events tab
+
+![Events tab](../assets/analysis/events.png)
+
+### Sessions tab
+
+![Sessions tab](../assets/analysis/sessions.png)
+
+### Console commands
+
+`ogreanalysis` also takes words for things the window cannot do: `monitor remove <id>`, `monitor list`, `taps on|off`, `rate <ms>`, `status`, `sessions`, `import <name>`.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/abilitydetails.md
+
+# Ability Details
+
+> **:bulb: In game - the ? button on this window says**
+>
+> Shows everything your ability export holds about each of your abilities. Use it to answer "why won't the bot cast this?"
+>
+> **What you can do here**
+>
+> - **Search** - type part of a name, an ID, or a test such as `IsInterrupt = TRUE` or `HOIconID = NULL`. Everything you type must match.
+> - **Click a row** to see every field of that ability on the right. The `*` marks the rank the bot uses.
+> - **Copy JSON** copies the whole entry. Right-click a field to copy its value or a search test for it.
+> - `ogre abilitydetails <name or id>` opens the window on that ability.
+>
+> **Good to know**
+>
+> - The export leaves out flags that are false, so `IsAE = FALSE` matches nothing - use `IsAE != TRUE`. The footer lists the fields an entry does not have.
+> - The window only reads your export. If an ability is missing, make a new export with `ogre export`.
+
+**Open it:** Type `ogre abilitydetails`, or `ogre abilitydetails <name or id>` to open it on one ability (for example `ogre abilitydetails Assault` or `ogre abilitydetails Assault X`). A script opens it with `OgreBotAPI.Abilities:AbilityDetails[<forwho>,"<name or id>"]`. `ogre end abilitydetails` closes it.
+
+## What it is for
+
+Shows everything your ability export holds about each of your abilities: every rank of every line, and every field of the one you pick. It is the place to look when the bot will not cast something, or casts a different rank than you expected. The window only reads your export file - it never asks the game - so what you see is exactly what the bot works from. If OgreBot is not open yet, the window reads your export itself; it never changes it.
+
+## The status line
+
+Whose export this is, how many entries it holds (every rank of every ability) and how many ability lines that makes. The `*` in the list marks the rank the bot uses for each line - the highest rank your level allows. It turns red when there is no export for this character yet, or when the export is too old for the bot, and an **Ability Export** button appears.
+
+| Control | What it does |
+|---|---|
+| **Ability Export** | Opens the Ability Export window, where you make a fresh export. Shown only when there is no export or it is out of date.<br>*When the export finishes the window shows the new one by itself.* |
+
+## Search and the list
+
+Every ability in your export, sorted by name with each line's ranks together, lowest level first. Lvl and Tier are the rank's level and spell tier. The count under the search box shows how many match out of the total.
+
+| Control | What it does |
+|---|---|
+| **Search** | Filters the list as you type. Words match the ability's name. A number matches its ID or its line ID (and names with that number in them). A test such as `IsInterrupt = TRUE`, `HOIconID = NULL` or `Level >= 100` checks a field, exactly the way CastVia and TypeID check it. Everything you type must match.<br>*A field name typed without a comparison and a value is shown in orange under the box and ignored until you finish it.* |
+| **Click a row** | Shows every field of that rank on the right. |
+| **Right-click a row** | Copy name or Copy ID of that rank. |
+
+## The selected ability
+
+Every field the export holds for that rank, exactly as written: the name, IDs, level and tier first, then the rest A to Z, then the effect lines in order. The footer lists the fields this entry does NOT have. The export leaves a flag out when it is false, so those fields read as NULL - that is why `IsAE = FALSE` matches nothing. Use `IsAE != TRUE` instead.
+
+| Control | What it does |
+|---|---|
+| **Copy JSON** | Copies the whole entry, in the same order as the window shows it. |
+| **Right-click a field** | Copy value copies the value. Copy as a search term copies `Field = value`, which you can paste into the search box to find every ability with the same value. |
+| **Title bar close (X)** | Closes the window. Same as `ogre end abilitydetails`. |
+
+## Opening it on one ability
+
+`ogre abilitydetails Assault` (the ability's own name, no rank) selects the rank the bot uses. A specific rank's full name (`Assault X`) or an ID selects exactly that rank, and the line under its name says which rank the bot uses instead. Either way the search is filled in with the ability's name, so all its ranks are listed. If nothing matches, nothing is selected, the line says so in orange and the console says it too.
+
+## What the window shows
+
+- `*` in the list and after the selected name: the rank the bot uses for that line (the highest rank your level allows).
+- The orange line under the search box: a test you have not finished (a field name with no comparison or no value). It does not filter until it is complete.
+- Status line '(Loaded by this window - OgreBot is not open.)': OgreBot has not been opened, so the window read your export itself. OgreBot reads it again when it opens.
+
+## Good to know
+
+- The window shows your own character's export only.
+- It shows the export, not the game. An ability you trained after your last export is not in it - make a new export with `ogre export`.
+- The export leaves out flags that are false. Test them with `!= TRUE` (or `= NULL`), not `= FALSE`.
+- Typing a field name such as `Level` on its own starts a test, not a name search.
+
+## Other states
+
+![A test in the search box](../assets/abilitydetails/query.png) ![An unfinished test](../assets/abilitydetails/badterm.png)
+
+![Nothing matches](../assets/abilitydetails/notfound.png) ![No export yet](../assets/abilitydetails/noexport.png)
+
+A finished test in the search box, an unfinished one (shown in orange and ignored), a name that matches nothing, and a character with no export yet.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/pulsebudget.md
+
+# Pulse Budget
+
+> **:bulb: In game - the ? button on this window says**
+>
+> A performance window. A few big jobs are spread over several frames so the game does not freeze; this shows how much time each may use per frame, and what every part of the bot really costs.
+>
+> **What you can do here**
+>
+> - **Slice** on a row: how long that job may run each frame, in microseconds. Lower it if the game stutters while the job runs. 0 runs it all at once.
+> - **Frame ceiling**: a shared limit for the bot's work each frame. Untick **Use the frame ceiling** to turn off just that limit - each job keeps its own slice.
+> - **Reset counters** and **Refresh** to measure again.
+>
+> **Good to know**
+>
+> - A slice never skips work - a job just takes more frames to finish.
+> - Most players never need to change anything here.
+> - A row marked (idle) has not run yet this session. Its slice can still be changed, and is used when it runs.
+
+**Open it:** Type `ogre pulse` (or `ogre pulsebudget`). `ogre end pulse` closes it.
+
+## What it is for
+
+A performance window. The bot does its work in small steps, once every frame the game draws. A few big jobs - scanning a UI window, scanning all the actors for Analysis, walking a recipe book, walking the ability-upgrade list - would freeze the game for a moment if done in one go, so they are spread over several frames. This window shows how much time each of those jobs may take per frame, and how much time each part of the bot is really using. Most players never need to touch it. If the game stutters while one of these jobs runs, lower that job's slice; if a job takes too long and your PC has room to spare, raise it.
+
+## Top row
+
+On the right: how many frames have been counted, and how many times a job paused and carried on in the next frame. A pause never loses work.
+
+| Control | What it does | Default |
+|---|---|---|
+| **Use the frame ceiling** | Turns the Frame ceiling on or off. Only the shared ceiling - each job's own slice still applies either way.<br>*Despite the name, unticking it does not make jobs run in one go - set a job's slice to 0 for that.* | on |
+| **Frame ceiling … µs** | A shared limit, in microseconds (millionths of a second), for the bot's whole work each frame. Once the bot has used this much in a frame, the paced jobs stop early for that frame and carry on in the next. 0 = no ceiling.<br>*Saved when you press Enter or click away. Each job always gets at least one step per frame, however busy the frame is.* | 4000 µs (4 ms) |
+| **Reset counters** | Sets the frame count, pause counts, Active frames, Units done and Worst back to zero, so you can measure from now. Slices are not changed. |  |
+| **Refresh** | Updates the numbers. The window does not update by itself. |  |
+| **Title bar close (X)** | Closes the window. Your slices and ceiling stay in force. |  |
+
+## Resumable sections
+
+One row per job that can be spread over frames. A job only appears after it has run once this session; jobs saved from earlier sessions are listed greyed out with '(idle)' - you can still set their slice, and it is used as soon as the job runs.
+
+| Control | What it does | Default |
+|---|---|---|
+| **Slice µs/f (the box on each row)** | How long that job may run each frame, in microseconds, before it pauses and carries on in the next frame. 0 = run the whole job in one frame. Saved when you press Enter or click away.<br>*On an '(idle)' row the new slice is saved and handed to that job the first time it runs.* | craft: recipe scan 1500, analysis: actor scan 1000, abilityupgrades: row walk 1000 |
+
+## Pulse profile
+
+Read-only. Every part of the bot that runs each frame, costliest first, with its average and worst time per frame. Parts using less than half a microsecond on average are left out. Useful for spotting what is slowing the game down.
+
+## What the window shows
+
+- Section: the job's name - what it belongs to, then what it does.
+- Last µs: how long the job ran the last frame it had work. Yellow at 1000 µs (1 ms) or more.
+- Worst µs: its longest single frame since the last reset. Yellow at 1000 µs or more.
+- Active frames: how many frames it did any work in.
+- Units done: how many steps of work it got through.
+- Paused: how many times it ran out of time and carried on in the next frame (green when above 0 - that is pacing working, not a problem).
+- (idle): a job with a saved slice that has not run yet this session.
+- Pulse profile - Avg µs/frame: yellow at 20 µs or more. Worst µs: yellow at 1000 µs or more.
+- When no job has run yet, the table is replaced by a note saying so.
+
+## Good to know
+
+- A slice never skips work. A small slice only makes a job take more frames to finish.
+- 1000 µs is 1 millisecond. At 60 frames a second a whole frame is about 16,600 µs.
+- Settings are saved to OgreSave/EQ2/OgreBot/pulse-budget.json and apply to every character on this PC.
+- The numbers are a snapshot - press Refresh to see new ones.
+
+Straight after loading, before any paced job has run (and with no saved settings), the table is empty:
+
+![Empty](../assets/pulsebudget/empty.png)
+
+Console: `ogrepulsebudget report` prints the same table; `ogrepulsebudget slice <section or number> <µs>` and `ogrepulsebudget ceiling <µs>` set values.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/lag.md
+
+# Lag
+
+> **:bulb: In game - the ? button on this window says**
+>
+> Records every frame of the last few minutes - how long it took and what ran in it - so when your FPS drops you can open that moment and see why.
+>
+> **What you can do here**
+>
+> - **The line** is your FPS, one point a second, for the last 3 minutes. A red tick marks a second with a frame over the budget (33 ms = under 30 FPS).
+> - **Dips** lists those moments, newest first, with what caused the worst frame: **OgreBot**, the **GPU** (the game waiting on the graphics card), or **the game** itself. Click one to open its frames.
+> - **What adds to the dips** ranks OgreBot's calls by how much longer they run in a dip than in a normal frame, and how often they run.
+> - **Stats over** picks the window the numbers at the top use (30 s, 1 min, 5 min).
+> - **Save frames** writes every recorded frame to a file under `OgreSave\EQ2\OgreBot\` to send to us.
+>
+> **Good to know**
+>
+> - It is always recording, even with this window closed. Its own cost is `ogre lag overhead`.
+> - The target is: 95% of frames under 1.5 x your typical frame, and under 2% of frames over 33 ms.
+> - `ogre lag report` prints the same numbers to the console; `ogre lag off` stops recording.
+> - It holds the last 5 minutes by default. `ogre lag minutes 30` holds 30 (about 23 MB) - use it before a long session you want to save.
+
+**Open it:** Type `ogre lag`. `ogre end lag` (or `ogre lag close`) closes it. If the window is already open, typing `ogre lag` again does nothing.
+
+## What it is for
+
+A recorder for frame rate drops. The bot writes down every frame the game draws - how long it took, how much of that time was the bot's own work, and which parts of the bot ran in it - and keeps the last few minutes. When your FPS drops, open this window and click that moment to see the frames around it and what caused the slow one: OgreBot, the graphics card, or the game itself. It records all the time, even with the window closed, so you can look after the drop has happened. Most players only need it when the game stutters and they want to know whether the bot is the reason.
+
+## The numbers at the top
+
+Read-only. All of these use the period picked under Stats over (1 minute to start with). Frames while zoning or on a load screen are left out.
+
+| Control | What it does |
+|---|---|
+| **FPS (the big number)** | Your average frames per second over the period. |
+| **median, 95%, worst** | How long frames took, in milliseconds. Median is a typical frame. 95% means 95 frames in 100 were faster than this; the number in brackets is that time divided by the median (1.00x would mean every frame is even). Worst is the slowest single frame. |
+| **over 33.3 ms** | The share of frames slower than 33.3 ms - that is, frames that drop you under 30 FPS. These slow frames are what this window calls dips. |
+| **frame-to-frame** | How much one frame's time differs from the next, on average. A low number means smooth play, even if the FPS is not high. |
+| **target met / target not met** | Green when the period was smooth: 95 frames in 100 took less than 1.5 times the median frame, and fewer than 2 in 100 frames were over 33.3 ms. Red when either is not true. Not shown when there are no frames yet. |
+| **OgreBot: … ms of each frame** | How much of each frame, on average, was the bot's own work: all parts of the bot, drawing its windows, and any bot commands that ran between frames. Then the period and how many frames it covers. |
+| **Warning line (yellow)** | Shows 'Recording is OFF' when recording is turned off. It can also say the window system loaded in your game is too old to report its time - the UI and GPU numbers then read 0 until you restart the game client. |
+
+## Stats over, Recording and Save frames
+
+| Control | What it does | Default |
+|---|---|---|
+| **Stats over: 30 s / 1 min / 5 min** | Picks the period used by the numbers at the top, the counts under Dips, the What adds to the dips list, and the 'typical frame' used to judge what caused each dip. The picked button is outlined. Display only - changes what you see, not what the bot does.<br>*The FPS line and the list of dips always cover the last 3 minutes, whichever button is picked.* | 1 min |
+| **Recording** | Turns the recorder on or off. Off: nothing new is recorded, but the frames already recorded are kept. The choice is saved and applies to every character on this PC.<br>*While Recording is off the window stops updating, even after you click something. Close and reopen it to see the current state.* | on |
+| **Save frames** | Saves every frame the recorder is holding (the last 5 minutes, unless you changed that) to a file in OgreSave/EQ2/OgreBot/, named lag- plus the session name and the date and time. The console says how many frames were saved and where. Send the file to us when you report lag.<br>*Saving takes a moment, so the frame you saved in shows up as a dip itself. The console line says how long it took.* |  |
+
+## The FPS line
+
+Read-only. Your FPS, one point a second, for the last 3 minutes - newest on the right. Grey lines mark every 20 FPS. A red tick along the bottom marks a second that had a frame over 33.3 ms; the taller the tick, the more slow frames in that second. Hover a tick to see how many and the worst one.
+
+## Dips
+
+Every slow moment of the last 3 minutes, newest first. Slow frames that come within a tenth of a second of each other are one entry. The line at the top counts the slow frames in the Stats over period and how many each cause had. When the dips come at a steady beat it adds 'they repeat every … ms' and how many of the gaps match - a steady beat usually means something on a timer.
+
+| Control | What it does |
+|---|---|
+| **Click a dip** | Opens the frames around that dip (see below). Each entry shows how long ago it was, the cause of its worst frame, the biggest bot call in that frame with its time, the worst frame's time, and 'x2', 'x3' … when more than one frame was slow. |
+
+## What adds to the dips
+
+Read-only. The bot's calls over the Stats over period - up to 14 - with the one that adds most to the slow frames first. A call that runs no longer in a slow frame than in a normal one is listed after those, by how long it takes on average. Hover a row for more: how often it ran in slow and in normal frames, its average time per frame, and how long it takes 95 times in 100.
+
+## The frames around a dip
+
+Opens over the two lists when you click a dip. One row per frame, from half a second before the dip to a second and a half after it. Slow frames are bright and carry their cause. 'typical frame' at the top is the median frame of the Stats over period.
+
+| Control | What it does |
+|---|---|
+| **Back** | Closes the frame list and shows the two lists again. |
+| **Title bar close (X)** | Closes the window. The recorder keeps recording. |
+
+## What the window shows
+
+- Dip causes: OgreBot (red) - the bot's own work covers at least half of the extra time over a typical frame. GPU/Present (yellow) - the game handing its picture to the graphics card covers at least half of it. game/other (grey) - neither: the game itself, or something else on the PC the recorder cannot see.
+- What adds to the dips - +… ms: how much longer the call runs in a slow frame than in a normal one, on average. A minus means it runs shorter in slow frames.
+- What adds to the dips - % of dips: in how many of the slow frames the call ran. worst: its slowest single run, in ms. every … ms: shown when it runs on a steady timer.
+- (command) in front of a name: an `ogre` command or a script call into the bot (for example one sent from another session), not part of the bot's regular work each frame.
+- (inside) in front of a name: a step that runs inside another call on the list, so its time is already part of that call's time.
+- Frame list - when: seconds from the start of the dip. frame: how long the frame took, in ms.
+- Frame list - OgreBot: all of the bot's time in that frame (adapter + core + UI + cmds). adapter: the EverQuest 2 part of the bot. core: the shared part of the bot (with '(… panel)' when clicks from the bot's windows were handled in that frame). UI: drawing the bot's windows. cmds: bot commands that ran between frames.
+- Frame list - GPU: time the game spent handing its picture to the graphics card. reads: how many values the bot read from the game in that frame. biggest calls: the bot's slowest calls in that frame, up to 8, in ms.
+- Calls that take less than 0.01 ms in a frame are not named for that frame - their time is still counted in OgreBot's total.
+- The window updates itself about once a second while you are in the game.
+
+## Good to know
+
+- It is always recording, even with the window closed. `ogre lag off` (or unticking Recording) stops it.
+- It holds the last 5 minutes by default. `ogre lag minutes 30` holds 30 (about 23 MB of memory) - do that before a long session you want to save. Changing it throws away what was already recorded.
+- A dip marked GPU/Present or game/other had no bot work big enough to explain it. Graphics settings, other programs or the game itself are the better place to look.
+- The list of dips always covers 3 minutes, but the count above it covers only the Stats over period - so the count can be smaller than the list.
+- Recording, the budgets and the minutes to hold are saved to OgreSave/EQ2/OgreBot/lag.json and apply to every character on this PC. Stats over is not saved - it is back to 1 min after the bot is reloaded.
+
+Opened while Recording is off, the frames already recorded are still shown, with a warning above the buttons:
+
+![Recording off](../assets/lag/off.png)
+
+A calm stretch - no frame over 33.3 ms in the last 3 minutes. The list on the right then simply shows the bot's costliest calls:
+
+![No dips](../assets/lag/empty.png)
+
+Console: `ogre lag report` prints the same numbers for the last minute (`ogre lag report 300` for 5 minutes). `ogre lag dump` is the Save frames button. `ogre lag clear` throws away what was recorded. `ogre lag overhead` prints what the recorder itself costs. `ogre lag budget <ms> <ms>` changes the limits: the second number is the 33.3 ms that marks a dip, and it must be larger than the first (25 ms to start with; the first number is not shown in this window).
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/migrate.md
+
+# Migration Assistant
+
+> **:bulb: In game - the ? button on this window says**
+>
+> Copies your OgreBot Classic settings into the new bot: logins, Inventory Manager settings and lists, OgreBot profiles, IRC settings and MCP buttons. It also adds an InnerSpace game profile, **Everquest 2 ISXOgreX**, under each InnerSpace game that runs EverQuest2.exe (whatever you named it) - launch a session with it and the new bot loads by itself.
+>
+> **What you can do here**
+>
+> - **Nothing, usually** - at load, anything not copied yet is copied for you, and this window shows the progress, then closes.
+> - **Check the status** of each item with `ogre migrate`: Migrated, No source found, Nothing to migrate, or Not migrated (a copy that failed - the message says why).
+> - **Re-run (overwrite)** copies an item again from Classic, replacing what the new bot has. It asks first: **Overwrite** or **Cancel**.
+>
+> **Good to know**
+>
+> - Your Classic files are only read, never changed.
+> - The InnerSpace profile is the one thing it adds outside the bot: a copy of your EverQuest 2 Client profile whose startup runs `timedcommand 10 ext isxogrex`. Your other profiles are not touched, and a backup of InnerSpace's GameConfiguration.XML is kept next to it (GameConfiguration.before-ISXOgreX.XML).
+> - Each item is copied automatically only once. After that, only Re-run (overwrite) copies it again.
+> - Problems are listed in ISXOgreEQ2.log.
+
+**Open it:** Type `ogre migrate`. It also opens by itself once, a few seconds after the bot loads, when it finds Classic settings that have not been copied yet.
+
+## What it is for
+
+The Migration Assistant copies your Classic settings into the new bot: logins, Inventory Manager settings and lists, OgreBot profiles, IRC settings and MCP buttons. You do not have to do anything. When the bot loads, every item that has Classic files but nothing in the new bot yet is copied automatically, and this window pops up to show the progress, then closes itself. Your old Classic files are only read, never changed. Open it yourself with `ogre migrate` to see the status of each item and to copy an item again, replacing what the new bot has.
+
+## The item boxes
+
+Each box shows one thing that can be copied from Classic and where it stands right now. The status is worked out from your files every time the window opens.
+
+| Control | What it does |
+|---|---|
+| **Re-run (overwrite)** | Asks to copy this item from your Classic files again, replacing what the new bot already has. Nothing is copied yet - the box changes to an Overwrite / Cancel question first.<br>*Only shown when you opened the window with `ogre migrate`, and only for items that have Classic files to copy.* |
+| **Overwrite** | Copies the item again from your Classic files and replaces what the new bot has. For profiles, every copied profile file is rewritten. When it finishes, the box shows what was copied.<br>*Anything you changed in the new bot for that item since the first copy is lost.* |
+| **Cancel** | Backs out of the Overwrite question. Nothing is copied. |
+| **Title bar close (X)** | Closes the window. Copying that is already running keeps going.<br>*The automatic progress view closes by itself about 4 seconds after everything is done.* |
+
+## Asking to overwrite
+
+After Re-run (overwrite), the box asks before it replaces anything. This is the only question the assistant ever asks.
+
+## The automatic run at load
+
+When the bot loads and finds Classic files for an item that the new bot does not have yet, it copies them without asking and shows this view. There are no buttons here. Profiles can take a moment for a big library and show Running... until they are done. When every item is finished the window closes by itself.
+
+## What the window shows
+
+- ✓ Migrated (green) - the new bot already has this item. It may have been copied just now, automatically, or in an earlier session.
+- No source found (grey) - you have no Classic files for this item, so there is nothing to copy.
+- Nothing to migrate (grey) - you have Classic files for this item but the new bot has nothing yet, and no copy was tried this session.
+- Not migrated (red) - this session tried to copy the item and could not. The message above it says why.
+- Running... - the item is being copied right now (profiles only).
+- Green message - what was copied, e.g. 'Migrated 6 characters to the new store.'
+- Orange message - a warning or a question, e.g. a few profile files were skipped, or 'overwrite it?'.
+- Red message - the copy failed. The details are in ISXOgreEQ2.log.
+- Grey message - the item is still being copied (profiles, which can take a moment).
+
+## Good to know
+
+- Your Classic files are never changed or deleted. You can keep using Classic alongside.
+- An item is copied automatically only once: as soon as the new bot has that item's file, it is treated as done. To copy it again you must use Re-run (overwrite).
+- Opening the window with `ogre migrate` first copies anything that is still waiting, without asking - the same as the automatic run.
+- Profiles: files that were missing or could not be read are skipped and counted in the orange message. Running it again copies the same set, so re-running will not fix them - check ISXOgreEQ2.log for which files.
+- Inventory Manager lists (sell, destroy, restock) go into your own custom files. A list you already have is kept, not replaced, unless you use Re-run (overwrite).
+- The first time the bot loads, the New User Tour runs first. The automatic copy starts a few seconds after the tour is finished or skipped.
+- Typing `ogre migrate` while the window is open does nothing.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/tour.md
+
+# New User Tour
+
+> **:bulb: In game - the ? button on this window says**
+>
+> A quick hands-on tour of the new Ogre windows. Each step moves on by itself as soon as you do it.
+>
+> **What you can do here**
+>
+> - **Step 1** - drag the right edge, bottom edge or bottom-right corner to resize the window.
+> - **Step 2** - right-click the title bar to open its menu.
+> - **Step 3** - choose **Save Position** so the window opens in the same spot next time.
+> - **Step 4** - click the gear to open the settings, then click it again (or its X) to close them.
+> - **Skip** ends the tour at any step. **Got it** closes it at the end.
+>
+> **Good to know**
+>
+> - Your other Ogre windows are hidden during the tour and come back when it ends.
+> - Type `ogre tour` to see it again any time.
+
+**Open it:** Opens by itself the first time the new bot loads. Type `ogre tour` to see it again any time (typing it while the tour is open does nothing).
+
+## What it is for
+
+A short hands-on tour of the new Ogre windows, for players coming from Classic. It starts with a short cartoon (the Welcome to OgreBot window), then teaches four things you do on the tour's own window: resize it, right-click its title bar, save its position, and open its settings gear. Each step moves on by itself as soon as you do it, and a pulsing outline shows you where to click. While the tour is up, your other Ogre windows are hidden; they come back when it ends.
+
+## Step 1 - Resize me
+
+Drag the right edge, the bottom edge or the bottom-right corner of the tour window (only those can be dragged). They pulse to show where. As soon as the size changes, the tour moves to step 2.
+
+| Control | What it does |
+|---|---|
+| **Skip** | Ends the tour now. It counts as seen, so it will not open by itself again. Your hidden windows come back.<br>*Every step has Skip. `ogre tour` brings the tour back later.* |
+| **Title bar close (X)** | Closing the tour window is the same as Skip: the tour counts as seen and your hidden windows come back. |
+
+## Step 2 - Right-click my title bar
+
+Right-click the title bar (the bar with the window's name). Its menu opens and the tour moves to step 3. Every Ogre window with a title bar has this menu.
+
+## Step 3 - Save this window's spot
+
+In the title-bar menu, choose Save Position (it pulses). That makes the window open in the same place and size next time. Once you save, the tour moves to step 4.
+
+| Control | What it does |
+|---|---|
+| **Save Position (title-bar menu)** | Saves where this window is and how big it is, so it opens there next time. On the tour this also finishes step 3.<br>*If the menu closes without saving, right-click the title bar again.* |
+
+## Step 4 - Open the settings
+
+Click the gear (⚙) in the top-right corner. Many windows keep their settings behind a gear like this. Close the settings again (gear or its X) to finish.
+
+| Control | What it does |
+|---|---|
+| **⚙ (Settings)** | Opens and closes a small example settings panel inside the tour window. On step 4, closing it finishes the step.<br>*The example settings do nothing and save nothing.* |
+| **x (close settings)** | Closes the example settings panel, the same as clicking the gear again. |
+| **A toggle option / A slider / A colour** | Examples only, to show what a settings panel looks like. Nothing here saves or changes anything. |
+
+## All set
+
+The last page reminds you that most commands work like before (`ogre` still loads OgreBot), and that right-clicking windows and lists often shows extra options.
+
+| Control | What it does |
+|---|---|
+| **Got it** | Closes the tour. It counts as seen and will not open by itself again. Your hidden windows come back. |
+
+## What the window shows
+
+- Step label - which step you are on (Step 1 of 4 to Step 4 of 4, then All set).
+- Pulsing yellow outline - the thing to click or drag for the current step (the right and bottom edges and the bottom-right corner, the title bar, the Save Position menu row, or the gear).
+
+## Good to know
+
+- While the tour is open, every other Ogre window is hidden so you can focus. They all come back when the tour ends (Got it, Skip or closing it).
+- If the InnerSpace console is open when the tour starts, it is closed so it does not push the tour out of the way.
+- On the very first load, the Migration Assistant waits for the tour: your Classic settings are copied a few seconds after you finish or skip the tour.
+- Whether you have seen the tour is saved in OgreSave\EQ2\TourState.json. Delete that file to have the tour open by itself again.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/tour-intro.md
+
+# Welcome to OgreBot
+
+A short cartoon that starts the New User Tour. It is just for fun and changes nothing.
+
+[Open it on its own page](../teaser/index.html){ .md-button }
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/codextoken.md
+
+# EQ2Codex API Token
+
+> **:bulb: In game - the ? button on this window says**
+>
+> Where you give the bot your eq2codex.com API token. It ties the Codex tabs' uploads to your account.
+>
+> **What you can do here**
+>
+> - **Get a token at eq2codex.com** opens the site in your browser. Sign in, then go to Settings, API Tokens.
+> - **Paste your token** in the box.
+> - **Save token** saves it, replacing any old token, and closes the window. Enter does the same.
+> - **Close** leaves without saving.
+>
+> **Good to know**
+>
+> - Your saved token is never shown here, only whether one is set.
+> - If a save fails, the window stays open, says why in red, and keeps your token in the box.
+
+**Open it:** In OgreBot, open the **Codex Inspect** or **Codex Toons** tab and click **Setup API Token**.
+
+## What it is for
+
+This is where you give the bot your eq2codex.com API token. The Codex tabs upload character gear and raid rosters to eq2codex.com, and the token is what ties those uploads to your account. You create the token on the website (Settings → API Tokens), paste it here and save. The window never shows your saved token - only whether one is set and how long it is.
+
+## Pasting your token
+
+| Control | What it does | Default |
+|---|---|---|
+| **Paste your token** | Paste the API token you created on eq2codex.com. Pressing Enter in the box is the same as Save token.<br>*The token leaves the screen with the window when a save works. If a save fails, the token stays in the box so you can try again.* | empty |
+
+## Buttons
+
+| Control | What it does |
+|---|---|
+| **Save token** | Saves the token as your live eq2codex.com token, replacing any token you had before, makes it the token the bot uses, and closes the window. The Codex tabs then show the token as configured.<br>*With an empty box nothing is saved and a red message says so.* |
+| **Get a token at eq2codex.com ↗** | Opens eq2codex.com in your web browser, outside the game. Sign in there and go to Settings → API Tokens. |
+| **Close** | Closes the window without saving. |
+| **Title bar close (X)** | Closes the window without saving, the same as Close. |
+
+## When a token is already saved
+
+The status box gets a green border and says how many characters the saved token has. Paste a new token and save to replace it.
+
+## What the window shows
+
+- Status box: 'Live token: not set.' when you have no token yet, or 'Live token: configured (57 chars). Paste a new token to replace it.' when you do. The token itself is never shown.
+- Stored in ... - the file your token is saved in: OgreSavePrivate\EQ2\Codex.json in your InnerSpace Scripts folder (your private settings folder - do not share it).
+
+## Good to know
+
+- The window closes by itself after a successful save. If the save fails, the window stays open with a red message saying why (for example, your token file cannot be read), and your token is still in the box.
+- Saving replaces only the live token and makes it the one the bot uses. Anything else in Codex.json is kept.
+- If Codex.json is damaged (cannot be read), the save is refused so nothing in it is lost. Fix or delete the file, then save again.
+
+A save that could not be done - the red message says why, and the token you pasted is still in the box:
+
+![Failed save](../assets/codextoken/failed.png)
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/pushovercreds.md
+
+# Pushover Account
+
+> **:bulb: In game - the ? button on this window says**
+>
+> Where you enter your two Pushover keys, so the bot can send alerts to your phone.
+>
+> **What you can do here**
+>
+> - **Get these at pushover.net** opens the site in your browser.
+> - **Application API token** - from an application you create on pushover.net.
+> - **Your user key** - from your Pushover dashboard.
+> - **Save** stores both keys and clears the boxes. Both are needed - if one is missing, or the save fails, it says so in red and keeps what you typed.
+> - **Send test** sends a test alert to your phone. The console says if it is on its way, or why not.
+>
+> **Good to know**
+>
+> - Your saved keys are never shown in full.
+> - Which alerts are sent is set on the OgreBot Pushover tab. Its Disable boxes also block the test.
+
+**Open it:** In OgreBot, open the **Pushover** tab and click **Set up Pushover account**.
+
+## What it is for
+
+Pushover is a phone app that the bot can use to send you alerts (for example, a tell, or a loot window left open). This window is where you enter your two Pushover keys: the API token of an application you create on pushover.net, and your own user key from your Pushover dashboard. Both are needed. The window never shows your saved keys in full - only their first 4 and last 2 characters.
+
+## Your keys
+
+| Control | What it does | Default |
+|---|---|---|
+| **Application API token** | Paste the API token of the application you created on pushover.net. Pressing Enter is the same as Save.<br>*The grey text in an empty box is only an example of what a key looks like.* | empty |
+| **Your user key** | Paste your user key from your pushover.net dashboard. Pressing Enter is the same as Save. | empty |
+
+## Buttons
+
+| Control | What it does |
+|---|---|
+| **Save** | Saves both keys, replacing any you had before, and the bot starts using them straight away. A green 'Saved.' appears, both boxes are cleared and the status box shows the keys as configured (in green). The window stays open.<br>*Both boxes must be filled - with one empty nothing is saved, a red message says which one is missing, and what you typed stays in the boxes. If the file cannot be written, a red message says so and your text stays too.* |
+| **Send test** | Sends a test alert to your phone: 'Test from OgreBot. If you can read this, your Pushover details are working.' The console says whether it is on its way, or why it was not sent.<br>*It obeys the Pushover tab: with 'Disable ALL Pushover Messages' or 'Disable Normal Pushover Messages' ticked, the test is not sent.* |
+| **Get these at pushover.net ↗** | Opens pushover.net in your web browser, outside the game. |
+| **Close** | Closes the window. Anything typed but not saved is thrown away. |
+| **Title bar close (X)** | Closes the window without saving, the same as Close. |
+
+## After saving
+
+The status box shows the first 4 and last 2 characters of each key, their length, and how many alerts are waiting to be sent.
+
+## What the window shows
+
+- Status box: 'pushover: NOT configured (...)' in yellow when either key is missing, or 'pushover: configured [app_token abcd...xy (30 chars), user_key abcd...xy (30 chars)], queue 0' in green when both are saved. 'queue' is the number of alerts waiting to go out.
+- Stored in ... - the file your keys are saved in: OgreSavePrivate\Common\Pushover.json in your InnerSpace Scripts folder (your private settings folder - do not share it).
+
+## Good to know
+
+- Which alerts are sent is set on the OgreBot Pushover tab, not here.
+- Save keeps the other settings in Pushover.json (default title, priority and so on); it only replaces the two keys.

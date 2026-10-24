@@ -1,0 +1,167 @@
+# OgreBot for EverQuest II - documentation
+
+> The new OgreBot (in beta testing): what every window and option does, and how to move scripts written for OgreBot Classic. The website: https://kannkor.github.io/ISXOgre/EQ2/bot/
+
+To convert a Classic script, follow the procedure on the Converting your scripts page (Developers, below); its tool (ogre_convert.py) and data file are linked there.
+
+## Read it all
+
+- [Everything in one document](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-full.txt): the entire documentation, 747 KB. If that is too much to read at once, use the smaller pieces below - together they are the same text.
+- [Start here](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-start-here.txt): 79 KB - Start here
+- [OgreBot (part 1 of 3)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-ogrebot-1.txt): 95 KB - OgreBot; OgreBot - Tabs
+- [OgreBot (part 2 of 3)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-ogrebot-2.txt): 96 KB - OgreBot - Tabs
+- [OgreBot (part 3 of 3)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-ogrebot-3.txt): 50 KB - OgreBot - Tabs
+- [Windows (part 1 of 4)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-1.txt): 94 KB - Windows - Everyday; Windows - Running content
+- [Windows (part 2 of 4)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-2.txt): 95 KB - Windows - Running content; Windows - Loot and items
+- [Windows (part 3 of 4)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-3.txt): 98 KB - Windows - Loot and items; Windows - Crafting; Windows - Groups and accounts; Windows - Tools
+- [Windows (part 4 of 4)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-4.txt): 55 KB - Windows - Tools
+- [Developers](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers.txt): 88 KB - Developers; Developers - Guides
+
+Each page on its own, as plain Markdown, in menu order:
+
+## Start here
+
+- [OgreBot - User Guide](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/index.md)
+- [The super secret project](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/super-secret-project.md)
+- [The basics](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/basics.md)
+- [What's new](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/whats-new.md)
+
+## OgreBot
+
+- [OgreBot Manager](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/index.md)
+
+## OgreBot - Tabs
+
+- [Auto Target](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/auto-target.md)
+- [Cast Stack](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/cast-stack.md)
+- [Settings](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/settings.md)
+- [Setup](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/setup.md)
+- [Ability Embargo](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/ability-embargo.md)
+- [Ability Research](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/ability-research.md)
+- [Ability Tracker](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/ability-tracker.md)
+- [Aliases](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/aliases.md)
+- [Announce](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/announce.md)
+- [Ascension](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/ascension.md)
+- [Assist](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/assist.md)
+- [Auto-Hunt](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/auto-hunt.md)
+- [Cancel On Cast](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/cancel-on-cast.md)
+- [Chat Events](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/chat-events.md)
+- [Codex Inspect](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/codex-inspect.md)
+- [Codex Toons](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/codex-toons.md)
+- [Consume Items](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/consume-items.md)
+- [Crowd Control](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/crowd-control.md)
+- [Despawn Event](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/despawn-event.md)
+- [Equipment Info](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/equipment-info.md)
+- [HO Excludes](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/ho-excludes.md)
+- [HUDs](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/huds.md)
+- [Invis Abilities](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/invis-abilities.md)
+- [Item Embargo](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/item-embargo.md)
+- [Items](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/items.md)
+- [Load](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/load.md)
+- [Loot](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/loot.md)
+- [Loot Distribution](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/loot-distribution.md)
+- [OnZone](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/onzone.md)
+- [Other](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/other.md)
+- [Overseer](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/overseer.md)
+- [Pack Pony](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/pack-pony.md)
+- [Post-Cast](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/post-cast.md)
+- [Pre-Cast](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/pre-cast.md)
+- [Pushover](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/pushover.md)
+- [Spawn Events](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/spawn-events.md)
+- [Tags](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/tags.md)
+- [Unload](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/unload.md)
+- [Admin](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/admin.md)
+- [Debug](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/debug.md)
+- [EQ2Chars](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/eq2chars.md)
+- [Key Binds](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/key-binds.md)
+- [OgreConsole](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/ogreconsole.md)
+- [Relay Groups](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/relay-groups.md)
+- [Uplink Info](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/uplink-info.md)
+- [Class tab](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/class-tab.md)
+
+## Windows - Everyday
+
+- [OgreBot](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/ogremini.md)
+- [Commands](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/commands.md)
+- [OgreConsole](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/console.md)
+- [Master Control Panel](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/mcp.md)
+- [For Who](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/forwho.md)
+- [Build command](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/mcpbuild.md)
+- [Assign keys](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/binds.md)
+- [Ogre Options](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/options.md)
+- [Reset UI Windows](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/windowreset.md)
+
+## Windows - Running content
+
+- [Instance Controller](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/ic.md)
+- [Zone Reset](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/zonereset.md)
+- [OSA](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/osa.md)
+- [NPC Cast Monitoring](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/npccast.md)
+- [Effect Tracker](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/effecttracker.md)
+- [Hide Effects](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/hideeffects.md)
+- [Radar](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/eq2radar.md)
+- [Radar Types](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/eq2radarfilters.md)
+- [Nav](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/nav.md)
+- [Safe Fall Trainer](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/safefall.md)
+
+## Windows - Loot and items
+
+- [SmartLoot](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/smartloot.md)
+- [Potency / Crit Bonus / Fervor](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/potcb.md)
+- [Level Transmuting](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/transmute.md)
+- [Quest Compare](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/questcompare.md)
+
+## Windows - Crafting
+
+- [Ogre Craft 3](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/craft.md)
+- [Craft Grandmasters](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/craftgm.md)
+- [Crafting Mats](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/craftingmats.md)
+
+## Windows - Groups and accounts
+
+- [ForWho Groups](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/forwhogroups.md)
+- [Auto-Login](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/autologin.md)
+- [Inventory Manager](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/im.md)
+- [TaskRunner Lists](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/trlists.md)
+- [Watcher](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/watcher.md)
+
+## Windows - Tools
+
+- [Ability Export](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/exportgui.md)
+- [Exporting Abilities](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/aexport.md)
+- [Analysis](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/analysis.md)
+- [Ability Details](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/abilitydetails.md)
+- [Pulse Budget](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/pulsebudget.md)
+- [Lag](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/lag.md)
+- [Migration Assistant](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/migrate.md)
+- [New User Tour](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/tour.md)
+- [Welcome to OgreBot](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/tour-intro.md)
+- [EQ2Codex API Token](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/codextoken.md)
+- [Pushover Account](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/pushovercreds.md)
+
+## Developers
+
+- [Developers](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/index.md)
+
+## Developers - Guides
+
+- [Converting your scripts](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/converting.md)
+- [Build your own window](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/build-your-own-window.md)
+- [Add your own commands](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/command-packs.md)
+- [Write your own zone files](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/zone-files.md)
+
+## Developers - Coming from Classic
+
+- [Coming from Classic](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/coming-from-classic/index.md)
+- [Camp spot](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/coming-from-classic/campspot.md)
+- [Console commands](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/coming-from-classic/console.md)
+- [OgreBotAPI](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/coming-from-classic/ogrebotapi.md)
+- [Ask query system](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/coming-from-classic/ask.md)
+- [Preferred group members](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/coming-from-classic/preferred.md)
+- [Detrimentals](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/coming-from-classic/detrimentals.md)
+- [ISXOgre (old extension)](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/coming-from-classic/isxogre.md)
+- [OgreEvents](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/coming-from-classic/events.md)
+- [OgreCraft](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/coming-from-classic/ogrecraft.md)
+- [Instance files](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/coming-from-classic/instance.md)
+- [Other Classic objects](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/coming-from-classic/objects.md)
+- [OgreBot option ids](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/coming-from-classic/options.md)
