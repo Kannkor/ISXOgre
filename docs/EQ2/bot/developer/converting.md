@@ -88,6 +88,31 @@ on the new bot. It first copies the original to a backup beside it (the tool pri
 then converts the file. If that backup already exists, it stops and writes nothing - the file may
 already be converted.
 
+#### Your #include files come along
+
+A script split over several files is converted in one go: the tool follows the script's own `#include` files.
+
+```
+python ogre_convert.py fix <file.iss>                                    (dry run: the file AND its includes)
+python ogre_convert.py fix <file.iss> --in-place --follow-includes       (converts them all, each with its backup)
+python ogre_convert.py fix <file.iss> -o <folder> --follow-includes      (writes them all into <folder>)
+```
+
+`coverage`, `sweep`, `sites` and a `fix` dry run follow the includes by default. A `fix` that writes
+(`--in-place` or `-o`) follows them only when you add `--follow-includes`, so it never rewrites a file you
+did not ask for. `--no-follow-includes` reads only the files you name.
+
+How a path is read - the way LavishScript reads it:
+
+- `#include "other.iss"` - a plain name - is in the folder of the **main** script (the one you `run`), even
+  when the line is inside another include file;
+- `${Script.CurrentDirectory}` is that same folder;
+- `${LavishScript.HomeDirectory}` is the folder that holds your `Scripts` folder.
+
+An include it does not follow is listed as `INCLUDE <path> - not followed: <why>`: one of Classic's own files
+(remove that `#include` - the new bot does not load Classic), a file outside your Scripts folder, a file that is
+not there, or a `${...}` it cannot work out.
+
 ### lookup - one name
 
 ```
@@ -193,6 +218,9 @@ or every line it still names is a question you have listed.
         - **Keep the name (recommended):** `fix --in-place`. The original is backed up beside it and the
           script keeps its name, so `run` and `#include` lines elsewhere keep working. It refuses if the
           backup already exists - then ask, the file may already be converted.
+        - **Its own `#include` files are part of the script.** Run the `fix` dry run first: it lists the
+          include files it found. Ask about them in the same question, then `fix --in-place --follow-includes`
+          converts them all. Report every `INCLUDE ... not followed` line it prints.
         - **A new file beside it:** `fix <file.iss> -o <new name>`. The original is untouched.
 
     Never write over a file the person did not choose, and never without the backup.

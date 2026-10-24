@@ -1,8 +1,8 @@
+# OgreBotAPI
+
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../index.md).
 </div>
-
-# OgreBotAPI
 
 Every name Classic's *OgreBotAPI Reference* page listed, and what it is in the new bot. The flat `OgreBotAPI:Name` list became groups (`OgreBotAPI.Movement`, `OgreBotAPI.Cures`, …): each section below is one group. Use your browser's find (Ctrl+F) with the old name.
 

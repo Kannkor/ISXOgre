@@ -85,7 +85,7 @@ These decide which recipes from your book appear in the list below. They are als
 |---|---|---|
 | **Quantity:** | How many to craft when you add a recipe. 1 to 9999. | 1 |
 | **Add Recipe** | Adds the highlighted recipe to the setup queue with the Quantity. If it is already queued, the quantity is added on top.<br>*Click a recipe in the list first. Double-clicking a recipe does the same.* |  |
-| **Start quest** | Crafts the quest that is selected in your quest journal: one of each recipe the quest's steps ask for, then re-reads the quest and goes again, until no craft step is left. Your setup queue is put aside and given back at the end.<br>*Select the quest in your journal first. Greyed out while anything is running.* |  |
+| **Start quest** | Crafts the quest that is selected in your quest journal: one of each recipe the quest's steps ask for, then re-reads the quest and goes again, until no craft step is left. Your setup queue is put aside and given back at the end.<br>*Select the quest in your journal first. Greyed out while anything is running. If a step needs a component you do not have yet (one the quest has you gather), it waits for it, counting again whenever your bags change (at most every 5 seconds); after 60 minutes it stops and says what is still missing.* |  |
 | **Rescan recipe book** | Reads every recipe in your recipe book again. Use it after learning new recipes if they do not show up. |  |
 
 ## Recipes tab - the recipe list
@@ -130,7 +130,7 @@ What the running (or last) queue is crafting, with 'done / wanted' per recipe. A
 
 ## Queues tab - resources
 
-Built when a queue starts: every component and fuel the queue needs, how many it needs and how many you have. Red rows are short. Rows marked FUEL are bought from the fuel merchant; missing components are only reported - the bot crafts anyway.
+Built when a queue starts: every component and fuel the queue needs, how many it needs and how many you have. Red rows are short. Rows marked FUEL are bought from the fuel merchant; missing components are only reported - the bot crafts anyway, except in a quest run, which waits for them.
 
 [![Queues tab - resources](../assets/craft/queues-resources.png)](../assets/craft/queues-resources.png "Click for full size")
 

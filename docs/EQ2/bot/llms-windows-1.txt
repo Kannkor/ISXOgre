@@ -106,7 +106,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 >
 > **What you can do here**
 >
-> - The first rows are `ogre` itself: loading OgreBot (`ogre`, `ogre -p`, `ogre -ph`) and `ogre ui reload` / `ogre ui windows`.
+> - The first rows are `ogre` itself: loading OgreBot (`ogre`, `ogre -p`, `ogre -ph`) and `ogre ui reload` / `ogre ui windows` / `ogre ui report` (copies a report of the windows to paste when someone asks for one).
 > - **Search** finds a command by its name, its other names, or any word in its description.
 > - **Run** is `ogre <command>`; **End** is `ogre end <command>`, shown when the command has one.
 > - A command that takes arguments has a box after its name: type them as you would after `ogre <command>`, then **Run** (or press Enter). The grey text in the box shows what it accepts.
@@ -148,7 +148,7 @@ Greyed rows marked NOT PORTED are commands the old bot had that the new bot does
 
 ## What the window shows
 
-- The first rows are `ogre` itself - loading OgreBot (`ogre`, `ogre -p`, `ogre -ph`) and `ogre ui reload` / `ogre ui windows`. They have Run only.
+- The first rows are `ogre` itself - loading OgreBot (`ogre`, `ogre -p`, `ogre -ph`) and `ogre ui reload` / `ogre ui windows` / `ogre ui report` (copies a report of the windows to paste when someone asks for one). They have Run only.
 - Bold name = the command (`ogre <name>`). Next to it, its title.
 - also: = other names that work the same way, for example `ogre fps` for `ogre perf`.
 - The grey line under a row is what the command takes after its name, when it takes something.
@@ -799,7 +799,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > **What you can do here**
 >
 > - **Account** - your Ogre login. Saving it while logged out tries to log in again.
-> - **Ogre** - the size of every window (UI scale); whether windows hide or slide down when the InnerSpace console covers them; navmesh downloads (all zones, only the zones you go to, or none); and the **Session watch**: the uplink announces a session that freezes, recovers or disappears, and fires an event for uplink scripts (off by default).
+> - **Ogre** - the size of every window (UI scale); whether windows slide down, hide or stay where they are when the InnerSpace console covers them (the default - a window's right-click menu can give it its own); navmesh downloads (all zones, only the zones you go to, or none); and the **Session watch**: the uplink announces a session that freezes, recovers or disappears, and fires an event for uplink scripts (off by default).
 > - **Theme** - pick a colour scheme, or change any colour. Changes show at once.
 >
 > **Good to know**
@@ -834,7 +834,7 @@ Ogre Options holds the settings that belong to Ogre itself rather than to one ch
 | Control | What it does | Default |
 |---|---|---|
 | **UI scale — default for every window (right-click a window to override one)** | How big every Ogre window is drawn: 0.75, 0.9, 1 (100%), 1.1, 1.25 or 1.5. Applies to all windows as soon as you press Save. A window you scaled yourself (right-click its title bar, Scale + / Scale −) keeps its own size until you pick Scale: use default on it.<br>*The list opens inside the window and pushes the setting below it down, so every size is in view.* | 1 (100%) |
-| **Hide it (default: slide it below the console, then return it)** | What happens to an Ogre window that the InnerSpace console covers when you open it. Off: the window slides down below the console and moves back when the console closes. On: the window is hidden while the console is open.<br>*Like the UI scale, it takes effect when you press Save.* | off (slide it below) |
+| **When the InnerSpace console covers a window** | What happens to an Ogre window that the InnerSpace console covers when you open it. Slide it below the console, then put it back: it moves down out of the way and returns when the console closes. Hide it until the console closes. Leave it where it is: nothing moves.<br>*Like the UI scale, it takes effect when you press Save. This is the default for every window: a window can have its own, from its title bar's right-click menu, under When Console is open (Slide below, Hide or Leave in place; Use default goes back to this one).* | Slide it below the console, then put it back |
 | **Navmesh downloads** | Navmeshes are the zone maps the bot uses to walk and fly. **All zones, in the background**: every zone's mesh downloads while you play, the zone you are in first. **Only the zones I go to**: a zone's mesh downloads when you enter it or a route heads there. **Off**: nothing downloads, and nav tells you when a zone has no mesh.<br>*Takes effect as soon as you press Save. It is the same setting as `ogre patch mesh all\|ondemand\|off`.* | All zones, in the background |
 | **Announce sessions that freeze, recover or disappear** | Every session tells the uplink it is alive every 5 seconds. With this on, the uplink announces a session that goes silent (30 seconds, 90 while loading), comes back, or closes for any reason, and fires OgreEvent_SessionFrozen, OgreEvent_SessionRecovered and OgreEvent_SessionGone for scripts running in the uplink.<br>*Saved for the whole PC; Save also tells the uplink at once. `ogre sessions on\|off` turns it on or off until the uplink restarts.* | off |
 
@@ -1184,100 +1184,3 @@ When the window is too short for every option, the option grid scrolls (the list
 - All IC settings (including Max wait per zone), the queue and the startup list live in one file, Scripts/OgreSave/EQ2/IC/panel.json, shared by every character on the PC. Each session loads it once and overwrites it on every change.
 - Refresh (Zone lockouts) does not read the lockout table straight away. It is re-read the next time a zone-in needs it.
 - Add defaults appends the shipped rows again, so pressing it twice gives duplicates. Reset to defaults and both Clear buttons ask no confirmation.
-
-
----
-
-Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/zonereset.md
-
-# Zone Reset
-
-> **:bulb: In game - the ? button on this window says**
->
-> Shows your zone lockout timers and resets them, for this character or for your group or fleet.
->
-> **What you can do here**
->
-> - **Refresh** - read the zone list and timers from the game again.
-> - **Click a zone** on the left to queue it; click it on the right to remove it. The **Add** buttons queue many at once.
-> - **Show** - tick Solo, Heroic, Raid or Other to choose which zones the list shows. **Sort** - by Status (resettable first), Type (solo, heroic, raid) or Name. These only change the view: the **Add** buttons still look at every zone.
-> - **Reset queue for me** - reset every queued zone on this character.
-> - **Reset queue via ... for ...** - send the reset to the characters in the Master Control Panel's For Who window.
-> - **Force reset** - ctrl-click a queued zone, then press it twice: the first press only arms it, a second press within 5 seconds does the reset.
->
-> **Good to know**
->
-> - Green can be reset, orange is locked (time left in brackets), yellow has no data.
-> - **Force reset spends a limited reset charge** and cannot be undone. It only confirms if the game's message names that zone.
-
-**Open it:** Type `ogre zone` (also `ogre reset` or `ogre zonereset`). If the window is already open, this does nothing.
-
-## What it is for
-
-Zone Reset shows your zone lockout timers and resets them for you. It reads the game's Zone Reuse window and lists every zone, coloured by whether it can be reset now, is still locked, or has no data. You pick the zones you want in a reset queue, then reset them on this character, or send the reset to your group or fleet. A separate Force reset button spends one of your limited reset charges on one zone. It needs two clicks, and has a safety check.
-
-## Header and colours
-
-The status text on the right says what the last action did (for example 'scraped 7 zone(s) + 3 with no timer'). 'working…' appears next to the title while it is busy. The colour key explains the zone list: green can be reset, orange is locked with the time left shown in brackets, pale yellow has no data.
-
-| Control | What it does |
-|---|---|
-| **Refresh** | Reads the zone list and timers again. It briefly opens the game's Zone Reuse window, reads it, and closes it.<br>*Opening this window with no list yet does a Refresh for you. Nothing happens when you are not in the world.* |
-
-## Full zone list
-
-Every zone the game has a lockout record for: resettable first, then locked, then no data. Zones with 'Raid' in the name carry a small 'raid' tag. Hover a row to see the game's own tooltip for it.
-
-| Control | What it does |
-|---|---|
-| **Click a zone** | Adds that zone to the reset queue on the right. A zone already in the queue is not added twice. |
-| **Add resettable** | Adds every green (resettable) zone to the queue. |
-| **Add non-raid** | Adds every resettable zone that does not have 'Raid' in its name. |
-| **Add non-locked** | Adds every zone that is not locked: the resettable ones and the ones with no data. |
-
-## Reset queue
-
-The zones you picked. The queue is kept while the bot is loaded, even if you close this window, but is not saved to disk.
-
-| Control | What it does | Default |
-|---|---|---|
-| **Click a queued zone** | Removes it from the queue. |  |
-| **Ctrl-click (or Alt-click) a queued zone** | Selects that zone as the Force reset target (it is highlighted). Ctrl-click it again to unselect. Display only until you press Force reset. |  |
-| **Clear list** | Empties the reset queue. |  |
-| **Force reset selected / Force reset: <zone> / Click again to SPEND a charge on: <zone>** | Spends one of your limited zone reset charges to reset the selected zone right now, even if it is locked. It takes two clicks: the first click only arms the button (its text changes to 'Click again to SPEND a charge on: <zone>'), and a second click within 5 seconds does the reset. The bot then opens the Zone Reuse window, finds the zone, clicks Force Reset, and only clicks the confirm button if the game's confirm message names exactly that zone. If it does not, nothing is clicked, no charge is spent, and the confirm window is left open for you.<br>*Cannot be undone. If you do not click again within 5 seconds, the button goes back to normal and nothing is spent.* | greyed out until a zone is selected (and while the window is busy) |
-| **Reset queue for me** | Resets the lockout timer of every queued zone on this character only, one zone every half second.<br>*Greyed out while the window is busy. With an empty queue it just says the queue is empty.* |  |
-| **Reset queue via <oc/irc> for <who>** | Sends a reset for every queued zone to the characters picked in the Master Control Panel's For Who window, over the bot console (or IRC if that is what the For Who window says). Each character that receives it resets its own timer for those zones. The button text shows where it will go.<br>*If the For Who window has never been set, this goes to every character (all).* | oc for all (when the For Who window has never been set) |
-
-## Footer
-
-A reminder of how the lists work, and that Force reset spends a limited charge.
-
-## What the window shows
-
-- Green zone: its lockout can be reset now (the game's tooltip says so).
-- Orange zone with [time]: locked; the time in brackets is how long is left.
-- Pale yellow zone: no timer data (the game knows the zone but shows no timer for it).
-- 'raid' tag: the zone name contains 'Raid'. The Add non-raid button skips these.
-- Status text (top right): what the last action did, for example 'reset 3 queued zone(s)', 'the reset queue is empty', 'not in world', or 'ABORTED: ...' when the Force reset safety check refused.
-- 'working…': a refresh or reset is running. The reset buttons are greyed out until it finishes.
-
-## Good to know
-
-- Force reset spends a real, limited reset charge and cannot be undone. The first click only arms it; the reset happens on a second click within 5 seconds. The ordinary 'Reset queue' buttons do not spend charges.
-- The fleet button uses the For Who window from the Master Control Panel, not your group. If that window was never set, it resets for every character.
-- Refresh and Force reset briefly open the game's Zone Reuse window. That can cause a short stutter. A queue reset opens it too, but only on a character whose game has not loaded its zone list yet.
-- The queue is forgotten when the bot is unloaded.
-
-### Choosing a Force reset target
-
-Ctrl-click a zone in the queue:
-
-![Force reset target](../assets/zonereset/force.png)
-
-### While it works
-
-![Busy](../assets/zonereset/busy.png)
-
-### Before the first read
-
-![Empty](../assets/zonereset/empty.png)

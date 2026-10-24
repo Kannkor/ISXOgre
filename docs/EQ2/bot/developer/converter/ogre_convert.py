@@ -10,6 +10,18 @@
     python ogre_convert.py sites <file|folder> [...]        lines to KEEP and LIST: game-server name lookups (R10),
                                                             actor scans (R12), unbounded index reads (INDEX)
 
+#INCLUDE FILES - the script's own include files come along:
+    fix (dry run), sweep, coverage, sites   FOLLOW them by default (--no-follow-includes to stop)
+    fix -o / fix --in-place                 only with --follow-includes - they WRITE, so you ask for it:
+        fix main.iss --in-place --follow-includes   every file gets its own <file>.classic.iss backup
+        fix main.iss -o <folder> --follow-includes  -o is a FOLDER: each file is written there at its place
+                                                    under the Scripts folder (or under main.iss's folder)
+  How a path is read (LavishScript): `#include "x.iss"` - a plain name - is in the MAIN file's folder (the
+  script that was run), even when the line is inside another include; ${Script.CurrentDirectory} is that
+  same folder; ${LavishScript.HomeDirectory} is the folder that holds Scripts. NOT followed, and said so:
+  Classic's own files (EQ2OgreBot, OgreCommon, ... - sweep tells you to remove those #includes), anything
+  outside the Scripts folder, a file that is not there, and a ${...} the tool cannot work out.
+
 Needs only Python 3 and conversion-map.json (same folder, or --map <path>). It reads no bot source, so it
 runs anywhere the map has been copied to. Open source, like the map.
 
@@ -301,6 +313,73 @@ def live_lines(text):
             yield i, l, False; continue
         yield i, l, live(l)
 
+# ------------------------------------------------------------------ #include (the script's own include files)
+# Follow a script's own #include files and convert them in the same run. How LavishScript reads an
+# include path: a plain `#include "x.iss"` is in the MAIN file's folder - the script that was run - even
+# when the line sits inside another include file. ${Script.CurrentDirectory} is that same folder.
+HOME_TOKEN   = re.compile(r'\$\{LavishScript\.HomeDirectory\}', re.I)
+CURDIR_TOKEN = re.compile(r'\$\{Script\.CurrentDirectory\}', re.I)
+
+def scripts_home(path):
+    """The LavishScript home: the folder that holds the `Scripts` folder `path` sits in. None when it is in none."""
+    p = os.path.dirname(os.path.abspath(path))
+    while True:
+        d, base = os.path.split(p)
+        if base.lower() == 'scripts': return d
+        if not base or d == p: return None
+        p = d
+
+def same_file_key(path):
+    return os.path.normcase(os.path.abspath(path))
+
+def resolve_include(spec, main_file):
+    """-> (path, None) for an include to follow, or (None, why) for one that is not followed."""
+    s = spec.strip().strip('"').strip()
+    main_dir = os.path.dirname(os.path.abspath(main_file))
+    home = scripts_home(main_file)
+    if HOME_TOKEN.search(s):
+        if not home: return None, 'uses ${LavishScript.HomeDirectory}, but %s is not inside a Scripts folder' % main_file
+        s = HOME_TOKEN.sub(lambda m: home.replace('\\', '/'), s)
+    s = CURDIR_TOKEN.sub(lambda m: main_dir.replace('\\', '/'), s)
+    if '${' in s: return None, 'a ${...} in the path the tool cannot work out'
+    if not os.path.isabs(s): s = os.path.join(main_dir, s)      # a plain name: the MAIN file's folder
+    s = os.path.normpath(s)
+    if CLASSIC_TREES.search(s): return None, 'a Classic file - not yours to convert (sweep says to remove this #include)'
+    if home:
+        root = os.path.join(home, 'Scripts')
+        if not same_file_key(s).startswith(same_file_key(root) + os.sep): return None, 'outside the Scripts folder'
+    if not os.path.isfile(s): return None, 'not found: %s' % s
+    return s, None
+
+def include_tree(main_file, seen=None):
+    """-> (files, skipped): main_file first, then every include it reaches, each ONCE (a file two others include, or
+    two that include each other); skipped = [(file, line, spec, why)] for the includes not followed."""
+    seen = set() if seen is None else seen
+    files, skipped = [], []
+    if same_file_key(main_file) in seen: return files, skipped
+    seen.add(same_file_key(main_file)); files.append(main_file)
+    i = 0
+    while i < len(files):
+        f = files[i]; i += 1
+        try:
+            text = io.open(f, encoding='utf-8', errors='replace').read()
+        except (IOError, OSError):
+            continue
+        for n, l, ok in live_lines(text):
+            if not ok: continue
+            m = INCL.match(l)
+            if not m: continue
+            got, why = resolve_include(m.group(1), main_file)
+            if got is None:
+                skipped.append((f, n, m.group(1).strip().strip('"'), why)); continue
+            if same_file_key(got) not in seen:
+                seen.add(same_file_key(got)); files.append(got)
+    return files, skipped
+
+def say_skipped(skipped):
+    for f, n, spec, why in skipped:
+        print('%s:%s: INCLUDE %s - not followed: %s' % (f, n, spec, why))
+
 # ------------------------------------------------------------------ lookup
 # names lookup answers 'not Classic - unchanged' instead of 'NOT IN THE MAP' (`lookup oc` / `Script` must not
 # say 'stop and ask'). Only names the bot's own docs use - add when one is missed.
@@ -455,7 +534,33 @@ def backup_name(path):
     stem, ext = os.path.splitext(path)
     return stem + '.classic' + (ext or '.iss')
 
-def cmd_fix(M, path, outp, in_place=False):
+def cmd_fix(M, path, outp, in_place=False, follow=None):
+    # #includes: followed on a dry run unless --no-follow-includes; a WRITE follows only with --follow-includes
+    writes = bool(outp) or in_place
+    if follow is None: follow = not writes
+    if in_place and outp:
+        print('fix: use -o OR --in-place, not both'); return 2
+    if not follow:
+        return fix_one(M, path, outp, in_place)
+    files, skipped = include_tree(path)
+    base = None
+    if outp:
+        # -o is a FOLDER here: each file lands at its place under the Scripts folder (else under the main file's)
+        home = scripts_home(path)
+        root = os.path.join(home, 'Scripts') if home else os.path.dirname(os.path.abspath(path))
+        base = root if all(same_file_key(f).startswith(same_file_key(root) + os.sep) for f in files) \
+            else os.path.dirname(os.path.abspath(path))
+    rc = 0
+    for f in files:
+        out = os.path.join(outp, os.path.relpath(os.path.abspath(f), base)) if outp else None
+        if out and os.path.dirname(out) and not os.path.isdir(os.path.dirname(out)): os.makedirs(os.path.dirname(out))
+        rc = max(rc, fix_one(M, f, out, in_place))
+    say_skipped(skipped)
+    print('fix: %d file(s) - %s and the include files it reaches%s' % (len(files), path,
+          (', %d #include(s) not followed (listed above)' % len(skipped)) if skipped else ''))
+    return rc
+
+def fix_one(M, path, outp, in_place=False):
     if in_place:
         # Keep the name people type (`run cleanX` keeps working on the new bot) and keep the Classic
         # original beside it. An existing backup is never overwritten: a second run would back up a
@@ -483,14 +588,26 @@ def cmd_fix(M, path, outp, in_place=False):
     return 0
 
 # ------------------------------------------------------------------ sweep / coverage
-def files_of(paths):
+def files_of(paths, follow=False):
+    """Every file to read: the files named, every .iss / .inc / .json in the folders named, and - with `follow` -
+    the include files each script reaches (each file once, whatever reaches it twice)."""
+    seen = set()
     for p in paths:
         if os.path.isdir(p):
+            named = []
             for root, _, fs in os.walk(p):
                 for f in fs:
-                    if f.lower().endswith(('.iss', '.inc', '.json')): yield os.path.join(root, f)
+                    if f.lower().endswith(('.iss', '.inc', '.json')): named.append(os.path.join(root, f))
         else:
-            yield p
+            named = [p]
+        for f in named:
+            if not follow or f.lower().endswith('.json'):
+                if same_file_key(f) not in seen:
+                    seen.add(same_file_key(f)); yield f
+                continue
+            files, skipped = include_tree(f, seen)
+            say_skipped(skipped)
+            for g in files: yield g
 
 BUILT = {}     # button command text -> the commands its migration form names (lowercase)
 EMPTY = []     # buttons with a label and no command - clicking them does nothing
@@ -542,9 +659,9 @@ def units(f, text):
             return out
     return list(live_lines(text))
 
-def cmd_sweep(M, paths, coverage=False):
+def cmd_sweep(M, paths, coverage=False, follow=True):
     bad = warn = n_files = n_hits = 0
-    for f in files_of(paths):
+    for f in files_of(paths, follow):
         n_files += 1
         text = io.open(f, encoding='utf-8', errors='replace').read()
         own = local_defs(text)
@@ -631,9 +748,9 @@ SITE_RULES = [
      'an index tested with (exists) - out of range CRASHES the client; it needs a bound by the Count member'),
 ]
 
-def cmd_sites(paths):
+def cmd_sites(paths, follow=True):
     n = 0
-    for f in files_of(paths):
+    for f in files_of(paths, follow):
         for i, line, ok in units(f, io.open(f, encoding='utf-8', errors='replace').read()):
             if not ok: continue
             for tag, rx, what in SITE_RULES:
@@ -651,6 +768,11 @@ def main():
     ap.add_argument('--map', help='conversion-map.json to use (default: beside this tool)')
     ap.add_argument('--in-place', action='store_true',
                     help='fix: keep the name - copy the original to <file>.classic.iss, convert <file>.iss')
+    fi = ap.add_mutually_exclusive_group()
+    fi.add_argument('--follow-includes', dest='follow', action='store_true', default=None,
+                    help="follow the script's own #include files (the default, except for fix -o / --in-place)")
+    fi.add_argument('--no-follow-includes', dest='follow', action='store_false',
+                    help='only the files named - not their #include files')
     if any(x in ('-h', '--help') for x in sys.argv[1:3]):
         ap.print_help(); return 0           # `lookup --help` / `fix --help` too, not just the bare tool
     if len(sys.argv) > 2 and sys.argv[1] == 'lookup':
@@ -662,12 +784,14 @@ def main():
             elif x != '--': names.append(x)
         cmd_lookup(Map(find_map(mp)), names); return 0
     a, extra = ap.parse_known_args()        # console verbs start with '-' (lookup -RunWalk)
-    a.args = a.args + [x for x in extra if x not in ('-o', '--out', '--map', '--in-place')]
+    a.args = a.args + [x for x in extra if x not in ('-o', '--out', '--map', '--in-place', '--follow-includes',
+                                                     '--no-follow-includes')]
     M = Map(find_map(a.map))
     if a.cmd == 'lookup': cmd_lookup(M, a.args); return 0
-    if a.cmd == 'fix': return cmd_fix(M, a.args[0], a.out, a.in_place)
-    if a.cmd == 'sites': return cmd_sites(a.args)
-    return cmd_sweep(M, a.args, coverage=(a.cmd == 'coverage'))
+    follow = True if a.follow is None else a.follow
+    if a.cmd == 'fix': return cmd_fix(M, a.args[0], a.out, a.in_place, a.follow)
+    if a.cmd == 'sites': return cmd_sites(a.args, follow)
+    return cmd_sweep(M, a.args, coverage=(a.cmd == 'coverage'), follow=follow)
 
 if __name__ == '__main__':
     sys.exit(main())

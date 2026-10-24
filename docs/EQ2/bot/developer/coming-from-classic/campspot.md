@@ -1,8 +1,8 @@
+# Camp spot
+
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../index.md).
 </div>
-
-# Camp spot
 
 Everything Classic's *CampSpot System Reference* and *CampSpot Jump* pages described - the `Ogre_CampSpot` object, the movement locks, the `OgreBotAPI` camp-spot calls, the camp-spot console commands and `Obj_CampSpotJump` - and what each one is in the new bot.
 

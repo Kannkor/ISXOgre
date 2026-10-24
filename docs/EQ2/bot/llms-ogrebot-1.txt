@@ -388,7 +388,7 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Disable HO 39 (padlock)** <small>(scouts only)</small> | Scouts only: your rotation will not cast your abilities that carry the padlock HO icon. The bot's own HO steps can still use them. | off |
 | **Disable HO 40 (cloak)** <small>(scouts only)</small> | Scouts only: your rotation will not cast your abilities that carry the cloak HO icon. The bot's own HO steps can still use them. | off |
 | **Disable HO 41 (coin)** <small>(scouts only)</small> | Scouts only: your rotation will not cast your abilities that carry the coin HO icon. The bot's own HO steps can still use them.<br>*Do HO always ticks this, because the coin icon changes the HO window.* | off |
-| **Ignore Balanced Synergy** | **Not active yet.** <br>*One encounter setup (Sypheria the Shackled) ticks it, but it has no effect yet.* | off |
+| **Ignore Balanced Synergy** | When a group member's cast stack asks the group to cast Balanced Synergy, this character does not join in.<br>*Balanced Synergy is cast by the whole group together: a character with it in its cast stack as Custom, fighting a target within its % to attack, asks the group to cast it 10 seconds later. Fight setups that drive Balanced Synergy themselves (Sypheria the Shackled) tick this.* | off |
 
 ## Cast Stack (4 of 5)
 

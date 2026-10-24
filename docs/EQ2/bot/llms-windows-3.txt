@@ -1,9 +1,79 @@
 # OgreBot for EverQuest II - documentation, Windows (part 3 of 4)
 
 OgreBot is in beta testing. For OgreBot Classic see https://kannkor.github.io/ISXOgre/EQ2/
-This file is ONE PIECE of the documentation: Windows (part 3 of 4) - Windows - Crafting; Windows - Groups and accounts; Windows - Tools.
+This file is ONE PIECE of the documentation: Windows (part 3 of 4) - Windows - Loot and items; Windows - Crafting; Windows - Groups and accounts; Windows - Tools.
 The entire documentation in one document: https://kannkor.github.io/ISXOgre/EQ2/bot/llms-full.txt
 Index of every page and of every file like this one: https://kannkor.github.io/ISXOgre/EQ2/bot/llms.txt
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/questcompare.md
+
+# Quest Compare
+
+> **:bulb: In game - the ? button on this window says**
+>
+> Shows whether each member of your group is on the same step of a quest as you.
+>
+> **What you can do here**
+>
+> - **Auto compare**: every time one of your quests updates, the group is asked to compare it. Turn it on for one character per group.
+> - **Compare again** asks about the last quest again, right now.
+> - **Legend** (title bar) shows what each icon means.
+>
+> **Good to know**
+>
+> - Green tick = same step. Red cross = different step (their line is shown). Orange ! = does not have the quest. Grey ? = did not answer.
+> - Ticking Auto compare here unticks it on the rest of your group.
+> - The window pops up by itself when an automatic compare finds someone out of step.
+
+**Open it:** Type `ogre questcompare` (or `ogre qc`). It also opens by itself when you tick Auto compare / Enable Quest Compare, and when an automatic compare finds someone out of step. `ogre end questcompare` closes it.
+
+## What it is for
+
+Checks whether everyone in your group is on the same step of a quest as you. One character is the reference. When its quest updates, it asks the rest of the group to compare their step with its own, and this window shows the answer: one row per group member with an icon. The comparison happens on each member's own session, so the character that is out of step also says so in its own console.
+
+## Quest and summary line
+
+The top line is the quest that was compared last. Under it is a one-line summary, for example 'Everyone is on your step' in green, or '1 not on your step, 1 does not have the quest' in red, followed by 'auto' if the compare was automatic and how long ago it happened.
+
+## The member rows
+
+One row per group member (not you). A member on a different step shows the first line of their quest step that differs from yours. See the Legend section for what each icon means.
+
+## Auto compare and Compare again
+
+| Control | What it does | Default |
+|---|---|---|
+| **Auto compare** | The same setting as OgreBot's Enable Quest Compare. On: every time one of YOUR quests updates (and then stays quiet for 1.5 seconds), the bot asks the group to compare that quest. Ticking it here also unticks it on everyone else in the group, so there is one reference per group.<br>*Solo there is nobody to ask, so nothing happens. An automatic compare stays quiet in the console when everyone is in step, and pops this window up when someone is not.* | off |
+| **Compare again** | Asks the group to compare the quest shown at the top again, right now.<br>*Greyed out until something has been compared once, and while a compare is still waiting for answers.* |  |
+| **Legend** | Shows or hides the icon legend over the window. Click anywhere on the legend to close it. |  |
+| **Title bar close (X)** | Closes the window. Auto compare keeps working and will reopen the window if it finds a problem. |  |
+
+## Legend - what the icons mean
+
+Press **Legend** in the title bar to see this. Green tick = on the same step as you. Red cross = on a different step (the row shows their line). Orange ! = does not have this quest at all. Grey ? = did not answer in time (zoning, or the bot is not loaded on that character). Three dots = still waiting for an answer. Empty ring = nothing compared yet.
+
+## What the window shows
+
+- Summary line: 'Reading your journal...' and 'Waiting for answers...' while a compare runs; 'Could not compare: <reason>' in orange when your own journal could not be read (for example 'not in your quest journal' or 'no active step to compare'); 'Waiting for your next quest update.' when Auto compare is on and nothing has been compared yet; 'Nothing compared yet.' otherwise; 'Not in a group' when a compare finished and you have no group members (the list then says 'No group members to compare with').
+- Rows: your group members only (up to 5). Raid members outside your group are not asked.
+- A different-step row shows the first line of THEIR step that differs from yours. Hover it to read the whole line.
+
+## Good to know
+
+- Only one character per group should have Auto compare on. Ticking it on one character unticks it on the rest of the group automatically.
+- The first compare has to come from a quest update (Auto compare) or from the `-CompareQuest` console command. Compare again only repeats the last quest.
+- To read its step, each character makes that quest the current one in its quest journal, so the quest selected in your journal changes.
+- A member who is zoning or does not have the bot loaded shows the grey ? - it is not the same as being out of step.
+- Completing a quest also counts as an update; the automatic check stays quiet about a quest that is gone.
+
+## Other states
+
+![Everyone on your step](../assets/questcompare/allgood.png) ![Waiting for answers](../assets/questcompare/waiting.png) ![Nothing compared yet](../assets/questcompare/empty.png)
+
+Left to right: everyone in step, a compare still waiting for answers, and a fresh window before anything was compared.
 
 
 ---
@@ -83,7 +153,7 @@ These decide which recipes from your book appear in the list below. They are als
 |---|---|---|
 | **Quantity:** | How many to craft when you add a recipe. 1 to 9999. | 1 |
 | **Add Recipe** | Adds the highlighted recipe to the setup queue with the Quantity. If it is already queued, the quantity is added on top.<br>*Click a recipe in the list first. Double-clicking a recipe does the same.* |  |
-| **Start quest** | Crafts the quest that is selected in your quest journal: one of each recipe the quest's steps ask for, then re-reads the quest and goes again, until no craft step is left. Your setup queue is put aside and given back at the end.<br>*Select the quest in your journal first. Greyed out while anything is running.* |  |
+| **Start quest** | Crafts the quest that is selected in your quest journal: one of each recipe the quest's steps ask for, then re-reads the quest and goes again, until no craft step is left. Your setup queue is put aside and given back at the end.<br>*Select the quest in your journal first. Greyed out while anything is running. If a step needs a component you do not have yet (one the quest has you gather), it waits for it, counting again whenever your bags change (at most every 5 seconds); after 60 minutes it stops and says what is still missing.* |  |
 | **Rescan recipe book** | Reads every recipe in your recipe book again. Use it after learning new recipes if they do not show up. |  |
 
 ## Recipes tab - the recipe list
@@ -120,7 +190,7 @@ What the running (or last) queue is crafting, with 'done / wanted' per recipe. A
 
 ## Queues tab - resources
 
-Built when a queue starts: every component and fuel the queue needs, how many it needs and how many you have. Red rows are short. Rows marked FUEL are bought from the fuel merchant; missing components are only reported - the bot crafts anyway.
+Built when a queue starts: every component and fuel the queue needs, how many it needs and how many you have. Red rows are short. Rows marked FUEL are bought from the fuel merchant; missing components are only reported - the bot crafts anyway, except in a quest run, which waits for them.
 
 ## Crafting Options tab - craft targets
 
@@ -911,7 +981,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - **Chore buttons** on a row turn a chore on or off for that character. The **Everyone in** row does it for the whole list.
 > - **When run** - **Keep looping** (stays running and picks chores up as they come due - leave it overnight) or **One pass** (does what is due now, then stops).
 > - **Stagger start** - each session waits before its first login (is2 30 seconds, is3 60 seconds, and so on). Leave it on when one command starts lists on every session, or the server turns some logins away.
-> - **Chore options** - one row per chore. **Guild hall first** travels to the guild hall unless the character is already in one or in a house. **Harvest depot after** puts all harvests into the nearest harvest depot afterwards. **Bushels** (Plant): the harvest gives a bushel - leave it packed, take the latest reward (a new expansion is picked up on its own), or a chosen reward number. A bushel is lore, so the plant is never harvested while one is still in the bags - with "leave it packed" that character skips the plant until you unpack it. (Pack Pony always loads OgreBot first - it reads its answers from your profile.)
+> - **Chore options** - one row per chore. **Guild hall first** travels to the guild hall unless the character is already in one or in a house. **Harvest depot after** puts all harvests into the nearest harvest depot afterwards. **Destroy list after depot** then destroys the items on your IM destroy list - the excess the depot would not take. It only runs with Harvest depot after on, and only when the depot finished. **Bushels** (Plant): the harvest gives a bushel - leave it packed, take the latest reward (a new expansion is picked up on its own), or a chosen reward number. A bushel is lore, so the plant is never harvested while one is still in the bags - with "leave it packed" that character skips the plant until you unpack it. (Pack Pony always loads OgreBot first - it reads its answers from your profile.)
 > - **Save** writes your changes (what you set by hand in your own TaskRunner files is kept). **Discard** throws them away and reads the files again.
 >
 > **Good to know**
@@ -1240,56 +1310,3 @@ A tradeskill export of two named abilities - it saves to a folder, and the windo
 With **Help** on:
 
 ![Help on](../assets/exportgui/help.png)
-
-
----
-
-Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/aexport.md
-
-# Exporting Abilities
-
-> **:bulb: In game - the ? button on this window says**
->
-> Shows the progress of an ability export. It opens by itself when an export starts and closes by itself when it ends.
->
-> **What you can do here**
->
-> - **Watch progress**: the ability being read, how many of your abilities have been looked at, and how many were kept or skipped.
-> - **Stop** ends the export. Closing this window does the same.
->
-> **Good to know**
->
-> - Stopping writes nothing - your old ability file is left as it was.
-> - On a tradeskill export the Examine window opens and closes for each ability. Leave the game window alone until it finishes.
-
-**Open it:** Opens by itself when an ability export starts - from Run export in the Ability Export window, or `ogre export -start`. It closes by itself shortly after the export ends.
-
-## What it is for
-
-A small progress window for an ability export. It shows which ability is being read, how far through the list the export is, and how many abilities were kept or skipped. It is the only way to see (and stop) an export while it runs - the big Ability Export window steps aside until the export ends.
-
-## Progress
-
-Top line: the ability being read right now. It says '(cached)' for an ability the export already knows it would skip, so it is not looked up again, and 'Complete' on the last frame.
-
-| Control | What it does |
-|---|---|
-| **Stop** | Stops the export. Nothing is written - your old file stays as it was - and OgreBot does not reload its abilities. If the big Ability Export window stepped aside for the export, it comes back. |
-| **Title bar close (X)** | Closing this window also stops the export, exactly like Stop.<br>*The window closes itself about a second and a half after a finished export - that does not stop anything.* |
-
-## What the window shows
-
-- Top line: the ability being read, '(cached)' for one the export skips without a lookup, 'Starting…' before the first one, and 'Complete' at the end.
-- n / total: abilities looked at so far out of all the abilities in your knowledge book.
-- The bar: the same progress as a percentage.
-- added · skipped: how many abilities this run kept for the file, and how many it passed over (passives, wrong tier or level, not in your selection, and so on). With 'Only abilities I don't have yet', the ones already in your file count as skipped - they stay in the file.
-
-## Good to know
-
-- The count is every ability in your knowledge book, not just the ones that end up in the file - most exports skip a lot of them.
-- On a tradeskill export the game's Examine window flickers open and shut for each tradeskill ability. Leave the game window alone until it finishes.
-- When the export finishes, OgreBot reloads your abilities and cast stack from the new file (unless you ticked 'Don't reload OgreBot when finished' or ran a dry run).
-
-![Starting](../assets/aexport/starting.png) ![Cached](../assets/aexport/cached.png) ![Complete](../assets/aexport/complete.png)
-
-Left to right: just opened, skipping a cached ability, and the final frame.

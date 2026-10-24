@@ -1,8 +1,8 @@
+# Preferred group members
+
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../index.md).
 </div>
-
-# Preferred group members
 
 The `…Preferred` calls Classic's *Preferred Group & Raid Members* page described - pick the best member of an archetype in a fixed priority order - and what each one is in the new bot.
 

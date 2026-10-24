@@ -202,7 +202,9 @@ Right-click a window's title bar for this menu:
 | **Scale + / Scale -** | Makes this window bigger or smaller. |
 | **Scale: use default** | Goes back to the size set in Ogre Options. |
 | **Lock / Unlock** | Stops the window from being moved or resized, or allows it again. Like the padlock, it is remembered for next time. |
-| **Reset** | Puts the window back where it first opened, at its first size. |
+| **Pin to back / Unpin from back** | A pinned window always stays behind every window that is not pinned, even when you click it. Remembered for next time. |
+| **When Console is open** | A sub-menu: what this window does when the InnerSpace console opens over it - **Use default**, **Slide below**, **Hide** or **Leave in place**. **Use default** follows the choice in Ogre Options (named in brackets); the other three are this window's own, whatever Ogre Options says. The ticked one is in force. Remembered for next time. |
+| **Reset** | Puts the window back where it first opened, at its first size, turns off Lock and Pin to back, and sets Console back to use default. |
 
 ## The help box
 
@@ -226,6 +228,31 @@ What changed in OgreBot, release by release, newest first. Every release listed 
 A release is named by the day it was published and its number that day: **2026.10.16.005** is the fifth release on October 16, 2026. Releases with nothing you would notice are not listed, so the numbers can skip.
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
+
+## 2026.10.24.001 {#r2026-10-24-001}
+
+*Saturday, October 24, 2026 at 12:46 AM EDT*
+
+- **New** · Bot: **TaskRunner can run your destroy list after the harvest depot.** TaskRunner Lists has a new chore option, **Destroy list after depot**. With it and **Harvest depot after** both on, a Pack Pony run deposits its harvests, then destroys the items on your Ogre IM destroy list (ogre im -destroy -end) to clear out the excess. It only runs when the depot finished.
+- **New** · Windows: **ogre ui report copies a report of your windows to paste.** If something looks wrong on screen (a stray box, a window you cannot find), type `ogre ui report` in the console: it copies a report of every Ogre window, and of anything drawn outside them, to the clipboard. Paste it to whoever is helping you, so they can see what was on screen without asking you to reproduce it.
+- **New** · Windows: **Pin a window to the back, and choose what it does when the console opens.** Right-click any Ogre window's title bar for two new settings, both remembered: **Pin to back** keeps it behind every window that is not pinned, and **When Console is open** picks what it does when the InnerSpace console opens over it (slide below, hide, leave in place, or use the default). The default is Ogre Options' "When the InnerSpace console covers a window", now a list with a third choice, **Leave it where it is**; if you had chosen to hide windows before, pick it again in that list.
+- **New** · Other: **The script converter follows your #include files.** ogre_convert.py now follows a script's own #include files, so a script split over several files is checked and converted in one run. It follows them on a dry run and on sweep, coverage and sites; add --follow-includes to convert them in place or into a folder. Classic's own files are never followed.
+- **Changed** · Windows: **Clicking the game takes your typing out of an Ogre box.** When you are typing in an Ogre box (the OgreConsole, a search box, a setting) and click on the game outside every Ogre window, the box lets go of the keyboard, so your keys go to the game again. Before, it kept the keyboard until you pressed Escape or Enter.
+- **Fixed** · Bot: **Balanced Synergy is cast by the group, in combat only.** Balanced Synergy no longer spams out of combat. A character with it in the cast stack as Custom asks the whole group to cast it 10 seconds later, only while fighting a target within its % to attack. Ignore Balanced Synergy now works, and a character running a solo HO for a fight does not join in.
+- **Fixed** · Bot: **Consume Status Ingots uses them all.** Consume Status Ingots no longer stops after a few. An item it cannot use, such as a tradeskill ingot, is skipped after two tries and it goes on to the next one, as the old bot did. Before, the first such item ended the whole run.
+- **Fixed** · Bot: **Hail works with Assist on.** With Assist on, -Hail no longer hails the character you assist instead of the NPC: the target now stays on the NPC until the hail is done. The same goes for anything else that has to target something for a moment, such as getting or using a flag and repairing gear. If the NPC is still not targeted after a second, the hail is skipped rather than hailing something else.
+- **Fixed** · Bot: **No Offensive and No Defensive go by the ability.** No Offensive now holds back every hostile ability in the cast stack, and No Defensive every beneficial one, whatever type the entry is, Custom included. Before, they went by the entry's type, so a Custom entry was never held back by either.
+- **Fixed** · Bot: **ogre ae says plainly when it could not write its report.** When `ogre ae` cannot save its report, it now says the report was NOT written and why (for example, Windows refused to create the folder). Before, the failure line ended in the file's path just like the success line, so it read as "here is your file" when there was no file.
+- **Fixed** · Bot: **Possess Essence pet swap and Channeler dissonance fixed.** The Coercer tab now dismisses a pet of the wrong essence so Possess Essence can go on your preferred archetype, but only once Possess Essence is off cooldown and never against your combat or instance settings. Construct's Sacrifice is no longer recast while it is already on you. Channelers no longer try abilities they lack the dissonance for.
+- **Fixed** · Bot: **Spew relay group reports the group in use.** OgreBotAPI.Comms:SpewRelayGroup now reports the relay group each character really sends to, including a group set in the Relay Groups tab, instead of always saying ogre_everquest2.
+- **Fixed** · Bot: **The ability research check makes sure the Knowledge book closes.** After checking ability research, the bot now makes sure the Knowledge book has closed, and closes it again if it comes back. It also closes the book when a check ends early. If the book still will not close, a warning in the log says so.
+- **Fixed** · Bot: **The relay group setting now moves OgreConsole lines too.** "Send this bot's fleet commands to another group" now also sends OgreConsole lines (such as oc !c -Jump) to that group, so two fleets can be kept apart. Typing a name into its box no longer joins a group for each letter typed: it only sets where this character sends. For a character to hear a group, add it to "Also join these groups".
+- **Fixed** · Windows: **Ogre windows stay when the game's screen size changes.** Changing the game's resolution or window size (loading a UI options file with `/load_custom_options_file`, for example) no longer makes every Ogre window disappear, including the HUDs, which then stayed gone even after reloading OgreBot. The windows now stay where they are, a window the smaller screen left off-screen is moved back onto it, and each one gets its own size back on a larger screen.
+- **Fixed** · Windows: **The MCP button builder shows which who is chosen.** In Build command, the who list (who ▾) now highlights the choice the field already holds, the way the For Who window does - Auto when the field is auto or blank. Lists for other settings highlight their current value too.
+- **Fixed** · Windows: **The OgreBot mini window stays small.** The OgreBot mini window keeps its own small size again, so it no longer grows over the windows beside it. Its cog makes it bigger only while you choose what it shows, so the Done button is never cut off, and it goes back on Done. It also no longer shows the unsaved-changes star; the main OgreBot window still does.
+- **Fixed** · Instance Controller: **Pausing the Instance Controller no longer counts against a step's wait.** Time the Instance Controller spends paused is no longer counted against the step it paused in. A walk paused part-way used to fail the moment you resumed it; now every step - walks, loot, nameds, waits - picks up where it stopped.
+- **Fixed** · Crafting: **Quest crafting makes steps that are just the recipe's name.** Quest crafting now crafts a quest step that is only the item's name, such as "Delectable Drink (0/4)", when a recipe in your book has exactly that name. Before, only steps that started with a word like Craft or Create were made, and the rest were left for you.
+- **Fixed** · Crafting: **Quest crafting waits for components you are still gathering.** Quest crafting no longer fails three times when a step needs a component you have not gathered yet. It says what it is missing and waits, counting again whenever your bags change, then crafts as soon as it is there; after 60 minutes it stops and names what is still missing. When the Begin button is not available, the message now names any missing items.
 
 ## 2026.10.23.001 {#r2026-10-23-001}
 
@@ -816,7 +843,7 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Disable HO 39 (padlock)** <small>(scouts only)</small> | Scouts only: your rotation will not cast your abilities that carry the padlock HO icon. The bot's own HO steps can still use them. | off |
 | **Disable HO 40 (cloak)** <small>(scouts only)</small> | Scouts only: your rotation will not cast your abilities that carry the cloak HO icon. The bot's own HO steps can still use them. | off |
 | **Disable HO 41 (coin)** <small>(scouts only)</small> | Scouts only: your rotation will not cast your abilities that carry the coin HO icon. The bot's own HO steps can still use them.<br>*Do HO always ticks this, because the coin icon changes the HO window.* | off |
-| **Ignore Balanced Synergy** | **Not active yet.** <br>*One encounter setup (Sypheria the Shackled) ticks it, but it has no effect yet.* | off |
+| **Ignore Balanced Synergy** | When a group member's cast stack asks the group to cast Balanced Synergy, this character does not join in.<br>*Balanced Synergy is cast by the whole group together: a character with it in its cast stack as Custom, fighting a target within its % to attack, asks the group to cast it 10 seconds later. Fight setups that drive Balanced Synergy themselves (Sypheria the Shackled) tick this.* | off |
 
 ## Cast Stack (4 of 5)
 
@@ -2614,15 +2641,15 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogre
 
 # Relay Groups
 
-A relay group is a named channel that InnerSpace sessions use to talk to each other. Every EQ2 session joins 'ogre_everquest2' by itself, and the bot sends its fleet messages there: cast requests, cure requests, event messages, and the MCP and key-bind syncs. You only need this tab to use a different or extra group, for example to keep two separate fleets apart on one PC. The left side moves this character's fleet messages to another group; the right side joins extra groups each time the profile loads.
+A relay group is a named channel that InnerSpace sessions use to talk to each other. Every EQ2 session joins 'ogre_everquest2' by itself, and the bot sends its fleet messages there: cast requests, cure requests, event messages, the MCP and key-bind syncs, and OgreConsole lines such as oc !c that name no -rg. You only need this tab to use a different or extra group, for example to keep two separate fleets apart on one PC. The left side moves this character's fleet messages to another group; the right side joins extra groups each time the profile loads.
 
 | Option | What it does | Default |
 |---|---|---|
-| **Send this bot's fleet commands to another group:** | Sends this character's fleet messages (casts, cures, events, MCP and key-bind syncs) to the group named below instead of 'ogre_everquest2'. Takes effect as soon as you tick or untick it, and again at every profile load.<br>*Unticked always means 'ogre_everquest2', whatever the box below says.* | off |
-| **Group:** | The group to send to while the box above is ticked. This character joins it straight away. Blank means 'ogre_everquest2'.<br>*Letters, numbers and _ only.* | empty |
+| **Send this bot's fleet commands to another group:** | Sends this character's fleet messages (casts, cures, events, MCP and key-bind syncs, and OgreConsole lines such as oc !c that name no -rg) to the group named below instead of 'ogre_everquest2'. Takes effect as soon as you tick or untick it, and again at every profile load.<br>*Unticked always means 'ogre_everquest2', whatever the box below says.* | off |
+| **Group:** | The group to send to while the box above is ticked. Setting it does not join it: for this character to hear what is sent there too, add it to 'Also join these groups'. Blank means 'ogre_everquest2'.<br>*Letters, numbers and _ only.* | empty |
 | **Put it back when OgreBot closes:** | When OgreBot closes, this character goes back to sending to the group in 'Back to' (or 'ogre_everquest2' if that is blank). Unticked, it keeps sending to whatever group was in use.<br>*Matters because parts of Ogre, such as MCP, still send messages after OgreBot closes.* | off |
 | **Back to:** | The group to go back to when OgreBot closes. Blank means 'ogre_everquest2'. | empty |
-| **Also join these groups (joined on every profile load)** | Extra relay groups this character joins, in addition to the one it sends to. Each is joined when you add it and again every time the profile loads. | empty |
+| **Also join these groups (joined on every profile load)** | Relay groups this character joins, on top of 'ogre_everquest2'. List the group it sends to here too if this character should hear it. Each is joined when you add it and again every time the profile loads. | empty |
 | **Leave the groups above when OgreBot closes** | When OgreBot closes, this character leaves every group on the list above. It never leaves 'ogre_everquest2', even if that is on the list. | off |
 
 ## Extra groups
@@ -2635,7 +2662,7 @@ A relay group is a named channel that InnerSpace sessions use to talk to each ot
 
 ## Good to know
 
-- Changing the group only changes where THIS character sends. The others only hear it if they are in that group too, so set the same group on every character of that fleet.
+- Changing the group only changes where THIS character sends. Characters - this one included - only hear it if they are in that group, and setting it here does not join it. So set the same group on every character of that fleet, and add it to each one's 'Also join' list.
 - This character never leaves 'ogre_everquest2', so it still hears everything sent there.
 - Group names can only use letters, numbers and _. Anything else is removed when you add a row, so the name you see is the one that is joined now and on every profile load.
 - Removing a row from the 'Also join' list does not leave that group now. It is left only when OgreBot closes, and only if 'Leave the groups above' is ticked.
@@ -2897,7 +2924,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 >
 > **What you can do here**
 >
-> - The first rows are `ogre` itself: loading OgreBot (`ogre`, `ogre -p`, `ogre -ph`) and `ogre ui reload` / `ogre ui windows`.
+> - The first rows are `ogre` itself: loading OgreBot (`ogre`, `ogre -p`, `ogre -ph`) and `ogre ui reload` / `ogre ui windows` / `ogre ui report` (copies a report of the windows to paste when someone asks for one).
 > - **Search** finds a command by its name, its other names, or any word in its description.
 > - **Run** is `ogre <command>`; **End** is `ogre end <command>`, shown when the command has one.
 > - A command that takes arguments has a box after its name: type them as you would after `ogre <command>`, then **Run** (or press Enter). The grey text in the box shows what it accepts.
@@ -2939,7 +2966,7 @@ Greyed rows marked NOT PORTED are commands the old bot had that the new bot does
 
 ## What the window shows
 
-- The first rows are `ogre` itself - loading OgreBot (`ogre`, `ogre -p`, `ogre -ph`) and `ogre ui reload` / `ogre ui windows`. They have Run only.
+- The first rows are `ogre` itself - loading OgreBot (`ogre`, `ogre -p`, `ogre -ph`) and `ogre ui reload` / `ogre ui windows` / `ogre ui report` (copies a report of the windows to paste when someone asks for one). They have Run only.
 - Bold name = the command (`ogre <name>`). Next to it, its title.
 - also: = other names that work the same way, for example `ogre fps` for `ogre perf`.
 - The grey line under a row is what the command takes after its name, when it takes something.
@@ -3590,7 +3617,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > **What you can do here**
 >
 > - **Account** - your Ogre login. Saving it while logged out tries to log in again.
-> - **Ogre** - the size of every window (UI scale); whether windows hide or slide down when the InnerSpace console covers them; navmesh downloads (all zones, only the zones you go to, or none); and the **Session watch**: the uplink announces a session that freezes, recovers or disappears, and fires an event for uplink scripts (off by default).
+> - **Ogre** - the size of every window (UI scale); whether windows slide down, hide or stay where they are when the InnerSpace console covers them (the default - a window's right-click menu can give it its own); navmesh downloads (all zones, only the zones you go to, or none); and the **Session watch**: the uplink announces a session that freezes, recovers or disappears, and fires an event for uplink scripts (off by default).
 > - **Theme** - pick a colour scheme, or change any colour. Changes show at once.
 >
 > **Good to know**
@@ -3625,7 +3652,7 @@ Ogre Options holds the settings that belong to Ogre itself rather than to one ch
 | Control | What it does | Default |
 |---|---|---|
 | **UI scale — default for every window (right-click a window to override one)** | How big every Ogre window is drawn: 0.75, 0.9, 1 (100%), 1.1, 1.25 or 1.5. Applies to all windows as soon as you press Save. A window you scaled yourself (right-click its title bar, Scale + / Scale −) keeps its own size until you pick Scale: use default on it.<br>*The list opens inside the window and pushes the setting below it down, so every size is in view.* | 1 (100%) |
-| **Hide it (default: slide it below the console, then return it)** | What happens to an Ogre window that the InnerSpace console covers when you open it. Off: the window slides down below the console and moves back when the console closes. On: the window is hidden while the console is open.<br>*Like the UI scale, it takes effect when you press Save.* | off (slide it below) |
+| **When the InnerSpace console covers a window** | What happens to an Ogre window that the InnerSpace console covers when you open it. Slide it below the console, then put it back: it moves down out of the way and returns when the console closes. Hide it until the console closes. Leave it where it is: nothing moves.<br>*Like the UI scale, it takes effect when you press Save. This is the default for every window: a window can have its own, from its title bar's right-click menu, under When Console is open (Slide below, Hide or Leave in place; Use default goes back to this one).* | Slide it below the console, then put it back |
 | **Navmesh downloads** | Navmeshes are the zone maps the bot uses to walk and fly. **All zones, in the background**: every zone's mesh downloads while you play, the zone you are in first. **Only the zones I go to**: a zone's mesh downloads when you enter it or a route heads there. **Off**: nothing downloads, and nav tells you when a zone has no mesh.<br>*Takes effect as soon as you press Save. It is the same setting as `ogre patch mesh all\|ondemand\|off`.* | All zones, in the background |
 | **Announce sessions that freeze, recover or disappear** | Every session tells the uplink it is alive every 5 seconds. With this on, the uplink announces a session that goes silent (30 seconds, 90 while loading), comes back, or closes for any reason, and fires OgreEvent_SessionFrozen, OgreEvent_SessionRecovered and OgreEvent_SessionGone for scripts running in the uplink.<br>*Saved for the whole PC; Save also tells the uplink at once. `ogre sessions on\|off` turns it on or off until the uplink restarts.* | off |
 
@@ -5370,7 +5397,7 @@ These decide which recipes from your book appear in the list below. They are als
 |---|---|---|
 | **Quantity:** | How many to craft when you add a recipe. 1 to 9999. | 1 |
 | **Add Recipe** | Adds the highlighted recipe to the setup queue with the Quantity. If it is already queued, the quantity is added on top.<br>*Click a recipe in the list first. Double-clicking a recipe does the same.* |  |
-| **Start quest** | Crafts the quest that is selected in your quest journal: one of each recipe the quest's steps ask for, then re-reads the quest and goes again, until no craft step is left. Your setup queue is put aside and given back at the end.<br>*Select the quest in your journal first. Greyed out while anything is running.* |  |
+| **Start quest** | Crafts the quest that is selected in your quest journal: one of each recipe the quest's steps ask for, then re-reads the quest and goes again, until no craft step is left. Your setup queue is put aside and given back at the end.<br>*Select the quest in your journal first. Greyed out while anything is running. If a step needs a component you do not have yet (one the quest has you gather), it waits for it, counting again whenever your bags change (at most every 5 seconds); after 60 minutes it stops and says what is still missing.* |  |
 | **Rescan recipe book** | Reads every recipe in your recipe book again. Use it after learning new recipes if they do not show up. |  |
 
 ## Recipes tab - the recipe list
@@ -5407,7 +5434,7 @@ What the running (or last) queue is crafting, with 'done / wanted' per recipe. A
 
 ## Queues tab - resources
 
-Built when a queue starts: every component and fuel the queue needs, how many it needs and how many you have. Red rows are short. Rows marked FUEL are bought from the fuel merchant; missing components are only reported - the bot crafts anyway.
+Built when a queue starts: every component and fuel the queue needs, how many it needs and how many you have. Red rows are short. Rows marked FUEL are bought from the fuel merchant; missing components are only reported - the bot crafts anyway, except in a quest run, which waits for them.
 
 ## Crafting Options tab - craft targets
 
@@ -6198,7 +6225,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - **Chore buttons** on a row turn a chore on or off for that character. The **Everyone in** row does it for the whole list.
 > - **When run** - **Keep looping** (stays running and picks chores up as they come due - leave it overnight) or **One pass** (does what is due now, then stops).
 > - **Stagger start** - each session waits before its first login (is2 30 seconds, is3 60 seconds, and so on). Leave it on when one command starts lists on every session, or the server turns some logins away.
-> - **Chore options** - one row per chore. **Guild hall first** travels to the guild hall unless the character is already in one or in a house. **Harvest depot after** puts all harvests into the nearest harvest depot afterwards. **Bushels** (Plant): the harvest gives a bushel - leave it packed, take the latest reward (a new expansion is picked up on its own), or a chosen reward number. A bushel is lore, so the plant is never harvested while one is still in the bags - with "leave it packed" that character skips the plant until you unpack it. (Pack Pony always loads OgreBot first - it reads its answers from your profile.)
+> - **Chore options** - one row per chore. **Guild hall first** travels to the guild hall unless the character is already in one or in a house. **Harvest depot after** puts all harvests into the nearest harvest depot afterwards. **Destroy list after depot** then destroys the items on your IM destroy list - the excess the depot would not take. It only runs with Harvest depot after on, and only when the depot finished. **Bushels** (Plant): the harvest gives a bushel - leave it packed, take the latest reward (a new expansion is picked up on its own), or a chosen reward number. A bushel is lore, so the plant is never harvested while one is still in the bags - with "leave it packed" that character skips the plant until you unpack it. (Pack Pony always loads OgreBot first - it reads its answers from your profile.)
 > - **Save** writes your changes (what you set by hand in your own TaskRunner files is kept). **Discard** throws them away and reads the files again.
 >
 > **Good to know**
@@ -7416,6 +7443,31 @@ on the new bot. It first copies the original to a backup beside it (the tool pri
 then converts the file. If that backup already exists, it stops and writes nothing - the file may
 already be converted.
 
+#### Your #include files come along
+
+A script split over several files is converted in one go: the tool follows the script's own `#include` files.
+
+```
+python ogre_convert.py fix <file.iss>                                    (dry run: the file AND its includes)
+python ogre_convert.py fix <file.iss> --in-place --follow-includes       (converts them all, each with its backup)
+python ogre_convert.py fix <file.iss> -o <folder> --follow-includes      (writes them all into <folder>)
+```
+
+`coverage`, `sweep`, `sites` and a `fix` dry run follow the includes by default. A `fix` that writes
+(`--in-place` or `-o`) follows them only when you add `--follow-includes`, so it never rewrites a file you
+did not ask for. `--no-follow-includes` reads only the files you name.
+
+How a path is read - the way LavishScript reads it:
+
+- `#include "other.iss"` - a plain name - is in the folder of the **main** script (the one you `run`), even
+  when the line is inside another include file;
+- `${Script.CurrentDirectory}` is that same folder;
+- `${LavishScript.HomeDirectory}` is the folder that holds your `Scripts` folder.
+
+An include it does not follow is listed as `INCLUDE <path> - not followed: <why>`: one of Classic's own files
+(remove that `#include` - the new bot does not load Classic), a file outside your Scripts folder, a file that is
+not there, or a `${...}` it cannot work out.
+
 ### lookup - one name
 
 ```
@@ -7521,6 +7573,9 @@ or every line it still names is a question you have listed.
         - **Keep the name (recommended):** `fix --in-place`. The original is backed up beside it and the
           script keeps its name, so `run` and `#include` lines elsewhere keep working. It refuses if the
           backup already exists - then ask, the file may already be converted.
+        - **Its own `#include` files are part of the script.** Run the `fix` dry run first: it lists the
+          include files it found. Ask about them in the same question, then `fix --in-place --follow-includes`
+          converts them all. Report every `INCLUDE ... not followed` line it prints.
         - **A new file beside it:** `fix <file.iss> -o <new name>`. The original is untouched.
 
     Never write over a file the person did not choose, and never without the backup.
@@ -8545,7 +8600,7 @@ And the file ends with **the way out**: walk to the exit, then click it. Every z
 | `steps` | | The main list of steps. Most files only need this one. |
 | `enter`, `exit` | | Steps to run before `steps`, and after them. See [How a run goes](#how-a-run-goes). |
 | `entrance` | | Where the zone-in puts you: `{ "loc": [x, y, z], "tolerance": 10 }` (tolerance in meters, 30 if left out). Wipe recovery uses it to know the group is back at the zone-in. A file with nameds and no `entrance` loads with a warning. |
-| `progression` | | `"sequential"` (the default) or `"open"`. When a run starts part-way, or after a wipe, IC works out which nameds are already dead. With `sequential`, a named that is still standing means every named before it in the file is dead. With `open`, nameds can die in any order, so only the ones IC saw die count. |
+| `progression` | | `"sequential"` (the default) or `"open"`. When a run starts part-way, or after a wipe, IC works out which nameds are already dead. With `sequential`, a named that is still standing means every named before it in the file is dead, and IC skips them. With `open`, nameds can die in any order, so only the ones IC saw die count. **Use `sequential` only when each named appears only after the one before it dies.** If any later named is already up when you zone in, or a named has to be spawned by an event first (a ring event, a script, anything with a `spawnWaitMs`), use `"open"`. Otherwise a run that starts with that named not spawned yet sees the later named standing and skips it. Getting `open` wrong only costs a walk over ground you already cleared; getting `sequential` wrong skips a named. |
 | `enabled` | | `false` hides the file in the IC window, and it will not run. Write `true` or `false`, not `"false"`. |
 | `rerunWholeZoneAfterWipe` | | `true`: after a wipe recovery, run the whole file again from the top. For zones with teleporters inside, where the group cannot walk back to where it died. Starting such a zone part-way is only allowed where the group already stands. |
 | `wipeAttempts` | | How many times wipe recovery may run before IC gives the zone up: `0` to `10`, `2` if left out. |

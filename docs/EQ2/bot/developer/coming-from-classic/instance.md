@@ -1,8 +1,8 @@
+# Instance files
+
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../index.md).
 </div>
-
-# Instance files
 
 The helpers Classic's instance files called - none of them had a page in Classic's docs. In the new bot an instance is a JSON file the bot runs itself, so most of these are a line in that file now, not a script call.
 

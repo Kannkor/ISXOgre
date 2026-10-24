@@ -1,8 +1,8 @@
+# Detrimentals
+
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../index.md).
 </div>
-
-# Detrimentals
 
 What Classic's *Detrimentals System* page described - the detrimental members and events of the old `ISXOgre` extension, and the `AskDetrimentals` helper - and what each one is in the new bot.
 

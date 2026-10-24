@@ -1,8 +1,8 @@
+# Coming from Classic
+
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../index.md).
 </div>
-
-# Coming from Classic
 
 These pages are for people who wrote their own Classic scripts, raid modules, instance files or console lines, and want them to work with the new bot. Look a name up on the page where Classic's own developer docs described it.
 

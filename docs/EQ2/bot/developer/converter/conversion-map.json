@@ -41738,7 +41738,7 @@
    "surface": "OgreCraftAPI"
   },
   {
-   "howToFix": "Busy y/n: ${ISXOgreEQ2.Craft.Running}. What it is doing: ${ISXOgreEQ2.Craft.Stage} (a word to branch on: countingResources checkingFuel nextRecipe findingStation summoningStation walking crafting finishing / findingWrit gettingWrit waitingForWrit readingSteps clipboard turningIn nextWrit / buyingBooks pickingRecipe disposing / idle), .Status (display text), .Crafted / .CraftTotal (3 of 10). All of it at once: ${ISXOgreEQ2.Craft.Details} (JSON: running paused flow stage status crafted craftTotal recipe row rows lastError). Done, without polling: the event OgreCraft_CraftingStatusUpdate - Status CraftQueue_End / Writs_End / Quest_End / AutoTinkering_End / LLL_End.",
+   "howToFix": "Busy y/n: ${ISXOgreEQ2.Craft.Running}. What it is doing: ${ISXOgreEQ2.Craft.Stage} (a word to branch on: countingResources checkingFuel nextRecipe findingStation summoningStation waitingForComponents walking crafting finishing / findingWrit gettingWrit waitingForWrit readingSteps clipboard turningIn nextWrit / buyingBooks pickingRecipe disposing / idle), .Status (display text), .Crafted / .CraftTotal (3 of 10). All of it at once: ${ISXOgreEQ2.Craft.Details} (JSON: running paused flow stage status crafted craftTotal recipe row rows lastError). Done, without polling: the event OgreCraft_CraftingStatusUpdate - Status CraftQueue_End / Writs_End / Quest_End / AutoTinkering_End / LLL_End.",
    "id": "OgreCraftAPI.QueuedCommands",
    "newForm": "ISXOgreEQ2.Craft.Running",
    "note": "Is craft busy: ${ISXOgreEQ2.Craft.Running} - TRUE from :Start until the run ends (paused included; .Paused says so).",
@@ -42152,7 +42152,7 @@
    "surface": "OgreCraft"
   },
   {
-   "howToFix": "Busy y/n: ${ISXOgreEQ2.Craft.Running}. What it is doing: ${ISXOgreEQ2.Craft.Stage} (a word to branch on: countingResources checkingFuel nextRecipe findingStation summoningStation walking crafting finishing / findingWrit gettingWrit waitingForWrit readingSteps clipboard turningIn nextWrit / buyingBooks pickingRecipe disposing / idle), .Status (display text), .Crafted / .CraftTotal (3 of 10). All of it at once: ${ISXOgreEQ2.Craft.Details} (JSON: running paused flow stage status crafted craftTotal recipe row rows lastError). Done, without polling: the event OgreCraft_CraftingStatusUpdate - Status CraftQueue_End / Writs_End / Quest_End / AutoTinkering_End / LLL_End.",
+   "howToFix": "Busy y/n: ${ISXOgreEQ2.Craft.Running}. What it is doing: ${ISXOgreEQ2.Craft.Stage} (a word to branch on: countingResources checkingFuel nextRecipe findingStation summoningStation waitingForComponents walking crafting finishing / findingWrit gettingWrit waitingForWrit readingSteps clipboard turningIn nextWrit / buyingBooks pickingRecipe disposing / idle), .Status (display text), .Crafted / .CraftTotal (3 of 10). All of it at once: ${ISXOgreEQ2.Craft.Details} (JSON: running paused flow stage status crafted craftTotal recipe row rows lastError). Done, without polling: the event OgreCraft_CraftingStatusUpdate - Status CraftQueue_End / Writs_End / Quest_End / AutoTinkering_End / LLL_End.",
    "id": "OgreCraft.QueuedCommands",
    "newForm": "ISXOgreEQ2.Craft.Running",
    "note": "Is craft busy: ${ISXOgreEQ2.Craft.Running} - TRUE from :Start until the run ends (paused included; .Paused says so).",
@@ -47376,7 +47376,7 @@
    "howToFix": "Read ${ISXOgreEQ2.Auth.RelayGroup} - `ogre_convert.py fix` swaps every `${OgreRelayGroup}` (and `${OgreRelayGroup.Length}` etc.) for it. To send a command to your sessions, prefer the console's `oc !c` / `oc !ci` with a for-who instead of a raw relay.",
    "id": "OldBot framework|OgreRelayGroup",
    "newForm": "ISXOgreEQ2.Auth.RelayGroup",
-   "note": "The name of the relay group every OgreBot session joins (default ogre_everquest2), used as `relay ${OgreRelayGroup} ...` to reach all your sessions.",
+   "note": "The relay group this bot sends its fleet commands to: ogre_everquest2, which every OgreBot session joins, unless the Relay Groups tab sends somewhere else. Used as `relay ${OgreRelayGroup} ...` to reach all your sessions.",
    "oldCall": "OgreRelayGroup",
    "oldName": "OgreRelayGroup",
    "oldSpellingToday": "not defined - the new bot does not load Classic's framework, so the name does not exist",

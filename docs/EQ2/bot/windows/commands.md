@@ -10,7 +10,7 @@
 >
 > **What you can do here**
 >
-> - The first rows are `ogre` itself: loading OgreBot (`ogre`, `ogre -p`, `ogre -ph`) and `ogre ui reload` / `ogre ui windows`.
+> - The first rows are `ogre` itself: loading OgreBot (`ogre`, `ogre -p`, `ogre -ph`) and `ogre ui reload` / `ogre ui windows` / `ogre ui report` (copies a report of the windows to paste when someone asks for one).
 > - **Search** finds a command by its name, its other names, or any word in its description.
 > - **Run** is `ogre <command>`; **End** is `ogre end <command>`, shown when the command has one.
 > - A command that takes arguments has a box after its name: type them as you would after `ogre <command>`, then **Run** (or press Enter). The grey text in the box shows what it accepts.
@@ -60,7 +60,7 @@ Greyed rows marked NOT PORTED are commands the old bot had that the new bot does
 
 ## What the window shows
 
-- The first rows are `ogre` itself - loading OgreBot (`ogre`, `ogre -p`, `ogre -ph`) and `ogre ui reload` / `ogre ui windows`. They have Run only.
+- The first rows are `ogre` itself - loading OgreBot (`ogre`, `ogre -p`, `ogre -ph`) and `ogre ui reload` / `ogre ui windows` / `ogre ui report` (copies a report of the windows to paste when someone asks for one). They have Run only.
 - Bold name = the command (`ogre <name>`). Next to it, its title.
 - also: = other names that work the same way, for example `ogre fps` for `ogre perf`.
 - The grey line under a row is what the command takes after its name, when it takes something.

@@ -1,8 +1,8 @@
+# Console commands (OgreConsole)
+
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../index.md).
 </div>
-
-# Console commands (OgreConsole)
 
 What changed between the Classic console (V1) and the new console (V2) for every command you type after `oc !c` or `oc !ci`, or put on an MCP button.
 

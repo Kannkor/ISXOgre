@@ -32,7 +32,9 @@ Right-click a window's title bar for this menu:
 | **Scale + / Scale -** | Makes this window bigger or smaller. |
 | **Scale: use default** | Goes back to the size set in Ogre Options. |
 | **Lock / Unlock** | Stops the window from being moved or resized, or allows it again. Like the padlock, it is remembered for next time. |
-| **Reset** | Puts the window back where it first opened, at its first size. |
+| **Pin to back / Unpin from back** | A pinned window always stays behind every window that is not pinned, even when you click it. Remembered for next time. |
+| **When Console is open** | A sub-menu: what this window does when the InnerSpace console opens over it - **Use default**, **Slide below**, **Hide** or **Leave in place**. **Use default** follows the choice in Ogre Options (named in brackets); the other three are this window's own, whatever Ogre Options says. The ticked one is in force. Remembered for next time. |
+| **Reset** | Puts the window back where it first opened, at its first size, turns off Lock and Pin to back, and sets Console back to use default. |
 
 ## The help box
 
