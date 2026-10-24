@@ -624,6 +624,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - **Profiles** - click one to open it. **+ New** starts a blank one; **Import** copies your old OgreBot profiles.
 > - **Character rows** - pick the PC (ThisUplink), the session (is1, is2, or any) and the character.
 > - **Settings** - the game to launch and the pauses between launches and logins (in tenths of a second).
+> - **ISBoxer character set** - if you launch with ISBoxer, pick the set (the list shows this PC's sets). Start launches it first, then logs your characters into the sessions it opened, and launches only a session that is still missing. Leave it empty if you don't use ISBoxer.
 > - **Save** the profile, **Delete** the one selected in the list, or make a **Desktop shortcut** that runs it.
 > - **Start** runs the selected saved profile. Tick **Dry run** to only list what it would do.
 >

@@ -4,7 +4,7 @@
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
 
-EQ2Chars is your list of characters. It does two jobs. Every character on it is trusted: the bot obeys chat commands from them and, when 'Accept Invites' is ticked, accepts their group and raid invites. A character that also has an account and password can be logged in by the bot, for example with `ogre <name>`. The list is one list for the whole PC, not part of any profile. Fill in the form on the left and press Add / Save; the list on the right shows everything stored.
+EQ2Chars is your list of characters. It does two jobs. Every character on it is trusted: the bot obeys chat commands from them and, when 'Accept Invites' is ticked, accepts their group and raid invites. A character that also has an account and password can be logged in by the bot, for example with `ogre <name>` (add `-p` to load the bot paused, or `-ph` paused with its main window hidden). The list is one list for the whole PC, not part of any profile. Fill in the form on the left and press Add / Save; the list on the right shows everything stored.
 
 [![EQ2Chars tab](../assets/ogrebot/tab-eq2chars.png)](../assets/ogrebot/tab-eq2chars.png "Click for full size")
 

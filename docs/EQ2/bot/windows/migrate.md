@@ -6,7 +6,7 @@
 
 > **:bulb: In game - the ? button on this window says**
 >
-> Copies your OgreBot Classic settings into the new bot: logins, Inventory Manager settings and lists, OgreBot profiles, IRC settings and MCP buttons. It also adds an InnerSpace game profile, **Everquest 2 ISXOgreX**, under Everquest 2 / EverQuest II - launch a session with it and the new bot loads by itself.
+> Copies your OgreBot Classic settings into the new bot: logins, Inventory Manager settings and lists, OgreBot profiles, IRC settings and MCP buttons. It also adds an InnerSpace game profile, **Everquest 2 ISXOgreX**, under each InnerSpace game that runs EverQuest2.exe (whatever you named it) - launch a session with it and the new bot loads by itself.
 >
 > **What you can do here**
 >
