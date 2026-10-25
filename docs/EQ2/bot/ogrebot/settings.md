@@ -196,7 +196,7 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Enable Limited Raid Setups** | **Not active yet.**  | off |
 | **Enable Heroic Setups** | The same as 'Enable Raid Setups', but for every zone that is not a raid zone (heroic, solo and so on). | off |
 | **Disable Auto Setups** | **Not active yet.**  | off |
-| **Auto Target when Hated** | When you have no target at all, the bot looks about once a second for a mob within 30 meters (and roughly your height) that is attacking someone in your group, and targets it. | off |
+| **Auto Target when Hated** | When you have no target, or only something you can't fight (a corpse, chest, shiny or NoKill NPC), the bot looks about once a second for a mob within 30 meters (and roughly your height) that is attacking someone in your group, and targets it. It never does this while you are assisting someone (Auto Assist). | off |
 | **Disable Mortal Coil Dispel** | Mages: the bot normally dispels the 'Mortal Coil' buff from named mobs in range with your dispel ability. Tick this to stop it.<br>*'No Dispels' on the Settings tab also stops it.* | off |
 | **Wait for Recovery time** | Normally the bot picks the next ability the moment a cast lands, queuing it during the recovery time. Tick this to make it wait out each ability's recovery time (minus 0.2 seconds) first. Items are not affected. | off |
 | **Allow Specials to be Targets** | **Not active yet.**  | off |

@@ -579,7 +579,7 @@
   "OgreBotAPI.Movement:FlyDown": "[fw]",
   "OgreBotAPI.Movement:FlyStop": "[fw]",
   "OgreBotAPI.Movement:FlyUp": "[fw]",
-  "OgreBotAPI.Movement:Follow": "[fw,leader=off,minDistance=8,maxDistance=100,breakWithNoTarget=FALSE]",
+  "OgreBotAPI.Movement:Follow": "[fw,leader=off,minDistance=8,maxDistance=200,breakWithNoTarget=FALSE,backOffDistance=0]",
   "OgreBotAPI.Movement:FollowDistanceDown": "[fw]",
   "OgreBotAPI.Movement:FollowDistanceUp": "[fw]",
   "OgreBotAPI.Movement:ForceFollow": "[fw]",
@@ -5071,6 +5071,10 @@
    [
     "bool",
     false
+   ],
+   [
+    "float",
+    false
    ]
   ],
   "-ofol++": [
@@ -5128,6 +5132,10 @@
    ],
    [
     "bool",
+    false
+   ],
+   [
+    "float",
     false
    ]
   ],
@@ -5284,6 +5292,10 @@
    ],
    [
     "bool",
+    false
+   ],
+   [
+    "float",
     false
    ]
   ],
@@ -16937,10 +16949,10 @@
    "surface": "OgreBotAPI"
   },
   {
-   "howToFix": "Write `OgreBotAPI.Movement:Follow` instead of `OgreBotAPI:OFollow`. New arguments: `[fw,leader=off,minDistance=8,maxDistance=100,breakWithNoTarget=FALSE]`.",
+   "howToFix": "Write `OgreBotAPI.Movement:Follow` instead of `OgreBotAPI:OFollow`. New arguments: `[fw,leader=off,minDistance=8,maxDistance=200,breakWithNoTarget=FALSE,backOffDistance=0]`.",
    "id": "OgreBotAPI:OFollow",
    "newForm": "OgreBotAPI.Movement:Follow",
-   "newSignature": "[fw,leader=off,minDistance=8,maxDistance=100,breakWithNoTarget=FALSE]",
+   "newSignature": "[fw,leader=off,minDistance=8,maxDistance=200,breakWithNoTarget=FALSE,backOffDistance=0]",
    "oldCall": "OgreBotAPI:OFollow",
    "oldName": "OFollow",
    "oldSpellingToday": "reads NULL - no error in any log (the member no longer exists)",
@@ -31382,7 +31394,8 @@
     "whotofollow:string",
     "mindistance:float",
     "maxdistance:float",
-    "breakonfollow:bool"
+    "breakonfollow:bool",
+    "backoffdistance:float"
    ],
    "v2Row": "-ogrefollow"
   },
@@ -31404,7 +31417,8 @@
     "whotofollow:string",
     "mindistance:float",
     "maxdistance:float",
-    "breakonfollow:bool"
+    "breakonfollow:bool",
+    "backoffdistance:float"
    ],
    "v2Row": "-ogrefollow"
   },
@@ -31430,7 +31444,8 @@
     "whotofollow:string",
     "mindistance:float",
     "maxdistance:float",
-    "breakonfollow:bool"
+    "breakonfollow:bool",
+    "backoffdistance:float"
    ],
    "v2Row": "-ogrefollow"
   },

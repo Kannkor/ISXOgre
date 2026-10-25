@@ -229,6 +229,14 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.10.25.002 {#r2026-10-25-002}
+
+*Sunday, October 25, 2026 at 6:57 PM EDT*
+
+- **New** · Bot: **OgreFollow - a back-off distance.** OgreFollow takes a back-off distance after the break flag, e.g. `-ofol all Leader 3 200 FALSE 1`: closer than it for a second, you face who you follow and back up to halfway to the min distance (0, the default, is off). The max distance now defaults to 200 everywhere, movement always uses your Ogre Key Binds, and a move that gets nowhere for 30 seconds now stops.
+- **Fixed** · Bot: **Auto Target when Hated waits while you assist.** Auto Target when Hated no longer picks a target for a character that is assisting someone (Auto Assist on, with someone to assist), so raid characters stop grabbing an aggro mob on their own. With no one to assist, it still takes a mob attacking your group when you have no target, or only something you can't fight such as a corpse, chest, shiny or NoKill NPC.
+- **Fixed** · Instance Controller: **The Instance Controller lists zone files that are not valid, and why.** A zone file that cannot load now still shows in the Instance Controller's zone list, in red and marked "not valid", instead of the list saying the folder is empty. Click it and the bar under the list gives every reason, such as a file with no zoneOut step; it cannot be queued or run until it is fixed. A zone with no exit of its own can end with `{ "do": "zoneOut", "op": "none" }` and use Call to GH after each zone.
+
 ## 2026.10.25.001 {#r2026-10-25-001}
 
 *Sunday, October 25, 2026 at 1:44 PM EDT*
@@ -955,7 +963,7 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Enable Limited Raid Setups** | **Not active yet.**  | off |
 | **Enable Heroic Setups** | The same as 'Enable Raid Setups', but for every zone that is not a raid zone (heroic, solo and so on). | off |
 | **Disable Auto Setups** | **Not active yet.**  | off |
-| **Auto Target when Hated** | When you have no target at all, the bot looks about once a second for a mob within 30 meters (and roughly your height) that is attacking someone in your group, and targets it. | off |
+| **Auto Target when Hated** | When you have no target, or only something you can't fight (a corpse, chest, shiny or NoKill NPC), the bot looks about once a second for a mob within 30 meters (and roughly your height) that is attacking someone in your group, and targets it. It never does this while you are assisting someone (Auto Assist). | off |
 | **Disable Mortal Coil Dispel** | Mages: the bot normally dispels the 'Mortal Coil' buff from named mobs in range with your dispel ability. Tick this to stop it.<br>*'No Dispels' on the Settings tab also stops it.* | off |
 | **Wait for Recovery time** | Normally the bot picks the next ability the moment a cast lands, queuing it during the recovery time. Tick this to make it wait out each ability's recovery time (minus 0.2 seconds) first. Items are not affected. | off |
 | **Allow Specials to be Targets** | **Not active yet.**  | off |
@@ -3864,7 +3872,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 >
 > - Closing this window stops a running list, the same as End.
 > - If a zone fails, the group stays in that zone and the list stops.
-> - Every zone file must say how it leaves the zone. Reload skips a file that does not, and the log says what to add.
+> - Every zone file must say how it leaves the zone (a `zoneOut` step). A zone file with a problem still shows in the list, in red and marked "not valid": click it, and the bar under the list says what to fix. It cannot be queued until it is fixed.
 > - While IC travels the group to a zone, OgreBot is paused, so buffs that drop at each zone line are not recast out in the world. A toon that gets attacked on the way is resumed to fight, then paused again. On arrival everyone is resumed and has a few seconds to rebuff before the zone starts.
 > - Settings (including Max wait per zone) and the queue are saved, and shared by every character on this PC.
 
@@ -3893,11 +3901,11 @@ The Instance Controller (IC) runs a list of instanced zones for you, one after a
 
 | Control | What it does | Default |
 |---|---|---|
-| **Root dropdown (e.g. "test (4)")** | Picks which of the three content roots to browse: default, test or custom. Each shows how many files it has. Picking one goes to that root's top folder and clears the selected file. The choice is saved.<br>*Browse choice only. The roots have no priority order.* | default; on first ever open it auto-jumps to the first root that has files |
+| **Root dropdown (e.g. "test (4)")** | Picks which of the three content roots to browse: default, test or custom. Each shows how many files it has. Picking one goes to that root's top folder and clears the selected file. The choice is saved.<br>*Browse choice only. The roots have no priority order. The count is the files that load; a root can also list files that are not valid (red).* | default; on first ever open it auto-jumps to the first root that has files |
 | **Up** | Goes up one folder in the browse list and clears the selected file.<br>*Disabled at a root's top level.* |  |
 | **search** | Filters the browse list to files whose zone name or path contains the text. Not case-sensitive. It applies about 0.2 seconds after you stop typing.<br>*Not saved, so it clears when the extension reloads.* | empty |
 | **any variant / [Solo] / [Heroic] / ...** | Two jobs. (1) Hides files that do not have this variant. (2) Every zone you queue is tagged with this variant, which decides which instance the zone-in travels to. 'any variant (browse only)' turns the filter off and tags nothing. The choices are every variant found in the loaded zone files. Saved.<br>*With 'any', queuing a file that has 2+ variants pops up a pick-one menu at the row.* | any variant |
-| **Reload** | Re-reads every zone file from the three roots. Prints 'N zone(s) from M file(s) - X skipped, Y warning(s)'. The selected file is cleared if it no longer exists. A zone file that does not say how it leaves the zone is skipped, and the log names the file and the line to add (see Write your own zone files).<br>*A queued row whose file vanished fails with 'press Reload' when the row starts.* |  |
+| **Reload** | Re-reads every zone file from the three roots. Prints 'N zone(s) from M file(s) - X skipped, Y warning(s)'. The selected file is cleared if it no longer exists. A zone file with a problem (for example one that does not say how it leaves the zone) is not valid: it shows in the list in red, and clicking it says why (see Write your own zone files).<br>*A queued row whose file vanished fails with 'press Reload' when the row starts.* |  |
 
 ## Run tab - the zone list
 
@@ -3906,7 +3914,7 @@ The Instance Controller (IC) runs a list of instanced zones for you, one after a
 | **Sort: # / Sort: A-Z** | Flips the order of the Zones list: by the files' number (Sort: #, the default) or by zone name (Sort: A-Z). The button names the order shown. Add all queues in the same order. Saved. | Sort: # |
 | **Folder row (name + file count)** | Single click opens that folder. |  |
 | **Zone row (click)** | Selects the file. The add bar then shows its name, and its difficulty menu if it has one.<br>*Zone files marked as disabled are hidden.* |  |
-| **Zone row (double-click)** | Adds the zone to the end of the queue, tagged with the chosen variant and the remembered difficulty. With no variant chosen: a file with 0 or 1 variants is added directly; a file with 2 or more opens a pick-one popup at the row. The pick is checked against the zone file; a pick it does not allow is refused, and the error lists the allowed values. The new row becomes the highlighted one.<br>*The popup pick is one-off. It does not change the variant filter.* |  |
+| **Zone row (double-click)** | Adds the zone to the end of the queue, tagged with the chosen variant and the remembered difficulty. With no variant chosen: a file with 0 or 1 variants is added directly; a file with 2 or more opens a pick-one popup at the row. The pick is checked against the zone file; a pick it does not allow is refused, and the error lists the allowed values. The new row becomes the highlighted one.<br>*The popup pick is one-off. It does not change the variant filter. A zone file that is not valid shows in red with a "not valid" chip: a click selects it and the bar under the list gives every reason; it cannot be queued (Add is greyed out, and a double-click says why).* |  |
 
 ## Run tab - the queue
 
@@ -8508,10 +8516,11 @@ page. The examples below are cut from `Oogothl Sprawl - Ver'Bohten Atoll` and `G
 1. Make the folder `Scripts\OgreSave\EQ2\IC\custom\` if it is not there. Folders inside it are fine; the IC window
    shows them as folders.
 2. Copy a shipped zone file into it to start from, and give it a name of your own.
-3. Edit it. Then press **Reload** in the IC window. It prints `N zone(s) from M file(s) - X skipped, Y warning(s)`.
-   If anything was skipped, type `ogre ic reload` in the console: it prints one line per problem, saying which file
-   and what is wrong.
-4. Pick **custom** in the IC window's root list, queue your zone, and press **Run**.
+3. Edit it. Every file must say how it leaves the zone, with a `zoneOut` step (see [The way out](#the-way-out)). Then
+   press **Reload** in the IC window. It prints `N zone(s) from M file(s) - X skipped, Y warning(s)`.
+4. Pick **custom** in the IC window's root list. A file with a problem shows there in **red**, marked *not valid*:
+   click it, and the bar under the list says what is wrong (see [Checking your file](#checking-your-file)).
+5. When your zone shows normally, queue it and press **Run**.
 
 ## Where zone files go
 
@@ -8529,6 +8538,7 @@ page. The examples below are cut from `Oogothl Sprawl - Ver'Bohten Atoll` and `G
 ## A zone file, start to finish
 
 The top of the file says which zone it is for:
+
 
 ```json
 {
@@ -8555,6 +8565,7 @@ The top of the file says which zone it is for:
 
 Then come the **steps**. Each named gets a few: walk to it, kill it, loot its chest and the shinies, and say how it
 went:
+
 
 ```json
     {
@@ -8598,6 +8609,7 @@ went:
 
 And the file ends with **the way out**: walk to the exit, then click it. Every zone file must have a way out (see
 [The way out](#the-way-out)):
+
 
 ```json
     {
@@ -8713,6 +8725,7 @@ A `wait` step holds the list. `limitMs` and `onTimeout` are always needed: there
 
 Here the group runs to each light the boss calls, while the lights are up and the boss is not on top of them:
 
+
 ```json
     {
       "stepId": "named1.lights",
@@ -8797,14 +8810,21 @@ Anything in `{{ }}` inside a step's text is filled in when the step runs. The `i
 ## The way out
 
 **Every zone file must say how it leaves the zone.** It needs a `zoneOut` step somewhere in `enter`, `steps` or
-`exit` (inside a loop counts). A file without one is skipped when IC loads it, with this line in the log:
+`exit` (inside a loop counts). A file without one is **not valid**: it still shows in the Instance Controller's zone
+list, in red and marked *not valid*, but it cannot be queued or run. Click it and the bar under the list says why:
 
 ```
 no way out: every zone file states its exit - add { "stepId": "exit", "do": "zoneOut", "op": "auto" } as its last step ...
 ```
 
+Every other reason a file cannot load (a JSON mistake, an unknown step) is shown the same way, all of them at once.
+
 That way a zone never just ends with the group still standing in it, and you can always see from the file how it
 leaves. (Files that hand the zone to a script with `run` are left out of this rule: the script leaves its own way.)
+
+**A zone with no exit of its own** needs nothing made up: end it with `{ "stepId": "exit", "do": "zoneOut", "op": "none" }`.
+`none` still runs the Instance Controller's end of zone first, so with **Call to GH after each zone** ticked the group
+is called to the guild hall; without it, the group stays in the zone.
 
 | `op` | What it does |
 |---|---|
@@ -9068,12 +9088,17 @@ These are checked when the file loads, by the same rules fight files use. A miss
 
 ## Checking your file
 
-Press **Reload** after every change. A file with a problem is **skipped**: it does not show in the IC window, and
-`ogre ic reload` says why, one line per problem, like this:
+Press **Reload** after every change. A file with a problem is **not valid**: it still shows in the IC window's zone
+list, but in **red** with a *not valid* chip, and it cannot be queued or run. Click it, and the bar under the list
+gives every problem at once; hovering the row shows them too. `ogre ic reload` in the console prints the same, one
+line per problem, like this:
 
 ```
 custom/My Zone.json: steps[3]: path: `using` must be "campspot" or "nav"
 ```
+
+The most common one on a file written before October 2026 is the missing way out - add a `zoneOut` step
+([The way out](#the-way-out)). A file that is not even valid JSON is listed by its file name, as "not valid JSON".
 
 `steps[3]` is the third step in `steps`; a step inside a loop shows as `steps[5].steps[1]`.
 

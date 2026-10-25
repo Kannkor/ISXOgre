@@ -230,6 +230,14 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.10.25.002 {#r2026-10-25-002}
+
+*Sunday, October 25, 2026 at 6:57 PM EDT*
+
+- **New** · Bot: **OgreFollow - a back-off distance.** OgreFollow takes a back-off distance after the break flag, e.g. `-ofol all Leader 3 200 FALSE 1`: closer than it for a second, you face who you follow and back up to halfway to the min distance (0, the default, is off). The max distance now defaults to 200 everywhere, movement always uses your Ogre Key Binds, and a move that gets nowhere for 30 seconds now stops.
+- **Fixed** · Bot: **Auto Target when Hated waits while you assist.** Auto Target when Hated no longer picks a target for a character that is assisting someone (Auto Assist on, with someone to assist), so raid characters stop grabbing an aggro mob on their own. With no one to assist, it still takes a mob attacking your group when you have no target, or only something you can't fight such as a corpse, chest, shiny or NoKill NPC.
+- **Fixed** · Instance Controller: **The Instance Controller lists zone files that are not valid, and why.** A zone file that cannot load now still shows in the Instance Controller's zone list, in red and marked "not valid", instead of the list saying the folder is empty. Click it and the bar under the list gives every reason, such as a file with no zoneOut step; it cannot be queued or run until it is fixed. A zone with no exit of its own can end with `{ "do": "zoneOut", "op": "none" }` and use Call to GH after each zone.
+
 ## 2026.10.25.001 {#r2026-10-25-001}
 
 *Sunday, October 25, 2026 at 1:44 PM EDT*

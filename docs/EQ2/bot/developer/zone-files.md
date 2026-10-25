@@ -1,8 +1,8 @@
-# Write your own zone files
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# Write your own zone files
 
 A **zone file** tells the Instance Controller (IC) how to run one instanced zone: where the group walks, which
 nameds it kills, what it loots, and how it leaves. It is a JSON file. IC reads it from the top, one step at a
@@ -20,10 +20,11 @@ page. The examples below are cut from `Oogothl Sprawl - Ver'Bohten Atoll` and `G
 1. Make the folder `Scripts\OgreSave\EQ2\IC\custom\` if it is not there. Folders inside it are fine; the IC window
    shows them as folders.
 2. Copy a shipped zone file into it to start from, and give it a name of your own.
-3. Edit it. Then press **Reload** in the IC window. It prints `N zone(s) from M file(s) - X skipped, Y warning(s)`.
-   If anything was skipped, type `ogre ic reload` in the console: it prints one line per problem, saying which file
-   and what is wrong.
-4. Pick **custom** in the IC window's root list, queue your zone, and press **Run**.
+3. Edit it. Every file must say how it leaves the zone, with a `zoneOut` step (see [The way out](#the-way-out)). Then
+   press **Reload** in the IC window. It prints `N zone(s) from M file(s) - X skipped, Y warning(s)`.
+4. Pick **custom** in the IC window's root list. A file with a problem shows there in **red**, marked *not valid*:
+   click it, and the bar under the list says what is wrong (see [Checking your file](#checking-your-file)).
+5. When your zone shows normally, queue it and press **Run**.
 
 ## Where zone files go
 
@@ -41,6 +42,7 @@ page. The examples below are cut from `Oogothl Sprawl - Ver'Bohten Atoll` and `G
 ## A zone file, start to finish
 
 The top of the file says which zone it is for:
+
 
 ```json
 {
@@ -67,6 +69,7 @@ The top of the file says which zone it is for:
 
 Then come the **steps**. Each named gets a few: walk to it, kill it, loot its chest and the shinies, and say how it
 went:
+
 
 ```json
     {
@@ -110,6 +113,7 @@ went:
 
 And the file ends with **the way out**: walk to the exit, then click it. Every zone file must have a way out (see
 [The way out](#the-way-out)):
+
 
 ```json
     {
@@ -225,6 +229,7 @@ A `wait` step holds the list. `limitMs` and `onTimeout` are always needed: there
 
 Here the group runs to each light the boss calls, while the lights are up and the boss is not on top of them:
 
+
 ```json
     {
       "stepId": "named1.lights",
@@ -309,14 +314,21 @@ Anything in `{{ }}` inside a step's text is filled in when the step runs. The `i
 ## The way out
 
 **Every zone file must say how it leaves the zone.** It needs a `zoneOut` step somewhere in `enter`, `steps` or
-`exit` (inside a loop counts). A file without one is skipped when IC loads it, with this line in the log:
+`exit` (inside a loop counts). A file without one is **not valid**: it still shows in the Instance Controller's zone
+list, in red and marked *not valid*, but it cannot be queued or run. Click it and the bar under the list says why:
 
 ```
 no way out: every zone file states its exit - add { "stepId": "exit", "do": "zoneOut", "op": "auto" } as its last step ...
 ```
 
+Every other reason a file cannot load (a JSON mistake, an unknown step) is shown the same way, all of them at once.
+
 That way a zone never just ends with the group still standing in it, and you can always see from the file how it
 leaves. (Files that hand the zone to a script with `run` are left out of this rule: the script leaves its own way.)
+
+**A zone with no exit of its own** needs nothing made up: end it with `{ "stepId": "exit", "do": "zoneOut", "op": "none" }`.
+`none` still runs the Instance Controller's end of zone first, so with **Call to GH after each zone** ticked the group
+is called to the guild hall; without it, the group stays in the zone.
 
 | `op` | What it does |
 |---|---|
@@ -580,12 +592,17 @@ These are checked when the file loads, by the same rules fight files use. A miss
 
 ## Checking your file
 
-Press **Reload** after every change. A file with a problem is **skipped**: it does not show in the IC window, and
-`ogre ic reload` says why, one line per problem, like this:
+Press **Reload** after every change. A file with a problem is **not valid**: it still shows in the IC window's zone
+list, but in **red** with a *not valid* chip, and it cannot be queued or run. Click it, and the bar under the list
+gives every problem at once; hovering the row shows them too. `ogre ic reload` in the console prints the same, one
+line per problem, like this:
 
 ```
 custom/My Zone.json: steps[3]: path: `using` must be "campspot" or "nav"
 ```
+
+The most common one on a file written before October 2026 is the missing way out - add a `zoneOut` step
+([The way out](#the-way-out)). A file that is not even valid JSON is listed by its file name, as "not valid JSON".
 
 `steps[3]` is the third step in `steps`; a step inside a loop shows as `steps[5].steps[1]`.
 
