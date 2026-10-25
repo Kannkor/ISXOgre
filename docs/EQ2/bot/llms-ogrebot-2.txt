@@ -1063,7 +1063,7 @@ Tags let one bot's cast switch other abilities off or on for a while, across all
 | **Me** | The tag only turns on for the character who cast the ability. Your other bots are not told. | off |
 | **Incl. caster** | **Not active yet.** In the old bot it added the caster's name and the ability to the tag message. | off |
 | **Hide from OgreConsole** | **Not active yet.** In the old bot it kept the tag message out of OgreConsole. | off |
-| **Maintained** | The tag stays on while the caster still has the ability in their maintained list, and turns off for every bot as soon as it drops. The duration is then only a safety limit. | off |
+| **Maintained** | The tag stays on while the caster still has the buff in their maintained list, and turns off for every bot as soon as it drops. The duration is then only a safety limit.<br>*Any rank of the ability counts. For an item it is the buff the item puts on you when you use it.* | off |
 | **Add** | Adds the picked tag name, with the duration and ticks you set, to the Tags List. While you are editing a row this reads Update and saves your changes. |  |
 | **Clear Options** | Unticks every option. Ticks otherwise carry over to the next tag you add. |  |
 

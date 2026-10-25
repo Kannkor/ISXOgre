@@ -230,6 +230,13 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.10.25.001 {#r2026-10-25-001}
+
+*Sunday, October 25, 2026 at 1:44 PM EDT*
+
+- **Fixed** · Bot: **Cast Stack tags - items and Maintained.** Item and adornment entries on the Cast Stack now have the tag fields, so you can rotate an adornment such as Pack Mentality across your healers again, and the Embargo and Allow tag boxes are dropdowns of the tags on your Tags tab. A tag with Maintained ticked now stays on while the buff is up, at any rank; before, it switched off about a second after the cast. For an item, Maintained follows the buff the item puts on you.
+- **Fixed** · Bot: **Coercer tab - Possess Essence lands on the preferred archetype.** The Coercer tab's Possess Essence now targets the group member of your preferred archetype (or you) before it casts, as OgreBot Classic did. It used to take the essence from whatever you had targeted, so the pet came up the wrong kind, was dismissed, and was cast again in a loop.
+
 ## 2026.10.24.004 {#r2026-10-24-004}
 
 *Saturday, October 24, 2026 at 6:18 PM EDT*

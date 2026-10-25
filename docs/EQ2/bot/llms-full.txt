@@ -229,6 +229,13 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.10.25.001 {#r2026-10-25-001}
+
+*Sunday, October 25, 2026 at 1:44 PM EDT*
+
+- **Fixed** · Bot: **Cast Stack tags - items and Maintained.** Item and adornment entries on the Cast Stack now have the tag fields, so you can rotate an adornment such as Pack Mentality across your healers again, and the Embargo and Allow tag boxes are dropdowns of the tags on your Tags tab. A tag with Maintained ticked now stays on while the buff is up, at any rank; before, it switched off about a second after the cast. For an item, Maintained follows the buff the item puts on you.
+- **Fixed** · Bot: **Coercer tab - Possess Essence lands on the preferred archetype.** The Coercer tab's Possess Essence now targets the group member of your preferred archetype (or you) before it casts, as OgreBot Classic did. It used to take the essence from whatever you had targeted, so the pet came up the wrong kind, was dismissed, and was cast again in a loop.
+
 ## 2026.10.24.004 {#r2026-10-24-004}
 
 *Saturday, October 24, 2026 at 6:18 PM EDT*
@@ -755,7 +762,7 @@ The Cast Stack is the bot's main casting list. Every turn the bot walks the Cast
 
 - Types, in short. Buff: kept up, re-cast when it drops. NonCombatBuff: the same, but only while you are out of combat. Combat: only while the target is in combat. Heal / PowerHeal: when the target's health / power is at or below the HP / Mana %. Cure / CureCurse: when someone has something that ability can remove / a curse. Res: resurrects a dead player. CA and Debuff: attacks on your target; NamedCA and NamedDebuff only on named mobs, NonNamedCA only on non-named mobs. Special / Custom: advanced types that are cast when ready.
 - The Type list only offers the types that fit the ability (a resurrection only offers Res, a buff offers Buff or NonCombatBuff). Items offer the 12 basic types. If your ability export is missing, every type is offered.
-- Fields appear and disappear with the Type: Target only shows where you can choose one (attacks always go at your target), '# of ppl' / '# of mobs' only for group or area abilities, HP / Mana % only for heals, Savagery only for Beastlords, Diss only for Channelers. Items only get Type, Target, HP / Mana % and Requires Item Equipped.
+- Fields appear and disappear with the Type: Target only shows where you can choose one (attacks always go at your target), '# of ppl' / '# of mobs' only for group or area abilities, HP / Mana % only for heals, Savagery only for Beastlords, Diss only for Channelers. Items get Type, Target, HP / Mana %, Requires Item Equipped and the tags.
 - When you press Add or Update, values in fields that are hidden for the chosen Type are thrown away.
 - If a required field is missing, Add / Update does nothing and a message lists what is wrong.
 - Cast order colours: gold = Buff or NonCombatBuff, blue = Combat, light red = CA, red = NamedCA, pink = NonNamedCA, orange = Debuff, dark orange = NamedDebuff, magenta = Res, dark green = Cure, teal = CureCurse, bright green = Heal, cyan = PowerHeal, light cyan = Custom, lavender = Special. Pale yellow means this character does not have that ability (or the item is not in your bags or gear) right now. A switched-off entry keeps its colour but is struck through and dimmed.
@@ -2369,7 +2376,7 @@ Tags let one bot's cast switch other abilities off or on for a while, across all
 | **Me** | The tag only turns on for the character who cast the ability. Your other bots are not told. | off |
 | **Incl. caster** | **Not active yet.** In the old bot it added the caster's name and the ability to the tag message. | off |
 | **Hide from OgreConsole** | **Not active yet.** In the old bot it kept the tag message out of OgreConsole. | off |
-| **Maintained** | The tag stays on while the caster still has the ability in their maintained list, and turns off for every bot as soon as it drops. The duration is then only a safety limit. | off |
+| **Maintained** | The tag stays on while the caster still has the buff in their maintained list, and turns off for every bot as soon as it drops. The duration is then only a safety limit.<br>*Any rank of the ability counts. For an item it is the buff the item puts on you when you use it.* | off |
 | **Add** | Adds the picked tag name, with the duration and ticks you set, to the Tags List. While you are editing a row this reads Update and saves your changes. |  |
 | **Clear Options** | Unticks every option. Ticks otherwise carry over to the next tag you add. |  |
 
