@@ -26,7 +26,7 @@ Items is where you register the items the rest of OgreBot can offer you. The lef
 
 - If the Item List on Consume Items or Item Embargo, or a charm drop-down on Equipment Info, is empty, you have not registered any items here yet.
 - Registering does not make the bot use an item. It only makes the item appear in the other tabs' pickers.
-- The left list has special entries. '_EQUIPPED_<slot>_<number>' means 'whatever is in that slot', so you can use a charm slot without naming a specific charm. '_ADORN_<name>' is an adornment you have equipped.
+- The left list has special entries. '_EQUIPPED_<slot>_<number>' means 'whatever is in that slot', so you can use a charm slot without naming a specific charm. Using it uses that piece of gear, so it covers a clicky adornment on it too: the bot reads the item and every adornment on it to know when the buff is already up. '_ADORN_<name>' is an adornment you have equipped.
 - Right after a profile loads, the adornment entries can take a few seconds to appear. The bot scans again by itself once they are ready.
 - Unregistering an item does not remove it from Cast Stack or Consume Items entries you already made.
 

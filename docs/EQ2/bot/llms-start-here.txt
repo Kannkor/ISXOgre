@@ -230,6 +230,13 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.10.26.001 {#r2026-10-26-001}
+
+*Monday, October 26, 2026 at 2:19 AM EDT*
+
+- **Fixed** · Bot: **Cast Stack - an equipped-slot entry no longer chain-casts a clicky adornment.** A Cast Stack entry for an equipment slot (an _EQUIPPED_ entry) whose clicky is really an adornment on that gear was used again and again, because the bot only knew the item's own effects and never saw the buff as up. The entry now reads the item and every adornment on it, so it waits while the buff is up. Each adornment is examined once and remembered.
+- **Fixed** · Bot: **Cast Stack - entries switched by a script or command now show, and Save keeps them.** Turning a Cast Stack entry on or off with a command, a script or a fight file (OgreBotAPI.CastStack:SetEntry and the like) changed what the bot cast, but the Cast Stack window kept showing the old state, and Save did not keep the change. The window now updates at once, and pressing Save keeps it. Nothing is written to your profile until you press Save.
+
 ## 2026.10.25.003 {#r2026-10-25-003}
 
 *Sunday, October 25, 2026 at 11:54 PM EDT*
