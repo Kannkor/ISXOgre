@@ -10,6 +10,14 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.10.25.003 {#r2026-10-25-003}
+
+*Sunday, October 25, 2026 at 11:54 PM EDT*
+
+- **Fixed** · Bot: **Session watch - no more "is gone" / "recovered" spam for sessions launched by ISBoxer.** With Session watch on, a session launched through ISBoxer was announced as "is gone" and then "recovered" every 5 seconds while it ran fine, because InnerSpace does not list those sessions. A session now counts as gone when its game client closes, however it was launched. Closing, crashing or relaunching a session is still announced once.
+- **Fixed** · Windows: **Game client crash when dragging an Ogre window past the bottom of the screen.** On some PCs, dragging any Ogre window so part of it went below the bottom of the game screen closed the game client (UltralightCore.dll in the Windows error log). The UI now stops the drawing step that ran past the bottom edge before it can crash the client. Nothing you can see changes.
+- **Fixed** · Windows: **Windows saved on a taller screen no longer open below the bottom of a shorter one.** A window whose saved spot was below the bottom of the game's screen - for example a position saved at 1920x1080, then played in an ISBoxer layout that draws the game at 1920x810 - opened out of sight. Windows now always open with their title bar on the screen, and go back to their saved spot when the screen is big enough again. A window dropped with its title bar off the screen comes back to where it can be grabbed.
+
 ## 2026.10.25.002 {#r2026-10-25-002}
 
 *Sunday, October 25, 2026 at 6:57 PM EDT*
