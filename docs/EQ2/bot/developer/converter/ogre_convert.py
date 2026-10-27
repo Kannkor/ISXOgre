@@ -31,6 +31,8 @@ WHAT `fix` REWRITES - and nothing else:
   * an old call whose ONLY change is "the for-who is now argument 0" on an object that acted on its own
     session (every Ogre_CampSpot / Obj_* / OgreBotAPI method that had no for-who): `all` is inserted
     first - a script's own call only ever runs on the session running it, so that is what the old call did;
+    (both of the above only when the call passes every argument the new form requires - a call that leaves
+    one off or blank is a TO-DO instead: the new verb refuses it);
   * a console verb that was renamed with the same arguments;
   * a Classic framework variable renamed to a plain member: `${OgreRelayGroup}` (and `${OgreRelayGroup.Length}`
     etc.) becomes `${ISXOgreEQ2.Auth.RelayGroup}` - the same text under its new name.
@@ -447,6 +449,29 @@ def cmd_lookup(M, names):
 # ------------------------------------------------------------------ fix (mechanical pass)
 FW_NOTE = 'The for-who is now argument 0'
 
+def call_args(line, at):
+    """The top-level arguments of the `[...]` that opens at line[at] (each stripped), or None when it does not close
+    on this line. Brackets, braces and "quoted text" nest; only a comma at the call's own level splits."""
+    args, cur, depth, quoted = [], [], 0, False
+    for i in range(at, len(line)):
+        c = line[i]
+        if quoted:
+            quoted = c != '"'
+        elif c == '"':
+            quoted = True
+        elif c in '[{':
+            depth += 1
+            if depth == 1: continue
+        elif c in ']}':
+            depth -= 1
+            if depth == 0:
+                args.append(''.join(cur).strip())
+                return [] if args == [''] else args
+        elif c == ',' and depth == 1:
+            args.append(''.join(cur).strip()); cur = []; continue
+        cur.append(c)
+    return None
+
 def fix_line(M, line, n, todo, own=frozenset()):
     if not live(line): return line
     skip = new_spans(M, line)
@@ -462,10 +487,18 @@ def fix_line(M, line, n, todo, own=frozenset()):
         safe = nf.startswith('OgreBotAPI') and not m.group(1) and sep == nsep
         has_args = line[m.end():m.end() + 1] == '['
         args_ok = (not has_args) or row.get('argsCheck') == 'same-count'
-        if st in ('moved', 'renamed') and safe and args_ok and not row.get('argsDropped'):
+        # the map proves the two signatures line up, not that THIS call passes what the new form needs - a call
+        # that leaves off (or blanks) an argument the new form requires is the writer's to finish
+        need = row.get('argsNeeded') or 0
+        given = call_args(line, m.end()) if has_args else []
+        # only a VISIBLY short call: `${...}` text can expand to several arguments, so a call holding one is not
+        # counted short (nor is one whose `[` does not close on the line)
+        short = need > 0 and given is not None and not any('${' in a for a in given) \
+            and (len(given) < need or any(not a for a in given[:need]))
+        if st in ('moved', 'renamed') and safe and args_ok and not short and not row.get('argsDropped'):
             out.append(line[pos:m.start()]); out.append(nf); pos = m.end()
             todo.append((n, old, 'DONE', '-> %s' % nf)); continue
-        if st == 'signature' and safe and (row.get('note') or '').startswith(FW_NOTE) and not row.get('argsDropped')                 and row.get('argsCheck') == 'same-count':
+        if st == 'signature' and safe and not short and (row.get('note') or '').startswith(FW_NOTE) and not row.get('argsDropped')                 and row.get('argsCheck') == 'same-count':
             after = line[m.end():]
             out.append(line[pos:m.start()]); out.append(nf)
             if after.startswith('['):
@@ -477,6 +510,9 @@ def fix_line(M, line, n, todo, own=frozenset()):
         why = row.get('howToFix') or ''
         if st in ('moved', 'renamed', 'signature') and not args_ok:
             why = 'check the arguments first - the map cannot prove they line up. ' + why
+        elif st in ('moved', 'renamed', 'signature') and short:
+            why = ('check the arguments first - the new form needs %d argument(s) here and this call leaves one off or blank. '
+                   % need) + why
         todo.append((n, old, st, why))
     out.append(line[pos:])
     new = ''.join(out)

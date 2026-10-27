@@ -43,17 +43,17 @@ The Instance Controller (IC) runs a list of instanced zones for you, one after a
 
 | Control | What it does | Default |
 |---|---|---|
-| **▼ / ▲** | Shrinks the window to a one-line strip showing the run status, Pause and Expand. Clicking again restores the previous size. Display only - changes what you see, not what the bot does.<br>*The strip is 440 pixels wide and only as tall as its content.* | expanded |
+| **▼ / ▲ (minimize)** | Minimizes the window to its title bar and a one-line strip showing the run status, Pause and Expand. Clicking again restores it. Double-clicking the title bar does the same. Display only - changes what you see, not what the bot does.<br>*The window keeps its width; it always opens at its normal size.* | normal size |
 | **Close (X)** | Closing the window STOPS a running list, exactly like End (the reason shown is 'panel closed'), and turns IC's pause off.<br>*Closing is not just hiding the window. It does NOT cancel end-of-list actions that are already running (use End for that), so closing the window on the way out never undoes an armed camp.* |  |
 | **Run / Startup Options / Settings** | Switches the page you see. Display only. | Run |
 
-## Shrunk to a strip
+## Minimized
 
-[![Shrunk to a strip](../assets/ic/shrunk.png)](../assets/ic/shrunk.png "Click for full size")
+[![Minimized](../assets/ic/shrunk.png)](../assets/ic/shrunk.png "Click for full size")
 
 | Control | What it does |
 |---|---|
-| **Pause / Resume** | Same as the Pause button at the bottom. Turns IC's own pause on or off. OgreBot's pause is not touched.<br>*Only visible when shrunk.* |
+| **Pause / Resume** | Same as the Pause button at the bottom. Turns IC's own pause on or off. OgreBot's pause is not touched.<br>*Only visible while the window is minimized.* |
 | **Expand** | Restores the full window. |
 
 ## Run tab - choosing zones

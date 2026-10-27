@@ -81,7 +81,7 @@
   "OgreBotAPI.Abilities.TypeID": null,
   "OgreBotAPI.Abilities.TypeIDRef": null,
   "OgreBotAPI.Abilities:AbilityDetails": "[fw,\"name or id\"]",
-  "OgreBotAPI.Abilities:AddEmbargo": "[fw,id,durationSec=0]",
+  "OgreBotAPI.Abilities:AddEmbargo": "[fw,id,durationSec]",
   "OgreBotAPI.Abilities:AnnounceCasted": "[fw,caster,seconds=0]",
   "OgreBotAPI.Abilities:AnnounceCasting": "[fw,seconds=0]",
   "OgreBotAPI.Abilities:CancelCasting": "[fw,except...,-HOAbility,-HOAbilityUI,-CastTime s]",
@@ -292,7 +292,7 @@
   "OgreBotAPI.Client": null,
   "OgreBotAPI.Client:ResetCamera": "[fw]",
   "OgreBotAPI.Client:SetCameraPitch": "[fw,pitch=0,endInFirstPerson=FALSE]",
-  "OgreBotAPI.Client:SetMousePosition": "[fw,x=0,y=0]",
+  "OgreBotAPI.Client:SetMousePosition": "[fw,x,y]",
   "OgreBotAPI.Client:SetMousePositionMiddle": "[fw]",
   "OgreBotAPI.Combat": null,
   "OgreBotAPI.Combat.InCombat": null,
@@ -379,8 +379,8 @@
   "OgreBotAPI.Cures": null,
   "OgreBotAPI.Cures.CurseCalled": null,
   "OgreBotAPI.Cures.CursedID": "[-archetype X...,-uncurable,-uncurableonly,-GroupOnly]",
-  "OgreBotAPI.Cures.Detrimental": "[main,back,actorId=0,field=exists]",
-  "OgreBotAPI.Cures.DetrimentalText": "[main,back,actorId=0,field=exists]",
+  "OgreBotAPI.Cures.Detrimental": "[main=0,back=0,actorId=0,field=exists]",
+  "OgreBotAPI.Cures.DetrimentalText": "[main=0,back=0,actorId=0,field=exists]",
   "OgreBotAPI.Cures.GroupCurses": null,
   "OgreBotAPI.Cures.GroupUncurable": null,
   "OgreBotAPI.Cures.GroupUncurableIDs": null,
@@ -485,9 +485,9 @@
   "OgreBotAPI.Inventory.PackPonyRunning": null,
   "OgreBotAPI.Inventory.SlotAvailable": "[slot name]",
   "OgreBotAPI.Inventory.SlotModifier": "[slot,modifier]",
-  "OgreBotAPI.Inventory.SlotName": "[n]",
+  "OgreBotAPI.Inventory.SlotName": "[n=1]",
   "OgreBotAPI.Inventory.SlotNumAvailable": "[slot number 1-22]",
-  "OgreBotAPI.Inventory.SlotUIName": "[n]",
+  "OgreBotAPI.Inventory.SlotUIName": "[n=1]",
   "OgreBotAPI.Inventory:AutoConsumeFamiliarXP": "[fw,...]",
   "OgreBotAPI.Inventory:AutoConsumeFoodDrink": "[fw,...]",
   "OgreBotAPI.Inventory:AutoConsumeMountTraining": "[fw,...]",
@@ -545,7 +545,7 @@
   "OgreBotAPI.Movement.Active": null,
   "OgreBotAPI.Movement.AllowMovement": null,
   "OgreBotAPI.Movement.AlreadyFacing": "[id]",
-  "OgreBotAPI.Movement.BehindLoc": "[id,dist]",
+  "OgreBotAPI.Movement.BehindLoc": "[id,dist=5]",
   "OgreBotAPI.Movement.BlockCount": null,
   "OgreBotAPI.Movement.BlockReasons": null,
   "OgreBotAPI.Movement.Blocked": "[reason]",
@@ -554,14 +554,14 @@
   "OgreBotAPI.Movement.FaceLockActor": null,
   "OgreBotAPI.Movement.FaceLockRemaining": null,
   "OgreBotAPI.Movement.FaceLocked": null,
-  "OgreBotAPI.Movement.FrontLoc": "[id,dist]",
+  "OgreBotAPI.Movement.FrontLoc": "[id,dist=5]",
   "OgreBotAPI.Movement.GettingToGH": null,
   "OgreBotAPI.Movement.GoalDistance": null,
   "OgreBotAPI.Movement.HeadingTo": "[id]",
-  "OgreBotAPI.Movement.LeftLoc": "[id,dist]",
+  "OgreBotAPI.Movement.LeftLoc": "[id,dist=5]",
   "OgreBotAPI.Movement.MyLoc": null,
-  "OgreBotAPI.Movement.PointToward": "[fromX,fromY,fromZ,towardX,towardY,towardZ,dist]",
-  "OgreBotAPI.Movement.RightLoc": "[id,dist]",
+  "OgreBotAPI.Movement.PointToward": "[fromX=0,fromY=0,fromZ=0,towardX=0,towardY=0,towardZ=0,dist=15]",
+  "OgreBotAPI.Movement.RightLoc": "[id,dist=5]",
   "OgreBotAPI.Movement.UseWithoutOgreBot": null,
   "OgreBotAPI.Movement:AutoRun": "[fw]",
   "OgreBotAPI.Movement:Block": "[fw,reason]",
@@ -571,10 +571,10 @@
   "OgreBotAPI.Movement:Crouch": "[fw]",
   "OgreBotAPI.Movement:Evac": "[fw,mode=\"\"]",
   "OgreBotAPI.Movement:FaceActor": "[fw,nameOrId]",
-  "OgreBotAPI.Movement:FaceAngle": "[fw,angle=0]",
-  "OgreBotAPI.Movement:FaceLoc": "[fw,x=0,y=0,z=0]",
+  "OgreBotAPI.Movement:FaceAngle": "[fw,angle]",
+  "OgreBotAPI.Movement:FaceLoc": "[fw,x,y,z]",
   "OgreBotAPI.Movement:FaceLock": "[fw,nameOrId,ttlSeconds=0]",
-  "OgreBotAPI.Movement:FaceLockLoc": "[fw,x=0,z=0,ttlSeconds=0]",
+  "OgreBotAPI.Movement:FaceLockLoc": "[fw,x,z,ttlSeconds=0]",
   "OgreBotAPI.Movement:FaceUnlock": "[fw]",
   "OgreBotAPI.Movement:FlyDown": "[fw]",
   "OgreBotAPI.Movement:FlyStop": "[fw]",
@@ -593,8 +593,8 @@
   "OgreBotAPI.Movement:Jump": "[fw]",
   "OgreBotAPI.Movement:JumpRoute": "[fw,start,jump,end,completed=\"\",flag...]",
   "OgreBotAPI.Movement:LandFlyingMount": "[fw]",
-  "OgreBotAPI.Movement:Move2Area": "[fw,x=0,y=0,z=0,precision=3]",
-  "OgreBotAPI.Movement:Move2AreaNoTarget": "[fw,x=0,y=0,z=0,precision=3]",
+  "OgreBotAPI.Movement:Move2Area": "[fw,x,y,z,precision=3]",
+  "OgreBotAPI.Movement:Move2AreaNoTarget": "[fw,x,y,z,precision=3]",
   "OgreBotAPI.Movement:NavStop": "[fw]",
   "OgreBotAPI.Movement:NavTo": "[fw,x,y,z,mode=walk]",
   "OgreBotAPI.Movement:Pull": "[fw]",
@@ -607,10 +607,10 @@
   "OgreBotAPI.Movement:Stop": "[fw]",
   "OgreBotAPI.Movement:StopFollow": "[fw]",
   "OgreBotAPI.Movement:StopJumpRoute": "[fw]",
-  "OgreBotAPI.Movement:ToLoc": "[fw,x=0,y=0,z=0,precision=0]",
+  "OgreBotAPI.Movement:ToLoc": "[fw,x,y,z,precision=0]",
   "OgreBotAPI.Movement:Unblock": "[fw,reason]",
-  "OgreBotAPI.Movement:UseWithoutOgreBot": "[fw,1|0]",
-  "OgreBotAPI.Movement:Waypoint": "[fw,x=0,y=0,z=0]",
+  "OgreBotAPI.Movement:UseWithoutOgreBot": "[fw,1|0=0]",
+  "OgreBotAPI.Movement:Waypoint": "[fw,x,y,z]",
   "OgreBotAPI.NPCUnkillableBug": null,
   "OgreBotAPI.Options": null,
   "OgreBotAPI.Options.Value": "[id]",
@@ -637,7 +637,7 @@
   "OgreBotAPI.Position.MyModelSize": null,
   "OgreBotAPI.Position.Toward": "[fx,fy,fz,tx,ty,tz,dist=15]",
   "OgreBotAPI.Quest": null,
-  "OgreBotAPI.Quest.ActorHas": "[actorId]",
+  "OgreBotAPI.Quest.ActorHas": "[actorId=0]",
   "OgreBotAPI.Quest.DeityPoints": null,
   "OgreBotAPI.Quest.Have": "[name]",
   "OgreBotAPI.Quest.SkipShinies": null,
@@ -728,19 +728,19 @@
   "OgreBotAPI.Travel:ZoneDoor": "[door=1]",
   "OgreBotAPI.Travel:ZoneDoorFor": "[fw,door=1]",
   "OgreBotAPI.Util": null,
-  "OgreBotAPI.Util.Between": "[v,lo,hi]",
-  "OgreBotAPI.Util.BetweenFloat": "[v,lo,hi]",
+  "OgreBotAPI.Util.Between": "[v=0,lo=0,hi=0]",
+  "OgreBotAPI.Util.BetweenFloat": "[v=0,lo=0,hi=0]",
   "OgreBotAPI.Util.Clean": "[s]",
   "OgreBotAPI.Util.FileExists": "[path]",
-  "OgreBotAPI.Util.Hours": "[n]",
+  "OgreBotAPI.Util.Hours": "[n=0]",
   "OgreBotAPI.Util.IEquals": "[a,b]",
   "OgreBotAPI.Util.MD5": "[s]",
-  "OgreBotAPI.Util.Minutes": "[n]",
+  "OgreBotAPI.Util.Minutes": "[n=0]",
   "OgreBotAPI.Util.RomanToInt": "[s]",
-  "OgreBotAPI.Util.RoundToNearest": "[value,step]",
-  "OgreBotAPI.Util.Seconds": "[n]",
-  "OgreBotAPI.Util.SecondsToHMS": "[n]",
-  "OgreBotAPI.Util.SlotArrayToSlot": "[n]",
+  "OgreBotAPI.Util.RoundToNearest": "[value=0,step=1,incBy=0]",
+  "OgreBotAPI.Util.Seconds": "[n=0]",
+  "OgreBotAPI.Util.SecondsToHMS": "[n=0]",
+  "OgreBotAPI.Util.SlotArrayToSlot": "[n=0]",
   "OgreBotAPI.Util.StripColourCodes": "[s]",
   "OgreBotAPI.Util.StripZoneNumber": "[s=${Zone.Name}]",
   "OgreBotAPI.Util.StripZoneNumberOnly": "[s=${Zone.Name}]",
@@ -7168,6 +7168,8 @@
   "trackshiny",
   "trade",
   "tradeit",
+  "travel",
+  "travelhelper",
   "travelsurvey",
   "tsurvey",
   "update",
@@ -8647,10 +8649,11 @@
  "rows": [
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "howToFix": "Write `OgreBotAPI.Abilities:AddEmbargo` instead of `OgreBotAPI:AbilityEmbargo_AddRotateTimer`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. **does NOT take a for-who.** `[abilityId, durationSeconds]`. Note its sibling `:ClearEmbargo` is `[forwho, abilityName]` - different arg 0, different key type.",
    "id": "OgreBotAPI:AbilityEmbargo_AddRotateTimer",
    "newForm": "OgreBotAPI.Abilities:AddEmbargo",
-   "newSignature": "[fw,id,durationSec=0]",
+   "newSignature": "[fw,id,durationSec]",
    "note": "The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. **does NOT take a for-who.** `[abilityId, durationSeconds]`. Note its sibling `:ClearEmbargo` is `[forwho, abilityName]` - different arg 0, different key type.",
    "oldCall": "OgreBotAPI:AbilityEmbargo_AddRotateTimer",
    "oldKinds": [
@@ -8664,6 +8667,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.Abilities:ClearEmbargo[\"${_CommandForWho}\",${_Value}]",
     "before": "OgreBotAPI:AbilityEmbargo_ResetAbilityEmbargo[\"${_CommandForWho}\",${_Value}]"
@@ -8736,6 +8740,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.CastStack.TagAllowRemaining` instead of `OgreBotAPI.AbilityTag_GetTagAllowTimeRemaining`. New arguments: `[tag]`.",
    "id": "OgreBotAPI:AbilityTag_GetTagAllowTimeRemaining",
    "newForm": "OgreBotAPI.CastStack.TagAllowRemaining",
@@ -8753,6 +8758,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.CastStack.TagEmbargoRemaining` instead of `OgreBotAPI.AbilityTag_GetTagEmbargoTimeRemaining`. New arguments: `[tag]`.",
    "id": "OgreBotAPI:AbilityTag_GetTagEmbargoTimeRemaining",
    "newForm": "OgreBotAPI.CastStack.TagEmbargoRemaining",
@@ -8770,6 +8776,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.CastStack:ClearAllow[\"${_CommandForWho}\",${_Value}]",
     "before": "OgreBotAPI:AbilityTag_ResetAbilityTagAllow[\"${_CommandForWho}\",${_Value}]"
@@ -8790,6 +8797,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.CastStack:ClearEmbargo[\"${_CommandForWho}\",${_Value}]",
     "before": "OgreBotAPI:AbilityTag_ResetAbilityTagEmbargo[\"${_CommandForWho}\",${_Value}]"
@@ -8850,6 +8858,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.Abilities:TrackerAdd[\"${_CommandForWho}\",\"${_AbilityName}\"]",
     "before": "OgreBotAPI:AbilityTracker_Add[\"${_CommandForWho}\",\"${_AbilityName}\"]"
@@ -8870,6 +8879,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.Windows:AcceptNoChoiceReward` instead of `OgreBotAPI:AcceptNoChoiceReward`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it.",
    "id": "OgreBotAPI:AcceptNoChoiceReward",
    "newForm": "OgreBotAPI.Windows:AcceptNoChoiceReward",
@@ -8932,10 +8942,10 @@
     "after": "if !${This.bNoQuesting} && ${OgreBotAPI.Quest.ActorHas[${QuestNPC.ID}]}",
     "before": "if !${This.bNoQuesting} && ${OgreBotAPI.ActorHasQuest[${QuestNPC.ID}]}"
    },
-   "howToFix": "Write `OgreBotAPI.Quest.ActorHas` instead of `OgreBotAPI.ActorHasQuest`. New arguments: `[actorId]`.",
+   "howToFix": "Write `OgreBotAPI.Quest.ActorHas` instead of `OgreBotAPI.ActorHasQuest`. New arguments: `[actorId=0]`.",
    "id": "OgreBotAPI:ActorHasQuest",
    "newForm": "OgreBotAPI.Quest.ActorHas",
-   "newSignature": "[actorId]",
+   "newSignature": "[actorId=0]",
    "oldCall": "OgreBotAPI.ActorHasQuest",
    "oldKinds": [
     "x"
@@ -8948,6 +8958,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.Actors:Click[\"all\",\"cage_door_28 h2\"]",
     "before": "OgreBotAPI:Actor_Click[\"all\",\"cage_door_28 h2\"]"
@@ -8971,6 +8982,7 @@
    "argsDropped": [
     "_WaitTime"
    ],
+   "argsNeeded": 2,
    "howToFix": "Write `OgreBotAPI.Actors:ClickQueued` instead of `OgreBotAPI:Actor_ClickQueued`. New arguments: `[fw,nameOrId,...]`.",
    "id": "OgreBotAPI:Actor_ClickQueued",
    "newForm": "OgreBotAPI.Actors:ClickQueued",
@@ -8988,6 +9000,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.Combat:AddNoOffensive[\"all\",\"Shield of Yothshaval\"]",
     "before": "OgreBotAPI:AddNoOffensiveOn[\"all\",\"Shield of Yothshaval\"]"
@@ -9036,6 +9049,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 3,
    "example": {
     "after": "OgreBotAPI.ForWho:AddAlias[\"${_CommandForWho}\",\"${_ExistingAlias}\",\"${_NewAlias}\",${_NoRaid}]",
     "before": "OgreBotAPI:Alias_AddEntry[\"${_CommandForWho}\",\"${_ExistingAlias}\",\"${_NewAlias}\",${_NoRaid}]"
@@ -9056,6 +9070,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 3,
    "example": {
     "after": "OgreBotAPI.ForWho:ChangeAlias[\"${_CommandForWho}\",\"${_ExistingAlias}\",\"${_NewAlias}\"]",
     "before": "OgreBotAPI:Alias_ChangeEntry[\"${_CommandForWho}\",\"${_ExistingAlias}\",\"${_NewAlias}\"]"
@@ -9076,6 +9091,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 3,
    "example": {
     "after": "OgreBotAPI.ForWho:RenameAlias[\"${_CommandForWho}\",\"${_ExistingAlias}\",\"${_NewAlias}\"]",
     "before": "OgreBotAPI:Alias_ChangeEntryAlias[\"${_CommandForWho}\",\"${_ExistingAlias}\",\"${_NewAlias}\"]"
@@ -9096,6 +9112,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.ForWho:RemoveAlias[\"${_CommandForWho}\",\"${_ExistingAlias}\"]",
     "before": "OgreBotAPI:Alias_RemoveEntry[\"${_CommandForWho}\",\"${_ExistingAlias}\"]"
@@ -9129,6 +9146,7 @@
   },
   {
    "argsCheck": "compatible",
+   "argsNeeded": 2,
    "howToFix": "Write `OgreBotAPI.Actors:ClickQueued` instead of `OgreBotAPI:AltarOfTheAncients`. New arguments: `[fw,nameOrId,...]`.",
    "id": "OgreBotAPI:AltarOfTheAncients",
    "newForm": "OgreBotAPI.Actors:ClickQueued",
@@ -9145,6 +9163,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 4,
    "howToFix": "Write `OgreBotAPI.Comms:AddAnnounce` instead of `OgreBotAPI:Announce_AddEntry`. New arguments: `[fw,ability,to,text]`.",
    "id": "OgreBotAPI:Announce_AddEntry",
    "newForm": "OgreBotAPI.Comms:AddAnnounce",
@@ -9180,6 +9199,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "howToFix": "Write `OgreBotAPI.Actors:ApplyVerb` instead of `OgreBotAPI:ApplyVerb`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it.",
    "id": "OgreBotAPI:ApplyVerb",
    "newForm": "OgreBotAPI.Actors:ApplyVerb",
@@ -9197,6 +9217,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 3,
    "example": {
     "after": "OgreBotAPI.Actors:ApplyVerb[\"all\",\"${SpawnActor}\",\"Release specimen\"]",
     "before": "OgreBotAPI:ApplyVerbForWho[\"all\",\"${SpawnActor}\",\"Release specimen\"]"
@@ -9217,6 +9238,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "howToFix": "Write `OgreBotAPI.Actors:ApplyVerbID` instead of `OgreBotAPI:ApplyVerbID`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it.",
    "id": "OgreBotAPI:ApplyVerbID",
    "newForm": "OgreBotAPI.Actors:ApplyVerbID",
@@ -9234,6 +9256,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 3,
    "example": {
     "after": "OgreBotAPI.Actors:ApplyVerbID[\"${_CommandForWho}\",${_ActorID},\"${_Verb}\"]",
     "before": "OgreBotAPI:ApplyVerbIDForWho[\"${_CommandForWho}\",${_ActorID},\"${_Verb}\"]"
@@ -9254,6 +9277,7 @@
   },
   {
    "argsCheck": "compatible",
+   "argsNeeded": 3,
    "howToFix": "Write `OgreBotAPI.Actors:ApplyVerbIDQueued` instead of `OgreBotAPI:ApplyVerbIDQueuedForWho`. New arguments: `[fw,actorId,verb,waitDs=40]`.",
    "id": "OgreBotAPI:ApplyVerbIDQueuedForWho",
    "newForm": "OgreBotAPI.Actors:ApplyVerbIDQueued",
@@ -9271,6 +9295,7 @@
   },
   {
    "argsCheck": "compatible",
+   "argsNeeded": 3,
    "example": {
     "after": "OgreBotAPI.Actors:ApplyVerbQueued[\"all\",\"Tantisala Jaggedtooth\",\"Save groupmate!\"]",
     "before": "OgreBotAPI:ApplyVerbQueuedForWho[\"all\",\"Tantisala Jaggedtooth\",\"Save groupmate!\"]"
@@ -9757,6 +9782,7 @@
   },
   {
    "argsCheck": "compatible",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.Cures:Request[\"${_CommandForWho}\",\"${_ToonName}\"${Args}]",
     "before": "OgreBotAPI:AutoCure[\"${_CommandForWho}\",\"${_ToonName}\"${Args}]"
@@ -9777,6 +9803,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "howToFix": "Write `OgreBotAPI.Cures:RequestCurse` instead of `OgreBotAPI:AutoCurse`. New arguments: `[fw,victim]`.",
    "id": "OgreBotAPI:AutoCurse",
    "newForm": "OgreBotAPI.Cures:RequestCurse",
@@ -9838,6 +9865,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "howToFix": "Write `OgreBotAPI.AutoHunt:SetCheckHP` instead of `OgreBotAPI:AutoHunt_CheckHP`. New arguments: `[fw,n]`.",
    "id": "OgreBotAPI:AutoHunt_CheckHP",
    "newForm": "OgreBotAPI.AutoHunt:SetCheckHP",
@@ -9854,6 +9882,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "howToFix": "Write `OgreBotAPI.AutoHunt:SetCheckMana` instead of `OgreBotAPI:AutoHunt_CheckMana`. New arguments: `[fw,n]`.",
    "id": "OgreBotAPI:AutoHunt_CheckMana",
    "newForm": "OgreBotAPI.AutoHunt:SetCheckMana",
@@ -9896,6 +9925,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "howToFix": "Write `OgreBotAPI.AutoHunt:SetScanRadius` instead of `OgreBotAPI:AutoHunt_ScanRadius`. New arguments: `[fw,n]`.",
    "id": "OgreBotAPI:AutoHunt_ScanRadius",
    "newForm": "OgreBotAPI.AutoHunt:SetScanRadius",
@@ -9970,6 +10000,7 @@
   },
   {
    "argsCheck": "compatible",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.AutoTarget:AddActor[\"all\",\"Zarrakon\"]",
     "before": "OgreBotAPI:AutoTarget_AddActor[\"all\",\"Zarrakon\"]"
@@ -10030,6 +10061,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.AutoTarget:Suppress[\"all\",\"INTERNAL_NUGGET\"]",
     "before": "OgreBotAPI:AutoTarget_Disable[\"all\",\"INTERNAL_NUGGET\"]"
@@ -10051,6 +10083,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.AutoTarget.Suppressed` instead of `OgreBotAPI.AutoTarget_Disabled`. New arguments: `[key]`.",
    "id": "OgreBotAPI:AutoTarget_Disabled",
    "newForm": "OgreBotAPI.AutoTarget.Suppressed",
@@ -10067,6 +10100,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.AutoTarget:Release[\"all\",\"INTERNAL_Digger\"]",
     "before": "OgreBotAPI:AutoTarget_Enable[\"all\",\"INTERNAL_Digger\"]"
@@ -10103,6 +10137,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.AutoTarget:RemoveActor[\"all\",\"${_MobName}\"]",
     "before": "OgreBotAPI:AutoTarget_RemoveActor[\"all\",\"${_MobName}\"]"
@@ -10183,10 +10218,10 @@
   },
   {
    "argsCheck": "same-count",
-   "howToFix": "Write `OgreBotAPI.Util.Between` instead of `OgreBotAPI.Between`. New arguments: `[v,lo,hi]`.",
+   "howToFix": "Write `OgreBotAPI.Util.Between` instead of `OgreBotAPI.Between`. New arguments: `[v=0,lo=0,hi=0]`.",
    "id": "OgreBotAPI:Between",
    "newForm": "OgreBotAPI.Util.Between",
-   "newSignature": "[v,lo,hi]",
+   "newSignature": "[v=0,lo=0,hi=0]",
    "oldCall": "OgreBotAPI.Between",
    "oldKinds": [
     "x"
@@ -10199,10 +10234,10 @@
   },
   {
    "argsCheck": "same-count",
-   "howToFix": "Write `OgreBotAPI.Util.BetweenFloat` instead of `OgreBotAPI.BetweenFloat`. New arguments: `[v,lo,hi]`.",
+   "howToFix": "Write `OgreBotAPI.Util.BetweenFloat` instead of `OgreBotAPI.BetweenFloat`. New arguments: `[v=0,lo=0,hi=0]`.",
    "id": "OgreBotAPI:BetweenFloat",
    "newForm": "OgreBotAPI.Util.BetweenFloat",
-   "newSignature": "[v,lo,hi]",
+   "newSignature": "[v=0,lo=0,hi=0]",
    "oldCall": "OgreBotAPI.BetweenFloat",
    "oldKinds": [
     "x"
@@ -10215,6 +10250,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.Merchant:Buy[\"${_CommandForWho}\",\"${_ItemName}\",${_Value}]",
     "before": "OgreBotAPI:BuyFromMerchant[\"${_CommandForWho}\",\"${_ItemName}\",${_Value}]"
@@ -10251,6 +10287,7 @@
    "argsDropped": [
     "_RoomID"
    ],
+   "argsNeeded": 4,
    "howToFix": "Write `OgreBotAPI.CampSpot:SetLoc` instead of `OgreBotAPI:CCS`. New arguments: `[fw,x,y,z]`.",
    "id": "OgreBotAPI:CCS",
    "newForm": "OgreBotAPI.CampSpot:SetLoc",
@@ -10412,6 +10449,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 3,
    "example": {
     "after": "OgreBotAPI.Cures:CancelDetrimental[\"all\",922,922]",
     "before": "OgreBotAPI:CancelDetrimental[\"all\",922,922]"
@@ -10511,6 +10549,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.Abilities:Cast[all,\"Sprint\"]",
     "before": "OgreBotAPI:CastAbility[all,\"Sprint\"]"
@@ -10531,6 +10570,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 3,
    "example": {
     "after": "OgreBotAPI.Abilities:CastInSeconds[\"all\",${AbilityID},25]",
     "before": "OgreBotAPI:CastAbilityInSeconds[\"all\",${AbilityID},25]"
@@ -10552,6 +10592,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 3,
    "howToFix": "Write `OgreBotAPI.Abilities:CastInSeconds` instead of `OgreBotAPI:CastAbilityInSeconds_Relay`. New arguments: `[fw,ability,delay,calledFrom=OgreBotAPI]`.",
    "id": "OgreBotAPI:CastAbilityInSeconds_Relay",
    "newForm": "OgreBotAPI.Abilities:CastInSeconds",
@@ -10569,6 +10610,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.Abilities:CastNoChecks[\"all\",\"Hemorrhage\",\"Eepkiee_Code\"]",
     "before": "OgreBotAPI:CastAbilityNoChecks[\"all\",\"Hemorrhage\",\"Eepkiee_Code\"]"
@@ -10589,6 +10631,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.Abilities:CastNoExport[\"all\",2706737719]",
     "before": "OgreBotAPI:CastAbilityNoExport[\"all\",2706737719]"
@@ -10622,6 +10665,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "howToFix": "Write `OgreBotAPI.Abilities:CastNoExportRelay` instead of `OgreBotAPI:CastAbilityNoExport_Relay`. New arguments: `[fw,ability,calledFrom=OgreBotAPI:CastAbilityNoExport_Relay]`.",
    "id": "OgreBotAPI:CastAbilityNoExport_Relay",
    "newForm": "OgreBotAPI.Abilities:CastNoExportRelay",
@@ -10641,6 +10685,7 @@
    "argsDropped": [
     "_CalledFrom"
    ],
+   "argsNeeded": 2,
    "howToFix": "Write `OgreBotAPI.Abilities:CastOnNPC` instead of `OgreBotAPI:CastAbilityOnNPC`. New arguments: `[fw,ability,mob=target]`.",
    "id": "OgreBotAPI:CastAbilityOnNPC",
    "newForm": "OgreBotAPI.Abilities:CastOnNPC",
@@ -10658,6 +10703,7 @@
   },
   {
    "argsCheck": "compatible",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.Abilities:CastOnPlayer[\"all\",\"Intercept\",${ActorID}]",
     "before": "OgreBotAPI:CastAbilityOnPlayer[\"all\",\"Intercept\",${ActorID}]"
@@ -10678,6 +10724,7 @@
   },
   {
    "argsCheck": "compatible",
+   "argsNeeded": 4,
    "example": {
     "after": "OgreBotAPI.Abilities:CastOnPlayerInSeconds[\"${_CommandForWho}\",\"${_AbilityName}\",\"${_OnPlayer}\",${_Seconds}]",
     "before": "OgreBotAPI:CastAbilityOnPlayerInSeconds[\"${_CommandForWho}\",\"${_AbilityName}\",\"${_OnPlayer}\",${_Seconds}]"
@@ -10699,6 +10746,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 3,
    "example": {
     "after": "OgreBotAPI.Abilities:CastOnPlayerNoChecks[\"${_CommandForWho}\",\"${_AbilityName}\",\"${_OnPlayer}\",\"${_CalledFrom}\"]",
     "before": "OgreBotAPI:CastAbilityOnPlayerNoChecks[\"${_CommandForWho}\",\"${_AbilityName}\",\"${_OnPlayer}\",\"${_CalledFrom}\"]"
@@ -10719,6 +10767,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "howToFix": "Write `OgreBotAPI.Abilities:CastOnPlayerRelay` instead of `OgreBotAPI:CastAbilityOnPlayer_Relay`. New arguments: `[fw,ability,player=me]`.",
    "id": "OgreBotAPI:CastAbilityOnPlayer_Relay",
    "newForm": "OgreBotAPI.Abilities:CastOnPlayerRelay",
@@ -10748,6 +10797,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "howToFix": "Write `OgreBotAPI.Abilities:CastRelay` instead of `OgreBotAPI:CastAbility_Relay`. New arguments: `[fw,ability]`.",
    "id": "OgreBotAPI:CastAbility_Relay",
    "newForm": "OgreBotAPI.Abilities:CastRelay",
@@ -10820,6 +10870,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.Abilities:CastHOIcon[\"${_CommandForWho}\",\"${_AbilityName}\",\"${_CalledFrom}\"]",
     "before": "OgreBotAPI:CastHOIconID[\"${_CommandForWho}\",\"${_AbilityName}\",\"${_CalledFrom}\"]"
@@ -10911,6 +10962,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.Abilities:AnnounceCasted` instead of `OgreBotAPI:CastedCastOnTheMove`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it.",
    "id": "OgreBotAPI:CastedCastOnTheMove",
    "newForm": "OgreBotAPI.Abilities:AnnounceCasted",
@@ -10986,6 +11038,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 3,
    "howToFix": "Write `OgreBotAPI.CampSpot:SetLoc` instead of `OgreBotAPI:ChangeCampSpot`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. took coordinates at arg 0 with **no** for-who. The new form requires one: `OgreBotAPI.CampSpot:SetLoc[\"all\",x,y,z]`.",
    "id": "OgreBotAPI:ChangeCampSpot",
    "newForm": "OgreBotAPI.CampSpot:SetLoc",
@@ -11003,6 +11056,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 4,
    "example": {
     "after": "OgreBotAPI.CampSpot:SetLoc[\"all\",${fX},50,${fZ}]",
     "before": "OgreBotAPI:ChangeCampSpotWho[\"all\",${fX},50,${fZ}]"
@@ -11023,6 +11077,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 3,
    "example": {
     "after": "OgreBotAPI.CastStack:SetEntry[\"all\",\"Mock\",FALSE]",
     "before": "OgreBotAPI:ChangeCastStackListBoxItem[\"all\",\"Mock\",FALSE]"
@@ -11043,6 +11098,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 3,
    "example": {
     "after": "OgreBotAPI.CastStack:SetEntryByTag[\"all\",\"MaxHealing\",TRUE]",
     "before": "OgreBotAPI:ChangeCastStackListBoxItemByTag[\"all\",\"MaxHealing\",TRUE]"
@@ -11063,6 +11119,7 @@
   },
   {
    "argsCheck": "compatible",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.Loot:SetOptions[all,RoundRobin]",
     "before": "OgreBotAPI:ChangeLootOptions[all,RoundRobin]"
@@ -11117,6 +11174,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.Zone:ChangeZoneTo[\"${_CommandForWho}\",\"${_Value}\"]",
     "before": "OgreBotAPI:ChangeZoneTo[\"${_CommandForWho}\",\"${_Value}\"]"
@@ -11190,6 +11248,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 5,
    "howToFix": "Write `OgreBotAPI.Events:AddChatEntry` instead of `OgreBotAPI:ChatEvent_AddEntry`. New arguments: `[fw,text,oc,ding,code]`.",
    "id": "OgreBotAPI:ChatEvent_AddEntry",
    "newForm": "OgreBotAPI.Events:AddChatEntry",
@@ -11420,6 +11479,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.Quest:CheckToShare` instead of `OgreBotAPI:CheckToShareQuest`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it.",
    "id": "OgreBotAPI:CheckToShareQuest",
    "newForm": "OgreBotAPI.Quest:CheckToShare",
@@ -11437,6 +11497,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "IRCOb:SendMessageToIRC[\"${OgreBotAPI.Debug.CheckVersion[\"${_CommandForWho}\",\"${_CompareVersionTo}\"]}\"]",
     "before": "IRCOb:SendMessageToIRC[\"${OgreBotAPI.CheckVersion[\"${_CommandForWho}\",\"${_CompareVersionTo}\"]}\"]"
@@ -11512,6 +11573,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 3,
    "example": {
     "after": "OgreBotAPI.Roster:SetClassValue[\"${_CommandForWho}\",\"${_Member}\",${_Value}]",
     "before": "OgreBotAPI:ClassInfo_ChangeValue[\"${_CommandForWho}\",\"${_Member}\",${_Value}]"
@@ -11547,6 +11609,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "example": {
     "after": "return \"[${_ID.LeadingZeroes[2]}] ${OgreBotAPI.Util.Clean[\"${Me.Raid[${_ID}].Name}\"]}: ${Dist.Deci}\"",
     "before": "return \"[${_ID.LeadingZeroes[2]}] ${OgreBotAPI.Clean[\"${Me.Raid[${_ID}].Name}\"]}: ${Dist.Deci}\""
@@ -11567,6 +11630,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "example": {
     "after": "sTemp:Set[\"${OgreBotAPI.Util.Clean[\"${Actor[id,${EQ2OgreOSANPCCol.CurrentValue}].Target.Name}\"].Left[5]}\"]",
     "before": "sTemp:Set[\"${OgreBotAPI.CleanNameWithSpaces[\"${Actor[id,${EQ2OgreOSANPCCol.CurrentValue}].Target.Name}\"].Left[5]}\"]"
@@ -11658,6 +11722,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.HOs:ClearAllowIcon[\"${_CommandForWho}\",${_VariableName}]",
     "before": "OgreBotAPI:Clear_Allow_HOICon[\"${_CommandForWho}\",${_VariableName}]"
@@ -11698,6 +11763,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.HOs:ClearDisableIcon[\"${_CommandForWho}\",${_VariableName}]",
     "before": "OgreBotAPI:Clear_Disable_HOICon[\"${_CommandForWho}\",${_VariableName}]"
@@ -11738,6 +11804,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.Vars:ClearInternal[\"all\",\"hunaga_${This.ArchetypeInfo[${iCounter}].Archetype}\"]",
     "before": "OgreBotAPI:Clear_InternalVariable[\"all\",\"hunaga_${This.ArchetypeInfo[${iCounter}].Archetype}\"]"
@@ -11778,6 +11845,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.Vars:Clear[\"-enchanter\",\"General_HOer\"]",
     "before": "OgreBotAPI:Clear_Variable[\"-enchanter\",\"General_HOer\"]"
@@ -11942,6 +12010,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "howToFix": "Write `OgreBotAPI.Quest:CompareUpdate` instead of `OgreBotAPI:CompareQuestUpdate`. New arguments: `[fw,questName]`.",
    "id": "OgreBotAPI:CompareQuestUpdate",
    "newForm": "OgreBotAPI.Quest:CompareUpdate",
@@ -12112,6 +12181,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.Inventory.AdornToRemoveSlot` instead of `OgreBotAPI.ConvertAdornToRemoveSlot`. New arguments: `[adorn]`.",
    "id": "OgreBotAPI:ConvertAdornToRemoveSlot",
    "newForm": "OgreBotAPI.Inventory.AdornToRemoveSlot",
@@ -12128,6 +12198,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.Inventory.AdornToSlot` instead of `OgreBotAPI.ConvertAdornToSlot`. New arguments: `[adorn,slot=21]`.",
    "id": "OgreBotAPI:ConvertAdornToSlot",
    "newForm": "OgreBotAPI.Inventory.AdornToSlot",
@@ -12145,10 +12216,10 @@
   },
   {
    "argsCheck": "same-count",
-   "howToFix": "Write `OgreBotAPI.Util.SecondsToHMS` instead of `OgreBotAPI.ConvertSecondsToHMS`. New arguments: `[n]`.",
+   "howToFix": "Write `OgreBotAPI.Util.SecondsToHMS` instead of `OgreBotAPI.ConvertSecondsToHMS`. New arguments: `[n=0]`.",
    "id": "OgreBotAPI:ConvertSecondsToHMS",
    "newForm": "OgreBotAPI.Util.SecondsToHMS",
-   "newSignature": "[n]",
+   "newSignature": "[n=0]",
    "oldCall": "OgreBotAPI.ConvertSecondsToHMS",
    "oldKinds": [
     "x"
@@ -12161,10 +12232,10 @@
   },
   {
    "argsCheck": "same-count",
-   "howToFix": "Write `OgreBotAPI.Util.SlotArrayToSlot` instead of `OgreBotAPI.ConvertSlotArrayToSlot`. New arguments: `[n]`.",
+   "howToFix": "Write `OgreBotAPI.Util.SlotArrayToSlot` instead of `OgreBotAPI.ConvertSlotArrayToSlot`. New arguments: `[n=0]`.",
    "id": "OgreBotAPI:ConvertSlotArrayToSlot",
    "newForm": "OgreBotAPI.Util.SlotArrayToSlot",
-   "newSignature": "[n]",
+   "newSignature": "[n=0]",
    "oldCall": "OgreBotAPI.ConvertSlotArrayToSlot",
    "oldKinds": [
     "x"
@@ -12288,6 +12359,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "howToFix": "Write `OgreBotAPI.Cures:RequestCurse` instead of `OgreBotAPI:Cursed`. New arguments: `[fw,victim]`.",
    "id": "OgreBotAPI:Cursed",
    "newForm": "OgreBotAPI.Cures:RequestCurse",
@@ -12304,6 +12376,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "howToFix": "Write `OgreBotAPI.Cures:RequestCurse` instead of `OgreBotAPI:Cursed_Relay`. New arguments: `[fw,victim]`.",
    "id": "OgreBotAPI:Cursed_Relay",
    "newForm": "OgreBotAPI.Cures:RequestCurse",
@@ -12375,6 +12448,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.Quest:Delete[\"all\",\"${_QuestName}\"]",
     "before": "OgreBotAPI:DeleteQuest[\"all\",\"${_QuestName}\"]"
@@ -12395,6 +12469,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 5,
    "howToFix": "Write `OgreBotAPI.Events:AddDespawnEntry` instead of `OgreBotAPI:DespawnEvent_AddEntry`. New arguments: `[fw,text,oc,ding,code]`.",
    "id": "OgreBotAPI:DespawnEvent_AddEntry",
    "newForm": "OgreBotAPI.Events:AddDespawnEntry",
@@ -12430,6 +12505,7 @@
    "argsDropped": [
     "_Charges"
    ],
+   "argsNeeded": 2,
    "howToFix": "Write `OgreBotAPI.Inventory:DestroyItem` instead of `OgreBotAPI:DestroyItem`. New arguments: `[fw,itemName]`.",
    "id": "OgreBotAPI:DestroyItem",
    "newForm": "OgreBotAPI.Inventory:DestroyItem",
@@ -12461,6 +12537,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.Inventory:DestroyItem[\"${_CommandForWho}\",\"${_ItemName}\"]",
     "before": "OgreBotAPI:DestroyItem_NoChecks[\"${_CommandForWho}\",\"${_ItemName}\"]"
@@ -12486,10 +12563,10 @@
     "after": "if !${OgreBotAPI.Cures.Detrimental[5,312]}",
     "before": "if !${OgreBotAPI.DetrimentalInfo[5,312]}"
    },
-   "howToFix": "Write `OgreBotAPI.Cures.Detrimental` instead of `OgreBotAPI.DetrimentalInfo`. New arguments: `[main,back,actorId=0,field=exists]`.",
+   "howToFix": "Write `OgreBotAPI.Cures.Detrimental` instead of `OgreBotAPI.DetrimentalInfo`. New arguments: `[main=0,back=0,actorId=0,field=exists]`.",
    "id": "OgreBotAPI:DetrimentalInfo",
    "newForm": "OgreBotAPI.Cures.Detrimental",
-   "newSignature": "[main,back,actorId=0,field=exists]",
+   "newSignature": "[main=0,back=0,actorId=0,field=exists]",
    "oldCall": "OgreBotAPI.DetrimentalInfo",
    "oldKinds": [
     "x"
@@ -12502,10 +12579,10 @@
   },
   {
    "argsCheck": "same-count",
-   "howToFix": "Write `OgreBotAPI.Cures.DetrimentalText` instead of `OgreBotAPI.DetrimentalInfo_String`. New arguments: `[main,back,actorId=0,field=exists]`.",
+   "howToFix": "Write `OgreBotAPI.Cures.DetrimentalText` instead of `OgreBotAPI.DetrimentalInfo_String`. New arguments: `[main=0,back=0,actorId=0,field=exists]`.",
    "id": "OgreBotAPI:DetrimentalInfo_String",
    "newForm": "OgreBotAPI.Cures.DetrimentalText",
-   "newSignature": "[main,back,actorId=0,field=exists]",
+   "newSignature": "[main=0,back=0,actorId=0,field=exists]",
    "oldCall": "OgreBotAPI.DetrimentalInfo_String",
    "oldKinds": [
     "x"
@@ -12520,7 +12597,7 @@
    "howToFix": "Write `OgreBotAPI.Cures.Detrimental` instead of `OgreBotAPI.DetrimentalInfo_ref`; the arguments changed: **Watch the icon pair order.** Classic's `Object_IconIDs` declares the BACKDROP icon FIRST: `variable Object_IconIDs X=A B` means main=B, backdrop=A. The new call takes `[main,back,actorId,field]`, so `X=815 33803` becomes `Detrimental[33803,815,<actorId>]`. Copying the numbers left-to-right compiles, runs, and asks about a detriment nobody has. If the script's own comment names the icons the other way round, Classic read them backdrop-first anyway - convert what Classic actually checked, and say so in your report.",
    "id": "OgreBotAPI:DetrimentalInfo_ref",
    "newForm": "OgreBotAPI.Cures.Detrimental",
-   "newSignature": "[main,back,actorId=0,field=exists]",
+   "newSignature": "[main=0,back=0,actorId=0,field=exists]",
    "note": "**Watch the icon pair order.** Classic's `Object_IconIDs` declares the BACKDROP icon FIRST: `variable Object_IconIDs X=A B` means main=B, backdrop=A. The new call takes `[main,back,actorId,field]`, so `X=815 33803` becomes `Detrimental[33803,815,<actorId>]`. Copying the numbers left-to-right compiles, runs, and asks about a detriment nobody has. If the script's own comment names the icons the other way round, Classic read them backdrop-first anyway - convert what Classic actually checked, and say so in your report.",
    "oldCall": "OgreBotAPI.DetrimentalInfo_ref",
    "oldKinds": [
@@ -12536,7 +12613,7 @@
    "howToFix": "Write `OgreBotAPI.Cures.DetrimentalText` instead of `OgreBotAPI.DetrimentalInfo_ref_String`; the arguments changed: **Watch the icon pair order.** Classic's `Object_IconIDs` declares the BACKDROP icon FIRST: `variable Object_IconIDs X=A B` means main=B, backdrop=A. The new call takes `[main,back,actorId,field]`, so `X=815 33803` becomes `Detrimental[33803,815,<actorId>]`. Copying the numbers left-to-right compiles, runs, and asks about a detriment nobody has. If the script's own comment names the icons the other way round, Classic read them backdrop-first anyway - convert what Classic actually checked, and say so in your report.",
    "id": "OgreBotAPI:DetrimentalInfo_ref_String",
    "newForm": "OgreBotAPI.Cures.DetrimentalText",
-   "newSignature": "[main,back,actorId=0,field=exists]",
+   "newSignature": "[main=0,back=0,actorId=0,field=exists]",
    "note": "**Watch the icon pair order.** Classic's `Object_IconIDs` declares the BACKDROP icon FIRST: `variable Object_IconIDs X=A B` means main=B, backdrop=A. The new call takes `[main,back,actorId,field]`, so `X=815 33803` becomes `Detrimental[33803,815,<actorId>]`. Copying the numbers left-to-right compiles, runs, and asks about a detriment nobody has. If the script's own comment names the icons the other way round, Classic read them backdrop-first anyway - convert what Classic actually checked, and say so in your report.",
    "oldCall": "OgreBotAPI.DetrimentalInfo_ref_String",
    "oldKinds": [
@@ -12876,6 +12953,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI:DoVDebuff[\"${_CommandForWho}\",\"${_NPCNameOrID}\",${_AllowMovement}]",
     "before": "OgreBotAPI:DoVDebuff[\"${_CommandForWho}\",\"${_NPCNameOrID}\",${_AllowMovement}]"
@@ -12896,6 +12974,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI:DoVDebuff_Half[\"${_CommandForWho}\",\"${_NPCNameOrID}\",\"${_Archetype}\",${_Odd},${_AllowMovement}]",
     "before": "OgreBotAPI:DoVDebuff_Half[\"${_CommandForWho}\",\"${_NPCNameOrID}\",\"${_Archetype}\",${_Odd},${_AllowMovement}]"
@@ -12956,6 +13035,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.Debug:Echo` instead of `OgreBotAPI:Echo`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it.",
    "id": "OgreBotAPI:Echo",
    "newForm": "OgreBotAPI.Debug:Echo",
@@ -13093,6 +13173,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.Inventory.SlotAvailable` instead of `OgreBotAPI.EquipmentSlotAvailable`. New arguments: `[slot name]`.",
    "id": "OgreBotAPI:EquipmentSlotAvailable",
    "newForm": "OgreBotAPI.Inventory.SlotAvailable",
@@ -13110,6 +13191,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.Inventory.SlotNumAvailable` instead of `OgreBotAPI.EquipmentSlotNumAvailable`. New arguments: `[slot number 1-22]`.",
    "id": "OgreBotAPI:EquipmentSlotNumAvailable",
    "newForm": "OgreBotAPI.Inventory.SlotNumAvailable",
@@ -13188,6 +13270,7 @@
   },
   {
    "argsCheck": "compatible",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.Comms:ExecuteEvent[\"all\",\"Ozani_CheckClaw\"]",
     "before": "OgreBotAPI:ExecuteEvent[\"all\",\"Ozani_CheckClaw\"]"
@@ -13286,6 +13369,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.Movement:FaceActor[\"${_CommandForWho}\",\"${_ActorNameID}\"]",
     "before": "OgreBotAPI:FaceActor[\"${_CommandForWho}\",\"${_ActorNameID}\"]"
@@ -13306,14 +13390,15 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.Movement:FaceAngle[\"${_CommandForWho}\",\"${_Angle}\"]",
     "before": "OgreBotAPI:FaceAngle[\"${_CommandForWho}\",\"${_Angle}\"]"
    },
-   "howToFix": "Write `OgreBotAPI.Movement:FaceAngle` instead of `OgreBotAPI:FaceAngle`. New arguments: `[fw,angle=0]`.",
+   "howToFix": "Write `OgreBotAPI.Movement:FaceAngle` instead of `OgreBotAPI:FaceAngle`. New arguments: `[fw,angle]`.",
    "id": "OgreBotAPI:FaceAngle",
    "newForm": "OgreBotAPI.Movement:FaceAngle",
-   "newSignature": "[fw,angle=0]",
+   "newSignature": "[fw,angle]",
    "oldCall": "OgreBotAPI:FaceAngle",
    "oldKinds": [
     "m"
@@ -13326,14 +13411,15 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 4,
    "example": {
     "after": "OgreBotAPI.Movement:FaceLoc[\"${_CommandForWho}\",${_X},${_Y},${_Z}]",
     "before": "OgreBotAPI:FaceLoc[\"${_CommandForWho}\",${_X},${_Y},${_Z}]"
    },
-   "howToFix": "Write `OgreBotAPI.Movement:FaceLoc` instead of `OgreBotAPI:FaceLoc`. New arguments: `[fw,x=0,y=0,z=0]`.",
+   "howToFix": "Write `OgreBotAPI.Movement:FaceLoc` instead of `OgreBotAPI:FaceLoc`. New arguments: `[fw,x,y,z]`.",
    "id": "OgreBotAPI:FaceLoc",
    "newForm": "OgreBotAPI.Movement:FaceLoc",
-   "newSignature": "[fw,x=0,y=0,z=0]",
+   "newSignature": "[fw,x,y,z]",
    "oldCall": "OgreBotAPI:FaceLoc",
    "oldKinds": [
     "m"
@@ -13346,6 +13432,7 @@
   },
   {
    "argsCheck": "compatible",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.Travel:Fast[\"all\",\"Frostfang Sea\"]",
     "before": "OgreBotAPI:FastTravel[\"all\",\"Frostfang Sea\"]"
@@ -13392,6 +13479,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "example": {
     "after": "if !${OgreBotAPI.Util.FileExists[\"${_ScriptName}\"]}",
     "before": "if !${OgreBotAPI.FileExists[\"${_ScriptName}\"]}"
@@ -13784,6 +13872,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "example": {
     "after": "variable uint uDebuffAbilityID=${OgreBotAPI.Abilities.ID[${DoV${Me.Archetype}DebuffSpell}]}",
     "before": "variable uint uDebuffAbilityID=${OgreBotAPI.GetAbilityID[${DoV${Me.Archetype}DebuffSpell}]}"
@@ -13804,6 +13893,7 @@
   },
   {
    "argsCheck": "compatible",
+   "argsNeeded": 1,
    "example": {
     "after": "if ${OgreBotAPI.Actors.CountByName[\"${AddName}\"]} < 4",
     "before": "if ${OgreBotAPI.GetActorCountByName[\"${AddName}\"]} < 4"
@@ -13844,6 +13934,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "example": {
     "after": "This.Heliocentric_AdjustedRange:Set[${Math.Calc[(${iIncrements}+${OgreBotAPI.GetMyModelSize}+${OgreBotAPI.Position.ActorModelSize[${This.NamedNPCID}]})*-1]}]",
     "before": "This.Heliocentric_AdjustedRange:Set[${Math.Calc[(${iIncrements}+${OgreBotAPI.GetMyModelSize}+${OgreBotAPI.GetActorModelSize[${This.NamedNPCID}]})*-1]}]"
@@ -13893,6 +13984,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "howToFix": "Write `OgreBotAPI.Position.FarthestActorFrom` instead of `OgreBotAPI.GetFarthestActorFrom`. New arguments: `[anchorNameOrId,actorName,minDist=20]`.",
    "id": "OgreBotAPI:GetFarthestActorFrom",
    "newForm": "OgreBotAPI.Position.FarthestActorFrom",
@@ -13910,6 +14002,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "ActorID:Set[${OgreBotAPI.Position.FarthestActorFrom[\"ActorIndex\",${This.NamedNPCID},20]}]",
     "before": "ActorID:Set[${OgreBotAPI.GetFarthestActorFrom_ref[\"ActorIndex\",${This.NamedNPCID},20]}]"
@@ -14026,6 +14119,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "example": {
     "after": "NPCID:Set[${OgreBotAPI.Actors.MobID[\"${_MobNameID}\"]}]",
     "before": "NPCID:Set[${OgreBotAPI.GetMobID[\"${_MobNameID}\"]}]"
@@ -14177,6 +14271,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "This.OffensiveStanceFullName:Set[\"${OgreBotAPI.Abilities.Info[\"${This.OffensiveStance}\",\"Name\"]}\"]",
     "before": "This.OffensiveStanceFullName:Set[\"${OgreBotAPI.Get_AbilityInfo[\"${This.OffensiveStance}\",\"Name\"]}\"]"
@@ -14200,6 +14295,7 @@
    "argsDropped": [
     "_Member"
    ],
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.Abilities.InfoRaw` instead of `OgreBotAPI.Get_AbilityInfo_RawData`. New arguments: `[nameOrId]`.",
    "id": "OgreBotAPI:Get_AbilityInfo_RawData",
    "newForm": "OgreBotAPI.Abilities.InfoRaw",
@@ -14216,6 +14312,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "example": {
     "after": "switch ${OgreBotAPI.Abilities.ShortName[\"${CurrentSpellName}\"]}",
     "before": "switch ${OgreBotAPI.Get_AbilityShortName[\"${CurrentSpellName}\"]}"
@@ -14294,6 +14391,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.Inventory.AdornmentColour` instead of `OgreBotAPI.Get_AdornmentColour`. New arguments: `[iconId]`.",
    "id": "OgreBotAPI:Get_AdornmentColour",
    "newForm": "OgreBotAPI.Inventory.AdornmentColour",
@@ -14310,6 +14408,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "example": {
     "after": "Healer1:Set[${OgreBotAPI.ForWho.Alias[\"@healer1\"]}]",
     "before": "Healer1:Set[${OgreBotAPI.Get_Alias[\"@healer1\"]}]"
@@ -14346,6 +14445,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "example": {
     "after": "if ${Me.Archetype.Equal[\"${OgreBotAPI.Roster.ArchetypeOf[\"${Me.Raid[${r}].Class}\"]}\"]}",
     "before": "if ${Me.Archetype.Equal[\"${OgreBotAPI.Get_Archetype[\"${Me.Raid[${r}].Class}\"]}\"]}"
@@ -14366,6 +14466,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "example": {
     "after": "switch ${OgreBotAPI.Roster.BaseClassOf[\"${Me.Raid[${r}].Class}\"]}",
     "before": "switch ${OgreBotAPI.Get_BaseClass[\"${Me.Raid[${r}].Class}\"]}"
@@ -14386,6 +14487,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.Cures:ReplenishPotions[\"${_CommandForWho}\",\"${_Potion}\"]",
     "before": "OgreBotAPI:Get_CurePotions[\"${_CommandForWho}\",\"${_Potion}\"]"
@@ -14474,6 +14576,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "howToFix": "Write `OgreBotAPI.Inventory.SlotModifier` instead of `OgreBotAPI.Get_EquipmentModifierValue`. New arguments: `[slot,modifier]`.",
    "id": "OgreBotAPI:Get_EquipmentModifierValue",
    "newForm": "OgreBotAPI.Inventory.SlotModifier",
@@ -14490,6 +14593,7 @@
   },
   {
    "argsCheck": "compatible",
+   "argsNeeded": 2,
    "howToFix": "Write `OgreBotAPI.Debug:BroadcastStat` instead of `OgreBotAPI:Get_Faction`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. Classic's second argument was a spewstat OBJECT to fill; the new verb emits the rows itself.",
    "id": "OgreBotAPI:Get_Faction",
    "newForm": "OgreBotAPI.Debug:BroadcastStat",
@@ -14588,10 +14692,10 @@
   },
   {
    "argsCheck": "same-count",
-   "howToFix": "Write `OgreBotAPI.Util.Hours` instead of `OgreBotAPI.Get_Hours`. New arguments: `[n]`.",
+   "howToFix": "Write `OgreBotAPI.Util.Hours` instead of `OgreBotAPI.Get_Hours`. New arguments: `[n=0]`.",
    "id": "OgreBotAPI:Get_Hours",
    "newForm": "OgreBotAPI.Util.Hours",
-   "newSignature": "[n]",
+   "newSignature": "[n=0]",
    "oldCall": "OgreBotAPI.Get_Hours",
    "oldKinds": [
     "x"
@@ -14604,6 +14708,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "example": {
     "after": "if ${Bool[${OgreBotAPI.Vars.GetInternal[\"Vorigan_Joust\"]}]}",
     "before": "if ${Bool[${OgreBotAPI.Get_InternalVariable[\"Vorigan_Joust\"]}]}"
@@ -14624,6 +14729,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "example": {
     "after": "if ${OgreBotAPI.Vars.InternalExists[\"GoldanPadFlags\"]}",
     "before": "if ${OgreBotAPI.Get_InternalVariableExists[\"GoldanPadFlags\"]}"
@@ -14678,10 +14784,10 @@
     "after": "return \"Completed in \\ay${OgreBotAPI.Util.Minutes[${Math.Calc[${Time.Timestamp} - ${This.uRunStartTime}]}]} minutes.\"",
     "before": "return \"Completed in \\ay${OgreBotAPI.Get_Minutes[${Math.Calc[${Time.Timestamp} - ${This.uRunStartTime}]}]} minutes.\""
    },
-   "howToFix": "Write `OgreBotAPI.Util.Minutes` instead of `OgreBotAPI.Get_Minutes`. New arguments: `[n]`.",
+   "howToFix": "Write `OgreBotAPI.Util.Minutes` instead of `OgreBotAPI.Get_Minutes`. New arguments: `[n=0]`.",
    "id": "OgreBotAPI:Get_Minutes",
    "newForm": "OgreBotAPI.Util.Minutes",
-   "newSignature": "[n]",
+   "newSignature": "[n=0]",
    "oldCall": "OgreBotAPI.Get_Minutes",
    "oldKinds": [
     "x"
@@ -14823,6 +14929,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "howToFix": "Write `OgreBotAPI.Windows.RewardID` instead of `OgreBotAPI.Get_RewardID`. New arguments: `[num|name,windowId]`.",
    "id": "OgreBotAPI:Get_RewardID",
    "newForm": "OgreBotAPI.Windows.RewardID",
@@ -14839,6 +14946,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "howToFix": "Write `OgreBotAPI.Windows.RewardLinkID` instead of `OgreBotAPI.Get_RewardLinkID`. New arguments: `[num|name,windowId]`.",
    "id": "OgreBotAPI:Get_RewardLinkID",
    "newForm": "OgreBotAPI.Windows.RewardLinkID",
@@ -14855,6 +14963,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "howToFix": "Write `OgreBotAPI.Windows.RewardName` instead of `OgreBotAPI.Get_RewardName`. New arguments: `[num|name,windowId]`.",
    "id": "OgreBotAPI:Get_RewardName",
    "newForm": "OgreBotAPI.Windows.RewardName",
@@ -14871,6 +14980,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.Roster.RoleOf` instead of `OgreBotAPI.Get_Role`. New arguments: `[class]`.",
    "id": "OgreBotAPI:Get_Role",
    "newForm": "OgreBotAPI.Roster.RoleOf",
@@ -14900,6 +15010,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "example": {
     "after": "_ScriptName:Set[\"${OgreBotAPI.Bot.ScriptBaseName[\"${_ScriptName}\"]}\"]",
     "before": "_ScriptName:Set[\"${OgreBotAPI.Get_ScriptBaseName[\"${_ScriptName}\"]}\"]"
@@ -14920,10 +15031,10 @@
   },
   {
    "argsCheck": "same-count",
-   "howToFix": "Write `OgreBotAPI.Util.Seconds` instead of `OgreBotAPI.Get_Seconds`. New arguments: `[n]`.",
+   "howToFix": "Write `OgreBotAPI.Util.Seconds` instead of `OgreBotAPI.Get_Seconds`. New arguments: `[n=0]`.",
    "id": "OgreBotAPI:Get_Seconds",
    "newForm": "OgreBotAPI.Util.Seconds",
-   "newSignature": "[n]",
+   "newSignature": "[n=0]",
    "oldCall": "OgreBotAPI.Get_Seconds",
    "oldKinds": [
     "x"
@@ -14936,10 +15047,10 @@
   },
   {
    "argsCheck": "same-count",
-   "howToFix": "Write `OgreBotAPI.Inventory.SlotUIName` instead of `OgreBotAPI.Get_SlotNum_EQ2UIPageSlotNames`. New arguments: `[n]`.",
+   "howToFix": "Write `OgreBotAPI.Inventory.SlotUIName` instead of `OgreBotAPI.Get_SlotNum_EQ2UIPageSlotNames`. New arguments: `[n=1]`.",
    "id": "OgreBotAPI:Get_SlotNum_EQ2UIPageSlotNames",
    "newForm": "OgreBotAPI.Inventory.SlotUIName",
-   "newSignature": "[n]",
+   "newSignature": "[n=1]",
    "oldCall": "OgreBotAPI.Get_SlotNum_EQ2UIPageSlotNames",
    "oldKinds": [
     "x"
@@ -14952,10 +15063,10 @@
   },
   {
    "argsCheck": "same-count",
-   "howToFix": "Write `OgreBotAPI.Inventory.SlotName` instead of `OgreBotAPI.Get_SlotNum_To_SlotNames`. New arguments: `[n]`.",
+   "howToFix": "Write `OgreBotAPI.Inventory.SlotName` instead of `OgreBotAPI.Get_SlotNum_To_SlotNames`. New arguments: `[n=1]`.",
    "id": "OgreBotAPI:Get_SlotNum_To_SlotNames",
    "newForm": "OgreBotAPI.Inventory.SlotName",
-   "newSignature": "[n]",
+   "newSignature": "[n=1]",
    "oldCall": "OgreBotAPI.Get_SlotNum_To_SlotNames",
    "oldKinds": [
     "x"
@@ -15022,6 +15133,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "example": {
     "after": "${OgreBotAPI.Vars.Get[\"DoCenterOfRoom\"]}",
     "before": "${OgreBotAPI.Get_Variable[\"DoCenterOfRoom\"]}"
@@ -15042,6 +15154,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "example": {
     "after": "if ${OgreBotAPI.Vars.Exists[\"${Me.Group[${iCounter}].Name}_${LinkID}\"]}",
     "before": "if ${OgreBotAPI.Get_VariableExists[\"${Me.Group[${iCounter}].Name}_${LinkID}\"]}"
@@ -15062,6 +15175,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "example": {
     "after": "if ${OgreBotAPI.Vars.Bool[\"CM_LadySpot\"]}",
     "before": "if ${OgreBotAPI.Get_Variable_Bool[\"CM_LadySpot\"]}"
@@ -15215,6 +15329,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "example": {
     "after": "if ${OgreBotAPI.HOs.WheelClassAvailable[${Me.Archetype}]}",
     "before": "if ${OgreBotAPI.HO_Class_Available[${Me.Archetype}]}"
@@ -15308,6 +15423,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.HOs.StarterClassAvailable` instead of `OgreBotAPI.HO_Starter_Class_Available`. New arguments: `[class]`.",
    "id": "OgreBotAPI:HO_Starter_Class_Available",
    "newForm": "OgreBotAPI.HOs.StarterClassAvailable",
@@ -15389,6 +15505,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "example": {
     "after": "if ${OgreBotAPI.HOs.WheelClassAvailable[\"mage\"]}",
     "before": "if ${OgreBotAPI.HO_Wheel_Class_Available[\"mage\"]}"
@@ -15478,6 +15595,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "howToFix": "Write `OgreBotAPI.Actors:Hail` instead of `OgreBotAPI:HailNPC`. New arguments: `[fw,nameOrId]`.",
    "id": "OgreBotAPI:HailNPC",
    "newForm": "OgreBotAPI.Actors:Hail",
@@ -15547,6 +15665,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "example": {
     "after": "bRetValue:Set[${OgreBotAPI.Quest.Have[\"${_Command.Right[-12]}\"]}]",
     "before": "bRetValue:Set[${OgreBotAPI.HaveQuest[\"${_Command.Right[-12]}\"]}]"
@@ -15700,6 +15819,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "example": {
     "after": "if !${OgreBotAPI.Roster.InEQ2Chars[\"${Name}\"]}",
     "before": "if !${OgreBotAPI.InEQ2Chars[\"${Name}\"]}"
@@ -15905,6 +16025,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.Windows:InputTextAdd[${Me.Name},\"${password}\"]",
     "before": "OgreBotAPI:InputTextWindow_AddText[${Me.Name},\"${password}\"]"
@@ -16004,6 +16125,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.Actors.IsPC` instead of `OgreBotAPI.IsAPC`. New arguments: `[actorType]`.",
    "id": "OgreBotAPI:IsAPC",
    "newForm": "OgreBotAPI.Actors.IsPC",
@@ -16020,6 +16142,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "howToFix": "Write `OgreBotAPI.Inventory.IsAdornmentColour` instead of `OgreBotAPI.IsAdornmentColour`. New arguments: `[iconId,colour]`.",
    "id": "OgreBotAPI:IsAdornmentColour",
    "newForm": "OgreBotAPI.Inventory.IsAdornmentColour",
@@ -16138,10 +16261,11 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "howToFix": "Write `OgreBotAPI.Abilities:AddEmbargo` instead of `OgreBotAPI:ItemEmbargo_AddRotateTimer`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. same verb as `AbilityEmbargo_AddRotateTimer` - they shared one id store and are one verb now. `[id, durationSeconds]`, no for-who.",
    "id": "OgreBotAPI:ItemEmbargo_AddRotateTimer",
    "newForm": "OgreBotAPI.Abilities:AddEmbargo",
-   "newSignature": "[fw,id,durationSec=0]",
+   "newSignature": "[fw,id,durationSec]",
    "note": "The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. same verb as `AbilityEmbargo_AddRotateTimer` - they shared one id store and are one verb now. `[id, durationSeconds]`, no for-who.",
    "oldCall": "OgreBotAPI:ItemEmbargo_AddRotateTimer",
    "oldKinds": [
@@ -16362,6 +16486,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 3,
    "howToFix": "Write `OgreBotAPI.Options:LoadProfile` instead of `OgreBotAPI:LoadProfile`. New arguments: `[fw, name, tabOnly]`.",
    "id": "OgreBotAPI:LoadProfile",
    "newForm": "OgreBotAPI.Options:LoadProfile",
@@ -16378,6 +16503,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.Session:LogToonIn[\"${_CommandForWho}\",\"${_Name}\"]",
     "before": "OgreBotAPI:LogToonIn[\"${_CommandForWho}\",\"${_Name}\"]"
@@ -16398,6 +16524,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.Session:LoginAtCharacterSelect[\"${_CommandForWho}\",${_Char}]",
     "before": "OgreBotAPI:LoginAtCharacterSelect[\"${_CommandForWho}\",${_Char}]"
@@ -16493,6 +16620,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.Util.MD5` instead of `OgreBotAPI.MD5`. New arguments: `[s]`.",
    "id": "OgreBotAPI:MD5",
    "newForm": "OgreBotAPI.Util.MD5",
@@ -16664,7 +16792,7 @@
    "howToFix": "Write `OgreBotAPI.Movement:Move2Area` instead of `OgreBotAPI:Move2Area`; the arguments changed: Old: OgreBotAPI:Move2Area[x,z,who,precision] (Classic's second number is the Z). New: OgreBotAPI.Movement:Move2Area[who,x,y,z,precision] - the for-who comes first and y is new but ignored (a ground move: pass ${Me.Y} or 0). Only toons that have a target move, as in Classic.",
    "id": "OgreBotAPI:Move2Area",
    "newForm": "OgreBotAPI.Movement:Move2Area",
-   "newSignature": "[fw,x=0,y=0,z=0,precision=3]",
+   "newSignature": "[fw,x,y,z,precision=3]",
    "note": "Old: OgreBotAPI:Move2Area[x,z,who,precision] (Classic's second number is the Z). New: OgreBotAPI.Movement:Move2Area[who,x,y,z,precision] - the for-who comes first and y is new but ignored (a ground move: pass ${Me.Y} or 0). Only toons that have a target move, as in Classic.",
    "oldCall": "OgreBotAPI:Move2Area",
    "oldKinds": [
@@ -16680,7 +16808,7 @@
    "howToFix": "Write `OgreBotAPI.Movement:Move2AreaNoTarget` instead of `OgreBotAPI:Move2AreaNoTarget`; the arguments changed: Old: OgreBotAPI:Move2AreaNoTarget[x,z,who,precision] (Classic's second number is the Z). New: OgreBotAPI.Movement:Move2AreaNoTarget[who,x,y,z,precision] - the for-who comes first and y is new but ignored (a ground move: pass ${Me.Y} or 0). Moves with or without a target, as in Classic.",
    "id": "OgreBotAPI:Move2AreaNoTarget",
    "newForm": "OgreBotAPI.Movement:Move2AreaNoTarget",
-   "newSignature": "[fw,x=0,y=0,z=0,precision=3]",
+   "newSignature": "[fw,x,y,z,precision=3]",
    "note": "Old: OgreBotAPI:Move2AreaNoTarget[x,z,who,precision] (Classic's second number is the Z). New: OgreBotAPI.Movement:Move2AreaNoTarget[who,x,y,z,precision] - the for-who comes first and y is new but ignored (a ground move: pass ${Me.Y} or 0). Moves with or without a target, as in Classic.",
    "oldCall": "OgreBotAPI:Move2AreaNoTarget",
    "oldKinds": [
@@ -17019,6 +17147,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.Comms:IrcAuthIfInRaid[\"${_CommandForWho}\",\"${_Value}\"]",
     "before": "OgreBotAPI:OgreIRC_AuthIfInRaid[\"${_CommandForWho}\",\"${_Value}\"]"
@@ -17099,6 +17228,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 3,
    "example": {
     "after": "OgreBotAPI.Merchant:OpenAndBuy[${Me.Name}, \"${BuyNPC}\", \"${ItemName}\", ${NumPots}]",
     "before": "OgreBotAPI:OpenAndBuyFromMerchant[${Me.Name}, \"${BuyNPC}\", \"${ItemName}\", ${NumPots}]"
@@ -17120,6 +17250,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 5,
    "example": {
     "after": "OgreBotAPI.Merchant:OpenAndBuyXTimes[\"${_CommandForWho}\",\"${_MerchantName}\",\"${_ItemName}\",${_Value},${_TimesToBuy}]",
     "before": "OgreBotAPI:OpenAndBuyFromMerchantXTimes[\"${_CommandForWho}\",\"${_MerchantName}\",\"${_ItemName}\",${_Value},${_TimesToBuy}]"
@@ -17243,6 +17374,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "howToFix": "Write `OgreBotAPI.Util.IEquals` instead of `OgreBotAPI.PE_ThisMember`. New arguments: `[a,b]`.",
    "id": "OgreBotAPI:PE_ThisMember",
    "newForm": "OgreBotAPI.Util.IEquals",
@@ -17410,6 +17542,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI:CRCS[\"all\",${OgreBotAPI.Position.AtAngle[0,${This.NamedNPCID}]}]",
     "before": "OgreBotAPI:CRCS[\"all\",${OgreBotAPI.PointAtAngle[0,${This.NamedNPCID}]}]"
@@ -17445,6 +17578,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 6,
    "howToFix": "Write `OgreBotAPI.Position.Toward` instead of `OgreBotAPI.PointTowardDist`. New arguments: `[fx,fy,fz,tx,ty,tz,dist=15]`.",
    "id": "OgreBotAPI:PointTowardDist",
    "newForm": "OgreBotAPI.Position.Toward",
@@ -17855,6 +17989,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "example": {
     "after": "sCleanItemName:Set[\"${OgreBotAPI.Util.StripColourCodes[\"${_ItemName}\"]}\"]",
     "before": "sCleanItemName:Set[\"${OgreBotAPI.RemoveColourCode[\"${_ItemName}\"]}\"]"
@@ -17875,6 +18010,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI:RemoveNoOffensiveOn[\"all\",\"Shield of Yothshaval\"]",
     "before": "OgreBotAPI:RemoveNoOffensiveOn[\"all\",\"Shield of Yothshaval\"]"
@@ -18471,6 +18607,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "example": {
     "after": "This.iUntoldTier:Set[${OgreBotAPI.Util.RomanToInt[\"${sTemp}\"]}]",
     "before": "This.iUntoldTier:Set[${OgreBotAPI.RomanToInt[\"${sTemp}\"]}]"
@@ -18503,14 +18640,15 @@
    "surface": "OgreBotAPI"
   },
   {
-   "argsCheck": "compatible",
-   "argsDropped": [
-    "_IncrementBy"
-   ],
-   "howToFix": "Write `OgreBotAPI.Util.RoundToNearest` instead of `OgreBotAPI.RoundNumToNearestValue`. New arguments: `[value,step]`.",
+   "argsCheck": "same-count",
+   "example": {
+    "after": "return ${OgreBotAPI.Util.RoundToNearest[${Actor[\"Bhoughbh Nova-Prime\"].Health},${_Divider}]}",
+    "before": "return ${OgreBotAPI.RoundNumToNearestValue[${Actor[\"Bhoughbh Nova-Prime\"].Health},${_Divider}]}"
+   },
+   "howToFix": "Write `OgreBotAPI.Util.RoundToNearest` instead of `OgreBotAPI.RoundNumToNearestValue`. New arguments: `[value=0,step=1,incBy=0]`.",
    "id": "OgreBotAPI:RoundNumToNearestValue",
    "newForm": "OgreBotAPI.Util.RoundToNearest",
-   "newSignature": "[value,step]",
+   "newSignature": "[value=0,step=1,incBy=0]",
    "oldCall": "OgreBotAPI.RoundNumToNearestValue",
    "oldKinds": [
     "x"
@@ -18689,6 +18827,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.Merchant:Sell[\"${_CommandForWho}\",\"${_ItemName}\",${_Value}]",
     "before": "OgreBotAPI:SellToMerchant[\"${_CommandForWho}\",\"${_ItemName}\",${_Value}]"
@@ -18709,6 +18848,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 3,
    "howToFix": "Write `OgreBotAPI.Comms:SendTell` instead of `OgreBotAPI:Send_Tell`. New arguments: `[fw,target,message]`.",
    "id": "OgreBotAPI:Send_Tell",
    "newForm": "OgreBotAPI.Comms:SendTell",
@@ -18728,6 +18868,7 @@
    "argsDropped": [
     "_Silent"
    ],
+   "argsNeeded": 2,
    "howToFix": "Write `OgreBotAPI.Loot:SetAutoLootMode` instead of `OgreBotAPI:SetAutoLootMode`. New arguments: `[fw,n]`.",
    "id": "OgreBotAPI:SetAutoLootMode",
    "newForm": "OgreBotAPI.Loot:SetAutoLootMode",
@@ -18744,6 +18885,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.CampSpot:SetLocBehindActor[\"all\",\"${NPCName}\"]",
     "before": "OgreBotAPI:SetCS_BehindNPC[\"all\",\"${NPCName}\"]"
@@ -18764,6 +18906,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.CampSpot:SetLocInFrontOfActor[all,${ActorID}]",
     "before": "OgreBotAPI:SetCS_InFrontNPC[all,${ActorID}]"
@@ -18784,6 +18927,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "howToFix": "Write `OgreBotAPI.CampSpot:SetLocAtAngleFromActor` instead of `OgreBotAPI:SetCS_NPC`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. was a dead stub; `:SetLocAtAngleFromActor` is the working port.",
    "id": "OgreBotAPI:SetCS_NPC",
    "newForm": "OgreBotAPI.CampSpot:SetLocAtAngleFromActor",
@@ -18801,6 +18945,7 @@
   },
   {
    "argsCheck": "compatible",
+   "argsNeeded": 3,
    "howToFix": "Write `OgreBotAPI.CampSpot:SetLocAtAngleFromActor` instead of `OgreBotAPI:SetCS_NPC_ForWho`. New arguments: `[fw,angle,nameOrId,dist=3,skipIfAggro=FALSE,includeNpcSize=TRUE]`.",
    "id": "OgreBotAPI:SetCS_NPC_ForWho",
    "newForm": "OgreBotAPI.CampSpot:SetLocAtAngleFromActor",
@@ -18818,6 +18963,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.CampSpot:SetLocByRole[all,${ActorID}]",
     "before": "OgreBotAPI:SetCS_PositionNPC[all,${ActorID}]"
@@ -18872,10 +19018,11 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "howToFix": "Write `OgreBotAPI.Client:SetMousePosition` instead of `OgreBotAPI:SetMousePosition`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it.",
    "id": "OgreBotAPI:SetMousePosition",
    "newForm": "OgreBotAPI.Client:SetMousePosition",
-   "newSignature": "[fw,x=0,y=0]",
+   "newSignature": "[fw,x,y]",
    "note": "The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it.",
    "oldCall": "OgreBotAPI:SetMousePosition",
    "oldKinds": [
@@ -19103,6 +19250,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.HOs:AllowIcon[\"${_CommandForWho}\",${_VariableName}]",
     "before": "OgreBotAPI:Set_Allow_HOICon[\"${_CommandForWho}\",${_VariableName}]"
@@ -19144,6 +19292,7 @@
   },
   {
    "argsCheck": "compatible",
+   "argsNeeded": 4,
    "example": {
     "after": "OgreBotAPI.Movement:JumpRoute[\"${_CommandForWho}\",\"${_Start}\",\"${_Jump}\",\"${_End}\",\"${_Completed}\",${Args}]",
     "before": "OgreBotAPI:Set_CampSpotJump_Handle[\"${_CommandForWho}\",\"${_Start}\",\"${_Jump}\",\"${_End}\",\"${_Completed}\",${Args}]"
@@ -19185,6 +19334,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.HOs:DisableIcon[\"all\",25]",
     "before": "OgreBotAPI:Set_Disable_HOICon[\"all\",25]"
@@ -19253,6 +19403,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 3,
    "example": {
     "after": "OgreBotAPI.Vars:SetInternal[\"all\",\"Envoy\",\"-28\"]",
     "before": "OgreBotAPI:Set_InternalVariable[\"all\",\"Envoy\",\"-28\"]"
@@ -19327,6 +19478,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 3,
    "example": {
     "after": "OgreBotAPI.Vars:Set[all,HARVESTONLY,TRUE]",
     "before": "OgreBotAPI:Set_Variable[all,HARVESTONLY,TRUE]"
@@ -19367,6 +19519,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.Quest:ShareMission[\"${_CommandForWho}\",\"${_Value}\"]",
     "before": "OgreBotAPI:ShareMission[\"${_CommandForWho}\",\"${_Value}\"]"
@@ -19387,6 +19540,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.Quest:ShareQuest[\"${_CommandForWho}\",\"${_Value}\"]",
     "before": "OgreBotAPI:ShareQuest[\"${_CommandForWho}\",\"${_Value}\"]"
@@ -19407,6 +19561,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "howToFix": "Write `OgreBotAPI.Quest:ShareQuestWhenAble` instead of `OgreBotAPI:ShareQuestWhenAble`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it.",
    "id": "OgreBotAPI:ShareQuestWhenAble",
    "newForm": "OgreBotAPI.Quest:ShareQuestWhenAble",
@@ -19483,10 +19638,10 @@
    "surface": "OgreBotAPI"
   },
   {
-   "howToFix": "Write `OgreBotAPI.Inventory.SlotUIName` instead of `OgreBotAPI.SlotNum_EQ2UIPageSlotNames`. New arguments: `[n]`.",
+   "howToFix": "Write `OgreBotAPI.Inventory.SlotUIName` instead of `OgreBotAPI.SlotNum_EQ2UIPageSlotNames`. New arguments: `[n=1]`.",
    "id": "OgreBotAPI:SlotNum_EQ2UIPageSlotNames",
    "newForm": "OgreBotAPI.Inventory.SlotUIName",
-   "newSignature": "[n]",
+   "newSignature": "[n=1]",
    "oldCall": "OgreBotAPI.SlotNum_EQ2UIPageSlotNames",
    "oldKinds": [
     "v"
@@ -19497,10 +19652,10 @@
    "surface": "OgreBotAPI"
   },
   {
-   "howToFix": "Write `OgreBotAPI.Inventory.SlotName` instead of `OgreBotAPI.SlotNum_SlotNames`. New arguments: `[n]`.",
+   "howToFix": "Write `OgreBotAPI.Inventory.SlotName` instead of `OgreBotAPI.SlotNum_SlotNames`. New arguments: `[n=1]`.",
    "id": "OgreBotAPI:SlotNum_SlotNames",
    "newForm": "OgreBotAPI.Inventory.SlotName",
-   "newSignature": "[n]",
+   "newSignature": "[n=1]",
    "oldCall": "OgreBotAPI.SlotNum_SlotNames",
    "oldKinds": [
     "v"
@@ -19511,10 +19666,10 @@
    "surface": "OgreBotAPI"
   },
   {
-   "howToFix": "Write `OgreBotAPI.Inventory.SlotName` instead of `OgreBotAPI.Slot_SlotNames`. New arguments: `[n]`.",
+   "howToFix": "Write `OgreBotAPI.Inventory.SlotName` instead of `OgreBotAPI.Slot_SlotNames`. New arguments: `[n=1]`.",
    "id": "OgreBotAPI:Slot_SlotNames",
    "newForm": "OgreBotAPI.Inventory.SlotName",
-   "newSignature": "[n]",
+   "newSignature": "[n=1]",
    "oldCall": "OgreBotAPI.Slot_SlotNames",
    "oldKinds": [
     "v"
@@ -19526,6 +19681,7 @@
   },
   {
    "argsCheck": "compatible",
+   "argsNeeded": 3,
    "howToFix": "Write `OgreBotAPI.Loot:BuildToonItemsToBeZeroed` instead of `OgreBotAPI:SmartLoot_BuildToonItemsToBeZeroed`. New arguments: `[fw,toon,item,...]`.",
    "id": "OgreBotAPI:SmartLoot_BuildToonItemsToBeZeroed",
    "newForm": "OgreBotAPI.Loot:BuildToonItemsToBeZeroed",
@@ -19621,6 +19777,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 5,
    "howToFix": "Write `OgreBotAPI.Events:AddSpawnEntry` instead of `OgreBotAPI:SpawnEvent_AddEntry`. New arguments: `[fw,text,oc,ding,code]`.",
    "id": "OgreBotAPI:SpawnEvent_AddEntry",
    "newForm": "OgreBotAPI.Events:AddSpawnEntry",
@@ -19767,6 +19924,7 @@
   },
   {
    "argsCheck": "compatible",
+   "argsNeeded": 2,
    "howToFix": "Write `OgreBotAPI.Debug:BroadcastStat` instead of `OgreBotAPI.SpewStat`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it.",
    "id": "OgreBotAPI:SpewStat",
    "newForm": "OgreBotAPI.Debug:BroadcastStat",
@@ -20029,6 +20187,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.Comms:TTS[\"all\",\"Pox\"]",
     "before": "OgreBotAPI:TTS[\"all\",\"Pox\"]"
@@ -20049,6 +20208,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI:Target[${Me.Name},${Me.ID}]",
     "before": "OgreBotAPI:Target[${Me.Name},${Me.ID}]"
@@ -20069,6 +20229,7 @@
   },
   {
    "argsCheck": "compatible",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.Actors:ClickQueued[\"all\",${_ActorID}]",
     "before": "OgreBotAPI:TargetAndDoubleClickActor[\"all\",${_ActorID}]"
@@ -20243,6 +20404,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.Util.ToFloat` instead of `OgreBotAPI.To_Float`. New arguments: `[s]`.",
    "id": "OgreBotAPI:To_Float",
    "newForm": "OgreBotAPI.Util.ToFloat",
@@ -20259,6 +20421,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "example": {
     "after": "if ${Me.Level} >= 130 && ${OgreBotAPI.Util.ToInt[\"${Me.GetGameData[\"Stats.CurrentStatus\"].Label}\"]} < 750000",
     "before": "if ${Me.Level} >= 130 && ${OgreBotAPI.To_Int[\"${Me.GetGameData[\"Stats.CurrentStatus\"].Label}\"]} < 750000"
@@ -20279,6 +20442,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.Util.ToNumber` instead of `OgreBotAPI.To_Number`. New arguments: `[s]`.",
    "id": "OgreBotAPI:To_Number",
    "newForm": "OgreBotAPI.Util.ToNumber",
@@ -20377,6 +20541,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "howToFix": "Write `OgreBotAPI.Roster:SpewMarked` instead of `OgreBotAPI:ToonMarked`. New arguments: `[fw,where]`.",
    "id": "OgreBotAPI:ToonMarked",
    "newForm": "OgreBotAPI.Roster:SpewMarked",
@@ -20394,6 +20559,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.Travel:Travel[\"all\",\"The Blinding\"]",
     "before": "OgreBotAPI:Travel[\"all\",\"The Blinding\"]"
@@ -20414,6 +20580,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.Travel:Bell[all,\"${MapName~}\", TRUE]",
     "before": "OgreBotAPI:TravelBell[all,\"${MapName~}\", TRUE]"
@@ -20447,6 +20614,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.Travel:Druid[all,\"${MapName~}\", TRUE]",
     "before": "OgreBotAPI:TravelDruid[all,\"${MapName~}\", TRUE]"
@@ -20535,6 +20703,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.Travel:Spires[\"all\",\"savage\"]",
     "before": "OgreBotAPI:TravelSpires[\"all\",\"savage\"]"
@@ -20568,6 +20737,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "example": {
     "after": "if ${OgreBotAPI.Travel.ZoneDoorValue[\"Sanctus Seru: Party for One [Piercing the Darkness]\"]} > 0",
     "before": "if ${OgreBotAPI.Travel_Get_ZoneDoorValue[\"Sanctus Seru: Party for One [Piercing the Darkness]\"]} > 0"
@@ -20929,6 +21099,7 @@
   },
   {
    "argsCheck": "compatible",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.Inventory:Use[\"all\",\"${ItemName}\"]",
     "before": "OgreBotAPI:UseItem[\"all\",\"${ItemName}\"]"
@@ -20949,6 +21120,7 @@
   },
   {
    "argsCheck": "compatible",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.Inventory:UseOnPlayer[\"all\",\"${This.sMaidenKey}\",${ActorID}]",
     "before": "OgreBotAPI:UseItemOnPlayer[\"all\",\"${This.sMaidenKey}\",${ActorID}]"
@@ -20969,6 +21141,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "howToFix": "Write `OgreBotAPI.Inventory:UseOnPlayerRelay` instead of `OgreBotAPI:UseItemOnPlayer_Relay`. New arguments: `[fw,item,player=me]`.",
    "id": "OgreBotAPI:UseItemOnPlayer_Relay",
    "newForm": "OgreBotAPI.Inventory:UseOnPlayerRelay",
@@ -20985,6 +21158,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.Inventory:UseRelay[\"all\",\"Spirit of the Cat\"]",
     "before": "OgreBotAPI:UseItem_Relay[\"all\",\"Spirit of the Cat\"]"
@@ -21076,14 +21250,15 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 4,
    "example": {
     "after": "OgreBotAPI.Movement:Waypoint[fighter,${_X},${_Y},${_Z}]",
     "before": "OgreBotAPI:Waypoint[fighter,${_X},${_Y},${_Z}]"
    },
-   "howToFix": "Write `OgreBotAPI.Movement:Waypoint` instead of `OgreBotAPI:Waypoint`. New arguments: `[fw,x=0,y=0,z=0]`.",
+   "howToFix": "Write `OgreBotAPI.Movement:Waypoint` instead of `OgreBotAPI:Waypoint`. New arguments: `[fw,x,y,z]`.",
    "id": "OgreBotAPI:Waypoint",
    "newForm": "OgreBotAPI.Movement:Waypoint",
-   "newSignature": "[fw,x=0,y=0,z=0]",
+   "newSignature": "[fw,x,y,z]",
    "oldCall": "OgreBotAPI:Waypoint",
    "oldKinds": [
     "m"
@@ -21108,6 +21283,7 @@
   },
   {
    "argsCheck": "compatible",
+   "argsNeeded": 2,
    "howToFix": "Write `OgreBotAPI.Zone:Zone` instead of `OgreBotAPI:Zone`. New arguments: `[fw,zone,...]`.",
    "id": "OgreBotAPI:Zone",
    "newForm": "OgreBotAPI.Zone:Zone",
@@ -21486,6 +21662,7 @@
    "argsDropped": [
     "_Value"
    ],
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.Abilities.ID` instead of `Abilities.GetIndexBy`. New arguments: `[name]`.",
    "id": "Abilities.GetIndexBy",
    "newForm": "OgreBotAPI.Abilities.ID",
@@ -21502,6 +21679,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "example": {
     "after": "CureAbility:SetReference[\"Abilities.Ability[${OgreBotAPI.Abilities.ID[${iAbilityID}]}]\"]",
     "before": "CureAbility:SetReference[\"Abilities.Ability[${Abilities.GetIndexByID[${iAbilityID}]}]\"]"
@@ -21522,6 +21700,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "example": {
     "after": "if !${OgreBotAPI.Abilities.ID[\"${This.NoHateAbility}\"]}",
     "before": "if !${Abilities.GetIndexByName[\"${This.NoHateAbility}\"]}"
@@ -22357,6 +22536,7 @@
    "argsDropped": [
     "IsNPC"
    ],
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.Actors.MobID` instead of `GetInfoOb.ActorToID`. New arguments: `[name]`.",
    "id": "GetInfoOb.ActorToID",
    "newForm": "OgreBotAPI.Actors.MobID",
@@ -22373,6 +22553,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "example": {
     "after": "sTarget:Set[\"${OgreBotAPI.ForWho.Alias[\"${sTarget}\"]}\"]",
     "before": "sTarget:Set[\"${GetInfoOb.Alias[\"${sTarget}\"]}\"]"
@@ -22396,6 +22577,7 @@
    "argsDropped": [
     "IncludeMe"
    ],
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.Roster.ArchetypeOf` instead of `GetInfoOb.Archetype`. New arguments: `[class]`.",
    "id": "GetInfoOb.Archetype",
    "newForm": "OgreBotAPI.Roster.ArchetypeOf",
@@ -22461,7 +22643,7 @@
    "howToFix": "Write `OgreBotAPI.Cures.Detrimental` instead of `GetInfoOb.CheckMobDetriment`; the arguments changed: the new reader is keyed on the DETRIMENT ICON PAIR, not on a name: `${OgreBotAPI.Cures.Detrimental[<main>,<back>,<actorId>,\"<field>\"]}` (field defaults to \"exists\"; \"CurrentIncrements\" and \"Duration\" are the other common ones). **Watch the pair order** - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has.",
    "id": "GetInfoOb.CheckMobDetriment",
    "newForm": "OgreBotAPI.Cures.Detrimental",
-   "newSignature": "[main,back,actorId=0,field=exists]",
+   "newSignature": "[main=0,back=0,actorId=0,field=exists]",
    "note": "the new reader is keyed on the DETRIMENT ICON PAIR, not on a name: `${OgreBotAPI.Cures.Detrimental[<main>,<back>,<actorId>,\"<field>\"]}` (field defaults to \"exists\"; \"CurrentIncrements\" and \"Duration\" are the other common ones). **Watch the pair order** - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has.",
    "oldCall": "GetInfoOb.CheckMobDetriment",
    "oldKinds": [
@@ -22478,7 +22660,7 @@
    "howToFix": "Write `OgreBotAPI.Cures.Detrimental` instead of `GetInfoOb.CheckMobDetriment_Increment`; the arguments changed: pass `\"CurrentIncrements\"`. the new reader is keyed on the DETRIMENT ICON PAIR, not on a name: `${OgreBotAPI.Cures.Detrimental[<main>,<back>,<actorId>,\"<field>\"]}` (field defaults to \"exists\"; \"CurrentIncrements\" and \"Duration\" are the other common ones). **Watch the pair order** - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has.",
    "id": "GetInfoOb.CheckMobDetriment_Increment",
    "newForm": "OgreBotAPI.Cures.Detrimental",
-   "newSignature": "[main,back,actorId=0,field=exists]",
+   "newSignature": "[main=0,back=0,actorId=0,field=exists]",
    "note": "pass `\"CurrentIncrements\"`. the new reader is keyed on the DETRIMENT ICON PAIR, not on a name: `${OgreBotAPI.Cures.Detrimental[<main>,<back>,<actorId>,\"<field>\"]}` (field defaults to \"exists\"; \"CurrentIncrements\" and \"Duration\" are the other common ones). **Watch the pair order** - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has.",
    "oldCall": "GetInfoOb.CheckMobDetriment_Increment",
    "oldKinds": [
@@ -22508,6 +22690,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.Util.Clean` instead of `GetInfoOb.Clean`. New arguments: `[s]`.",
    "id": "GetInfoOb.Clean",
    "newForm": "OgreBotAPI.Util.Clean",
@@ -22524,6 +22707,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.Util.Clean` instead of `GetInfoOb.CleanNameWithSpaces`. New arguments: `[s]`.",
    "id": "GetInfoOb.CleanNameWithSpaces",
    "newForm": "OgreBotAPI.Util.Clean",
@@ -22653,12 +22837,16 @@
    "surface": "GetInfoOb"
   },
   {
-   "argsCheck": "differs",
-   "howToFix": "Write `OgreBotAPI.Cures.Detrimental` instead of `GetInfoOb.CurrentIncrements`; the arguments changed: The arguments are different: Classic took `(string DotToCheck)`, the new call takes `[main,back,actorId=0,field=exists]`. Classic looked the detriment up by NAME; the new reader is keyed on the DETRIMENT ICON PAIR, not on a name: `${OgreBotAPI.Cures.Detrimental[<main>,<back>,<actorId>,\"<field>\"]}` (field defaults to \"exists\"; \"CurrentIncrements\" and \"Duration\" are the other common ones). **Watch the pair order** - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has.",
+   "argsCheck": "compatible",
+   "example": {
+    "after": "Tmp:Set[${OgreBotAPI.Cures.Detrimental[SG_Talan_CrippledArmor]}]",
+    "before": "Tmp:Set[${GetInfoOb.CurrentIncrements[SG_Talan_CrippledArmor]}]"
+   },
+   "howToFix": "Write `OgreBotAPI.Cures.Detrimental` instead of `GetInfoOb.CurrentIncrements`. New arguments: `[main=0,back=0,actorId=0,field=exists]`.",
    "id": "GetInfoOb.CurrentIncrements",
    "newForm": "OgreBotAPI.Cures.Detrimental",
-   "newSignature": "[main,back,actorId=0,field=exists]",
-   "note": "The arguments are different: Classic took `(string DotToCheck)`, the new call takes `[main,back,actorId=0,field=exists]`. Classic looked the detriment up by NAME; the new reader is keyed on the DETRIMENT ICON PAIR, not on a name: `${OgreBotAPI.Cures.Detrimental[<main>,<back>,<actorId>,\"<field>\"]}` (field defaults to \"exists\"; \"CurrentIncrements\" and \"Duration\" are the other common ones). **Watch the pair order** - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has.",
+   "newSignature": "[main=0,back=0,actorId=0,field=exists]",
+   "note": "Classic looked the detriment up by NAME; the new reader is keyed on the DETRIMENT ICON PAIR, not on a name: `${OgreBotAPI.Cures.Detrimental[<main>,<back>,<actorId>,\"<field>\"]}` (field defaults to \"exists\"; \"CurrentIncrements\" and \"Duration\" are the other common ones). **Watch the pair order** - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has.",
    "oldCall": "GetInfoOb.CurrentIncrements",
    "oldKinds": [
     "x"
@@ -22666,14 +22854,14 @@
    "oldName": "CurrentIncrements",
    "oldSignature": "(string DotToCheck)",
    "oldSpellingToday": "reads NULL - no error in any log (the member no longer exists)",
-   "status": "signature",
+   "status": "renamed",
    "surface": "GetInfoOb"
   },
   {
    "howToFix": "Write `OgreBotAPI.Cures.Detrimental` instead of `GetInfoOb.CurrentIncrements_ID`; the arguments changed: pass `\"CurrentIncrements\"` as the field. the new reader is keyed on the DETRIMENT ICON PAIR, not on a name: `${OgreBotAPI.Cures.Detrimental[<main>,<back>,<actorId>,\"<field>\"]}` (field defaults to \"exists\"; \"CurrentIncrements\" and \"Duration\" are the other common ones). **Watch the pair order** - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has.",
    "id": "GetInfoOb.CurrentIncrements_ID",
    "newForm": "OgreBotAPI.Cures.Detrimental",
-   "newSignature": "[main,back,actorId=0,field=exists]",
+   "newSignature": "[main=0,back=0,actorId=0,field=exists]",
    "note": "pass `\"CurrentIncrements\"` as the field. the new reader is keyed on the DETRIMENT ICON PAIR, not on a name: `${OgreBotAPI.Cures.Detrimental[<main>,<back>,<actorId>,\"<field>\"]}` (field defaults to \"exists\"; \"CurrentIncrements\" and \"Duration\" are the other common ones). **Watch the pair order** - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has.",
    "oldCall": "GetInfoOb.CurrentIncrements_ID",
    "oldKinds": [
@@ -22686,12 +22874,16 @@
    "surface": "GetInfoOb"
   },
   {
-   "argsCheck": "differs",
-   "howToFix": "Write `OgreBotAPI.Cures.Detrimental` instead of `GetInfoOb.CurrentIncrements_ref`; the arguments changed: The arguments are different: Classic took `(persistentref DotToCheck)`, the new call takes `[main,back,actorId=0,field=exists]`. takes a `persistentref` (a LavishScript reference passed by name). There is no C++ argument shape to port to - the same reason `ArraySearch` / `IndexSearch` stayed flat and dead. the new reader is keyed on the DETRIMENT ICON PAIR, not on a name: `${OgreBotAPI.Cures.Detrimental[<main>,<back>,<actorId>,\"<field>\"]}` (field defaults to \"exists\"; \"CurrentIncrements\" and \"Duration\" are the other common ones). **Watch the pair order** - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has.",
+   "argsCheck": "compatible",
+   "example": {
+    "after": "if ${OgreBotAPI.Cures.Detrimental[FireIDs]} == 0",
+    "before": "if ${GetInfoOb.CurrentIncrements_ref[FireIDs]} == 0"
+   },
+   "howToFix": "Write `OgreBotAPI.Cures.Detrimental` instead of `GetInfoOb.CurrentIncrements_ref`. New arguments: `[main=0,back=0,actorId=0,field=exists]`.",
    "id": "GetInfoOb.CurrentIncrements_ref",
    "newForm": "OgreBotAPI.Cures.Detrimental",
-   "newSignature": "[main,back,actorId=0,field=exists]",
-   "note": "The arguments are different: Classic took `(persistentref DotToCheck)`, the new call takes `[main,back,actorId=0,field=exists]`. takes a `persistentref` (a LavishScript reference passed by name). There is no C++ argument shape to port to - the same reason `ArraySearch` / `IndexSearch` stayed flat and dead. the new reader is keyed on the DETRIMENT ICON PAIR, not on a name: `${OgreBotAPI.Cures.Detrimental[<main>,<back>,<actorId>,\"<field>\"]}` (field defaults to \"exists\"; \"CurrentIncrements\" and \"Duration\" are the other common ones). **Watch the pair order** - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has.",
+   "newSignature": "[main=0,back=0,actorId=0,field=exists]",
+   "note": "takes a `persistentref` (a LavishScript reference passed by name). There is no C++ argument shape to port to - the same reason `ArraySearch` / `IndexSearch` stayed flat and dead. the new reader is keyed on the DETRIMENT ICON PAIR, not on a name: `${OgreBotAPI.Cures.Detrimental[<main>,<back>,<actorId>,\"<field>\"]}` (field defaults to \"exists\"; \"CurrentIncrements\" and \"Duration\" are the other common ones). **Watch the pair order** - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has.",
    "oldCall": "GetInfoOb.CurrentIncrements_ref",
    "oldKinds": [
     "x"
@@ -22699,7 +22891,7 @@
    "oldName": "CurrentIncrements_ref",
    "oldSignature": "(persistentref DotToCheck)",
    "oldSpellingToday": "reads NULL - no error in any log (the member no longer exists)",
-   "status": "signature",
+   "status": "renamed",
    "surface": "GetInfoOb"
   },
   {
@@ -22719,10 +22911,10 @@
   },
   {
    "argsCheck": "same-count",
-   "howToFix": "Write `OgreBotAPI.Cures.Detrimental` instead of `GetInfoOb.DetrimentalInfo`. New arguments: `[main,back,actorId=0,field=exists]`.",
+   "howToFix": "Write `OgreBotAPI.Cures.Detrimental` instead of `GetInfoOb.DetrimentalInfo`. New arguments: `[main=0,back=0,actorId=0,field=exists]`.",
    "id": "GetInfoOb.DetrimentalInfo",
    "newForm": "OgreBotAPI.Cures.Detrimental",
-   "newSignature": "[main,back,actorId=0,field=exists]",
+   "newSignature": "[main=0,back=0,actorId=0,field=exists]",
    "oldCall": "GetInfoOb.DetrimentalInfo",
    "oldKinds": [
     "x"
@@ -22737,7 +22929,7 @@
    "howToFix": "Write `OgreBotAPI.Cures.Detrimental` instead of `GetInfoOb.DetrimentalInfo_ref`; the arguments changed: see the note.",
    "id": "GetInfoOb.DetrimentalInfo_ref",
    "newForm": "OgreBotAPI.Cures.Detrimental",
-   "newSignature": "[main,back,actorId=0,field=exists]",
+   "newSignature": "[main=0,back=0,actorId=0,field=exists]",
    "oldCall": "GetInfoOb.DetrimentalInfo_ref",
    "oldKinds": [
     "x"
@@ -22749,12 +22941,16 @@
    "surface": "GetInfoOb"
   },
   {
-   "argsCheck": "differs",
-   "howToFix": "Write `OgreBotAPI.Cures.Detrimental` instead of `GetInfoOb.DotDuration`; the arguments changed: The arguments are different: Classic took `(string DotToCheck)`, the new call takes `[main,back,actorId=0,field=exists]`. pass `\"Duration\"` as the field. the new reader is keyed on the DETRIMENT ICON PAIR, not on a name: `${OgreBotAPI.Cures.Detrimental[<main>,<back>,<actorId>,\"<field>\"]}` (field defaults to \"exists\"; \"CurrentIncrements\" and \"Duration\" are the other common ones). **Watch the pair order** - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has.",
+   "argsCheck": "compatible",
+   "example": {
+    "after": "f_DotDuration:Set[${OgreBotAPI.Cures.Detrimental[RallosZekPrime]}]",
+    "before": "f_DotDuration:Set[${GetInfoOb.DotDuration[RallosZekPrime]}]"
+   },
+   "howToFix": "Write `OgreBotAPI.Cures.Detrimental` instead of `GetInfoOb.DotDuration`. New arguments: `[main=0,back=0,actorId=0,field=exists]`.",
    "id": "GetInfoOb.DotDuration",
    "newForm": "OgreBotAPI.Cures.Detrimental",
-   "newSignature": "[main,back,actorId=0,field=exists]",
-   "note": "The arguments are different: Classic took `(string DotToCheck)`, the new call takes `[main,back,actorId=0,field=exists]`. pass `\"Duration\"` as the field. the new reader is keyed on the DETRIMENT ICON PAIR, not on a name: `${OgreBotAPI.Cures.Detrimental[<main>,<back>,<actorId>,\"<field>\"]}` (field defaults to \"exists\"; \"CurrentIncrements\" and \"Duration\" are the other common ones). **Watch the pair order** - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has.",
+   "newSignature": "[main=0,back=0,actorId=0,field=exists]",
+   "note": "pass `\"Duration\"` as the field. the new reader is keyed on the DETRIMENT ICON PAIR, not on a name: `${OgreBotAPI.Cures.Detrimental[<main>,<back>,<actorId>,\"<field>\"]}` (field defaults to \"exists\"; \"CurrentIncrements\" and \"Duration\" are the other common ones). **Watch the pair order** - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has.",
    "oldCall": "GetInfoOb.DotDuration",
    "oldKinds": [
     "x"
@@ -22762,16 +22958,20 @@
    "oldName": "DotDuration",
    "oldSignature": "(string DotToCheck)",
    "oldSpellingToday": "reads NULL - no error in any log (the member no longer exists)",
-   "status": "signature",
+   "status": "renamed",
    "surface": "GetInfoOb"
   },
   {
-   "argsCheck": "differs",
-   "howToFix": "Write `OgreBotAPI.Cures.Detrimental` instead of `GetInfoOb.DotDuration_ref`; the arguments changed: The arguments are different: Classic took `(persistentref DotToCheck)`, the new call takes `[main,back,actorId=0,field=exists]`. takes a `persistentref` (a LavishScript reference passed by name). There is no C++ argument shape to port to - the same reason `ArraySearch` / `IndexSearch` stayed flat and dead. the new reader is keyed on the DETRIMENT ICON PAIR, not on a name: `${OgreBotAPI.Cures.Detrimental[<main>,<back>,<actorId>,\"<field>\"]}` (field defaults to \"exists\"; \"CurrentIncrements\" and \"Duration\" are the other common ones). **Watch the pair order** - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has.",
+   "argsCheck": "compatible",
+   "example": {
+    "after": "if ${OgreBotAPI.Cures.Detrimental[MentalIDs]} < 15",
+    "before": "if ${GetInfoOb.DotDuration_ref[MentalIDs]} < 15"
+   },
+   "howToFix": "Write `OgreBotAPI.Cures.Detrimental` instead of `GetInfoOb.DotDuration_ref`. New arguments: `[main=0,back=0,actorId=0,field=exists]`.",
    "id": "GetInfoOb.DotDuration_ref",
    "newForm": "OgreBotAPI.Cures.Detrimental",
-   "newSignature": "[main,back,actorId=0,field=exists]",
-   "note": "The arguments are different: Classic took `(persistentref DotToCheck)`, the new call takes `[main,back,actorId=0,field=exists]`. takes a `persistentref` (a LavishScript reference passed by name). There is no C++ argument shape to port to - the same reason `ArraySearch` / `IndexSearch` stayed flat and dead. the new reader is keyed on the DETRIMENT ICON PAIR, not on a name: `${OgreBotAPI.Cures.Detrimental[<main>,<back>,<actorId>,\"<field>\"]}` (field defaults to \"exists\"; \"CurrentIncrements\" and \"Duration\" are the other common ones). **Watch the pair order** - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has.",
+   "newSignature": "[main=0,back=0,actorId=0,field=exists]",
+   "note": "takes a `persistentref` (a LavishScript reference passed by name). There is no C++ argument shape to port to - the same reason `ArraySearch` / `IndexSearch` stayed flat and dead. the new reader is keyed on the DETRIMENT ICON PAIR, not on a name: `${OgreBotAPI.Cures.Detrimental[<main>,<back>,<actorId>,\"<field>\"]}` (field defaults to \"exists\"; \"CurrentIncrements\" and \"Duration\" are the other common ones). **Watch the pair order** - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has.",
    "oldCall": "GetInfoOb.DotDuration_ref",
    "oldKinds": [
     "x"
@@ -22779,16 +22979,20 @@
    "oldName": "DotDuration_ref",
    "oldSignature": "(persistentref DotToCheck)",
    "oldSpellingToday": "reads NULL - no error in any log (the member no longer exists)",
-   "status": "signature",
+   "status": "renamed",
    "surface": "GetInfoOb"
   },
   {
-   "argsCheck": "differs",
-   "howToFix": "Write `OgreBotAPI.Cures.Detrimental` instead of `GetInfoOb.Dotted`; the arguments changed: The arguments are different: Classic took `(string DotToCheck)`, the new call takes `[main,back,actorId=0,field=exists]`. the default field \"exists\" is this question. the new reader is keyed on the DETRIMENT ICON PAIR, not on a name: `${OgreBotAPI.Cures.Detrimental[<main>,<back>,<actorId>,\"<field>\"]}` (field defaults to \"exists\"; \"CurrentIncrements\" and \"Duration\" are the other common ones). **Watch the pair order** - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has.",
+   "argsCheck": "compatible",
+   "example": {
+    "after": "if ${OgreBotAPI.Cures.Detrimental[Kzan]}",
+    "before": "if ${GetInfoOb.Dotted[Kzan]}"
+   },
+   "howToFix": "Write `OgreBotAPI.Cures.Detrimental` instead of `GetInfoOb.Dotted`. New arguments: `[main=0,back=0,actorId=0,field=exists]`.",
    "id": "GetInfoOb.Dotted",
    "newForm": "OgreBotAPI.Cures.Detrimental",
-   "newSignature": "[main,back,actorId=0,field=exists]",
-   "note": "The arguments are different: Classic took `(string DotToCheck)`, the new call takes `[main,back,actorId=0,field=exists]`. the default field \"exists\" is this question. the new reader is keyed on the DETRIMENT ICON PAIR, not on a name: `${OgreBotAPI.Cures.Detrimental[<main>,<back>,<actorId>,\"<field>\"]}` (field defaults to \"exists\"; \"CurrentIncrements\" and \"Duration\" are the other common ones). **Watch the pair order** - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has.",
+   "newSignature": "[main=0,back=0,actorId=0,field=exists]",
+   "note": "the default field \"exists\" is this question. the new reader is keyed on the DETRIMENT ICON PAIR, not on a name: `${OgreBotAPI.Cures.Detrimental[<main>,<back>,<actorId>,\"<field>\"]}` (field defaults to \"exists\"; \"CurrentIncrements\" and \"Duration\" are the other common ones). **Watch the pair order** - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has.",
    "oldCall": "GetInfoOb.Dotted",
    "oldKinds": [
     "x"
@@ -22796,16 +23000,16 @@
    "oldName": "Dotted",
    "oldSignature": "(string DotToCheck)",
    "oldSpellingToday": "reads NULL - no error in any log (the member no longer exists)",
-   "status": "signature",
+   "status": "renamed",
    "surface": "GetInfoOb"
   },
   {
-   "argsCheck": "differs",
-   "howToFix": "Write `OgreBotAPI.Cures.DetrimentalText` instead of `GetInfoOb.DottedDescription_ref`; the arguments changed: The arguments are different: Classic took `(persistentref DotToCheck)`, the new call takes `[main,back,actorId=0,field=exists]`. takes a `persistentref` (a LavishScript reference passed by name). There is no C++ argument shape to port to - the same reason `ArraySearch` / `IndexSearch` stayed flat and dead. The id-keyed `.DetrimentalText` is the working form.",
+   "argsCheck": "compatible",
+   "howToFix": "Write `OgreBotAPI.Cures.DetrimentalText` instead of `GetInfoOb.DottedDescription_ref`. New arguments: `[main=0,back=0,actorId=0,field=exists]`.",
    "id": "GetInfoOb.DottedDescription_ref",
    "newForm": "OgreBotAPI.Cures.DetrimentalText",
-   "newSignature": "[main,back,actorId=0,field=exists]",
-   "note": "The arguments are different: Classic took `(persistentref DotToCheck)`, the new call takes `[main,back,actorId=0,field=exists]`. takes a `persistentref` (a LavishScript reference passed by name). There is no C++ argument shape to port to - the same reason `ArraySearch` / `IndexSearch` stayed flat and dead. The id-keyed `.DetrimentalText` is the working form.",
+   "newSignature": "[main=0,back=0,actorId=0,field=exists]",
+   "note": "takes a `persistentref` (a LavishScript reference passed by name). There is no C++ argument shape to port to - the same reason `ArraySearch` / `IndexSearch` stayed flat and dead. The id-keyed `.DetrimentalText` is the working form.",
    "oldCall": "GetInfoOb.DottedDescription_ref",
    "oldKinds": [
     "x"
@@ -22813,7 +23017,7 @@
    "oldName": "DottedDescription_ref",
    "oldSignature": "(persistentref DotToCheck)",
    "oldSpellingToday": "reads NULL - no error in any log (the member no longer exists)",
-   "status": "signature",
+   "status": "renamed",
    "surface": "GetInfoOb"
   },
   {
@@ -22830,12 +23034,16 @@
    "surface": "GetInfoOb"
   },
   {
-   "argsCheck": "differs",
-   "howToFix": "Write `OgreBotAPI.Cures.DetrimentalText` instead of `GetInfoOb.DottedName_ref`; the arguments changed: The arguments are different: Classic took `(persistentref DotToCheck)`, the new call takes `[main,back,actorId=0,field=exists]`. takes a `persistentref` (a LavishScript reference passed by name). There is no C++ argument shape to port to - the same reason `ArraySearch` / `IndexSearch` stayed flat and dead. The id-keyed `.DetrimentalText` is the working form.",
+   "argsCheck": "compatible",
+   "example": {
+    "after": "HostName:Set[\"${OgreBotAPI.Cures.DetrimentalText[HostIDs].Token[1,\" \"]}\"]",
+    "before": "HostName:Set[\"${GetInfoOb.DottedName_ref[HostIDs].Token[1,\" \"]}\"]"
+   },
+   "howToFix": "Write `OgreBotAPI.Cures.DetrimentalText` instead of `GetInfoOb.DottedName_ref`. New arguments: `[main=0,back=0,actorId=0,field=exists]`.",
    "id": "GetInfoOb.DottedName_ref",
    "newForm": "OgreBotAPI.Cures.DetrimentalText",
-   "newSignature": "[main,back,actorId=0,field=exists]",
-   "note": "The arguments are different: Classic took `(persistentref DotToCheck)`, the new call takes `[main,back,actorId=0,field=exists]`. takes a `persistentref` (a LavishScript reference passed by name). There is no C++ argument shape to port to - the same reason `ArraySearch` / `IndexSearch` stayed flat and dead. The id-keyed `.DetrimentalText` is the working form.",
+   "newSignature": "[main=0,back=0,actorId=0,field=exists]",
+   "note": "takes a `persistentref` (a LavishScript reference passed by name). There is no C++ argument shape to port to - the same reason `ArraySearch` / `IndexSearch` stayed flat and dead. The id-keyed `.DetrimentalText` is the working form.",
    "oldCall": "GetInfoOb.DottedName_ref",
    "oldKinds": [
     "x"
@@ -22843,16 +23051,20 @@
    "oldName": "DottedName_ref",
    "oldSignature": "(persistentref DotToCheck)",
    "oldSpellingToday": "reads NULL - no error in any log (the member no longer exists)",
-   "status": "signature",
+   "status": "renamed",
    "surface": "GetInfoOb"
   },
   {
-   "argsCheck": "differs",
-   "howToFix": "Write `OgreBotAPI.Cures.Detrimental` instead of `GetInfoOb.Dotted_ref`; the arguments changed: The arguments are different: Classic took `(persistentref DotToCheck)`, the new call takes `[main,back,actorId=0,field=exists]`. takes a `persistentref` (a LavishScript reference passed by name). There is no C++ argument shape to port to - the same reason `ArraySearch` / `IndexSearch` stayed flat and dead. the new reader is keyed on the DETRIMENT ICON PAIR, not on a name: `${OgreBotAPI.Cures.Detrimental[<main>,<back>,<actorId>,\"<field>\"]}` (field defaults to \"exists\"; \"CurrentIncrements\" and \"Duration\" are the other common ones). **Watch the pair order** - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has.",
+   "argsCheck": "compatible",
+   "example": {
+    "after": "if ${OgreBotAPI.Cures.Detrimental[YothIDs]}",
+    "before": "if ${GetInfoOb.Dotted_ref[YothIDs]}"
+   },
+   "howToFix": "Write `OgreBotAPI.Cures.Detrimental` instead of `GetInfoOb.Dotted_ref`. New arguments: `[main=0,back=0,actorId=0,field=exists]`.",
    "id": "GetInfoOb.Dotted_ref",
    "newForm": "OgreBotAPI.Cures.Detrimental",
-   "newSignature": "[main,back,actorId=0,field=exists]",
-   "note": "The arguments are different: Classic took `(persistentref DotToCheck)`, the new call takes `[main,back,actorId=0,field=exists]`. takes a `persistentref` (a LavishScript reference passed by name). There is no C++ argument shape to port to - the same reason `ArraySearch` / `IndexSearch` stayed flat and dead. the new reader is keyed on the DETRIMENT ICON PAIR, not on a name: `${OgreBotAPI.Cures.Detrimental[<main>,<back>,<actorId>,\"<field>\"]}` (field defaults to \"exists\"; \"CurrentIncrements\" and \"Duration\" are the other common ones). **Watch the pair order** - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has.",
+   "newSignature": "[main=0,back=0,actorId=0,field=exists]",
+   "note": "takes a `persistentref` (a LavishScript reference passed by name). There is no C++ argument shape to port to - the same reason `ArraySearch` / `IndexSearch` stayed flat and dead. the new reader is keyed on the DETRIMENT ICON PAIR, not on a name: `${OgreBotAPI.Cures.Detrimental[<main>,<back>,<actorId>,\"<field>\"]}` (field defaults to \"exists\"; \"CurrentIncrements\" and \"Duration\" are the other common ones). **Watch the pair order** - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has.",
    "oldCall": "GetInfoOb.Dotted_ref",
    "oldKinds": [
     "x"
@@ -22860,7 +23072,7 @@
    "oldName": "Dotted_ref",
    "oldSignature": "(persistentref DotToCheck)",
    "oldSpellingToday": "reads NULL - no error in any log (the member no longer exists)",
-   "status": "signature",
+   "status": "renamed",
    "surface": "GetInfoOb"
   },
   {
@@ -22935,6 +23147,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "example": {
     "after": "sBaseClass:Set[\"${OgreBotAPI.Roster.BaseClassOf[${Me.Raid[${iCounter}].Class}]}\"]",
     "before": "sBaseClass:Set[\"${GetInfoOb.GetBaseClass[${Me.Raid[${iCounter}].Class}]}\"]"
@@ -22955,6 +23168,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.Roster.BaseClassOf` instead of `GetInfoOb.GetClass`. New arguments: `[class]`.",
    "id": "GetInfoOb.GetClass",
    "newForm": "OgreBotAPI.Roster.BaseClassOf",
@@ -23059,6 +23273,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "example": {
     "after": "OgreBotDebug:Echo[\"Rizlona\",\"Unable to determine the mob type for ${_ActorID} * ${Actor[id,${_ActorID}].Name} * ${OgreBotAPI.Actors.MobID[${_ActorID}]}\"]",
     "before": "OgreBotDebug:Echo[\"Rizlona\",\"Unable to determine the mob type for ${_ActorID} * ${Actor[id,${_ActorID}].Name} * ${GetInfoOb.GetMobID[${_ActorID}]}\"]"
@@ -23139,6 +23354,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.Roster.RoleOf` instead of `GetInfoOb.GetRole`. New arguments: `[class]`.",
    "id": "GetInfoOb.GetRole",
    "newForm": "OgreBotAPI.Roster.RoleOf",
@@ -23749,6 +23965,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.AutoTarget.EntryName` instead of `Ob_AutoTarget.ActorName`. New arguments: `[n]`.",
    "id": "Ob_AutoTarget.ActorName",
    "newForm": "OgreBotAPI.AutoTarget.EntryName",
@@ -23766,6 +23983,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "example": {
     "after": "switch ${OgreBotAPI.AutoTarget.EntryName[${LoopCounter}]}",
     "before": "switch ${Ob_AutoTarget.ActorNameOrderedItem[${LoopCounter}]}"
@@ -23787,6 +24005,7 @@
   },
   {
    "argsCheck": "compatible",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.AutoTarget:AddActor` instead of `Ob_AutoTarget:AddActor`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. insert a for-who at the front; every other argument keeps its position",
    "id": "Ob_AutoTarget.AddActor",
    "newForm": "OgreBotAPI.AutoTarget:AddActor",
@@ -23856,6 +24075,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.AutoTarget.Entry` instead of `Ob_AutoTarget.AggroOnGroupOnly`. New arguments: `[n]`.",
    "id": "Ob_AutoTarget.AggroOnGroupOnly",
    "newForm": "OgreBotAPI.AutoTarget.Entry",
@@ -23873,6 +24093,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "example": {
     "after": "if ${OgreBotAPI.AutoTarget.Entry[${LoopCounter}]}",
     "before": "if ${Ob_AutoTarget.AggroOnGroupOnlyOrderedItem[${LoopCounter}]}"
@@ -23894,6 +24115,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.AutoTarget.Entry` instead of `Ob_AutoTarget.AggroOnNonFighterOnly`. New arguments: `[n]`.",
    "id": "Ob_AutoTarget.AggroOnNonFighterOnly",
    "newForm": "OgreBotAPI.AutoTarget.Entry",
@@ -23911,6 +24133,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "example": {
     "after": "if ${OgreBotAPI.AutoTarget.Entry[${LoopCounter}]}",
     "before": "if ${Ob_AutoTarget.AggroOnNonFighterOnlyOrderedItem[${LoopCounter}]}"
@@ -23932,6 +24155,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.AutoTarget.Entry` instead of `Ob_AutoTarget.AggroOnNotMe`. New arguments: `[n]`.",
    "id": "Ob_AutoTarget.AggroOnNotMe",
    "newForm": "OgreBotAPI.AutoTarget.Entry",
@@ -23949,6 +24173,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "example": {
     "after": "if ${OgreBotAPI.AutoTarget.Entry[${LoopCounter}]}",
     "before": "if ${Ob_AutoTarget.AggroOnNotMeOrderedItem[${LoopCounter}]}"
@@ -23970,6 +24195,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.AutoTarget.Entry` instead of `Ob_AutoTarget.CheckCollision`. New arguments: `[n]`.",
    "id": "Ob_AutoTarget.CheckCollision",
    "newForm": "OgreBotAPI.AutoTarget.Entry",
@@ -23987,6 +24213,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "example": {
     "after": "if ${OgreBotAPI.AutoTarget.Entry[${LoopCounter}]}",
     "before": "if ${Ob_AutoTarget.CheckCollisionOrderedItem[${LoopCounter}]}"
@@ -24038,6 +24265,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.AutoTarget:DeleteSaved` instead of `Ob_AutoTarget:DeleteList`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it.",
    "id": "Ob_AutoTarget.DeleteList",
    "newForm": "OgreBotAPI.AutoTarget:DeleteSaved",
@@ -24067,6 +24295,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "example": {
     "after": "if !${OgreBotAPI.AutoTarget.HasActor[\"${_MobName}\"]}",
     "before": "if !${Ob_AutoTarget.HasActor[\"${_MobName}\"]}"
@@ -24102,6 +24331,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.AutoTarget:LoadSaved` instead of `Ob_AutoTarget:LoadListFromSaveList`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it.",
    "id": "Ob_AutoTarget.LoadListFromSaveList",
    "newForm": "OgreBotAPI.AutoTarget:LoadSaved",
@@ -24119,6 +24349,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "howToFix": "Write `OgreBotAPI.AutoTarget:LoadSaved` instead of `Ob_AutoTarget:LoadListFromSaveListForWho`, and reorder the arguments: The for-who moved from argument 2 to argument 1 (first).",
    "id": "Ob_AutoTarget.LoadListFromSaveListForWho",
    "newForm": "OgreBotAPI.AutoTarget:LoadSaved",
@@ -24162,6 +24393,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.AutoTarget.Entry` instead of `Ob_AutoTarget.MaxHPToTarget`. New arguments: `[n]`.",
    "id": "Ob_AutoTarget.MaxHPToTarget",
    "newForm": "OgreBotAPI.AutoTarget.Entry",
@@ -24179,6 +24411,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "example": {
     "after": "if ${OgreBotAPI.AutoTarget.Entry[${LoopCounter}]} > 0",
     "before": "if ${Ob_AutoTarget.MaxHPToTargetOrderedItem[${LoopCounter}]} > 0"
@@ -24200,6 +24433,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.AutoTarget.Entry` instead of `Ob_AutoTarget.MinHPToTarget`. New arguments: `[n]`.",
    "id": "Ob_AutoTarget.MinHPToTarget",
    "newForm": "OgreBotAPI.AutoTarget.Entry",
@@ -24217,6 +24451,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "example": {
     "after": "if ${OgreBotAPI.AutoTarget.Entry[${LoopCounter}]} > 0",
     "before": "if ${Ob_AutoTarget.MinHPToTargetOrderedItem[${LoopCounter}]} > 0"
@@ -24251,6 +24486,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.AutoTarget.EntryName` instead of `Ob_AutoTarget.OrderedItem`. New arguments: `[n]`.",
    "id": "Ob_AutoTarget.OrderedItem",
    "newForm": "OgreBotAPI.AutoTarget.EntryName",
@@ -24281,6 +24517,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.AutoTarget:RemoveActor` instead of `Ob_AutoTarget:RemoveActor`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. removes EVERY match, case-insensitive",
    "id": "Ob_AutoTarget.RemoveActor",
    "newForm": "OgreBotAPI.AutoTarget:RemoveActor",
@@ -24328,6 +24565,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.AutoTarget:Save` instead of `Ob_AutoTarget:SaveList`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it.",
    "id": "Ob_AutoTarget.SaveList",
    "newForm": "OgreBotAPI.AutoTarget:Save",
@@ -24418,6 +24656,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.Movement:Block` instead of `Obj_CampSpot:Disable`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. **Renamed on purpose: Classic's `Disable` ADDS a block and `Enable` REMOVES one.** Next to `CampSpot:Enable` / `:Disable` (which arm and disarm the LEASH) that polarity reads backwards, and it already cost this port a wrong mapping. The verbs now say what they do. `[fw, reason]` - the reason name is REQUIRED; an unnamed block could never be released. **A block holds everything** - the camp spot, follow, new nav trips and queued moves - and stops the move under way; release it by name with `:Unblock`. Classic's follow ignored blocks, and its camp spot `:Disable` held only the camp spot, so a converted block is stricter: a toon that should keep following through the hold needs no block.",
    "id": "Obj_CampSpot.Disable",
    "newForm": "OgreBotAPI.Movement:Block",
@@ -24435,6 +24674,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.Movement.Blocked` instead of `Obj_CampSpot.Disabled`. New arguments: `[reason]`.",
    "id": "Obj_CampSpot.Disabled",
    "newForm": "OgreBotAPI.Movement.Blocked",
@@ -24452,6 +24692,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.Movement:Unblock` instead of `Obj_CampSpot:Enable`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. **Renamed on purpose: Classic's `Disable` ADDS a block and `Enable` REMOVES one.** Next to `CampSpot:Enable` / `:Disable` (which arm and disarm the LEASH) that polarity reads backwards, and it already cost this port a wrong mapping. The verbs now say what they do. `[fw, reason]` releases THAT hold only.",
    "id": "Obj_CampSpot.Enable",
    "newForm": "OgreBotAPI.Movement:Unblock",
@@ -24937,6 +25178,7 @@
   },
   {
    "argsCheck": "compatible",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.Cures:Request` instead of `Obj_CureCalled:AutoAdd`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. for a CURSE use `Cures:RequestCurse` - a curse is its own channel, not one of the four basic cure kinds",
    "id": "Obj_CureCalled.AutoAdd",
    "newForm": "OgreBotAPI.Cures:Request",
@@ -25111,6 +25353,7 @@
    "argsDropped": [
     "_HardTarget"
    ],
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.Cures:RequestCurse` instead of `Obj_CureCurseCalled:Add`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. `[fw, victim]`; the engine queues and casts, you no longer add to a list",
    "id": "Obj_CureCurseCalled.Add",
    "newForm": "OgreBotAPI.Cures:RequestCurse",
@@ -25131,6 +25374,7 @@
    "argsDropped": [
     "_HardTarget"
    ],
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.Cures:RequestCurse` instead of `Obj_CureCurseCalled:AutoAdd`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it.",
    "id": "Obj_CureCurseCalled.AutoAdd",
    "newForm": "OgreBotAPI.Cures:RequestCurse",
@@ -25151,6 +25395,7 @@
    "argsDropped": [
     "_HardTarget"
    ],
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.Cures:RequestCurse` instead of `Obj_CureCurseCalled:AutoAddID`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it.",
    "id": "Obj_CureCurseCalled.AutoAddID",
    "newForm": "OgreBotAPI.Cures:RequestCurse",
@@ -25333,6 +25578,7 @@
   },
   {
    "argsCheck": "compatible",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.Cures:Request` instead of `Obj_CurseCalled:AutoAdd`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. for a CURSE use `Cures:RequestCurse` - a curse is its own channel, not one of the four basic cure kinds",
    "id": "Obj_CurseCalled.AutoAdd",
    "newForm": "OgreBotAPI.Cures:Request",
@@ -25551,6 +25797,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.Movement:Block` instead of `Obj_Movement:Disable`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. **Renamed on purpose: Classic's `Disable` ADDS a block and `Enable` REMOVES one.** Next to `CampSpot:Enable` / `:Disable` (which arm and disarm the LEASH) that polarity reads backwards, and it already cost this port a wrong mapping. The verbs now say what they do. `[fw, reason]` - the reason name is REQUIRED; an unnamed block could never be released. **A block holds everything** - the camp spot, follow, new nav trips and queued moves - and stops the move under way; release it by name with `:Unblock`. Classic's follow ignored blocks, and its camp spot `:Disable` held only the camp spot, so a converted block is stricter: a toon that should keep following through the hold needs no block.",
    "id": "Obj_Movement.Disable",
    "newForm": "OgreBotAPI.Movement:Block",
@@ -25568,6 +25815,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.Movement.Blocked` instead of `Obj_Movement.Disabled`. New arguments: `[reason]`.",
    "id": "Obj_Movement.Disabled",
    "newForm": "OgreBotAPI.Movement.Blocked",
@@ -25585,6 +25833,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.Movement:Unblock` instead of `Obj_Movement:Enable`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. **Renamed on purpose: Classic's `Disable` ADDS a block and `Enable` REMOVES one.** Next to `CampSpot:Enable` / `:Disable` (which arm and disarm the LEASH) that polarity reads backwards, and it already cost this port a wrong mapping. The verbs now say what they do. `[fw, reason]` releases THAT hold only.",
    "id": "Obj_Movement.Enable",
    "newForm": "OgreBotAPI.Movement:Unblock",
@@ -25628,6 +25877,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.Debug:Echo` instead of `OgreBotDebug:Echo`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it.",
    "id": "OgreBotDebug.Echo",
    "newForm": "OgreBotAPI.Debug:Echo",
@@ -25857,6 +26107,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "example": {
     "after": "OgreBotAPI.Movement:Block[all,Klaatuus]",
     "before": "Ogre_CampSpot:Disable[Klaatuus]"
@@ -25878,6 +26129,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.Movement.Blocked` instead of `Ogre_CampSpot.Disabled`. New arguments: `[reason]`.",
    "id": "Ogre_CampSpot.Disabled",
    "newForm": "OgreBotAPI.Movement.Blocked",
@@ -25924,6 +26176,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.Movement:Unblock` instead of `Ogre_CampSpot:Enable`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. **Renamed on purpose: Classic's `Disable` ADDS a block and `Enable` REMOVES one.** Next to `CampSpot:Enable` / `:Disable` (which arm and disarm the LEASH) that polarity reads backwards, and it already cost this port a wrong mapping. The verbs now say what they do. `[fw, reason]` releases THAT hold only.",
    "id": "Ogre_CampSpot.Enable",
    "newForm": "OgreBotAPI.Movement:Unblock",
@@ -26166,6 +26419,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 3,
    "example": {
     "after": "OgreBotAPI.CampSpot:SetLoc[all,12.505716,75.479492,-426.626892]",
     "before": "Ogre_CampSpot:Set_CCS[12.505716,75.479492,-426.626892]"
@@ -26228,6 +26482,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 4,
    "example": {
     "after": "OgreBotAPI.CampSpot:SetLoc[\"all\",${This.TopSpot}]",
     "before": "Ogre_CampSpot:Set_ChangeCampSpot[\"all\",${This.TopSpot}]"
@@ -26885,6 +27140,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "howToFix": "Write `OgreBotAPI.Options:LoadProfile` instead of `ProfileConfig:LoadProfile`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it.",
    "id": "ProfileConfig.LoadProfile",
    "newForm": "OgreBotAPI.Options:LoadProfile",
@@ -27140,6 +27396,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.Abilities.ID` instead of `SpellOb.AbilityExists`. New arguments: `[name]`.",
    "id": "SpellOb.AbilityExists",
    "newForm": "OgreBotAPI.Abilities.ID",
@@ -27157,6 +27414,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.Abilities.ShortName` instead of `SpellOb.AbilityName`. New arguments: `[nameOrId]`.",
    "id": "SpellOb.AbilityName",
    "newForm": "OgreBotAPI.Abilities.ShortName",
@@ -27264,6 +27522,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.Util.ToInt` instead of `SpellOb.ConvertToInt64`. New arguments: `[s]`.",
    "id": "SpellOb.ConvertToInt64",
    "newForm": "OgreBotAPI.Util.ToInt",
@@ -27413,6 +27672,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "example": {
     "after": "variable string SpellShortName=${OgreBotAPI.Abilities.ShortName[\"${_SpellFullName}\"]}",
     "before": "variable string SpellShortName=${SpellOb.GetAbilityShortName[\"${_SpellFullName}\"]}"
@@ -27625,6 +27885,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "howToFix": "Write `OgreBotAPI.Abilities.ID` instead of `SpellOb.VerifyID`. New arguments: `[name]`.",
    "id": "SpellOb.VerifyID",
    "newForm": "OgreBotAPI.Abilities.ID",
@@ -44636,10 +44897,6 @@
    "surface": "Obj_LICH"
   },
   {
-   "example": {
-    "after": "{ \"stepId\": \"named1.chest\",   \"do\": \"loot\", \"op\": \"chest\" }",
-    "before": "call Obj_LICH.Get_Chest"
-   },
    "howToFix": "This is authored in a data file now: `loot`.",
    "id": "Obj_LICH.Get_Chest",
    "newForm": "loot",
@@ -44654,10 +44911,6 @@
    "surface": "Obj_LICH"
   },
   {
-   "example": {
-    "after": "{ \"stepId\": \"named1.shinies\", \"do\": \"loot\", \"op\": \"shinies\" }",
-    "before": "call Obj_LICH.Get_Shiny"
-   },
    "howToFix": "This is authored in a data file now: `loot`.",
    "id": "Obj_LICH.Get_Shiny",
    "newForm": "loot",
@@ -44808,10 +45061,6 @@
    "surface": "Obj_LICH"
   },
   {
-   "example": {
-    "after": "{ \"stepId\": \"named1.walk\", \"do\": \"path\", \"using\": \"nav\", \"exitOnActorAggro\": \"Huntmaster Au'mari\", \"spots\": [ [-2927.852295, -24.607967, 348.501770] ] }",
-    "before": "call Obj_LICH.NavigateLocIndex NavIndex"
-   },
    "howToFix": "This is authored in a data file now: `path`.",
    "id": "Obj_LICH.NavigateLocIndex",
    "newForm": "path",
@@ -44876,10 +45125,6 @@
    "surface": "Obj_LICH"
   },
   {
-   "example": {
-    "after": "{ \"stepId\": \"named3\", \"do\": \"named\", \"name\": \"Kessatras Sonssiu\" }",
-    "before": "call Obj_LICH.RunScriptWait \"igw:${Me.Name}\" \"g_sanctum_kessatras_h1\""
-   },
    "howToFix": "This is authored in a data file now: `named`.",
    "id": "Obj_LICH.RunScriptWait",
    "newForm": "named",

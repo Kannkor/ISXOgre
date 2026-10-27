@@ -552,6 +552,22 @@ The answers are read as `{{encounter.<var>.<answer>}}`: `askedCount`, `answeredC
 `missingCount`, `allYes`, `anyYes`, `allNo`, `anyNo`, `yesWho`, `noWho`, `missingWho`, and for each member
 `answer.<Name>`, `yes.<Name>`, `no.<Name>`, `missing.<Name>`.
 
+**Example: wait until someone's Bladedance is ready.** A loop asks the group every 2 seconds and stops once anyone
+answers yes. Each member checks its own Bladedance; a member without it answers no.
+
+```json
+{ "stepId": "bladedance", "repeat": { "until": { "varEquals": { "scope": "encounter", "name": "bd.anyYes", "value": "TRUE" } }, "max": 30 },
+  "steps": [
+    { "stepId": "bladedance.ask", "do": "groupQuery", "var": "bd", "question": "abilityReady", "ability": "Bladedance" },
+    { "stepId": "bladedance.gap", "wait": "ms", "limitMs": 2000, "onTimeout": "proceed" }
+  ] }
+```
+
+- To wait for one member's, add `"sendTo": "Mirelle"` to the `groupQuery` step, so only Mirelle is asked.
+- The loop checks `until` after each pass. After `max` passes (about two and a half minutes here, since each ask can
+  take up to 3 seconds) it stops waiting and the zone goes on. It does not fail.
+- A misspelt answer name, like `bd.anyYess`, is refused when the file loads.
+
 ### progress
 
 Marks a step as done (`"op": "complete"`) or skipped (`"op": "skip"`), so a later start or resume leaves it out.
@@ -589,6 +605,24 @@ These come from fight files, and the shipped zone files use them too. They run o
 
 These are checked when the file loads, by the same rules fight files use. A missing key the action needs, or a wrong
 `op`, skips the file. A key the action does not read is a warning.
+
+**Example: walk to a door, click it open, walk on through.** The group walks to the door, the IC character clicks
+it, everyone waits a moment for it to swing, and then they walk to the far side.
+
+```json
+{ "stepId": "gate.walk",  "do": "path", "using": "nav", "spots": [[-120.5, 12.0, 340.2]] },
+{ "stepId": "gate.open",  "do": "actorInteract", "op": "doubleClick", "name": "Gate Lever" },
+{ "stepId": "gate.swing", "wait": "ms", "limitMs": 1500, "onTimeout": "proceed" },
+{ "stepId": "gate.past",  "do": "path", "using": "nav", "spots": [[-160.0, 12.0, 365.8]] }
+```
+
+- The click is made by the IC character only, which is enough for most doors. Add `"sendTo": "igwbn:{{me}}"` if every
+  character has to click it.
+- If the door is not there, the click fails and so does the run. Add `"onFail": "proceed"` when the door is sometimes
+  already open or gone.
+- A walk opens an ordinary door by itself: when something solid blocks the way, it looks for an actor with "door" in
+  its name close by and clicks it. You need this example for anything else, such as a lever, or a door that is not
+  called a door.
 
 ## Checking your file
 

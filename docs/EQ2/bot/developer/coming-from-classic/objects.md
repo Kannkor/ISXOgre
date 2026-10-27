@@ -1,8 +1,8 @@
-# Other Classic objects
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../index.md).
 </div>
+
+# Other Classic objects
 
 The Classic objects scripts used that Classic's docs never had a page for (`GetInfoOb`, `ClassInfo`, `TabConfig`, `Ob_AutoTarget`, …), and what each name is in the new bot. None of these objects exists in the new bot.
 
@@ -14,9 +14,9 @@ The Classic objects scripts used that Classic's docs never had a page for (`GetI
 
 | What happened | Names |
 |---|---|
-| ⚠️ Arguments changed | 83 |
+| ⚠️ Arguments changed | 75 |
 | ⚠️ Argument order changed | 10 |
-| ✏️ Renamed | 69 |
+| ✏️ Renamed | 77 |
 | ➡️ Moved | 6 |
 | ➡️ Lives somewhere else | 168 |
 | 📄 In a data file now | 25 |
@@ -38,13 +38,13 @@ call Obj_OgreUtilities.NavToLoc "-665.449280,79.212479,102.971169"
 OgreBotAPI.Movement:NavTo[all,-665.449280,79.212479,102.971169]
 ```
 
-### ✏️ Renamed: `Abilities.GetIndexByName`
+### ✏️ Renamed: `GetInfoOb.Dotted_ref`
 
 ```
 ; before (Classic)
-if !${Abilities.GetIndexByName["${This.NoHateAbility}"]}
+if ${GetInfoOb.Dotted_ref[YothIDs]}
 ; after (new bot)
-if !${OgreBotAPI.Abilities.ID["${This.NoHateAbility}"]}
+if ${OgreBotAPI.Cures.Detrimental[YothIDs]}
 ```
 
 ### ➡️ Moved: `GetInfoOb.Alias`
@@ -278,7 +278,7 @@ call Obj_OgreUtilities.HandleWaitForCombat -TimeOutIfNoProgress 30
 
 **Note B** (7 rows below): The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it.
 
-**Note C** (3 rows below): The arguments are different: Classic took `(persistentref DotToCheck)`, the new call takes `[main,back,actorId=0,field=exists]`. takes a `persistentref` (a LavishScript reference passed by name). Watch the pair order - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has.
+**Note C** (3 rows below): takes a `persistentref` (a LavishScript reference passed by name). Watch the pair order - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has.
 
 | Old call | Today | Write instead | What changed | Notes |
 |---|---|---|---|---|
@@ -288,8 +288,8 @@ call Obj_OgreUtilities.HandleWaitForCombat -TimeOutIfNoProgress 30
 | `GetInfoOb.AscensionVitalityRemaining` | reads NULL | — | ⛔ Not ported yet |  |
 | `GetInfoOb:CancelEffect` | does nothing | `OgreBotAPI.Cures:CancelDetrimental` `[fw,mainId,backdropId]` | ⚠️ Arguments changed | Note B |
 | `GetInfoOb:CancelEffect_ref` | does nothing | `OgreBotAPI.Cures:CancelDetrimental` `[fw,mainId,backdropId]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. takes a `persistentref` (a LavishScript reference passed by name). |
-| `GetInfoOb.CheckMobDetriment` | reads NULL | `OgreBotAPI.Cures.Detrimental` `[main,back,actorId=0,field=exists]` | ⚠️ Arguments changed | the new reader is keyed on the DETRIMENT ICON PAIR, not on a name: `${OgreBotAPI.Cures.Detrimental[<main>,<back>,<actorId>,"<field>"]}` (field defaults to "exists"; "CurrentIncrements" and "Duration" are the other common ones). Watch the pair order - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has. |
-| `GetInfoOb.CheckMobDetriment_Increment` | reads NULL | `OgreBotAPI.Cures.Detrimental` `[main,back,actorId=0,field=exists]` | ⚠️ Arguments changed | pass `"CurrentIncrements"`. the new reader is keyed on the DETRIMENT ICON PAIR, not on a name: `${OgreBotAPI.Cures.Detrimental[<main>,<back>,<actorId>,"<field>"]}` (field defaults to "exists"; "CurrentIncrements" and "Duration" are the other common ones). Watch the pair order - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has. |
+| `GetInfoOb.CheckMobDetriment` | reads NULL | `OgreBotAPI.Cures.Detrimental` `[main=0,back=0,actorId=0,field=exists]` | ⚠️ Arguments changed | the new reader is keyed on the DETRIMENT ICON PAIR, not on a name: `${OgreBotAPI.Cures.Detrimental[<main>,<back>,<actorId>,"<field>"]}` (field defaults to "exists"; "CurrentIncrements" and "Duration" are the other common ones). Watch the pair order - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has. |
+| `GetInfoOb.CheckMobDetriment_Increment` | reads NULL | `OgreBotAPI.Cures.Detrimental` `[main=0,back=0,actorId=0,field=exists]` | ⚠️ Arguments changed | pass `"CurrentIncrements"`. the new reader is keyed on the DETRIMENT ICON PAIR, not on a name: `${OgreBotAPI.Cures.Detrimental[<main>,<back>,<actorId>,"<field>"]}` (field defaults to "exists"; "CurrentIncrements" and "Duration" are the other common ones). Watch the pair order - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has. |
 | `GetInfoOb.Class` | reads NULL | `OgreBotAPI.Roster.NearestOfClass` | ✏️ Renamed | Faithful: scope auto-detects (raid if in one, else group); a match is the member's SUBCLASS or its class TIER, so `"warrior"` finds a berserker; self answers first with no distance test; distance must be &gt; 0 (Classic's guard against members reading 0 while zoning) and &lt;= range. Deliberate superset: ARCHETYPE also matches, so `"fighter"` finds any of them - Classic's hand-written switch only knew subclass\|tier. |
 | `GetInfoOb.Clean` | reads NULL | `OgreBotAPI.Util.Clean` `[s]` | ➡️ Moved |  |
 | `GetInfoOb.CleanNameWithSpaces` | reads NULL | `OgreBotAPI.Util.Clean` `[s]` | ✏️ Renamed |  |
@@ -301,19 +301,19 @@ call Obj_OgreUtilities.HandleWaitForCombat -TimeOutIfNoProgress 30
 | `GetInfoOb.CountRaidBy_` | reads NULL | `OgreBotAPI.Roster.CountRaidBy` | ⚠️ Argument order changed | Note A |
 | `GetInfoOb.CurableDisable` | reads NULL | — | ⛔ Not ported yet | takes a `persistentref` (a LavishScript reference passed by name). |
 | `GetInfoOb.CureCurseNotRecentlyCast` | reads NULL | — | ⛔ Not ported yet | Classic's per-target cure throttle, read out of its own cure queue. The new engine owns request de-duplication internally (see the Obj_Cure* objects), so there is no throttle to consult. |
-| `GetInfoOb.CurrentIncrements` | reads NULL | `OgreBotAPI.Cures.Detrimental` `[main,back,actorId=0,field=exists]` | ⚠️ Arguments changed | The arguments are different: Classic took `(string DotToCheck)`, the new call takes `[main,back,actorId=0,field=exists]`. Classic looked the detriment up by NAME; the new reader is keyed on the DETRIMENT ICON PAIR, not on a name: `${OgreBotAPI.Cures.Detrimental[<main>,<back>,<actorId>,"<field>"]}` (field defaults to "exists"; "CurrentIncrements" and "Duration" are the other common ones). Watch the pair order - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has. |
-| `GetInfoOb.CurrentIncrements_ID` | reads NULL | `OgreBotAPI.Cures.Detrimental` `[main,back,actorId=0,field=exists]` | ⚠️ Arguments changed | pass `"CurrentIncrements"` as the field. the new reader is keyed on the DETRIMENT ICON PAIR, not on a name: `${OgreBotAPI.Cures.Detrimental[<main>,<back>,<actorId>,"<field>"]}` (field defaults to "exists"; "CurrentIncrements" and "Duration" are the other common ones). Watch the pair order - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has. |
-| `GetInfoOb.CurrentIncrements_ref` | reads NULL | `OgreBotAPI.Cures.Detrimental` `[main,back,actorId=0,field=exists]` | ⚠️ Arguments changed | Note C |
+| `GetInfoOb.CurrentIncrements` | reads NULL | `OgreBotAPI.Cures.Detrimental` `[main=0,back=0,actorId=0,field=exists]` | ✏️ Renamed | Classic looked the detriment up by NAME; the new reader is keyed on the DETRIMENT ICON PAIR, not on a name: `${OgreBotAPI.Cures.Detrimental[<main>,<back>,<actorId>,"<field>"]}` (field defaults to "exists"; "CurrentIncrements" and "Duration" are the other common ones). Watch the pair order - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has. |
+| `GetInfoOb.CurrentIncrements_ID` | reads NULL | `OgreBotAPI.Cures.Detrimental` `[main=0,back=0,actorId=0,field=exists]` | ⚠️ Arguments changed | pass `"CurrentIncrements"` as the field. the new reader is keyed on the DETRIMENT ICON PAIR, not on a name: `${OgreBotAPI.Cures.Detrimental[<main>,<back>,<actorId>,"<field>"]}` (field defaults to "exists"; "CurrentIncrements" and "Duration" are the other common ones). Watch the pair order - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has. |
+| `GetInfoOb.CurrentIncrements_ref` | reads NULL | `OgreBotAPI.Cures.Detrimental` `[main=0,back=0,actorId=0,field=exists]` | ✏️ Renamed | Note C |
 | `GetInfoOb.CursesInGroup` | reads NULL | `OgreBotAPI.Cures.GroupCurses` | ✏️ Renamed |  |
-| `GetInfoOb.DetrimentalInfo` | reads NULL | `OgreBotAPI.Cures.Detrimental` `[main,back,actorId=0,field=exists]` | ✏️ Renamed |  |
-| `GetInfoOb.DetrimentalInfo_ref` | reads NULL | `OgreBotAPI.Cures.Detrimental` `[main,back,actorId=0,field=exists]` | ⚠️ Arguments changed |  |
-| `GetInfoOb.DotDuration` | reads NULL | `OgreBotAPI.Cures.Detrimental` `[main,back,actorId=0,field=exists]` | ⚠️ Arguments changed | The arguments are different: Classic took `(string DotToCheck)`, the new call takes `[main,back,actorId=0,field=exists]`. pass `"Duration"` as the field. the new reader is keyed on the DETRIMENT ICON PAIR, not on a name: `${OgreBotAPI.Cures.Detrimental[<main>,<back>,<actorId>,"<field>"]}` (field defaults to "exists"; "CurrentIncrements" and "Duration" are the other common ones). Watch the pair order - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has. |
-| `GetInfoOb.DotDuration_ref` | reads NULL | `OgreBotAPI.Cures.Detrimental` `[main,back,actorId=0,field=exists]` | ⚠️ Arguments changed | Note C |
-| `GetInfoOb.Dotted` | reads NULL | `OgreBotAPI.Cures.Detrimental` `[main,back,actorId=0,field=exists]` | ⚠️ Arguments changed | The arguments are different: Classic took `(string DotToCheck)`, the new call takes `[main,back,actorId=0,field=exists]`. the default field "exists" is this question. the new reader is keyed on the DETRIMENT ICON PAIR, not on a name: `${OgreBotAPI.Cures.Detrimental[<main>,<back>,<actorId>,"<field>"]}` (field defaults to "exists"; "CurrentIncrements" and "Duration" are the other common ones). Watch the pair order - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has. |
-| `GetInfoOb.Dotted_ref` | reads NULL | `OgreBotAPI.Cures.Detrimental` `[main,back,actorId=0,field=exists]` | ⚠️ Arguments changed | Note C |
-| `GetInfoOb.DottedDescription_ref` | reads NULL | `OgreBotAPI.Cures.DetrimentalText` `[main,back,actorId=0,field=exists]` | ⚠️ Arguments changed | The arguments are different: Classic took `(persistentref DotToCheck)`, the new call takes `[main,back,actorId=0,field=exists]`. takes a `persistentref` (a LavishScript reference passed by name). The id-keyed `.DetrimentalText` is the working form. |
+| `GetInfoOb.DetrimentalInfo` | reads NULL | `OgreBotAPI.Cures.Detrimental` `[main=0,back=0,actorId=0,field=exists]` | ✏️ Renamed |  |
+| `GetInfoOb.DetrimentalInfo_ref` | reads NULL | `OgreBotAPI.Cures.Detrimental` `[main=0,back=0,actorId=0,field=exists]` | ⚠️ Arguments changed |  |
+| `GetInfoOb.DotDuration` | reads NULL | `OgreBotAPI.Cures.Detrimental` `[main=0,back=0,actorId=0,field=exists]` | ✏️ Renamed | pass `"Duration"` as the field. the new reader is keyed on the DETRIMENT ICON PAIR, not on a name: `${OgreBotAPI.Cures.Detrimental[<main>,<back>,<actorId>,"<field>"]}` (field defaults to "exists"; "CurrentIncrements" and "Duration" are the other common ones). Watch the pair order - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has. |
+| `GetInfoOb.DotDuration_ref` | reads NULL | `OgreBotAPI.Cures.Detrimental` `[main=0,back=0,actorId=0,field=exists]` | ✏️ Renamed | Note C |
+| `GetInfoOb.Dotted` | reads NULL | `OgreBotAPI.Cures.Detrimental` `[main=0,back=0,actorId=0,field=exists]` | ✏️ Renamed | the default field "exists" is this question. the new reader is keyed on the DETRIMENT ICON PAIR, not on a name: `${OgreBotAPI.Cures.Detrimental[<main>,<back>,<actorId>,"<field>"]}` (field defaults to "exists"; "CurrentIncrements" and "Duration" are the other common ones). Watch the pair order - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has. |
+| `GetInfoOb.Dotted_ref` | reads NULL | `OgreBotAPI.Cures.Detrimental` `[main=0,back=0,actorId=0,field=exists]` | ✏️ Renamed | Note C |
+| `GetInfoOb.DottedDescription_ref` | reads NULL | `OgreBotAPI.Cures.DetrimentalText` `[main=0,back=0,actorId=0,field=exists]` | ✏️ Renamed | takes a `persistentref` (a LavishScript reference passed by name). The id-keyed `.DetrimentalText` is the working form. |
 | `GetInfoOb.DottedExamine_ref` | reads NULL | — | ⛔ Not ported yet | opened the EXAMINE window for a detriment, which is a window action rather than a detriment read - `Cures.Detrimental` / `.DetrimentalText` answer about the detriment, not about examining it. No twin, and it took a persistentref besides. |
-| `GetInfoOb.DottedName_ref` | reads NULL | `OgreBotAPI.Cures.DetrimentalText` `[main,back,actorId=0,field=exists]` | ⚠️ Arguments changed | The arguments are different: Classic took `(persistentref DotToCheck)`, the new call takes `[main,back,actorId=0,field=exists]`. takes a `persistentref` (a LavishScript reference passed by name). The id-keyed `.DetrimentalText` is the working form. |
+| `GetInfoOb.DottedName_ref` | reads NULL | `OgreBotAPI.Cures.DetrimentalText` `[main=0,back=0,actorId=0,field=exists]` | ✏️ Renamed | takes a `persistentref` (a LavishScript reference passed by name). The id-keyed `.DetrimentalText` is the working form. |
 | `GetInfoOb.EquipOrInven` | reads NULL | — | ⛔ Not ported yet | answers whether an item is equipped or in a bag. The Inventory surface exposes slot and adornment reads but no equipped-vs-bagged lookup. |
 | `GetInfoOb.Evaluate_Num` | reads NULL | — | ⛔ Not ported yet | a generic numeric comparator (v1 &lt;op&gt; v2). Nothing to port - write the comparison inline; `Util.Between` / `.BetweenFloat` cover the range case. |
 | `GetInfoOb.FlaggedToon` | reads NULL | `OgreBotAPI.Roster.Flagged` `[n=1]` | ✏️ Renamed |  |

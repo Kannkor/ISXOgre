@@ -156,6 +156,7 @@ file next to your script.
 | `scale` | `0` (the player's UI scale) | A size multiplier for this window only, from 0.5 to 2. |
 | `noPersist` | `false` | `true`: never remember where the player put it. |
 | `noHelp` | `false` | `true`: no **?** button in the title bar. |
+| `minimizable` | `true` | `false`: no minimize button, and a double-click on the title bar does nothing. See [Minimizing](#minimizing). |
 
 Ogre remembers where the player moves and sizes each window, by its name. `x`, `y`, `w` and `h` are only
 where it starts the very first time; after that, the player's position wins.
@@ -345,6 +346,99 @@ echo MCP at ${ISXOgreX.UI.Window[mcp].X},${ISXOgreX.UI.Window[mcp].Y} size ${ISX
   reads back what is drawn.
 - Like a `Set`, the change lands on the next frame: read `Window` a moment later, not on the very next line.
 
+## Minimizing
+
+Every framed window, yours included, has a **▼** minimize button in its title bar: it rolls the window up to its
+title bar where it sits, and **▲** restores it to exactly the size it had. A double-click on the title bar and the
+right-click menu do the same, and the right-click menu's **Minimize all windows** / **Restore all windows** acts on
+every open Ogre window at once. You do not write any of this.
+
+- **The size is never lost.** The width does not change while minimized, and Save Position saves the full size.
+- **It is not remembered.** A window always opens at its normal size, and opening it again while it is minimized
+  restores it.
+- **The button never makes your window wider.** In a very narrow window the title is cut short ("...") instead.
+
+### Choosing what stays on screen
+
+By default nothing but the title bar shows while minimized. Mark the parts that should stay:
+
+| You mark | It shows |
+|---|---|
+| `data-ogmini` | As always, AND while minimized - a status line, a Start / Stop row, an error banner. |
+| `data-ogmini="only"` | ONLY while minimized - a one-line summary the full window does not need. |
+
+Mark as many elements as you like, at any depth. Everything else is hidden while minimized, and the containers
+around what you marked shrink to fit them, even if your stylesheet gives them a fixed height.
+
+### Knowing when it happens
+
+Your window hears it: an `ogreminimize` event on the window's body (the `.ogbody` that holds your markup), with
+`detail.minimized` `true` or `false`. Use it to stop redrawing a list nobody can see while minimized, and to redraw
+it when the window is restored.
+
+### Example: a window that minimizes well
+
+`mytool.html` keeps its status line at the top in both states, shows a short summary with a **Stop** button only
+while it is minimized, and does not redraw its list while nobody can see it:
+
+```html
+
+<script type="ogre/window">{"title":"My Tool","w":360,"h":320}</script>
+
+<style>
+  #mytool-root   { padding: 6px; display: flex; flex-direction: column; gap: 6px; height: 280px; }
+  #mytool-status { font-weight: 600; }
+  #mytool-mini   { display: flex; gap: 8px; align-items: center; }
+  #mytool-list   { flex: 1 1 auto; overflow: auto; }
+</style>
+
+<div id="mytool-root">
+  <div id="mytool-status" data-ogmini>Idle</div>                     
+  <div id="mytool-mini" data-ogmini="only">                          
+    <span id="mytool-count">0 items</span>
+    <button id="mytool-stop">Stop</button>
+  </div>
+  <div id="mytool-list"></div>                                       
+</div>
+
+<script>
+  var mytoolMinimized = false;
+  var mytoolItems = ['Apple', 'Banana', 'Cherry'];
+
+  window.mytoolDraw = function () {
+    document.getElementById('mytool-count').textContent = mytoolItems.length + ' items';
+    if (mytoolMinimized) return;                 // nobody can see the list - draw it on restore
+    document.getElementById('mytool-list').innerHTML =
+      mytoolItems.map(function (t) { return '<div>' + t + '</div>'; }).join('');
+  };
+
+  document.getElementById('mytool-root').closest('.ogbody')
+    .addEventListener('ogreminimize', function (e) {
+      mytoolMinimized = e.detail.minimized;
+      if (!mytoolMinimized) window.mytoolDraw();  // restored: bring the list up to date
+    });
+
+  document.getElementById('mytool-stop').addEventListener('click', function () {
+    document.getElementById('mytool-status').textContent = 'Stopped';
+  });
+
+  window.mytoolDraw();
+</script>
+```
+
+Minimized, it is the title bar, `Idle`, and `3 items  [Stop]`. Restored, it is the window exactly as it was.
+
+### Opting out
+
+A window that should not minimize - a small toolbar, or a window that already shrinks its own way - says so in its
+options. It gets no button, a double-click on its title does nothing, and Minimize all windows leaves it alone:
+
+```html
+<script type="ogre/window">{"title":"My Toolbar","w":160,"h":90,"minimizable":false}</script>
+```
+
+A window with no title bar (`"chrome": "none"`) never minimizes.
+
 ## The ? button
 
 Pass a help file as the third argument of `Open` and the **?** in your window's title bar shows it. The help
@@ -486,6 +580,9 @@ which replaces Ogre's entire UI and does not bring it back.
 | `ogrePlaceFixed` | function in your window | element, `x`, `y`, optional margin | Puts a `position: fixed` element's top-left at screen position `x`, `y` (the numbers `getBoundingClientRect()` and mouse events give), kept on screen, at any window scale. The element must be showing. |
 | `ogreFixedScale` | function in your window | element | number: the scale the element is drawn at (1 in an unscaled window). A size measured on screen divided by it is the size in the element's own pixels. |
 | `OgreBotAPI.Options.Value` | member | setting id | string: an OgreBot setting; `""` if unknown. |
+| `data-ogmini` | attribute in your markup | - | The element stays shown while the window is minimized (it shows as usual too). See [Minimizing](#minimizing). |
+| `data-ogmini="only"` | attribute in your markup | - | The element shows ONLY while the window is minimized. |
+| `ogreminimize` | event on your window's body | `detail.minimized` | Fired when the window is minimized (`true`) or restored (`false`). |
 
 ### In the EverQuest 2 bot
 

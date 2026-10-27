@@ -1,8 +1,8 @@
-# OgreBotAPI
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../index.md).
 </div>
+
+# OgreBotAPI
 
 Every name Classic's *OgreBotAPI Reference* page listed, and what it is in the new bot. The flat `OgreBotAPI:Name` list became groups (`OgreBotAPI.Movement`, `OgreBotAPI.Cures`, …): each section below is one group. Use your browser's find (Ctrl+F) with the old name.
 
@@ -71,7 +71,7 @@ Old names whose job is now in `OgreBotAPI.Abilities`.
 
 | Old call | Today | Write instead | What changed | Notes |
 |---|---|---|---|---|
-| `OgreBotAPI:AbilityEmbargo_AddRotateTimer` | does nothing | `OgreBotAPI.Abilities:AddEmbargo` `[fw,id,durationSec=0]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. does NOT take a for-who. `[abilityId, durationSeconds]`. Note its sibling `:ClearEmbargo` is `[forwho, abilityName]` - different arg 0, different key type. |
+| `OgreBotAPI:AbilityEmbargo_AddRotateTimer` | does nothing | `OgreBotAPI.Abilities:AddEmbargo` `[fw,id,durationSec]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. does NOT take a for-who. `[abilityId, durationSeconds]`. Note its sibling `:ClearEmbargo` is `[forwho, abilityName]` - different arg 0, different key type. |
 | `OgreBotAPI:AbilityEmbargo_ResetAbilityEmbargo` | does nothing | `OgreBotAPI.Abilities:ClearEmbargo` `[fw,ability]` | ✏️ Renamed |  |
 | `OgreBotAPI:AbilityEmbargo_ResetAllAbilityEmbargos` | does nothing | `OgreBotAPI.Abilities:ClearAllEmbargos` `[fw]` | ✏️ Renamed |  |
 | `OgreBotAPI.AbilityReady` | reads NULL | `OgreBotAPI.Abilities.Ready` | ✏️ Renamed |  |
@@ -121,7 +121,7 @@ Old names whose job is now in `OgreBotAPI.Abilities`.
 | `OgreBotAPI.Get_RotationData` | reads NULL | — | ⛔ Removed | Not ported: the new bot's `OgreBotAPI.Abilities.RotationData` was a stub that did nothing, and it was removed 2026-10-22. |
 | `OgreBotAPI.GetAbilityID` | reads NULL | `OgreBotAPI.Abilities.ID` `[name]` | ✏️ Renamed |  |
 | `OgreBotAPI.HaveMaintained` | reads NULL | `OgreBotAPI.Abilities.HaveMaintained` | ➡️ Moved |  |
-| `OgreBotAPI:ItemEmbargo_AddRotateTimer` | does nothing | `OgreBotAPI.Abilities:AddEmbargo` `[fw,id,durationSec=0]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. same verb as `AbilityEmbargo_AddRotateTimer` - they shared one id store and are one verb now. `[id, durationSeconds]`, no for-who. |
+| `OgreBotAPI:ItemEmbargo_AddRotateTimer` | does nothing | `OgreBotAPI.Abilities:AddEmbargo` `[fw,id,durationSec]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. same verb as `AbilityEmbargo_AddRotateTimer` - they shared one id store and are one verb now. `[id, durationSeconds]`, no for-who. |
 | `OgreBotAPI:NoCasting` | does nothing | `OgreBotAPI.Abilities:NoCasting` `[fw]` | ➡️ Moved | Not taken any more: `_TorF`. |
 | `OgreBotAPI:Rebuff` | does nothing | `OgreBotAPI.Abilities:Rebuff` `[fw]` | ➡️ Moved |  |
 | `OgreBotAPI:ResetFor_Dispells` | does nothing | `OgreBotAPI.Abilities:SetUpForDispells` `[fw,on=TRUE]` | ⚠️ Arguments changed | the OFF half of `SetUpFor_Dispells`: `OgreBotAPI.Abilities:SetUpForDispells["all",FALSE]`. Not the same toggle as `Enable_/Disable_Dispells`, which is the master checkbox. Pass FALSE as the value argument. |
@@ -271,7 +271,7 @@ Old names whose job is now in `OgreBotAPI.Client`.
 | `OgreBotAPI:ChangeRadarYAxis` | does nothing | — | ⛔ Removed | Not ported: the new bot's `OgreBotAPI.Client:SetRadarYAxis` was a stub that did nothing, and it was removed 2026-10-22. Its console row -ChangeRadarYAxis went with it. |
 | `OgreBotAPI:ResetCameraAngle` | does nothing | `OgreBotAPI.Client:ResetCamera` `[fw]` | ✏️ Renamed |  |
 | `OgreBotAPI:Set_CameraPitch` | does nothing | `OgreBotAPI.Client:SetCameraPitch` `[fw,pitch=0,endInFirstPerson=FALSE]` | ✏️ Renamed |  |
-| `OgreBotAPI:SetMousePosition` | does nothing | `OgreBotAPI.Client:SetMousePosition` `[fw,x=0,y=0]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. |
+| `OgreBotAPI:SetMousePosition` | does nothing | `OgreBotAPI.Client:SetMousePosition` `[fw,x,y]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. |
 | `OgreBotAPI:SetMousePosition_Middle` | does nothing | `OgreBotAPI.Client:SetMousePositionMiddle` `[fw]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. |
 
 ## OgreBotAPI.Combat
@@ -363,10 +363,10 @@ Old names whose job is now in `OgreBotAPI.Cures`.
 | `OgreBotAPI.Count_CursesInGroup` | reads NULL | `OgreBotAPI.Cures.GroupCurses` | ✏️ Renamed |  |
 | `OgreBotAPI:Cursed` | does nothing | `OgreBotAPI.Cures:RequestCurse` `[fw,victim]` | ✏️ Renamed |  |
 | `OgreBotAPI:Cursed_Relay` | does nothing | `OgreBotAPI.Cures:RequestCurse` `[fw,victim]` | ✏️ Renamed |  |
-| `OgreBotAPI.DetrimentalInfo` | reads NULL | `OgreBotAPI.Cures.Detrimental` `[main,back,actorId=0,field=exists]` | ✏️ Renamed |  |
-| `OgreBotAPI.DetrimentalInfo_ref` | reads NULL | `OgreBotAPI.Cures.Detrimental` `[main,back,actorId=0,field=exists]` | ⚠️ Arguments changed | Watch the icon pair order. Classic's `Object_IconIDs` declares the BACKDROP icon FIRST: `variable Object_IconIDs X=A B` means main=B, backdrop=A. The new call takes `[main,back,actorId,field]`, so `X=815 33803` becomes `Detrimental[33803,815,<actorId>]`. Copying the numbers left-to-right compiles, runs, and asks about a detriment nobody has. If the script's own comment names the icons the other way round, Classic read them backdrop-first anyway - convert what Classic actually checked, and say so in your report. |
-| `OgreBotAPI.DetrimentalInfo_ref_String` | reads NULL | `OgreBotAPI.Cures.DetrimentalText` `[main,back,actorId=0,field=exists]` | ⚠️ Arguments changed | Watch the icon pair order. Classic's `Object_IconIDs` declares the BACKDROP icon FIRST: `variable Object_IconIDs X=A B` means main=B, backdrop=A. The new call takes `[main,back,actorId,field]`, so `X=815 33803` becomes `Detrimental[33803,815,<actorId>]`. Copying the numbers left-to-right compiles, runs, and asks about a detriment nobody has. If the script's own comment names the icons the other way round, Classic read them backdrop-first anyway - convert what Classic actually checked, and say so in your report. |
-| `OgreBotAPI.DetrimentalInfo_String` | reads NULL | `OgreBotAPI.Cures.DetrimentalText` `[main,back,actorId=0,field=exists]` | ✏️ Renamed |  |
+| `OgreBotAPI.DetrimentalInfo` | reads NULL | `OgreBotAPI.Cures.Detrimental` `[main=0,back=0,actorId=0,field=exists]` | ✏️ Renamed |  |
+| `OgreBotAPI.DetrimentalInfo_ref` | reads NULL | `OgreBotAPI.Cures.Detrimental` `[main=0,back=0,actorId=0,field=exists]` | ⚠️ Arguments changed | Watch the icon pair order. Classic's `Object_IconIDs` declares the BACKDROP icon FIRST: `variable Object_IconIDs X=A B` means main=B, backdrop=A. The new call takes `[main,back,actorId,field]`, so `X=815 33803` becomes `Detrimental[33803,815,<actorId>]`. Copying the numbers left-to-right compiles, runs, and asks about a detriment nobody has. If the script's own comment names the icons the other way round, Classic read them backdrop-first anyway - convert what Classic actually checked, and say so in your report. |
+| `OgreBotAPI.DetrimentalInfo_ref_String` | reads NULL | `OgreBotAPI.Cures.DetrimentalText` `[main=0,back=0,actorId=0,field=exists]` | ⚠️ Arguments changed | Watch the icon pair order. Classic's `Object_IconIDs` declares the BACKDROP icon FIRST: `variable Object_IconIDs X=A B` means main=B, backdrop=A. The new call takes `[main,back,actorId,field]`, so `X=815 33803` becomes `Detrimental[33803,815,<actorId>]`. Copying the numbers left-to-right compiles, runs, and asks about a detriment nobody has. If the script's own comment names the icons the other way round, Classic read them backdrop-first anyway - convert what Classic actually checked, and say so in your report. |
+| `OgreBotAPI.DetrimentalInfo_String` | reads NULL | `OgreBotAPI.Cures.DetrimentalText` `[main=0,back=0,actorId=0,field=exists]` | ✏️ Renamed |  |
 | `OgreBotAPI:Disable_Cures` | does nothing | `OgreBotAPI.Cures:SetEnabled` `[fw,on=TRUE]` | ⚠️ Arguments changed | Pass FALSE as the value argument. |
 | `OgreBotAPI:Enable_Cures` | does nothing | `OgreBotAPI.Cures:SetEnabled` `[fw,on=TRUE]` | ✏️ Renamed |  |
 | `OgreBotAPI:Get_CurePotions` | does nothing | `OgreBotAPI.Cures:ReplenishPotions` `[fw,all\|arcane\|elemental\|noxious\|trauma]` | ✏️ Renamed | as Get_FoodDrink - the new verb acts, it does not return the name |
@@ -512,8 +512,8 @@ Old names whose job is now in `OgreBotAPI.Inventory`.
 | `OgreBotAPI.Get_CurrentImmunityRune` | reads NULL | `OgreBotAPI.Inventory.CurrentImmunityRune` | ✏️ Renamed |  |
 | `OgreBotAPI.Get_EquipmentModifierValue` | reads NULL | `OgreBotAPI.Inventory.SlotModifier` `[slot,modifier]` | ✏️ Renamed |  |
 | `OgreBotAPI.Get_PackPonyRunning` | reads NULL | `OgreBotAPI.Inventory.PackPonyRunning` | ✏️ Renamed |  |
-| `OgreBotAPI.Get_SlotNum_EQ2UIPageSlotNames` | reads NULL | `OgreBotAPI.Inventory.SlotUIName` `[n]` | ✏️ Renamed |  |
-| `OgreBotAPI.Get_SlotNum_To_SlotNames` | reads NULL | `OgreBotAPI.Inventory.SlotName` `[n]` | ✏️ Renamed |  |
+| `OgreBotAPI.Get_SlotNum_EQ2UIPageSlotNames` | reads NULL | `OgreBotAPI.Inventory.SlotUIName` `[n=1]` | ✏️ Renamed |  |
+| `OgreBotAPI.Get_SlotNum_To_SlotNames` | reads NULL | `OgreBotAPI.Inventory.SlotName` `[n=1]` | ✏️ Renamed |  |
 | `OgreBotAPI:Initialize_AdornmentInfo` | does nothing | `OgreBotAPI.Inventory:InitAdornmentInfo` `[fw]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. |
 | `OgreBotAPI.IsAdornmentColour` | reads NULL | `OgreBotAPI.Inventory.IsAdornmentColour` `[iconId,colour]` | ➡️ Moved |  |
 | `OgreBotAPI.ItemCount` | reads NULL | `OgreBotAPI.Inventory.Count` `[itemName,exact\|contains]` | ⚠️ Arguments changed | Write OgreBotAPI.Inventory.Count[&lt;name&gt;,contains] - Classic matched a PART of the name (=-); `exact` (the default) needs the whole name. Both count every stack in the bags and the Harvest Bag. |
@@ -521,9 +521,9 @@ Old names whose job is now in `OgreBotAPI.Inventory`.
 | `OgreBotAPI:Overseer_SpewMissionsInInventory` | does nothing | — | ⛔ Removed | Not ported: the new bot's `OgreBotAPI.Inventory:SpewOverseerMissions` was a stub that did nothing, and it was removed 2026-10-22. |
 | `OgreBotAPI:PoP_TempAdorns` | does nothing | `OgreBotAPI.Inventory:PoPTempAdorns` `[fw,...]` | ✏️ Renamed | Not taken any more: `_Overwrite`. |
 | `OgreBotAPI:RedeemKrono` | does nothing | `OgreBotAPI.Inventory:RedeemKrono` `[fw]` | ➡️ Moved |  |
-| `OgreBotAPI.Slot_SlotNames` | reads NULL | `OgreBotAPI.Inventory.SlotName` `[n]` | ✏️ Renamed |  |
-| `OgreBotAPI.SlotNum_EQ2UIPageSlotNames` | reads NULL | `OgreBotAPI.Inventory.SlotUIName` `[n]` | ✏️ Renamed |  |
-| `OgreBotAPI.SlotNum_SlotNames` | reads NULL | `OgreBotAPI.Inventory.SlotName` `[n]` | ✏️ Renamed |  |
+| `OgreBotAPI.Slot_SlotNames` | reads NULL | `OgreBotAPI.Inventory.SlotName` `[n=1]` | ✏️ Renamed |  |
+| `OgreBotAPI.SlotNum_EQ2UIPageSlotNames` | reads NULL | `OgreBotAPI.Inventory.SlotUIName` `[n=1]` | ✏️ Renamed |  |
+| `OgreBotAPI.SlotNum_SlotNames` | reads NULL | `OgreBotAPI.Inventory.SlotName` `[n=1]` | ✏️ Renamed |  |
 | `OgreBotAPI:Spew_SlotNum_To_SlotNames` | does nothing | `OgreBotAPI.Inventory:SpewSlotNames` `[fw]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. |
 | `OgreBotAPI:Unpack` | does nothing | `OgreBotAPI.Inventory:Unpack` `[fw,item,...]` | ⚠️ Arguments changed | **Old:** `OgreBotAPI:Unpack[<fw>,<item>,<choice>]`<br>**New:** `OgreBotAPI.Inventory:Unpack[<fw>,<item>,-pick,<choice>]`<br>The reward choice is a flag now; a bare third argument is refused with a line naming -pick. -qty &lt;N&gt; unpacks N, -all keeps going until none is left, -pick &lt;number \| name \| lowest&gt; takes that reward when the window offers a choice (lowest = the one the character holds fewest of in its bags; a tie goes to the first in window order). An already-open reward window is waited out, up to 10 s. |
 | `OgreBotAPI:Unpack_Consume_Familiars` | does nothing | `OgreBotAPI.Inventory:UnpackConsumeFamiliars` `[fw,...]` | ✏️ Renamed |  |
@@ -579,8 +579,8 @@ Old names whose job is now in `OgreBotAPI.Movement`.
 | `OgreBotAPI:Crouch` | does nothing | `OgreBotAPI.Movement:Crouch` `[fw]` | ➡️ Moved |  |
 | `OgreBotAPI:Evac` | does nothing | `OgreBotAPI.Movement:Evac` `[fw,mode=""]` | ➡️ Moved |  |
 | `OgreBotAPI:FaceActor` | does nothing | `OgreBotAPI.Movement:FaceActor` `[fw,nameOrId]` | ➡️ Moved |  |
-| `OgreBotAPI:FaceAngle` | does nothing | `OgreBotAPI.Movement:FaceAngle` `[fw,angle=0]` | ➡️ Moved |  |
-| `OgreBotAPI:FaceLoc` | does nothing | `OgreBotAPI.Movement:FaceLoc` `[fw,x=0,y=0,z=0]` | ➡️ Moved |  |
+| `OgreBotAPI:FaceAngle` | does nothing | `OgreBotAPI.Movement:FaceAngle` `[fw,angle]` | ➡️ Moved |  |
+| `OgreBotAPI:FaceLoc` | does nothing | `OgreBotAPI.Movement:FaceLoc` `[fw,x,y,z]` | ➡️ Moved |  |
 | `OgreBotAPI:FlyDown` | does nothing | `OgreBotAPI.Movement:FlyDown` `[fw]` | ➡️ Moved |  |
 | `OgreBotAPI:FlyStop` | does nothing | `OgreBotAPI.Movement:FlyStop` `[fw]` | ➡️ Moved |  |
 | `OgreBotAPI:FlyUp` | does nothing | `OgreBotAPI.Movement:FlyUp` `[fw]` | ➡️ Moved |  |
@@ -596,8 +596,8 @@ Old names whose job is now in `OgreBotAPI.Movement`.
 | `OgreBotAPI:JoustOut` | does nothing | `OgreBotAPI.Movement:JoustOut` `[fw]` | ➡️ Moved |  |
 | `OgreBotAPI:Jump` | does nothing | `OgreBotAPI.Movement:Jump` `[fw]` | ➡️ Moved |  |
 | `OgreBotAPI:LandFlyingMount` | does nothing | `OgreBotAPI.Movement:LandFlyingMount` `[fw]` | ➡️ Moved |  |
-| `OgreBotAPI:Move2Area` | does nothing | `OgreBotAPI.Movement:Move2Area` `[fw,x=0,y=0,z=0,precision=3]` | ⚠️ Arguments changed | **Old:** `OgreBotAPI:Move2Area[x,z,who,precision] (Classic's second number is the Z). New: OgreBotAPI.Movement:Move2Area[who,x,y,z,precision] - the for-who comes first and y is new but ignored (a ground move: pass ${Me.Y} or 0). Only toons that have a target move, as in Classic` |
-| `OgreBotAPI:Move2AreaNoTarget` | does nothing | `OgreBotAPI.Movement:Move2AreaNoTarget` `[fw,x=0,y=0,z=0,precision=3]` | ⚠️ Arguments changed | **Old:** `OgreBotAPI:Move2AreaNoTarget[x,z,who,precision] (Classic's second number is the Z). New: OgreBotAPI.Movement:Move2AreaNoTarget[who,x,y,z,precision] - the for-who comes first and y is new but ignored (a ground move: pass ${Me.Y} or 0). Moves with or without a target, as in Classic` |
+| `OgreBotAPI:Move2Area` | does nothing | `OgreBotAPI.Movement:Move2Area` `[fw,x,y,z,precision=3]` | ⚠️ Arguments changed | **Old:** `OgreBotAPI:Move2Area[x,z,who,precision] (Classic's second number is the Z). New: OgreBotAPI.Movement:Move2Area[who,x,y,z,precision] - the for-who comes first and y is new but ignored (a ground move: pass ${Me.Y} or 0). Only toons that have a target move, as in Classic` |
+| `OgreBotAPI:Move2AreaNoTarget` | does nothing | `OgreBotAPI.Movement:Move2AreaNoTarget` `[fw,x,y,z,precision=3]` | ⚠️ Arguments changed | **Old:** `OgreBotAPI:Move2AreaNoTarget[x,z,who,precision] (Classic's second number is the Z). New: OgreBotAPI.Movement:Move2AreaNoTarget[who,x,y,z,precision] - the for-who comes first and y is new but ignored (a ground move: pass ${Me.Y} or 0). Moves with or without a target, as in Classic` |
 | `OgreBotAPI:NoMove` | does nothing | `OgreBotAPI.Movement:StopFollow` `[fw]` | ✏️ Renamed |  |
 | `OgreBotAPI:OFolDecDistance` | does nothing | `OgreBotAPI.Movement:FollowDistanceDown` `[fw]` | ✏️ Renamed |  |
 | `OgreBotAPI:OFolIncDistance` | does nothing | `OgreBotAPI.Movement:FollowDistanceUp` `[fw]` | ✏️ Renamed |  |
@@ -607,7 +607,7 @@ Old names whose job is now in `OgreBotAPI.Movement`.
 | `OgreBotAPI:RunWalk` | does nothing | `OgreBotAPI.Movement:SetRunMode` `[fw,run]` | ⚠️ Arguments changed | SIGNATURE CHANGED - add TRUE (run) or FALSE (walk) after the for-who; there is no toggle. |
 | `OgreBotAPI:Set_CampSpotJump_Handle` | does nothing | `OgreBotAPI.Movement:JumpRoute` `[fw,start,jump,end,completed="",flag...]` | ✏️ Renamed | Same arguments in the same order; each option is its own argument. The jump distance and max time Classic kept on Obj_CampSpotJump (Set_JumpDistance / Set_MaxTimer) are per-route options now - see the Obj_CampSpotJump rows. |
 | `OgreBotAPI:Stand` | does nothing | `OgreBotAPI.Movement:Stand` `[fw]` | ➡️ Moved |  |
-| `OgreBotAPI:Waypoint` | does nothing | `OgreBotAPI.Movement:Waypoint` `[fw,x=0,y=0,z=0]` | ➡️ Moved |  |
+| `OgreBotAPI:Waypoint` | does nothing | `OgreBotAPI.Movement:Waypoint` `[fw,x,y,z]` | ➡️ Moved |  |
 
 ## OgreBotAPI.OneOff
 
@@ -695,7 +695,7 @@ Old names whose job is now in `OgreBotAPI.Quest`.
 | Old call | Today | Write instead | What changed | Notes |
 |---|---|---|---|---|
 | `OgreBotAPI:AcceptQuest` | does nothing | `OgreBotAPI.Quest:Accept` `[fw,questName=""]` | ✏️ Renamed |  |
-| `OgreBotAPI.ActorHasQuest` | reads NULL | `OgreBotAPI.Quest.ActorHas` `[actorId]` | ✏️ Renamed |  |
+| `OgreBotAPI.ActorHasQuest` | reads NULL | `OgreBotAPI.Quest.ActorHas` `[actorId=0]` | ✏️ Renamed |  |
 | `OgreBotAPI:CheckKunarkAscendingRequirements` | does nothing | `OgreBotAPI.Quest:CheckKunarkAscending` `[fw,...]` | ✏️ Renamed |  |
 | `OgreBotAPI:CheckToShareQuest` | does nothing | `OgreBotAPI.Quest:CheckToShare` `[fw,zoneName]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. |
 | `OgreBotAPI:CompareQuestUpdate` | does nothing | `OgreBotAPI.Quest:CompareUpdate` `[fw,questName]` | ✏️ Renamed |  |
@@ -802,17 +802,17 @@ Old names whose job is now in `OgreBotAPI.Util`.
 | Old call | Today | Write instead | What changed | Notes |
 |---|---|---|---|---|
 | `OgreBotAPI.ArraySearch` | reads NULL | — | ⛔ Removed | Not ported: the new bot's `OgreBotAPI.ArraySearch` was a stub that did nothing, and it was removed 2026-10-22. Classic's took a LavishScript array by reference, which a new-bot member cannot receive. Search the array in your script. |
-| `OgreBotAPI.Between` | reads NULL | `OgreBotAPI.Util.Between` `[v,lo,hi]` | ➡️ Moved |  |
-| `OgreBotAPI.BetweenFloat` | reads NULL | `OgreBotAPI.Util.BetweenFloat` `[v,lo,hi]` | ➡️ Moved |  |
+| `OgreBotAPI.Between` | reads NULL | `OgreBotAPI.Util.Between` `[v=0,lo=0,hi=0]` | ➡️ Moved |  |
+| `OgreBotAPI.BetweenFloat` | reads NULL | `OgreBotAPI.Util.BetweenFloat` `[v=0,lo=0,hi=0]` | ➡️ Moved |  |
 | `OgreBotAPI:CheckResearch` | does nothing | `OgreBotAPI.Util:CheckResearch` `[fw,forceReport=FALSE]` | ➡️ Moved |  |
 | `OgreBotAPI.Clean` | reads NULL | `OgreBotAPI.Util.Clean` `[s]` | ➡️ Moved |  |
 | `OgreBotAPI.CleanNameWithSpaces` | reads NULL | `OgreBotAPI.Util.Clean` `[s]` | ✏️ Renamed |  |
-| `OgreBotAPI.ConvertSecondsToHMS` | reads NULL | `OgreBotAPI.Util.SecondsToHMS` `[n]` | ✏️ Renamed |  |
-| `OgreBotAPI.ConvertSlotArrayToSlot` | reads NULL | `OgreBotAPI.Util.SlotArrayToSlot` `[n]` | ✏️ Renamed |  |
+| `OgreBotAPI.ConvertSecondsToHMS` | reads NULL | `OgreBotAPI.Util.SecondsToHMS` `[n=0]` | ✏️ Renamed |  |
+| `OgreBotAPI.ConvertSlotArrayToSlot` | reads NULL | `OgreBotAPI.Util.SlotArrayToSlot` `[n=0]` | ✏️ Renamed |  |
 | `OgreBotAPI.FileExists` | reads NULL | `OgreBotAPI.Util.FileExists` `[path]` | ➡️ Moved |  |
-| `OgreBotAPI.Get_Hours` | reads NULL | `OgreBotAPI.Util.Hours` `[n]` | ✏️ Renamed |  |
-| `OgreBotAPI.Get_Minutes` | reads NULL | `OgreBotAPI.Util.Minutes` `[n]` | ✏️ Renamed |  |
-| `OgreBotAPI.Get_Seconds` | reads NULL | `OgreBotAPI.Util.Seconds` `[n]` | ✏️ Renamed |  |
+| `OgreBotAPI.Get_Hours` | reads NULL | `OgreBotAPI.Util.Hours` `[n=0]` | ✏️ Renamed |  |
+| `OgreBotAPI.Get_Minutes` | reads NULL | `OgreBotAPI.Util.Minutes` `[n=0]` | ✏️ Renamed |  |
+| `OgreBotAPI.Get_Seconds` | reads NULL | `OgreBotAPI.Util.Seconds` `[n=0]` | ✏️ Renamed |  |
 | `OgreBotAPI.IndexMatch` | reads NULL | — | ⛔ Removed | Not ported: the new bot's `OgreBotAPI.IndexMatch` was a stub that did nothing, and it was removed 2026-10-22. Classic's took a LavishScript index by reference, which a new-bot member cannot receive. Search the index in your script. |
 | `OgreBotAPI.IndexSearch` | reads NULL | — | ⛔ Removed | Not ported: the new bot's `OgreBotAPI.IndexSearch` was a stub that did nothing, and it was removed 2026-10-22. Classic's took a LavishScript array by reference, which a new-bot member cannot receive. Search the array in your script. |
 | `OgreBotAPI.IndexSearchJSON` | reads NULL | — | ⛔ Removed | Not ported: the new bot's `OgreBotAPI.IndexSearchJSON` was a stub that did nothing, and it was removed 2026-10-22. Classic's took a LavishScript jsonvalue array by reference, which a new-bot member cannot receive. Search the array in your script. |
@@ -825,7 +825,7 @@ Old names whose job is now in `OgreBotAPI.Util`.
 | `OgreBotAPI.RemoveZoneNumberOnly` | reads NULL | `OgreBotAPI.Util.StripZoneNumberOnly` `[s=${Zone.Name}]` | ✏️ Renamed |  |
 | `OgreBotAPI:Research_Material_Check` | does nothing | `OgreBotAPI.Util:CheckResearchMaterials` `[fw,...]` | ✏️ Renamed |  |
 | `OgreBotAPI.RomanToInt` | reads NULL | `OgreBotAPI.Util.RomanToInt` `[s]` | ➡️ Moved |  |
-| `OgreBotAPI.RoundNumToNearestValue` | reads NULL | `OgreBotAPI.Util.RoundToNearest` `[value,step]` | ✏️ Renamed | Not taken any more: `_IncrementBy`. |
+| `OgreBotAPI.RoundNumToNearestValue` | reads NULL | `OgreBotAPI.Util.RoundToNearest` `[value=0,step=1,incBy=0]` | ✏️ Renamed |  |
 | `OgreBotAPI.To_Float` | reads NULL | `OgreBotAPI.Util.ToFloat` `[s]` | ✏️ Renamed |  |
 | `OgreBotAPI.To_Int` | reads NULL | `OgreBotAPI.Util.ToInt` `[s]` | ✏️ Renamed |  |
 | `OgreBotAPI.To_Number` | reads NULL | `OgreBotAPI.Util.ToNumber` `[s]` | ✏️ Renamed |  |
