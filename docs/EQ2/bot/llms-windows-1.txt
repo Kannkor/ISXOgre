@@ -324,7 +324,7 @@ Each page is its own set of buttons for the right-hand block. The static block d
 
 | Control | What it does | Default |
 |---|---|---|
-| **Click a page** | Switches the right-hand block to that page's buttons.<br>*The page you are on is shared: switching page switches it in every open MCP on this PC.* |  |
+| **Click a page** | Switches the right-hand block to that page's buttons.<br>*Each character has its own page: switching here does not switch any other MCP. An edit made on another character keeps you on your page.* |  |
 | **+ Page** | Adds a new empty page called 'Page N' at the bottom and switches to it. |  |
 | **Drag a page** | Moves the page up or down the list. A line shows where it will land. You stay on the same page.<br>*Keys assigned to buttons follow the buttons, so moving pages does not change what a key presses.* | on (needs Allow moving) |
 | **Right-click a page > Switch to this page** | Same as clicking the page. |  |
@@ -446,7 +446,7 @@ The Layout drawer. Changes show at once and are saved. They change the buttons, 
 
 ## Good to know
 
-- Your buttons, pages, the page you are on and your For Who choice are one file shared by every character on this PC: Scripts/OgreSave/EQ2/OgreMCP.json. A change on one character shows up in every open MCP at once.
+- Your buttons and pages are one file shared by every character on this PC: Scripts/OgreSave/EQ2/OgreMCP.json. A change to them on one character shows up in every open MCP at once. The page you are looking at and your For Who choice are each character's own.
 - Changing button size or spacing does not resize the window. Nudge the window edge and it snaps to fit whole buttons again.
 - The page column shows only as many pages as there are rows. With more pages than rows, make the window taller (Find still reaches buttons on hidden pages).
 - A button that names its own target in every step ignores For Who. If any step is left on the For Who window (blank), For Who decides.

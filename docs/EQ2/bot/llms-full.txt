@@ -229,6 +229,15 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.10.26.002 {#r2026-10-26-002}
+
+*Monday, October 26, 2026 at 9:35 PM EDT*
+
+- **New** · Windows: **Travel Helper window - list a travel map's destinations and send the group to one.** Type `ogre travel` and pick Fast Travel, Wizard Spire, Druid Rings, Bell or Open Travel Map: this character opens that map and lists every destination it offers. Double-click one and everyone in the For Who window travels there, each picking that exact destination on their own map. A Master Control Panel Travel Helper button migrated from the old bot opens it too.
+- **New** · Setup: **Auto-Login logs characters in on your other PCs too.** A profile row can now put a character on another PC: add that PC under Other PCs in the Auto-Login window and pick it in the row. Start connects to it, launches its ISBoxer set or missing sessions there, and logs those characters in with that PC's own saved accounts. Each PC can have its own ISBoxer character set, and the other PC needs Ogre installed.
+- **Fixed** · Bot: **Cast Stack editor - the tag role can be picked, and editing keeps hidden settings.** The Embargo role and Allow role dropdowns opened empty, so a tag could be picked but its role (Both, Trigger Only or Listen Only) could not. They list the three roles now. Editing an entry for an ability this character does not have also quietly dropped settings the editor could not show, such as Ignore Duration; those are kept now.
+- **Fixed** · Windows: **Master Control Panel - each character stays on its own page.** Clicking a page in the Master Control Panel switched it on every character's panel. Now each character keeps the page it is on, and editing buttons or pages on one character no longer moves the others off theirs. Buttons and pages are still shared by every character on this PC.
+
 ## 2026.10.26.001 {#r2026-10-26-001}
 
 *Monday, October 26, 2026 at 2:19 AM EDT*
@@ -3195,7 +3204,7 @@ Each page is its own set of buttons for the right-hand block. The static block d
 
 | Control | What it does | Default |
 |---|---|---|
-| **Click a page** | Switches the right-hand block to that page's buttons.<br>*The page you are on is shared: switching page switches it in every open MCP on this PC.* |  |
+| **Click a page** | Switches the right-hand block to that page's buttons.<br>*Each character has its own page: switching here does not switch any other MCP. An edit made on another character keeps you on your page.* |  |
 | **+ Page** | Adds a new empty page called 'Page N' at the bottom and switches to it. |  |
 | **Drag a page** | Moves the page up or down the list. A line shows where it will land. You stay on the same page.<br>*Keys assigned to buttons follow the buttons, so moving pages does not change what a key presses.* | on (needs Allow moving) |
 | **Right-click a page > Switch to this page** | Same as clicking the page. |  |
@@ -3317,7 +3326,7 @@ The Layout drawer. Changes show at once and are saved. They change the buttons, 
 
 ## Good to know
 
-- Your buttons, pages, the page you are on and your For Who choice are one file shared by every character on this PC: Scripts/OgreSave/EQ2/OgreMCP.json. A change on one character shows up in every open MCP at once.
+- Your buttons and pages are one file shared by every character on this PC: Scripts/OgreSave/EQ2/OgreMCP.json. A change to them on one character shows up in every open MCP at once. The page you are looking at and your For Who choice are each character's own.
 - Changing button size or spacing does not resize the window. Nudge the window edge and it snaps to fit whole buttons again.
 - The page column shows only as many pages as there are rows. With more pages than rows, make the window taller (Find still reaches buttons on hidden pages).
 - A button that names its own target in every step ignores For Who. If any step is left on the For Who window (blank), For Who decides.
@@ -4954,6 +4963,89 @@ Opened by hand with no trip running:
 
 ---
 
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/travel.md
+
+# Travel Helper
+
+> **:bulb: In game - the ? button on this window says**
+>
+> Lists where a travel map can take you, then sends your group to the one you pick.
+>
+> **What you can do here**
+>
+> - **Fast Travel, Wizard Spire, Druid Rings, Bell** - this character opens that map (standing by the spire, ring or bell for those three), reads every destination and lists them. The map closes again.
+> - **Open Travel Map** - lists the travel map you already have open, and leaves it open.
+> - **Double-click a destination**, or select it and press **Travel** - everyone in the Master Control Panel's For Who window travels there. Each opens their own map and clicks that exact destination.
+> - **Filter** - type part of a name to shorten the list.
+> - **Keep list open after travelling** - leave this window up after you pick.
+>
+> **Good to know**
+>
+> - If the For Who window was never set, everyone travels.
+> - Spire, ring and bell travel needs that object within reach of every character you send.
+> - With Open Travel Map, everyone you send must have their own map open too.
+
+**Open it:** Type `ogre travel`. Add a method to open it straight on that list: `ogre travel fast`, `ogre travel spire`, `ogre travel druid`, `ogre travel bell` or `ogre travel map`. A Master Control Panel button migrated from the old bot's Travel Helper opens it too.
+
+## What it is for
+
+The Travel Helper sends your group somewhere without anyone typing a zone name. Pick how to travel and this character opens that travel map, reads every destination it offers and lists them here. Double-click one and every character in the For Who window travels there: each opens its own map and clicks that exact destination. It is the old bot's Travel Helper window, rebuilt.
+
+## Choosing how to travel
+
+Each button makes this character open that kind of travel map and list it. The map closes again once it has been read, except for Open Travel Map.
+
+| Control | What it does |
+|---|---|
+| **Fast Travel** | Opens the Fast Travel map and lists its destinations. Works anywhere you can fast travel from. |
+| **Wizard Spire** | Clicks the wizard spire next to you and lists where it goes. You must be standing by a spire.<br>*Nothing is cast: it uses the spire in the world, the same as the old bot.* |
+| **Druid Rings** | Clicks the druid ring next to you, or in a guild hall the portal druid, and lists where it goes. |
+| **Bell** | Clicks the bell or globe next to you and lists where it goes. |
+| **Open Travel Map** | Lists the travel map you already have open, and leaves it open.<br>*Everyone you send to must have their own travel map open too - this one opens nothing for them.* |
+
+## Picking a destination
+
+The list shows every destination the map offers, in the map's order. Type in the filter box to narrow it.
+
+| Control | What it does |
+|---|---|
+| **Filter destinations** | Shows only the destinations whose name contains what you type. |
+| **Destination list** | Click a destination to select it. Double-click it to travel there. |
+| **Travel** | Sends everyone in the For Who window to the selected destination.<br>*Each character opens its own map and clicks exactly that destination - the whole name, not part of it.* |
+| **Keep list open after travelling** | Leaves this window open after you send the group. Off, it closes once you pick. |
+
+## What the window shows
+
+- Sends to: who a pick goes to and how, read from the Master Control Panel's For Who window.
+- Opening the map and reading it...: this character is opening the map. The buttons are greyed out until it finishes.
+- Could not list: why the map could not be read, for example nothing to click is in reach.
+- The line under Sends to: what the last pick sent, and to whom.
+
+## Good to know
+
+- The For Who window decides who travels. If it was never set, everyone travels.
+- Wizard Spire, Druid Rings and Bell need the spire, ring or bell within reach of every character you send. Anyone too far away stays where they are.
+- Picking a destination with several drop-off points or instances uses the same choice as the travel commands: the last one offered.
+
+### Before anything is listed
+
+![Empty](../assets/travel/empty.png)
+
+### Filtering
+
+![Filter](../assets/travel/filter.png)
+
+### While it reads the map
+
+![Listing](../assets/travel/listing.png)
+
+### When nothing can be opened
+
+![Failed](../assets/travel/failed.png)
+
+
+---
+
 Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/safefall.md
 
 # Safe Fall Trainer
@@ -5919,9 +6011,10 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > **What you can do here**
 >
 > - **Profiles** - click one to open it. **+ New** starts a blank one; **Import** copies your old OgreBot profiles.
-> - **Character rows** - pick the PC (ThisUplink), the session (is1, is2, or any) and the character.
+> - **Character rows** - pick the PC (ThisUplink, or another PC), the session (is1, is2, or any) and the character.
+> - **Other PCs** - add another PC's uplink name so a row can put characters on it. Start connects to it and logs those characters in there.
 > - **Settings** - the game to launch and the pauses between launches and logins (in tenths of a second).
-> - **ISBoxer character set** - if you launch with ISBoxer, pick the set (the list shows this PC's sets). Start launches it first, then logs your characters into the sessions it opened, and launches only a session that is still missing. Leave it empty if you don't use ISBoxer.
+> - **ISBoxer character sets** - if you launch with ISBoxer, pick the set for each PC. Start launches them first, then logs your characters into the sessions they opened, and launches only a session that is still missing. Leave a PC empty if it doesn't use ISBoxer.
 > - **Save** the profile, **Delete** the one selected in the list, or make a **Desktop shortcut** that runs it.
 > - **Start** runs the selected saved profile. Tick **Dry run** to only list what it would do.
 >
@@ -5929,7 +6022,8 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 >
 > - Saving over an existing profile needs **Overwrite** ticked.
 > - Start runs the saved profile, so Save first.
-> - No passwords are stored; characters must be in your saved account list.
+> - No passwords are stored; characters must be in your saved account list - on another PC, in that PC's list.
+> - Another PC needs Ogre installed. One that can't be reached has its rows skipped.
 
 **Open it:** Type `ogre autologin`. `ogre end autologin` closes it.
 
@@ -5960,11 +6054,21 @@ One row per character. Each field is pick-or-type: click it for a list, or type 
 
 | Control | What it does | Default |
 |---|---|---|
-| **Uplink** | Which PC this character belongs to. ThisUplink means "whichever PC runs the profile". Otherwise type that PC's InnerSpace uplink name. A run only handles rows for its own PC; other rows are skipped.<br>*The list offers ThisUplink plus any PC names used in your other profiles.* | ThisUplink |
+| **Uplink** | Which PC this character is logged in on. ThisUplink means "whichever PC runs the profile". To put a character on another PC, add that PC to Other PCs below and pick it here: Start connects to that PC, launches and logs in its sessions there.<br>*The list offers ThisUplink plus the PCs in Other PCs (this PC itself is ThisUplink). That PC logs the character in with its own saved account list, and it needs Ogre installed.* | ThisUplink |
 | **Session** | Which InnerSpace session the character must be in: is1, is2 and so on. "any" means any session is fine: if the character is already in the world somewhere it is left alone, otherwise a free session is used or a new one is launched.<br>*The list offers any and is1 to is24. Left empty, it saves as any.* | any |
 | **Character** | The character to log in. The list shows the characters in your saved account list.<br>*A character that is not in your saved account list gets a warning when the profile runs, because its account cannot be looked up.* | empty |
 | **x (remove row)** | Removes that character row. If it was the last row, a fresh empty row takes its place.<br>*Not saved until you click Save.* |  |
 | **+ Add row** | Adds another character row (Uplink ThisUplink, Session any, Character empty). |  |
+
+## Other PCs (uplinks)
+
+The other PCs a character row can name, by their InnerSpace uplink name. It is the same list as OgreBot's Uplink Info tab and the MCP's Connect button. When a profile has rows on another PC, Start connects to that PC if it is not connected yet, checks that its uplink answers, then launches, logs in and loads OgreBot on its sessions from this PC. A PC that cannot be reached has its rows skipped and the rest of the profile still runs.
+
+| Control | What it does | Default |
+|---|---|---|
+| **Uplink name** | Type the InnerSpace uplink name of another PC (in InnerSpace on that PC: its Remote name). | empty |
+| **+ Add** | Adds the typed name to the list. The log says whether it was added.<br>*The list is saved at once, for every profile on this PC.* |  |
+| **x (remove PC)** | Takes that PC off the list.<br>*Rows that name it keep the name; Start still tries to connect to it.* |  |
 
 ## Settings
 
@@ -5974,6 +6078,7 @@ Times are in tenths of a second: 150 means 15 seconds. The editor scrolls; these
 |---|---|---|
 | **Game** | The InnerSpace game entry used when a new session has to be launched. The list comes from the games set up in InnerSpace.<br>*Left empty, it saves as Everquest 2.* | Everquest 2 |
 | **Game profile** | The InnerSpace game profile used when a new session has to be launched. The list shows the profiles of the game chosen above. | everquest 2 default profile |
+| **ISBoxer character sets** | If you launch with ISBoxer, the character set to launch on each PC: one line for this PC (ThisUplink) and one for each other PC the rows name. Start launches every PC's set first (another PC's on that PC), then logs your characters into the sessions they opened, and launches only a session that is still missing.<br>*Each list shows that PC's sets from ISBoxer. Leave a line empty for a PC that does not use ISBoxer. A PC whose last row is removed keeps no set.* | empty (no ISBoxer) |
 | **Wait after load** | After new sessions are launched, how long to wait for them to load before logging anyone in. Only used when a session had to be launched. | 150 (15 seconds) |
 | **Wait between launches** | The pause after each new session is launched, before the next one. | 50 (5 seconds) |
 | **Login stagger - base** | The pause between one character's login and the next, so the server is not hit with every login at once. | 300 (30 seconds) |
@@ -6011,8 +6116,8 @@ At the opening window size these buttons are below the fold: scroll the right si
 
 - Saving changes to an existing profile needs Overwrite ticked, even if it is the profile you just opened.
 - Start runs the SAVED profile. Save first if you changed anything.
-- A run only handles rows for the PC it runs on (ThisUplink rows and rows naming this PC). Rows for another PC are skipped; to run them, copy the profile to that PC and start it there.
-- Profiles are saved as files in Scripts\OgreSave\EQ2\AutoLogin\Profiles. You can copy them to another PC; they hold no passwords.
+- Rows on another PC are run from this PC: it connects to that PC and drives its sessions there. That PC needs Ogre installed and the characters in its own saved account list - passwords never leave the PC they are saved on.
+- Profiles are saved as files in Scripts\OgreSave\EQ2\AutoLogin\Profiles. They hold no passwords, so they are safe to copy or share.
 - Characters must be in your saved account list so their account can be found when the profile runs.
 - Opening the window again while it is open does nothing, so the profile you are editing stays.
 

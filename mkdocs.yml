@@ -133,6 +133,7 @@ nav:
               - "Radar": EQ2/bot/windows/eq2radar.md
               - "Radar Types": EQ2/bot/windows/eq2radarfilters.md
               - "Nav": EQ2/bot/windows/nav.md
+              - "Travel Helper": EQ2/bot/windows/travel.md
               - "Safe Fall Trainer": EQ2/bot/windows/safefall.md
           - "Loot and items":
               - "SmartLoot": EQ2/bot/windows/smartloot.md

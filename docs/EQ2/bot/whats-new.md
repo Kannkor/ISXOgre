@@ -10,6 +10,15 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.10.26.002 {#r2026-10-26-002}
+
+*Monday, October 26, 2026 at 9:35 PM EDT*
+
+- **New** · Windows: **Travel Helper window - list a travel map's destinations and send the group to one.** Type `ogre travel` and pick Fast Travel, Wizard Spire, Druid Rings, Bell or Open Travel Map: this character opens that map and lists every destination it offers. Double-click one and everyone in the For Who window travels there, each picking that exact destination on their own map. A Master Control Panel Travel Helper button migrated from the old bot opens it too.
+- **New** · Setup: **Auto-Login logs characters in on your other PCs too.** A profile row can now put a character on another PC: add that PC under Other PCs in the Auto-Login window and pick it in the row. Start connects to it, launches its ISBoxer set or missing sessions there, and logs those characters in with that PC's own saved accounts. Each PC can have its own ISBoxer character set, and the other PC needs Ogre installed.
+- **Fixed** · Bot: **Cast Stack editor - the tag role can be picked, and editing keeps hidden settings.** The Embargo role and Allow role dropdowns opened empty, so a tag could be picked but its role (Both, Trigger Only or Listen Only) could not. They list the three roles now. Editing an entry for an ability this character does not have also quietly dropped settings the editor could not show, such as Ignore Duration; those are kept now.
+- **Fixed** · Windows: **Master Control Panel - each character stays on its own page.** Clicking a page in the Master Control Panel switched it on every character's panel. Now each character keeps the page it is on, and editing buttons or pages on one character no longer moves the others off theirs. Buttons and pages are still shared by every character on this PC.
+
 ## 2026.10.26.001 {#r2026-10-26-001}
 
 *Monday, October 26, 2026 at 2:19 AM EDT*

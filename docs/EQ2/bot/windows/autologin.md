@@ -11,9 +11,10 @@
 > **What you can do here**
 >
 > - **Profiles** - click one to open it. **+ New** starts a blank one; **Import** copies your old OgreBot profiles.
-> - **Character rows** - pick the PC (ThisUplink), the session (is1, is2, or any) and the character.
+> - **Character rows** - pick the PC (ThisUplink, or another PC), the session (is1, is2, or any) and the character.
+> - **Other PCs** - add another PC's uplink name so a row can put characters on it. Start connects to it and logs those characters in there.
 > - **Settings** - the game to launch and the pauses between launches and logins (in tenths of a second).
-> - **ISBoxer character set** - if you launch with ISBoxer, pick the set (the list shows this PC's sets). Start launches it first, then logs your characters into the sessions it opened, and launches only a session that is still missing. Leave it empty if you don't use ISBoxer.
+> - **ISBoxer character sets** - if you launch with ISBoxer, pick the set for each PC. Start launches them first, then logs your characters into the sessions they opened, and launches only a session that is still missing. Leave a PC empty if it doesn't use ISBoxer.
 > - **Save** the profile, **Delete** the one selected in the list, or make a **Desktop shortcut** that runs it.
 > - **Start** runs the selected saved profile. Tick **Dry run** to only list what it would do.
 >
@@ -21,7 +22,8 @@
 >
 > - Saving over an existing profile needs **Overwrite** ticked.
 > - Start runs the saved profile, so Save first.
-> - No passwords are stored; characters must be in your saved account list.
+> - No passwords are stored; characters must be in your saved account list - on another PC, in that PC's list.
+> - Another PC needs Ogre installed. One that can't be reached has its rows skipped.
 
 **Open it:** Type `ogre autologin`. `ogre end autologin` closes it.
 
@@ -60,11 +62,23 @@ One row per character. Each field is pick-or-type: click it for a list, or type 
 
 | Control | What it does | Default |
 |---|---|---|
-| **Uplink** | Which PC this character belongs to. ThisUplink means "whichever PC runs the profile". Otherwise type that PC's InnerSpace uplink name. A run only handles rows for its own PC; other rows are skipped.<br>*The list offers ThisUplink plus any PC names used in your other profiles.* | ThisUplink |
+| **Uplink** | Which PC this character is logged in on. ThisUplink means "whichever PC runs the profile". To put a character on another PC, add that PC to Other PCs below and pick it here: Start connects to that PC, launches and logs in its sessions there.<br>*The list offers ThisUplink plus the PCs in Other PCs (this PC itself is ThisUplink). That PC logs the character in with its own saved account list, and it needs Ogre installed.* | ThisUplink |
 | **Session** | Which InnerSpace session the character must be in: is1, is2 and so on. "any" means any session is fine: if the character is already in the world somewhere it is left alone, otherwise a free session is used or a new one is launched.<br>*The list offers any and is1 to is24. Left empty, it saves as any.* | any |
 | **Character** | The character to log in. The list shows the characters in your saved account list.<br>*A character that is not in your saved account list gets a warning when the profile runs, because its account cannot be looked up.* | empty |
 | **x (remove row)** | Removes that character row. If it was the last row, a fresh empty row takes its place.<br>*Not saved until you click Save.* |  |
 | **+ Add row** | Adds another character row (Uplink ThisUplink, Session any, Character empty). |  |
+
+## Other PCs (uplinks)
+
+The other PCs a character row can name, by their InnerSpace uplink name. It is the same list as OgreBot's Uplink Info tab and the MCP's Connect button. When a profile has rows on another PC, Start connects to that PC if it is not connected yet, checks that its uplink answers, then launches, logs in and loads OgreBot on its sessions from this PC. A PC that cannot be reached has its rows skipped and the rest of the profile still runs.
+
+[![Other PCs (uplinks)](../assets/autologin/uplinks.png)](../assets/autologin/uplinks.png "Click for full size")
+
+| Control | What it does | Default |
+|---|---|---|
+| **Uplink name** | Type the InnerSpace uplink name of another PC (in InnerSpace on that PC: its Remote name). | empty |
+| **+ Add** | Adds the typed name to the list. The log says whether it was added.<br>*The list is saved at once, for every profile on this PC.* |  |
+| **x (remove PC)** | Takes that PC off the list.<br>*Rows that name it keep the name; Start still tries to connect to it.* |  |
 
 ## Settings
 
@@ -76,6 +90,7 @@ Times are in tenths of a second: 150 means 15 seconds. The editor scrolls; these
 |---|---|---|
 | **Game** | The InnerSpace game entry used when a new session has to be launched. The list comes from the games set up in InnerSpace.<br>*Left empty, it saves as Everquest 2.* | Everquest 2 |
 | **Game profile** | The InnerSpace game profile used when a new session has to be launched. The list shows the profiles of the game chosen above. | everquest 2 default profile |
+| **ISBoxer character sets** | If you launch with ISBoxer, the character set to launch on each PC: one line for this PC (ThisUplink) and one for each other PC the rows name. Start launches every PC's set first (another PC's on that PC), then logs your characters into the sessions they opened, and launches only a session that is still missing.<br>*Each list shows that PC's sets from ISBoxer. Leave a line empty for a PC that does not use ISBoxer. A PC whose last row is removed keeps no set.* | empty (no ISBoxer) |
 | **Wait after load** | After new sessions are launched, how long to wait for them to load before logging anyone in. Only used when a session had to be launched. | 150 (15 seconds) |
 | **Wait between launches** | The pause after each new session is launched, before the next one. | 50 (5 seconds) |
 | **Login stagger - base** | The pause between one character's login and the next, so the server is not hit with every login at once. | 300 (30 seconds) |
@@ -117,8 +132,8 @@ At the opening window size these buttons are below the fold: scroll the right si
 
 - Saving changes to an existing profile needs Overwrite ticked, even if it is the profile you just opened.
 - Start runs the SAVED profile. Save first if you changed anything.
-- A run only handles rows for the PC it runs on (ThisUplink rows and rows naming this PC). Rows for another PC are skipped; to run them, copy the profile to that PC and start it there.
-- Profiles are saved as files in Scripts\OgreSave\EQ2\AutoLogin\Profiles. You can copy them to another PC; they hold no passwords.
+- Rows on another PC are run from this PC: it connects to that PC and drives its sessions there. That PC needs Ogre installed and the characters in its own saved account list - passwords never leave the PC they are saved on.
+- Profiles are saved as files in Scripts\OgreSave\EQ2\AutoLogin\Profiles. They hold no passwords, so they are safe to copy or share.
 - Characters must be in your saved account list so their account can be found when the profile runs.
 - Opening the window again while it is open does nothing, so the profile you are editing stays.
 
