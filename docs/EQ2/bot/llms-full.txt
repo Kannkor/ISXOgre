@@ -229,6 +229,16 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.10.26.003 {#r2026-10-26-003}
+
+*Monday, October 26, 2026 at 11:59 PM EDT*
+
+- **New** · Windows: **Scripts can move and size any Ogre window.** ISXOgreX.UI:Move[name,x,y] and ISXOgreX.UI:Size[name,width,height] place any open window by its name - your own, or OgreBot's such as mcp and osa - in the same screen pixels ${ISXOgreX.UI.Window[name]} reads back. A script's move is not saved; the window still opens where the player last put it. See Build your own window in the developer docs.
+- **Fixed** · Bot: **Camping out of a busy zone no longer crashes the game.** Camping to the login screen or to another character could crash the game about a second later, most often in a furnished guild hall with hundreds of objects. Ogre kept reading the zone's objects while the game was already removing them; it now lets go of them the moment the camp or zone starts.
+- **Fixed** · Bot: **ogre Name loads OgreBot once after switching characters.** Switching to another character with ogre Name while OgreBot was open loaded the bot twice in a row: once on its own for the new character and once more for the command. It now loads once, the way you typed it (for example ogre Name -p comes up paused).
+- **Fixed** · Crafting: **Crafting no longer skips recipes right after you zone.** After logging in or zoning, the game shows no recipes until the recipe book is opened, and the bot could not read a recipe's details until then, so it skipped the recipe ("could not determine the crafting device"). It now opens the book first and waits for the whole list to arrive.
+- **Fixed** · Setup: **Auto-Login no longer opens an extra session when one is still starting.** After ISBoxer launched a set, a session that was still starting did not answer in time, and Auto-Login launched another client in its slot. A session InnerSpace lists is now always used: Auto-Login waits for it to answer before logging into it, and never launches a second one.
+
 ## 2026.10.26.002 {#r2026-10-26-002}
 
 *Monday, October 26, 2026 at 9:35 PM EDT*
@@ -8271,6 +8281,30 @@ Ogre can hide a window without closing it: for example, when the player has Ogre
 InnerSpace console covers. A hidden window keeps the position it last had on screen. While the player
 drags or resizes a window, the position can be a frame behind.
 
+## Moving and sizing a window
+
+`ISXOgreX.UI:Move[name,x,y]` puts window `name`'s top-left corner at `x`, `y`. `ISXOgreX.UI:Size[name,width,height]`
+sets its size. Both take the same screen pixels `Window` reads back, at any window scale, so a number you read
+can go straight back in. They work on any open window, by its name: yours, or one of OgreBot's - the Master
+Control Panel is `mcp`, the OSA is `osa`, and `OgreUI_Opened` hands you every window's name as it opens.
+
+```
+ISXOgreX.UI:Move[mcp,100,200]
+ISXOgreX.UI:Size[mcp,520,340]
+echo MCP at ${ISXOgreX.UI.Window[mcp].X},${ISXOgreX.UI.Window[mcp].Y} size ${ISXOgreX.UI.Window[mcp].Width}x${ISXOgreX.UI.Window[mcp].Height}
+```
+
+- **It is not saved.** When the player moves or sizes a window, Ogre remembers it; a script's `Move` and `Size`
+  last until the window closes, and it opens at the player's spot next time. To place a window every time, move
+  it after it opens (on `OgreUI_Opened`).
+- It changes the window in this session only. Each session has its own windows.
+- A window that is not open: nothing happens. `x` and `y` must be whole numbers, `width` and `height` whole
+  numbers above 0; anything else prints a line in the console and changes nothing.
+- A window is always drawn where its title bar can be grabbed, and no smaller than Ogre's minimum or larger
+  than the screen. Ask for a spot or a size outside that and it is drawn at the nearest one it can be; `Window`
+  reads back what is drawn.
+- Like a `Set`, the change lands on the next frame: read `Window` a moment later, not on the very next line.
+
 ## The ? button
 
 Pass a help file as the third argument of `Open` and the **?** in your window's title bar shows it. The help
@@ -8403,6 +8437,8 @@ which replaces Ogre's entire UI and does not bring it back.
 | `.Y` | member of `Window` | - | int: screen pixels |
 | `.Width` | member of `Window` | - | int: screen pixels |
 | `.Height` | member of `Window` | - | int: screen pixels |
+| `ISXOgreX.UI:Move` | method | `name`, `x`, `y` | Puts window `name`'s top-left corner at `x`, `y` (screen pixels). Not saved. |
+| `ISXOgreX.UI:Size` | method | `name`, `width`, `height` | Sets window `name`'s size (screen pixels, above 0). Not saved. |
 | `OgreUI_Opened` | event | `name` | A window opened. |
 | `OgreUI_Closed` | event | `name`, `reason` | A window closed; `reason` is `closed` or `reload`. |
 | `ogreUISet` | function in your window | `name`, `id`, `value` | Same as `ISXOgreX.UI:Set`, from the window's own script. |

@@ -795,6 +795,30 @@ Ogre can hide a window without closing it: for example, when the player has Ogre
 InnerSpace console covers. A hidden window keeps the position it last had on screen. While the player
 drags or resizes a window, the position can be a frame behind.
 
+## Moving and sizing a window
+
+`ISXOgreX.UI:Move[name,x,y]` puts window `name`'s top-left corner at `x`, `y`. `ISXOgreX.UI:Size[name,width,height]`
+sets its size. Both take the same screen pixels `Window` reads back, at any window scale, so a number you read
+can go straight back in. They work on any open window, by its name: yours, or one of OgreBot's - the Master
+Control Panel is `mcp`, the OSA is `osa`, and `OgreUI_Opened` hands you every window's name as it opens.
+
+```
+ISXOgreX.UI:Move[mcp,100,200]
+ISXOgreX.UI:Size[mcp,520,340]
+echo MCP at ${ISXOgreX.UI.Window[mcp].X},${ISXOgreX.UI.Window[mcp].Y} size ${ISXOgreX.UI.Window[mcp].Width}x${ISXOgreX.UI.Window[mcp].Height}
+```
+
+- **It is not saved.** When the player moves or sizes a window, Ogre remembers it; a script's `Move` and `Size`
+  last until the window closes, and it opens at the player's spot next time. To place a window every time, move
+  it after it opens (on `OgreUI_Opened`).
+- It changes the window in this session only. Each session has its own windows.
+- A window that is not open: nothing happens. `x` and `y` must be whole numbers, `width` and `height` whole
+  numbers above 0; anything else prints a line in the console and changes nothing.
+- A window is always drawn where its title bar can be grabbed, and no smaller than Ogre's minimum or larger
+  than the screen. Ask for a spot or a size outside that and it is drawn at the nearest one it can be; `Window`
+  reads back what is drawn.
+- Like a `Set`, the change lands on the next frame: read `Window` a moment later, not on the very next line.
+
 ## The ? button
 
 Pass a help file as the third argument of `Open` and the **?** in your window's title bar shows it. The help
@@ -927,6 +951,8 @@ which replaces Ogre's entire UI and does not bring it back.
 | `.Y` | member of `Window` | - | int: screen pixels |
 | `.Width` | member of `Window` | - | int: screen pixels |
 | `.Height` | member of `Window` | - | int: screen pixels |
+| `ISXOgreX.UI:Move` | method | `name`, `x`, `y` | Puts window `name`'s top-left corner at `x`, `y` (screen pixels). Not saved. |
+| `ISXOgreX.UI:Size` | method | `name`, `width`, `height` | Sets window `name`'s size (screen pixels, above 0). Not saved. |
 | `OgreUI_Opened` | event | `name` | A window opened. |
 | `OgreUI_Closed` | event | `name`, `reason` | A window closed; `reason` is `closed` or `reload`. |
 | `ogreUISet` | function in your window | `name`, `id`, `value` | Same as `ISXOgreX.UI:Set`, from the window's own script. |

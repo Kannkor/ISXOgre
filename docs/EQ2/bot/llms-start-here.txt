@@ -230,6 +230,16 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.10.26.003 {#r2026-10-26-003}
+
+*Monday, October 26, 2026 at 11:59 PM EDT*
+
+- **New** · Windows: **Scripts can move and size any Ogre window.** ISXOgreX.UI:Move[name,x,y] and ISXOgreX.UI:Size[name,width,height] place any open window by its name - your own, or OgreBot's such as mcp and osa - in the same screen pixels ${ISXOgreX.UI.Window[name]} reads back. A script's move is not saved; the window still opens where the player last put it. See Build your own window in the developer docs.
+- **Fixed** · Bot: **Camping out of a busy zone no longer crashes the game.** Camping to the login screen or to another character could crash the game about a second later, most often in a furnished guild hall with hundreds of objects. Ogre kept reading the zone's objects while the game was already removing them; it now lets go of them the moment the camp or zone starts.
+- **Fixed** · Bot: **ogre Name loads OgreBot once after switching characters.** Switching to another character with ogre Name while OgreBot was open loaded the bot twice in a row: once on its own for the new character and once more for the command. It now loads once, the way you typed it (for example ogre Name -p comes up paused).
+- **Fixed** · Crafting: **Crafting no longer skips recipes right after you zone.** After logging in or zoning, the game shows no recipes until the recipe book is opened, and the bot could not read a recipe's details until then, so it skipped the recipe ("could not determine the crafting device"). It now opens the book first and waits for the whole list to arrive.
+- **Fixed** · Setup: **Auto-Login no longer opens an extra session when one is still starting.** After ISBoxer launched a set, a session that was still starting did not answer in time, and Auto-Login launched another client in its slot. A session InnerSpace lists is now always used: Auto-Login waits for it to answer before logging into it, and never launches a second one.
+
 ## 2026.10.26.002 {#r2026-10-26-002}
 
 *Monday, October 26, 2026 at 9:35 PM EDT*
