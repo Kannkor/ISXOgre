@@ -229,6 +229,12 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.10.27.003 {#r2026-10-27-003}
+
+*Tuesday, October 27, 2026 at 1:55 AM EDT*
+
+- **Fixed** · Bot: **Roaring Flames counts the enemies around its target, not around you.** The conjuror's Roaring Flames was marked as an area effect around you as well as around its target, so the ability export listed it for review and the Cast Stack counted the enemies near the conjuror. It is now an area effect at its target, radius 10, like Awaken Grave and Acid Storm. Run a new ability export to pick it up.
+
 ## 2026.10.27.002 {#r2026-10-27-002}
 
 *Tuesday, October 27, 2026 at 1:33 AM EDT*
