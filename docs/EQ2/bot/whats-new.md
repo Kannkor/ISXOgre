@@ -10,6 +10,14 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.10.27.002 {#r2026-10-27-002}
+
+*Tuesday, October 27, 2026 at 1:33 AM EDT*
+
+- **Fixed** · Bot: **A Cast Stack entry ignores its Target when the ability no longer needs one.** When an ability changes from single target to group (an epic upgrade, for example) and a new export says so, an entry still aimed at someone like @Tank kept trying to cast it on that one player, or not at all when they were missing. A self, group or raid buff now ignores the Target, and every such ability is cast plainly instead of on a named player; a group heal still waits until the named player is hurt.
+- **Fixed** · Bot: **Cast Stack buffs and heals can target a pet again.** A Cast Stack entry set to a pet (Pet: and the owner's name, as old OgreBot profiles have) was cast on the owner instead, so a pet-only buff such as Recapture failed with No eligible target and kept retrying. The bot now targets the pet, casts, and puts your target back, and it sees when the buff is already on the pet. Tick Enable Pets in Dropdowns to pick pets in the Target list.
+- **Fixed** · Crafting: **Quest crafting recognises two more Scrivener's Tale steps.** In The Scrivener's Tale, quest crafting did not recognise "Create the trunk and place it near Ghida" or "Create an item to speed Yrag up" as craft steps and left them for you. It now crafts the Non-operational Myrist Trunk and the Enchanted Running Shoes for them.
+
 ## 2026.10.27.001 {#r2026-10-27-001}
 
 *Tuesday, October 27, 2026 at 12:42 AM EDT*
