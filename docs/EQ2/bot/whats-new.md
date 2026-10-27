@@ -10,6 +10,12 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.10.27.001 {#r2026-10-27-001}
+
+*Tuesday, October 27, 2026 at 12:42 AM EDT*
+
+- **Fixed** · Crafting: **Quest crafting recognises the Seal of Bertoxxulous step.** In "A Stitch in Time, Part III", quest crafting did not recognise "Empower the seal of Bertoxxulous in the Cauldron of Contagion" as a craft step and left it for you. It now crafts Bertoxxulous' Seal of Disease for that step.
+
 ## 2026.10.26.003 {#r2026-10-26-003}
 
 *Monday, October 26, 2026 at 11:59 PM EDT*
