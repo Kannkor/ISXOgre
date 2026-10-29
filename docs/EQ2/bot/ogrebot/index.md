@@ -1,8 +1,8 @@
-# OgreBot Manager
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# OgreBot Manager
 
 > **:bulb: In game - the ? button on this window says**
 >
@@ -39,8 +39,10 @@ The title bar has the usual ? (help), lock and X buttons. When the profile has c
 
 | Control | What it does | Default |
 |---|---|---|
-| *** (yellow star)** | Shows that this profile has changes that are not saved yet. It appears on the small OgreBot window too. It goes away after a Save or a Reload.<br>*It counts every change, including ones made by commands or encounter scripts, not only clicks in this window.* | hidden |
+| *** (yellow star)** | Shows that this profile has changes that are not saved yet. Only this window shows it, not the small OgreBot window. It goes away after a Save or a Reload.<br>*It counts every change, including ones made by commands or encounter scripts, not only clicks in this window.* | hidden |
 | **Title bar close (X)** | Shuts OgreBot down completely, not just this window. Both OgreBot windows close. The Unload tab's list runs. Camp spot, follow and other movement are cleared, HUDs go away, travel routes and codex scans stop, and the profile is unloaded. Unsaved changes are thrown away and a warning is printed in the console.<br>*To get the window out of the way without stopping the bot, use Hide Main on the small OgreBot window instead.* |  |
+
+
 
 ## Header: class, profile, Save and Reload
 
@@ -53,6 +55,8 @@ The title bar has the usual ? (help), lock and X buttons. When the profile has c
 | **Save** | Asks 'Save current settings to <profile>?', then writes the loaded profile to disk. A message at the bottom says 'Profile saved', or 'No changes to save' if there was nothing to write.<br>*Nothing is saved automatically. Close OgreBot without saving and your changes are gone.* |
 | **Reload** | Throws away unsaved changes and reads the profile from disk again. The cast stack and every tab are refreshed. Settings that run when a profile loads run again.<br>*It only asks first if you changed something in this window. Changes made by commands or scripts are dropped without asking.* |
 
+
+
 ## Search
 
 Type part of a setting's name to find it on any tab. The list shows each match with the tab it lives on, and you can change the setting right there in the list.
@@ -64,6 +68,8 @@ Type part of a setting's name to find it on any tab. The list shows each match w
 | **Search (Search options...)** | Lists every setting, on every tab, whose name contains what you type (upper or lower case does not matter). Each match shows its tab name, for example '↪ Settings'. Click the tab name to jump to that tab, where the setting flashes.<br>*It searches setting names, not tab names. Settings for another archetype are not shown.* | empty |
 | **x (clear search)** | Clears the search and shows the tab you were on. Esc in the search box does the same. Clicking any tab also clears the search. |  |
 
+
+
 ## The tab list
 
 The tabs down the left are in three blocks. At the top: Auto Target, Cast Stack, Settings, Setup, then your class tab. In the middle: every other tab, A to Z. At the bottom: Admin, Debug, EQ2Chars, Key Binds, OgreConsole, Profiles, Relay Groups and Uplink Info. Each block is in A to Z order, except that the class tab is always last in the top block.
@@ -73,7 +79,9 @@ The tabs down the left are in three blocks. At the top: Auto Target, Cast Stack,
 | Control | What it does | Default |
 |---|---|---|
 | **A tab (click)** | Shows that tab's settings on the right. The tab you are on is outlined. | Settings |
-| **A struck-through tab (for example Auto-Hunt, Crowd Control)** | Not finished yet. Some of its settings do nothing yet, even though you can change and save them. That tab's own page says which ones work. The tab itself also says NOT FINISHED at the top. |  |
+| **A struck-through tab (for example Auto-Hunt, Item Embargo)** | Not finished yet. Some of its settings do nothing yet, even though you can change and save them. That tab's own page says which ones work. The tab itself also says NOT FINISHED at the top. |  |
+
+
 
 ## Your class tab
 
@@ -85,6 +93,8 @@ One tab is named after your class (Berserker in the picture). It holds the optio
 |---|---|
 | **<Your class> tab** | Options for your class only. Each class's options are described on the class tab pages.<br>*It follows the class of the loaded profile's character.* |
 
+
+
 ## Hover text
 
 [![Hover text](../assets/ogrebot/tooltip-option.png)](../assets/ogrebot/tooltip-option.png "Click for full size")
@@ -92,6 +102,8 @@ One tab is named after your class (Berserker in the picture). It holds the optio
 | Control | What it does |
 |---|---|
 | **Hover a setting or a struck-through tab** | After a short pause a box explains what the setting does, or why a tab is struck through.<br>*Buttons and list rows all over the window have hover text too - for example why a greyed Delete cannot be used, and what the yellow star means.* |
+
+
 
 ## Right-click a setting
 
@@ -103,6 +115,8 @@ Right-click a checkbox, text box, dropdown or slider to get two extra choices. T
 |---|---|
 | **Copy <setting name>** | Copies the setting's internal name (for example checkbox_settings_disablecaststack) to the clipboard. That is the name commands and scripts use, such as `-ChangeOgreBotUIOption`. |
 | **Apply this to my group (igw) via OC** | Sends this setting, with the value it has here, to everyone in your group, you included. If the For Who window is open, it goes to whoever that window has picked instead, and by IRC if it is set to IRC. If that window has nobody or everyone picked, it still goes to your group.<br>*Other characters get the change in memory only. They still have to Save.* |
+
+
 
 ## Profiles tab
 
@@ -120,6 +134,8 @@ A profile is a complete set of settings. One character can have several, for exa
 | **New profile name... (box)** | Type a name for a new profile. Press Enter or click Create. | empty |
 | **Create** | Makes a new profile that is a copy of the loaded one as it was last saved, and saves it to disk at once. You stay on the profile you had. Load the new one to use it.<br>*Unsaved changes are not copied: Save first if the copy should include them. Names are not case-sensitive, so 'raid' is refused if 'Raid' exists.* |  |
 | **Confirm box: OK / Cancel** | Save, Reload, Load and Delete ask here first. OK goes ahead (red for Delete). Cancel does nothing. |  |
+
+
 
 ## What the window shows
 

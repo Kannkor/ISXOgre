@@ -1,8 +1,8 @@
-# Cast Stack
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# Cast Stack
 
 The Cast Stack is the bot's main casting list. Every turn the bot walks the Cast order from the top and casts the FIRST entry that is allowed right now, so the order is your priority. The tab has three columns. Abilities (left) lists this character's abilities plus your registered items; click one to start a new entry. The entry editor (middle) sets the entry's Type, Target and optional conditions and options; only fields marked with a red * are required, and the fields shown change with the ability and the Type you pick. Press Add to put it at the bottom of the Cast order, ↑ Top to put it at the top, or Place and then click a row to put it just above that row. The Cast order (right) shows every entry coloured by its Type: click an entry to select it and open it in the editor, double-click to switch it off, drag an entry to move it, and click ▶ to see its settings. The filter above the Cast order shows only the entries that match any mix of their own settings and their ability's export fields, and the Enable / Disable buttons switch what it shows (or what you selected) on or off together. Ctrl+click or Shift+click entries to select several, then drag any one of them to move them all. Edits reach the running bot at once, but press Save at the top to keep them.
 
@@ -16,6 +16,8 @@ The Cast Stack is the bot's main casting list. Every turn the bot walks the Cast
 | **↔** | Makes the Abilities column wider or narrower. Hovering a cut-off name shows it in full. |
 | **Ability or item names** | Click one to start a new entry. A green name already has an entry in the Cast order. Ctrl+click a name to filter the Cast order to that ability or item. |
 
+
+
 ## Entry editor (middle column)
 
 | Control | What it does |
@@ -25,6 +27,8 @@ The Cast Stack is the bot's main casting list. Every turn the bot walks the Cast
 | **Update** | Shown while editing an existing entry: saves your changes to it. |
 | **+ New** | Shown while editing: adds a copy with your changes as a new entry at the bottom, leaving the original as it was. |
 | **Cancel** | Throws away what is in the editor without changing the Cast order. |
+
+
 
 ## Cast order (right column)
 
@@ -40,6 +44,8 @@ The Cast Stack is the bot's main casting list. Every turn the bot walks the Cast
 | **Double-click an entry** | Switches the entry off or back on. A switched-off entry is struck through and never cast, but keeps its place. |
 | **✕ (remove)** | Removes the entry. The Undo button below can put it back. |
 | **↶ Undo remove (N)** | Puts the last removed entry back where it was. It remembers up to 25 removals. |
+
+
 
 ## Good to know
 

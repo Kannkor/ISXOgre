@@ -868,6 +868,8 @@ The top line is the state (Moving in green, Failed in red, Arrived highlighted, 
 | **Close** | Closes the window. The trip carries on. The window comes back on the next trip (unless you turned that off with `ogre nav -nopanel`). |
 | **Title bar close (X)** | Hides the window, like Close. It comes back on the next trip. |
 
+
+
 ## What the window shows
 
 - State word: Moving, Planning (the route is being worked out, a little at a time so the game never freezes; the character waits until it is ready), Landing (coming down from flight), Waiting for mesh (the navigation map for this zone is still downloading; the trip starts by itself when it is ready), Arrived, Stopped (something ended the trip on purpose: you pressed STOP, or the bot that started the walk ended it), Failed (navigation could not get there, for example stuck or no route), or Idle.

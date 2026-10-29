@@ -1,8 +1,8 @@
-# Commands
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# Commands
 
 > **:bulb: In game - the ? button on this window says**
 >
@@ -42,6 +42,8 @@ The count on the right is how many commands you can use. The line under the sear
 | **Search commands...** | Narrows the list as you type. It matches a command's name, its other names, its title, what it takes and its description. While you search, the count shows how many match out of the total. |
 | **Result line** | Shows what was sent - for example `ran: ogre perf 10` in green - or, in red, why nothing was sent.<br>*It does not show the command's own output. Look in the InnerSpace console for that.* |
 
+
+
 ## A command row
 
 [![A command row](../assets/commands/args.png)](../assets/commands/args.png "Click for full size")
@@ -52,11 +54,14 @@ The count on the right is how many commands you can use. The line under the sear
 | **End** | Stops or closes the command, exactly as typing `ogre end <command>` would. Only shown for commands that have something to end. |
 | **Argument box (ogre <command> [ ... ])** | For a command that takes something after its name. Type it as you would after `ogre <command>`, then press Run or Enter. The grey text in the empty box shows what the command accepts.<br>*What you type is sent as typed - text with `${` in it is refused rather than worked out. For the exact meaning of each option, see that command's own page.* |
 
+
+
 ## Not ported yet
 
 Greyed rows marked NOT PORTED are commands the old bot had that the new bot does not have yet. They are listed so you can see what is still to come; they have no buttons.
 
 [![Not ported yet](../assets/commands/stubs.png)](../assets/commands/stubs.png "Click for full size")
+
 
 ## What the window shows
 

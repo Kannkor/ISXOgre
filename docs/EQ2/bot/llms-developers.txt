@@ -651,7 +651,7 @@ Every window shares one page, and your scripts run in that page's global scope.
 |---|---|
 | `ISXOgreX.UI:Open[name,path]` | Reads the file at `path` now; the window opens a moment later, once the UI is up. |
 | `ISXOgreX.UI:Open[name,path,helpPath]` | The same, and the **?** button shows the markdown file at `helpPath`. |
-| `ISXOgreX.UI:Close[name]` | Closes the window. The player can also close it with its **X**. |
+| `ISXOgreX.UI:Close[name]` | Closes the window. The player can also close it with its **X**. Like a `Set`, it lands on a later frame: on the very next line `Window` still exists and `Value` still answers; the `OgreUI_Closed` event marks the moment it is gone. |
 | `${ISXOgreX.UI.Window[name](exists)}` | `TRUE` while the window is open, `NULL` when it is not. |
 
 - **`Open` does not wait.** Straight after it, the window is not there yet. To act once it is, attach to
@@ -680,7 +680,7 @@ Every window shares one page, and your scripts run in that page's global scope.
 those cases apart from an empty text box.
 
 The value is kept up to date as the player types, clicks and picks. Elements that contain other elements
-(a `<div>` around your form, say) have no value.
+(a `<div>` around your form, say) have no value: `Value` answers `NULL` for them, as for an id that is not there.
 
 ## Changing elements
 
@@ -688,7 +688,7 @@ The value is kept up to date as the player types, clicks and picks. Elements tha
 
 | Element | What `Set` does |
 |---|---|
-| Checkbox, radio button | Ticks it for `TRUE`, `1`, `on` or `yes` (any case); unticks it for anything else. Ticking a radio button unticks the others in its group, and their `Value`s follow. |
+| Checkbox, radio button | Ticks it for `TRUE`, `1`, `on` or `yes` (any case); unticks it for anything else. From a script the bare tokens are fine: `ISXOgreX.UI:Set[hello,hello-shout,TRUE]`. Ticking a radio button unticks the others in its group, and their `Value`s follow. |
 | Text box, text area, slider, hidden input | Sets its value. For a dropdown's hidden input, the dropdown shows the new choice too. |
 | Anything else | Sets its text. |
 
@@ -738,8 +738,8 @@ event your script has attached an atom to, as hello does. Your script registers 
   uses `ISXOgreX.UI:Set`.
 - **Keep the command line fixed.** Do not build it from what the player typed: a `]` or a `"` in their text
   changes the command. Send a fixed command and let the script read the text with `Value`.
-- **The command line must be under 8,191 bytes.** A longer one is dropped whole, and nothing tells your
-  window or your script; the only trace is one line in the UI log. Send a short command and let the script
+- **The command line may be at most 8,191 bytes.** One of 8,192 bytes or more is dropped whole, and nothing tells
+  your window or your script; the only trace is one line in the UI log. Send a short command and let the script
   read what it needs with `Value`.
 
 ## Knowing when windows open and close
@@ -757,6 +757,9 @@ Two events fire for **every** window - yours, OgreBot's, and the help windows th
 - `OgreUI_Opened` fires every time a window is created, including your own re-open after a reload. It does
   not fire for an `Open` of a window that is already open, and it does not say why the window opened: keep
   your own note if you need to tell a first open from a re-open.
+- An `ogreCall` that your window's own script sends while the page is still loading reaches your script
+  BEFORE `OgreUI_Opened` fires: at that moment `Window` does not exist yet and every `Value` is `NULL`. A `Set`
+  you issue from there is still applied. Do your reads after the event, not from a load-time command.
 - The help window that the **?** button opens is named `help:` followed by the window's name, for example
   `help:hello`.
 - Hiding or showing a window does not fire them; only opening and closing does.
@@ -1003,7 +1006,7 @@ Each of these was checked in game on 2026-10-17 or 2026-10-18.
 | `localStorage` or `sessionStorage` | Throws `SecurityError: The operation is insecure.` Keep state in your script instead. |
 | `<script src="...">`, `<link rel="stylesheet" href="...">`, `<img src="...">` | Nothing loads, whether the path is a full `file:///` path or a relative one; the UI log says `Not allowed to load local resource: file:///...`. The window has no web address (`about:blank`). Put styles and scripts inline in your file, and images in as inline SVG or `data:` URIs. |
 | `console.log('...')` | Goes to `<InnerSpace folder>\x64\Extensions\ISXDK35\OgreUIRuntime\ISXOgreUIHost.log`, as a line ending `CONSOLE: ...`, not to the InnerSpace console. Every session on the PC writes to that one file. |
-| A command over 8,191 bytes through `ogreCall('cmd', ...)` | Dropped, with only a line in that same log. |
+| A command of 8,192 bytes or more through `ogreCall('cmd', ...)` (the cap is 8,191) | Dropped, with only a line in that same log. |
 | `<select>` | Drawn as a small empty box that cannot be clicked or opened. Use the gallery's dropdown. |
 | `<input type="number">` | No up/down arrows. Only digits can be typed: a letter empties the box. Use a text box, or the gallery's number field or stepper. |
 | `<input type="color">` | Drawn as a text box showing the color code; clicking it opens nothing. Use the gallery's color picker. |

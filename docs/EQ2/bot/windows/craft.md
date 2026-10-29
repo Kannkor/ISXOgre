@@ -1,8 +1,8 @@
-# Ogre Craft 3
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# Ogre Craft 3
 
 > **:bulb: In game - the ? button on this window says**
 >
@@ -22,7 +22,7 @@
 > - `ogre end craft` stops everything crafting is doing, not just this window.
 > - The list shows at most 200 recipes - use the filters to narrow it.
 
-**Open it:** Type `ogre craft` (also `ogre craft2` or `ogre ogrecraft`). `ogre end craft` closes the window AND ends all crafting: the run, craft's own movement, a summoned station and Craft Lite.
+**Open it:** Type `ogre craft` (also `ogre craft2`). `ogre end craft` closes the window AND ends all crafting: the run, craft's own movement, a summoned station and Craft Lite.
 
 [![Ogre Craft 3](../assets/craft/window.png)](../assets/craft/window.png "Click for full size")
 
@@ -43,6 +43,8 @@ Always visible. The green text next to OGRE CRAFT is what the bot is doing right
 | **Stop** | Stops whatever is running (queue, writs, quest, tinkering or leveling). A walk in progress stops too.<br>*Stop also cancels a Pause. After a writ or quest run your own setup queue is put back.* |  |
 | **Pause** | Holds the run where it is without ending it: a craft already begun finishes, nothing new starts and craft's walking stands still. Untick to carry on.<br>*A pause with nothing running is dropped when the next run starts.* | off |
 
+
+
 ## Save and Reload (bottom of the window)
 
 The grey text on the right: how many recipes are in your recipe book, how many reaction arts were cast, which server type (live or Origins), and whether Craft Lite is on (green) or off (red).
@@ -54,6 +56,8 @@ The grey text on the right: how many recipes are in your recipe book, how many r
 | **Save Settings** | Writes the settings to disk now. You rarely need it: every change saves by itself about a second later.<br>*Settings live in OgreSave/EQ2/Craft/settings.json.* |
 | **Reload** | Re-reads the settings from disk, throwing away any change that has not been saved yet. |
 | **Tab list (left)** | Switches between the seven tabs. Display only. |
+
+
 
 ## Recipes tab - Show, Sort and Filter
 
@@ -77,6 +81,8 @@ These decide which recipes from your book appear in the list below. They are als
 | **part of a recipe name (search box)** | The text to search for when Search with is ticked. | empty |
 | **C** | Clears the search box. |  |
 
+
+
 ## Recipes tab - adding to the setup queue
 
 [![Recipes tab - adding to the setup queue](../assets/craft/recipes-add.png)](../assets/craft/recipes-add.png "Click for full size")
@@ -88,6 +94,8 @@ These decide which recipes from your book appear in the list below. They are als
 | **Start quest** | Crafts the quest that is selected in your quest journal: one of each recipe the quest's steps ask for, then re-reads the quest and goes again, until no craft step is left. Your setup queue is put aside and given back at the end.<br>*Select the quest in your journal first. Greyed out while anything is running. If a step needs a component you do not have yet (one the quest has you gather), it waits for it, counting again whenever your bags change (at most every 5 seconds); after 60 minutes it stops and says what is still missing.* |  |
 | **Rescan recipe book** | Reads every recipe in your recipe book again. Use it after learning new recipes if they do not show up. |  |
 
+
+
 ## Recipes tab - the recipe list
 
 Level, name and technique of each recipe that passes the filters. Click a row to highlight it; double-click to add it with the current Quantity. Hover a row for its tradeskill. The line under the list says 'Showing X of Y recipes'.
@@ -97,6 +105,8 @@ Level, name and technique of each recipe that passes the filters. Click a row to
 | Control | What it does |
 |---|---|
 | **Click / double-click a recipe row** | Click highlights the recipe for Add Recipe. Double-click adds it straight away. |
+
+
 
 ## Queues tab - the setup queue
 
@@ -111,6 +121,8 @@ The recipes waiting to be crafted by Start Queue.
 | **× (remove from the queue)** | Removes the recipe from the setup queue. |
 | **Clear Queue** | Empties the setup queue. No confirmation. |
 
+
+
 ## Queues tab - save and load a queue
 
 [![Queues tab - save and load a queue](../assets/craft/queues-save.png)](../assets/craft/queues-save.png "Click for full size")
@@ -122,17 +134,21 @@ The recipes waiting to be crafted by Start Queue.
 | **Load Queue** | Replaces the setup queue with the saved queue of that name. Recipes this character does not know are left out and named in the console. |  |
 | **Saved queue names (buttons)** | One button per saved queue. Click one to put its name in the Queue name box. It does not load it. |  |
 
+
+
 ## Queues tab - the active queue
 
 What the running (or last) queue is crafting, with 'done / wanted' per recipe. A recipe the bot had to skip says 'skipped'; hover it to see why.
 
 [![Queues tab - the active queue](../assets/craft/queues-active.png)](../assets/craft/queues-active.png "Click for full size")
 
+
 ## Queues tab - resources
 
 Built when a queue starts: every component and fuel the queue needs, how many it needs and how many you have. Red rows are short. Rows marked FUEL are bought from the fuel merchant; missing components are only reported - the bot crafts anyway, except in a quest run, which waits for them.
 
 [![Queues tab - resources](../assets/craft/queues-resources.png)](../assets/craft/queues-resources.png "Click for full size")
+
 
 ## Crafting Options tab - craft targets
 
@@ -144,6 +160,8 @@ Built when a queue starts: every component and fuel the queue needs, how many it
 | **Min. Durability** | When to switch to durability-saving reactions. The value is times 10 on the game's 0-1000 durability scale: at 100 the bot protects durability as soon as it drops below full; at 50 only once it is down to 500. | 100 |
 | **Power to craft** | The bot waits before starting each craft until your power is at least this much. The status shows 'waiting for power'. | 40 |
 | **Power to save** | Reaction arts that cost power are not used while your power is at or below this, so you keep a reserve. | 20 |
+
+
 
 ## Crafting Options tab - behaviour
 
@@ -162,6 +180,8 @@ Built when a queue starts: every component and fuel the queue needs, how many it
 | **Skip Fuel Merchant** | Never walks to the fuel merchant to buy missing fuel. | off |
 | **Do NOT load recipes on startup** | Opening the window no longer reads your recipe book automatically. It is read when a run or Rescan needs it. | off |
 
+
+
 ## Crafting Options tab - commissions and server calls
 
 [![Crafting Options tab - commissions and server calls](../assets/craft/options-bottom.png)](../assets/craft/options-bottom.png "Click for full size")
@@ -171,6 +191,8 @@ Built when a queue starts: every component and fuel the queue needs, how many it
 | **Accept commissions** | When someone opens a commissioned-work window on you and accepts the terms, the bot accepts too and crafts it.<br>*Only while the craft window is open (`ogre craft` until `ogre end craft`); Craft Lite alone does not accept.* | off |
 | **Only from characters in your account list** | Only accepts commissions from characters in your saved account list (the same list that may send the bot chat commands). Off = anyone who opens a commission on you is accepted. | on |
 | **Allow recipe-info server call (required to craft)** | Lets the bot ask the game server for a recipe's station and component list (the station and list are remembered per recipe; how many you have is read each time a queue is planned). Off: a queue stops because it cannot plan resources. With 'Do not process resources' ticked it still crafts, but skips any recipe whose station it has not remembered yet.<br>*Turning it off shows an orange warning at the top of the window.* | on |
+
+
 
 ## Navigation tab
 
@@ -183,6 +205,8 @@ Built when a queue starts: every component and fuel the queue needs, how many it
 | **Use the closest station** | On = the nearest station that can make the recipe. Off = the first one in the order the station list gives. | on |
 | **[SCRIPTERS] Use EVENTS to manage movement yourself** | For script writers: before walking, craft fires an event and waits for your script to move the character (or hand the walk back).<br>*Leave off unless you have a script that answers it - otherwise craft waits until you press Stop or untick this box.* | off |
 
+
+
 ## Writs tab
 
 [![Writs tab](../assets/craft/writs.png)](../assets/craft/writs.png "Click for full size")
@@ -193,6 +217,8 @@ Built when a queue starts: every component and fuel the queue needs, how many it
 | **Writ Option** | Which reply to click at the rush order agent, counted from the top (1 to 4). It is a position, not a level - if you get the wrong tier of writ, change it. | 1 |
 | **Camp when finished writs** | Camps to the desktop when a writ run ends by itself (finished or failed).<br>*Never camps after you press Stop, or after a death.* | off |
 | **Start Writs** | Starts the writ run. Your setup queue is put aside during the run and given back at the end.<br>*Greyed out while anything is running. Needs tradeskill level 20+.* |  |
+
+
 
 ## Auto Tinkering tab
 
@@ -207,6 +233,8 @@ Built when a queue starts: every component and fuel the queue needs, how many it
 | **Sell/Destroy after each round instead of at the end** | On = get rid of the items after every round. Off = keep them until the run ends, then sell/destroy them all in one trip. | on |
 | **Start Auto Tinkering** | Repeats rounds (buy tinkering books, craft, sell/destroy) until tinkering is maxed.<br>*Greyed out while anything is running.* |  |
 
+
+
 ## Low Level Leveling tab
 
 [![Low Level Leveling tab](../assets/craft/lll.png)](../assets/craft/lll.png "Click for full size")
@@ -219,6 +247,8 @@ Built when a queue starts: every component and fuel the queue needs, how many it
 | **Destroy what is crafted (selling wins if both are set)** | Destroys the items the run made. If Sell is also ticked, they are sold instead. | off |
 | **Sell/Destroy after each round instead of at the end** | On = after every round. Off = once at the end of the run. | on |
 | **Start Low Level Leveling** | Levels a crafter from 1 to 9 and from 10 to 19. It stops at level 9 and at 19 - go see a crafting trainer, then start it again.<br>*Greyed out while anything is running.* |  |
+
+
 
 ## What the window shows
 

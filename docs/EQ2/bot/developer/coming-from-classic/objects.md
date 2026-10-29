@@ -134,7 +134,7 @@ call Obj_OgreUtilities.HandleWaitForCombat -TimeOutIfNoProgress 30
 | `Obj_OgreUtilities.IsAnyoneDead` | reads NULL | — | ⛔ Not ported yet | Classic: any group member (me included) is dead; 5 calls in. New: no script-facing read (see AnyGroupMembersDead); the IC's path / named holds read it privately. |
 | `Obj_OgreUtilities.IsGroupDead` | reads NULL | `onWipe` | 📄 In a data file now | Nothing to test in the file: author the recovery as the `onWipe` list (and `afterWipe`). No script-facing 'group is dead' member exists. |
 | `Obj_OgreUtilities.IsGroupDeadOrNoRes` | reads NULL | — | ⛔ Not ported yet | Classic: someone is dead AND (everyone is dead OR no living priest); 2 calls in/:661. New: no script-facing or data-file read; the IC wipe watch tests 'everyone dead' only. |
-| `Obj_OgreUtilities.ItemCount` | does nothing (stub) | `OgreBotAPI.Inventory.Count` *(does nothing yet)* | ⛔ Exists, does nothing yet | Do NOT use OgreBotAPI.Loot.ItemCount: it is SmartLoot's count of distinct capped item names, not a bag count. The data-file condition `hasItem` answers only 'is it in my bags' ( cond_hasItem). |
+| `Obj_OgreUtilities.ItemCount` | does nothing (stub) | `OgreBotAPI.Inventory.Count` *(does nothing yet)* | ⛔ Exists, does nothing yet | Do NOT use OgreBotAPI.Loot.ItemCount: it is SmartLoot's count of distinct capped item names, not a bag count. The data-file condition `hasItem` answers only 'is it in my bags'. |
 | `Obj_OgreUtilities:Jump` | does nothing | `OgreBotAPI.Movement:Jump` | ⚠️ Arguments changed | For-who is new as argument 0. |
 | `call Obj_OgreUtilities.LoginToon` | does nothing | `ogre login` | ➡️ Lives somewhere else | It does not wait; the login runs in the adapter. |
 | `call Obj_OgreUtilities.NavTo` | does nothing | `OgreBotAPI.Movement:NavTo` | ⚠️ Arguments changed | For-who is argument 0; no _HowClose and no wait (see NavToLoc). |
@@ -357,7 +357,7 @@ call Obj_OgreUtilities.HandleWaitForCombat -TimeOutIfNoProgress 30
 | `GetInfoOb:UnflagToon` | does nothing | `OgreBotAPI.Roster:Unflag` `[fw,n=1]` | ⚠️ Arguments changed | Note B |
 | `GetInfoOb:UnmarkToon` | does nothing | `OgreBotAPI.Roster:Unmark` `[fw]` | ⚠️ Arguments changed | Note B |
 | `GetInfoOb.UplinkName` | reads NULL | `OgreBotAPI.Comms.UplinkName` | ➡️ Moved |  |
-| `call GetInfoOb.WaitForCasting` | does nothing | — | ⛔ Not ported yet | a blocking wait on 'am I still casting'. Rule 9 routes casts through the one chokepoint, which owns its own sequencing - the new surface has no wait-for-cast helper. `Abilities.CancelCurrentCast` reads the current cast. |
+| `call GetInfoOb.WaitForCasting` | does nothing | — | ⛔ Not ported yet | a blocking wait on 'am I still casting'. It casts nothing: its whole body is `wait ${_TimeToWaitForCasting} ${Me.CastingSpell}` then `while ${Me.CastingSpell} wait 3` - wait for a cast to start, then for it to finish. No wait-for-cast helper was built: `${Me.CastingSpell}` is a plain ISXEQ2 read, so a script writes the wait itself. `Abilities.CancelCurrentCast` is not the cast: it reads the manual cancel flag. |
 
 ## ClassInfo
 

@@ -1,8 +1,8 @@
-# OgreBot
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# OgreBot
 
 > **:bulb: In game - the ? button on this window says**
 >
@@ -18,7 +18,7 @@
 > **Good to know**
 >
 > - The X on this window stops OgreBot completely, the same as the X on the main window. Unsaved changes are lost.
-> - A yellow star (*) in the title bar means the profile has unsaved changes. Hover over it to see that.
+> - Unsaved changes show as a yellow star (*) on the main OgreBot window only, not on this one.
 > - Your choices from the cog are kept for next time.
 > - Pause only affects this character. Commands you send still work while paused.
 
@@ -41,6 +41,8 @@ Both lines update by themselves while the bot runs. Here the character name is t
 | **Top line** | Shows your class, for example Templar. If you tick Character name in the cog, your name comes first: Kannkor · Templar. If neither is ticked, the line goes away and the buttons get the room. | your class |
 | **Status line (bottom)** | What the bot is doing right now. Only the first of these that is true shows: Paused, then Cast: and the ability the bot is casting, then Item: and the item it is using, then Following and who it follows, then Campspot active, and otherwise Idle.<br>*Cast: and Item: show only what the bot itself casts or uses, not what you click.* | shown |
 
+
+
 ## Pause and Resume
 
 [![Pause and Resume](../assets/ogremini/pause.png)](../assets/ogremini/pause.png "Click for full size")
@@ -48,6 +50,8 @@ Both lines update by themselves while the bot runs. Here the character name is t
 | Control | What it does | Default |
 |---|---|---|
 | **Pause / Resume** | Pause stops this character's bot from acting on its own, for example: no new casts from the cast stack, no following, no pulling back to the camp spot, no looting, no auto-targeting, no Auto-Hunt. Commands you send still work. The button turns yellow and reads Resume. Click it to start the bot again.<br>*Only this character pauses, not the group. If something else pauses or resumes the bot, the button updates by itself.* | running (Pause shown) after `ogre`; paused after `ogre -p` or `ogre -ph` |
+
+
 
 ## Show / Hide the main window
 
@@ -57,14 +61,19 @@ Both lines update by themselves while the bot runs. Here the character name is t
 |---|---|---|
 | **Hide Main / Show Main** | Hides the big OgreBot window, or shows it again. The bot keeps running either way. Only the window is hidden. | Show Main (the big window starts hidden after `ogre`) |
 
+
+
 ## Title bar
+
+Besides the usual ? (help) and lock, the title bar has the cog, which picks what this window shows (see below), and the X. The title is cut short to keep the window small. Unsaved changes show only on the big OgreBot window.
 
 [![Title bar](../assets/ogremini/titlebar.png)](../assets/ogremini/titlebar.png "Click for full size")
 
-| Control | What it does | Default |
-|---|---|---|
-| **\* (yellow star)** | The profile has changes that are not saved yet. Hover over it to see that. Save them on the big OgreBot window. | hidden |
-| **Title bar close (X)** | Shuts OgreBot down completely, the same as the X on the big window. Both windows close, movement and HUDs stop, the profile is unloaded, and unsaved changes are thrown away.<br>*To just get the big window out of the way, use Hide Main.* |  |
+| Control | What it does |
+|---|---|
+| **Title bar close (X)** | Shuts OgreBot down completely, the same as the X on the big window. Both windows close, movement and HUDs stop, the profile is unloaded, and unsaved changes are thrown away.<br>*To just get the big window out of the way, use Hide Main.* |
+
+
 
 ## Choosing what the window shows
 
@@ -74,11 +83,13 @@ The cog in the title bar opens a short list in place of the buttons. Tick what y
 
 | Control | What it does | Default |
 |---|---|---|
-| **Title bar cog** | Opens the list. Click the cog again to close it without saving. |  |
+| **Title bar cog** | Opens the list. The window gets bigger while the list is open and goes back to its own size when it closes. Click the cog again to close it without saving. |  |
 | **Class** | Shows your class on the top line. | on |
 | **Character name** | Shows your character's name on the top line, in front of the class. | off |
 | **What the bot is doing** | Shows the status line under the buttons. | on |
 | **Done** | Saves your ticks, closes the list and brings the buttons back. The choice is kept for next time. |  |
+
+
 
 ## What the window shows
 

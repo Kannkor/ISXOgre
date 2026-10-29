@@ -214,6 +214,8 @@ Codex Toons uploads a snapshot of your own character (gear and stats) to the EQ2
 | **View My Group/Raids** | Opens your saved groups and raids on eq2codex.com in your web browser. |  |
 | **Auto-upload my toon snapshot to Codex when I camp (-camp / logout)** | When the bot camps you out, it first starts an upload of your toon snapshot. The camp does not wait for the upload.<br>*Only camps done by the bot count, not a /camp you type yourself.* | off |
 
+
+
 ## Good to know
 
 - Nothing uploads until an API token is saved with Setup API Token. The same token is used by Codex Inspect.
@@ -265,30 +267,29 @@ Consume Items keeps you using items such as potions and temporary buffs. While t
 
 Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/crowd-control.md
 
-# Crowd Control (not finished)
+# Crowd Control
 
-> **:warning: Not finished**
->
-> OgreBot marks this tab as not finished (its name is struck through). Some options below work and some do not yet - each one says which.
-
-Crowd Control is not active yet in the new bot. Its settings are saved with your profile, but nothing uses them, which is why the tab is struck through in the tab list. When it is built, the bot will mez (or root) extra mobs that are attacking your group, using the abilities in the Priority Order list, top first, and leaving the mob you are killing alone.
+With Enable Crowd Control ticked on the Settings tab, the bot mezzes (or roots) the extra mobs that are attacking your group, using the abilities in the Priority Order list, top first. It never mezzes the mob your group is killing, and it renews a mez when it has 10 seconds or less left.
 
 | Option | What it does | Default |
 |---|---|---|
 | **Full Ability list** | Your abilities, with a search box. Click one and press Add (or double-click it) to put it in the Priority Order list. | filled from your ability export |
-| **Priority Order** | **Not active yet.** It will be the mez abilities to use, top first.<br>*Drag to reorder, double-click to switch a row off, x to remove. Clicking a row loads it back into the form.* | empty |
+| **Priority Order** | The mez abilities to use, top first. The bot uses the first one that is ready and can reach the add. Double-click a row to turn it off without removing it.<br>*Drag to reorder, double-click to switch a row off, x to remove. Clicking a row loads it back into the form.* | empty |
 
 ## Crowd Control
 
 | Control | What it does | Default |
 |---|---|---|
-| **Allow Epics as Valid Targets** | **Not active yet.** It will let the bot mez epic mobs as well as ordinary ones. | off |
+| **Allow Epics as Valid Targets** | Off: the bot never mezzes an epic mob. On: epic mobs can be mezzed like any other add. | off |
 | **Add** | Adds the ability you clicked on the left to the bottom of the Priority Order list. Next to it you see the picked ability, or 'click an ability on the left' until you pick one. |  |
 
 ## Good to know
 
-- Nothing on this tab does anything yet, and neither does 'Enable Crowd Control' on Settings.
-- You can still set up the list now: it is saved with your profile and will be used once the feature is built.
+- Only mobs within 30 metres that are attacking someone in your group or raid are mezzed. A mob that is just standing nearby is left alone.
+- The mob your group is killing is never mezzed: your own target, and the target of the person you assist.
+- To cast a mez the bot briefly targets the add, then gives you your target back. It also turns auto-attack off first, because a swing would break the mez.
+- The bot only knows about its own mezzes. It does not see a mez another player put on a mob.
+- Nothing is mezzed in a city unless Allow City Casting is ticked, or while an encounter has told the group to stop attacking.
 
 
 ---
@@ -473,6 +474,8 @@ Invis Abilities lists the stealth abilities the bot may use to open a Cast Stack
 | **Invis Abilities for Combat Arts** | Your abilities that grant stealth. Type in the search box to narrow it, and double-click an ability to add it to the Invis Cast List.<br>*An ability already on the right-hand list is not added twice.* | filled from your ability export |
 | **Invis Cast List** | The stealth openers to try, in order. Before a Cast Stack ability that needs stealth, the bot casts the first one here that is ready.<br>*Switched-off rows are skipped.* | empty |
 
+
+
 ## Invis Abilities
 
 | Control | What it does |
@@ -480,6 +483,8 @@ Invis Abilities lists the stealth abilities the bot may use to open a Cast Stack
 | **Drag a row** | Drag a row up or down to change which opener is tried first. |
 | **Double-click a row** | Switches that ability off or back on. A switched-off row is struck through and never used. |
 | **x (remove)** | Removes that ability from the list. |
+
+
 
 ## Good to know
 
@@ -824,6 +829,8 @@ The left column controls the bot's daily Overseer run. The bot opens the Oversee
 | **Use Agents with Traits that are NEGATIVE** | Also send agents that carry a trait the mission dislikes, when it needs more agents to start the mission. They are used last.<br>*Never used for Mishap missions.* | off |
 | **Try EVERY quest each run (keep going until your charges hit 0 or no agents are left)** | Normally the bot tries at most 50 missions per run. Tick this to try every mission in the list once, stopping early only when no agent is free. | off |
 
+
+
 ## Overseer - Manual run
 
 | Option | What it does |
@@ -831,6 +838,8 @@ The left column controls the bot's daily Overseer run. The bot opens the Oversee
 | **Overseer: idle** | Shows what the Overseer run is doing: 'running' with the current step and how many missions it has started and turned in, or 'idle' with the totals from the last run. |
 | **Start Overseer Now** | Starts the daily Overseer run now. It ignores the guild hall box, combat, and the one-hour wait between runs. It does nothing if a run is already going, or if 'Do not touch overseer at all no matter what' is ticked.<br>*OgreBot must have a profile loaded.* |
 | **Stop** | Stops the daily Overseer run that is in progress, and a Buy Missions run too. |
+
+
 
 ## Overseer options - For BUYING missions.
 
@@ -854,8 +863,10 @@ The left column controls the bot's daily Overseer run. The bot opens the Oversee
 | **No Scribe Missions** | Normally the bot uses each copy of a mission right after buying it, to add it to your Overseer missions. Tick this to leave the scrolls in your bags. | off |
 | **Destroy Extra Missions Purchased** | After using the scrolls, the bot destroys any copies of that mission still in your bags.<br>*This includes copies you had before the run.* | off |
 | **Get to GH when done** | When a buy run finishes, each character travels to its own guild hall, the same as the Get To GH button. It does not happen if the run is stopped or fails. | off |
-| **Buy Missions** | Starts a buy run for this character with the options above. It uses the merchant window if it is open; otherwise it opens the nearest Administrator Agent, which must be within 10. Then it buys, uses and (if ticked) destroys the scrolls, one mission at a time.<br>*OgreBot must have a profile loaded. To stop it, type `buyoverseermissions stop`.* |  |
+| **Buy Missions** | Starts a buy run for this character with the options above. It uses the merchant window if it is open; otherwise it opens the nearest Administrator Agent, which must be within 10. Then it buys, uses and (if ticked) destroys the scrolls, one mission at a time.<br>*OgreBot must have a profile loaded. To stop it, type `ogre buyoverseermissions stop`.* |  |
 | **Buy Missions via OgreConsole** | Sends a buy run, with this screen's season, colour and amounts, to every character picked in the MCP For-Who window (everyone if it was never set). Each of them must be standing at its own Administrator Agent.<br>*No Scribe, Destroy and Get to GH are sent as they are set here, ticked or not, so every character uses this screen's choices, not its own tab.* |  |
+
+
 
 ## Good to know
 
@@ -864,7 +875,7 @@ The left column controls the bot's daily Overseer run. The bot opens the Oversee
 - Ticking a 'do not' box during a run does not stop it. Press Stop. The mission and agent choices do change mid-run, from the next mission the bot picks.
 - The Skip Treasured/Legendary/Fabled/Celestial boxes only skip plain missions. A charged mission of that colour is still started.
 - The agent boxes never apply to Mishap missions. Those use a Mishap agent first if one is free, then only agents with helpful traits or no traits.
-- Stop stops a Buy Missions run too. `buyoverseermissions stop` also works.
+- Stop stops a Buy Missions run too. `ogre buyoverseermissions stop` also works.
 - Season and Colour are one choice each: ticking a box unticks the others in its column. 'Any', or nothing ticked, means no filter.
 - 'Destroy Extra Missions Purchased' destroys every copy of that mission left in your bags, including copies you had before. With 'No Scribe Missions' also ticked, it buys the scrolls and then destroys them all.
 

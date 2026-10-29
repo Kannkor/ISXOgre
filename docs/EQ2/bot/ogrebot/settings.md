@@ -1,8 +1,8 @@
-# Settings
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# Settings
 
 Settings holds the master controls for what the bot is allowed to cast. Column 1 switches whole groups of the Cast Stack off (buffs, heals, cures, combat arts, items, and so on), and holds a few overrides: treating every target as named, the line-of-sight check, and item zone limits. Column 2 sets the area-attack rules (the Smart CAs minimum target counts, plus the "Dynamic Ignore" boxes, which are not saved and which scripts tick and untick during fights) and the per-category bans, such as no stuns or no roots. Column 3 controls Heroic Opportunities (HOs): which HO steps this character does, how it aims them, Heroic Surge, and which HO-icon abilities the normal rotation must leave alone. Column 4 limits threat abilities, but only when the bot picks an ability for a script, a command or an HO. The normal Cast Stack ignores column 4.
 
@@ -38,6 +38,8 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Disable Pre-Cast tab** | Nothing on the Pre-Cast tab fires (the rules that cast one ability before another).<br>*Do HO ticks this for the group while it runs and restores it afterwards.* | off |
 | **Disable Post-Cast tab** | Nothing on the Post-Cast tab fires (the rules that cast one ability after another).<br>*Do HO ticks this for the group while it runs and restores it afterwards.* | off |
 
+
+
 ## Cast Stack (2 of 5)
 
 [![Cast Stack (2 of 5)](../assets/ogrebot/tab-settings-s2.png)](../assets/ogrebot/tab-settings-s2.png "Click for full size")
@@ -63,6 +65,8 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Attack NPC with 100% HP** | The bot ignores the '% NPC HP to attack' and '% NPC HP for pet to attack' settings on the Setup tab and treats a mob at any health as fair game. That covers hostile Cast Stack attacks, sending the pet or mercenary, moving into combat range, Turn Off Attack and Cancel Invis After Combat. | off |
 | **Cast while moving** | Normally the bot will not start a spell while you are moving; melee arts and a few class, buff or zone exceptions are allowed. Tick this to let it cast anything while moving. It applies to the Cast Stack and to the bot's other casts, such as HOs. | off |
 | **Allow City Casting** | In the main cities (the Qeynos, Freeport and Neriak districts and villages) the bot does not cast its Cast Stack, turn on auto-attack, face the mob, send the pet or mercenary, loot in combat or auto-target mobs that hate you. Tick this to allow all of that in cities too. Abilities you ask for by command or script still cast. | off |
+
+
 
 ## Cast Stack (3 of 5)
 
@@ -108,6 +112,8 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Disable HO 41 (coin)** <small>(scouts only)</small> | Scouts only: your rotation will not cast your abilities that carry the coin HO icon. The bot's own HO steps can still use them.<br>*Do HO always ticks this, because the coin icon changes the HO window.* | off |
 | **Ignore Balanced Synergy** | When a group member's cast stack asks the group to cast Balanced Synergy, this character does not join in.<br>*Balanced Synergy is cast by the whole group together: a character with it in its cast stack as Custom, fighting a target within its % to attack, asks the group to cast it 10 seconds later. Fight setups that drive Balanced Synergy themselves (Sypheria the Shackled) tick this.* | off |
 
+
+
 ## Cast Stack (4 of 5)
 
 [![Cast Stack (4 of 5)](../assets/ogrebot/tab-settings-s4.png)](../assets/ogrebot/tab-settings-s4.png "Click for full size")
@@ -125,6 +131,8 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Only if a fighter is not tanking** | When picking an HO ability, the bot skips hate-increasing abilities unless a fighter player is tanking the mob. Unlike the other two groups, the ignore list is not used here.<br>*Only affects HO picks.* | off |
 | **No Threat Position Decreases** | The bot never chooses abilities that move you down the hate list when a script or command asks for an ability, or when it picks an HO ability.<br>*Your normal Cast Stack still casts them if they are on it.* | off |
 | **No Threat Decrease** | The bot never chooses hate-reducing abilities when a script or command asks for an ability, or when it picks an HO ability.<br>*Your normal Cast Stack still casts them if they are on it.* | off |
+
+
 
 ## Cast Stack (5 of 5)
 
@@ -154,6 +162,8 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Noxious** | Allows automatic cure potions to be used for Noxious. | off |
 | **Trauma** | Allows automatic cure potions to be used for Trauma. | off |
 
+
+
 ## Combat (1 of 2)
 
 [![Combat (1 of 2)](../assets/ogrebot/tab-settings-s6.png)](../assets/ogrebot/tab-settings-s6.png "Click for full size")
@@ -179,6 +189,8 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Disable anti-fear (crouch and walk while feared)** | When you are feared, the bot crouches you and switches you to walking, so you do not run as far; when the fear ends it stands you up and switches you back to running - only what it changed (already walking or crouched stays that way). It works only while OgreBot is loaded; pausing OgreBot freezes it (nothing changes until you resume). Tick this to switch it off - anything it changed is put back at once. |  |
 | **Disable Auto-Defensives** | **Not active yet.**  | off |
 | **Enable CD T4 Weapons** | **Not active yet.**  | off |
+
+
 
 ## Combat (2 of 2)
 
@@ -206,6 +218,8 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Allow moving to cast** | Lets the bot move you into range to cast the Destiny of Velious (DoV) raid debuff, when the request to cast it does not say otherwise. | off |
 | **Enable PvP** | **Not active yet.**  | off |
 
+
+
 ## Tab Enables
 
 [![Tab Enables](../assets/ogrebot/tab-settings-s8.png)](../assets/ogrebot/tab-settings-s8.png "Click for full size")
@@ -215,7 +229,7 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Enable Chat Events** | Turns on the Chat Events tab. When a chat line matches one of its rows, the bot does that row's actions: send a line to OgreConsole, play a sound, and/or run a command. When off, chat lines are not watched at all. | off |
 | **Enable Spawn Events** | Turns on the Spawn Events tab. When something matching one of its rows appears nearby, the bot does that row's actions (OgreConsole line, sound, command). | off |
 | **Enable Despawn Event** | Turns on the Despawn Events tab. When something matching one of its rows disappears, the bot does that row's actions (OgreConsole line, sound, command). | off |
-| **Enable Crowd Control** | **Not active yet.** Crowd control (mezzing) has not been built yet. | off |
+| **Enable Crowd Control** | Mez the adds that are hitting your group, using the Crowd Control tab's list. The mob your group is killing is never mezzed. A mez is renewed when it has 10 seconds or less left. | off |
 | **Enable Announce Tab** | Turns on the Announce tab, so the bot announces the abilities listed there when you use them. | off |
 | **Enable Consume Items** | Turns on the Consume Items tab, so the bot automatically uses the items listed there (following that tab's zone and combat rules). When off, the consume-items command also does nothing. | off |
 | **Enable Aliases** | Turns on your custom aliases from the Aliases tab (names starting with *), so commands and Cast Stack targets can use them. When off, custom aliases resolve to nobody. The built-in @ slots such as @Tank are not affected. | off (the Cast Stack target dropdown treats a never-saved box as on) |
@@ -224,6 +238,8 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Enable Tag Embargo** | **Not active yet.** <br>*Tag embargoes are still honoured by the Cast Stack whether or not this is ticked.* | off |
 | **Enable Tag Allow** | **Not active yet.** <br>*Tag allows are still honoured by the Cast Stack whether or not this is ticked.* | off |
 | **Enable Item Embargo** | **Not active yet.**  | off |
+
+
 
 ## Pop up windows
 
@@ -247,6 +263,8 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Do not auto accept trades from trusted toons** | By default, when one of the characters on your EQ2Chars list accepts a trade with you, the bot accepts it too. Tick this to stop that. Trades with anyone else are never auto accepted. | off (so trades from your own characters ARE auto-accepted) |
 | **Do not auto-repair with Mender bots** | By default, when a repair bot (a Mender bot) is put down within 8 m of you while you are out of combat, the bot repairs your gear at it. Tick this to stop that. That includes a Mender bot the Instance Controller summons with 'Summon Mender bot to sell': it still sells, it just does not repair first. The repair command still works. | off (so a nearby repair bot IS used) |
 
+
+
 ## On Load
 
 [![On Load](../assets/ogrebot/tab-settings-s10.png)](../assets/ogrebot/tab-settings-s10.png "Click for full size")
@@ -261,6 +279,8 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Spew BoZ Completed Research** | **Not active yet.** The Ballads of Zimara (BoZ) research readout exists as a manual command only. | off |
 | **Spew Sub Status** | **Not active yet.**  | off |
 
+
+
 ## On Zone
 
 [![On Zone](../assets/ogrebot/tab-settings-s11.png)](../assets/ogrebot/tab-settings-s11.png "Click for full size")
@@ -274,6 +294,8 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Do not summon mount** | When OgreBot loads and after every zone-in, the bot summons your equipped mount if you are not on it - not in combat, not on a griffon (adventure level 100 and up). It says so on the console and in OgreConsole when it does - a mount should never just drop. Tick this to stop it. |  |
 | **Do not check mercenary buff** | When OgreBot loads and after every zone-in, a character with a hired mercenary is checked for the mercenary buff you keep after summoning and dismissing one (for example Mercenary Battalion: Season 8). If it is missing you get a message on the console and in OgreConsole - the mercenary is never summoned. The buff names come with the bot; to add one, put it in OgreSave/EQ2/ZoneSummons/custom/MercenaryBuffs.json as {"mercenaryBuffs": ["Name"]}. Tick this to stop the check. |  |
 
+
+
 ## Unorganized
 
 [![Unorganized](../assets/ogrebot/tab-settings-s12.png)](../assets/ogrebot/tab-settings-s12.png "Click for full size")
@@ -284,11 +306,13 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Do not auto-level Mercenary** | **Not active yet.**  | off |
 | **Disable OgreFly** | When following, the bot normally takes off, flies at the leader's height and lands with them. Tick this to keep following on the ground only. Swimming to the leader's depth still works. | off |
 | **Skip cutscenes** | **Not active yet.**  | off |
-| **Enable Pets in Dropdowns** | Adds the pets that are up (yours, your group's and your raid's) to the Cast Stack's Target list, as Pet: and the owner's name. Close and reopen OgreBot to refresh the list.<br>*The list is read when OgreBot opens; close and reopen it to see a pet that was summoned since.* | off |
+| **Enable Pets in Dropdowns** | Adds the pets that are up - yours, your group's and your raid's - to the Cast Stack's Target list, as Pet: and the owner's name (Pet:Bob is Bob's pet). A buff or heal set to a pet is cast on that pet: the bot targets it, casts, and puts your target back. A pet's own ability needs no pet target.<br>*The list is read when OgreBot opens; close and reopen it to see a pet that was summoned since.* | off |
 | **Enable Quest Compare** | Makes this character the group's quest reference. When one of its quests updates, the bot asks the rest of the group whether they are on the same step and reports anyone who differs. Ticking it opens the Quest Compare window and unticks it on the rest of the group, so there is only one reference. | off |
 | **Auto-Handle HQ Earring** | **Not active yet.**  | off |
 | **Do not auto Overseer** | Stops the automatic Overseer run from starting on this character. A run already in progress is not interrupted. | off |
 | **Auto Temp Mount Reductions** | **Not active yet.**  | off |
 | **Auto Temp Research Reductions** | **Not active yet.**  | off |
 | **Auto Temp Familiar Experience** | **Not active yet.**  | off |
+
+
 

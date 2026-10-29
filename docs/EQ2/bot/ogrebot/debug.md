@@ -1,8 +1,8 @@
-# Debug
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# Debug
 
 Debug holds switches that make the bot explain itself. Each box turns on extra lines about one part of the bot: casting, the Cast Stack, HOs, assist, Overseer, and so on. The lines appear in this character's InnerSpace console and in its log file (ISXOgreEQ2.<session>.log in InnerSpace's extensions folder). None of these boxes changes what the bot does, except Visible Console Commands, which only changes how the bot's group commands show in OgreConsole. At the bottom, the Cast-Stack Dry-Run lists every Cast Stack entry and what it would do right now, without casting anything.
 
@@ -28,7 +28,7 @@ Debug holds switches that make the bot explain itself. Each box turns on extra l
 | **AnnounceDebug: logs each announce row weighed when a cast lands - which row matched (or that none did) and the text that went out. Use it when an announce fires on the wrong spell, or not at all. (Light - one line per announced cast)** | When a cast lands, logs each Announce tab row it checked, which one matched (or that none did), and the text sent. Use it when an announce fires on the wrong spell or not at all. | off |
 | **OverseerDebug: logs an Overseer run step by step - which window it is on, what it read there and what it clicked. The first thing to turn on for a run that stalls partway. (Moderate, and only during a run)** | Logs an Overseer run step by step: each stage it moves to, each agent assigned, each quest started or completed, and quests skipped for lack of agents. | off |
 | **OverseerAgentsDebug: logs the 'add agents to your collection' pass - each agent card, and whether it was added, a duplicate, converted or destroyed. It does not log which agent goes on which mission. (Light - only while agent cards are being used)** | Logs the 'add agents to your collection' pass step by step: each agent card, and whether it was added, a duplicate, converted or destroyed. | off |
-| **Keyboard dump - Shift stuck, or symbols will not type? Click it WHILE it is happening and send the console lines (same as `ogre keys`)** | Prints everything about the keyboard right now: which keys the game thinks are held (Shift, Caps Lock and others), which window has keyboard focus, and the last keys pressed. Same as typing `ogre keys`.<br>*The last keys cover only this visit to the world. Check the lines before sharing them.* |  |
+| **Keyboard dump - Shift stuck, symbols will not type, or a box after your text? Click it WHILE it is happening and send the console lines (same as `ogre keys`)** | Prints everything about the keyboard right now: which keys the game thinks are held (Shift, Caps Lock and others), which window has keyboard focus, the last keys pressed, and the last characters sent to a field (a box after your text is one of these - it is now kept out and listed here). Same as typing `ogre keys`.<br>*The last keys cover only this visit to the world. Check the lines before sharing them.* |  |
 | **RewardWindowDebug: logs one line for each reward window that opens - its title and how many rewards it offers. (The line saying which reward was taken prints with or without this box.) (Light)** | Logs one line for each reward window that opens: its title and how many rewards it offers.<br>*The line saying which reward was taken prints whether this is on or off.* | off |
 | **DoHODebug: logs the solo HO (DoHO) step by step - the setup and its target, whether it ran the full election or only turned the HO'er's own legs back on, every HO option it set and for whom (here, or sent to the group), the prime, each HO counted as completed or expired, and why it stood down (done, timed out, target gone). Use it when a fight's HO does not open or the group does not join it. (Moderate - about 40 lines per HO)** | Logs the solo HO (Do HO) step by step: the setup and its target, every HO option it set and for whom, each HO completed or expired, and why it stopped. Use it when a fight's HO does not open or the group does not join in. | off |
 | **VisibleConsoleCommands: the bot's own group commands (DoHO options, encounter broadcasts, HO events, group travel) are sent as oc !c instead of the invisible oc !ci, so each one shows in OgreConsole. Delivery is the same either way - every session in the relay group gets them, this one included; only the display changes. (Noisy while on)** | The bot's own group commands (Do HO options, encounter messages, HO events, group travel) show up in OgreConsole so you can watch them. Normally they are sent hidden. Every character still receives them exactly the same way.<br>*Noisy while on.* | off |
@@ -40,6 +40,8 @@ Debug holds switches that make the bot explain itself. Each box turns on extra l
 | **ProfilePartsDebug: on profile load, logs whether Profile Parts is on and which tab is being read from which shared file, disabled mappings included. Use it when a tab shows settings you do not remember saving. (Light - once per load)** | When a profile loads, logs whether Profile Parts is on and which tab is being read from which shared file, including switched-off ones. Use it when a tab shows settings you do not remember saving. | off |
 | **LoadingProcessDebug: times each step of opening the bot - the ability export, the roster, the cast stack, every tab seed - so a slow or apparently hung load names the step responsible instead of one silent gap. (Light - once per load)** | Times each step of opening the bot (abilities, roster, Cast Stack, each tab), so a slow or stuck load shows which step is to blame. | off |
 
+
+
 ## Deliberately not wired (the information is already there)
 
 [![Deliberately not wired (the information is already there)](../assets/ogrebot/tab-debug-s2.png)](../assets/ogrebot/tab-debug-s2.png "Click for full size")
@@ -50,6 +52,8 @@ Debug holds switches that make the bot explain itself. Each box turns on extra l
 | **Queued commands: the command queue already logs unconditionally, so there is nothing here to turn ON. What this wants is the opposite - a MUTE - which is a different control and a different decision.** | **Not active yet.** Does nothing. The command queue already logs all the time. | off |
 | **Dispels: there is no dispel module in the new bot yet. A dispel is an ordinary cast-stack entry, and the walk trace already says why one was or was not picked. Wire this if dispels ever get their own handling.** | **Not active yet.** Does nothing. Dispels are ordinary Cast Stack entries, and CSEvalDebug already shows why one was or was not picked. | off |
 
+
+
 ## Cast-Stack Dry-Run
 
 [![Cast-Stack Dry-Run](../assets/ogrebot/tab-debug-s3.png)](../assets/ogrebot/tab-debug-s3.png "Click for full size")
@@ -58,11 +62,15 @@ Debug holds switches that make the bot explain itself. Each box turns on extra l
 |---|---|---|
 | **Evaluate every cast-order entry vs the live game state - what each would do right now (dry-run, never casts)** | One row per Cast Stack entry, in order: its number, its name, then 'WOULD CAST' in green (with the target), or the reason it would be skipped, such as 'recast delay still active' or 'no valid target'. Switched-off entries are greyed. The last column sums up the entry's settings. | empty until you press Evaluate |
 
+
+
 ## Cast-Stack Dry-Run
 
 | Control | What it does |
 |---|---|
 | **Evaluate every entry now** | Checks every Cast Stack entry against your current target, group and state, and fills the list below with what each one would do right now. Nothing is cast.<br>*It also prints every entry and its saved settings to the console, so expect a burst of lines.* |
+
+
 
 ## Good to know
 

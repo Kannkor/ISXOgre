@@ -43,8 +43,10 @@ The title bar has the usual ? (help), lock and X buttons. When the profile has c
 
 | Control | What it does | Default |
 |---|---|---|
-| *** (yellow star)** | Shows that this profile has changes that are not saved yet. It appears on the small OgreBot window too. It goes away after a Save or a Reload.<br>*It counts every change, including ones made by commands or encounter scripts, not only clicks in this window.* | hidden |
+| *** (yellow star)** | Shows that this profile has changes that are not saved yet. Only this window shows it, not the small OgreBot window. It goes away after a Save or a Reload.<br>*It counts every change, including ones made by commands or encounter scripts, not only clicks in this window.* | hidden |
 | **Title bar close (X)** | Shuts OgreBot down completely, not just this window. Both OgreBot windows close. The Unload tab's list runs. Camp spot, follow and other movement are cleared, HUDs go away, travel routes and codex scans stop, and the profile is unloaded. Unsaved changes are thrown away and a warning is printed in the console.<br>*To get the window out of the way without stopping the bot, use Hide Main on the small OgreBot window instead.* |  |
+
+
 
 ## Header: class, profile, Save and Reload
 
@@ -55,6 +57,8 @@ The title bar has the usual ? (help), lock and X buttons. When the profile has c
 | **Save** | Asks 'Save current settings to <profile>?', then writes the loaded profile to disk. A message at the bottom says 'Profile saved', or 'No changes to save' if there was nothing to write.<br>*Nothing is saved automatically. Close OgreBot without saving and your changes are gone.* |
 | **Reload** | Throws away unsaved changes and reads the profile from disk again. The cast stack and every tab are refreshed. Settings that run when a profile loads run again.<br>*It only asks first if you changed something in this window. Changes made by commands or scripts are dropped without asking.* |
 
+
+
 ## Search
 
 Type part of a setting's name to find it on any tab. The list shows each match with the tab it lives on, and you can change the setting right there in the list.
@@ -64,6 +68,8 @@ Type part of a setting's name to find it on any tab. The list shows each match w
 | **Search (Search options...)** | Lists every setting, on every tab, whose name contains what you type (upper or lower case does not matter). Each match shows its tab name, for example '↪ Settings'. Click the tab name to jump to that tab, where the setting flashes.<br>*It searches setting names, not tab names. Settings for another archetype are not shown.* | empty |
 | **x (clear search)** | Clears the search and shows the tab you were on. Esc in the search box does the same. Clicking any tab also clears the search. |  |
 
+
+
 ## The tab list
 
 The tabs down the left are in three blocks. At the top: Auto Target, Cast Stack, Settings, Setup, then your class tab. In the middle: every other tab, A to Z. At the bottom: Admin, Debug, EQ2Chars, Key Binds, OgreConsole, Profiles, Relay Groups and Uplink Info. Each block is in A to Z order, except that the class tab is always last in the top block.
@@ -71,7 +77,9 @@ The tabs down the left are in three blocks. At the top: Auto Target, Cast Stack,
 | Control | What it does | Default |
 |---|---|---|
 | **A tab (click)** | Shows that tab's settings on the right. The tab you are on is outlined. | Settings |
-| **A struck-through tab (for example Auto-Hunt, Crowd Control)** | Not finished yet. Some of its settings do nothing yet, even though you can change and save them. That tab's own page says which ones work. The tab itself also says NOT FINISHED at the top. |  |
+| **A struck-through tab (for example Auto-Hunt, Item Embargo)** | Not finished yet. Some of its settings do nothing yet, even though you can change and save them. That tab's own page says which ones work. The tab itself also says NOT FINISHED at the top. |  |
+
+
 
 ## Your class tab
 
@@ -81,11 +89,15 @@ One tab is named after your class (Berserker in the picture). It holds the optio
 |---|---|
 | **<Your class> tab** | Options for your class only. Each class's options are described on the class tab pages.<br>*It follows the class of the loaded profile's character.* |
 
+
+
 ## Hover text
 
 | Control | What it does |
 |---|---|
 | **Hover a setting or a struck-through tab** | After a short pause a box explains what the setting does, or why a tab is struck through.<br>*Buttons and list rows all over the window have hover text too - for example why a greyed Delete cannot be used, and what the yellow star means.* |
+
+
 
 ## Right-click a setting
 
@@ -95,6 +107,8 @@ Right-click a checkbox, text box, dropdown or slider to get two extra choices. T
 |---|---|
 | **Copy <setting name>** | Copies the setting's internal name (for example checkbox_settings_disablecaststack) to the clipboard. That is the name commands and scripts use, such as `-ChangeOgreBotUIOption`. |
 | **Apply this to my group (igw) via OC** | Sends this setting, with the value it has here, to everyone in your group, you included. If the For Who window is open, it goes to whoever that window has picked instead, and by IRC if it is set to IRC. If that window has nobody or everyone picked, it still goes to your group.<br>*Other characters get the change in memory only. They still have to Save.* |
+
+
 
 ## Profiles tab
 
@@ -110,6 +124,8 @@ A profile is a complete set of settings. One character can have several, for exa
 | **New profile name... (box)** | Type a name for a new profile. Press Enter or click Create. | empty |
 | **Create** | Makes a new profile that is a copy of the loaded one as it was last saved, and saves it to disk at once. You stay on the profile you had. Load the new one to use it.<br>*Unsaved changes are not copied: Save first if the copy should include them. Names are not case-sensitive, so 'raid' is refused if 'Raid' exists.* |  |
 | **Confirm box: OK / Cancel** | Save, Reload, Load and Delete ask here first. OK goes ahead (red for Delete). Cancel does nothing. |  |
+
+
 
 ## What the window shows
 
@@ -155,6 +171,8 @@ Auto Target lets the bot pick its own targets from a list, instead of assisting 
 | **Enable Auto Target** | The bot picks its own targets from the working list below instead of assisting. It targets the first nearby match for the highest row on the list, and keeps your current target if it matches that same row.<br>*While on, the Assist tab list is ignored.* | off |
 | **Allow Out of Combat Scanning** | Lets Auto Target pick a target while nothing is fighting you. Unticked, it only picks once a mob has aggro on you or you are in combat.<br>*It only stops new picks; your current target is kept.* | off |
 
+
+
 ## General Options
 
 | Option | What it does | Default |
@@ -163,6 +181,8 @@ Auto Target lets the bot pick its own targets from a list, instead of assisting 
 | **Rescan time (MS):** | Not used by the new bot. Auto Target re-checks every 0.25 seconds whatever this says - a fixed rate, fast enough for every fight. | 0 |
 | **Scan Height:** | Only mobs whose height differs from yours by less than this are considered, so mobs on a floor above or below are ignored. | 0 (counts as 5) |
 | **Auto-Target List Editor** | The editor below: build rows on the left, the working list and this zone's saved lists on the right, and the Balance generator underneath. | empty |
+
+
 
 ## Add an actor
 
@@ -183,6 +203,8 @@ Auto Target lets the bot pick its own targets from a list, instead of assisting 
 | **Update actor** | Only while editing: replaces the selected row with these settings and leaves edit mode. |  |
 | **Cancel** | Only while editing: leaves edit mode without changing the row and clears the form. |  |
 
+
+
 ## Working list
 
 | Control | What it does | Default |
@@ -195,6 +217,8 @@ Auto Target lets the bot pick its own targets from a list, instead of assisting 
 | **✕ (remove)** | Removes that row from the working list. |  |
 | **Clear** | Empties the working list at once, with no confirmation, and removes the '(loaded)' mark. Your saved lists are not touched.<br>*With the working list empty, the bot falls back to the profile's own auto-target list, if it has one.* |  |
 
+
+
 ## Saved lists
 
 | Control | What it does | Default |
@@ -204,6 +228,8 @@ Auto Target lets the bot pick its own targets from a list, instead of assisting 
 | **✕ (delete)** | Deletes that saved list from this zone's file, after you confirm. |  |
 | **Save current list as…** | The name to save the working list under. It starts with the name of the list you loaded. |  |
 | **💾 Save list** | Saves the working list to this zone's file under the typed name. A saved list with the same name is overwritten.<br>*Nothing happens if the name box is empty.* |  |
+
+
 
 ## Balance generator
 
@@ -217,6 +243,8 @@ Auto Target lets the bot pick its own targets from a list, instead of assisting 
 | **Check collision** | Gives every generated row the [CC] Check Collision option. | off |
 | **Aggro on ally only** | Gives every generated row the [AG] Aggro On Ally Only option. | off |
 | **Generate list** | Adds the generated rows (each with a minimum HP) to the bottom of the working list. It does not replace or save anything; check the rows, then use Save list. |  |
+
+
 
 ## Good to know
 
@@ -248,6 +276,8 @@ The Cast Stack is the bot's main casting list. Every turn the bot walks the Cast
 | **↔** | Makes the Abilities column wider or narrower. Hovering a cut-off name shows it in full. |
 | **Ability or item names** | Click one to start a new entry. A green name already has an entry in the Cast order. Ctrl+click a name to filter the Cast order to that ability or item. |
 
+
+
 ## Entry editor (middle column)
 
 | Control | What it does |
@@ -257,6 +287,8 @@ The Cast Stack is the bot's main casting list. Every turn the bot walks the Cast
 | **Update** | Shown while editing an existing entry: saves your changes to it. |
 | **+ New** | Shown while editing: adds a copy with your changes as a new entry at the bottom, leaving the original as it was. |
 | **Cancel** | Throws away what is in the editor without changing the Cast order. |
+
+
 
 ## Cast order (right column)
 
@@ -272,6 +304,8 @@ The Cast Stack is the bot's main casting list. Every turn the bot walks the Cast
 | **Double-click an entry** | Switches the entry off or back on. A switched-off entry is struck through and never cast, but keeps its place. |
 | **✕ (remove)** | Removes the entry. The Undo button below can put it back. |
 | **↶ Undo remove (N)** | Puts the last removed entry back where it was. It remembers up to 25 removals. |
+
+
 
 ## Good to know
 
@@ -324,6 +358,8 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Disable Pre-Cast tab** | Nothing on the Pre-Cast tab fires (the rules that cast one ability before another).<br>*Do HO ticks this for the group while it runs and restores it afterwards.* | off |
 | **Disable Post-Cast tab** | Nothing on the Post-Cast tab fires (the rules that cast one ability after another).<br>*Do HO ticks this for the group while it runs and restores it afterwards.* | off |
 
+
+
 ## Cast Stack (2 of 5)
 
 | Option | What it does | Default |
@@ -347,6 +383,8 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Attack NPC with 100% HP** | The bot ignores the '% NPC HP to attack' and '% NPC HP for pet to attack' settings on the Setup tab and treats a mob at any health as fair game. That covers hostile Cast Stack attacks, sending the pet or mercenary, moving into combat range, Turn Off Attack and Cancel Invis After Combat. | off |
 | **Cast while moving** | Normally the bot will not start a spell while you are moving; melee arts and a few class, buff or zone exceptions are allowed. Tick this to let it cast anything while moving. It applies to the Cast Stack and to the bot's other casts, such as HOs. | off |
 | **Allow City Casting** | In the main cities (the Qeynos, Freeport and Neriak districts and villages) the bot does not cast its Cast Stack, turn on auto-attack, face the mob, send the pet or mercenary, loot in combat or auto-target mobs that hate you. Tick this to allow all of that in cities too. Abilities you ask for by command or script still cast. | off |
+
+
 
 ## Cast Stack (3 of 5)
 
@@ -390,6 +428,8 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Disable HO 41 (coin)** <small>(scouts only)</small> | Scouts only: your rotation will not cast your abilities that carry the coin HO icon. The bot's own HO steps can still use them.<br>*Do HO always ticks this, because the coin icon changes the HO window.* | off |
 | **Ignore Balanced Synergy** | When a group member's cast stack asks the group to cast Balanced Synergy, this character does not join in.<br>*Balanced Synergy is cast by the whole group together: a character with it in its cast stack as Custom, fighting a target within its % to attack, asks the group to cast it 10 seconds later. Fight setups that drive Balanced Synergy themselves (Sypheria the Shackled) tick this.* | off |
 
+
+
 ## Cast Stack (4 of 5)
 
 | Option | What it does | Default |
@@ -405,6 +445,8 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Only if a fighter is not tanking** | When picking an HO ability, the bot skips hate-increasing abilities unless a fighter player is tanking the mob. Unlike the other two groups, the ignore list is not used here.<br>*Only affects HO picks.* | off |
 | **No Threat Position Decreases** | The bot never chooses abilities that move you down the hate list when a script or command asks for an ability, or when it picks an HO ability.<br>*Your normal Cast Stack still casts them if they are on it.* | off |
 | **No Threat Decrease** | The bot never chooses hate-reducing abilities when a script or command asks for an ability, or when it picks an HO ability.<br>*Your normal Cast Stack still casts them if they are on it.* | off |
+
+
 
 ## Cast Stack (5 of 5)
 
@@ -432,6 +474,8 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Noxious** | Allows automatic cure potions to be used for Noxious. | off |
 | **Trauma** | Allows automatic cure potions to be used for Trauma. | off |
 
+
+
 ## Combat (1 of 2)
 
 | Option | What it does | Default |
@@ -455,6 +499,8 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Disable anti-fear (crouch and walk while feared)** | When you are feared, the bot crouches you and switches you to walking, so you do not run as far; when the fear ends it stands you up and switches you back to running - only what it changed (already walking or crouched stays that way). It works only while OgreBot is loaded; pausing OgreBot freezes it (nothing changes until you resume). Tick this to switch it off - anything it changed is put back at once. |  |
 | **Disable Auto-Defensives** | **Not active yet.**  | off |
 | **Enable CD T4 Weapons** | **Not active yet.**  | off |
+
+
 
 ## Combat (2 of 2)
 
@@ -480,6 +526,8 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Allow moving to cast** | Lets the bot move you into range to cast the Destiny of Velious (DoV) raid debuff, when the request to cast it does not say otherwise. | off |
 | **Enable PvP** | **Not active yet.**  | off |
 
+
+
 ## Tab Enables
 
 | Option | What it does | Default |
@@ -487,7 +535,7 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Enable Chat Events** | Turns on the Chat Events tab. When a chat line matches one of its rows, the bot does that row's actions: send a line to OgreConsole, play a sound, and/or run a command. When off, chat lines are not watched at all. | off |
 | **Enable Spawn Events** | Turns on the Spawn Events tab. When something matching one of its rows appears nearby, the bot does that row's actions (OgreConsole line, sound, command). | off |
 | **Enable Despawn Event** | Turns on the Despawn Events tab. When something matching one of its rows disappears, the bot does that row's actions (OgreConsole line, sound, command). | off |
-| **Enable Crowd Control** | **Not active yet.** Crowd control (mezzing) has not been built yet. | off |
+| **Enable Crowd Control** | Mez the adds that are hitting your group, using the Crowd Control tab's list. The mob your group is killing is never mezzed. A mez is renewed when it has 10 seconds or less left. | off |
 | **Enable Announce Tab** | Turns on the Announce tab, so the bot announces the abilities listed there when you use them. | off |
 | **Enable Consume Items** | Turns on the Consume Items tab, so the bot automatically uses the items listed there (following that tab's zone and combat rules). When off, the consume-items command also does nothing. | off |
 | **Enable Aliases** | Turns on your custom aliases from the Aliases tab (names starting with *), so commands and Cast Stack targets can use them. When off, custom aliases resolve to nobody. The built-in @ slots such as @Tank are not affected. | off (the Cast Stack target dropdown treats a never-saved box as on) |
@@ -496,6 +544,8 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Enable Tag Embargo** | **Not active yet.** <br>*Tag embargoes are still honoured by the Cast Stack whether or not this is ticked.* | off |
 | **Enable Tag Allow** | **Not active yet.** <br>*Tag allows are still honoured by the Cast Stack whether or not this is ticked.* | off |
 | **Enable Item Embargo** | **Not active yet.**  | off |
+
+
 
 ## Pop up windows
 
@@ -517,6 +567,8 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Do not auto accept trades from trusted toons** | By default, when one of the characters on your EQ2Chars list accepts a trade with you, the bot accepts it too. Tick this to stop that. Trades with anyone else are never auto accepted. | off (so trades from your own characters ARE auto-accepted) |
 | **Do not auto-repair with Mender bots** | By default, when a repair bot (a Mender bot) is put down within 8 m of you while you are out of combat, the bot repairs your gear at it. Tick this to stop that. That includes a Mender bot the Instance Controller summons with 'Summon Mender bot to sell': it still sells, it just does not repair first. The repair command still works. | off (so a nearby repair bot IS used) |
 
+
+
 ## On Load
 
 | Option | What it does | Default |
@@ -529,6 +581,8 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Spew BoZ Completed Research** | **Not active yet.** The Ballads of Zimara (BoZ) research readout exists as a manual command only. | off |
 | **Spew Sub Status** | **Not active yet.**  | off |
 
+
+
 ## On Zone
 
 | Option | What it does | Default |
@@ -540,6 +594,8 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Do not summon mount** | When OgreBot loads and after every zone-in, the bot summons your equipped mount if you are not on it - not in combat, not on a griffon (adventure level 100 and up). It says so on the console and in OgreConsole when it does - a mount should never just drop. Tick this to stop it. |  |
 | **Do not check mercenary buff** | When OgreBot loads and after every zone-in, a character with a hired mercenary is checked for the mercenary buff you keep after summoning and dismissing one (for example Mercenary Battalion: Season 8). If it is missing you get a message on the console and in OgreConsole - the mercenary is never summoned. The buff names come with the bot; to add one, put it in OgreSave/EQ2/ZoneSummons/custom/MercenaryBuffs.json as {"mercenaryBuffs": ["Name"]}. Tick this to stop the check. |  |
 
+
+
 ## Unorganized
 
 | Option | What it does | Default |
@@ -548,7 +604,7 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Do not auto-level Mercenary** | **Not active yet.**  | off |
 | **Disable OgreFly** | When following, the bot normally takes off, flies at the leader's height and lands with them. Tick this to keep following on the ground only. Swimming to the leader's depth still works. | off |
 | **Skip cutscenes** | **Not active yet.**  | off |
-| **Enable Pets in Dropdowns** | Adds the pets that are up (yours, your group's and your raid's) to the Cast Stack's Target list, as Pet: and the owner's name. Close and reopen OgreBot to refresh the list.<br>*The list is read when OgreBot opens; close and reopen it to see a pet that was summoned since.* | off |
+| **Enable Pets in Dropdowns** | Adds the pets that are up - yours, your group's and your raid's - to the Cast Stack's Target list, as Pet: and the owner's name (Pet:Bob is Bob's pet). A buff or heal set to a pet is cast on that pet: the bot targets it, casts, and puts your target back. A pet's own ability needs no pet target.<br>*The list is read when OgreBot opens; close and reopen it to see a pet that was summoned since.* | off |
 | **Enable Quest Compare** | Makes this character the group's quest reference. When one of its quests updates, the bot asks the rest of the group whether they are on the same step and reports anyone who differs. Ticking it opens the Quest Compare window and unticks it on the rest of the group, so there is only one reference. | off |
 | **Auto-Handle HQ Earring** | **Not active yet.**  | off |
 | **Do not auto Overseer** | Stops the automatic Overseer run from starting on this character. A run already in progress is not interrupted. | off |
@@ -815,6 +871,8 @@ Assist tells the bot whose fight to join. Pick people (or aliases such as @Tank)
 | **Choose whom to assist** | Pick a group or raid member, or an alias such as @Tank, to add them to the bottom of the Assist order list. The dropdown then resets; a name already on the list is not added twice.<br>*The choices are refreshed every time you open the dropdown.* | n/a (it adds a name, it stores nothing itself) |
 | **Assist order — drag to set priority, double-click to disable** | The people to assist, in priority order. The bot uses the first one who is in your group or raid and in this zone, and ignores the rest until that person is gone.<br>*Disabled names stay in place (struck through) and are skipped.* | empty |
 
+
+
 ## Assist
 
 | Control | What it does |
@@ -822,6 +880,8 @@ Assist tells the bot whose fight to join. Pick people (or aliases such as @Tank)
 | **Drag a row** | Drag a row up or down to change who is assisted first. |
 | **Double-click a row** | Switches that name off or back on. A switched-off name is struck through and skipped, but keeps its place. |
 | **x (remove)** | Removes that name from the list. |
+
+
 
 ## Good to know
 

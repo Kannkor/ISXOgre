@@ -1,8 +1,8 @@
-# Nav
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# Nav
 
 > **:bulb: In game - the ? button on this window says**
 >
@@ -35,6 +35,7 @@ The top line is the state (Moving in green, Failed in red, Arrived highlighted, 
 
 [![Status](../assets/nav/status.png)](../assets/nav/status.png "Click for full size")
 
+
 ## Buttons
 
 [![Buttons](../assets/nav/buttons.png)](../assets/nav/buttons.png "Click for full size")
@@ -45,6 +46,8 @@ The top line is the state (Moving in green, Failed in red, Arrived highlighted, 
 | **Pause / Resume** | Pause stops walking but keeps the route, so Resume carries on from where you stopped without planning again. While paused, nav still holds the character: follow or the camp spot will not move it until you Resume or STOP.<br>*Greyed out when no trip is running. Turns yellow and reads Resume while paused.* |
 | **Close** | Closes the window. The trip carries on. The window comes back on the next trip (unless you turned that off with `ogre nav -nopanel`). |
 | **Title bar close (X)** | Hides the window, like Close. It comes back on the next trip. |
+
+
 
 ## What the window shows
 

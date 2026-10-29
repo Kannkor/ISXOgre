@@ -1,12 +1,13 @@
-# Codex Toons
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
 
+# Codex Toons
+
 Codex Toons uploads a snapshot of your own character (gear and stats) to the EQ2Codex.com website. Press Setup API Token once to paste your token from eq2codex.com, then press Upload My Toon Snapshot whenever you want your page updated. The result, good or bad, is posted in OgreConsole. You can also have it upload by itself every time the bot camps you out. For your group or raid members, use the Codex Inspect tab instead.
 
 [![Codex Toons tab](../assets/ogrebot/tab-codex-toons.png)](../assets/ogrebot/tab-codex-toons.png "Click for full size")
+
 
 | Option | What it does | Default |
 |---|---|---|
@@ -18,6 +19,8 @@ Codex Toons uploads a snapshot of your own character (gear and stats) to the EQ2
 | **View My Characters** | Opens your characters page on eq2codex.com in your web browser. |  |
 | **View My Group/Raids** | Opens your saved groups and raids on eq2codex.com in your web browser. |  |
 | **Auto-upload my toon snapshot to Codex when I camp (-camp / logout)** | When the bot camps you out, it first starts an upload of your toon snapshot. The camp does not wait for the upload.<br>*Only camps done by the bot count, not a /camp you type yourself.* | off |
+
+
 
 ## Good to know
 

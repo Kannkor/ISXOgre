@@ -1,8 +1,8 @@
-# Instance Controller
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# Instance Controller
 
 > **:bulb: In game - the ? button on this window says**
 >
@@ -47,6 +47,8 @@ The Instance Controller (IC) runs a list of instanced zones for you, one after a
 | **Close (X)** | Closing the window STOPS a running list, exactly like End (the reason shown is 'panel closed'), and turns IC's pause off.<br>*Closing is not just hiding the window. It does NOT cancel end-of-list actions that are already running (use End for that), so closing the window on the way out never undoes an armed camp.* |  |
 | **Run / Startup Options / Settings** | Switches the page you see. Display only. | Run |
 
+
+
 ## Minimized
 
 [![Minimized](../assets/ic/shrunk.png)](../assets/ic/shrunk.png "Click for full size")
@@ -55,6 +57,8 @@ The Instance Controller (IC) runs a list of instanced zones for you, one after a
 |---|---|
 | **Pause / Resume** | Same as the Pause button at the bottom. Turns IC's own pause on or off. OgreBot's pause is not touched.<br>*Only visible while the window is minimized.* |
 | **Expand** | Restores the full window. |
+
+
 
 ## Run tab - choosing zones
 
@@ -68,6 +72,8 @@ The Instance Controller (IC) runs a list of instanced zones for you, one after a
 | **any variant / [Solo] / [Heroic] / ...** | Two jobs. (1) Hides files that do not have this variant. (2) Every zone you queue is tagged with this variant, which decides which instance the zone-in travels to. 'any variant (browse only)' turns the filter off and tags nothing. The choices are every variant found in the loaded zone files. Saved.<br>*With 'any', queuing a file that has 2+ variants pops up a pick-one menu at the row.* | any variant |
 | **Reload** | Re-reads every zone file from the three roots. Prints 'N zone(s) from M file(s) - X skipped, Y warning(s)'. The selected file is cleared if it no longer exists. A zone file with a problem (for example one that does not say how it leaves the zone) is not valid: it shows in the list in red, and clicking it says why (see Write your own zone files).<br>*A queued row whose file vanished fails with 'press Reload' when the row starts.* |  |
 
+
+
 ## Run tab - the zone list
 
 [![Run tab - the zone list](../assets/ic/run-zones.png)](../assets/ic/run-zones.png "Click for full size")
@@ -78,6 +84,8 @@ The Instance Controller (IC) runs a list of instanced zones for you, one after a
 | **Folder row (name + file count)** | Single click opens that folder. |  |
 | **Zone row (click)** | Selects the file. The add bar then shows its name, and its difficulty menu if it has one.<br>*Zone files marked as disabled are hidden.* |  |
 | **Zone row (double-click)** | Adds the zone to the end of the queue, tagged with the chosen variant and the remembered difficulty. With no variant chosen: a file with 0 or 1 variants is added directly; a file with 2 or more opens a pick-one popup at the row. The pick is checked against the zone file; a pick it does not allow is refused, and the error lists the allowed values. The new row becomes the highlighted one.<br>*The popup pick is one-off. It does not change the variant filter. A zone file that is not valid shows in red with a "not valid" chip: a click selects it and the bar under the list gives every reason; it cannot be queued (Add is greyed out, and a double-click says why).* |  |
+
+
 
 ## Run tab - the queue
 
@@ -91,6 +99,8 @@ The Instance Controller (IC) runs a list of instanced zones for you, one after a
 | **Remove** | Removes the highlighted queue row (right-clicking the highlighted row does the same). Saved.<br>*Greyed out until a row is highlighted - click one first. Not blocked while a list runs.* |
 | **Clear** | Empties the whole queue, with no confirmation. Saved.<br>*Greyed out while the queue is empty. Not blocked while a list runs.* |
 
+
+
 ## Run tab - adding to the queue
 
 [![Run tab - adding to the queue](../assets/ic/run-addbar.png)](../assets/ic/run-addbar.png "Click for full size")
@@ -101,6 +111,8 @@ The Instance Controller (IC) runs a list of instanced zones for you, one after a
 | **Difficulty number box (e.g. '1-80')** | Same as the Difficulty dropdown, for files that use a number range. It takes effect when you press Enter or click away. Also recorded only, not used yet.<br>*Only shown when the selected file uses a range. The range is checked when you add, not while you type.* | empty |
 | **Add** | Queues the selected file exactly like a double-click, including the variant popup.<br>*Disabled until a file is selected.* |  |
 | **Add all** | Queues every zone the Zones list is showing (this folder, after the search and the variant filter), in the list's order, each tagged with the variant chosen up top and the remembered difficulty. With no variant chosen, a file with 2 or more variants is left out. One console line says how many were added and why any were left out (already queued, needs a variant, refused).<br>*Greyed out when the list shows no zone files (folders are not zones). A zone already in the queue is not added again.* |  |
+
+
 
 ## Run tab - options
 
@@ -126,6 +138,8 @@ When the window is too short for every option, the option grid scrolls (the list
 | **Pause for no-trade shinies** | In a shinies step, a shiny whose loot window holds a no-trade item is NOT looted: its window is left open for you and IC pauses itself (the group keeps playing), with a console message and a '<name> shiny' text-to-speech. Take the item, then press Resume; the step goes on to the next shiny. Loot everything is turned off for the group while the step runs, so the auto-loot leaves the item too.<br>*A zone file that sets its own no-trade rule on the step overrides this option. Also a console switch: `ogre ic -pauseForNoTradeShinies` (`=off` turns it off).* | off |
 | **Do not loot no-trade boss chest** | When the step for a named the zone file marks as the boss begins (before the kill), your Leader Only loot is set to take tradable items and Smart Loot only (not loot everything, no distribution, not in combat); your loot options are put back after the loot step. A Leader Only loot window that still holds a no-trade item is left open for you, with a console message and a '<name> boss chest' text-to-speech, and IC waits until it is gone.<br>*Free For All windows are not touched - each character's own loot options take them. Non-boss chests loot no-trade items as usual unless the zone file says otherwise. The zone file's own no-trade rule overrides this. Also a console switch: `ogre ic -doNotLootNoTradeBossChest` (`=off` turns it off).* | off |
 
+
+
 ## Run tab - more options (scroll down)
 
 [![Run tab - more options (scroll down)](../assets/ic/run-options-more.png)](../assets/ic/run-options-more.png "Click for full size")
@@ -138,6 +152,8 @@ When the window is too short for every option, the option grid scrolls (the list
 | **Exit even if the camp fails** | Only with Camp out on. If this character's camp failed, runs 'exit' and closes the client with the character still in the world, with a loud warning in the log. The rest of the group is also sent an exit with a 90-second countdown along with its camp, so a client whose camp failed is closed too (one whose camp worked is gone by then).<br>*Does nothing without Camp out. Also a console switch: `ogre ic -exitIfCampFails` (`=off` turns it off).* | off |
 | **IC File Option 1 / 2 / 3** | Three tick-boxes for the zone file you run: the zone file decides what each one means and reads it (`ISXOgreEQ2.IC.FileOption[n]` in a script, `{{ic.options.fileOption1}}` in the file). Each box shows the name the zone file gives it (its `fileOptions`, or what its running script set with `ISXOgreEQ2.IC:SetFileOptionLabel`), else 'IC File Option 1', 2 or 3. Saved.<br>*The names follow the zone that is running, else the file selected in the Zones list. A zone file that does not use them ignores them. Also console switches: `ogre ic -fileOption1` (2, 3; `=off` turns one off).* | off |
 | **IC File Args** | Text for the zone file to read (`ISXOgreEQ2.IC.FileArgs` in a script, `{{ic.options.fileArgs}}` in the file). It is sent and saved when you press Enter or leave the box, not on every key.<br>*Also a console switch: `ogre ic -fileArgs=<text>`.* | empty |
+
+
 
 ## Run tab - bottom row
 
@@ -152,13 +168,15 @@ When the window is too short for every option, the option grid scrolls (the list
 | **Run** | Starts the list. It starts at the queue row for the zone you are standing in, otherwise row 1, never the highlighted row. It clears IC's pause, checks the row's choices against the zone file again, and runs the safety checks (at least 10 free slots, nobody dead). Each row then runs in turn: zone-in, apply startup options, zone steps, exit.<br>*Greyed out while running, while the end-of-list actions of the last list are still going (press End to cancel them first), with an empty queue, or if OgreBot is not loaded with a profile. Refuses right after a zone-in while the bot is still learning what is around it. A failed zone stops the list and IC stays in the zone.* |  |
 | **End** | Stops the run where it stands and clears IC's pause. The current step is cancelled, exit steps do NOT run, and the list stops. The stop step is remembered for Resume, and the startup options are reverted. During a zone-in, IC's travel route is stopped and the group stays put. End-of-list actions are not triggered. For a zone run by a LavishScript (.iss) file, IC stops following it but the script itself keeps running. While the end-of-list actions are running, End cancels them: nothing that has not started yet runs (no camp, no exit), and an unfinished camp is stopped so the client is not closed. A trip to the guild hall or a Call to Home already under way finishes on its own, and the group stays paused - resume OgreBot when you are ready. The console says what was left behind.<br>*Greyed out only when nothing is running and no end-of-list action is running. If the game had already begun the /camp countdown, the camp can still take the character to the login screen; the client stays open.* |  |
 
+
+
 ## Startup Options tab
 
 [![Startup Options tab](../assets/ic/startup.png)](../assets/ic/startup.png "Click for full size")
 
 | Control | What it does | Default |
 |---|---|---|
-| **Add defaults** | Appends the 17 shipped default rows to your list. Existing rows are kept, so pressing twice gives duplicates.<br>*The very first time (before any IC settings are saved) the list starts with the defaults.* |  |
+| **Add defaults** | Appends the 22 shipped default rows to your list. Existing rows are kept, so pressing twice gives duplicates.<br>*The very first time (before any IC settings are saved) the list starts with the defaults.* |  |
 | **Reset to defaults** | Replaces your whole list with the shipped defaults. The 'Reload profile when the run ends' checkbox is left as is.<br>*No confirmation.* |  |
 | **Clear** | Empties the startup list. It stays empty; the defaults are not added back.<br>*No confirmation.* |  |
 | **Startup row (click)** | Highlights the row. Display only; you need it before a right-click remove. |  |
@@ -171,14 +189,18 @@ When the window is too short for every option, the option grid scrolls (the list
 | **Add** | Adds the typed command as a new row: enabled, runs in solo, duo and group. Refused if the command is blank.<br>*Clears both boxes after adding.* |  |
 | **Reload profile when the run ends (start fresh)** | This is how startup options are undone. When a zone run ends for any reason (completed, failed, stopped, skipped) and startup rows were applied, IC reloads your OgreBot profile. If you were not solo, it also sends 'oc !ci -LoadProfile igwbn:<you> Use_UI' so every member reloads its own profile. This also throws away any change you made by hand mid-run.<br>*Skipped if the list is empty or the run ended before the rows went out.* | ON |
 
+
+
 ## Settings tab
 
 [![Settings tab](../assets/ic/settings.png)](../assets/ic/settings.png "Click for full size")
 
 | Control | What it does | Default |
 |---|---|---|
-| **Max wait per zone (seconds) + Set** | A safety limit. A zone still running this many seconds after it started is stopped where it stands. 0 = no limit. Applies to normal zone files and to zones run by a LavishScript (.iss) file.<br>*Saved with the other IC settings (panel.json), so it survives a reload. Time IC spends paused or halted, and time spent staying in a finished zone, does not count toward it.* | 3600 (60 minutes) |
+| **Max wait per zone (seconds) + Set** | A safety limit. A zone still running this many seconds after it started is stopped where it stands. 0 = no limit. Text that is not a number changes nothing; a number below 0 is set to 1, and a fraction is rounded up to whole seconds. Applies to normal zone files and to zones run by a LavishScript (.iss) file.<br>*Saved with the other IC settings (panel.json), so it survives a reload. Time IC spends paused or halted, and time spent staying in a finished zone, does not count toward it.* | 3600 (60 minutes) |
 | **Refresh** | Marks the bot's copy of the lockout table as out of date. It does NOT read it now: the table is re-read from the Zone Reuse window the next time a zone-in needs it.<br>*The status shows 'stale' until then.* |  |
+
+
 
 ## What the window shows
 

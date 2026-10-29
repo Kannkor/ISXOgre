@@ -1,8 +1,8 @@
-# For Who
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# For Who
 
 > **:bulb: In game - the ? button on this window says**
 >
@@ -43,6 +43,8 @@ For Who picks which of your characters an MCP button's command goes to: everyone
 | **OC** | Sends every button through OgreConsole, even ones built for IRC. An IRC button's connection target is dropped. Raw buttons are not changed. |  |
 | **IRC** | Sends every button through IRC (Raw buttons are not changed). If nothing is picked below, Raid lights up (the old OgreBot behaviour). While IRC is not connected, the command goes through OgreConsole instead. |  |
 
+
+
 ## Who it goes to
 
 Click a chip to pick it; click it again to un-pick it. With nothing picked the command goes to everyone. Right-click any chip to turn it off straight away.
@@ -59,6 +61,8 @@ Click a chip to pick it; click it again to un-pick it. With nothing picked the c
 | **G1 / G2 / G3 / G4** | Characters in that group of a raid. Characters who are not in a raid never match. |
 | **Right-click a chip** | Turns that chip off in one click (no need to cycle a class chip round). |
 
+
+
 ## Multi, Clear and Done
 
 [![Multi, Clear and Done](../assets/forwho/actions.png)](../assets/forwho/actions.png "Click for full size")
@@ -69,6 +73,8 @@ Click a chip to pick it; click it again to un-pick it. With nothing picked the c
 | **Clear** | Back to the start: Auto, nothing picked (everyone), Multi off. 'Show command preview' stays as it was. |  |
 | **Done** | Hides the window. Your choice stays in effect. |  |
 
+
+
 ## Settings (the gear)
 
 [![Settings (the gear)](../assets/forwho/settings.png)](../assets/forwho/settings.png "Click for full size")
@@ -77,6 +83,8 @@ Click a chip to pick it; click it again to un-pick it. With nothing picked the c
 |---|---|---|
 | **Show command preview** | Shows a line under the buttons with what gets added to each command, for example 'auto -cfw igw:${Me.Name}+notfighter'. Display only. | off |
 | **× (close)** | Closes the settings box. The gear does the same. |  |
+
+
 
 ## What the window shows
 

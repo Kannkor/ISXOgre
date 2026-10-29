@@ -1,8 +1,8 @@
-# Watcher
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# Watcher
 
 > **:bulb: In game - the ? button on this window says**
 >
@@ -39,6 +39,8 @@ The Watcher has two small tools in one window. **Find** watches for named creatu
 | **Clear log** | Empties the Hits list below. It does not change the watch list or turn anything off. |
 | **Title bar close (X)** | Closes the window only. Find and Track Shiny keep running if they are armed.<br>*To stop them, click the armed pills to idle first.* |
 
+
+
 ## Find - the watch list
 
 Names must match the whole name exactly (capital letters do not matter). "Wanderer" will not match "The Wanderer".
@@ -54,6 +56,8 @@ Names must match the whole name exactly (capital letters do not matter). "Wander
 | **Scan now** | Checks the zone once, right now, for every name on the list. Each one found is added to Hits as a FOUND line with its location.<br>*Works even while Find is idle. A scan result is a Hits line only: no waypoint and no message to other sessions. It also works in a guild hall.* |  |
 | **Clear list** | Removes every name from the watch list and turns Find off.<br>*No confirmation.* |  |
 
+
+
 ## Find - names and hits
 
 [![Find - names and hits](../assets/watcher/find-list.png)](../assets/watcher/find-list.png "Click for full size")
@@ -61,6 +65,8 @@ Names must match the whole name exactly (capital letters do not matter). "Wander
 | Control | What it does |
 |---|---|
 | **x (remove name)** | Removes that one name from the watch list.<br>*Removing the last name turns Find off.* |
+
+
 
 ## Track Shiny
 
@@ -70,6 +76,8 @@ Names must match the whole name exactly (capital letters do not matter). "Wander
 |---|---|---|
 | **idle / armed (pill next to Track Shiny)** | Turns Track Shiny on or off. While on, it looks around you (100 metres) every half second for a shiny of the chosen colour. When it finds a new one it adds a line to Hits, puts a waypoint on it and tells your other sessions. The same shiny is only reported once. The on/off choice is remembered after a restart. | idle |
 | **Colour (White / Green / Purple / Red / BlueShimmer / Blue buttons)** | Which shiny colour to look for. Click a colour; the lit one is in use.<br>*Changing the colour clears Last seen. It does not turn tracking on.* | Purple |
+
+
 
 ## What the window shows
 

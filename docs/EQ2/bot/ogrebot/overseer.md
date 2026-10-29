@@ -1,8 +1,8 @@
-# Overseer
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# Overseer
 
 The left column controls the bot's daily Overseer run. The bot opens the Overseer window, turns in finished missions, adds any mission scrolls in your bags, starts new missions with the best agents it has, and afterwards uses any Research Material in your bags. The run starts on its own soon after OgreBot loads your profile, then at most once an hour. It will not start while the bot is paused, you are in combat or dead, or you are zoning. Start Overseer Now runs it straight away. The right column is a separate tool: stand at an Administrator Agent and it buys mission scrolls for you.
 
@@ -31,6 +31,8 @@ The left column controls the bot's daily Overseer run. The bot opens the Oversee
 | **Use Agents with Traits that are NEGATIVE** | Also send agents that carry a trait the mission dislikes, when it needs more agents to start the mission. They are used last.<br>*Never used for Mishap missions.* | off |
 | **Try EVERY quest each run (keep going until your charges hit 0 or no agents are left)** | Normally the bot tries at most 50 missions per run. Tick this to try every mission in the list once, stopping early only when no agent is free. | off |
 
+
+
 ## Overseer - Manual run
 
 [![Overseer - Manual run](../assets/ogrebot/tab-overseer-s2.png)](../assets/ogrebot/tab-overseer-s2.png "Click for full size")
@@ -40,6 +42,8 @@ The left column controls the bot's daily Overseer run. The bot opens the Oversee
 | **Overseer: idle** | Shows what the Overseer run is doing: 'running' with the current step and how many missions it has started and turned in, or 'idle' with the totals from the last run. |
 | **Start Overseer Now** | Starts the daily Overseer run now. It ignores the guild hall box, combat, and the one-hour wait between runs. It does nothing if a run is already going, or if 'Do not touch overseer at all no matter what' is ticked.<br>*OgreBot must have a profile loaded.* |
 | **Stop** | Stops the daily Overseer run that is in progress, and a Buy Missions run too. |
+
+
 
 ## Overseer options - For BUYING missions.
 
@@ -65,8 +69,10 @@ The left column controls the bot's daily Overseer run. The bot opens the Oversee
 | **No Scribe Missions** | Normally the bot uses each copy of a mission right after buying it, to add it to your Overseer missions. Tick this to leave the scrolls in your bags. | off |
 | **Destroy Extra Missions Purchased** | After using the scrolls, the bot destroys any copies of that mission still in your bags.<br>*This includes copies you had before the run.* | off |
 | **Get to GH when done** | When a buy run finishes, each character travels to its own guild hall, the same as the Get To GH button. It does not happen if the run is stopped or fails. | off |
-| **Buy Missions** | Starts a buy run for this character with the options above. It uses the merchant window if it is open; otherwise it opens the nearest Administrator Agent, which must be within 10. Then it buys, uses and (if ticked) destroys the scrolls, one mission at a time.<br>*OgreBot must have a profile loaded. To stop it, type `buyoverseermissions stop`.* |  |
+| **Buy Missions** | Starts a buy run for this character with the options above. It uses the merchant window if it is open; otherwise it opens the nearest Administrator Agent, which must be within 10. Then it buys, uses and (if ticked) destroys the scrolls, one mission at a time.<br>*OgreBot must have a profile loaded. To stop it, type `ogre buyoverseermissions stop`.* |  |
 | **Buy Missions via OgreConsole** | Sends a buy run, with this screen's season, colour and amounts, to every character picked in the MCP For-Who window (everyone if it was never set). Each of them must be standing at its own Administrator Agent.<br>*No Scribe, Destroy and Get to GH are sent as they are set here, ticked or not, so every character uses this screen's choices, not its own tab.* |  |
+
+
 
 ## Good to know
 
@@ -75,7 +81,7 @@ The left column controls the bot's daily Overseer run. The bot opens the Oversee
 - Ticking a 'do not' box during a run does not stop it. Press Stop. The mission and agent choices do change mid-run, from the next mission the bot picks.
 - The Skip Treasured/Legendary/Fabled/Celestial boxes only skip plain missions. A charged mission of that colour is still started.
 - The agent boxes never apply to Mishap missions. Those use a Mishap agent first if one is free, then only agents with helpful traits or no traits.
-- Stop stops a Buy Missions run too. `buyoverseermissions stop` also works.
+- Stop stops a Buy Missions run too. `ogre buyoverseermissions stop` also works.
 - Season and Colour are one choice each: ticking a box unticks the others in its column. 'Any', or nothing ticked, means no filter.
 - 'Destroy Extra Missions Purchased' destroys every copy of that mission left in your bags, including copies you had before. With 'No Scribe Missions' also ticked, it buys the scrolls and then destroys them all.
 
