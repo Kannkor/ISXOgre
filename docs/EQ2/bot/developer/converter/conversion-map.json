@@ -46540,7 +46540,7 @@
    "howToFix": "Use `ogre patch`.",
    "id": "ISXOgre|ISXOgre:Patch",
    "newForm": "ogre patch",
-   "note": "Inside a script the same door is ISXOgreX.Patch:Run.",
+   "note": "Inside a script the same run is ISXOgreX.Patch:Update (no human types a bare native command); its other words are methods of their own - ISXOgreX.Patch:Status, RevertExt, Mesh, Class, Ignore.",
    "oldCall": "ISXOgre:Patch",
    "oldName": "ISXOgre:Patch",
    "oldSpellingToday": "does nothing (the old extension is not loaded with the new bot)",
@@ -47785,7 +47785,7 @@
    "surface": "OldBot framework"
   },
   {
-   "howToFix": "The instance controller is part of the new bot - open it with `ogre ic`. A script drives it with `ogre ic` commands: `ogre ic queue clear` and `ogre ic queue add <tier> <Expansion>/<file>.json` build the list, `ogre ic runlist` runs it, `ogre ic stop` stops it, and `ogre ic -<option>[=on|off]` sets its tick-boxes (`ogre ic options` lists them). Each member the instance files used has its own row. An instance file as a whole becomes an IC JSON file.",
+   "howToFix": "The instance controller is part of the new bot - open it with `ogre ic`. A script drives it with its own methods (every `ogre ic <word>` is the ISXOgreEQ2.IC method of that name): `ISXOgreEQ2.IC:Queue[clear]` and `ISXOgreEQ2.IC:Queue[add,<tier>,<Expansion>/<file>.json]` build the list, `ISXOgreEQ2.IC:RunList` runs it, `ISXOgreEQ2.IC:Stop` stops it, and `ISXOgreEQ2.IC:Options[-<option>]` / `[-<option>=off]` sets its tick-boxes (`ogre ic options` lists them). Each member the instance files used has its own row. An instance file as a whole becomes an IC JSON file.",
    "id": "OldBot framework|Ogre_Instance_Controller",
    "newForm": "ogre ic",
    "note": "Classic's instance controller object: instance files called it to stamp the zone's lock time (:ZoneSet), read the zone name (.CleanZoneName), read its switches (.bSkipShinies, .bLowGearMode, the per-file options) and tick its window's boxes (:ChangeUIOptionViaCode); scripts also built and started its zone list with it (:Clear_ZonesToRun, :AddInstance_ViaCode_ViaName, ticking Run Instances).",
@@ -47817,7 +47817,7 @@
    "surface": "OldBot framework"
   },
   {
-   "howToFix": "Write `${ISXOgreEQ2.IC.FileOption[1]}`. In a zone file the same tick reads as `{{ic.options.fileOption1}}`; `ogre ic -fileOption1` ticks it.",
+   "howToFix": "Write `${ISXOgreEQ2.IC.FileOption[1]}`. In a zone file the same tick reads as `{{ic.options.fileOption1}}`; `ISXOgreEQ2.IC:Options[-fileOption1]` ticks it (typed: `ogre ic -fileOption1`).",
    "id": "OldBot framework|Ogre_Instance_Controller.bICFileOption_1",
    "newForm": "ISXOgreEQ2.IC.FileOption[1]",
    "note": "TRUE while IC File Option 1 was ticked; the zone file decided what it meant.",
@@ -47828,7 +47828,7 @@
    "surface": "OldBot framework"
   },
   {
-   "howToFix": "Write `${ISXOgreEQ2.IC.FileOption[2]}`. In a zone file the same tick reads as `{{ic.options.fileOption2}}`; `ogre ic -fileOption2` ticks it.",
+   "howToFix": "Write `${ISXOgreEQ2.IC.FileOption[2]}`. In a zone file the same tick reads as `{{ic.options.fileOption2}}`; `ISXOgreEQ2.IC:Options[-fileOption2]` ticks it (typed: `ogre ic -fileOption2`).",
    "id": "OldBot framework|Ogre_Instance_Controller.bICFileOption_2",
    "newForm": "ISXOgreEQ2.IC.FileOption[2]",
    "note": "TRUE while IC File Option 2 was ticked; the zone file decided what it meant.",
@@ -47839,7 +47839,7 @@
    "surface": "OldBot framework"
   },
   {
-   "howToFix": "Write `${ISXOgreEQ2.IC.FileOption[3]}`. In a zone file the same tick reads as `{{ic.options.fileOption3}}`; `ogre ic -fileOption3` ticks it.",
+   "howToFix": "Write `${ISXOgreEQ2.IC.FileOption[3]}`. In a zone file the same tick reads as `{{ic.options.fileOption3}}`; `ISXOgreEQ2.IC:Options[-fileOption3]` ticks it (typed: `ogre ic -fileOption3`).",
    "id": "OldBot framework|Ogre_Instance_Controller.bICFileOption_3",
    "newForm": "ISXOgreEQ2.IC.FileOption[3]",
    "note": "TRUE while IC File Option 3 was ticked; the zone file decided what it meant.",
@@ -47871,25 +47871,25 @@
    "surface": "OldBot framework"
   },
   {
-   "howToFix": "Write `ogre ic queue add <default|test|custom> <Expansion>/<file>.json`. A zone file is a JSON file named by its tier and its path under that tier, not an .iss name, and there is no current folder: the folder is part of the path. `ogre ic list [filter]` prints every file's tier and path; `ogre ic check` with no argument lists the files that match the zone you stand in. The row is queued with the IC window's current difficulty pick, as the panel's Add does. There is no add-by-zone-name form, so a line that built the name from the current zone (`${Ogre_Instance_Controller.CleanZoneName}.iss`) becomes that zone file's fixed path.",
+   "howToFix": "Write `ISXOgreEQ2.IC:Queue[add,<default|test|custom>,<Expansion>/<file>.json]` (typed: `ogre ic queue add <tier> <path>`). A zone file is a JSON file named by its tier and its path under that tier, not an .iss name, and there is no current folder: the folder is part of the path. `ogre ic list [filter]` prints every file's tier and path; `ogre ic check` with no argument lists the files that match the zone you stand in. A missing tier or path is refused with a line and nothing is queued. The row is queued with the IC window's current difficulty pick, as the panel's Add does. There is no add-by-zone-name form, so a line that built the name from the current zone (`${Ogre_Instance_Controller.CleanZoneName}.iss`) becomes that zone file's fixed path.",
    "id": "OldBot framework|Ogre_Instance_Controller:AddInstance_ViaCode_ViaName",
-   "newForm": "ogre ic queue add",
+   "newForm": "ISXOgreEQ2.IC:Queue[add,<tier>,<relPath>]",
    "note": "Added one zone file to the instance controller's list: the first file in the folder the window was showing whose file name matched, or - unless the second argument was TRUE - whose cleaned name matched the cleaned zone name given.",
    "oldCall": "Ogre_Instance_Controller:AddInstance_ViaCode_ViaName",
    "oldName": "Ogre_Instance_Controller:AddInstance_ViaCode_ViaName",
    "oldSpellingToday": "not defined - the new bot does not load Classic's framework, so the name does not exist",
-   "status": "portedElsewhere",
+   "status": "signature",
    "surface": "OldBot framework"
   },
   {
-   "howToFix": "Write `ogre ic -<option>` (on) or `ogre ic -<option>=off`; several fit in one command, and `ogre ic options` lists them. By id:\nrun_instances_checkbox TRUE: `ogre ic runlist` (from row 1; set the options first) - FALSE: `ogre ic -stopAfterZone` (this zone finishes, then the list stops)\ncall_to_gh_after_each_zone_checkbox: `-callGHAfterEachZone`\nskip_shinies_checkbox: `-skipShinies`\nogreim_checkbox: `-im`\npause_at_end_of_zone_checkbox: `-haltAtEnd`\nlow_gear_mode_checkbox: none - delete the line\nic_file_option_1 / _2 / _3: `-fileOption1` / `-fileOption2` / `-fileOption3`\nloop_list_checkbox: `-loop`\nstay_in_instance_until_any_zone_available_checkbox: `-stayInZoneUntilZoneReady`\npause_notradeshinies_checkbox: `-pauseForNoTradeShinies`\nskip_groupmember_dead_missing_checks: `-skipGroupChecks`\ndo_not_reset_zones_use_existing_zones: `-resetZones` the other way round - TRUE `-resetZones=off`, FALSE `-resetZones`\ncall_to_gh_when_finished: `-callGH` - camp_when_finished: `-campAtEnd` - exit_when_finished: `-exitIfCampFails`\nRun Instances ticked runs the list from row 1, as `runlist` does (`ogre ic runlist N` starts at row N); unticking let the zone in progress finish, as `-stopAfterZone` does, while `ogre ic stop` stops at once\nIn Classic, skip_shinies_checkbox also set OgreBot's `checkbox_loot_donotlootshinies` the same way; `-skipShinies` does not - add `OgreBotAPI.Options:Set[all,checkbox_loot_donotlootshinies,TRUE]` if you want that too\nFor example, run instances TRUE, ogreim FALSE, low gear FALSE and pause at end TRUE become `ogre ic -im=off -haltAtEnd` and then `ogre ic runlist`.",
+   "howToFix": "Write `ISXOgreEQ2.IC:Options[-<option>]` (on) or `ISXOgreEQ2.IC:Options[-<option>=off]`; several fit in one call, one per argument, and `ogre ic options` lists them (typed: `ogre ic -<option>`). By id:\nrun_instances_checkbox TRUE: `ISXOgreEQ2.IC:RunList` (from row 1; set the options first) - FALSE: `ISXOgreEQ2.IC:Options[-stopAfterZone]` (this zone finishes, then the list stops)\ncall_to_gh_after_each_zone_checkbox: `-callGHAfterEachZone`\nskip_shinies_checkbox: `-skipShinies`\nogreim_checkbox: `-im`\npause_at_end_of_zone_checkbox: `-haltAtEnd`\nlow_gear_mode_checkbox: none - delete the line\nic_file_option_1 / _2 / _3: `-fileOption1` / `-fileOption2` / `-fileOption3`\nloop_list_checkbox: `-loop`\nstay_in_instance_until_any_zone_available_checkbox: `-stayInZoneUntilZoneReady`\npause_notradeshinies_checkbox: `-pauseForNoTradeShinies`\nskip_groupmember_dead_missing_checks: `-skipGroupChecks`\ndo_not_reset_zones_use_existing_zones: `-resetZones` the other way round - TRUE `-resetZones=off`, FALSE `-resetZones`\ncall_to_gh_when_finished: `-callGH` - camp_when_finished: `-campAtEnd` - exit_when_finished: `-exitIfCampFails`\nRun Instances ticked runs the list from row 1, as `RunList` does (`ISXOgreEQ2.IC:RunList[N]` starts at row N); unticking let the zone in progress finish, as `-stopAfterZone` does, while `ISXOgreEQ2.IC:Stop` stops at once\nIn Classic, skip_shinies_checkbox also set OgreBot's `checkbox_loot_donotlootshinies` the same way; `-skipShinies` does not - add `OgreBotAPI.Options:Set[all,checkbox_loot_donotlootshinies,TRUE]` if you want that too\nFor example, run instances TRUE, ogreim FALSE, low gear FALSE and pause at end TRUE become `ISXOgreEQ2.IC:Options[-im=off,-haltAtEnd]` and then `ISXOgreEQ2.IC:RunList`.",
    "id": "OldBot framework|Ogre_Instance_Controller:ChangeUIOptionViaCode",
-   "newForm": "ogre ic -<option>[=on|off]",
+   "newForm": "ISXOgreEQ2.IC:Options[-<option>[=on|off]]",
    "note": "Ticked (TRUE, the default) or unticked one of the instance controller window's own tick-boxes, named by its control id - the same as clicking it. It reached only that window's controls: an OgreBot option id was not found and did nothing.",
    "oldCall": "Ogre_Instance_Controller:ChangeUIOptionViaCode",
    "oldName": "Ogre_Instance_Controller:ChangeUIOptionViaCode",
    "oldSpellingToday": "not defined - the new bot does not load Classic's framework, so the name does not exist",
-   "status": "portedElsewhere",
+   "status": "signature",
    "surface": "OldBot framework"
   },
   {
@@ -47904,20 +47904,20 @@
    "surface": "OldBot framework"
   },
   {
-   "howToFix": "Write `ogre ic queue clear` - it empties the instance controller's queue (and saves it, as the panel's Clear does).",
+   "howToFix": "Write `ISXOgreEQ2.IC:Queue[clear]` - it empties the instance controller's queue (and saves it, as the panel's Clear does). Typed, it is `ogre ic queue clear`.",
    "id": "OldBot framework|Ogre_Instance_Controller:Clear_ZonesToRun",
-   "newForm": "ogre ic queue clear",
+   "newForm": "ISXOgreEQ2.IC:Queue[clear]",
    "note": "Emptied the instance controller's list of zones to run.",
    "oldCall": "Ogre_Instance_Controller:Clear_ZonesToRun",
    "oldName": "Ogre_Instance_Controller:Clear_ZonesToRun",
    "oldSpellingToday": "not defined - the new bot does not load Classic's framework, so the name does not exist",
-   "status": "portedElsewhere",
+   "status": "renamed",
    "surface": "OldBot framework"
   },
   {
-   "howToFix": "Delete the line. The new instance controller reads three fixed folders - `default` (the bot's zone files), `test`, and `custom` (OgreSave/EQ2/IC/custom, for your own) - and `ogre ic queue add <tier> <path>` names a file in one of them. Put your own zone files under the custom folder.",
+   "howToFix": "Delete the line. The new instance controller reads three fixed folders - `default` (the bot's zone files), `test`, and `custom` (OgreSave/EQ2/IC/custom, for your own) - and `ISXOgreEQ2.IC:Queue[add,<tier>,<path>]` names a file in one of them. Put your own zone files under the custom folder.",
    "id": "OldBot framework|Ogre_Instance_Controller:Set_BaseDirectory",
-   "newForm": "ogre ic queue add",
+   "newForm": "ISXOgreEQ2.IC:Queue[add,<tier>,<relPath>]",
    "note": "Pointed the instance controller window at another top folder of instance files.",
    "oldCall": "Ogre_Instance_Controller:Set_BaseDirectory",
    "oldName": "Ogre_Instance_Controller:Set_BaseDirectory",
@@ -47926,9 +47926,9 @@
    "surface": "OldBot framework"
   },
   {
-   "howToFix": "Delete the line and put the folder in the path you queue: `ogre ic queue add <default|test|custom> <folder>/<file>.json`. The new instance controller has no current folder; `ogre ic list [filter]` prints every file's tier and path.",
+   "howToFix": "Delete the line and put the folder in the path you queue: `ISXOgreEQ2.IC:Queue[add,<default|test|custom>,<folder>/<file>.json]`. The new instance controller has no current folder; `ogre ic list [filter]` prints every file's tier and path.",
    "id": "OldBot framework|Ogre_Instance_Controller:Set_CurrentDirectory",
-   "newForm": "ogre ic queue add",
+   "newForm": "ISXOgreEQ2.IC:Queue[add,<tier>,<relPath>]",
    "note": "Changed the folder the instance controller window was showing, so the next add by name looked there.",
    "oldCall": "Ogre_Instance_Controller:Set_CurrentDirectory",
    "oldName": "Ogre_Instance_Controller:Set_CurrentDirectory",
@@ -48238,6 +48238,17 @@
    "surface": "OldBot framework"
   },
   {
+   "howToFix": "Keep `ogre craftingmats -<flags>` lines as they are. A bare `ogre craftingmats` that meant \"pull the default mats\" becomes `ogre craftingmats -vov -sig` (or the script call `ISXOgreEQ2.CraftingMats:Get`). A line whose first flag has no dash (`ogre craftingmats cd sig`) needs the dash: `ogre craftingmats -cd -sig`. A script can write `ISXOgreEQ2.CraftingMats:Get[-cd,-sig]`.",
+   "id": "OldBot framework|ogre craftingmats",
+   "newForm": "ogre craftingmats",
+   "note": "Classic's `ogre craftingmats [flags]` pulled a craft's mats out of the Harvesting Supply Depot; with no flags it pulled the Visions of Vetrovia signature line. The new bare `ogre craftingmats` opens the list editor instead, and the first word must be a `-` flag (`-cd -sig`, not `cd sig`).",
+   "oldCall": "ogre craftingmats",
+   "oldName": "ogre craftingmats",
+   "oldSpellingToday": "works with `-` flags (`ogre craftingmats -sig -vov` pulls as before); bare opens the list editor instead of pulling, and a first word without a dash is refused with the list of words - nothing is pulled",
+   "status": "signature",
+   "surface": "OldBot framework"
+  },
+  {
    "howToFix": "Delete the line - there is no replacement.",
    "id": "OldBot framework|ogre ica",
    "note": "Classic's instance-controller assistant.",
@@ -48255,6 +48266,28 @@
    "oldName": "ogre instance_helpers",
    "oldSpellingToday": "not defined - the new bot does not load Classic's framework, so the name does not exist",
    "status": "removed",
+   "surface": "OldBot framework"
+  },
+  {
+   "howToFix": "Write `ogre craftingmats -ka` (Kunark's Ascending, daily + weekly). Keep any `-d` / `-w` after it: `ogre kacraftingmats -w` becomes `ogre craftingmats -ka -w` (weekly alone). A script writes `ISXOgreEQ2.CraftingMats:Get[-ka]`.",
+   "id": "OldBot framework|ogre kacraftingmats",
+   "newForm": "ogre craftingmats -ka",
+   "note": "Classic's second crafting-mats command: Kunark's Ascending, daily + weekly, with no flags (`-d` / `-w` picked one).",
+   "oldCall": "ogre kacraftingmats",
+   "oldName": "ogre kacraftingmats",
+   "oldSpellingToday": "not defined - the new bot does not load Classic's framework, so the name does not exist",
+   "status": "renamed",
+   "surface": "OldBot framework"
+  },
+  {
+   "howToFix": "Write `ogre craftingmats -ka` (Kunark's Ascending, daily + weekly - what this name always ran). For the weekly list alone write `ogre craftingmats -ka -w`. A script writes `ISXOgreEQ2.CraftingMats:Get[-ka]`.",
+   "id": "OldBot framework|ogre kacraftingweeklymats",
+   "newForm": "ogre craftingmats -ka",
+   "note": "An alias of Classic's `ogre kacraftingmats` (the same embedded script): Kunark's Ascending, daily + weekly - not weekly alone.",
+   "oldCall": "ogre kacraftingweeklymats",
+   "oldName": "ogre kacraftingweeklymats",
+   "oldSpellingToday": "not defined - the new bot does not load Classic's framework, so the name does not exist",
+   "status": "renamed",
    "surface": "OldBot framework"
   },
   {

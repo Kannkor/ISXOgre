@@ -1,8 +1,8 @@
-# ISXOgre (the old extension)
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../index.md).
 </div>
+
+# ISXOgre (the old extension)
 
 Everything Classic's *ISXOgre API Reference* page described (except the detrimentals, which have [their own page](detrimentals.md)), and what each one is in the new bot.
 
@@ -100,7 +100,7 @@ return "${OgreBotAPI.Util.MD5["${_Input}"]}"
 | `ISXOgre:OgreConsole` | does nothing | — | ⛔ Removed | Sending a console line in the new bot is `oc` / ISXOgreX.Console:Send. |
 | `ISXOgre:OgreIRC` | does nothing | — | ⛔ Removed | The new IRC door is `ogre irc`. |
 | `ISXOgre:OgreIRCTest` | does nothing | — | ⛔ Removed | Old: is marked "OLD DOES NOT WORK NO LONGER USED" and returns false before executing. Public doc: NOT in. |
-| `ISXOgre:Patch` | does nothing | `ogre patch` | ➡️ Lives somewhere else | Inside a script the same door is ISXOgreX.Patch:Run. |
+| `ISXOgre:Patch` | does nothing | `ogre patch` | ➡️ Lives somewhere else | Inside a script the same run is ISXOgreX.Patch:Update (no human types a bare native command); its other words are methods of their own - ISXOgreX.Patch:Status, RevertExt, Mesh, Class, Ignore. |
 | `ISXOgre:PatchDev` | does nothing | — | ⛔ Removed | Old: already did nothing in Classic - it prints "Development build is no longer being used" and returns before the patch code. Nothing to port. Public doc: NOT in. |
 | `ISXOgre:PatchLive` | does nothing | `ogre patch` | ➡️ Lives somewhere else |  |
 | `ISXOgre:ReportPing` | does nothing | `ogre sessions` | ➡️ Lives somewhere else | No call to make: every session's core now reports to the uplink on its own, every 5 s. See the uplink's table with `ogre sessions`. |

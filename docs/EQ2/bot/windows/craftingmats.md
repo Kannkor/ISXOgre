@@ -1,8 +1,8 @@
-# Crafting Mats
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# Crafting Mats
 
 > **:bulb: In game - the ? button on this window says**
 >
@@ -23,7 +23,7 @@
 > - Removing a row from a shipped list stops that list getting future updates.
 > - Closing the window keeps unsaved changes; switching to another list throws them away.
 
-**Open it:** Type `ogre craftingmats` (or `ogre cmats`) with nothing after it. With options (e.g. `ogre craftingmats -sig -vov`) it RUNS instead: pulls those mats out of the Harvesting Supply Depot and buys the fuel. `ogre end craftingmats` closes the window.
+**Open it:** Type `ogre craftingmats` (or `ogre cmats`) with nothing after it. With options (e.g. `ogre craftingmats -sig -vov`) it RUNS instead: pulls those mats out of the Harvesting Supply Depot and buys the fuel. `ogre end craftingmats` (or `ogre craftingmats close`) closes the window. From a script: `ISXOgreEQ2.CraftingMats:Open` / `:Close`.
 
 [![Crafting Mats](../assets/craftingmats/window.png)](../assets/craftingmats/window.png "Click for full size")
 
@@ -42,6 +42,8 @@ One button per list. A small badge says where it comes from: no badge = the ship
 | **List buttons (cd, ka, mm, pop, vov, ...)** | Opens that list for editing. Unsaved changes to the list you were on are thrown away. |
 | **+ new list** | Starts a new list of your own. Type its short name in the item name box first - that name is what you will type after `ogre craftingmats` to use it. The new list gets one category, 'all'.<br>*With the name box empty it only shows a message.* |
 
+
+
 ## Choosing a category
 
 [![Choosing a category](../assets/craftingmats/categories.png)](../assets/craftingmats/categories.png "Click for full size")
@@ -50,6 +52,8 @@ One button per list. A small badge says where it comes from: no badge = the ship
 |---|---|
 | **Category buttons (signature, daily, weekly, all ...)** | Shows that category's Mats and Fuel below. An 'all' category is always used, whatever categories a run asks for. |
 | **+ category** | Adds a category named whatever is in the item name box to this list.<br>*A run can only ask for signature, daily or weekly (and always uses 'all'), so a category with any other name is never used by `ogre craftingmats`. With the name box empty a message says where to type the name; a name the list already has just selects that category.* |
+
+
 
 ## Mats and Fuel
 
@@ -61,6 +65,8 @@ Left: materials withdrawn from the Harvesting Supply Depot. Right: fuel bought f
 |---|---|
 | **Quantity box on a row** | Changes that item's amount. It is applied when you press Enter or click away.<br>*0, blank or text is ignored and the old number comes back.* |
 | **× (remove this row)** | Removes the item from this category.<br>*Removing something from a shipped list turns your saved copy into a full replacement (see below).* |
+
+
 
 ## Adding an item
 
@@ -74,6 +80,8 @@ Left: materials withdrawn from the Harvesting Supply Depot. Right: fuel bought f
 | **Add to mats** | Adds the item to the Mats side of the selected category. If it is already there, its amount is replaced with the new one. |  |
 | **Add to fuel** | Same, on the Fuel side. |  |
 
+
+
 ## Save and Revert
 
 The grey text shows the folder your edits are written to.
@@ -86,11 +94,14 @@ The grey text shows the folder your edits are written to.
 | **Save** | Writes your changes to your own folder (OgreSave/EQ2/CraftingMats/custom) and reloads the lists, so the next `ogre craftingmats` run uses them. Only what you changed is written, so later updates to the shipped list still reach the rest. If your changes match the shipped list exactly, your file is deleted.<br>*Only active when there are unsaved changes.* |
 | **Title bar close (X)** | Closes the window. Unsaved changes are kept: the next time it opens they are still there, with a reminder to Save or Revert. Without unsaved changes the list is read fresh from disk.<br>*`ogre craftingmats` while the window is already open does nothing.* |
 
+
+
 ## Removing a row from a shipped list
 
 Your saved file can only ADD to or CHANGE a shipped list. The moment you remove a row (or category) that came with the shipped list, this orange warning appears: Save will then write the whole list as a full replacement ('noMerge'), and that list will no longer pick up future shipped updates.
 
 [![Removing a row from a shipped list](../assets/craftingmats/willwipe.png)](../assets/craftingmats/willwipe.png "Click for full size")
+
 
 ## What the window shows
 
@@ -100,7 +111,9 @@ Your saved file can only ADD to or CHANGE a shipped list. The moment you remove 
 
 ## Good to know
 
-- Plain `ogre craftingmats` opens this window. Add options (like `-sig -vov`) to actually pull mats; `ogre craftingmats help` lists them.
+- Plain `ogre craftingmats` opens this window. Add options (like `-sig -vov`) to actually pull mats; `ogre craftingmats help` lists them. Each list or category is typed with its dash (`-cd -sig`, not `cd sig`).
+- A list typed without a category pulls its signature line. A list with no signature line pulls its daily and weekly: `ogre craftingmats -ka` is Kunark's Ascending daily + weekly.
+- A word that is not an option is ignored with a warning. A command with nothing but such words (a typo like `-sgi`) pulls nothing, and the warning lists the options.
 - Amounts are totals to hold, not top-ups.
 - Removing any row from a shipped list stops that list getting future shipped updates.
 - Switching to another list throws away unsaved changes without asking. Closing and reopening the window keeps them.

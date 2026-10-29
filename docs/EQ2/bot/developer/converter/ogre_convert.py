@@ -87,7 +87,7 @@ class Map:
         self.OLD = re.compile(r'(?<![A-Za-z0-9_.])(call\s+)?(%s)([.:])([A-Za-z0-9_]+)' % names, re.I)
         self.NEW = re.compile(r'(?<![A-Za-z0-9_])OgreBotAPI\.([A-Za-z0-9_]+)(?:([.:])([A-Za-z0-9_]+))?')
         # a console line: `oc !c …`, `irc !c …`, or a bare `!c …` (an MCP console-route button)
-        self.OC = re.compile(r'(?:\b(?:oc|irc)\s+|^\s*)!(?:ci?|command)\b\s*(.*)$', re.I)
+        self.OC = CONSOLE_LINE
         self.con_params = {k: v for k, v in self.m.get('newConsoleParams', {}).items()}
         self.new_ogre = set(self.m.get('newOgre', []))
         self.idioms = [(re.compile(e['pattern']), e) for e in self.m.get('idioms', [])]
@@ -234,19 +234,120 @@ OLDOBJ = re.compile(r'(?<![A-Za-z0-9_.$])((?:Ogre|Obj_|Object_|Ob_)[A-Za-z0-9_]*
 INCL = re.compile(r'^\s*#include(?:optional)?\s+"?([^"\r\n]+)', re.I)
 CLASSIC_TREES = re.compile(r'(?:^|[\\/])(?:EQ2OgreBot|EQ2OgreCommon|OgreCommon|EQ2OgreCraft|EQ2OgreHarvest)[\\/]', re.I)
 
-# `ogre <word>` in COMMAND position only (a line start, after `relay <group>` / `timedcommand <n>` / execute, or a
-# quoted command) and lowercase - `echo "Ogre will ..."` is prose
-OGRECMD = re.compile(r'(?:^\s*|relay\s+\S+\s+|timedcommand\s+\d+\s+|execute\s+|")ogre(?:\s+end)?\s+([a-z][a-z0-9_]*)')
+# ------------------------------------------------------------------ the commands a line RUNS (one parser)
+# A Classic line often runs its command through a WRAPPER, and wrappers nest (`timedcommand 5 relay all ogre console`).
+# Each wrapper the Classic scripts really use is peeled to the command it carries, and that command is read exactly
+# like a line of its own - `relay all ogre bookcase` says what `ogre bookcase` says. The wrapper stays as written.
+#   relay <target> <command>                           relay all ogre dev / relay ${OgreRelayGroup} ogre reloadbot
+#   timedcommand [<delay>] <command>                   timedcommand 5 relay all ogre console (a delay: a number or ${...})
+#   squelch <command> / execute <command>
+#   oc|irc !c|!ci -OgreCommandOB_AP <who> <words>      runs `ogre <words>` for <who>: oc !ci -OgreCommandOB_AP igw:${Me.Name} end qh
+#   oc|irc !c|!ci -RawCommandOB_AP <who> <command>     runs <command> for <who> (so does -RawCommandRequiresOgreBot_AllParams,
+#                                                      and the new console's -RawCommand, the same shape)
+# A carried command that is ONE quoted string is that string unquoted, an escaped quote (`\"`) inside it read as a
+# quote: `relay all "ogre bookcase"`, `relay all "oc !c -RawCommandOB_AP all \"ogre bookcase\""`.
+# On a line that is not a console line, a "quoted string" that is itself a command counts too, peeled the same way
+# (`_TempCode:Set["ogre ..."]`, `TimedCommand 10 "ogre end im"`). A console line's quoted text is a verb's argument.
+CONSOLE_LINE = re.compile(r'(?:\b(?:oc|irc)\s+|^\s*)!(?:ci?|command)\b\s*(.*)$', re.I)
+CONSOLE_BANG = re.compile(r'^!(?:ci?|command)$', re.I)
+CONSOLE_ROUTE = ('-cfw', '-tab', '-rg')
+WRAP_PLAIN = ('squelch', 'execute')
+CARRY_OGRE = ('-ogrecommandob_ap',)
+CARRY_RAW = ('-rawcommandob_ap', '-rawcommandrequiresogrebot_allparams', '-rawcommand')
+QUOTED = re.compile(r'"((?:[^"\\]|\\.)*)"')
+DELAY = re.compile(r'^(?:\d+(?:\.\d+)?|\$\{.*\})$')
+
+def tokens(text):
+    """-> [(word, start)] a command line's words: whitespace splits them, except inside "quoted text" (an escaped `\\"`
+    does not end it) or a [...] / {...} (a ${...} with spaces in it is one word)."""
+    out, i, n = [], 0, len(text)
+    while i < n:
+        if text[i].isspace():
+            i += 1; continue
+        s, depth, quoted = i, 0, False
+        while i < n:
+            c = text[i]
+            if quoted:
+                if c == '\\' and i + 1 < n:
+                    i += 2; continue
+                quoted = c != '"'
+            elif c == '"':
+                quoted = True
+            elif c in '[{':
+                depth += 1
+            elif c in ']}':
+                depth = max(0, depth - 1)
+            elif c.isspace() and depth == 0:
+                break
+            i += 1
+        out.append((text[s:i], s))
+    return out
+
+def unquote(text):
+    """The text, or - when the whole text is ONE quoted string - its inside, `\\"` read as `"`."""
+    t = text.strip()
+    if len(t) >= 2 and t[0] == '"' and t[-1] == '"' and len(tokens(t)) == 1:
+        return t[1:-1].replace('\\"', '"')
+    return t
+
+def carried(cmd):
+    """The command a wrapper line carries (see above), or None when `cmd` is not a wrapper."""
+    tk = tokens(cmd)
+    if not tk: return None
+    w, k = tk[0][0].lower(), None
+    if w == 'relay':
+        k = 2
+    elif w == 'timedcommand':
+        k = 2 if len(tk) > 1 and DELAY.match(tk[1][0]) else 1
+    elif w in WRAP_PLAIN:
+        k = 1
+    elif w in ('oc', 'irc') or CONSOLE_BANG.match(w):
+        i = 0 if CONSOLE_BANG.match(w) else 1
+        if i >= len(tk) or not CONSOLE_BANG.match(tk[i][0]): return None
+        i += 1
+        while i < len(tk) and tk[i][0].lower() in CONSOLE_ROUTE: i += 2          # the new console's routing flags
+        while i < len(tk) and not tk[i][0].startswith('-'): i += 1             # a stray word (`irc !c <dest>`)
+        if i + 2 >= len(tk) or tk[i][0].lower() not in CARRY_OGRE + CARRY_RAW: return None
+        inner = unquote(cmd[tk[i + 2][1]:])                                      # after the verb and its <who>
+        return ('ogre ' + inner) if tk[i][0].lower() in CARRY_OGRE else inner
+    if k is None or k >= len(tk): return None
+    return unquote(cmd[tk[k][1]:])
+
+def commands_run(line, depth=0):
+    """-> every command `line` runs, outermost first: the line itself, then what each wrapper carries, then (not on a
+    console line) each quoted string's commands. Bounded: a wrapper carries one command, and 8 levels is far past
+    anything written."""
+    out, cmd = [], line.strip()
+    for _ in range(8):
+        if not cmd or cmd in out: break
+        out.append(cmd)
+        cmd = carried(cmd)
+        if cmd is None: break
+    if depth < 3:
+        for c in list(out):
+            if CONSOLE_LINE.search(c): continue
+            for q in QUOTED.finditer(c):
+                for x in commands_run(q.group(1).replace('\\"', '"'), depth + 1):
+                    if x not in out: out.append(x)
+    return out
+
+# `ogre <word>` at the START of a command the line runs (commands_run). The `ogre` keyword is lowercase - `echo "Ogre
+# will ..."` is prose. The WORD (and `end`) is any case, read folded: Classic's `ogre` command lowercased its first two
+# words before matching them (ISXOgre CMD_EQ2OgreLoader), so `ogre TransmuteSalvageExtractIt` ran `transmutesalvageextractit`.
+OGREWORD = re.compile(r'^ogre(?:\s+(?i:end))?\s+([A-Za-z][A-Za-z0-9_]*)')
 OLDEXT = re.compile(r'\bext\s+(?:-unload\s+)?isxogre(?![A-Za-z0-9])', re.I)
 
 def raw_commands(M, line):
     """-> [(text, why)] raw bot commands a button or script types: `ogre <word>` the new bot has no such
-    word for, and loading / unloading the OLD extension."""
-    out = []
-    if M.OC.search(line): return out
-    for m in OGRECMD.finditer(line):
+    word for, and loading / unloading the OLD extension. Every command the line runs is read (commands_run), so a
+    word inside `relay all ...`, `timedcommand ...` or `oc !c -RawCommandOB_AP <who> ...` is seen; each word once."""
+    out, seen = [], set()
+    for c in commands_run(line):
+        m = OGREWORD.match(c)
+        if not m: continue
         w = m.group(1).lower()
-        if not M.new_ogre or w in M.new_ogre: continue
+        if w in seen or not M.new_ogre or w in M.new_ogre: continue
+        seen.add(w)
         fw = M.by_fw.get('ogre ' + w)
         if fw:                                   # ruled: answered by its row (OLD), not a question
             out.append(('ogre ' + w, '[%s] -> %s' % (fw['status'], fw.get('howToFix') or ''), fw)); continue

@@ -232,6 +232,36 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.10.29.002 {#r2026-10-29-002}
+
+*Thursday, October 29, 2026 at 2:52 PM EDT*
+
+- **Changed** · Bot: **Character reads wait until you are in the world.** While you zone, camp or sit at character select, `ogre assist` prints nothing and `ogre craft queststeps` says "not in world". Script reads about your character, group, target or zone answer empty then instead of reading the game. A console line sent then still reaches a toon by name, class, `all` or `igw:`, but not one aimed by `g1`-`g4`, `groupleader`, an id or an @ alias.
+- **Changed** · Crafting: **Crafting Mats: `-ka` alone pulls Kunark's Ascending, and a typo pulls nothing.** `ogre craftingmats -ka` now pulls Kunark's Ascending daily + weekly, like the old `ogre kacraftingmats` (from a script: `ISXOgreEQ2.CraftingMats:Get[-ka]`; `:GetKA` is gone). A word that is not an option is ignored with a warning, and a command of nothing but such words (`-sgi`) pulls nothing - before, it pulled the Visions of Vetrovia signature line.
+- **Changed** · Crafting: **Crafting stations missing from the bot's list are found by part of their name.** When a recipe needs a station the bot does not know, it now looks for that name anywhere in a nearby station's name, not only an exact match. A station the game calls "an innovative workstation" is found for a recipe that asks for an "Innovative Workstation".
+- **Changed** · Crafting: **The Ogre Craft window's Reload button reloads the craft data files too.** The Reload button at the bottom of the Ogre Craft window now re-reads the craft data files as well as your settings, the same as `ogre craft reload`. `OgreBotAPI.Craft:AddRecipe` now reads a recipe name given as several words the same way `ISXOgreEQ2.Craft:AddRecipe` does, for example `OgreBotAPI.Craft:AddRecipe[all,Tempered,Iron,2]`; a call with one name and a count works as before.
+- **Changed** · Console: **Craft add takes the recipe first.** `ogre craft add` is now `ISXOgreEQ2.Craft:AddRecipe`, so the recipe comes first and the count last: `ogre craft add Tempered Iron 2`, and it also takes a recipe id or `lastknownrecipe`. `Craft:Reload` now reloads the craft data files too, and a script's `Craft:Set` and `Craft:Save` say what they did, as the typed words always have. `Craft:Set` and `Craft:Shop` say what they need when a part is missing.
+- **Fixed** · Bot: **Craft queue adds and edits go to your own queue, in the order you made them.** A recipe you add while writs or quest crafting run now goes into your own setup queue, which comes back when the run ends; it used to be lost. Removing or changing a recipe right after adding it, while the bot is re-reading your recipe book, now happens after the add, not before. Auto tinkering and low level leveling no longer empty your setup queue each round: anything in it is crafted with the next round.
+- **Fixed** · Bot: **Quest helper waits until you stop moving before it clicks anything.** `ogre qh` clicked quest objects and conversation replies while you were moving, and the movement interrupted what the click had started. It now holds every click, hails included, until you are standing still.
+- **Fixed** · Bot: **The craft queue buttons work on your own queue while writs or quest crafting run.** While writs or quest crafting run, Clear Queue, Save Queue, Load Queue, the Setup queue list, `ogre craft queue` and `RecipesInQueue` now use your own setup queue, which is set aside for the run, not the run's crafts. Merchant craft (`ogre mc`) now refuses to start while another craft run is going, instead of clearing that run's queue. After the `-Scribe` command, the bot waits for the knowledge book to close before it re-reads your recipe book.
+- **Fixed** · Windows: **Ability export keeps Celestial abilities when you pick Journeyman+ through Ancient.** Picking any minimum in the Export window other than "All" left out every Celestial ability, because the export did not know Celestial ranks above Ancient. Celestial abilities are now always kept, and the last choice is labelled Ancient+ since it keeps Ancient and Celestial.
+- **Fixed** · Windows: **Quest Compare icons stay drawn properly instead of flickering to a rough version.** The ticks and crosses in the Quest Compare window kept switching between their proper look and a rough, dashed one every few seconds, until you clicked the window. They are now drawn once and only redrawn when someone's step changes.
+- **Fixed** · Windows: **Right-click "Apply this to" in the OgreBot window honours All in For Who.** With All picked in the For Who window, right-clicking an option in the OgreBot window still offered and sent to "my group (igw)". It now sends to all, as picked. With nothing picked in For Who it still sends to your group.
+- **Fixed** · Crafting: **Quest crafting recognises the EMD Traps step.** In "A Stitch in Time, Part I: Security Measures", quest crafting did not recognise "Create EMD Traps at any of the Innovative Workstations" as a craft step and left it for you. It now crafts the Electric Manaetic Device (EMD) for it.
+- **Fixed** · Crafting: **Quest crafting recognises the Hackbot 3000 replacement parts.** In "A Stitch in Time, Part I: Security Measures", quest crafting did not recognise the steps to create the replacement chassis, gears and circuitry for the broken Hackbot 3000, and left them for you. It now crafts the retrofitted chassis, gears and circuitry for them.
+- **Fixed** · Crafting: **The Ogre Craft window shows every queue change; -Scribe ends before the book re-read.** The Ogre Craft window now updates when a queue changes but keeps the same number of rows and crafts, for example a recipe renamed, two rows swapped, or a quantity moved from one row to another by a script. The bot now waits for the whole `-Scribe` command to finish, not only its knowledge-book step, before it re-reads your recipe book.
+- **Fixed** · Other: **The script converter checks commands inside relay, timedcommand and oc !c.** ogre_convert.py now checks the command inside a relay, timedcommand, squelch or execute line, and inside `oc !c -RawCommandOB_AP` and `-OgreCommandOB_AP`, the same way as a line of its own. Before, a line like `relay all ogre bookcase` was not flagged even though that command is gone. Sweep your converted scripts again: it may list a few more lines.
+- **Fixed** · Other: **The script converter checks ogre commands written with capitals.** ogre_convert.py now checks the word after `ogre` in any case, the way the old bot read it. Before, a line like `ogre BookCase` or `relay all ogre BookCase` was not flagged, because only a lowercase word was read. Sweep your converted scripts again: it may list a few more lines.
+- **Removed** · Instance Controller: **Instance Controller: every `ogre ic` word is a script call of its own.** The separate `ogreic` command is gone; `ogre ic` takes the same words. Scripts call each word as its own method: `ISXOgreEQ2.IC:List`, `:Check`, `:Run`, `:RunList`, `:Queue[add|startat|clear,...]`, `:Options[-<option>]`, `:Value`, `:Status`, `:Wipe`, `:Open` and `:Close`. A queue add or start-at missing an argument now says what is missing; after updating, run `ogre ui reload` once.
+- **Removed** · Crafting: **Crafting Mats: every `ogre craftingmats` word is a script call of its own.** The separate `ogrecraftingmats` command is gone and `ogre craftingmats` works as before; scripts call `ISXOgreEQ2.CraftingMats:Open`, `:Close` and `:Get[-sig,-vov]`. Type each list and category with its dash (`-cd -sig`, not `cd sig`; Kunark's Ascending is `-ka`). After updating, run `ogre ui reload` once.
+- **Removed** · Console: **Anti-AFK, Merchant Craft and Refine words are script calls of their own.** `AntiAfk:Run`, `MerchantCraft:Run` and `Refine:Run` are gone; each word is its own `ISXOgreEQ2` call: `AntiAfk:On[1|0]|Off|Invites|Help`, `MerchantCraft:Status|List|Start|Stop|Help` and `Refine:Status|Start|Stop|Plan|Raw|Rare|Bags|Rewards|Reload`. The `ogre` commands take the same words.
+- **Removed** · Console: **Craft words are script calls of their own.** `ISXOgreEQ2.Craft:Run[<word>]` is gone; each `ogre craft` word is its own call. A word that already had one uses it: `start`, `writs`, `tinker`, `lll` and `quest` are `Craft:Start`, `StartWrits`, `StartTinker`, `StartLLL` and `StartQuest`, `add` is `Craft:AddRecipe`, and `stop`, `pause`, `scan`, `reload`, `save` and `set` keep their names. The rest are new calls: `Craft:Help`, `Status`, `Clear`, `Queue`, `Catalog`, `Shop`, `QuestSteps` and `ParseStep`.
+- **Removed** · Console: **Eight tools' `ogre` words are script calls of their own.** `Run[<word>]` is gone from eight tools; each word is its own `ISXOgreEQ2.<tool>` call: `GetQuest:Start|Stop|List|Reload|Status|Help`, `QuestHelper:On[1]|Off|Status|List|Reload|Help`, `Heartstone:Status|On|Off|Now`, `HarvestLite:On|Off|Status|Interval`, `ReplenishNames:Show|Reload`, `Perf:Measure|Stop|Status`, `Experiment:Status|Boost|Items|Run|Stop` and `PotCb:Open|On|Off|Status|Reset|Interval|Help`. The `ogre` commands take the same words. After updating, run `ogre ui reload` once.
+- **Removed** · Console: **Encounter words are script calls of their own.** `ISXOgreEQ2.Encounter:Run[<word>]` is gone; each `ogre encounter` word is its own call: `Encounter:Reload`, `Encounter:Sequences`, `Encounter:Debug[comms|steps,on|off]` and `Encounter:Help`. A word `ogre encounter` does not know now lists its words instead of printing the help.
+- **Removed** · Console: **Nav words are script calls of their own.** `ISXOgreEQ2.Nav:Run[<word>]` is gone; each `ogre nav` word is its own call: `Nav:Flags[...]` takes the flags (`-loc`, `-precision`, `-set` and the rest, in any order), and `Nav:Stop`, `Nav:Status`, `Nav:Help` and `Nav:Open` (the nav window) answer `stop`, `status`, `help` and `panel`. `Nav:Stop` now says when it stops. After updating, run `ogre ui reload` once.
+- **Removed** · Console: **Overseer words are script calls of their own.** `Overseer:Run[<word>]` is gone: `ISXOgreEQ2.Overseer:Run` starts a run and each other word is its own call, `Overseer:Stop|Status|Traits|Probe|Trace|DumpRows|Populate|Shift|Budget|Profile|UiCost`. `Overseer:BuyMissions` takes flags only; stopping and checking a buy run are `Overseer:BuyMissionsStop` and `Overseer:BuyMissionsStatus`. The `ogre` commands take the same words.
+- **Removed** · Console: **Patcher words are script calls of their own.** `ISXOgreX.Patch:Run[<word>]` is gone; each `ogre patch` word is its own call: `ISXOgreX.Patch:Update` (check for and apply updates), `Status`, `RevertExt`, `Mesh`, `Class`, `Ignore` and `TestCorrupt`. Every word after `ogre patch` now reaches the patcher, even before the game part of OgreBot has loaded.
+
 ## 2026.10.29.001 {#r2026-10-29-001}
 
 *Thursday, October 29, 2026 at 12:09 AM EDT*
@@ -1267,6 +1297,8 @@ Setup holds the numbers that tune when the bot fights: how hurt a mob must be be
 | **Auto Follow:** | The group member the `-forcefollow` command follows, using the game's own follow. It only works while 'Auto Follow Mode' on Settings is ticked, and only if that person is in your group and alive.<br>*The list shows your group and raid members. Nothing follows automatically; the command has to be sent.* | empty |
 | **Auto Follow within (35):** | **Not active yet.** It is meant to be the distance for auto follow. | blank |
 
+
+
 ## OgreConsole
 
 | Option | What it does | Default |
@@ -1275,6 +1307,8 @@ Setup holds the numbers that tune when the bot fights: how hurt a mob must be be
 | **Broadcast guild talk through OgreConsole** | Guild and officer chat that this character sees is sent to OgreConsole on all your sessions, as 'name -> <Guild>: text'.<br>*Tick it on one character per guild, or each line arrives once for every character that has it on.* | off |
 | **Play annoying noise when receiving a tell from a stranger** | When a broadcast tell from a stranger (someone not in the receiving character's EQ2Chars list) reaches this session, a loud alarm sound plays.<br>*It is read on the session that plays the sound, not on the character that got the tell.* | off |
 | **Do not show OgreConsole when you get a tell from a friend** | Normally OgreConsole opens when a broadcast tell arrives. Tick this so it only opens for tells from strangers, not from characters in EQ2Chars.<br>*The 'never auto open OgreConsole' option still wins over this.* | off (opens for every tell) |
+
+
 
 ## Good to know
 
@@ -2967,11 +3001,15 @@ The class tab is named after your class (Coercer, Dirge, Channeler, and so on) a
 |---|---|---|
 | **Exploit Weakness** | **Not active yet.** It is meant to control how the bot uses the Exploit Weakness ability. | off |
 
+
+
 ## Brigand
 
 | Option | What it does | Default |
 |---|---|---|
 | **While Crimson Swath (Epic 2.0 buff) is up, cast Barrooms in cast stack ignoring # of NPCs.** | **Not active yet.** It is meant to let your Barroom abilities on the Cast Stack fire while Crimson Swath is up, even when too few mobs are in range for the area-attack rules. | off |
+
+
 
 ## Channeler
 
@@ -2983,6 +3021,8 @@ The class tab is named after your class (Coercer, Dirge, Channeler, and so on) a
 | **(drop-down beside the box)** | The conduit to cast while Snap Channel is up. The list shows your abilities that fit conduit slots 4 to 8, from your ability export.<br>*The saved value is the ability's name, so a choice carried over from an old profile works.* | empty |
 | **When CastStack for Construct's Sacrifice says "UseChannelerTab" - only cast if pet health is at or above this %** | For a Construct's Sacrifice entry on your Cast Stack set to 'UseChannelerTab': the bot only casts it in combat, on your own pet, when the pet's health is at or above this %, and not while the buff is already on you.<br>*The ability export tags Construct's Sacrifice as 'UseChannelerTab' for you. Other types ignore this box.* | empty (counts as 0: any pet health) |
 
+
+
 ## Coercer
 
 | Option | What it does | Default |
@@ -2991,6 +3031,8 @@ The class tab is named after your class (Coercer, Dirge, Channeler, and so on) a
 | **Archetype Preference:** | The archetype (fighter, priest, mage or scout) Possess Essence is cast on: the first of you and your group of that archetype who is alive and in the zone - you first. If your pet came from a different essence and someone of this archetype is here, the bot dismisses the pet so the next Possess Essence goes to them.<br>*Empty means Possess Essence is never cast, as in the old bot. Only your group is searched, not the rest of a raid. The list offers fighter, priest, mage and scout.* | empty |
 | **Do not cast in combat.** | Possess Essence is not cast while you are in combat. | off |
 | **Cast outside of instances - such as overland zones and guild halls.** | Allows Possess Essence outside instances. Unticked, it is only cast inside instances. | off |
+
+
 
 ## Conjuror
 
@@ -3002,11 +3044,15 @@ The class tab is named after your class (Coercer, Dirge, Channeler, and so on) a
 | **Do NOT automatically cast "Shadowstep" while casting other abilities.** | **Not active yet.** In the old bot, Shadowstep was slipped in automatically alongside your other casts unless this was ticked. The new bot does not do that automatic cast at all. | off |
 | **Do NOT automatically cast "Magic Leash" while casting other abilities.** | **Not active yet.** In the old bot, Magic Leash was slipped in automatically alongside your other casts unless this was ticked. The new bot does not do that automatic cast at all. | off |
 
+
+
 ## Defiler
 
 | Option | What it does | Default |
 |---|---|---|
 | **Do not use leg bite.** | **Not active yet.** In the old bot, Leg Bite was cast automatically alongside your other abilities unless this was ticked.<br>*One encounter file (the Unseen) ticks it for 20 seconds, but nothing reads it yet.* | off |
+
+
 
 ## Dirge
 
@@ -3016,6 +3062,8 @@ The class tab is named after your class (Coercer, Dirge, Channeler, and so on) a
 | **Cast Confront Fear** | Your dirge casts Confront Fear on whoever is waiting for it: fighters first, then priests, then everyone else, oldest request first. Requests come from your other characters, the request text below, and your own revive sickness.<br>*Nothing is cast while it is unticked: requests still queue and are dropped after 2 minutes. Requests are sent by the 'Request confront fear' boxes on the Other tab of the character who died.* | off |
 | **Confront Fear text to listen for:Example: Need a confront fear** | When someone says a line containing this text in group, raid or a tell, your dirge adds them to its Confront Fear list. Capital letters do not matter.<br>*Empty means chat is not listened to. The cure itself still needs 'Cast Confront Fear' ticked.* | empty |
 | **Confront Fear text to listen for from other dirges: Example: Casting confront fear on** | When another player says a line containing this text in group, raid or a tell, your dirge takes the LAST word of that line as a name and removes that player from its Confront Fear list, so two dirges do not cure the same player.<br>*Put the name at the end of the line, for example 'Casting confront fear on Bob'. Your own lines are ignored. The bot does not say this line itself.* | empty |
+
+
 
 ## Inquisitor
 
@@ -3030,6 +3078,8 @@ The class tab is named after your class (Coercer, Dirge, Channeler, and so on) a
 | **Verdict On Heroic Named @** | **Not active yet.** It is meant to use Verdict on named heroic mobs when they reach the health % typed in the box below. | off |
 | **(% box beside it)** | **Not active yet.** The mob health % for 'Verdict On Heroic Named @'. | empty |
 
+
+
 ## Mystic
 
 | Option | What it does | Default |
@@ -3038,6 +3088,8 @@ The class tab is named after your class (Coercer, Dirge, Channeler, and so on) a
 | **Cancel Torpor if its target is out of combat** | At lower levels Torpor slows whoever it is on. While the bot is running, if your Torpor is on someone who is no longer in combat, the bot cancels it so they are not left walking around slowed. It only cancels your own Torpor. | off |
 | **Cancel Torpor if its target is farther away than the range below** | While the bot is running, if your Torpor is on someone farther away from you than the range below, the bot cancels it so they are not slowed while running ahead. It only cancels your own Torpor. | off |
 | **Torpor range in meters (blank = 20)** | How far away, in meters, the target of your Torpor can be before the bot cancels it. Leave it blank for 20, which is also Torpor's own casting range. | blank (20) |
+
+
 
 ## Necromancer
 
@@ -3048,6 +3100,8 @@ The class tab is named after your class (Coercer, Dirge, Channeler, and so on) a
 | **Do NOT automatically cast "Shadowstep" while casting other abilities.** | **Not active yet.** In the old bot, Shadowstep was slipped in automatically alongside your other casts unless this was ticked. The new bot does not do that automatic cast at all. | off |
 | **Do NOT automatically cast "Magic Leash" while casting other abilities.** | **Not active yet.** In the old bot, Magic Leash was slipped in automatically alongside your other casts unless this was ticked. The new bot does not do that automatic cast at all. | off |
 
+
+
 ## Ranger
 
 | Option | What it does | Default |
@@ -3057,11 +3111,15 @@ The class tab is named after your class (Coercer, Dirge, Channeler, and so on) a
 | **Cancel Wreak Havoc** | **Not active yet.** It is meant to let the bot cancel your Wreak Havoc.<br>*The bot does notice Wreak Havoc on its own (it lets you cast while moving), but this box plays no part in that.* | off |
 | **Cancel Tracing Shot** | **Not active yet.** It is meant to let the bot cancel your Tracing Shot. | off |
 
+
+
 ## Troubador
 
 | Option | What it does | Default |
 |---|---|---|
 | **POTM rotation text to listen for: (Use Announce for calling out POTM)** | **Not active yet.** In the old bot, several troubadors took turns casting Perfection of the Maestro (POTM) by listening for this chat line.<br>*The hint in brackets means: the call-out itself is set up on the Announce tab. For taking turns today, use the Ability Embargo tab.* | empty |
+
+
 
 ## Warlock
 
@@ -3070,6 +3128,8 @@ The class tab is named after your class (Coercer, Dirge, Channeler, and so on) a
 | **Toggle Myth Click Automatically** | **Not active yet.** It is meant to let the bot switch your Mythical weapon's click on and off for you. | off |
 | **Do NOT Force Myth OFF for Dark Siphoning** | **Not active yet.** It belongs to 'Toggle Myth Click Automatically' above: it would stop the bot turning the Myth click off for Dark Siphoning. | off |
 | **Debugging for Myth** | **Not active yet.** It would print extra messages about the automatic Myth toggle. | off |
+
+
 
 ## Good to know
 
@@ -5757,7 +5817,7 @@ The grey text on the right: how many recipes are in your recipe book, how many r
 | Control | What it does |
 |---|---|
 | **Save Settings** | Writes the settings to disk now. You rarely need it: every change saves by itself about a second later.<br>*Settings live in OgreSave/EQ2/Craft/settings.json.* |
-| **Reload** | Re-reads the settings from disk, throwing away any change that has not been saved yet. |
+| **Reload** | Re-reads the settings and the craft data files from disk, the same as `ogre craft reload`. A setting change that has not been saved yet is thrown away. |
 | **Tab list (left)** | Switches between the seven tabs. Display only. |
 
 
@@ -5790,7 +5850,7 @@ These decide which recipes from your book appear in the list below. They are als
 |---|---|---|
 | **Quantity:** | How many to craft when you add a recipe. 1 to 9999. | 1 |
 | **Add Recipe** | Adds the highlighted recipe to the setup queue with the Quantity. If it is already queued, the quantity is added on top.<br>*Click a recipe in the list first. Double-clicking a recipe does the same.* |  |
-| **Start quest** | Crafts the quest that is selected in your quest journal: one of each recipe the quest's steps ask for, then re-reads the quest and goes again, until no craft step is left. Your setup queue is put aside and given back at the end.<br>*Select the quest in your journal first. Greyed out while anything is running. If a step needs a component you do not have yet (one the quest has you gather), it waits for it, counting again whenever your bags change (at most every 5 seconds); after 60 minutes it stops and says what is still missing.* |  |
+| **Start quest** | Crafts the quest that is selected in your quest journal: one of each recipe the quest's steps ask for, then re-reads the quest and goes again, until no craft step is left. Your setup queue is put aside and given back at the end; recipes you add while it runs go into your queue, not the quest's.<br>*Select the quest in your journal first. Greyed out while anything is running. If a step needs a component you do not have yet (one the quest has you gather), it waits for it, counting again whenever your bags change (at most every 5 seconds); after 60 minutes it stops and says what is still missing.* |  |
 | **Rescan recipe book** | Reads every recipe in your recipe book again. Use it after learning new recipes if they do not show up. |  |
 
 
@@ -5807,14 +5867,14 @@ Level, name and technique of each recipe that passes the filters. Click a row to
 
 ## Queues tab - the setup queue
 
-The recipes waiting to be crafted by Start Queue.
+The recipes waiting to be crafted by Start Queue. While writs or quest crafting run, this is your own setup queue, set aside for the run; every button on this tab works on it, and the run's crafts are not shown here.
 
 | Control | What it does |
 |---|---|
 | **− (one fewer)** | Lowers that row's quantity by 1. At 0 the row is removed. |
 | **+ (one more)** | Raises that row's quantity by 1. |
 | **× (remove from the queue)** | Removes the recipe from the setup queue. |
-| **Clear Queue** | Empties the setup queue. No confirmation. |
+| **Clear Queue** | Empties the setup queue. No confirmation.<br>*During a writ or quest run it empties your own setup queue; the run's crafts are not touched.* |
 
 
 
@@ -5823,8 +5883,8 @@ The recipes waiting to be crafted by Start Queue.
 | Control | What it does | Default |
 |---|---|---|
 | **Queue name** | The name to save the setup queue under, or to load. | empty |
-| **Save Queue** | Saves the setup queue to disk under that name (overwrites a queue with the same name).<br>*Queues live in OgreSave/EQ2/Craft/queues. A failed save shows a red message at the top.* |  |
-| **Load Queue** | Replaces the setup queue with the saved queue of that name. Recipes this character does not know are left out and named in the console. |  |
+| **Save Queue** | Saves the setup queue to disk under that name (overwrites a queue with the same name).<br>*Queues live in OgreSave/EQ2/Craft/queues. A failed save shows a red message at the top. During a writ or quest run it saves your own setup queue, not the run's.* |  |
+| **Load Queue** | Replaces the setup queue with the saved queue of that name. Recipes this character does not know are left out and named in the console.<br>*During a writ or quest run it replaces your own setup queue, which comes back when the run ends.* |  |
 | **Saved queue names (buttons)** | One button per saved queue. Click one to put its name in the Queue name box. It does not load it. |  |
 
 
@@ -5893,7 +5953,7 @@ Built when a queue starts: every component and fuel the queue needs, how many it
 | **Writ Count** | How many rush-order writs to do in one run. 1 to 200. | 10 |
 | **Writ Option** | Which reply to click at the rush order agent, counted from the top (1 to 4). It is a position, not a level - if you get the wrong tier of writ, change it. | 1 |
 | **Camp when finished writs** | Camps to the desktop when a writ run ends by itself (finished or failed).<br>*Never camps after you press Stop, or after a death.* | off |
-| **Start Writs** | Starts the writ run. Your setup queue is put aside during the run and given back at the end.<br>*Greyed out while anything is running. Needs tradeskill level 20+.* |  |
+| **Start Writs** | Starts the writ run. Your setup queue is put aside during the run and given back at the end; recipes you add while it runs go into your queue, not the writ's.<br>*Greyed out while anything is running. Needs tradeskill level 20+.* |  |
 
 
 
@@ -5906,7 +5966,7 @@ Built when a queue starts: every component and fuel the queue needs, how many it
 | **Sell to a vendor what is crafted** | Sells the items the run made. | on |
 | **Destroy what is crafted (selling wins if both are set)** | Destroys the items the run made. If Sell is also ticked, they are sold instead. | off |
 | **Sell/Destroy after each round instead of at the end** | On = get rid of the items after every round. Off = keep them until the run ends, then sell/destroy them all in one trip. | on |
-| **Start Auto Tinkering** | Repeats rounds (buy tinkering books, craft, sell/destroy) until tinkering is maxed.<br>*Greyed out while anything is running.* |  |
+| **Start Auto Tinkering** | Repeats rounds (buy tinkering books, craft, sell/destroy) until tinkering is maxed. Anything already in your setup queue is crafted with the next round.<br>*Greyed out while anything is running.* |  |
 
 
 
@@ -5919,7 +5979,7 @@ Built when a queue starts: every component and fuel the queue needs, how many it
 | **Sell to a vendor what is crafted** | Sells the items the run made. | on |
 | **Destroy what is crafted (selling wins if both are set)** | Destroys the items the run made. If Sell is also ticked, they are sold instead. | off |
 | **Sell/Destroy after each round instead of at the end** | On = after every round. Off = once at the end of the run. | on |
-| **Start Low Level Leveling** | Levels a crafter from 1 to 9 and from 10 to 19. It stops at level 9 and at 19 - go see a crafting trainer, then start it again.<br>*Greyed out while anything is running.* |  |
+| **Start Low Level Leveling** | Levels a crafter from 1 to 9 and from 10 to 19. It stops at level 9 and at 19 - go see a crafting trainer, then start it again. Anything already in your setup queue is crafted with the next round.<br>*Greyed out while anything is running.* |  |
 
 
 
@@ -6060,7 +6120,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - Removing a row from a shipped list stops that list getting future updates.
 > - Closing the window keeps unsaved changes; switching to another list throws them away.
 
-**Open it:** Type `ogre craftingmats` (or `ogre cmats`) with nothing after it. With options (e.g. `ogre craftingmats -sig -vov`) it RUNS instead: pulls those mats out of the Harvesting Supply Depot and buys the fuel. `ogre end craftingmats` closes the window.
+**Open it:** Type `ogre craftingmats` (or `ogre cmats`) with nothing after it. With options (e.g. `ogre craftingmats -sig -vov`) it RUNS instead: pulls those mats out of the Harvesting Supply Depot and buys the fuel. `ogre end craftingmats` (or `ogre craftingmats close`) closes the window. From a script: `ISXOgreEQ2.CraftingMats:Open` / `:Close`.
 
 ## What it is for
 
@@ -6075,12 +6135,16 @@ One button per list. A small badge says where it comes from: no badge = the ship
 | **List buttons (cd, ka, mm, pop, vov, ...)** | Opens that list for editing. Unsaved changes to the list you were on are thrown away. |
 | **+ new list** | Starts a new list of your own. Type its short name in the item name box first - that name is what you will type after `ogre craftingmats` to use it. The new list gets one category, 'all'.<br>*With the name box empty it only shows a message.* |
 
+
+
 ## Choosing a category
 
 | Control | What it does |
 |---|---|
 | **Category buttons (signature, daily, weekly, all ...)** | Shows that category's Mats and Fuel below. An 'all' category is always used, whatever categories a run asks for. |
 | **+ category** | Adds a category named whatever is in the item name box to this list.<br>*A run can only ask for signature, daily or weekly (and always uses 'all'), so a category with any other name is never used by `ogre craftingmats`. With the name box empty a message says where to type the name; a name the list already has just selects that category.* |
+
+
 
 ## Mats and Fuel
 
@@ -6090,6 +6154,8 @@ Left: materials withdrawn from the Harvesting Supply Depot. Right: fuel bought f
 |---|---|
 | **Quantity box on a row** | Changes that item's amount. It is applied when you press Enter or click away.<br>*0, blank or text is ignored and the old number comes back.* |
 | **× (remove this row)** | Removes the item from this category.<br>*Removing something from a shipped list turns your saved copy into a full replacement (see below).* |
+
+
 
 ## Adding an item
 
@@ -6101,6 +6167,8 @@ Left: materials withdrawn from the Harvesting Supply Depot. Right: fuel bought f
 | **Add to mats** | Adds the item to the Mats side of the selected category. If it is already there, its amount is replaced with the new one. |  |
 | **Add to fuel** | Same, on the Fuel side. |  |
 
+
+
 ## Save and Revert
 
 The grey text shows the folder your edits are written to.
@@ -6110,6 +6178,8 @@ The grey text shows the folder your edits are written to.
 | **Revert** | Throws away unsaved changes and shows the list as it is on disk. On a brand-new list you have not saved yet, there is nothing on disk to go back to: Revert discards the new list and says so.<br>*Only active when there are unsaved changes.* |
 | **Save** | Writes your changes to your own folder (OgreSave/EQ2/CraftingMats/custom) and reloads the lists, so the next `ogre craftingmats` run uses them. Only what you changed is written, so later updates to the shipped list still reach the rest. If your changes match the shipped list exactly, your file is deleted.<br>*Only active when there are unsaved changes.* |
 | **Title bar close (X)** | Closes the window. Unsaved changes are kept: the next time it opens they are still there, with a reminder to Save or Revert. Without unsaved changes the list is read fresh from disk.<br>*`ogre craftingmats` while the window is already open does nothing.* |
+
+
 
 ## Removing a row from a shipped list
 
@@ -6123,7 +6193,9 @@ Your saved file can only ADD to or CHANGE a shipped list. The moment you remove 
 
 ## Good to know
 
-- Plain `ogre craftingmats` opens this window. Add options (like `-sig -vov`) to actually pull mats; `ogre craftingmats help` lists them.
+- Plain `ogre craftingmats` opens this window. Add options (like `-sig -vov`) to actually pull mats; `ogre craftingmats help` lists them. Each list or category is typed with its dash (`-cd -sig`, not `cd sig`).
+- A list typed without a category pulls its signature line. A list with no signature line pulls its daily and weekly: `ogre craftingmats -ka` is Kunark's Ascending daily + weekly.
+- A word that is not an option is ignored with a warning. A command with nothing but such words (a typo like `-sgi`) pulls nothing, and the warning lists the options.
 - Amounts are totals to hold, not top-ups.
 - Removing any row from a shipped list stops that list getting future shipped updates.
 - Switching to another list throws away unsaved changes without asking. Closing and reopening the window keeps them.
@@ -7325,6 +7397,8 @@ On the right: how many frames have been counted, and how many times a job paused
 | **Refresh** | Updates the numbers. The window does not update by itself. |  |
 | **Title bar close (X)** | Closes the window. Your slices and ceiling stay in force. |  |
 
+
+
 ## Resumable sections
 
 One row per job that can be spread over frames. A job only appears after it has run once this session; jobs saved from earlier sessions are listed greyed out with '(idle)' - you can still set their slice, and it is used as soon as the job runs.
@@ -7332,6 +7406,8 @@ One row per job that can be spread over frames. A job only appears after it has 
 | Control | What it does | Default |
 |---|---|---|
 | **Slice µs/f (the box on each row)** | How long that job may run each frame, in microseconds, before it pauses and carries on in the next frame. 0 = run the whole job in one frame. Saved when you press Enter or click away.<br>*On an '(idle)' row the new slice is saved and handed to that job the first time it runs.* | craft: recipe scan 1500, analysis: actor scan 1000, abilityupgrades: row walk 1000 |
+
+
 
 ## Pulse profile
 

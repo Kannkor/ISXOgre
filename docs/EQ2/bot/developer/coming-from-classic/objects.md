@@ -14,16 +14,16 @@ The Classic objects scripts used that Classic's docs never had a page for (`GetI
 
 | What happened | Names |
 |---|---|
-| ⚠️ Arguments changed | 75 |
+| ⚠️ Arguments changed | 76 |
 | ⚠️ Argument order changed | 10 |
-| ✏️ Renamed | 77 |
+| ✏️ Renamed | 79 |
 | ➡️ Moved | 6 |
 | ➡️ Lives somewhere else | 168 |
 | 📄 In a data file now | 25 |
 | ⛔ Exists, does nothing yet | 1 |
 | ⛔ Not ported yet | 189 |
 | ⛔ Removed | 52 |
-| **Total** | **603** |
+| **Total** | **606** |
 
 ## Worked examples
 
@@ -449,8 +449,11 @@ call Obj_OgreUtilities.HandleWaitForCombat -TimeOutIfNoProgress 30
 | `Object_Timer` | not defined - the new bot does not load Classic's framework, so the name does not exist | `ogretimer` | ✏️ Renamed | Declare `variable ogretimer Timer_X` (or `variable ogretimer Timer_X = 1500` to start it running, in ms) - the core's countdown, with the same methods and members (Set, SetSeconds, SetMinutes, SetHours, SetMinimum..., Inc / Dec..., Stop; TimeLeft in ms, SecondsLeft). `ogre_convert.py fix` swaps the type in every declaration; then remove the `#include` of OgreCommon/Object_Timer.inc. An ogretimer only counts down: to fire an event when time runs out use ISXOgreEQ2.Scheduler:FireEvent[ms,&lt;event&gt;]. In fight and IC files use the `timer` action and the `timerLeft` / `timerExpired` conditions.<br>… |
 | `ogre bookcase` | not defined - the new bot does not load Classic's framework, so the name does not exist | — | ⛔ Removed | Delete the line - there is no replacement.<br>Classic's bookcase tool. |
 | `ogre craft2int` | not defined - the new bot does not load Classic's framework, so the name does not exist | — | ⛔ Removed | Delete the line. To craft, use `ogre craft`.<br>Classic's internal craft2 loader. |
+| `ogre craftingmats` | works | `ogre craftingmats` | ⚠️ Arguments changed | Keep `ogre craftingmats -<flags>` lines as they are. A bare `ogre craftingmats` that meant "pull the default mats" becomes `ogre craftingmats -vov -sig` (or the script call `ISXOgreEQ2.CraftingMats:Get`). A line whose first flag has no dash (`ogre craftingmats cd sig`) needs the dash: `ogre craftingmats -cd -sig`. A script can write `ISXOgreEQ2.CraftingMats:Get[-cd,-sig]`.<br>… |
 | `ogre ica` | not defined - the new bot does not load Classic's framework, so the name does not exist | — | ⛔ Removed | Delete the line - there is no replacement.<br>Classic's instance-controller assistant. |
 | `ogre instance_helpers` | not defined - the new bot does not load Classic's framework, so the name does not exist | — | ⛔ Removed | Delete the line - the instance controller runs instance files itself.<br>Started Classic's instance-helper script. |
+| `ogre kacraftingmats` | not defined - the new bot does not load Classic's framework, so the name does not exist | `ogre craftingmats -ka` | ✏️ Renamed | Write `ogre craftingmats -ka` (Kunark's Ascending, daily + weekly). Keep any `-d` / `-w` after it: `ogre kacraftingmats -w` becomes `ogre craftingmats -ka -w` (weekly alone). A script writes `ISXOgreEQ2.CraftingMats:Get[-ka]`.<br>Classic's second crafting-mats command: Kunark's Ascending, daily + weekly, with no flags (`-d` / `-w` picked one). |
+| `ogre kacraftingweeklymats` | not defined - the new bot does not load Classic's framework, so the name does not exist | `ogre craftingmats -ka` | ✏️ Renamed | Write `ogre craftingmats -ka` (Kunark's Ascending, daily + weekly - what this name always ran). For the weekly list alone write `ogre craftingmats -ka -w`. A script writes `ISXOgreEQ2.CraftingMats:Get[-ka]`.<br>An alias of Classic's `ogre kacraftingmats` (the same embedded script): Kunark's Ascending, daily + weekly - not weekly alone. |
 | `ogre meshuiint` | not defined - the new bot does not load Classic's framework, so the name does not exist | — | ⛔ Not ported yet | Not ported yet - a new tool covering the mesh UI and travel is planned.<br>Classic's internal mesh UI tool (`int` = internal). |
 | `ogre navtest` | not defined - the new bot does not load Classic's framework, so the name does not exist | — | ⛔ Removed | Delete the line - there is no replacement.<br>Classic's navigation test window. |
 | `ogre travelint` | not defined - the new bot does not load Classic's framework, so the name does not exist | — | ⛔ Not ported yet | Not ported yet - a new tool covering the mesh UI and travel is planned.<br>Classic's internal travel tool (`int` = internal). |

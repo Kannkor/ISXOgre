@@ -1,7 +1,7 @@
 # OgreBot for EverQuest II - documentation, Windows (part 3 of 4)
 
 OgreBot is in beta testing. For OgreBot Classic see https://kannkor.github.io/ISXOgre/EQ2/
-This file is ONE PIECE of the documentation: Windows (part 3 of 4) - Windows - Loot and items; Windows - Crafting; Windows - Groups and accounts; Windows - Tools.
+This file is ONE PIECE of the documentation: Windows (part 3 of 4) - Windows - Loot and items; Windows - Crafting; Windows - Groups and accounts.
 The entire documentation in one document: https://kannkor.github.io/ISXOgre/EQ2/bot/llms-full.txt
 Index of every page and of every file like this one: https://kannkor.github.io/ISXOgre/EQ2/bot/llms.txt
 
@@ -126,7 +126,7 @@ The grey text on the right: how many recipes are in your recipe book, how many r
 | Control | What it does |
 |---|---|
 | **Save Settings** | Writes the settings to disk now. You rarely need it: every change saves by itself about a second later.<br>*Settings live in OgreSave/EQ2/Craft/settings.json.* |
-| **Reload** | Re-reads the settings from disk, throwing away any change that has not been saved yet. |
+| **Reload** | Re-reads the settings and the craft data files from disk, the same as `ogre craft reload`. A setting change that has not been saved yet is thrown away. |
 | **Tab list (left)** | Switches between the seven tabs. Display only. |
 
 
@@ -159,7 +159,7 @@ These decide which recipes from your book appear in the list below. They are als
 |---|---|---|
 | **Quantity:** | How many to craft when you add a recipe. 1 to 9999. | 1 |
 | **Add Recipe** | Adds the highlighted recipe to the setup queue with the Quantity. If it is already queued, the quantity is added on top.<br>*Click a recipe in the list first. Double-clicking a recipe does the same.* |  |
-| **Start quest** | Crafts the quest that is selected in your quest journal: one of each recipe the quest's steps ask for, then re-reads the quest and goes again, until no craft step is left. Your setup queue is put aside and given back at the end.<br>*Select the quest in your journal first. Greyed out while anything is running. If a step needs a component you do not have yet (one the quest has you gather), it waits for it, counting again whenever your bags change (at most every 5 seconds); after 60 minutes it stops and says what is still missing.* |  |
+| **Start quest** | Crafts the quest that is selected in your quest journal: one of each recipe the quest's steps ask for, then re-reads the quest and goes again, until no craft step is left. Your setup queue is put aside and given back at the end; recipes you add while it runs go into your queue, not the quest's.<br>*Select the quest in your journal first. Greyed out while anything is running. If a step needs a component you do not have yet (one the quest has you gather), it waits for it, counting again whenever your bags change (at most every 5 seconds); after 60 minutes it stops and says what is still missing.* |  |
 | **Rescan recipe book** | Reads every recipe in your recipe book again. Use it after learning new recipes if they do not show up. |  |
 
 
@@ -176,14 +176,14 @@ Level, name and technique of each recipe that passes the filters. Click a row to
 
 ## Queues tab - the setup queue
 
-The recipes waiting to be crafted by Start Queue.
+The recipes waiting to be crafted by Start Queue. While writs or quest crafting run, this is your own setup queue, set aside for the run; every button on this tab works on it, and the run's crafts are not shown here.
 
 | Control | What it does |
 |---|---|
 | **− (one fewer)** | Lowers that row's quantity by 1. At 0 the row is removed. |
 | **+ (one more)** | Raises that row's quantity by 1. |
 | **× (remove from the queue)** | Removes the recipe from the setup queue. |
-| **Clear Queue** | Empties the setup queue. No confirmation. |
+| **Clear Queue** | Empties the setup queue. No confirmation.<br>*During a writ or quest run it empties your own setup queue; the run's crafts are not touched.* |
 
 
 
@@ -192,8 +192,8 @@ The recipes waiting to be crafted by Start Queue.
 | Control | What it does | Default |
 |---|---|---|
 | **Queue name** | The name to save the setup queue under, or to load. | empty |
-| **Save Queue** | Saves the setup queue to disk under that name (overwrites a queue with the same name).<br>*Queues live in OgreSave/EQ2/Craft/queues. A failed save shows a red message at the top.* |  |
-| **Load Queue** | Replaces the setup queue with the saved queue of that name. Recipes this character does not know are left out and named in the console. |  |
+| **Save Queue** | Saves the setup queue to disk under that name (overwrites a queue with the same name).<br>*Queues live in OgreSave/EQ2/Craft/queues. A failed save shows a red message at the top. During a writ or quest run it saves your own setup queue, not the run's.* |  |
+| **Load Queue** | Replaces the setup queue with the saved queue of that name. Recipes this character does not know are left out and named in the console.<br>*During a writ or quest run it replaces your own setup queue, which comes back when the run ends.* |  |
 | **Saved queue names (buttons)** | One button per saved queue. Click one to put its name in the Queue name box. It does not load it. |  |
 
 
@@ -262,7 +262,7 @@ Built when a queue starts: every component and fuel the queue needs, how many it
 | **Writ Count** | How many rush-order writs to do in one run. 1 to 200. | 10 |
 | **Writ Option** | Which reply to click at the rush order agent, counted from the top (1 to 4). It is a position, not a level - if you get the wrong tier of writ, change it. | 1 |
 | **Camp when finished writs** | Camps to the desktop when a writ run ends by itself (finished or failed).<br>*Never camps after you press Stop, or after a death.* | off |
-| **Start Writs** | Starts the writ run. Your setup queue is put aside during the run and given back at the end.<br>*Greyed out while anything is running. Needs tradeskill level 20+.* |  |
+| **Start Writs** | Starts the writ run. Your setup queue is put aside during the run and given back at the end; recipes you add while it runs go into your queue, not the writ's.<br>*Greyed out while anything is running. Needs tradeskill level 20+.* |  |
 
 
 
@@ -275,7 +275,7 @@ Built when a queue starts: every component and fuel the queue needs, how many it
 | **Sell to a vendor what is crafted** | Sells the items the run made. | on |
 | **Destroy what is crafted (selling wins if both are set)** | Destroys the items the run made. If Sell is also ticked, they are sold instead. | off |
 | **Sell/Destroy after each round instead of at the end** | On = get rid of the items after every round. Off = keep them until the run ends, then sell/destroy them all in one trip. | on |
-| **Start Auto Tinkering** | Repeats rounds (buy tinkering books, craft, sell/destroy) until tinkering is maxed.<br>*Greyed out while anything is running.* |  |
+| **Start Auto Tinkering** | Repeats rounds (buy tinkering books, craft, sell/destroy) until tinkering is maxed. Anything already in your setup queue is crafted with the next round.<br>*Greyed out while anything is running.* |  |
 
 
 
@@ -288,7 +288,7 @@ Built when a queue starts: every component and fuel the queue needs, how many it
 | **Sell to a vendor what is crafted** | Sells the items the run made. | on |
 | **Destroy what is crafted (selling wins if both are set)** | Destroys the items the run made. If Sell is also ticked, they are sold instead. | off |
 | **Sell/Destroy after each round instead of at the end** | On = after every round. Off = once at the end of the run. | on |
-| **Start Low Level Leveling** | Levels a crafter from 1 to 9 and from 10 to 19. It stops at level 9 and at 19 - go see a crafting trainer, then start it again.<br>*Greyed out while anything is running.* |  |
+| **Start Low Level Leveling** | Levels a crafter from 1 to 9 and from 10 to 19. It stops at level 9 and at 19 - go see a crafting trainer, then start it again. Anything already in your setup queue is crafted with the next round.<br>*Greyed out while anything is running.* |  |
 
 
 
@@ -429,7 +429,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - Removing a row from a shipped list stops that list getting future updates.
 > - Closing the window keeps unsaved changes; switching to another list throws them away.
 
-**Open it:** Type `ogre craftingmats` (or `ogre cmats`) with nothing after it. With options (e.g. `ogre craftingmats -sig -vov`) it RUNS instead: pulls those mats out of the Harvesting Supply Depot and buys the fuel. `ogre end craftingmats` closes the window.
+**Open it:** Type `ogre craftingmats` (or `ogre cmats`) with nothing after it. With options (e.g. `ogre craftingmats -sig -vov`) it RUNS instead: pulls those mats out of the Harvesting Supply Depot and buys the fuel. `ogre end craftingmats` (or `ogre craftingmats close`) closes the window. From a script: `ISXOgreEQ2.CraftingMats:Open` / `:Close`.
 
 ## What it is for
 
@@ -444,12 +444,16 @@ One button per list. A small badge says where it comes from: no badge = the ship
 | **List buttons (cd, ka, mm, pop, vov, ...)** | Opens that list for editing. Unsaved changes to the list you were on are thrown away. |
 | **+ new list** | Starts a new list of your own. Type its short name in the item name box first - that name is what you will type after `ogre craftingmats` to use it. The new list gets one category, 'all'.<br>*With the name box empty it only shows a message.* |
 
+
+
 ## Choosing a category
 
 | Control | What it does |
 |---|---|
 | **Category buttons (signature, daily, weekly, all ...)** | Shows that category's Mats and Fuel below. An 'all' category is always used, whatever categories a run asks for. |
 | **+ category** | Adds a category named whatever is in the item name box to this list.<br>*A run can only ask for signature, daily or weekly (and always uses 'all'), so a category with any other name is never used by `ogre craftingmats`. With the name box empty a message says where to type the name; a name the list already has just selects that category.* |
+
+
 
 ## Mats and Fuel
 
@@ -459,6 +463,8 @@ Left: materials withdrawn from the Harvesting Supply Depot. Right: fuel bought f
 |---|---|
 | **Quantity box on a row** | Changes that item's amount. It is applied when you press Enter or click away.<br>*0, blank or text is ignored and the old number comes back.* |
 | **× (remove this row)** | Removes the item from this category.<br>*Removing something from a shipped list turns your saved copy into a full replacement (see below).* |
+
+
 
 ## Adding an item
 
@@ -470,6 +476,8 @@ Left: materials withdrawn from the Harvesting Supply Depot. Right: fuel bought f
 | **Add to mats** | Adds the item to the Mats side of the selected category. If it is already there, its amount is replaced with the new one. |  |
 | **Add to fuel** | Same, on the Fuel side. |  |
 
+
+
 ## Save and Revert
 
 The grey text shows the folder your edits are written to.
@@ -479,6 +487,8 @@ The grey text shows the folder your edits are written to.
 | **Revert** | Throws away unsaved changes and shows the list as it is on disk. On a brand-new list you have not saved yet, there is nothing on disk to go back to: Revert discards the new list and says so.<br>*Only active when there are unsaved changes.* |
 | **Save** | Writes your changes to your own folder (OgreSave/EQ2/CraftingMats/custom) and reloads the lists, so the next `ogre craftingmats` run uses them. Only what you changed is written, so later updates to the shipped list still reach the rest. If your changes match the shipped list exactly, your file is deleted.<br>*Only active when there are unsaved changes.* |
 | **Title bar close (X)** | Closes the window. Unsaved changes are kept: the next time it opens they are still there, with a reminder to Save or Revert. Without unsaved changes the list is read fresh from disk.<br>*`ogre craftingmats` while the window is already open does nothing.* |
+
+
 
 ## Removing a row from a shipped list
 
@@ -492,7 +502,9 @@ Your saved file can only ADD to or CHANGE a shipped list. The moment you remove 
 
 ## Good to know
 
-- Plain `ogre craftingmats` opens this window. Add options (like `-sig -vov`) to actually pull mats; `ogre craftingmats help` lists them.
+- Plain `ogre craftingmats` opens this window. Add options (like `-sig -vov`) to actually pull mats; `ogre craftingmats help` lists them. Each list or category is typed with its dash (`-cd -sig`, not `cd sig`).
+- A list typed without a category pulls its signature line. A list with no signature line pulls its daily and weekly: `ogre craftingmats -ka` is Kunark's Ascending daily + weekly.
+- A word that is not an option is ignored with a warning. A command with nothing but such words (a typo like `-sgi`) pulls nothing, and the warning lists the options.
 - Amounts are totals to hold, not top-ups.
 - Removing any row from a shipped list stops that list getting future shipped updates.
 - Switching to another list throws away unsaved changes without asking. Closing and reopening the window keeps them.
@@ -1223,140 +1235,3 @@ Names must match the whole name exactly (capital letters do not matter). "Wander
 ![Nothing watched yet](../assets/watcher/empty.png)
 
 With an empty list both tools are idle. Add a name (or the **-rorr** preset), then click the **idle** pill next to Find to turn it on.
-
-
----
-
-Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/exportgui.md
-
-# Ability Export
-
-> **:bulb: In game - the ? button on this window says**
->
-> Makes the ability file OgreBot needs to cast your abilities, by reading your knowledge book one ability at a time.
->
-> **What you can do here**
->
-> - **Choose what to include**: passives, ascension abilities, a minimum tier or level range, or just a few named abilities.
-> - **Merge** into the file you have, write a **Fresh file**, or add **Only abilities I don't have yet** (much faster).
-> - **Tradeskill export instead** makes the files Ogre Craft uses.
-> - **Run export** starts it. This window steps aside while it runs; the small Exporting Abilities window shows progress and can stop it.
->
-> **Good to know**
->
-> - A full export takes a while. OgreBot reloads your abilities when it finishes, unless it was a dry run or you ticked **Don't reload OgreBot when finished**.
-> - `ogre export -start` runs with the options set here, without opening this window.
-> - Your choices are saved as you make them.
-> - If none of the abilities in **Just these abilities** is found, nothing is exported and the top line says so.
-
-**Open it:** Type `ogre export` (or `ogre abilityexport`); typing it again while the window is open does nothing. `ogre export -start` runs an export straight away with the options set in this window, without opening it. `ogre export -default -start` does the same with the default options. `ogre end export` closes the window.
-
-## What it is for
-
-OgreBot needs a list of your character's abilities to cast them. This window makes that list: it reads your knowledge book, one ability at a time, and writes the file OgreBot loads. You pick what to include, then press Run export. While it runs, this window steps aside and the small Exporting Abilities window shows progress. When it finishes, OgreBot reloads your abilities and cast stack from the new file (unless you turn that off).
-
-## Top row
-
-The yellow text left of the buttons is the result of the last thing you did (for example 'Export finished.', 'Export stopped - nothing was written.' or 'Options reset to defaults.').
-
-| Control | What it does | Default |
-|---|---|---|
-| **Help** | Shows or hides a short explanation under every option. Display only - changes what you see, not what the bot does.<br>*The explanations are the same plain-language text as this page.* | off |
-| **Reset** | Puts every option back to its default and saves that straight away. |  |
-| **Run export / Run (dry run) / Run cache action / Running…** | Starts the export with the options shown. The label tells you what will happen: 'Run (dry run)' when nothing will be written, 'Run cache action' when you picked a cache action that does not export. While the export runs this window steps aside; the small Exporting Abilities window shows the progress and has the Stop button.<br>*Greyed out while the red 'can't run' box is showing, and while an export is already running.* |  |
-| **Title bar close (X)** | Closes this window. It does not stop an export that is already running. |  |
-
-## What to export
-
-| Control | What it does | Default |
-|---|---|---|
-| **Include passive abilities** | Adds your passive abilities to the file. They are left out unless you tick this.<br>*Has no effect on a tradeskill export.* | off |
-| **Tradeskill export instead** | Exports ONLY your tradeskill abilities, for Ogre Craft, instead of your combat abilities. It writes up to three files (your crafting class, plus tinkering and adorning if you have them) into the EQ2OgreCraft TSExports folder.<br>*It opens and closes the Examine window once per ability - leave the game window alone while it runs.* | off |
-| **Skip ascension abilities** | Leaves your ascension abilities out of the file.<br>*Cannot be ticked together with 'Ascension abilities ONLY' - the window refuses to run.* | off |
-| **Ascension abilities ONLY** | Exports nothing but your ascension abilities. | off |
-| **Include effect descriptions** | Keeps each ability's effect text in the file. Untick for a smaller file. OgreBot works out what an ability does either way. | on |
-
-## Minimum tier
-
-Pick one. Only abilities at or above the chosen tier are exported.
-
-| Control | What it does | Default |
-|---|---|---|
-| **All tiers** | Exports every tier. | selected |
-| **Journeyman+** | Leaves out Apprentice abilities. |  |
-| **Adept+** | Keeps Adept and higher. |  |
-| **Expert+** | Keeps Expert and higher. |  |
-| **Master+** | Keeps Master and higher. |  |
-| **Grandmaster+** | Keeps Grandmaster and higher. |  |
-| **Ancient** | Keeps only Ancient abilities.<br>*The old bot never actually filtered on Ancient; this one does.* |  |
-
-## Level range
-
-| Control | What it does | Default |
-|---|---|---|
-| **Minimum level** | Skips abilities whose class level is below this number. 0 means no minimum.<br>*AA and ascension abilities count as level 0, so any minimum above 0 drops all of them (the window warns you).* | 0 |
-| **Maximum level** | Skips abilities whose class level is above this number. 999 means no maximum.<br>*Must be a whole number and not below the minimum, or the window refuses to run.* | 999 |
-
-## Export file
-
-| Control | What it does | Default |
-|---|---|---|
-| **Merge into existing export** | Starts from the file you already have and adds or updates abilities in it. Abilities not rescanned this time are kept.<br>*On a tradeskill export, only the recorded highest tradeskill level carries over - the ability list is rebuilt from this run.* | selected |
-| **Fresh file (replace)** | Ignores the file you already have and writes a brand-new one from this run only. |  |
-| **Only abilities I don't have yet** | Merges, but skips every ability already in your file without looking it up again. The quick way to add newly learned abilities.<br>*Abilities already in the file are not refreshed.* |  |
-| **Dry run (do not write)** | Does the whole scan but writes nothing, and OgreBot is not reloaded.<br>*The category cache (below) is still updated.* | off |
-| **Don't reload OgreBot when finished** | Normally, when an export finishes, OgreBot reloads your abilities and cast stack from the new file. Tick this to leave them as they are. | off |
-
-## Category cache
-
-The cache only makes exports faster: it remembers which abilities an export would throw away anyway, so they are not looked up again. It never changes what ends up in the file. Leave it on Normal unless something is wrong.
-
-| Control | What it does | Default |
-|---|---|---|
-| **Normal (load + use + record)** | Uses the shared cache and adds anything new it learns. | selected |
-| **Consolidate, then export** | Folds the cache notes your other sessions left into the main cache first, then exports as normal. Normally only the first session (is1) does this. |  |
-| **Consolidate only (no export)** | Folds the other sessions' cache notes into the main cache and stops. No export runs.<br>*Run it after your other characters have exported.* |  |
-| **Clear the cache (no export)** | Empties the cache and stops. No export runs. The next normal export rebuilds it.<br>*Only needed if the cache has gone bad.* |  |
-
-## Just these abilities
-
-| Control | What it does | Default |
-|---|---|---|
-| **Ability names or IDs** | Leave blank to export everything. Otherwise type ability names (spelled as in your knowledge book) or ability ID numbers, separated by commas or new lines, and only those are exported. With 'Merge' the rest of your file is kept as it was.<br>*Names that are not found are listed on the console. If none of them is in your knowledge book, nothing is exported and the window's top row says so.* | empty |
-
-## What the window shows
-
-- Grey text next to each option (like -passive) is the matching script word, for the command at the bottom. Display only.
-- Yellow 'Heads up' box: things worth knowing about the options you picked. You can still run.
-- Red 'These options can't run' box: something must be fixed first. Run export is greyed out until it is.
-- Green command line: the same export as a one-line script command (ISXOgreEQ2.Export:Abilities[...]). Display only.
-- Saves to: where the file will be written - normally OgreSave/EQ2/OgreBot/AbilityExports/V3_<name>_<class>_<server>_AbilityExport.json. For a tradeskill export it shows the folder instead ('up to 3 files in').
-- Footer: a reminder that `ogre export -start` skips this window.
-
-## Good to know
-
-- A full export looks up every ability one at a time and takes a while. 'Only abilities I don't have yet' is much faster.
-- Every option change is saved as you make it, so the window opens the same way next time.
-- `ogre export -start` uses the options set in this window. `ogre export -default` (without -start) shows the defaults here without saving them - they are saved as soon as you change an option or press Run export.
-- Stopping an export (Stop, or closing the small progress window) writes nothing - the old file is untouched, and this window's top row says 'Export stopped - nothing was written.'
-- If none of the abilities in 'Just these abilities' is in your knowledge book, nothing is exported and the top row says so. Names that are not found are listed on the console.
-- Typing `ogre export` while this window is open does nothing.
-- Options file: OgreSave/EQ2/OgreBot/AbilityExports/export-gui.json. Delete it to go back to defaults.
-
-### While an export runs
-
-Pressing Run export hides this window and opens the small **Exporting Abilities** window (see its own page). When the export ends, this window comes back with the result in the top row.
-
-### Examples
-
-A combination that cannot run - both ascension boxes ticked:
-
-![Error box](../assets/exportgui/error.png)
-
-A tradeskill export of two named abilities - it saves to a folder, and the window warns you about what that means:
-
-![Tradeskill export](../assets/exportgui/tradeskill.png)
-
-With **Help** on:
-
-![Help on](../assets/exportgui/help.png)

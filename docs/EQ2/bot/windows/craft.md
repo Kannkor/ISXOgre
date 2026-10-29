@@ -54,7 +54,7 @@ The grey text on the right: how many recipes are in your recipe book, how many r
 | Control | What it does |
 |---|---|
 | **Save Settings** | Writes the settings to disk now. You rarely need it: every change saves by itself about a second later.<br>*Settings live in OgreSave/EQ2/Craft/settings.json.* |
-| **Reload** | Re-reads the settings from disk, throwing away any change that has not been saved yet. |
+| **Reload** | Re-reads the settings and the craft data files from disk, the same as `ogre craft reload`. A setting change that has not been saved yet is thrown away. |
 | **Tab list (left)** | Switches between the seven tabs. Display only. |
 
 
@@ -91,7 +91,7 @@ These decide which recipes from your book appear in the list below. They are als
 |---|---|---|
 | **Quantity:** | How many to craft when you add a recipe. 1 to 9999. | 1 |
 | **Add Recipe** | Adds the highlighted recipe to the setup queue with the Quantity. If it is already queued, the quantity is added on top.<br>*Click a recipe in the list first. Double-clicking a recipe does the same.* |  |
-| **Start quest** | Crafts the quest that is selected in your quest journal: one of each recipe the quest's steps ask for, then re-reads the quest and goes again, until no craft step is left. Your setup queue is put aside and given back at the end.<br>*Select the quest in your journal first. Greyed out while anything is running. If a step needs a component you do not have yet (one the quest has you gather), it waits for it, counting again whenever your bags change (at most every 5 seconds); after 60 minutes it stops and says what is still missing.* |  |
+| **Start quest** | Crafts the quest that is selected in your quest journal: one of each recipe the quest's steps ask for, then re-reads the quest and goes again, until no craft step is left. Your setup queue is put aside and given back at the end; recipes you add while it runs go into your queue, not the quest's.<br>*Select the quest in your journal first. Greyed out while anything is running. If a step needs a component you do not have yet (one the quest has you gather), it waits for it, counting again whenever your bags change (at most every 5 seconds); after 60 minutes it stops and says what is still missing.* |  |
 | **Rescan recipe book** | Reads every recipe in your recipe book again. Use it after learning new recipes if they do not show up. |  |
 
 
@@ -110,7 +110,7 @@ Level, name and technique of each recipe that passes the filters. Click a row to
 
 ## Queues tab - the setup queue
 
-The recipes waiting to be crafted by Start Queue.
+The recipes waiting to be crafted by Start Queue. While writs or quest crafting run, this is your own setup queue, set aside for the run; every button on this tab works on it, and the run's crafts are not shown here.
 
 [![Queues tab - the setup queue](../assets/craft/queues-setup.png)](../assets/craft/queues-setup.png "Click for full size")
 
@@ -119,7 +119,7 @@ The recipes waiting to be crafted by Start Queue.
 | **− (one fewer)** | Lowers that row's quantity by 1. At 0 the row is removed. |
 | **+ (one more)** | Raises that row's quantity by 1. |
 | **× (remove from the queue)** | Removes the recipe from the setup queue. |
-| **Clear Queue** | Empties the setup queue. No confirmation. |
+| **Clear Queue** | Empties the setup queue. No confirmation.<br>*During a writ or quest run it empties your own setup queue; the run's crafts are not touched.* |
 
 
 
@@ -130,8 +130,8 @@ The recipes waiting to be crafted by Start Queue.
 | Control | What it does | Default |
 |---|---|---|
 | **Queue name** | The name to save the setup queue under, or to load. | empty |
-| **Save Queue** | Saves the setup queue to disk under that name (overwrites a queue with the same name).<br>*Queues live in OgreSave/EQ2/Craft/queues. A failed save shows a red message at the top.* |  |
-| **Load Queue** | Replaces the setup queue with the saved queue of that name. Recipes this character does not know are left out and named in the console. |  |
+| **Save Queue** | Saves the setup queue to disk under that name (overwrites a queue with the same name).<br>*Queues live in OgreSave/EQ2/Craft/queues. A failed save shows a red message at the top. During a writ or quest run it saves your own setup queue, not the run's.* |  |
+| **Load Queue** | Replaces the setup queue with the saved queue of that name. Recipes this character does not know are left out and named in the console.<br>*During a writ or quest run it replaces your own setup queue, which comes back when the run ends.* |  |
 | **Saved queue names (buttons)** | One button per saved queue. Click one to put its name in the Queue name box. It does not load it. |  |
 
 
@@ -216,7 +216,7 @@ Built when a queue starts: every component and fuel the queue needs, how many it
 | **Writ Count** | How many rush-order writs to do in one run. 1 to 200. | 10 |
 | **Writ Option** | Which reply to click at the rush order agent, counted from the top (1 to 4). It is a position, not a level - if you get the wrong tier of writ, change it. | 1 |
 | **Camp when finished writs** | Camps to the desktop when a writ run ends by itself (finished or failed).<br>*Never camps after you press Stop, or after a death.* | off |
-| **Start Writs** | Starts the writ run. Your setup queue is put aside during the run and given back at the end.<br>*Greyed out while anything is running. Needs tradeskill level 20+.* |  |
+| **Start Writs** | Starts the writ run. Your setup queue is put aside during the run and given back at the end; recipes you add while it runs go into your queue, not the writ's.<br>*Greyed out while anything is running. Needs tradeskill level 20+.* |  |
 
 
 
@@ -231,7 +231,7 @@ Built when a queue starts: every component and fuel the queue needs, how many it
 | **Sell to a vendor what is crafted** | Sells the items the run made. | on |
 | **Destroy what is crafted (selling wins if both are set)** | Destroys the items the run made. If Sell is also ticked, they are sold instead. | off |
 | **Sell/Destroy after each round instead of at the end** | On = get rid of the items after every round. Off = keep them until the run ends, then sell/destroy them all in one trip. | on |
-| **Start Auto Tinkering** | Repeats rounds (buy tinkering books, craft, sell/destroy) until tinkering is maxed.<br>*Greyed out while anything is running.* |  |
+| **Start Auto Tinkering** | Repeats rounds (buy tinkering books, craft, sell/destroy) until tinkering is maxed. Anything already in your setup queue is crafted with the next round.<br>*Greyed out while anything is running.* |  |
 
 
 
@@ -246,7 +246,7 @@ Built when a queue starts: every component and fuel the queue needs, how many it
 | **Sell to a vendor what is crafted** | Sells the items the run made. | on |
 | **Destroy what is crafted (selling wins if both are set)** | Destroys the items the run made. If Sell is also ticked, they are sold instead. | off |
 | **Sell/Destroy after each round instead of at the end** | On = after every round. Off = once at the end of the run. | on |
-| **Start Low Level Leveling** | Levels a crafter from 1 to 9 and from 10 to 19. It stops at level 9 and at 19 - go see a crafting trainer, then start it again.<br>*Greyed out while anything is running.* |  |
+| **Start Low Level Leveling** | Levels a crafter from 1 to 9 and from 10 to 19. It stops at level 9 and at 19 - go see a crafting trainer, then start it again. Anything already in your setup queue is crafted with the next round.<br>*Greyed out while anything is running.* |  |
 
 
 

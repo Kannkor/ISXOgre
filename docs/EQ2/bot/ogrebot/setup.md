@@ -1,8 +1,8 @@
-# Setup
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# Setup
 
 Setup holds the numbers that tune when the bot fights: how hurt a mob must be before you attack it, move to it or send your pet, how much health and power you keep before using attacks, and how many mobs an area attack needs. It also names who the Force Follow command follows. The right-hand column controls how tells and guild chat reach OgreConsole. Blank boxes use the default shown in each description.
 
@@ -26,6 +26,8 @@ Setup holds the numbers that tune when the bot fights: how hurt a mob must be be
 | **Auto Follow:** | The group member the `-forcefollow` command follows, using the game's own follow. It only works while 'Auto Follow Mode' on Settings is ticked, and only if that person is in your group and alive.<br>*The list shows your group and raid members. Nothing follows automatically; the command has to be sent.* | empty |
 | **Auto Follow within (35):** | **Not active yet.** It is meant to be the distance for auto follow. | blank |
 
+
+
 ## OgreConsole
 
 [![OgreConsole](../assets/ogrebot/tab-setup-s2.png)](../assets/ogrebot/tab-setup-s2.png "Click for full size")
@@ -36,6 +38,8 @@ Setup holds the numbers that tune when the bot fights: how hurt a mob must be be
 | **Broadcast guild talk through OgreConsole** | Guild and officer chat that this character sees is sent to OgreConsole on all your sessions, as 'name -> <Guild>: text'.<br>*Tick it on one character per guild, or each line arrives once for every character that has it on.* | off |
 | **Play annoying noise when receiving a tell from a stranger** | When a broadcast tell from a stranger (someone not in the receiving character's EQ2Chars list) reaches this session, a loud alarm sound plays.<br>*It is read on the session that plays the sound, not on the character that got the tell.* | off |
 | **Do not show OgreConsole when you get a tell from a friend** | Normally OgreConsole opens when a broadcast tell arrives. Tick this so it only opens for tells from strangers, not from characters in EQ2Chars.<br>*The 'never auto open OgreConsole' option still wins over this.* | off (opens for every tell) |
+
+
 
 ## Good to know
 

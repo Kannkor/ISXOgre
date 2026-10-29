@@ -1,8 +1,8 @@
-# Pulse Budget
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# Pulse Budget
 
 > **:bulb: In game - the ? button on this window says**
 >
@@ -42,6 +42,8 @@ On the right: how many frames have been counted, and how many times a job paused
 | **Refresh** | Updates the numbers. The window does not update by itself. |  |
 | **Title bar close (X)** | Closes the window. Your slices and ceiling stay in force. |  |
 
+
+
 ## Resumable sections
 
 One row per job that can be spread over frames. A job only appears after it has run once this session; jobs saved from earlier sessions are listed greyed out with '(idle)' - you can still set their slice, and it is used as soon as the job runs.
@@ -52,11 +54,14 @@ One row per job that can be spread over frames. A job only appears after it has 
 |---|---|---|
 | **Slice µs/f (the box on each row)** | How long that job may run each frame, in microseconds, before it pauses and carries on in the next frame. 0 = run the whole job in one frame. Saved when you press Enter or click away.<br>*On an '(idle)' row the new slice is saved and handed to that job the first time it runs.* | craft: recipe scan 1500, analysis: actor scan 1000, abilityupgrades: row walk 1000 |
 
+
+
 ## Pulse profile
 
 Read-only. Every part of the bot that runs each frame, costliest first, with its average and worst time per frame. Parts using less than half a microsecond on average are left out. Useful for spotting what is slowing the game down.
 
 [![Pulse profile](../assets/pulsebudget/profile.png)](../assets/pulsebudget/profile.png "Click for full size")
+
 
 ## What the window shows
 
