@@ -13,7 +13,7 @@
 > - **Choose what to include**: passives, ascension abilities, a minimum tier or level range, or just a few named abilities.
 > - **Merge** into the file you have, write a **Fresh file**, or add **Only abilities I don't have yet** (much faster).
 > - **Tradeskill export instead** makes the files Ogre Craft uses.
-> - **Run export** starts it. This window steps aside while it runs; the small Exporting Abilities window shows progress and can stop it.
+> - **Run export** starts it. This window steps aside while it runs (`ogre export` brings it back); the small Exporting Abilities window shows progress and can stop it.
 >
 > **Good to know**
 >
@@ -22,7 +22,7 @@
 > - Your choices are saved as you make them.
 > - If none of the abilities in **Just these abilities** is found, nothing is exported and the top line says so.
 
-**Open it:** Type `ogre export` (or `ogre abilityexport`); typing it again while the window is open does nothing. `ogre export -start` runs an export straight away with the options set in this window, without opening it. `ogre export -default -start` does the same with the default options. `ogre end export` closes the window.
+**Open it:** Type `ogre export` (or `ogre abilityexport`); typing it again while the window is open does nothing, except while an export runs: then it brings this window back, and the export keeps going. `ogre export -start` runs an export straight away with the options set in this window, without opening it. `ogre export -default -start` does the same with the default options. `ogre end export` (or the window's X) stops a running export and closes the window.
 
 [![Ability Export](../assets/exportgui/window.png)](../assets/exportgui/window.png "Click for full size")
 
@@ -41,7 +41,7 @@ The yellow text left of the buttons is the result of the last thing you did (for
 | **Help** | Shows or hides a short explanation under every option. Display only - changes what you see, not what the bot does.<br>*The explanations are the same plain-language text as this page.* | off |
 | **Reset** | Puts every option back to its default and saves that straight away. |  |
 | **Run export / Run (dry run) / Run cache action / Running…** | Starts the export with the options shown. The label tells you what will happen: 'Run (dry run)' when nothing will be written, 'Run cache action' when you picked a cache action that does not export. While the export runs this window steps aside; the small Exporting Abilities window shows the progress and has the Stop button.<br>*Greyed out while the red 'can't run' box is showing, and while an export is already running.* |  |
-| **Title bar close (X)** | Closes this window. It does not stop an export that is already running. |  |
+| **Title bar close (X)** | Closes this window, and stops an export that is running (the same as `ogre end export`). |  |
 
 ## What to export
 

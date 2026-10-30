@@ -29,6 +29,7 @@
 > - A character in a raid is never logged out: the run stops and leaves everyone where they are.
 > - A character that cannot do a chore at all (no Pack Pony) is marked with an error and skipped until you clear it: `ogre taskrunner clear <name>`.
 > - Closing the window loses unsaved changes without asking.
+> - Closing the window also stops a run in progress, the same as `ogre end taskrunner`. `ogre taskrunner stop` stops it and leaves the window open.
 
 **Open it:** Type `ogre taskrunner panel` (or `ogre tr panel`). `ogretaskrunner panel`, `gui` or `config` also open it.
 
@@ -107,7 +108,7 @@ The characters in the selected list, in the order they are logged in.
 |---|---|
 | **Save / Save *** | Writes your lists and chore choices to OgreSave/EQ2/TaskRunner/custom/lists.json, and TaskRunner starts using them straight away. Only what differs from your other TaskRunner files is written, and anything you set by hand for a character there (a chore's own timer, or switching the character off) is kept. 'Save *' means there are unsaved changes.<br>*Greyed out when nothing changed. If a list is running right now, the new lists are used when that batch ends.* |
 | **Discard** | Throws away every unsaved change and reads the lists again from the files on disk (so a hand edit made while the window was open shows up). |
-| **Title bar close (X)** | Closes the window. Unsaved changes are lost: opening it again reads the saved lists.<br>*There is no 'unsaved changes' prompt.* |
+| **Title bar close (X)** | Closes the window and stops a run in progress (the same as `ogre end taskrunner`). Unsaved changes are lost: opening it again reads the saved lists.<br>*There is no 'unsaved changes' prompt.* |
 
 ## What the window shows
 

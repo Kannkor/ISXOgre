@@ -22,7 +22,7 @@
 > - Spire, ring and bell travel needs that object within reach of every character you send.
 > - With Open Travel Map, everyone you send must have their own map open too.
 
-**Open it:** Type `ogre travel`. Add a method to open it straight on that list: `ogre travel fast`, `ogre travel spire`, `ogre travel druid`, `ogre travel bell` or `ogre travel map`. A Master Control Panel button migrated from the old bot's Travel Helper opens it too.
+**Open it:** Type `ogre travel`. Add a method to open it straight on that list: `ogre travel fast`, `ogre travel spire`, `ogre travel druid`, `ogre travel bell` or `ogre travel map`. A Master Control Panel button migrated from the old bot's Travel Helper opens it too. `ogre end travel` (or the window's X) stops a list that is being read, closes the map it opened, and closes the window.
 
 [![Travel Helper](../assets/travel/window.png)](../assets/travel/window.png "Click for full size")
 

@@ -19,10 +19,11 @@
 > **Good to know**
 >
 > - Settings save by themselves a second after a change.
-> - `ogre end craft` stops everything crafting is doing, not just this window.
+> - Closing this window (the X) or `ogre end craft` stops everything crafting is doing. **Stop** ends only the run.
+> - Minimize (the title-bar button or `ogre craft minimize`) keeps the run controls showing and crafting going; `ogre craft` brings the window back.
 > - The list shows at most 200 recipes - use the filters to narrow it.
 
-**Open it:** Type `ogre craft` (also `ogre craft2`). `ogre end craft` closes the window AND ends all crafting: the run, craft's own movement, a summoned station and Craft Lite.
+**Open it:** Type `ogre craft` (also `ogre craft2`). `ogre end craft` (or the window's X) closes the window AND ends all crafting: the run, craft's own movement, a summoned station and Craft Lite. `ogre craft minimize` (or the title-bar minimize) rolls the window up to its run controls while crafting keeps going; `ogre craft` brings it back.
 
 [![Ogre Craft 3](../assets/craft/window.png)](../assets/craft/window.png "Click for full size")
 
@@ -262,7 +263,7 @@ Built when a queue starts: every component and fuel the queue needs, how many it
 
 ## Good to know
 
-- `ogre end craft` is not just 'close the window' - it stops the run, craft's movement, a summoned station and Craft Lite.
+- Closing the window (the X) or `ogre end craft` is not just 'close the window' - it stops the run, craft's movement, a summoned station and Craft Lite. Stop ends only the run.
 - Start Queue moves the setup queue into the Active queue, so the setup queue looks empty afterwards. Load 'LastRecipeQueue' to get it back.
 - The list shows at most 200 recipes. Narrow it with the filters or the search box if the one you want is missing.
 - Clear Queue has no confirmation.

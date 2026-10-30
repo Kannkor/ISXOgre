@@ -22,8 +22,9 @@
 > - Your changes go in your own folder; the shipped lists are never changed.
 > - Removing a row from a shipped list stops that list getting future updates.
 > - Closing the window keeps unsaved changes; switching to another list throws them away.
+> - Closing the window also stops a depot pull that `ogre craftingmats` started, the same as `ogre end craftingmats`.
 
-**Open it:** Type `ogre craftingmats` (or `ogre cmats`) with nothing after it. With options (e.g. `ogre craftingmats -sig -vov`) it RUNS instead: pulls those mats out of the Harvesting Supply Depot and buys the fuel. `ogre end craftingmats` (or `ogre craftingmats close`) closes the window. From a script: `ISXOgreEQ2.CraftingMats:Open` / `:Close`.
+**Open it:** Type `ogre craftingmats` (or `ogre cmats`) with nothing after it. With options (e.g. `ogre craftingmats -sig -vov`) it RUNS instead: pulls those mats out of the Harvesting Supply Depot and buys the fuel. `ogre end craftingmats` (or the window's X) stops a depot pull that `ogre craftingmats` started and closes the window. From a script: `ISXOgreEQ2.CraftingMats:Open` / `:End`.
 
 [![Crafting Mats](../assets/craftingmats/window.png)](../assets/craftingmats/window.png "Click for full size")
 
@@ -92,7 +93,7 @@ The grey text shows the folder your edits are written to.
 |---|---|
 | **Revert** | Throws away unsaved changes and shows the list as it is on disk. On a brand-new list you have not saved yet, there is nothing on disk to go back to: Revert discards the new list and says so.<br>*Only active when there are unsaved changes.* |
 | **Save** | Writes your changes to your own folder (OgreSave/EQ2/CraftingMats/custom) and reloads the lists, so the next `ogre craftingmats` run uses them. Only what you changed is written, so later updates to the shipped list still reach the rest. If your changes match the shipped list exactly, your file is deleted.<br>*Only active when there are unsaved changes.* |
-| **Title bar close (X)** | Closes the window. Unsaved changes are kept: the next time it opens they are still there, with a reminder to Save or Revert. Without unsaved changes the list is read fresh from disk.<br>*`ogre craftingmats` while the window is already open does nothing.* |
+| **Title bar close (X)** | Closes the window, and stops a depot pull that `ogre craftingmats` started (the same as `ogre end craftingmats`). Unsaved changes are kept: the next time it opens they are still there, with a reminder to Save or Revert. Without unsaved changes the list is read fresh from disk.<br>*`ogre craftingmats` while the window is already open does nothing.* |
 
 
 

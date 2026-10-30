@@ -30,7 +30,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - Green can be reset, orange is locked (time left in brackets), yellow has no data.
 > - **Force reset spends a limited reset charge** and cannot be undone. It only confirms if the game's message names that zone.
 
-**Open it:** Type `ogre zone` (also `ogre reset` or `ogre zonereset`). If the window is already open, this does nothing.
+**Open it:** Type `ogre zone` (also `ogre reset` or `ogre zonereset`). If the window is already open, this does nothing. `ogre end zone` (or the window's X) stops a read or a reset this window started and closes the window.
 
 ## What it is for
 
@@ -83,6 +83,7 @@ A reminder of how the lists work, and that Force reset spends a limited charge.
 
 ## Good to know
 
+- Closing the window stops a read of the zone list, or a reset, that this window (or `ogre zone`) started, the same as `ogre end zone`. One the Instance Controller or a script asked for keeps going.
 - Force reset spends a real, limited reset charge and cannot be undone. The first click only arms it; the reset happens on a second click within 5 seconds. The ordinary 'Reset queue' buttons do not spend charges.
 - The fleet button uses the For Who window from the Master Control Panel, not your group. If that window was never set, it resets for every character.
 - Refresh and Force reset briefly open the game's Zone Reuse window. That can cause a short stutter. A queue reset opens it too, but only on a character whose game has not loaded its zone list yet.
@@ -190,7 +191,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 >
 > **Monitor**
 >
-> - **Start** / **Stop** - turns the log on and off. It keeps running while you fight, zone or die, until you press Stop.
+> - **Start** / **Stop** - turns the log on and off. It keeps running while you fight, zone or die, until you press Stop or close the window (closing it is the same as `ogre end npccast`).
 > - **my target + its target** - logs your target and your target's target. These are the only spells that come with a **name**, because the name is read off your cast bars. Target the mob, or target the tank the mob is attacking.
 > - **+ named NPCs nearby** / **+ every NPC nearby** - also logs other casters within 100 metres. Their spells show a spell number but no name, unless you have seen that spell on your cast bar before.
 > - **Copy** - puts the whole list on your clipboard, ready to paste.
@@ -211,7 +212,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - **Scan radius** takes 5 to 500. Leave it empty to use the default.
 > - Your changes go in your own list, so updates never remove them. **Reset my edits** deletes them all for this zone, with no undo.
 
-**Open it:** Type `ogre npccast` (also `ogre npccastmonitoring`, `ogre npccast panel` or `ogre npccast config`). If the window is already open, this does nothing. `ogre npccast status` prints the watch status in the console instead.
+**Open it:** Type `ogre npccast` (also `ogre npccastmonitoring`, `ogre npccast panel` or `ogre npccast config`). If the window is already open, this does nothing. `ogre npccast status` prints the watch status in the console instead. `ogre end npccast` (or the window's X) stops the Monitor and closes the window.
 
 ## What it is for
 
@@ -235,7 +236,7 @@ Pick whose spells to log, then press Start. One of the three buttons is always l
 | **my target + its target** | Logs the spells of your target and of your target's target. Players are left out. These are the only spells that come with a name, because the name is read off your cast bars. Target the mob, or target the tank the mob is attacking.<br>*Your choice is not saved. After you restart the game it is back to this one.* | on |
 | **+ named NPCs nearby** | Also logs every named NPC within 100 meters of you. Their spells show the ability id but no name, unless that spell was once named from your cast bars.<br>*Changing this while the Monitor runs takes effect at once.* | off |
 | **+ every NPC nearby** | Also logs every NPC within 100 meters of you, named or not. Their spells show the ability id but no name, unless that spell was once named from your cast bars. | off |
-| **Start / Stop** | Start begins logging and the button turns into a red Stop. It checks four times a second and keeps going while you fight, zone or die, until you press Stop. Stop saves the log and stops; the list stays on screen.<br>*Closing the window does not stop it. It also runs while OgreBot is closed or paused, and with NPC Cast Monitoring unticked.* |  |
+| **Start / Stop** | Start begins logging and the button turns into a red Stop. It checks four times a second and keeps going while you fight, zone or die, until you press Stop. Stop saves the log and stops; the list stays on screen.<br>*Closing the window stops it too (and saves the log), the same as `ogre end npccast`. It runs while OgreBot is closed or paused, and with NPC Cast Monitoring unticked.* |  |
 
 ## Monitor: the log
 
@@ -333,7 +334,7 @@ Shows how far the bot scans and for what (NPCs or players), and where the shippe
 - The Monitor and the Watch list are separate. The Monitor only writes down what mobs cast; it never interrupts or runs anything, and it needs neither the NPC Cast Monitoring checkbox nor OgreBot open.
 - Spell names in the Monitor only come from your cast bars (your target and your target's target), and only when the cast lasts longer than about a quarter of a second. Once a spell's name is known, it shows for that spell everywhere, in every zone and next time too.
 - Each zone keeps its own Monitor log. Zone while it runs and the old zone's log is saved and the new zone's saved log comes back. Send the file named under the log, or paste what Copy gives you.
-- The Monitor keeps running after you close the window. Press Stop (or type `ogre npccast monitor off`) to end it. The console can also start it: `ogre npccast monitor`, `ogre npccast monitor named` or `ogre npccast monitor all`.
+- Closing the window stops the Monitor, the same as `ogre end npccast`. Stop (or `ogre npccast monitor off`) stops it and keeps the window open. The console can also start it: `ogre npccast monitor`, `ogre npccast monitor named` or `ogre npccast monitor all`; it then runs without the window until you stop it.
 - The Watch list is switched by the 'NPC Cast Monitoring' checkbox on OgreBot's 'Settings' tab. While it is off, the list is empty and capturing, reloading, adding, removing and editing are refused with a red bar saying so. Only Import still works.
 - Entering a zone that has a list (shipped or yours) ticks that checkbox for you, once per zone. If you untick it, it stays off until you next enter a zone that has a list, or your profile is loaded again.
 - A watched mob starting a spell that is not listed (or a 'watch only' mob) does not interrupt or run anything. It only lets encounter scripts know the mob is casting.
@@ -395,7 +396,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - Each effect is examined once, ever, so a zone you ran before may show nothing new.
 > - It switches itself off while the Encounter Recorder runs.
 
-**Open it:** Type `ogre effecttracker` (or `ogre oet`). `ogre effecttracker on` turns on the player capture and `ogre effecttracker npc on` the NPC capture; both also open the window. `ogre effecttracker off` turns both off.
+**Open it:** Type `ogre effecttracker` (or `ogre oet`). `ogre effecttracker on` turns on the player capture and `ogre effecttracker npc on` the NPC capture; both also open the window. `ogre effecttracker off` turns both off. `ogre end effecttracker` (or the window's X) turns both off and closes the window.
 
 ## What it is for
 
@@ -454,6 +455,7 @@ Record count (and 'showing N of M' when there are more than 250 matches; the fil
 ## Good to know
 
 - Player and NPC are not saved: both start off in every new session. Turning either on opens this window (shrunk) so you can always see it is running.
+- Closing the window turns Player and NPC off (what was captured is saved), the same as `ogre end effecttracker`.
 - An effect is examined only once, ever, across all your characters. A zone you already ran may show nothing new; that is normal.
 - Starting the Encounter Recorder switches Effect Tracker off. Turn it back on after the recorder stops.
 - While the tracker is working, you will see effect examine windows flash open and close. That is how it reads them.
@@ -501,7 +503,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - Removing a name does not un-hide it; use **Clear all** or **Un-hide id**.
 > - Plain `ogre hideeffects` runs the hide; `ogre hideeffects panel` opens this window.
 
-**Open it:** Type `ogre hideeffects panel`. If the window is already open, this does nothing. Plain `ogre hideeffects` does not open the window: it runs the hide straight away (the same as the Run button).
+**Open it:** Type `ogre hideeffects panel`. If the window is already open, this does nothing. Plain `ogre hideeffects` does not open the window: it runs the hide straight away (the same as the Run button). `ogre end hideeffects` (or the window's X) stops a run and closes the window; effects already hidden stay hidden.
 
 ## What it is for
 
@@ -840,7 +842,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 >
 > - **STOP** - end the trip where you are. Safe to press at any time.
 > - **Pause / Resume** - hold the trip and keep the route; Resume carries on from here.
-> - **Close** - hide the window; the trip keeps going.
+> - The X (or `ogre end nav`) stops the trip and closes the window. To keep it out of the way, move or resize it.
 > - Watch the progress bar, waypoint count and distance left. **Waiting for mesh** means the zone's map is still loading; the trip starts by itself when it is ready.
 >
 > **Good to know**
@@ -865,8 +867,7 @@ The top line is the state (Moving in green, Failed in red, Arrived highlighted, 
 |---|---|
 | **STOP** | Ends the trip right where you are. The route is thrown away. It is safe to press at any time: if something else has since taken over moving your character, STOP leaves that alone.<br>*Greyed out when no trip is running.* |
 | **Pause / Resume** | Pause stops walking but keeps the route, so Resume carries on from where you stopped without planning again. While paused, nav still holds the character: follow or the camp spot will not move it until you Resume or STOP.<br>*Greyed out when no trip is running. Turns yellow and reads Resume while paused.* |
-| **Close** | Closes the window. The trip carries on. The window comes back on the next trip (unless you turned that off with `ogre nav -nopanel`). |
-| **Title bar close (X)** | Hides the window, like Close. It comes back on the next trip. |
+| **Title bar close (X)** | Stops the trip and closes the window, the same as `ogre end nav`. Nothing hides the window while a trip goes on: move it or size it where you want it. |
 
 
 
@@ -880,7 +881,7 @@ The top line is the state (Moving in green, Failed in red, Arrived highlighted, 
 
 ## Good to know
 
-- Pausing OgreBot does NOT stop a navigation trip. Use STOP here, or type `ogre nav stop` (also `ogre end nav`).
+- Pausing OgreBot does NOT stop a navigation trip. Use STOP here, or type `ogre nav stop`. `ogre end nav` (or the X) stops the trip and closes this window.
 - The window closes itself as soon as a trip ends, so you rarely see Arrived, Stopped or Failed in it. The console says how the trip ended.
 - While nav is paused it keeps control of your character, so nothing else (follow, camp spot) will move it until you Resume or STOP.
 
@@ -927,7 +928,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - Spire, ring and bell travel needs that object within reach of every character you send.
 > - With Open Travel Map, everyone you send must have their own map open too.
 
-**Open it:** Type `ogre travel`. Add a method to open it straight on that list: `ogre travel fast`, `ogre travel spire`, `ogre travel druid`, `ogre travel bell` or `ogre travel map`. A Master Control Panel button migrated from the old bot's Travel Helper opens it too.
+**Open it:** Type `ogre travel`. Add a method to open it straight on that list: `ogre travel fast`, `ogre travel spire`, `ogre travel druid`, `ogre travel bell` or `ogre travel map`. A Master Control Panel button migrated from the old bot's Travel Helper opens it too. `ogre end travel` (or the window's X) stops a list that is being read, closes the map it opened, and closes the window.
 
 ## What it is for
 
@@ -1009,7 +1010,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - Every 100 rounds the flight grows by half a second, up to 25 seconds.
 > - Zoning ends the run. Do not mix it with follow, nav or a camp spot.
 
-**Open it:** Type `ogre safefall panel`. `ogre safefall on` (or `ogre safefall on 45` for a 4.5 second flight) starts training without the window, `ogre safefall off` stops it, and a bare `ogre safefall` prints its status in the console.
+**Open it:** Type `ogre safefall panel`. `ogre safefall on` (or `ogre safefall on 45` for a 4.5 second flight) starts training without the window, `ogre safefall off` stops it, `ogre end safefall` (or the window's X) stops it and closes the window, and a bare `ogre safefall` prints its status in the console.
 
 ## What it is for
 
@@ -1046,6 +1047,7 @@ Read-only. It updates four times a second.
 - It does not check whether something else is moving your character. Do not run it together with other movement (follow, nav, camp spot).
 - Typing `ogre safefall on` while training is running starts over from round 0 (the Start button is dimmed then, so it cannot do this by accident).
 - `ogre safefall panel` when the window is already open does nothing and prints nothing.
+- Closing the window stops training, the same as `ogre end safefall`. Stop stops it and keeps the window open.
 
 ## Before you start
 
@@ -1193,9 +1195,9 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > **Good to know**
 >
 > - **At cap** is when the game says the stat is capped. **At peak** is time at your best value this session.
-> - Closing the window does not stop recording; use **Stop** or `ogre potcb off`.
+> - Closing the window stops recording, the same as `ogre end potcb`. **Stop** stops recording and keeps the window open.
 
-**Open it:** Type `ogre potcb` (or `ogre cbpot`). This opens the window and starts recording. `ogre potcb off` (or `ogre end potcb`) stops recording and closes it.
+**Open it:** Type `ogre potcb` (or `ogre cbpot`). This opens the window and starts recording. `ogre end potcb` (or the window's X) stops recording and closes it; `ogre potcb off` does the same while it is recording.
 
 ## What it is for
 
@@ -1229,7 +1231,7 @@ One row per stat. Hover most numbers for more detail.
 
 ## Good to know
 
-- Closing the window with the X does not stop the recording. Use Stop, or `ogre potcb off`.
+- Closing the window with the X stops the recording, the same as `ogre end potcb`. Stop stops it and keeps the window open.
 - Opening the window with `ogre potcb` always starts recording.
 - Zoning is not counted as time, so a long zone-in does not inflate 'At peak'.
 - The numbers are lost when the bot is unloaded; nothing is saved to a file.
@@ -1241,97 +1243,3 @@ One row per stat. Hover most numbers for more detail.
 ### Stopped
 
 ![Stopped](../assets/potcb/stopped.png)
-
-
----
-
-Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/transmute.md
-
-# Level Transmuting
-
-> **:bulb: In game - the ? button on this window says**
->
-> Levels your Transmuting skill: buys cheap transmuter's stones from Barnaby Blunderbuss in Butcherblock and transmutes them, round after round.
->
-> **What you can do here**
->
-> - **Buy** sets how many stones to hold after each visit. Leftover stones are used first.
-> - **round(s)** is the most visits one run makes. The run also stops when your skill is capped.
-> - **Start** begins the run. **Stop** ends it. **Refresh** redraws the window.
-> - **Buys** shows the merchant visits and how many stones they really added.
-> - **Transmutes** shows how many stones were tried and how many really got used up. If any failed, it says why: the cast was refused, the ability never became ready, or the stone was still there afterwards.
->
-> **Good to know**
->
-> - Start pauses OgreBot for the run. When the run ends it resumes OgreBot, unless OgreBot was already paused.
-> - Start opens the Persona window on Skills > General to read your skill. It closes it again when the run ends, however it ends.
-> - Not next to Barnaby? The window tells you, and Start travels to him first, even with OgreBot closed. Stop ends the trip.
-> - Each stone costs 1 Gnomish Currency Exchange, not coin. Without any, the buy adds nothing and the run stops and says so.
-> - Only items named "Transmuter's Stone" or "Transmutation Stone" are ever transmuted.
-> - A round that buys nothing, or transmutes nothing, stops the run, so a problem never repeats for every round.
-> - Closing this window does not stop a run.
-
-**Open it:** Type `ogre leveltransmuting` (or `ogre lt`). Typing it again while the window is open just refreshes it. `ogre lt status` prints the status to the console instead. `ogre end leveltransmuting` stops a run but leaves the window open.
-
-## What it is for
-
-A skill-up grinder for the Transmuting tradeskill. The bot buys Minor Lapis Lazuli Transmuter's Stones from Barnaby Blunderbuss in Butcherblock Mountains, transmutes them, and repeats until your Transmuting skill is capped or the round limit is reached. You do not have to stand next to him: if you are not within 10 of Barnaby, Start travels to him first, from another zone too. OgreBot is paused for the run, and the Persona window is opened on Skills > General to read your skill; when the run ends, however it ends, the window is closed again and OgreBot resumes if it was running. It only ever transmutes items whose name contains "Transmuter's Stone" or "Transmutation Stone" - nothing else in your bags is touched.
-
-## Header and the stones-only notice
-
-The dot is green while a run is going. Next to it is what the bot is doing right now.
-
-## The readout
-
-Merchant and Item are fixed - the tool only works with Barnaby and the Minor Lapis Lazuli Transmuter's Stone. Transmuting is your skill as last read from the Persona window (Start reads it, then it is read again at the start of each round, so it shows unavailable until a run has read it). Rounds counts the rounds started out of the most you allowed. Buys shows the visits to Barnaby and how many stones your bags really gained. Transmutes shows how many stones were tried and how many really got used up. Last is the latest thing that happened.
-
-## Quantity and round limit
-
-| Control | What it does | Default |
-|---|---|---|
-| **Buy** | How many stones you want to be holding when each visit to Barnaby is done. The bot only buys the difference, so stones left over from the last round are used first. 1 to 800.<br>*Locked while a run is going. It is a total to hold, not an amount added every round.* | 60 |
-| **per visit, at most ... round(s)** | The hard stop: the most rounds one run will make. Each round is one visit to Barnaby. The run also stops earlier if the Transmuting skill is readable and capped. 1 to 500.<br>*If the skill cannot be read, the run cannot tell when you are capped and goes on until this limit.* | 20 |
-
-## Start, Stop, Refresh
-
-| Control | What it does |
-|---|---|
-| **Start** | Starts a run with the two numbers above. It pauses OgreBot and opens the Persona window on Skills > General to read your Transmuting skill. Then, each round: read the skill and stop if it is capped; travel to Barnaby if he is not within 10; buy up to the Buy amount; then transmute every stone in your bags (at most 200 per round), one at a time, waiting 2 seconds after each.<br>*Greyed out while a run is going. The run can also stop by itself - see Good to know below.* |
-| **Stop** | Stops the run straight away, even in the middle of buying, travelling or transmuting. It closes the Persona window and resumes OgreBot if it was running before you pressed Start.<br>*Only active while a run is going.* |
-| **Refresh** | Redraws the window with the latest numbers. It does not change anything, and it does not read the skill. |
-| **Title bar close (X)** | Closes the window only. A run that is going keeps going.<br>*Use Stop (or `ogre end leveltransmuting`) to stop the run.* |
-
-## When the skill cannot be read
-
-The bot reads your Transmuting skill from the Persona window, Skills > General, which Start opens itself. It reads it once when the window opens and again at the start of every round. If the window is closed during a run, the next round opens it again. If the Transmuting row still does not read, Transmuting shows 'unavailable' in orange and a note appears; the run then cannot tell when you are capped and goes on until the round limit, unless a trip, a buy or a transmute fails first and stops it. Before your first run the skill has not been read yet, so the window shows 'unavailable' and a note saying it is read when you press Start.
-
-## What the window shows
-
-- Dot and phase text (top right): green dot = running. Phase is one of idle, waiting for the world, opening the Persona window, travelling to the merchant, reading the Transmuting skill, looking for the merchant, buying, transmuting stones, BLOCKED - cannot transmute, stopped.
-- Box at the top: always there. It says the tool transmutes Transmuter's and Transmutation stones only, and that other items are transmuted by the Inventory Manager (`ogre im -tse`).
-- Note about Barnaby (only while stopped): shown when you are not within 10 of him. It says you are not in Butcherblock Mountains, how far you are from him, or that he is not in view - and that Start will travel or walk to him first.
-- Transmuting: 'current / max' in green from the last read of the Persona window's Skills > General page; 'unavailable' in orange when it could not be read, or before any run has read it.
-- Rounds: 'N of M (buy visits finished: B)' - rounds started out of your limit, and how many visits to Barnaby finished their buy.
-- Buys: 'N visits, S stones bought' - S is how many stones your bags really gained. It adds 'X added nothing' and turns orange when a visit added no stones.
-- Transmutes: 'D of T done' - stones tried, and stones that really left your bags. Green once one is done. When any failed it turns orange and says why: cast refused, never ready, or not used up.
-- Last: the latest step or the reason the run stopped, for example 'transmuting 60 stone(s)' or 'Transmuting is at its cap for this level'.
-- Footer: a reminder that Start pauses OgreBot, opens the Persona window (Skills > General) and travels to Barnaby when you are not within 10, and that Stop, or the run ending any other way, closes the Persona window and resumes OgreBot if it was running.
-
-## Good to know
-
-- You do not have to stand next to Barnaby Blunderbuss. Start travels to him in Butcherblock Mountains when you are not within 10, even with OgreBot closed. Stop ends the trip. If two trips still leave him out of reach, or one trip takes over 20 minutes, the run stops.
-- Start opens the Persona window on Skills > General itself and closes it again when the run ends, however it ends. You do not need to open it first.
-- Start pauses OgreBot for the run. When the run ends it resumes OgreBot, unless OgreBot was already paused.
-- Each stone costs 1 Gnomish Currency Exchange, not coin. Without any, the buy adds nothing and the run stops and says so.
-- Before your first run, Transmuting shows unavailable - the skill is first read when you press Start, and Refresh does not read it.
-- Buy is a target to hold, not an amount per round. If stones were left over, the next visit buys fewer (or none).
-- Any item in your bags whose name contains "Transmuter's Stone" or "Transmutation Stone" is transmuted, not just the ones this tool bought.
-- The run stops by itself when a visit's buy adds no stones, when a round uses up none of the stones it tried, when the merchant window fails 3 rounds in a row, or when you do not have the Transmuting ability (the stones it bought stay in your bags).
-- Closing the window does not stop a run.
-- `ogre lt` opens the window; `ogre lt status` prints the status to the console instead.
-
-## Before the first run
-
-![Stopped, before the first run](../assets/transmute/idle.png)
-
-Before your first run the skill has not been read, so Transmuting reads **unavailable** and the note says it is read when you press Start: Start opens the Persona window on Skills > General itself. If the Transmuting row still cannot be read during a run, the run cannot tell when you are capped and goes on until the round limit, unless a trip, a buy or a transmute fails first and stops it.

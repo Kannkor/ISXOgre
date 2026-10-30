@@ -25,7 +25,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 >
 > **Good to know**
 >
-> - The X on this window stops OgreBot completely, the same as the X on the main window. Unsaved changes are lost.
+> - The X on this window stops OgreBot completely, the same as the X on the main window and `ogre end bot`. Unsaved changes are lost.
 > - Unsaved changes show as a yellow star (*) on the main OgreBot window only, not on this one.
 > - Your choices from the cog are kept for next time.
 > - Pause only affects this character. Commands you send still work while paused.
@@ -69,7 +69,7 @@ Besides the usual ? (help) and lock, the title bar has the cog, which picks what
 
 | Control | What it does |
 |---|---|
-| **Title bar close (X)** | Shuts OgreBot down completely, the same as the X on the big window. Both windows close, movement and HUDs stop, the profile is unloaded, and unsaved changes are thrown away.<br>*To just get the big window out of the way, use Hide Main.* |
+| **Title bar close (X)** | Shuts OgreBot down completely, the same as the X on the big window and `ogre end bot`. Both windows close, movement and HUDs stop, the profile is unloaded, and unsaved changes are thrown away.<br>*To just get the big window out of the way, use Hide Main.* |
 
 
 
@@ -959,7 +959,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - A hidden window stays hidden; Reset only moves it.
 > - Each window's own title-bar right-click menu also has Reset.
 
-**Open it:** Type `ogre windowreset` in the InnerSpace console. It opens in the middle of the screen. If it is already open, that does nothing.
+**Open it:** Type `ogre windowreset` in the InnerSpace console. It opens in the middle of the screen. If it is already open, that does nothing. `ogre end windowreset` closes it.
 
 ## What it is for
 
@@ -984,7 +984,7 @@ One row per open window (this one is left out).
 | Control | What it does |
 |---|---|
 | **Reset All Windows** | Does a Reset on every window in the list at once, hidden ones included. Help windows and the OgreHUD are listed but left where they are; use their own Reset button.<br>*No confirmation. Every saved position is forgotten.* |
-| **Title bar close (X)** | Closes this window. Nothing else changes. |
+| **Title bar close (X)** | Closes this window, the same as `ogre end windowreset`. Nothing else changes. |
 
 ## What the window shows
 
@@ -1054,7 +1054,7 @@ The Instance Controller (IC) runs a list of instanced zones for you, one after a
 | Control | What it does | Default |
 |---|---|---|
 | **▼ / ▲ (minimize)** | Minimizes the window to its title bar and a one-line strip showing the run status, Pause and Expand. Clicking again restores it. Double-clicking the title bar does the same. Display only - changes what you see, not what the bot does.<br>*The window keeps its width; it always opens at its normal size.* | normal size |
-| **Close (X)** | Closing the window STOPS a running list, exactly like End (the reason shown is 'panel closed'), and turns IC's pause off.<br>*Closing is not just hiding the window. It does NOT cancel end-of-list actions that are already running (use End for that), so closing the window on the way out never undoes an armed camp.* |  |
+| **Close (X)** | Closing the window STOPS a running list, exactly like End (the reason shown is 'ended'), and turns IC's pause off. `ogre end ic` does exactly the same.<br>*Closing is not just hiding the window. It does NOT cancel end-of-list actions that are already running (use End for that), so closing the window on the way out never undoes an armed camp.* |  |
 | **Run / Startup Options / Settings** | Switches the page you see. Display only. | Run |
 
 

@@ -18,6 +18,17 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.10.29.003 {#r2026-10-29-003}
+
+*Thursday, October 29, 2026 at 8:41 PM EDT*
+
+- **Changed** · Windows: **"ogre craft minimize, and ogre export brings back the window an export hid".** `ogre craft minimize` (and `ISXOgreEQ2.Craft:Minimize`) rolls the craft window up to its run controls while crafting keeps going, and `ogre craft` brings it back. Typing `ogre export` while an export runs now shows its window again without stopping the export. `ogre export close` is gone: let it run, or end it with `ogre end export` or the window's X.
+- **Changed** · Console: **"Removed: ogre ic close, ogre craftingmats close and the Nav window's Close button".** A window that hid itself while its work kept running is no longer an option: you let it run, or you end it with `ogre end <command>` or the window's X. `ogre ic close` and `ogre craftingmats close` are now unknown words, and the Nav window has no Close button - move or resize it instead; its STOP button and X work as before.
+- **Fixed** · Bot: **Characters rejoin the bot's relay group after ISBoxer clears it.** When ISBoxer loads a character set it takes every session out of all its relay groups, which left the bot's group commands unable to reach those characters. Each session now joins the bot's relay group again the moment that happens, along with any groups in your Relay Groups auto-join list, as the old bot did.
+- **Fixed** · Console: **"ogre end" and the X now fully close eleven more commands.** `ogre end` and the window's X now stop what the command is doing and close its window for Analysis, Effect Tracker, Level Transmuting, Safe Fall, NPC Cast, Zone Reset, Travel Helper, Hide Effects and Codex Inspect. `ogre end windowreset` closes Reset UI Windows. Zone Reset stops only what it started itself, so a zone read the Instance Controller asked for keeps going.
+- **Fixed** · Console: **"ogre end" and the X now fully close the Instance Controller and six other commands.** `ogre end ic` only paused the Instance Controller; it now stops the run and closes the window, the same as the window's X. Export, Crafting Mats, Task Runner, Pot CB and Watcher also stop what they are doing and close their windows on `ogre end` or the X. `ogre end atb` no longer closes OgreBot; use `ogre end bot` for that.
+- **Fixed** · Console: **"The window X now ends Ogre Craft, Craft Grandmasters, Inventory Manager and Nav".** Closing these windows with the X now does what `ogre end` does: Ogre Craft ends all crafting, Craft Grandmasters stops its run, Inventory Manager stops its work and Nav stops the trip. `ogre end nav` now closes the Nav window too, and `ogre end mesh` also cancels a trip you ordered while zoning. The X on OgreBot now closes it the same way as `ogre end bot`, so the relay group close settings apply and no combat hold is left behind.
+
 ## 2026.10.29.002 {#r2026-10-29-002}
 
 *Thursday, October 29, 2026 at 2:52 PM EDT*

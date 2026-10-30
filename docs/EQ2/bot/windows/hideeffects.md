@@ -21,7 +21,7 @@
 > - Removing a name does not un-hide it; use **Clear all** or **Un-hide id**.
 > - Plain `ogre hideeffects` runs the hide; `ogre hideeffects panel` opens this window.
 
-**Open it:** Type `ogre hideeffects panel`. If the window is already open, this does nothing. Plain `ogre hideeffects` does not open the window: it runs the hide straight away (the same as the Run button).
+**Open it:** Type `ogre hideeffects panel`. If the window is already open, this does nothing. Plain `ogre hideeffects` does not open the window: it runs the hide straight away (the same as the Run button). `ogre end hideeffects` (or the window's X) stops a run and closes the window; effects already hidden stay hidden.
 
 [![Hide Effects](../assets/hideeffects/window.png)](../assets/hideeffects/window.png "Click for full size")
 

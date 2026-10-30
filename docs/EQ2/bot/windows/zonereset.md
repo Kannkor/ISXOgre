@@ -22,7 +22,7 @@
 > - Green can be reset, orange is locked (time left in brackets), yellow has no data.
 > - **Force reset spends a limited reset charge** and cannot be undone. It only confirms if the game's message names that zone.
 
-**Open it:** Type `ogre zone` (also `ogre reset` or `ogre zonereset`). If the window is already open, this does nothing.
+**Open it:** Type `ogre zone` (also `ogre reset` or `ogre zonereset`). If the window is already open, this does nothing. `ogre end zone` (or the window's X) stops a read or a reset this window started and closes the window.
 
 [![Zone Reset](../assets/zonereset/window.png)](../assets/zonereset/window.png "Click for full size")
 
@@ -85,6 +85,7 @@ A reminder of how the lists work, and that Force reset spends a limited charge.
 
 ## Good to know
 
+- Closing the window stops a read of the zone list, or a reset, that this window (or `ogre zone`) started, the same as `ogre end zone`. One the Instance Controller or a script asked for keeps going.
 - Force reset spends a real, limited reset charge and cannot be undone. The first click only arms it; the reset happens on a second click within 5 seconds. The ordinary 'Reset queue' buttons do not spend charges.
 - The fleet button uses the For Who window from the Master Control Panel, not your group. If that window was never set, it resets for every character.
 - Refresh and Force reset briefly open the game's Zone Reuse window. That can cause a short stutter. A queue reset opens it too, but only on a character whose game has not loaded its zone list yet.

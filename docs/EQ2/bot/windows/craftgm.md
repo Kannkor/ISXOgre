@@ -19,6 +19,7 @@
 > - Start adds to Ogre Craft's setup queue, so anything already there is crafted too.
 > - With the depot box ticked, Scan only looks in the depot; Start withdraws. Withdrawn scrolls are never put back.
 > - It never walks - stand at the Scroll Depot for a depot run.
+> - Closing the window (the X) or `ogre end craftgm` stops a run, then closes.
 
 **Open it:** Type `ogre craftgm`. `ogre craftgm 131-135` opens it with that level range already filled in (it does not scan). `ogre end craftgm` stops a run and closes the window.
 
@@ -64,7 +65,7 @@ Once a Scan or Start has run with the box ticked (ticking it alone does not show
 | **Start** | Scans, adds every admitted Grandmaster recipe to the Ogre Craft setup queue (one craft per scroll held), starts the craft queue and watches it to the end.<br>*Refused if an Ogre Craft run is already going. Anything already in the setup queue is crafted too. Recipes you have not learned are skipped and marked 'not in your recipe book'.* |
 | **Stop** | Stops the run. If this window started the craft queue, that is stopped too; a craft run somebody else started is left alone.<br>*Only active while a run is going. The window stays open.* |
 | **Refresh** | Redraws the window. It changes nothing. |
-| **Title bar close (X)** | Closes the window only - a run keeps going. `ogre end craftgm` closes it and stops the run. |
+| **Title bar close (X)** | Stops a run and closes the window, the same as `ogre end craftgm`. |
 
 ## The scan table
 

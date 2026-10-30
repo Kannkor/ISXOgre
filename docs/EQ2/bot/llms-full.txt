@@ -232,6 +232,17 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.10.29.003 {#r2026-10-29-003}
+
+*Thursday, October 29, 2026 at 8:41 PM EDT*
+
+- **Changed** · Windows: **"ogre craft minimize, and ogre export brings back the window an export hid".** `ogre craft minimize` (and `ISXOgreEQ2.Craft:Minimize`) rolls the craft window up to its run controls while crafting keeps going, and `ogre craft` brings it back. Typing `ogre export` while an export runs now shows its window again without stopping the export. `ogre export close` is gone: let it run, or end it with `ogre end export` or the window's X.
+- **Changed** · Console: **"Removed: ogre ic close, ogre craftingmats close and the Nav window's Close button".** A window that hid itself while its work kept running is no longer an option: you let it run, or you end it with `ogre end <command>` or the window's X. `ogre ic close` and `ogre craftingmats close` are now unknown words, and the Nav window has no Close button - move or resize it instead; its STOP button and X work as before.
+- **Fixed** · Bot: **Characters rejoin the bot's relay group after ISBoxer clears it.** When ISBoxer loads a character set it takes every session out of all its relay groups, which left the bot's group commands unable to reach those characters. Each session now joins the bot's relay group again the moment that happens, along with any groups in your Relay Groups auto-join list, as the old bot did.
+- **Fixed** · Console: **"ogre end" and the X now fully close eleven more commands.** `ogre end` and the window's X now stop what the command is doing and close its window for Analysis, Effect Tracker, Level Transmuting, Safe Fall, NPC Cast, Zone Reset, Travel Helper, Hide Effects and Codex Inspect. `ogre end windowreset` closes Reset UI Windows. Zone Reset stops only what it started itself, so a zone read the Instance Controller asked for keeps going.
+- **Fixed** · Console: **"ogre end" and the X now fully close the Instance Controller and six other commands.** `ogre end ic` only paused the Instance Controller; it now stops the run and closes the window, the same as the window's X. Export, Crafting Mats, Task Runner, Pot CB and Watcher also stop what they are doing and close their windows on `ogre end` or the X. `ogre end atb` no longer closes OgreBot; use `ogre end bot` for that.
+- **Fixed** · Console: **"The window X now ends Ogre Craft, Craft Grandmasters, Inventory Manager and Nav".** Closing these windows with the X now does what `ogre end` does: Ogre Craft ends all crafting, Craft Grandmasters stops its run, Inventory Manager stops its work and Nav stops the trip. `ogre end nav` now closes the Nav window too, and `ogre end mesh` also cancels a trip you ordered while zoning. The X on OgreBot now closes it the same way as `ogre end bot`, so the relay group close settings apply and no combat hold is left behind.
+
 ## 2026.10.29.002 {#r2026-10-29-002}
 
 *Thursday, October 29, 2026 at 2:52 PM EDT*
@@ -688,7 +699,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogre
 > **Good to know**
 >
 > - A yellow star (*) in the title bar means there are unsaved changes. Closing OgreBot without saving loses them.
-> - The X stops OgreBot. **Hide Main** on the small OgreBot window just hides this one.
+> - The X stops OgreBot, the same as `ogre end bot`. **Hide Main** on the small OgreBot window just hides this one.
 > - Hover a setting or button to see what it does.
 
 **Open it:** Type `ogre`. OgreBot loads running, with this window hidden: click **Show Main** on the small OgreBot window to see it (if the character's ability export is missing or out of date, the window is shown instead so you see the export prompt). `ogre -p` loads OgreBot paused with this window shown. `ogre end bot` closes OgreBot.
@@ -704,7 +715,7 @@ The title bar has the usual ? (help), lock and X buttons. When the profile has c
 | Control | What it does | Default |
 |---|---|---|
 | *** (yellow star)** | Shows that this profile has changes that are not saved yet. Only this window shows it, not the small OgreBot window. It goes away after a Save or a Reload.<br>*It counts every change, including ones made by commands or encounter scripts, not only clicks in this window.* | hidden |
-| **Title bar close (X)** | Shuts OgreBot down completely, not just this window. Both OgreBot windows close. The Unload tab's list runs. Camp spot, follow and other movement are cleared, HUDs go away, travel routes and codex scans stop, and the profile is unloaded. Unsaved changes are thrown away and a warning is printed in the console.<br>*To get the window out of the way without stopping the bot, use Hide Main on the small OgreBot window instead.* |  |
+| **Title bar close (X)** | Shuts OgreBot down completely, not just this window. Both OgreBot windows close. The Unload tab's list runs. Camp spot, follow and other movement are cleared, HUDs go away, travel routes and codex scans stop, and the profile is unloaded. Unsaved changes are thrown away and a warning is printed in the console. The same as `ogre end bot`.<br>*To get the window out of the way without stopping the bot, use Hide Main on the small OgreBot window instead.* |  |
 
 
 
@@ -3160,7 +3171,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 >
 > **Good to know**
 >
-> - The X on this window stops OgreBot completely, the same as the X on the main window. Unsaved changes are lost.
+> - The X on this window stops OgreBot completely, the same as the X on the main window and `ogre end bot`. Unsaved changes are lost.
 > - Unsaved changes show as a yellow star (*) on the main OgreBot window only, not on this one.
 > - Your choices from the cog are kept for next time.
 > - Pause only affects this character. Commands you send still work while paused.
@@ -3204,7 +3215,7 @@ Besides the usual ? (help) and lock, the title bar has the cog, which picks what
 
 | Control | What it does |
 |---|---|
-| **Title bar close (X)** | Shuts OgreBot down completely, the same as the X on the big window. Both windows close, movement and HUDs stop, the profile is unloaded, and unsaved changes are thrown away.<br>*To just get the big window out of the way, use Hide Main.* |
+| **Title bar close (X)** | Shuts OgreBot down completely, the same as the X on the big window and `ogre end bot`. Both windows close, movement and HUDs stop, the profile is unloaded, and unsaved changes are thrown away.<br>*To just get the big window out of the way, use Hide Main.* |
 
 
 
@@ -4094,7 +4105,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - A hidden window stays hidden; Reset only moves it.
 > - Each window's own title-bar right-click menu also has Reset.
 
-**Open it:** Type `ogre windowreset` in the InnerSpace console. It opens in the middle of the screen. If it is already open, that does nothing.
+**Open it:** Type `ogre windowreset` in the InnerSpace console. It opens in the middle of the screen. If it is already open, that does nothing. `ogre end windowreset` closes it.
 
 ## What it is for
 
@@ -4119,7 +4130,7 @@ One row per open window (this one is left out).
 | Control | What it does |
 |---|---|
 | **Reset All Windows** | Does a Reset on every window in the list at once, hidden ones included. Help windows and the OgreHUD are listed but left where they are; use their own Reset button.<br>*No confirmation. Every saved position is forgotten.* |
-| **Title bar close (X)** | Closes this window. Nothing else changes. |
+| **Title bar close (X)** | Closes this window, the same as `ogre end windowreset`. Nothing else changes. |
 
 ## What the window shows
 
@@ -4189,7 +4200,7 @@ The Instance Controller (IC) runs a list of instanced zones for you, one after a
 | Control | What it does | Default |
 |---|---|---|
 | **▼ / ▲ (minimize)** | Minimizes the window to its title bar and a one-line strip showing the run status, Pause and Expand. Clicking again restores it. Double-clicking the title bar does the same. Display only - changes what you see, not what the bot does.<br>*The window keeps its width; it always opens at its normal size.* | normal size |
-| **Close (X)** | Closing the window STOPS a running list, exactly like End (the reason shown is 'panel closed'), and turns IC's pause off.<br>*Closing is not just hiding the window. It does NOT cancel end-of-list actions that are already running (use End for that), so closing the window on the way out never undoes an armed camp.* |  |
+| **Close (X)** | Closing the window STOPS a running list, exactly like End (the reason shown is 'ended'), and turns IC's pause off. `ogre end ic` does exactly the same.<br>*Closing is not just hiding the window. It does NOT cancel end-of-list actions that are already running (use End for that), so closing the window on the way out never undoes an armed camp.* |  |
 | **Run / Startup Options / Settings** | Switches the page you see. Display only. | Run |
 
 
@@ -4390,7 +4401,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - Green can be reset, orange is locked (time left in brackets), yellow has no data.
 > - **Force reset spends a limited reset charge** and cannot be undone. It only confirms if the game's message names that zone.
 
-**Open it:** Type `ogre zone` (also `ogre reset` or `ogre zonereset`). If the window is already open, this does nothing.
+**Open it:** Type `ogre zone` (also `ogre reset` or `ogre zonereset`). If the window is already open, this does nothing. `ogre end zone` (or the window's X) stops a read or a reset this window started and closes the window.
 
 ## What it is for
 
@@ -4443,6 +4454,7 @@ A reminder of how the lists work, and that Force reset spends a limited charge.
 
 ## Good to know
 
+- Closing the window stops a read of the zone list, or a reset, that this window (or `ogre zone`) started, the same as `ogre end zone`. One the Instance Controller or a script asked for keeps going.
 - Force reset spends a real, limited reset charge and cannot be undone. The first click only arms it; the reset happens on a second click within 5 seconds. The ordinary 'Reset queue' buttons do not spend charges.
 - The fleet button uses the For Who window from the Master Control Panel, not your group. If that window was never set, it resets for every character.
 - Refresh and Force reset briefly open the game's Zone Reuse window. That can cause a short stutter. A queue reset opens it too, but only on a character whose game has not loaded its zone list yet.
@@ -4550,7 +4562,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 >
 > **Monitor**
 >
-> - **Start** / **Stop** - turns the log on and off. It keeps running while you fight, zone or die, until you press Stop.
+> - **Start** / **Stop** - turns the log on and off. It keeps running while you fight, zone or die, until you press Stop or close the window (closing it is the same as `ogre end npccast`).
 > - **my target + its target** - logs your target and your target's target. These are the only spells that come with a **name**, because the name is read off your cast bars. Target the mob, or target the tank the mob is attacking.
 > - **+ named NPCs nearby** / **+ every NPC nearby** - also logs other casters within 100 metres. Their spells show a spell number but no name, unless you have seen that spell on your cast bar before.
 > - **Copy** - puts the whole list on your clipboard, ready to paste.
@@ -4571,7 +4583,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - **Scan radius** takes 5 to 500. Leave it empty to use the default.
 > - Your changes go in your own list, so updates never remove them. **Reset my edits** deletes them all for this zone, with no undo.
 
-**Open it:** Type `ogre npccast` (also `ogre npccastmonitoring`, `ogre npccast panel` or `ogre npccast config`). If the window is already open, this does nothing. `ogre npccast status` prints the watch status in the console instead.
+**Open it:** Type `ogre npccast` (also `ogre npccastmonitoring`, `ogre npccast panel` or `ogre npccast config`). If the window is already open, this does nothing. `ogre npccast status` prints the watch status in the console instead. `ogre end npccast` (or the window's X) stops the Monitor and closes the window.
 
 ## What it is for
 
@@ -4595,7 +4607,7 @@ Pick whose spells to log, then press Start. One of the three buttons is always l
 | **my target + its target** | Logs the spells of your target and of your target's target. Players are left out. These are the only spells that come with a name, because the name is read off your cast bars. Target the mob, or target the tank the mob is attacking.<br>*Your choice is not saved. After you restart the game it is back to this one.* | on |
 | **+ named NPCs nearby** | Also logs every named NPC within 100 meters of you. Their spells show the ability id but no name, unless that spell was once named from your cast bars.<br>*Changing this while the Monitor runs takes effect at once.* | off |
 | **+ every NPC nearby** | Also logs every NPC within 100 meters of you, named or not. Their spells show the ability id but no name, unless that spell was once named from your cast bars. | off |
-| **Start / Stop** | Start begins logging and the button turns into a red Stop. It checks four times a second and keeps going while you fight, zone or die, until you press Stop. Stop saves the log and stops; the list stays on screen.<br>*Closing the window does not stop it. It also runs while OgreBot is closed or paused, and with NPC Cast Monitoring unticked.* |  |
+| **Start / Stop** | Start begins logging and the button turns into a red Stop. It checks four times a second and keeps going while you fight, zone or die, until you press Stop. Stop saves the log and stops; the list stays on screen.<br>*Closing the window stops it too (and saves the log), the same as `ogre end npccast`. It runs while OgreBot is closed or paused, and with NPC Cast Monitoring unticked.* |  |
 
 ## Monitor: the log
 
@@ -4693,7 +4705,7 @@ Shows how far the bot scans and for what (NPCs or players), and where the shippe
 - The Monitor and the Watch list are separate. The Monitor only writes down what mobs cast; it never interrupts or runs anything, and it needs neither the NPC Cast Monitoring checkbox nor OgreBot open.
 - Spell names in the Monitor only come from your cast bars (your target and your target's target), and only when the cast lasts longer than about a quarter of a second. Once a spell's name is known, it shows for that spell everywhere, in every zone and next time too.
 - Each zone keeps its own Monitor log. Zone while it runs and the old zone's log is saved and the new zone's saved log comes back. Send the file named under the log, or paste what Copy gives you.
-- The Monitor keeps running after you close the window. Press Stop (or type `ogre npccast monitor off`) to end it. The console can also start it: `ogre npccast monitor`, `ogre npccast monitor named` or `ogre npccast monitor all`.
+- Closing the window stops the Monitor, the same as `ogre end npccast`. Stop (or `ogre npccast monitor off`) stops it and keeps the window open. The console can also start it: `ogre npccast monitor`, `ogre npccast monitor named` or `ogre npccast monitor all`; it then runs without the window until you stop it.
 - The Watch list is switched by the 'NPC Cast Monitoring' checkbox on OgreBot's 'Settings' tab. While it is off, the list is empty and capturing, reloading, adding, removing and editing are refused with a red bar saying so. Only Import still works.
 - Entering a zone that has a list (shipped or yours) ticks that checkbox for you, once per zone. If you untick it, it stays off until you next enter a zone that has a list, or your profile is loaded again.
 - A watched mob starting a spell that is not listed (or a 'watch only' mob) does not interrupt or run anything. It only lets encounter scripts know the mob is casting.
@@ -4755,7 +4767,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - Each effect is examined once, ever, so a zone you ran before may show nothing new.
 > - It switches itself off while the Encounter Recorder runs.
 
-**Open it:** Type `ogre effecttracker` (or `ogre oet`). `ogre effecttracker on` turns on the player capture and `ogre effecttracker npc on` the NPC capture; both also open the window. `ogre effecttracker off` turns both off.
+**Open it:** Type `ogre effecttracker` (or `ogre oet`). `ogre effecttracker on` turns on the player capture and `ogre effecttracker npc on` the NPC capture; both also open the window. `ogre effecttracker off` turns both off. `ogre end effecttracker` (or the window's X) turns both off and closes the window.
 
 ## What it is for
 
@@ -4814,6 +4826,7 @@ Record count (and 'showing N of M' when there are more than 250 matches; the fil
 ## Good to know
 
 - Player and NPC are not saved: both start off in every new session. Turning either on opens this window (shrunk) so you can always see it is running.
+- Closing the window turns Player and NPC off (what was captured is saved), the same as `ogre end effecttracker`.
 - An effect is examined only once, ever, across all your characters. A zone you already ran may show nothing new; that is normal.
 - Starting the Encounter Recorder switches Effect Tracker off. Turn it back on after the recorder stops.
 - While the tracker is working, you will see effect examine windows flash open and close. That is how it reads them.
@@ -4861,7 +4874,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - Removing a name does not un-hide it; use **Clear all** or **Un-hide id**.
 > - Plain `ogre hideeffects` runs the hide; `ogre hideeffects panel` opens this window.
 
-**Open it:** Type `ogre hideeffects panel`. If the window is already open, this does nothing. Plain `ogre hideeffects` does not open the window: it runs the hide straight away (the same as the Run button).
+**Open it:** Type `ogre hideeffects panel`. If the window is already open, this does nothing. Plain `ogre hideeffects` does not open the window: it runs the hide straight away (the same as the Run button). `ogre end hideeffects` (or the window's X) stops a run and closes the window; effects already hidden stay hidden.
 
 ## What it is for
 
@@ -5200,7 +5213,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 >
 > - **STOP** - end the trip where you are. Safe to press at any time.
 > - **Pause / Resume** - hold the trip and keep the route; Resume carries on from here.
-> - **Close** - hide the window; the trip keeps going.
+> - The X (or `ogre end nav`) stops the trip and closes the window. To keep it out of the way, move or resize it.
 > - Watch the progress bar, waypoint count and distance left. **Waiting for mesh** means the zone's map is still loading; the trip starts by itself when it is ready.
 >
 > **Good to know**
@@ -5225,8 +5238,7 @@ The top line is the state (Moving in green, Failed in red, Arrived highlighted, 
 |---|---|
 | **STOP** | Ends the trip right where you are. The route is thrown away. It is safe to press at any time: if something else has since taken over moving your character, STOP leaves that alone.<br>*Greyed out when no trip is running.* |
 | **Pause / Resume** | Pause stops walking but keeps the route, so Resume carries on from where you stopped without planning again. While paused, nav still holds the character: follow or the camp spot will not move it until you Resume or STOP.<br>*Greyed out when no trip is running. Turns yellow and reads Resume while paused.* |
-| **Close** | Closes the window. The trip carries on. The window comes back on the next trip (unless you turned that off with `ogre nav -nopanel`). |
-| **Title bar close (X)** | Hides the window, like Close. It comes back on the next trip. |
+| **Title bar close (X)** | Stops the trip and closes the window, the same as `ogre end nav`. Nothing hides the window while a trip goes on: move it or size it where you want it. |
 
 
 
@@ -5240,7 +5252,7 @@ The top line is the state (Moving in green, Failed in red, Arrived highlighted, 
 
 ## Good to know
 
-- Pausing OgreBot does NOT stop a navigation trip. Use STOP here, or type `ogre nav stop` (also `ogre end nav`).
+- Pausing OgreBot does NOT stop a navigation trip. Use STOP here, or type `ogre nav stop`. `ogre end nav` (or the X) stops the trip and closes this window.
 - The window closes itself as soon as a trip ends, so you rarely see Arrived, Stopped or Failed in it. The console says how the trip ended.
 - While nav is paused it keeps control of your character, so nothing else (follow, camp spot) will move it until you Resume or STOP.
 
@@ -5287,7 +5299,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - Spire, ring and bell travel needs that object within reach of every character you send.
 > - With Open Travel Map, everyone you send must have their own map open too.
 
-**Open it:** Type `ogre travel`. Add a method to open it straight on that list: `ogre travel fast`, `ogre travel spire`, `ogre travel druid`, `ogre travel bell` or `ogre travel map`. A Master Control Panel button migrated from the old bot's Travel Helper opens it too.
+**Open it:** Type `ogre travel`. Add a method to open it straight on that list: `ogre travel fast`, `ogre travel spire`, `ogre travel druid`, `ogre travel bell` or `ogre travel map`. A Master Control Panel button migrated from the old bot's Travel Helper opens it too. `ogre end travel` (or the window's X) stops a list that is being read, closes the map it opened, and closes the window.
 
 ## What it is for
 
@@ -5369,7 +5381,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - Every 100 rounds the flight grows by half a second, up to 25 seconds.
 > - Zoning ends the run. Do not mix it with follow, nav or a camp spot.
 
-**Open it:** Type `ogre safefall panel`. `ogre safefall on` (or `ogre safefall on 45` for a 4.5 second flight) starts training without the window, `ogre safefall off` stops it, and a bare `ogre safefall` prints its status in the console.
+**Open it:** Type `ogre safefall panel`. `ogre safefall on` (or `ogre safefall on 45` for a 4.5 second flight) starts training without the window, `ogre safefall off` stops it, `ogre end safefall` (or the window's X) stops it and closes the window, and a bare `ogre safefall` prints its status in the console.
 
 ## What it is for
 
@@ -5406,6 +5418,7 @@ Read-only. It updates four times a second.
 - It does not check whether something else is moving your character. Do not run it together with other movement (follow, nav, camp spot).
 - Typing `ogre safefall on` while training is running starts over from round 0 (the Start button is dimmed then, so it cannot do this by accident).
 - `ogre safefall panel` when the window is already open does nothing and prints nothing.
+- Closing the window stops training, the same as `ogre end safefall`. Stop stops it and keeps the window open.
 
 ## Before you start
 
@@ -5553,9 +5566,9 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > **Good to know**
 >
 > - **At cap** is when the game says the stat is capped. **At peak** is time at your best value this session.
-> - Closing the window does not stop recording; use **Stop** or `ogre potcb off`.
+> - Closing the window stops recording, the same as `ogre end potcb`. **Stop** stops recording and keeps the window open.
 
-**Open it:** Type `ogre potcb` (or `ogre cbpot`). This opens the window and starts recording. `ogre potcb off` (or `ogre end potcb`) stops recording and closes it.
+**Open it:** Type `ogre potcb` (or `ogre cbpot`). This opens the window and starts recording. `ogre end potcb` (or the window's X) stops recording and closes it; `ogre potcb off` does the same while it is recording.
 
 ## What it is for
 
@@ -5589,7 +5602,7 @@ One row per stat. Hover most numbers for more detail.
 
 ## Good to know
 
-- Closing the window with the X does not stop the recording. Use Stop, or `ogre potcb off`.
+- Closing the window with the X stops the recording, the same as `ogre end potcb`. Stop stops it and keeps the window open.
 - Opening the window with `ogre potcb` always starts recording.
 - Zoning is not counted as time, so a long zone-in does not inflate 'At peak'.
 - The numbers are lost when the bot is unloaded; nothing is saved to a file.
@@ -5629,9 +5642,9 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - Each stone costs 1 Gnomish Currency Exchange, not coin. Without any, the buy adds nothing and the run stops and says so.
 > - Only items named "Transmuter's Stone" or "Transmutation Stone" are ever transmuted.
 > - A round that buys nothing, or transmutes nothing, stops the run, so a problem never repeats for every round.
-> - Closing this window does not stop a run.
+> - Closing this window stops a run, the same as `ogre end leveltransmuting`. Stop stops it and keeps the window open.
 
-**Open it:** Type `ogre leveltransmuting` (or `ogre lt`). Typing it again while the window is open just refreshes it. `ogre lt status` prints the status to the console instead. `ogre end leveltransmuting` stops a run but leaves the window open.
+**Open it:** Type `ogre leveltransmuting` (or `ogre lt`). Typing it again while the window is open just refreshes it. `ogre lt status` prints the status to the console instead. `ogre end leveltransmuting` (or the window's X) stops a run and closes the window; Stop stops it and leaves the window open.
 
 ## What it is for
 
@@ -5659,7 +5672,7 @@ Merchant and Item are fixed - the tool only works with Barnaby and the Minor Lap
 | **Start** | Starts a run with the two numbers above. It pauses OgreBot and opens the Persona window on Skills > General to read your Transmuting skill. Then, each round: read the skill and stop if it is capped; travel to Barnaby if he is not within 10; buy up to the Buy amount; then transmute every stone in your bags (at most 200 per round), one at a time, waiting 2 seconds after each.<br>*Greyed out while a run is going. The run can also stop by itself - see Good to know below.* |
 | **Stop** | Stops the run straight away, even in the middle of buying, travelling or transmuting. It closes the Persona window and resumes OgreBot if it was running before you pressed Start.<br>*Only active while a run is going.* |
 | **Refresh** | Redraws the window with the latest numbers. It does not change anything, and it does not read the skill. |
-| **Title bar close (X)** | Closes the window only. A run that is going keeps going.<br>*Use Stop (or `ogre end leveltransmuting`) to stop the run.* |
+| **Title bar close (X)** | Stops a run that is going, then closes the window. The Persona window is closed and OgreBot resumes, as with Stop.<br>*The same as `ogre end leveltransmuting`. Stop stops the run and keeps the window open.* |
 
 ## When the skill cannot be read
 
@@ -5687,7 +5700,7 @@ The bot reads your Transmuting skill from the Persona window, Skills > General, 
 - Buy is a target to hold, not an amount per round. If stones were left over, the next visit buys fewer (or none).
 - Any item in your bags whose name contains "Transmuter's Stone" or "Transmutation Stone" is transmuted, not just the ones this tool bought.
 - The run stops by itself when a visit's buy adds no stones, when a round uses up none of the stones it tried, when the merchant window fails 3 rounds in a row, or when you do not have the Transmuting ability (the stones it bought stay in your bags).
-- Closing the window does not stop a run.
+- Closing the window stops a run, the same as `ogre end leveltransmuting`. Stop stops it and keeps the window open.
 - `ogre lt` opens the window; `ogre lt status` prints the status to the console instead.
 
 ## Before the first run
@@ -5788,10 +5801,11 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > **Good to know**
 >
 > - Settings save by themselves a second after a change.
-> - `ogre end craft` stops everything crafting is doing, not just this window.
+> - Closing this window (the X) or `ogre end craft` stops everything crafting is doing. **Stop** ends only the run.
+> - Minimize (the title-bar button or `ogre craft minimize`) keeps the run controls showing and crafting going; `ogre craft` brings the window back.
 > - The list shows at most 200 recipes - use the filters to narrow it.
 
-**Open it:** Type `ogre craft` (also `ogre craft2`). `ogre end craft` closes the window AND ends all crafting: the run, craft's own movement, a summoned station and Craft Lite.
+**Open it:** Type `ogre craft` (also `ogre craft2`). `ogre end craft` (or the window's X) closes the window AND ends all crafting: the run, craft's own movement, a summoned station and Craft Lite. `ogre craft minimize` (or the title-bar minimize) rolls the window up to its run controls while crafting keeps going; `ogre craft` brings it back.
 
 ## What it is for
 
@@ -5995,7 +6009,7 @@ Built when a queue starts: every component and fuel the queue needs, how many it
 
 ## Good to know
 
-- `ogre end craft` is not just 'close the window' - it stops the run, craft's movement, a summoned station and Craft Lite.
+- Closing the window (the X) or `ogre end craft` is not just 'close the window' - it stops the run, craft's movement, a summoned station and Craft Lite. Stop ends only the run.
 - Start Queue moves the setup queue into the Active queue, so the setup queue looks empty afterwards. Load 'LastRecipeQueue' to get it back.
 - The list shows at most 200 recipes. Narrow it with the filters or the search box if the one you want is missing.
 - Clear Queue has no confirmation.
@@ -6031,6 +6045,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - Start adds to Ogre Craft's setup queue, so anything already there is crafted too.
 > - With the depot box ticked, Scan only looks in the depot; Start withdraws. Withdrawn scrolls are never put back.
 > - It never walks - stand at the Scroll Depot for a depot run.
+> - Closing the window (the X) or `ogre end craftgm` stops a run, then closes.
 
 **Open it:** Type `ogre craftgm`. `ogre craftgm 131-135` opens it with that level range already filled in (it does not scan). `ogre end craftgm` stops a run and closes the window.
 
@@ -6066,7 +6081,7 @@ Once a Scan or Start has run with the box ticked (ticking it alone does not show
 | **Start** | Scans, adds every admitted Grandmaster recipe to the Ogre Craft setup queue (one craft per scroll held), starts the craft queue and watches it to the end.<br>*Refused if an Ogre Craft run is already going. Anything already in the setup queue is crafted too. Recipes you have not learned are skipped and marked 'not in your recipe book'.* |
 | **Stop** | Stops the run. If this window started the craft queue, that is stopped too; a craft run somebody else started is left alone.<br>*Only active while a run is going. The window stays open.* |
 | **Refresh** | Redraws the window. It changes nothing. |
-| **Title bar close (X)** | Closes the window only - a run keeps going. `ogre end craftgm` closes it and stops the run. |
+| **Title bar close (X)** | Stops a run and closes the window, the same as `ogre end craftgm`. |
 
 ## The scan table
 
@@ -6119,8 +6134,9 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - Your changes go in your own folder; the shipped lists are never changed.
 > - Removing a row from a shipped list stops that list getting future updates.
 > - Closing the window keeps unsaved changes; switching to another list throws them away.
+> - Closing the window also stops a depot pull that `ogre craftingmats` started, the same as `ogre end craftingmats`.
 
-**Open it:** Type `ogre craftingmats` (or `ogre cmats`) with nothing after it. With options (e.g. `ogre craftingmats -sig -vov`) it RUNS instead: pulls those mats out of the Harvesting Supply Depot and buys the fuel. `ogre end craftingmats` (or `ogre craftingmats close`) closes the window. From a script: `ISXOgreEQ2.CraftingMats:Open` / `:Close`.
+**Open it:** Type `ogre craftingmats` (or `ogre cmats`) with nothing after it. With options (e.g. `ogre craftingmats -sig -vov`) it RUNS instead: pulls those mats out of the Harvesting Supply Depot and buys the fuel. `ogre end craftingmats` (or the window's X) stops a depot pull that `ogre craftingmats` started and closes the window. From a script: `ISXOgreEQ2.CraftingMats:Open` / `:End`.
 
 ## What it is for
 
@@ -6177,7 +6193,7 @@ The grey text shows the folder your edits are written to.
 |---|---|
 | **Revert** | Throws away unsaved changes and shows the list as it is on disk. On a brand-new list you have not saved yet, there is nothing on disk to go back to: Revert discards the new list and says so.<br>*Only active when there are unsaved changes.* |
 | **Save** | Writes your changes to your own folder (OgreSave/EQ2/CraftingMats/custom) and reloads the lists, so the next `ogre craftingmats` run uses them. Only what you changed is written, so later updates to the shipped list still reach the rest. If your changes match the shipped list exactly, your file is deleted.<br>*Only active when there are unsaved changes.* |
-| **Title bar close (X)** | Closes the window. Unsaved changes are kept: the next time it opens they are still there, with a reminder to Save or Revert. Without unsaved changes the list is read fresh from disk.<br>*`ogre craftingmats` while the window is already open does nothing.* |
+| **Title bar close (X)** | Closes the window, and stops a depot pull that `ogre craftingmats` started (the same as `ogre end craftingmats`). Unsaved changes are kept: the next time it opens they are still there, with a reminder to Save or Revert. Without unsaved changes the list is read fresh from disk.<br>*`ogre craftingmats` while the window is already open does nothing.* |
 
 
 
@@ -6504,7 +6520,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - **Sell list / Destroy list** - double-click a left row to add it; right-click a right row to remove it.
 > - **TSE, Depot, Restock** - saved options for those modes. Depot saves only when you press Save.
 > - **Trade** - queue items for nearby players, then Run the queue.
-> - **Stop** stops the work; **Close** only closes the window.
+> - **Stop** stops the work; **Close** only closes the window. The X (or `ogre end im`) does both.
 >
 > **Good to know**
 >
@@ -6661,7 +6677,7 @@ A list of hand-overs: which item, how many, to whom. The list lives only until t
 | **Run <tab> / Queue <tab>** | Starts the mode for the tab you are on - the same as that mode's Run on the Run tab (or Queue while something is running).<br>*On the Restock tab this runs the Default profile, not the one you picked - use 'Run this profile' for that. Not shown on the Run tab.* |
 | **Help in console** | Prints the list of `ogre im` commands in the console. |
 | **Close** | Closes the window. A mode that is running keeps running. Cancels a pending -end, and closes a merchant window IM left open.<br>*To stop the work and close, use `ogre end im`.* |
-| **Title bar close (X)** | Closes the window, like Close. Running work carries on. |
+| **Title bar close (X)** | Stops the work and closes the window, the same as `ogre end im`. Also cancels a pending -end and closes a merchant window IM left open. |
 
 ## What the window shows
 
@@ -6677,7 +6693,7 @@ A list of hand-overs: which item, how many, to whom. The list lives only until t
 
 - Restock's Look and Run on the Run tab (and 'Run restock' at the bottom) always use the profile named Default. Use the buttons on the Restock tab for another profile.
 - Quiver refills with the ammo already in your quiver first, then the name on the Quiver tab.
-- Closing the window does not stop a running mode. Use Stop, or `ogre end im`.
+- The Close button does not stop a running mode. The X (or `ogre end im`) stops it and closes the window; Stop stops it and keeps the window.
 - The Depot tab saves nothing until you press Save.
 - The trade list is not saved; it is lost when the game or bot restarts.
 
@@ -6737,6 +6753,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - A character in a raid is never logged out: the run stops and leaves everyone where they are.
 > - A character that cannot do a chore at all (no Pack Pony) is marked with an error and skipped until you clear it: `ogre taskrunner clear <name>`.
 > - Closing the window loses unsaved changes without asking.
+> - Closing the window also stops a run in progress, the same as `ogre end taskrunner`. `ogre taskrunner stop` stops it and leaves the window open.
 
 **Open it:** Type `ogre taskrunner panel` (or `ogre tr panel`). `ogretaskrunner panel`, `gui` or `config` also open it.
 
@@ -6801,7 +6818,7 @@ The characters in the selected list, in the order they are logged in.
 |---|---|
 | **Save / Save *** | Writes your lists and chore choices to OgreSave/EQ2/TaskRunner/custom/lists.json, and TaskRunner starts using them straight away. Only what differs from your other TaskRunner files is written, and anything you set by hand for a character there (a chore's own timer, or switching the character off) is kept. 'Save *' means there are unsaved changes.<br>*Greyed out when nothing changed. If a list is running right now, the new lists are used when that batch ends.* |
 | **Discard** | Throws away every unsaved change and reads the lists again from the files on disk (so a hand edit made while the window was open shows up). |
-| **Title bar close (X)** | Closes the window. Unsaved changes are lost: opening it again reads the saved lists.<br>*There is no 'unsaved changes' prompt.* |
+| **Title bar close (X)** | Closes the window and stops a run in progress (the same as `ogre end taskrunner`). Unsaved changes are lost: opening it again reads the saved lists.<br>*There is no 'unsaved changes' prompt.* |
 
 ## What the window shows
 
@@ -6868,7 +6885,7 @@ The Watcher has two small tools in one window. **Find** watches for named creatu
 | Control | What it does |
 |---|---|
 | **Clear log** | Empties the Hits list below. It does not change the watch list or turn anything off. |
-| **Title bar close (X)** | Closes the window only. Find and Track Shiny keep running if they are armed.<br>*To stop them, click the armed pills to idle first.* |
+| **Title bar close (X)** | Closes the window only (the same as `ogre end watcher`). Find and Track Shiny keep running if they are armed.<br>*To stop them, click the armed pills to idle first.* |
 
 
 
@@ -6943,7 +6960,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - **Choose what to include**: passives, ascension abilities, a minimum tier or level range, or just a few named abilities.
 > - **Merge** into the file you have, write a **Fresh file**, or add **Only abilities I don't have yet** (much faster).
 > - **Tradeskill export instead** makes the files Ogre Craft uses.
-> - **Run export** starts it. This window steps aside while it runs; the small Exporting Abilities window shows progress and can stop it.
+> - **Run export** starts it. This window steps aside while it runs (`ogre export` brings it back); the small Exporting Abilities window shows progress and can stop it.
 >
 > **Good to know**
 >
@@ -6952,7 +6969,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - Your choices are saved as you make them.
 > - If none of the abilities in **Just these abilities** is found, nothing is exported and the top line says so.
 
-**Open it:** Type `ogre export` (or `ogre abilityexport`); typing it again while the window is open does nothing. `ogre export -start` runs an export straight away with the options set in this window, without opening it. `ogre export -default -start` does the same with the default options. `ogre end export` closes the window.
+**Open it:** Type `ogre export` (or `ogre abilityexport`); typing it again while the window is open does nothing, except while an export runs: then it brings this window back, and the export keeps going. `ogre export -start` runs an export straight away with the options set in this window, without opening it. `ogre export -default -start` does the same with the default options. `ogre end export` (or the window's X) stops a running export and closes the window.
 
 ## What it is for
 
@@ -6967,7 +6984,7 @@ The yellow text left of the buttons is the result of the last thing you did (for
 | **Help** | Shows or hides a short explanation under every option. Display only - changes what you see, not what the bot does.<br>*The explanations are the same plain-language text as this page.* | off |
 | **Reset** | Puts every option back to its default and saves that straight away. |  |
 | **Run export / Run (dry run) / Run cache action / Running…** | Starts the export with the options shown. The label tells you what will happen: 'Run (dry run)' when nothing will be written, 'Run cache action' when you picked a cache action that does not export. While the export runs this window steps aside; the small Exporting Abilities window shows the progress and has the Stop button.<br>*Greyed out while the red 'can't run' box is showing, and while an export is already running.* |  |
-| **Title bar close (X)** | Closes this window. It does not stop an export that is already running. |  |
+| **Title bar close (X)** | Closes this window, and stops an export that is running (the same as `ogre end export`). |  |
 
 ## What to export
 
@@ -7078,7 +7095,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > **What you can do here**
 >
 > - **Watch progress**: the ability being read, how many of your abilities have been looked at, and how many were kept or skipped.
-> - **Stop** ends the export. Closing this window does the same.
+> - **Stop** ends the export; the Ability Export window comes back if it was open. Closing this window ends the export and closes the Ability Export window too, the same as `ogre end export`.
 >
 > **Good to know**
 >
@@ -7098,7 +7115,7 @@ Top line: the ability being read right now. It says '(cached)' for an ability th
 | Control | What it does |
 |---|---|
 | **Stop** | Stops the export. Nothing is written - your old file stays as it was - and OgreBot does not reload its abilities. If the big Ability Export window stepped aside for the export, it comes back. |
-| **Title bar close (X)** | Closing this window also stops the export, exactly like Stop.<br>*The window closes itself about a second and a half after a finished export - that does not stop anything.* |
+| **Title bar close (X)** | Closing this window stops the export, like Stop, and closes the Ability Export window too (the same as `ogre end export`).<br>*The window closes itself about a second and a half after a finished export - that does not stop anything.* |
 
 ## What the window shows
 
@@ -7140,10 +7157,10 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - Tick **Keep previous results** to add to the results instead of replacing them. **Add new spawns that match** adds actors as they appear.
 > - Pin a detail (the diamond) to show it as a column on every result.
 > - Right-click any line to copy it, copy all of an actor's details, or remove it. The x on a result or an actor removes just that one.
-> - Closing the window does not stop monitoring. Use `ogre end analysis`.
+> - Closing the window stops monitoring and the event logs, the same as `ogre end analysis`. What was recorded is kept.
 > - **Taps** turns the event logs on and off.
 
-**Open it:** Type `ogre analysis` (or `ogre anal`). `ogre end analysis` turns monitoring off (it does not close the window or stop the event logs).
+**Open it:** Type `ogre analysis` (or `ogre anal`). `ogre end analysis` (or the window's X) turns monitoring and the event logs off, stops a scan in progress, and closes the window. What was recorded is kept.
 
 ## What it is for
 
@@ -7157,7 +7174,7 @@ Next to the tabs: the zone, scan progress while a scan runs, and the number of s
 |---|---|---|
 | **Monitor / Scan / Events / Sessions** | Switches the page shown.<br>*The window remembers the tab while the game is running.* | Monitor |
 | **filter… (placeholder)** | Narrows what is listed: on Monitor it filters the Members list by name, on Scan the results by name or type, on Events the log lines. Not case-sensitive. Display only.<br>*Does not filter the Actors or Timestamps lists.* | empty |
-| **Title bar close (X)** | Closes the window. Monitoring and the event logs keep running in the background.<br>*Turn Monitoring off first if you are done, or type `ogre end analysis`.* |  |
+| **Title bar close (X)** | Closes the window and stops everything it was doing: monitoring and the event logs go off, and a scan in progress, a + Cursor countdown and 'Add new spawns that match' stop. What was recorded is kept.<br>*The same as `ogre end analysis`.* |  |
 
 ## Monitor - buttons
 
@@ -7248,7 +7265,7 @@ Seven logs of game events: announce (big on-screen messages), despawn, spawn, ch
 
 - Monitoring only reads actors the bot can currently see in the zone. If every list stays empty, the actor has despawned or the ID is from another zone - the window says so.
 - Actor IDs are reused between zones, so a monitored ID from an old zone can point at a different actor now.
-- Closing the window does not stop monitoring or the event logs.
+- Closing the window stops monitoring and the event logs, the same as `ogre end analysis`. What was recorded stays until you unload the bot, so Export it or reopen the window to look at it.
 - Turning monitoring or the event logs on (from anywhere) opens this window.
 - Everything is kept in memory only until you Export it.
 - Problems now show in the warning line under the tabs, not only in the console.

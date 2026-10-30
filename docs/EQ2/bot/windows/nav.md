@@ -12,7 +12,7 @@
 >
 > - **STOP** - end the trip where you are. Safe to press at any time.
 > - **Pause / Resume** - hold the trip and keep the route; Resume carries on from here.
-> - **Close** - hide the window; the trip keeps going.
+> - The X (or `ogre end nav`) stops the trip and closes the window. To keep it out of the way, move or resize it.
 > - Watch the progress bar, waypoint count and distance left. **Waiting for mesh** means the zone's map is still loading; the trip starts by itself when it is ready.
 >
 > **Good to know**
@@ -44,8 +44,7 @@ The top line is the state (Moving in green, Failed in red, Arrived highlighted, 
 |---|---|
 | **STOP** | Ends the trip right where you are. The route is thrown away. It is safe to press at any time: if something else has since taken over moving your character, STOP leaves that alone.<br>*Greyed out when no trip is running.* |
 | **Pause / Resume** | Pause stops walking but keeps the route, so Resume carries on from where you stopped without planning again. While paused, nav still holds the character: follow or the camp spot will not move it until you Resume or STOP.<br>*Greyed out when no trip is running. Turns yellow and reads Resume while paused.* |
-| **Close** | Closes the window. The trip carries on. The window comes back on the next trip (unless you turned that off with `ogre nav -nopanel`). |
-| **Title bar close (X)** | Hides the window, like Close. It comes back on the next trip. |
+| **Title bar close (X)** | Stops the trip and closes the window, the same as `ogre end nav`. Nothing hides the window while a trip goes on: move it or size it where you want it. |
 
 
 
@@ -59,7 +58,7 @@ The top line is the state (Moving in green, Failed in red, Arrived highlighted, 
 
 ## Good to know
 
-- Pausing OgreBot does NOT stop a navigation trip. Use STOP here, or type `ogre nav stop` (also `ogre end nav`).
+- Pausing OgreBot does NOT stop a navigation trip. Use STOP here, or type `ogre nav stop`. `ogre end nav` (or the X) stops the trip and closes this window.
 - The window closes itself as soon as a trip ends, so you rarely see Arrived, Stopped or Failed in it. The console says how the trip ended.
 - While nav is paused it keeps control of your character, so nothing else (follow, camp spot) will move it until you Resume or STOP.
 

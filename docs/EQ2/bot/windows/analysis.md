@@ -20,10 +20,10 @@
 > - Tick **Keep previous results** to add to the results instead of replacing them. **Add new spawns that match** adds actors as they appear.
 > - Pin a detail (the diamond) to show it as a column on every result.
 > - Right-click any line to copy it, copy all of an actor's details, or remove it. The x on a result or an actor removes just that one.
-> - Closing the window does not stop monitoring. Use `ogre end analysis`.
+> - Closing the window stops monitoring and the event logs, the same as `ogre end analysis`. What was recorded is kept.
 > - **Taps** turns the event logs on and off.
 
-**Open it:** Type `ogre analysis` (or `ogre anal`). `ogre end analysis` turns monitoring off (it does not close the window or stop the event logs).
+**Open it:** Type `ogre analysis` (or `ogre anal`). `ogre end analysis` (or the window's X) turns monitoring and the event logs off, stops a scan in progress, and closes the window. What was recorded is kept.
 
 [![Analysis](../assets/analysis/window.png)](../assets/analysis/window.png "Click for full size")
 
@@ -41,7 +41,7 @@ Next to the tabs: the zone, scan progress while a scan runs, and the number of s
 |---|---|---|
 | **Monitor / Scan / Events / Sessions** | Switches the page shown.<br>*The window remembers the tab while the game is running.* | Monitor |
 | **filter… (placeholder)** | Narrows what is listed: on Monitor it filters the Members list by name, on Scan the results by name or type, on Events the log lines. Not case-sensitive. Display only.<br>*Does not filter the Actors or Timestamps lists.* | empty |
-| **Title bar close (X)** | Closes the window. Monitoring and the event logs keep running in the background.<br>*Turn Monitoring off first if you are done, or type `ogre end analysis`.* |  |
+| **Title bar close (X)** | Closes the window and stops everything it was doing: monitoring and the event logs go off, and a scan in progress, a + Cursor countdown and 'Add new spawns that match' stop. What was recorded is kept.<br>*The same as `ogre end analysis`.* |  |
 
 ## Monitor - buttons
 
@@ -142,7 +142,7 @@ Seven logs of game events: announce (big on-screen messages), despawn, spawn, ch
 
 - Monitoring only reads actors the bot can currently see in the zone. If every list stays empty, the actor has despawned or the ID is from another zone - the window says so.
 - Actor IDs are reused between zones, so a monitored ID from an old zone can point at a different actor now.
-- Closing the window does not stop monitoring or the event logs.
+- Closing the window stops monitoring and the event logs, the same as `ogre end analysis`. What was recorded stays until you unload the bot, so Export it or reopen the window to look at it.
 - Turning monitoring or the event logs on (from anywhere) opens this window.
 - Everything is kept in memory only until you Export it.
 - Problems now show in the warning line under the tabs, not only in the console.

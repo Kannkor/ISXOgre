@@ -28,7 +28,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogre
 > **Good to know**
 >
 > - A yellow star (*) in the title bar means there are unsaved changes. Closing OgreBot without saving loses them.
-> - The X stops OgreBot. **Hide Main** on the small OgreBot window just hides this one.
+> - The X stops OgreBot, the same as `ogre end bot`. **Hide Main** on the small OgreBot window just hides this one.
 > - Hover a setting or button to see what it does.
 
 **Open it:** Type `ogre`. OgreBot loads running, with this window hidden: click **Show Main** on the small OgreBot window to see it (if the character's ability export is missing or out of date, the window is shown instead so you see the export prompt). `ogre -p` loads OgreBot paused with this window shown. `ogre end bot` closes OgreBot.
@@ -44,7 +44,7 @@ The title bar has the usual ? (help), lock and X buttons. When the profile has c
 | Control | What it does | Default |
 |---|---|---|
 | *** (yellow star)** | Shows that this profile has changes that are not saved yet. Only this window shows it, not the small OgreBot window. It goes away after a Save or a Reload.<br>*It counts every change, including ones made by commands or encounter scripts, not only clicks in this window.* | hidden |
-| **Title bar close (X)** | Shuts OgreBot down completely, not just this window. Both OgreBot windows close. The Unload tab's list runs. Camp spot, follow and other movement are cleared, HUDs go away, travel routes and codex scans stop, and the profile is unloaded. Unsaved changes are thrown away and a warning is printed in the console.<br>*To get the window out of the way without stopping the bot, use Hide Main on the small OgreBot window instead.* |  |
+| **Title bar close (X)** | Shuts OgreBot down completely, not just this window. Both OgreBot windows close. The Unload tab's list runs. Camp spot, follow and other movement are cleared, HUDs go away, travel routes and codex scans stop, and the profile is unloaded. Unsaved changes are thrown away and a warning is printed in the console. The same as `ogre end bot`.<br>*To get the window out of the way without stopping the bot, use Hide Main on the small OgreBot window instead.* |  |
 
 
 

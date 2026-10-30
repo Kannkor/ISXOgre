@@ -1,9 +1,104 @@
 # OgreBot for EverQuest II - documentation, Windows (part 4 of 4)
 
 OgreBot is in beta testing. For OgreBot Classic see https://kannkor.github.io/ISXOgre/EQ2/
-This file is ONE PIECE of the documentation: Windows (part 4 of 4) - Windows - Tools.
+This file is ONE PIECE of the documentation: Windows (part 4 of 4) - Windows - Groups and accounts; Windows - Tools.
 The entire documentation in one document: https://kannkor.github.io/ISXOgre/EQ2/bot/llms-full.txt
 Index of every page and of every file like this one: https://kannkor.github.io/ISXOgre/EQ2/bot/llms.txt
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/watcher.md
+
+# Watcher
+
+> **:bulb: In game - the ? button on this window says**
+>
+> Two small alert tools. **Find** tells you when a named creature or NPC shows up in your zone. **Track Shiny** tells you when a shiny of one colour appears near you. When one turns up it drops a waypoint and tells your other sessions.
+>
+> **What you can do here**
+>
+> - **Add** a name to watch, or add the **-rorr** preset (the four epic ability researchers).
+> - **Click the idle pill** next to Find or Track Shiny to turn it on or off.
+> - **Scan now** checks the zone once for every name on the list and writes what it finds in Hits (no waypoint).
+> - **Colour**: click the shiny colour to track. Purple is chosen to start with.
+> - **Clear log** empties the Hits list.
+>
+> **Good to know**
+>
+> - Names must match exactly: "Wanderer" will not find "The Wanderer". Find is silent in a guild hall.
+> - Closing the window does not stop either tool. Set them back to idle, or type `ogre end find` / `ogre end trackshiny`.
+> - Open this window with `ogre watcher`.
+
+**Open it:** Type `ogre watcher`. `ogre find -panel` and `ogre trackshiny -panel` open the same window.
+
+## What it is for
+
+The Watcher has two small tools in one window. **Find** watches for named creatures or NPCs: when one on your list appears in your zone, you get a message, an in-game waypoint on it, and every other session is told. **Track Shiny** looks for a shiny (a harvestable collectible) of one colour within 100 metres of you and does the same when a new one shows up. Both keep working after you close the window.
+
+## Header
+
+| Control | What it does |
+|---|---|
+| **Clear log** | Empties the Hits list below. It does not change the watch list or turn anything off. |
+| **Title bar close (X)** | Closes the window only (the same as `ogre end watcher`). Find and Track Shiny keep running if they are armed.<br>*To stop them, click the armed pills to idle first.* |
+
+
+
+## Find - the watch list
+
+Names must match the whole name exactly (capital letters do not matter). "Wanderer" will not match "The Wanderer".
+
+| Control | What it does | Default |
+|---|---|---|
+| **idle / armed (pill next to Find)** | Turns Find on or off. When you turn it on it also checks the zone once for anything already on your list. While on, a listed name that appears gets a message, a waypoint and a note to your other sessions; one that leaves gets a DISAPPEARED line.<br>*With an empty list it stays idle and the console says "nothing to watch - add a name first". The on/off choice is remembered after a restart.* | idle |
+| **Actor name (exact)... (placeholder)** | Type a creature or NPC name to watch. Pressing Enter does the same as Add. | empty |
+| **Add** | Adds the typed name to the watch list. It does not turn Find on.<br>*A name already on the list is not added twice.* |  |
+| **+ -rorr preset** | Adds the four Renewal of Ro researchers (the NPCs that upgrade your epic abilities): The Wanderer, Filowen Curetouch, Angrus Silentfang and Balkot Stonefury.<br>*Only names not already on the list are added. It does not turn Find on.* |  |
+| **Scan now** | Checks the zone once, right now, for every name on the list. Each one found is added to Hits as a FOUND line with its location.<br>*Works even while Find is idle. A scan result is a Hits line only: no waypoint and no message to other sessions. It also works in a guild hall.* |  |
+| **Clear list** | Removes every name from the watch list and turns Find off.<br>*No confirmation.* |  |
+
+
+
+## Find - names and hits
+
+| Control | What it does |
+|---|---|
+| **x (remove name)** | Removes that one name from the watch list.<br>*Removing the last name turns Find off.* |
+
+
+
+## Track Shiny
+
+| Control | What it does | Default |
+|---|---|---|
+| **idle / armed (pill next to Track Shiny)** | Turns Track Shiny on or off. While on, it looks around you (100 metres) every half second for a shiny of the chosen colour. When it finds a new one it adds a line to Hits, puts a waypoint on it and tells your other sessions. The same shiny is only reported once. The on/off choice is remembered after a restart. | idle |
+| **Colour (White / Green / Purple / Red / BlueShimmer / Blue buttons)** | Which shiny colour to look for. Click a colour; the lit one is in use.<br>*Changing the colour clears Last seen. It does not turn tracking on.* | Purple |
+
+
+
+## What the window shows
+
+- Hits: the latest 50 alerts, newest at the bottom. FOUND = seen by a scan. APPEARED = a listed name just showed up. Both are green. DISAPPEARED = it left (grey). "Purple shiny!" = a shiny of that colour was found (yellow). The number after Hits is how many lines there are.
+- The pills: green 'armed' means that tool is on; grey 'idle' means it is off.
+- polls every 500 ms: how often Track Shiny looks around. It can be changed with `ogre trackshiny -interval <ms>` (250 to 30000).
+- Last seen: the name and location of the last shiny found.
+- The footer is a fixed reminder of how names and shinies are matched.
+
+## Good to know
+
+- Find names must match exactly. "Wanderer" does not find "The Wanderer".
+- Find alerts are silenced while you are in a guild hall. Scan now still works there.
+- Closing the window does not stop anything. Set both pills to idle to stop watching, or type `ogre end find` / `ogre end trackshiny`. Opening it again while it is already open does nothing.
+- The watch list, colour and on/off choices are saved and come back after a restart. The Hits list is not saved.
+- Typing `ogre find <name>` in the console REPLACES the whole watch list with that name and turns Find on. Use the Add box to add a name instead.
+- Track Shiny only looks 100 metres around you.
+
+## First open
+
+![Nothing watched yet](../assets/watcher/empty.png)
+
+With an empty list both tools are idle. Add a name (or the **-rorr** preset), then click the **idle** pill next to Find to turn it on.
 
 
 ---
@@ -21,7 +116,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - **Choose what to include**: passives, ascension abilities, a minimum tier or level range, or just a few named abilities.
 > - **Merge** into the file you have, write a **Fresh file**, or add **Only abilities I don't have yet** (much faster).
 > - **Tradeskill export instead** makes the files Ogre Craft uses.
-> - **Run export** starts it. This window steps aside while it runs; the small Exporting Abilities window shows progress and can stop it.
+> - **Run export** starts it. This window steps aside while it runs (`ogre export` brings it back); the small Exporting Abilities window shows progress and can stop it.
 >
 > **Good to know**
 >
@@ -30,7 +125,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - Your choices are saved as you make them.
 > - If none of the abilities in **Just these abilities** is found, nothing is exported and the top line says so.
 
-**Open it:** Type `ogre export` (or `ogre abilityexport`); typing it again while the window is open does nothing. `ogre export -start` runs an export straight away with the options set in this window, without opening it. `ogre export -default -start` does the same with the default options. `ogre end export` closes the window.
+**Open it:** Type `ogre export` (or `ogre abilityexport`); typing it again while the window is open does nothing, except while an export runs: then it brings this window back, and the export keeps going. `ogre export -start` runs an export straight away with the options set in this window, without opening it. `ogre export -default -start` does the same with the default options. `ogre end export` (or the window's X) stops a running export and closes the window.
 
 ## What it is for
 
@@ -45,7 +140,7 @@ The yellow text left of the buttons is the result of the last thing you did (for
 | **Help** | Shows or hides a short explanation under every option. Display only - changes what you see, not what the bot does.<br>*The explanations are the same plain-language text as this page.* | off |
 | **Reset** | Puts every option back to its default and saves that straight away. |  |
 | **Run export / Run (dry run) / Run cache action / Running…** | Starts the export with the options shown. The label tells you what will happen: 'Run (dry run)' when nothing will be written, 'Run cache action' when you picked a cache action that does not export. While the export runs this window steps aside; the small Exporting Abilities window shows the progress and has the Stop button.<br>*Greyed out while the red 'can't run' box is showing, and while an export is already running.* |  |
-| **Title bar close (X)** | Closes this window. It does not stop an export that is already running. |  |
+| **Title bar close (X)** | Closes this window, and stops an export that is running (the same as `ogre end export`). |  |
 
 ## What to export
 
@@ -156,7 +251,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > **What you can do here**
 >
 > - **Watch progress**: the ability being read, how many of your abilities have been looked at, and how many were kept or skipped.
-> - **Stop** ends the export. Closing this window does the same.
+> - **Stop** ends the export; the Ability Export window comes back if it was open. Closing this window ends the export and closes the Ability Export window too, the same as `ogre end export`.
 >
 > **Good to know**
 >
@@ -176,7 +271,7 @@ Top line: the ability being read right now. It says '(cached)' for an ability th
 | Control | What it does |
 |---|---|
 | **Stop** | Stops the export. Nothing is written - your old file stays as it was - and OgreBot does not reload its abilities. If the big Ability Export window stepped aside for the export, it comes back. |
-| **Title bar close (X)** | Closing this window also stops the export, exactly like Stop.<br>*The window closes itself about a second and a half after a finished export - that does not stop anything.* |
+| **Title bar close (X)** | Closing this window stops the export, like Stop, and closes the Ability Export window too (the same as `ogre end export`).<br>*The window closes itself about a second and a half after a finished export - that does not stop anything.* |
 
 ## What the window shows
 
@@ -218,10 +313,10 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - Tick **Keep previous results** to add to the results instead of replacing them. **Add new spawns that match** adds actors as they appear.
 > - Pin a detail (the diamond) to show it as a column on every result.
 > - Right-click any line to copy it, copy all of an actor's details, or remove it. The x on a result or an actor removes just that one.
-> - Closing the window does not stop monitoring. Use `ogre end analysis`.
+> - Closing the window stops monitoring and the event logs, the same as `ogre end analysis`. What was recorded is kept.
 > - **Taps** turns the event logs on and off.
 
-**Open it:** Type `ogre analysis` (or `ogre anal`). `ogre end analysis` turns monitoring off (it does not close the window or stop the event logs).
+**Open it:** Type `ogre analysis` (or `ogre anal`). `ogre end analysis` (or the window's X) turns monitoring and the event logs off, stops a scan in progress, and closes the window. What was recorded is kept.
 
 ## What it is for
 
@@ -235,7 +330,7 @@ Next to the tabs: the zone, scan progress while a scan runs, and the number of s
 |---|---|---|
 | **Monitor / Scan / Events / Sessions** | Switches the page shown.<br>*The window remembers the tab while the game is running.* | Monitor |
 | **filter… (placeholder)** | Narrows what is listed: on Monitor it filters the Members list by name, on Scan the results by name or type, on Events the log lines. Not case-sensitive. Display only.<br>*Does not filter the Actors or Timestamps lists.* | empty |
-| **Title bar close (X)** | Closes the window. Monitoring and the event logs keep running in the background.<br>*Turn Monitoring off first if you are done, or type `ogre end analysis`.* |  |
+| **Title bar close (X)** | Closes the window and stops everything it was doing: monitoring and the event logs go off, and a scan in progress, a + Cursor countdown and 'Add new spawns that match' stop. What was recorded is kept.<br>*The same as `ogre end analysis`.* |  |
 
 ## Monitor - buttons
 
@@ -326,7 +421,7 @@ Seven logs of game events: announce (big on-screen messages), despawn, spawn, ch
 
 - Monitoring only reads actors the bot can currently see in the zone. If every list stays empty, the actor has despawned or the ID is from another zone - the window says so.
 - Actor IDs are reused between zones, so a monitored ID from an old zone can point at a different actor now.
-- Closing the window does not stop monitoring or the event logs.
+- Closing the window stops monitoring and the event logs, the same as `ogre end analysis`. What was recorded stays until you unload the bot, so Export it or reopen the window to look at it.
 - Turning monitoring or the event logs on (from anywhere) opens this window.
 - Everything is kept in memory only until you Export it.
 - Problems now show in the warning line under the tabs, not only in the console.

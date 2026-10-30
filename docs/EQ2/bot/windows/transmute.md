@@ -24,9 +24,9 @@
 > - Each stone costs 1 Gnomish Currency Exchange, not coin. Without any, the buy adds nothing and the run stops and says so.
 > - Only items named "Transmuter's Stone" or "Transmutation Stone" are ever transmuted.
 > - A round that buys nothing, or transmutes nothing, stops the run, so a problem never repeats for every round.
-> - Closing this window does not stop a run.
+> - Closing this window stops a run, the same as `ogre end leveltransmuting`. Stop stops it and keeps the window open.
 
-**Open it:** Type `ogre leveltransmuting` (or `ogre lt`). Typing it again while the window is open just refreshes it. `ogre lt status` prints the status to the console instead. `ogre end leveltransmuting` stops a run but leaves the window open.
+**Open it:** Type `ogre leveltransmuting` (or `ogre lt`). Typing it again while the window is open just refreshes it. `ogre lt status` prints the status to the console instead. `ogre end leveltransmuting` (or the window's X) stops a run and closes the window; Stop stops it and leaves the window open.
 
 [![Level Transmuting](../assets/transmute/window.png)](../assets/transmute/window.png "Click for full size")
 
@@ -64,7 +64,7 @@ Merchant and Item are fixed - the tool only works with Barnaby and the Minor Lap
 | **Start** | Starts a run with the two numbers above. It pauses OgreBot and opens the Persona window on Skills > General to read your Transmuting skill. Then, each round: read the skill and stop if it is capped; travel to Barnaby if he is not within 10; buy up to the Buy amount; then transmute every stone in your bags (at most 200 per round), one at a time, waiting 2 seconds after each.<br>*Greyed out while a run is going. The run can also stop by itself - see Good to know below.* |
 | **Stop** | Stops the run straight away, even in the middle of buying, travelling or transmuting. It closes the Persona window and resumes OgreBot if it was running before you pressed Start.<br>*Only active while a run is going.* |
 | **Refresh** | Redraws the window with the latest numbers. It does not change anything, and it does not read the skill. |
-| **Title bar close (X)** | Closes the window only. A run that is going keeps going.<br>*Use Stop (or `ogre end leveltransmuting`) to stop the run.* |
+| **Title bar close (X)** | Stops a run that is going, then closes the window. The Persona window is closed and OgreBot resumes, as with Stop.<br>*The same as `ogre end leveltransmuting`. Stop stops the run and keeps the window open.* |
 
 ## When the skill cannot be read
 
@@ -94,7 +94,7 @@ The bot reads your Transmuting skill from the Persona window, Skills > General, 
 - Buy is a target to hold, not an amount per round. If stones were left over, the next visit buys fewer (or none).
 - Any item in your bags whose name contains "Transmuter's Stone" or "Transmutation Stone" is transmuted, not just the ones this tool bought.
 - The run stops by itself when a visit's buy adds no stones, when a round uses up none of the stones it tried, when the merchant window fails 3 rounds in a row, or when you do not have the Transmuting ability (the stones it bought stay in your bags).
-- Closing the window does not stop a run.
+- Closing the window stops a run, the same as `ogre end leveltransmuting`. Stop stops it and keeps the window open.
 - `ogre lt` opens the window; `ogre lt status` prints the status to the console instead.
 
 ## Before the first run

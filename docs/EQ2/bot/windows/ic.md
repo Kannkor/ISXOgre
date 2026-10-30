@@ -44,7 +44,7 @@ The Instance Controller (IC) runs a list of instanced zones for you, one after a
 | Control | What it does | Default |
 |---|---|---|
 | **▼ / ▲ (minimize)** | Minimizes the window to its title bar and a one-line strip showing the run status, Pause and Expand. Clicking again restores it. Double-clicking the title bar does the same. Display only - changes what you see, not what the bot does.<br>*The window keeps its width; it always opens at its normal size.* | normal size |
-| **Close (X)** | Closing the window STOPS a running list, exactly like End (the reason shown is 'panel closed'), and turns IC's pause off.<br>*Closing is not just hiding the window. It does NOT cancel end-of-list actions that are already running (use End for that), so closing the window on the way out never undoes an armed camp.* |  |
+| **Close (X)** | Closing the window STOPS a running list, exactly like End (the reason shown is 'ended'), and turns IC's pause off. `ogre end ic` does exactly the same.<br>*Closing is not just hiding the window. It does NOT cancel end-of-list actions that are already running (use End for that), so closing the window on the way out never undoes an armed camp.* |  |
 | **Run / Startup Options / Settings** | Switches the page you see. Display only. | Run |
 
 

@@ -20,7 +20,7 @@
 > - A hidden window stays hidden; Reset only moves it.
 > - Each window's own title-bar right-click menu also has Reset.
 
-**Open it:** Type `ogre windowreset` in the InnerSpace console. It opens in the middle of the screen. If it is already open, that does nothing.
+**Open it:** Type `ogre windowreset` in the InnerSpace console. It opens in the middle of the screen. If it is already open, that does nothing. `ogre end windowreset` closes it.
 
 [![Reset UI Windows](../assets/windowreset/window.png)](../assets/windowreset/window.png "Click for full size")
 
@@ -53,7 +53,7 @@ One row per open window (this one is left out).
 | Control | What it does |
 |---|---|
 | **Reset All Windows** | Does a Reset on every window in the list at once, hidden ones included. Help windows and the OgreHUD are listed but left where they are; use their own Reset button.<br>*No confirmation. Every saved position is forgotten.* |
-| **Title bar close (X)** | Closes this window. Nothing else changes. |
+| **Title bar close (X)** | Closes this window, the same as `ogre end windowreset`. Nothing else changes. |
 
 ## What the window shows
 

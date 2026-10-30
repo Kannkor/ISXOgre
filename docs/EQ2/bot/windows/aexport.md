@@ -11,7 +11,7 @@
 > **What you can do here**
 >
 > - **Watch progress**: the ability being read, how many of your abilities have been looked at, and how many were kept or skipped.
-> - **Stop** ends the export. Closing this window does the same.
+> - **Stop** ends the export; the Ability Export window comes back if it was open. Closing this window ends the export and closes the Ability Export window too, the same as `ogre end export`.
 >
 > **Good to know**
 >
@@ -35,7 +35,7 @@ Top line: the ability being read right now. It says '(cached)' for an ability th
 | Control | What it does |
 |---|---|
 | **Stop** | Stops the export. Nothing is written - your old file stays as it was - and OgreBot does not reload its abilities. If the big Ability Export window stepped aside for the export, it comes back. |
-| **Title bar close (X)** | Closing this window also stops the export, exactly like Stop.<br>*The window closes itself about a second and a half after a finished export - that does not stop anything.* |
+| **Title bar close (X)** | Closing this window stops the export, like Stop, and closes the Ability Export window too (the same as `ogre end export`).<br>*The window closes itself about a second and a half after a finished export - that does not stop anything.* |
 
 ## What the window shows
 

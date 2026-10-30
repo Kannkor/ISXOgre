@@ -21,7 +21,7 @@
 > - Every 100 rounds the flight grows by half a second, up to 25 seconds.
 > - Zoning ends the run. Do not mix it with follow, nav or a camp spot.
 
-**Open it:** Type `ogre safefall panel`. `ogre safefall on` (or `ogre safefall on 45` for a 4.5 second flight) starts training without the window, `ogre safefall off` stops it, and a bare `ogre safefall` prints its status in the console.
+**Open it:** Type `ogre safefall panel`. `ogre safefall on` (or `ogre safefall on 45` for a 4.5 second flight) starts training without the window, `ogre safefall off` stops it, `ogre end safefall` (or the window's X) stops it and closes the window, and a bare `ogre safefall` prints its status in the console.
 
 [![Safe Fall Trainer](../assets/safefall/window.png)](../assets/safefall/window.png "Click for full size")
 
@@ -64,6 +64,7 @@ Read-only. It updates four times a second.
 - It does not check whether something else is moving your character. Do not run it together with other movement (follow, nav, camp spot).
 - Typing `ogre safefall on` while training is running starts over from round 0 (the Start button is dimmed then, so it cannot do this by accident).
 - `ogre safefall panel` when the window is already open does nothing and prints nothing.
+- Closing the window stops training, the same as `ogre end safefall`. Stop stops it and keeps the window open.
 
 ## Before you start
 

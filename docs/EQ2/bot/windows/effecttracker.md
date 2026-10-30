@@ -22,7 +22,7 @@
 > - Each effect is examined once, ever, so a zone you ran before may show nothing new.
 > - It switches itself off while the Encounter Recorder runs.
 
-**Open it:** Type `ogre effecttracker` (or `ogre oet`). `ogre effecttracker on` turns on the player capture and `ogre effecttracker npc on` the NPC capture; both also open the window. `ogre effecttracker off` turns both off.
+**Open it:** Type `ogre effecttracker` (or `ogre oet`). `ogre effecttracker on` turns on the player capture and `ogre effecttracker npc on` the NPC capture; both also open the window. `ogre effecttracker off` turns both off. `ogre end effecttracker` (or the window's X) turns both off and closes the window.
 
 [![Effect Tracker](../assets/effecttracker/window.png)](../assets/effecttracker/window.png "Click for full size")
 
@@ -93,6 +93,7 @@ Record count (and 'showing N of M' when there are more than 250 matches; the fil
 ## Good to know
 
 - Player and NPC are not saved: both start off in every new session. Turning either on opens this window (shrunk) so you can always see it is running.
+- Closing the window turns Player and NPC off (what was captured is saved), the same as `ogre end effecttracker`.
 - An effect is examined only once, ever, across all your characters. A zone you already ran may show nothing new; that is normal.
 - Starting the Encounter Recorder switches Effect Tracker off. Turn it back on after the recorder stops.
 - While the tracker is working, you will see effect examine windows flash open and close. That is how it reads them.

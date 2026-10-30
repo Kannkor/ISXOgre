@@ -10,7 +10,7 @@
 >
 > **Monitor**
 >
-> - **Start** / **Stop** - turns the log on and off. It keeps running while you fight, zone or die, until you press Stop.
+> - **Start** / **Stop** - turns the log on and off. It keeps running while you fight, zone or die, until you press Stop or close the window (closing it is the same as `ogre end npccast`).
 > - **my target + its target** - logs your target and your target's target. These are the only spells that come with a **name**, because the name is read off your cast bars. Target the mob, or target the tank the mob is attacking.
 > - **+ named NPCs nearby** / **+ every NPC nearby** - also logs other casters within 100 metres. Their spells show a spell number but no name, unless you have seen that spell on your cast bar before.
 > - **Copy** - puts the whole list on your clipboard, ready to paste.
@@ -31,7 +31,7 @@
 > - **Scan radius** takes 5 to 500. Leave it empty to use the default.
 > - Your changes go in your own list, so updates never remove them. **Reset my edits** deletes them all for this zone, with no undo.
 
-**Open it:** Type `ogre npccast` (also `ogre npccastmonitoring`, `ogre npccast panel` or `ogre npccast config`). If the window is already open, this does nothing. `ogre npccast status` prints the watch status in the console instead.
+**Open it:** Type `ogre npccast` (also `ogre npccastmonitoring`, `ogre npccast panel` or `ogre npccast config`). If the window is already open, this does nothing. `ogre npccast status` prints the watch status in the console instead. `ogre end npccast` (or the window's X) stops the Monitor and closes the window.
 
 [![NPC Cast Monitoring](../assets/npccast/window.png)](../assets/npccast/window.png "Click for full size")
 
@@ -61,7 +61,7 @@ Pick whose spells to log, then press Start. One of the three buttons is always l
 | **my target + its target** | Logs the spells of your target and of your target's target. Players are left out. These are the only spells that come with a name, because the name is read off your cast bars. Target the mob, or target the tank the mob is attacking.<br>*Your choice is not saved. After you restart the game it is back to this one.* | on |
 | **+ named NPCs nearby** | Also logs every named NPC within 100 meters of you. Their spells show the ability id but no name, unless that spell was once named from your cast bars.<br>*Changing this while the Monitor runs takes effect at once.* | off |
 | **+ every NPC nearby** | Also logs every NPC within 100 meters of you, named or not. Their spells show the ability id but no name, unless that spell was once named from your cast bars. | off |
-| **Start / Stop** | Start begins logging and the button turns into a red Stop. It checks four times a second and keeps going while you fight, zone or die, until you press Stop. Stop saves the log and stops; the list stays on screen.<br>*Closing the window does not stop it. It also runs while OgreBot is closed or paused, and with NPC Cast Monitoring unticked.* |  |
+| **Start / Stop** | Start begins logging and the button turns into a red Stop. It checks four times a second and keeps going while you fight, zone or die, until you press Stop. Stop saves the log and stops; the list stays on screen.<br>*Closing the window stops it too (and saves the log), the same as `ogre end npccast`. It runs while OgreBot is closed or paused, and with NPC Cast Monitoring unticked.* |  |
 
 ## Monitor: the log
 
@@ -179,7 +179,7 @@ Shows how far the bot scans and for what (NPCs or players), and where the shippe
 - The Monitor and the Watch list are separate. The Monitor only writes down what mobs cast; it never interrupts or runs anything, and it needs neither the NPC Cast Monitoring checkbox nor OgreBot open.
 - Spell names in the Monitor only come from your cast bars (your target and your target's target), and only when the cast lasts longer than about a quarter of a second. Once a spell's name is known, it shows for that spell everywhere, in every zone and next time too.
 - Each zone keeps its own Monitor log. Zone while it runs and the old zone's log is saved and the new zone's saved log comes back. Send the file named under the log, or paste what Copy gives you.
-- The Monitor keeps running after you close the window. Press Stop (or type `ogre npccast monitor off`) to end it. The console can also start it: `ogre npccast monitor`, `ogre npccast monitor named` or `ogre npccast monitor all`.
+- Closing the window stops the Monitor, the same as `ogre end npccast`. Stop (or `ogre npccast monitor off`) stops it and keeps the window open. The console can also start it: `ogre npccast monitor`, `ogre npccast monitor named` or `ogre npccast monitor all`; it then runs without the window until you stop it.
 - The Watch list is switched by the 'NPC Cast Monitoring' checkbox on OgreBot's 'Settings' tab. While it is off, the list is empty and capturing, reloading, adding, removing and editing are refused with a red bar saying so. Only Import still works.
 - Entering a zone that has a list (shipped or yours) ticks that checkbox for you, once per zone. If you untick it, it stays off until you next enter a zone that has a list, or your profile is loaded again.
 - A watched mob starting a spell that is not listed (or a 'watch only' mob) does not interrupt or run anything. It only lets encounter scripts know the mob is casting.

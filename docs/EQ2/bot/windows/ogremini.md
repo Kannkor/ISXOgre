@@ -17,7 +17,7 @@
 >
 > **Good to know**
 >
-> - The X on this window stops OgreBot completely, the same as the X on the main window. Unsaved changes are lost.
+> - The X on this window stops OgreBot completely, the same as the X on the main window and `ogre end bot`. Unsaved changes are lost.
 > - Unsaved changes show as a yellow star (*) on the main OgreBot window only, not on this one.
 > - Your choices from the cog are kept for next time.
 > - Pause only affects this character. Commands you send still work while paused.
@@ -71,7 +71,7 @@ Besides the usual ? (help) and lock, the title bar has the cog, which picks what
 
 | Control | What it does |
 |---|---|
-| **Title bar close (X)** | Shuts OgreBot down completely, the same as the X on the big window. Both windows close, movement and HUDs stop, the profile is unloaded, and unsaved changes are thrown away.<br>*To just get the big window out of the way, use Hide Main.* |
+| **Title bar close (X)** | Shuts OgreBot down completely, the same as the X on the big window and `ogre end bot`. Both windows close, movement and HUDs stop, the profile is unloaded, and unsaved changes are thrown away.<br>*To just get the big window out of the way, use Hide Main.* |
 
 
 

@@ -14,7 +14,7 @@
 > - **Sell list / Destroy list** - double-click a left row to add it; right-click a right row to remove it.
 > - **TSE, Depot, Restock** - saved options for those modes. Depot saves only when you press Save.
 > - **Trade** - queue items for nearby players, then Run the queue.
-> - **Stop** stops the work; **Close** only closes the window.
+> - **Stop** stops the work; **Close** only closes the window. The X (or `ogre end im`) does both.
 >
 > **Good to know**
 >
@@ -195,7 +195,7 @@ A list of hand-overs: which item, how many, to whom. The list lives only until t
 | **Run <tab> / Queue <tab>** | Starts the mode for the tab you are on - the same as that mode's Run on the Run tab (or Queue while something is running).<br>*On the Restock tab this runs the Default profile, not the one you picked - use 'Run this profile' for that. Not shown on the Run tab.* |
 | **Help in console** | Prints the list of `ogre im` commands in the console. |
 | **Close** | Closes the window. A mode that is running keeps running. Cancels a pending -end, and closes a merchant window IM left open.<br>*To stop the work and close, use `ogre end im`.* |
-| **Title bar close (X)** | Closes the window, like Close. Running work carries on. |
+| **Title bar close (X)** | Stops the work and closes the window, the same as `ogre end im`. Also cancels a pending -end and closes a merchant window IM left open. |
 
 ## What the window shows
 
@@ -211,7 +211,7 @@ A list of hand-overs: which item, how many, to whom. The list lives only until t
 
 - Restock's Look and Run on the Run tab (and 'Run restock' at the bottom) always use the profile named Default. Use the buttons on the Restock tab for another profile.
 - Quiver refills with the ammo already in your quiver first, then the name on the Quiver tab.
-- Closing the window does not stop a running mode. Use Stop, or `ogre end im`.
+- The Close button does not stop a running mode. The X (or `ogre end im`) stops it and closes the window; Stop stops it and keeps the window.
 - The Depot tab saves nothing until you press Save.
 - The trade list is not saved; it is lost when the game or bot restarts.
 

@@ -17,9 +17,9 @@
 > **Good to know**
 >
 > - **At cap** is when the game says the stat is capped. **At peak** is time at your best value this session.
-> - Closing the window does not stop recording; use **Stop** or `ogre potcb off`.
+> - Closing the window stops recording, the same as `ogre end potcb`. **Stop** stops recording and keeps the window open.
 
-**Open it:** Type `ogre potcb` (or `ogre cbpot`). This opens the window and starts recording. `ogre potcb off` (or `ogre end potcb`) stops recording and closes it.
+**Open it:** Type `ogre potcb` (or `ogre cbpot`). This opens the window and starts recording. `ogre end potcb` (or the window's X) stops recording and closes it; `ogre potcb off` does the same while it is recording.
 
 [![Potency / Crit Bonus / Fervor](../assets/potcb/window.png)](../assets/potcb/window.png "Click for full size")
 
@@ -59,7 +59,7 @@ One row per stat. Hover most numbers for more detail.
 
 ## Good to know
 
-- Closing the window with the X does not stop the recording. Use Stop, or `ogre potcb off`.
+- Closing the window with the X stops the recording, the same as `ogre end potcb`. Stop stops it and keeps the window open.
 - Opening the window with `ogre potcb` always starts recording.
 - Zoning is not counted as time, so a long zone-in does not inflate 'At peak'.
 - The numbers are lost when the bot is unloaded; nothing is saved to a file.

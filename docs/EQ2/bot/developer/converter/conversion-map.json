@@ -42142,10 +42142,10 @@
    "surface": "OgreCraftAPI"
   },
   {
-   "howToFix": "Write `ISXOgreEQ2.Craft:Open` instead of `OgreCraftAPI:ShowMainWindow`; the arguments changed: One bool became two calls: TRUE -> ISXOgreEQ2.Craft:Open, FALSE -> ISXOgreEQ2.Craft:Close. Open also turns on the reaction engine (craft lite) and marks craft open.",
+   "howToFix": "Write `ISXOgreEQ2.Craft:Open` instead of `OgreCraftAPI:ShowMainWindow`; the arguments changed: One bool became two calls: TRUE -> ISXOgreEQ2.Craft:Open (also brings a minimized window back), FALSE -> ISXOgreEQ2.Craft:Minimize (rolls the window up to its run controls; crafting keeps going). Open also turns on the reaction engine (craft lite) and marks craft open.",
    "id": "OgreCraftAPI.ShowMainWindow",
    "newForm": "ISXOgreEQ2.Craft:Open",
-   "note": "One bool became two calls: TRUE -> ISXOgreEQ2.Craft:Open, FALSE -> ISXOgreEQ2.Craft:Close. Open also turns on the reaction engine (craft lite) and marks craft open.",
+   "note": "One bool became two calls: TRUE -> ISXOgreEQ2.Craft:Open (also brings a minimized window back), FALSE -> ISXOgreEQ2.Craft:Minimize (rolls the window up to its run controls; crafting keeps going). Open also turns on the reaction engine (craft lite) and marks craft open.",
    "oldCall": "OgreCraftAPI:ShowMainWindow",
    "oldKinds": [
     "m"
@@ -42557,10 +42557,10 @@
    "surface": "OgreCraft"
   },
   {
-   "howToFix": "Write `ISXOgreEQ2.Craft:Open` instead of `OgreCraft:ShowMainWindow`; the arguments changed: One bool became two calls: TRUE -> ISXOgreEQ2.Craft:Open, FALSE -> ISXOgreEQ2.Craft:Close. Open also turns on the reaction engine (craft lite) and marks craft open.",
+   "howToFix": "Write `ISXOgreEQ2.Craft:Open` instead of `OgreCraft:ShowMainWindow`; the arguments changed: One bool became two calls: TRUE -> ISXOgreEQ2.Craft:Open (also brings a minimized window back), FALSE -> ISXOgreEQ2.Craft:Minimize (rolls the window up to its run controls; crafting keeps going). Open also turns on the reaction engine (craft lite) and marks craft open.",
    "id": "OgreCraft.ShowMainWindow",
    "newForm": "ISXOgreEQ2.Craft:Open",
-   "note": "One bool became two calls: TRUE -> ISXOgreEQ2.Craft:Open, FALSE -> ISXOgreEQ2.Craft:Close. Open also turns on the reaction engine (craft lite) and marks craft open.",
+   "note": "One bool became two calls: TRUE -> ISXOgreEQ2.Craft:Open (also brings a minimized window back), FALSE -> ISXOgreEQ2.Craft:Minimize (rolls the window up to its run controls; crafting keeps going). Open also turns on the reaction engine (craft lite) and marks craft open.",
    "oldCall": "OgreCraft:ShowMainWindow",
    "oldKinds": [
     "m"

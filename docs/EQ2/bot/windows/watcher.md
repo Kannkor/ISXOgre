@@ -37,7 +37,7 @@ The Watcher has two small tools in one window. **Find** watches for named creatu
 | Control | What it does |
 |---|---|
 | **Clear log** | Empties the Hits list below. It does not change the watch list or turn anything off. |
-| **Title bar close (X)** | Closes the window only. Find and Track Shiny keep running if they are armed.<br>*To stop them, click the armed pills to idle first.* |
+| **Title bar close (X)** | Closes the window only (the same as `ogre end watcher`). Find and Track Shiny keep running if they are armed.<br>*To stop them, click the armed pills to idle first.* |
 
 
 
