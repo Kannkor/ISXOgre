@@ -1,0 +1,1116 @@
+# OgreBot for EverQuest II - documentation, OgreBot (part 2 of 3)
+
+OgreBot is in beta testing. For OgreBot Classic see https://kannkor.github.io/ISXOgre/EQ2/
+This file is ONE PIECE of the documentation: OgreBot (part 2 of 3) - OgreBot - Tabs.
+The entire documentation in one document: https://kannkor.github.io/ISXOgre/EQ2/bot/llms-full.txt
+Index of every page and of every file like this one: https://kannkor.github.io/ISXOgre/EQ2/bot/llms.txt
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/auto-hunt.md
+
+# Auto-Hunt (not finished)
+
+> **:warning: Not finished**
+>
+> OgreBot marks this tab as not finished (its name is struck through). Some options below work and some do not yet - each one says which.
+
+Auto-Hunt is a simple grinding mode. The bot looks for a mob near you, targets it and opens the fight with the first ready ability from your Pull Abilities list; your Cast Stack then fights as usual. This tab is marked not finished: the mob choice and safety settings work, but the walking part does not. The Auto Hunt and Movement Only boxes and the nav path list do nothing yet, so the bot never walks a route; it pulls what comes within the scan radius. To switch it on, use the OgreConsole command `-autohunt` with hunt, movement or off. It only runs while OgreBot is open with a profile loaded and the bot is not paused.
+
+## Auto-Hunt
+
+| Option | What it does | Default |
+|---|---|---|
+| **Auto Hunt** | **Not active yet.** It will be the on/off switch for Auto-Hunt. For now, start and stop it with the OgreConsole command `-autohunt` (hunt, movement or off). | off |
+| **Movement Only** | **Not active yet.** It will make Auto-Hunt walk without pulling. The command `-autohunt movement` exists, but for now it does not walk anywhere; it only holds you still while a safety check is tripped. | off |
+
+## Auto Hunt Options
+
+| Option | What it does | Default |
+|---|---|---|
+| **Scan radius (box)** | How far around you the bot looks for a mob to pull, and for mobs attacking your group. Leave it blank to use 35. | empty (35 is used) |
+| **Check Aggro** | While anyone in your group (or raid) is in combat, the bot stops pulling and holds still. Your normal combat settings handle the fight. | off |
+| **Check HP @** | While anyone in your group (or raid) has less health than the % in the box beside it, the bot stops pulling and holds still.<br>*A group member who is not in the zone counts as low health. A blank box never stops the hunt.* | off |
+| **Check HP @ (box)** | The health % used by Check HP @. Only used while Check HP @ is ticked. | empty (never stops the hunt) |
+| **Check Mana @** | While anyone in your group (or raid) has less power than the % in the box beside it, the bot stops pulling and holds still. | off |
+| **Check Mana @ (box)** | The power % used by Check Mana @. Only used while Check Mana @ is ticked. | empty (never stops the hunt) |
+| **Check if any group members dead** | While anyone in your group (or raid) is dead, the bot stops pulling and holds still.<br>*A group member who is not in the zone also counts as dead, so the hunt waits for them to arrive.* | off |
+
+## Ignore mobs by con
+
+| Option | What it does | Default |
+|---|---|---|
+| **Gray** | The bot never pulls gray-con mobs.<br>*A gray mob already attacking your group is still fought.* | off |
+| **Green** | The bot never pulls green-con mobs. | off |
+| **Blue** | The bot never pulls blue-con mobs. | off |
+| **White (even)** | The bot never pulls white-con (even) mobs. | off |
+| **Yellow** | The bot never pulls yellow-con mobs. | off |
+| **Orange** | The bot never pulls orange-con mobs. | off |
+| **Red** | The bot never pulls red-con mobs. | off |
+| **Non-Aggro** | The bot only pulls mobs that would attack you on sight. Mobs that leave you alone are skipped. | off |
+| **Named** | The bot never pulls named mobs.<br>*Even when unticked, normal mobs in range are pulled before named ones.* | off |
+
+## Pull Abilities
+
+| Option | What it does | Default |
+|---|---|---|
+| **First ready one is used; drag order = priority** | Your pull list. When the bot has a mob targeted and you are out of combat, it uses the first entry from the top that is ready. Type in the box above to find one of your abilities or items; picking it adds it. Drag rows to change the order, double-click a row to switch it off or on.<br>*With an empty list the bot targets mobs but never pulls them.* | empty |
+
+## Behaviour
+
+| Option | What it does | Default |
+|---|---|---|
+| **Campspot** | When the bot finds a mob to pull, it sets a camp spot where you stand and holds you there for the fight. When no mob is left, it clears that camp spot again.<br>*It only sets and clears this character's own camp spot, not the group's.* | off |
+| **CS-JO-JI** | Right now this does exactly the same as Campspot. | off |
+| **Prebuff** | Before each pull, the bot targets you, turns auto-attack on and waits 3 seconds, so your normal buffs have time to go out. Then it targets the mob.<br>*It does not cast buffs itself; your Cast Stack does that.* | off |
+| **Use IRC** | **Not active yet.**  | off |
+| **Ignore Collision** | Normally the bot skips mobs it cannot see (a wall or hill in the way). Tick this to let it pull those too. | off |
+| **Delay After Combat** | **Not active yet.**  | off |
+| **Pause on Exquisite Chest drop** | While an Exquisite chest is lying within 50 of you, the bot stops pulling and holds still, so you can deal with it.<br>*It carries on by itself once the chest is gone.* | off |
+
+## Nav Paths
+
+| Option | What it does | Default |
+|---|---|---|
+| **Add a nav point** | **Not active yet.** It will list named places in the zone to add to the route; for now the list is always empty.<br>*Opened, it says 'No named nav points yet - not built in the new bot'.* | empty |
+| **Nav Path Order** | **Not active yet.** It will hold the route Auto-Hunt walks, in order. It is saved with your profile, but nothing uses it. | empty |
+| **Clear** | Empties the Nav Path Order list. Press Save at the top to keep the change. |  |
+| **Loop path** | **Not active yet.** It will make the route start over when it reaches the end. | off |
+
+## Good to know
+
+- Ticking Auto Hunt does not start anything. Use `-autohunt` in OgreConsole (hunt / movement / off). That choice is not saved with your profile, so Auto-Hunt starts off every time the bot is loaded fresh.
+- A mob that is already attacking your group is targeted before any new pull, whatever its con. The con, Non-Aggro and Named filters only decide which NEW mob to pull. With 'Check Aggro' ticked the bot instead holds still and leaves that fight to your normal combat settings.
+- 'Check if any group members dead' and 'Check HP @' also count a group member who is not in the zone. The hunt waits until they arrive.
+- Pulls only happen while you are out of combat, and only if at least one entry in the pull list is ready to use. With an empty list the bot targets a mob and just waits.
+- If the Scan radius box is blank, the bot looks 35 around you.
+- Movement mode (`-autohunt movement`) does not walk anywhere yet and never pulls. The safety checks still apply in it: while one of them is tripped (Check Aggro, HP, Mana, dead members, Exquisite chest), the bot holds you still.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/cancel-on-cast.md
+
+# Cancel On Cast
+
+Some casts spoil a buff you keep up, so that buff needs to be cancelled and cast again fresh. Each row here says: when you cast THIS, cancel THESE buffs. The Cast Stack then puts them back. To build a row, click what you cast in list 1 and one or more buffs in list 2 (click a buff again to unpick it), then press Add. The row appears in Cancels setup, for example 'Armored -> Battle Tactics, Call of Shielding'. It only runs inside instances unless you tick the overland box. It waits while you are in combat, and it waits while the bot is paused.
+
+| Option | What it does | Default |
+|---|---|---|
+| **1. When you cast this  (ability or item)** | Pick the cast that should trigger the cancel. Abilities and items are both listed; items start with 'Item:'. Click one to select it. It is highlighted until you press Add. | your abilities and items |
+| **2. ...cancel these  (pick several)** | Pick the buffs to cancel when that cast happens. Click as many as you like, and click one again to unpick it. Only buffs that last until cancelled are listed. | your until-cancelled buffs |
+| **Cancels setup** | Your rows: the cast, then the buffs it cancels. After that cast, each buff still up is cancelled one at a time, once a second, until it is gone. Drag to reorder, double-click to switch a row off, X to remove.<br>*A 'C' on a row means it may cancel during combat. Tick 'In combat' beside Add when you make the row.* | empty |
+
+## Options
+
+| Control | What it does | Default |
+|---|---|---|
+| **Also run in overland zones (by default this only runs inside instances)** | Lets the cancels happen in overland zones too. When unticked they only happen inside instances. | off |
+
+## Build a row
+
+| Control | What it does |
+|---|---|
+| **Add** | Adds a row with your picks from lists 1 and 2 to Cancels setup. Tick 'In combat' beside it first to let that row cancel during a fight. It is greyed out until both lists have a pick (hover it to see which is missing). When several buffs are picked it reads 'Add (3)'. |
+
+## Good to know
+
+- While you are in combat the cancel is held until combat ends, however long the fight lasts. The 30-second limit below only starts counting once it is out of combat.
+- Every cast the bot makes counts. A cast you make by hand counts only if it shows a cast bar, so an instant cast by hand is missed. Ranks do not matter: a row for 'Armored' fires on 'Armored IV' too.
+- List 2 only shows buffs that last until cancelled. Timed buffs run out on their own, so they are left out.
+- A buff on several people is cancelled once per second until it is gone everywhere. The bot gives up after 30 seconds or 12 tries (time held in combat does not count).
+- Scripts can fire a row without casting anything: -CancelOnCast <who> "Armored" acts as if you had just cast Armored.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/chat-events.md
+
+# Chat Events
+
+Chat Events watches the game's incoming text for words you choose. When a line contains your text, the bot can run a console command, post a line to OgreConsole, play a 'Ding' sound, or any mix of the three. Nothing happens until you tick "Enable Chat Events" on the Settings tab. You build the events with the boxes at the top, and they appear in the Configured Events list below. Click a row to edit it, double-click it to switch it off or on, drag it to reorder, and use the X to delete it.
+
+| Option | What it does | Default |
+|---|---|---|
+| **Configured Events** | Your chat events. Each row shows the text it watches for, its command, and OC or Ding if ticked. Click a row to edit it, double-click to switch it off or on, drag a row to reorder, and click X to delete it.<br>*A switched-off row is kept but never fires. The order does not change anything; every active row is checked.* | empty |
+
+## Add an event
+
+| Control | What it does | Default |
+|---|---|---|
+| **Text to watch for** | The text to look for in incoming game text. An event fires whenever a line contains this text, in any case.<br>*Required. An event with no text cannot be added.* | empty |
+| **Code to execute (leave blank for nothing)** | A console command to run when the text is seen. It runs exactly as if you typed it into the InnerSpace console. Leave it blank if you only want the OC line or the Ding. | empty |
+| **OC - on success, send a message to OgreConsole** | When the text is seen, a line goes to OgreConsole saying which character saw it, the text it matched and the full line. | off |
+| **Ding - on success, play a 'Ding'** | When the text is seen, a 'Ding' sound plays on this PC. | off |
+| **Add** | Adds the event to the list below. Pressing Enter in either text box does the same. While you are editing a row this button reads Update and saves your changes to that row. |  |
+| **Clear Options** | Unticks OC and Ding. Ticks otherwise carry over to the next event you add. |  |
+| **Cancel** | Only shown while editing a row. Stops editing without changing the row. |  |
+
+## Good to know
+
+- Nothing here works until "Enable Chat Events" is ticked on the Settings tab.
+- The match ignores upper and lower case and can be anywhere in the line. Short text like "a" or "the" matches almost every line.
+- An event with no command, no OC and no Ding is ignored, and the console prints a warning about it.
+- The OC and Ding ticks stay ticked for the next event you add. Use Clear Options to untick them.
+- Changes take effect within about a second. Press Save at the top to keep them for next time.
+- Chat Events keep working while OgreBot is paused.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/codex-inspect.md
+
+# Codex Inspect
+
+Codex Inspect uploads the gear of the people in your group or raid to the EQ2Codex.com website, so you can see it there. You need an EQ2Codex API token first: press Setup API Token and paste the one from your eq2codex.com account. Opening the tab fills the left list (Roster) with your raid, or your group, or just you when solo. Each name shows how long until it can be inspected again, or 'ready'. Double-click names to move them into the right list (To Inspect), or press Queue All, then press Inspect Queued Now. The bot inspects each name in turn and uploads it. Names that upload leave the right list; names that fail stay there in red, marked FAIL.
+
+| Option | What it does | Default |
+|---|---|---|
+| **Refresh from Group/Raid** | Reads your raid or group again and redraws the Roster. Opening the tab does this too. |  |
+| **Roster (double-click to queue)** | Everyone in your raid, or your group, or just you when solo. Each name shows '(cd: ...)' with the time until it can be inspected again, or 'ready'. Double-click a name to add it to the To Inspect list.<br>*A name already in the To Inspect list is not added twice.* | empty until the tab is opened |
+| **Queue All** | Adds every name in the Roster to the To Inspect list. |  |
+| **To Inspect (double-click to remove)** | The names waiting to be inspected and uploaded. Double-click a name to take it out. Names leave on their own as they upload; failed ones stay in red, marked FAIL. | empty |
+| **Clear Queue** | Empties the To Inspect list. It does not stop a run that has already started. |  |
+| **Inspect Queued Now** | Starts a run: the bot inspects each name in the To Inspect list, one about every 3 seconds, and uploads their gear to eq2codex.com.<br>*Greyed out while a run is going. Names inspected in the last 5 minutes are skipped.* |  |
+| **Reset Raid Force** | Clears your active group/raid on the eq2codex.com website, including the gear and adornments uploaded for it. Nothing on your PC changes.<br>*Greyed out while a run is going.* |  |
+
+## Top of tab
+
+| Control | What it does |
+|---|---|
+| **Visit EQ2Codex.com** | Opens eq2codex.com in your web browser. |
+| **Wiki** | Opens the EQ2Codex help pages in your web browser. |
+| **Setup API Token** | Opens the EQ2Codex API Token window, where you paste your token from eq2codex.com. The token is kept on this PC, outside your profile, and is never shown back to you.<br>*The same window opens from the Codex Toons tab. One token serves both.* |
+| **View my Group/Raid** | Opens your active group/raid page on eq2codex.com in your web browser. |
+
+## Good to know
+
+- Nothing uploads until an API token is saved with Setup API Token. The line under the buttons says 'NOT configured' until then.
+- A name inspected in the last 5 minutes is skipped. The Roster shows the time left for each name.
+- The bot waits about 3 seconds between people, so a full raid takes a few minutes. Inspect Queued Now and Reset Raid Force are greyed out while a run is going.
+- The inspect window pops open and closes for each person. That is normal.
+- A FAIL row stays in the To Inspect list so you can see who failed. Press Inspect Queued Now again to retry them, or double-click to remove them.
+- A '409' failure in the console means another uploader's account has already claimed that character.
+- The To Inspect list is not saved in your profile. Closing OgreBot with its X stops a run in progress; the names not yet done stay in the list for next time you open it, until the bot is unloaded.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/codex-toons.md
+
+# Codex Toons
+
+Codex Toons uploads a snapshot of your own character (gear and stats) to the EQ2Codex.com website. Press Setup API Token once to paste your token from eq2codex.com, then press Upload My Toon Snapshot whenever you want your page updated. The result, good or bad, is posted in OgreConsole. You can also have it upload by itself every time the bot camps you out. For your group or raid members, use the Codex Inspect tab instead.
+
+| Option | What it does | Default |
+|---|---|---|
+| **Visit EQ2Codex.com** | Opens eq2codex.com in your web browser. |  |
+| **Wiki** | Opens the EQ2Codex help pages in your web browser. |  |
+| **Setup API Token** | Opens the EQ2Codex API Token window, where you paste your token from eq2codex.com. The token is kept on this PC, outside your profile, and is never shown back to you.<br>*Same window and same token as on the Codex Inspect tab.* |  |
+| **Upload My Toon Snapshot** | Inspects your own character and uploads your gear and stats to eq2codex.com. OgreConsole reports whether it worked. |  |
+| **(idle)** | The upload status: whether a token is set, and whether an upload is running. | (idle) |
+| **View My Characters** | Opens your characters page on eq2codex.com in your web browser. |  |
+| **View My Group/Raids** | Opens your saved groups and raids on eq2codex.com in your web browser. |  |
+| **Auto-upload my toon snapshot to Codex when I camp (-camp / logout)** | When the bot camps you out, it first starts an upload of your toon snapshot. The camp does not wait for the upload.<br>*Only camps done by the bot count, not a /camp you type yourself.* | off |
+
+
+
+## Good to know
+
+- Nothing uploads until an API token is saved with Setup API Token. The same token is used by Codex Inspect.
+- You must be in the world. The inspect window pops open on yourself for a moment while the bot reads your gear.
+- If another upload is already running (for example a Codex Inspect run), the snapshot is refused and OgreConsole says so. Try again when it is done.
+- The auto-upload on camp only happens when the bot does the camping (for example the camp command, or the Instance Controller's end-of-list camp). Typing /camp yourself does not upload.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/consume-items.md
+
+# Consume Items
+
+Consume Items keeps you using items such as potions and temporary buffs. While the bot is running and 'Enable Consume Items' is ticked on the Settings tab, it checks the list about once a second. It uses the first item that is in your bags and ready, then waits before using that item again for as long as its effect lasts (10 minutes if the bot cannot read the duration). The list order is the priority. By default it only works inside instances; the two boxes at the top also allow guild halls and overland zones. To build the list, click an item in the Full Item List (your registered items from the Items tab), tick 'In-combat' if it should only be used in combat, and press Add. On the Consume Item List, drag rows to change the order, click a row to edit it, double-click a row to switch it off or on, and use the x to remove it.
+
+| Option | What it does | Default |
+|---|---|---|
+| **Full Item List** | Your registered items from the Items tab. Click one to pick it for the Add form, or double-click it to add it straight away with no options. | your registered items |
+| **Consume Item List** | The items the bot uses, in priority order: each check it uses the first one that is in your bags, ready, and not waiting out its effect. 'IC' on a row means in combat only.<br>*Drag to reorder, click to edit, double-click to switch off or on, x to remove.* | empty |
+
+## Where it works
+
+| Control | What it does | Default |
+|---|---|---|
+| **Allow in Guild Halls** | Lets the list be used automatically in a guild hall. Without it, nothing is used there. | off |
+| **Allow in Overland zones** | Lets the list be used automatically outside instances, in overland and city zones. Without it, items are only used inside instances. | off |
+
+## Item lists
+
+| Control | What it does | Default |
+|---|---|---|
+| **In-combat** | The item being added is only used while you are in combat. | off |
+| **Add** | Adds the item picked on the left to the end of the list, with the In-combat option as ticked. When you are editing a row, it reads Update and saves your change. |  |
+| **Clear Options** | Unticks In-combat. It otherwise stays ticked for the next Add. |  |
+
+## Good to know
+
+- Nothing happens unless 'Enable Consume Items' is ticked on the Settings tab. Pausing the bot also stops it.
+- The Full Item List only shows items registered on the Items tab. If it is empty, register your consumables there first.
+- Double-clicking an item on the left adds it straight away, without the In-combat option. To set it, click once, tick In-combat, then press Add.
+- Nothing is used while you are moving or dead. In combat, the bot waits at least 5 seconds between uses.
+- The wait for each item's effect is kept only while the session runs. After a reload the bot may use an item again straight away.
+- The OgreConsole command `-ConsumeItems_ProcessList_AP` runs the list on demand (add `-all` to use every eligible item, not just the first). It ignores the zone boxes and the pause, but still needs 'Enable Consume Items'.
+- To see what it picks and when, tick ConsumeItemsDebug on the Debug tab.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/crowd-control.md
+
+# Crowd Control
+
+With Enable Crowd Control ticked on the Settings tab, the bot mezzes (or roots) the extra mobs that are attacking your group, using the abilities in the Priority Order list, top first. It never mezzes the mob your group is killing, and it renews a mez when it has 10 seconds or less left.
+
+| Option | What it does | Default |
+|---|---|---|
+| **Full Ability list** | Your abilities, with a search box. Click one and press Add (or double-click it) to put it in the Priority Order list. | filled from your ability export |
+| **Priority Order** | The mez abilities to use, top first. The bot uses the first one that is ready and can reach the add. Double-click a row to turn it off without removing it.<br>*Drag to reorder, double-click to switch a row off, x to remove. Clicking a row loads it back into the form.* | empty |
+
+## Crowd Control
+
+| Control | What it does | Default |
+|---|---|---|
+| **Allow Epics as Valid Targets** | Off: the bot never mezzes an epic mob. On: epic mobs can be mezzed like any other add. | off |
+| **Add** | Adds the ability you clicked on the left to the bottom of the Priority Order list. Next to it you see the picked ability, or 'click an ability on the left' until you pick one. |  |
+
+## Good to know
+
+- Only mobs within 30 metres that are attacking someone in your group or raid are mezzed. A mob that is just standing nearby is left alone.
+- The mob your group is killing is never mezzed: your own target, and the target of the person you assist.
+- To cast a mez the bot briefly targets the add, then gives you your target back. It also turns auto-attack off first, because a swing would break the mez.
+- The bot only knows about its own mezzes. It does not see a mez another player put on a mob.
+- Nothing is mezzed in a city unless Allow City Casting is ticked, or while an encounter has told the group to stop attacking.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/despawn-event.md
+
+# Despawn Event
+
+Despawn Event is the opposite of Spawn Events: it fires when something whose name contains your text disappears. The bot can then run a console command, post a line to OgreConsole, play a 'Ding' sound, or any mix of the three. Nothing happens until you tick "Enable Despawn Event" on the Settings tab. Build events with the boxes at the top; they appear in the Configured Events list below.
+
+| Option | What it does | Default |
+|---|---|---|
+| **Configured Events** | Your despawn events. Click a row to edit it, double-click to switch it off or on, drag a row to reorder, and click X to delete it.<br>*A switched-off row is kept but never fires.* | empty |
+
+## Add an event
+
+| Control | What it does | Default |
+|---|---|---|
+| **Actor to watch for** | Part or all of the name to watch for. The event fires when something with a matching name disappears. Upper and lower case must match exactly.<br>*Required. An event with no name cannot be added.* | empty |
+| **Code to execute (leave blank for nothing)** | A console command to run when a match disappears. It runs exactly as if you typed it into the InnerSpace console. Leave it blank if you only want the OC line or the Ding. | empty |
+| **OC - on success, send a message to OgreConsole** | When a match disappears, a line goes to OgreConsole saying which character saw it, the text it matched and the full name. | off |
+| **Ding - on success, play a 'Ding'** | When a match disappears, a 'Ding' sound plays on this PC. | off |
+| **Add** | Adds the event to the list below. Pressing Enter in either text box does the same. While you are editing a row this button reads Update and saves your changes to that row. |  |
+| **Clear Options** | Unticks OC and Ding. Ticks otherwise carry over to the next event you add. |  |
+| **Cancel** | Only shown while editing a row. Stops editing without changing the row. |  |
+
+## Good to know
+
+- Nothing here works until "Enable Despawn Event" is ticked on the Settings tab.
+- The name match is case-sensitive: "vindicator" does not match "a Vindicator". Part of the name is enough.
+- Something leaving your view can count as disappearing, not only a mob that dies or despawns.
+- An event with no command, no OC and no Ding is ignored, and the console prints a warning about it.
+- The OC and Ding ticks stay ticked for the next event you add. Use Clear Options to untick them.
+- Despawn events keep working while OgreBot is paused.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/equipment-info.md
+
+# Equipment Info
+
+Equipment Info stores two charm choices so you can swap between them quickly. Pick an item in each drop-down (the choices are your registered items from the Items tab), then press Equip Charm 1 or Equip Charm 2. The bot looks for that item in your bags and asks the game to equip it. The buttons only affect this character. Scripts and OgreConsole can also run the same swap for other characters.
+
+| Option | What it does | Default |
+|---|---|---|
+| **Charm Option 1:** | The item that 'Equip Charm 1' puts on. The list shows your registered items from the Items tab. | empty |
+| **Charm Option 2:** | The item that 'Equip Charm 2' puts on. The list shows your registered items from the Items tab. | empty |
+| **Equip Charm 1** | Finds the Charm Option 1 item in your bags and asks the game to equip it, on this character only.<br>*Does nothing but print a message if Charm Option 1 is empty or the item is not in your bags.* |  |
+| **Equip Charm 2** | Finds the Charm Option 2 item in your bags and asks the game to equip it, on this character only.<br>*Does nothing but print a message if Charm Option 2 is empty or the item is not in your bags.* |  |
+
+## Good to know
+
+- The drop-downs are empty until you register items on the Items tab. They list every registered item, not only charms.
+- The item must be in your bags (not the bank, and not already equipped). If it is not found, the console says so.
+- The game can still refuse the swap, for example because of relic limits. The console line only says the bot asked.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/ho-excludes.md
+
+# HO Excludes
+
+HO Excludes lists abilities the bot must never use to work a Heroic Opportunity. When the bot picks an ability to match an HO icon, for the HO Starter or HO Wheel steps on the Settings tab or when a script asks for an HO icon ability, it skips anything on this list and uses another ability with that icon. Your normal Cast Stack rotation is not affected. Double-click an ability in the Full Ability list to add it. On the right, double-click a row to switch it off, or use the X to remove it. Changes apply straight away.
+
+| Option | What it does | Default |
+|---|---|---|
+| **Full Ability list** | All of this character's abilities. Double-click one to add it to the exclude list. An ability that is already listed is not added twice. | your abilities |
+| **Abilities to Exclude in HOs** | The abilities the bot will not pick for HO Starter or HO Wheel icons, shown A to Z. Double-click a row to switch it off (it is then used again), X to remove. | empty |
+
+## Full Ability list (left)
+
+| Control | What it does |
+|---|---|
+| **Search ... abilities** | Type to filter the ability list. Display only. |
+
+## Good to know
+
+- The rank does not matter: excluding 'Assault' also excludes 'Assault XIII', and the other way round. The match is still the exact ability line, so 'Assault' does not exclude 'Taunting Assault'.
+- It does not affect the ability that opens an HO (the HO Start step). It only affects the abilities that match starter and wheel icons.
+- To keep an ability out of your normal rotation as well, use the Cast Stack or the 'Disable HO' boxes on the Settings tab.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/huds.md
+
+# HUDs
+
+HUDs puts live text straight onto your game screen: the nearest mob, the nearest other player, how far each group or raid member is, and timed messages from encounter scripts. The text sits on a see-through layer over the whole game window. It has no title bar, you cannot click or drag it, and your mouse clicks go through it to the game. Each block is placed by its X and Y boxes, counted in screen pixels from the top-left corner. Changes take effect as soon as you make them. The layer appears when you tick any of the Display boxes (or when an encounter puts up a Raid Options message) and closes when OgreBot closes. The last section sets up the OSA (On-Screen Assistant), which is a separate window of its own.
+
+## Nearest NPC
+
+| Option | What it does | Default |
+|---|---|---|
+| **Display nearest NamedNPC/NPC** | Shows one line on your screen with the closest mob within 200 metres and its distance. A named mob always wins over a normal one, even if the normal one is closer. | off |
+| **X** | How far from the left edge of the screen the Nearest NPC line starts, in pixels. | blank (300) |
+| **Y** | How far down from the top of the screen the Nearest NPC line sits, in pixels. | blank (400) |
+
+## Nearest PC
+
+| Option | What it does | Default |
+|---|---|---|
+| **Display nearest PC** | Shows one line with the closest player within 200 metres who is not in your group or raid. The line is red under 30 metres, yellow under 150 and white further out. | off |
+| **X** | How far from the left edge of the screen the Nearest PC line starts, in pixels. | blank (300) |
+| **Y** | How far down from the top of the screen the Nearest PC line sits, in pixels. | blank (380) |
+| **Msg alerts to OgreConsole** | When a player comes within 150 metres, and again within 30, a line such as 'Kannkor --> Nearest PC: Serath: 24.1 < 30' is posted to OgreConsole. Each player is reported once per distance band, and alerts are at least 5 seconds apart.<br>*Needs 'Display nearest PC' ticked.* | off |
+| **Ding alerts** | Plays a short ding when a player comes within 30 metres. If 'Msg alerts' is also ticked, it dings at 150 metres too. A ding under 30 metres also posts the OgreConsole line, even without 'Msg alerts'.<br>*Needs 'Display nearest PC' ticked.* | off |
+| **Loud alarm when close** | When a player comes within 30 metres, plays a louder two-tone alarm instead of the short ding.<br>*Does nothing on its own. 'Msg alerts' or 'Ding alerts' must also be ticked.* | off |
+
+## Group Distance
+
+| Option | What it does | Default |
+|---|---|---|
+| **Display group distance** | Shows a line for each other group member: their slot number, name, distance, their target and what they are casting. The colour shows distance: white close, then yellow, orange and red further out.<br>*In a raid with 'Display raid distance' ticked, the raid lines replace these.* | off |
+| **X** | How far from the left edge of the screen the group lines start, in pixels. | blank (300) |
+| **Y** | How far down from the top of the screen the first group line sits, in pixels. | blank (420) |
+| **Line spacing** | How many pixels apart the group lines are. | blank (12) |
+
+## Raid Distance
+
+| Option | What it does | Default |
+|---|---|---|
+| **Display raid distance** | In a raid, shows one line per raid slot (01 to 24) with the same details as the group lines. Empty slots stay blank so every line matches the raid window. Outside a raid it shows your group instead. | off |
+| **X** | How far from the left edge of the screen the raid lines start, in pixels. Scan Raid Window fills this in. | blank (300) |
+| **Y** | How far down the screen raid slot 1's line sits, in pixels. Scan Raid Window fills this in. | blank (420) |
+| **Line spacing** | How many pixels apart the lines within one raid group are. Scan Raid Window fills this in from the raid window's own row height. | blank (12) |
+| **Group gap** | Extra pixels added after slots 6, 12 and 18, so each raid group lines up with its block in the raid window. | blank (6) |
+| **Scan Raid Window** | Reads where your raid window is on screen and fills in the four boxes above. The raid lines are placed right beside it (on the left if there is no room on the right). The HUD moves straight away.<br>*Open the raid window first. If it cannot read the window you get 'Scan failed - see console'. Press Save to keep the numbers.* |  |
+| **Hide names** | Leaves the slot number and name off each line, so it shows only the distance, target and cast. Applies to the group lines too. | off |
+| **Hide casting** | Leaves off the 'what they are casting' part of each line. Applies to the group lines too. | off |
+
+## Raid Options
+
+| Option | What it does | Default |
+|---|---|---|
+| **Show 5 demo lines** | Puts 5 test lines with a 10-second countdown on screen so you can see where Raid Options messages appear. They disappear after 15 seconds. |  |
+| **X** | How far from the left edge of the screen the Raid Options messages start, in pixels. | blank (300) |
+| **Y** | How far down from the top of the screen the first Raid Options message sits, in pixels. | blank (300) |
+| **Line spacing** | How many pixels apart the Raid Options messages are. | blank (15) |
+
+## OSA - NPC On-Screen-Assistant
+
+| Option | What it does | Default |
+|---|---|---|
+| **Scan Radius** | How far out, in metres, the OSA window looks for mobs. Anything over 200 counts as 200.<br>*Only used while the OSA is turned on. The box and the slider always show the same number.* | blank (50) |
+| **Scan Radius (slider)** | The same scan radius as the box beside it, as a slider from 0 to 149. Moving one updates the other. | not set (the OSA uses 50) |
+| **Display NPCs with Targets Only** | The OSA window only lists mobs that have a target, meaning mobs that are fighting someone. Idle mobs are hidden. | off |
+| **Clip Y Axis (only show mobs on the same floor as you)** | The OSA window hides mobs that are 8 or more above or below you, so the floors over and under you drop out of the list.<br>*Only used while the OSA is turned on.* | off |
+
+## What you see
+
+- Nearest NPC - one white line: 'Named NPC: <name>: <distance>' for the closest named mob within 200 metres, or 'NPC: <name>: <distance>' when no named mob is in range.
+- Nearest PC - one line: 'Nearest PC: <name>: <distance>' for the closest player within 200 metres who is not in your group or raid. It is red under 30 metres, yellow under 150 and white further out.
+- Group distance - one line per group member (you are not listed): '(2) Brutus: 12.3 * <their target> * <what they are casting>'. Names are cut to their first 6 letters so the columns line up.
+- Raid distance - one line per raid slot, '(01)' to '(24)', in the same layout as the group lines. An empty slot leaves a blank line and there is an extra gap after every 6 slots, so each line sits beside the matching row of the game's raid window.
+- Group and raid line colours show distance: white under 20 metres, yellow under 30, orange under 75, red at 75 or more, grey when the game reports 0.
+- The 'what they are casting' part shows the spell name for members running the new bot. For anyone else it just says 'casting'.
+- Raid Options - up to 10 lines written by encounter files and scripts, usually a message with a countdown in seconds (for example 'Adds incoming: 12.4'). Each line disappears 5 seconds after its countdown ends.
+- All HUD text is white-on-dark-outline monospace text so it stays readable on bright backgrounds. It refreshes about three times a second.
+
+## Good to know
+
+- The HUD layer has no title bar and ignores the mouse, so you cannot move it by dragging. Use the X and Y boxes to move each block.
+- With 'Display raid distance' ticked and no raid, you see your group instead. So you do not need both boxes ticked. In a raid, the raid lines replace the group lines.
+- The alert boxes only work while 'Display nearest PC' is ticked, and 'Loud alarm when close' does nothing unless 'Msg alerts' or 'Ding alerts' is also ticked.
+- Scan Raid Window fills in the four Raid Distance boxes, but you still have to press Save to keep them.
+- Emptying a position box does not move the block to 0,0. The block stays where it was, even after the profile is loaded again. It only goes back to its default position after the game client is restarted.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/invis-abilities.md
+
+# Invis Abilities
+
+Invis Abilities lists the stealth abilities the bot may use to open a Cast Stack ability that only works while you are hidden (for example a scout attack from stealth). When such an entry comes up in the Cast Stack and you are not hidden, the bot first casts the first ready ability from the Invis Cast List, then fires the stealth ability straight after it, holding the cast bar so nothing else slips in between. The left list shows only this character's abilities that grant stealth, with a search box; double-click one to add it to the right-hand list.
+
+| Option | What it does | Default |
+|---|---|---|
+| **Invis Abilities for Combat Arts** | Your abilities that grant stealth. Type in the search box to narrow it, and double-click an ability to add it to the Invis Cast List.<br>*An ability already on the right-hand list is not added twice.* | filled from your ability export |
+| **Invis Cast List** | The stealth openers to try, in order. Before a Cast Stack ability that needs stealth, the bot casts the first one here that is ready.<br>*Switched-off rows are skipped.* | empty |
+
+
+
+## Invis Abilities
+
+| Control | What it does |
+|---|---|
+| **Drag a row** | Drag a row up or down to change which opener is tried first. |
+| **Double-click a row** | Switches that ability off or back on. A switched-off row is struck through and never used. |
+| **x (remove)** | Removes that ability from the list. |
+
+
+
+## Good to know
+
+- If no ability on the Invis Cast List is ready, a Cast Stack entry that needs stealth is simply skipped until one is.
+- Order matters: the first ready ability in the Invis Cast List is used. Drag to reorder.
+- An ability here that itself needs stealth can never open anything. The bot skips it and prints a warning in the console once.
+- Some class abilities let certain stealth attacks fire without being hidden; in that case no opener is cast.
+- If the left list is empty for a class that has stealth, run the ability export again.
+- Changes take effect straight away. Press Save at the top to keep them after a reload.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/item-embargo.md
+
+# Item Embargo (not finished)
+
+> **:warning: Not finished**
+>
+> OgreBot marks this tab as not finished (its name is struck through). Some options below work and some do not yet - each one says which.
+
+Item Embargo is meant to stop your characters all using the same item at once: when one uses a listed item, the others hold off for the set time. In the new bot this tab is not active yet. You can build and save the list, but nothing reads it, so it has no effect. How the screen works: the Full Item list on the left shows your registered items (from the Items tab). Click one to pick it, set a Duration and the option flags under the right-hand list, then press Add. Double-clicking an item adds it straight away with no options. On the right-hand list, click a row to edit it (Add becomes Update, with a Cancel), double-click a row to switch it off or on, drag rows to reorder them, and use the x to remove one.
+
+## Item Embargo
+
+| Option | What it does | Default |
+|---|---|---|
+| **Full Item list** | **Not active yet.** Your registered items (from the Items tab). Click one to pick it for the form on the right, or double-click it to add it straight away with no options.<br>*This tab is not active yet in the new bot.* | your registered items |
+
+## Options
+
+| Option | What it does | Default |
+|---|---|---|
+| **Globally Mute messages** | **Not active yet.** It is meant to stop item embargo messages being shown. | off |
+| **Item Embargo List** | **Not active yet.** The saved list of items that are meant to be embargoed, each with its duration and options.<br>*Click a row to edit it, double-click to switch it off or on, drag to reorder, x to remove.* | empty |
+
+## Options
+
+| Control | What it does | Default |
+|---|---|---|
+| **Item name** | The item to add. Type part of a name to get suggestions from your registered items, or click an item in the Full Item list. | empty |
+| **Duration** | How many seconds the other characters are meant to hold off after the item is used. | empty |
+| **IRC** | Meant to announce the embargo over IRC. | off |
+| **Group** | Meant to limit the embargo to group members. | off |
+| **Me** | Meant to limit the embargo to this character. | off |
+| **Incl. caster** | Meant to include the character who used the item, and the item's name, in the embargo. | off |
+| **Hide from OgreConsole** | Meant to send the embargo without showing it in OgreConsole. | off |
+| **Add** | Adds the picked item with its Duration and ticked options to the list. When you are editing a row, it reads Update and saves your changes. |  |
+| **Clear Options** | Unticks all the option boxes. They otherwise carry over to the next Add. |  |
+
+## Good to know
+
+- Nothing on this tab does anything yet in the new bot, and neither does 'Enable Item Embargo' on the Settings tab.
+- The Full Item list only shows items you have registered on the Items tab. If it is empty, register some there first.
+- The option flags stay ticked after an Add. Use Clear Options to untick them all before the next item.
+- On the list each row shows its options as coloured letters: IRC, G (Group), Me, I (Incl. caster) and H (Hide from OgreConsole). The same colour is used on the matching tick box.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/items.md
+
+# Items
+
+Items is where you register the items the rest of OgreBot can offer you. The left list, All Item List, shows everything you have equipped and everything in your bags. It is filled when your profile loads; press Refresh list after looting or changing gear. It also has a search box. Double-click an item to register it: it moves into the right list, 'Items to include in ability lists', and gets a green '✓ registered' mark on the left. Only registered items appear in the item pickers on other tabs: the Cast Stack, Consume Items, Item Embargo, Pre-Cast and Post-Cast, the Equipment Info charm choices and the Auto-Hunt pull list. Click the x on a right-hand row to unregister it.
+
+| Option | What it does | Default |
+|---|---|---|
+| **All Item List** | Everything you have equipped, everything in your bags, 'whatever is in slot X' entries and your equipped adornments. Double-click an item to register it.<br>*Items already registered show a green '✓ registered' mark and cannot be added twice.* | filled when your profile loads |
+| **Items to include in ability lists** | Your registered items. These are the items the item pickers on the Cast Stack, Consume Items, Item Embargo, Pre/Post-Cast, Equipment Info and Auto-Hunt tabs offer. | empty |
+
+## Items
+
+| Control | What it does | Default |
+|---|---|---|
+| **Refresh list** | Reads your equipment and bags again and refreshes the All Item List. Use it after looting or changing gear. |  |
+| **Search N items...** | Type part of a name to show only the matching items in the All Item List. It only filters what you see. | empty |
+| **Double-click an item (left list)** | Registers that item, adding it to 'Items to include in ability lists'. The change is saved straight away. |  |
+| **x (remove row)** | Unregisters that item. It stops appearing in the other tabs' pickers. |  |
+
+## Good to know
+
+- If the Item List on Consume Items or Item Embargo, or a charm drop-down on Equipment Info, is empty, you have not registered any items here yet.
+- Registering does not make the bot use an item. It only makes the item appear in the other tabs' pickers.
+- The left list has special entries. '_EQUIPPED_<slot>_<number>' means 'whatever is in that slot', so you can use a charm slot without naming a specific charm. Using it uses that piece of gear, so it covers a clicky adornment on it too: the bot reads the item and every adornment on it to know when the buff is already up. '_ADORN_<name>' is an adornment you have equipped.
+- Right after a profile loads, the adornment entries can take a few seconds to appear. The bot scans again by itself once they are ready.
+- Unregistering an item does not remove it from Cast Stack or Consume Items entries you already made.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/load.md
+
+# Load
+
+Load holds things the bot does every time it loads your profile. The left side sets a few game options: the radar, the game's Player Combat Auto Face option, and your group loot rules. Ticking one of those boxes also applies it right away. The right side is a list of commands the bot runs, in order, each time it loads.
+
+| Option | What it does | Default |
+|---|---|---|
+| **Radar on** | Opens the OgreBot radar window when the profile loads, and right away when you tick it.<br>*You can tick Radar on or Radar off, not both.* | off |
+| **Radar off** | Closes the OgreBot radar window when the profile loads, and right away when you tick it. | off |
+| **Player Combat Auto Face  (recommended for TANKS)** | Turns ON the game's 'Player Combat Auto Face' option when the profile loads, and right away when you tick it. Your character then turns to face what it is fighting.<br>*Tick this one or the DISABLED one below, not both.* | off |
+| **Player Combat Auto Face DISABLED  (recommended for NON-TANKS)** | Turns OFF the game's 'Player Combat Auto Face' option when the profile loads, and right away when you tick it. | off |
+| **Set loot options (applies the three below on load)** | Applies the three loot dropdowns below when the profile loads, and right away when you tick it. As group leader the bot opens the game's Group Options window, sets them and clicks Apply. If you are not the leader, only the auto-loot mode is set.<br>*A dropdown left on 'Select...' is not changed.* | off |
+| **Loot method (group leader only)** | The group loot method to set: Leader Only, Free For All, Lotto, Need Before Greed or Round Robin. Only used by 'Set loot options', and only when you lead the group. | not set (left alone) |
+| **Loot rarity (group leader only)** | The lowest item rarity the group loot rules apply to: All, Treasured+, Legendary+ or Fabled+. Only used by 'Set loot options', and only when you lead the group. | not set (left alone) |
+| **Auto-loot mode (everyone)** | Your own auto-loot choice: None, Auto-Greed or Auto-Decline. Used by 'Set loot options', whether or not you lead the group. | not set (left alone) |
+| **Executes** | Commands the bot runs, top to bottom, every time it loads your profile. Switched-off lines are skipped.<br>*Double-click a line to switch it off or on. Drag to reorder.* | empty |
+| **Button test** | **Not active yet.**  | empty |
+
+## Executes
+
+| Control | What it does | Default |
+|---|---|---|
+| **Command to run on load** | Type a console command here. Put `eq2execute` in front of an in-game slash command. Press Enter or Add to put it on the list.<br>*Commas and ] are removed when you add the line.* | empty |
+| **Add** | Adds the typed command to the end of the list and runs it once straight away, so you can see it works. |  |
+
+## Good to know
+
+- The Executes list takes console commands. To run an in-game slash command, start the line with `eq2execute`, for example `eq2execute /join_channel MyChannel`.
+- A command you add is run once straight away, so a typo shows up right then.
+- Commas and ] are removed from a command when you add it. A line that needs them will not run as typed.
+- Changing one of the three loot dropdowns does nothing by itself. It is used the next time the profile loads, or when you tick 'Set loot options' again.
+- Double-click a command to switch it off without deleting it. Drag a row to change the order. The x removes it.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/loot.md
+
+# Loot
+
+Loot decides what the bot does when a loot window opens. Nothing on the left half works unless 'Accept Loot' is ticked on the Settings tab. Each window type has its own block: Free For All (solo boxes and FFA groups), Lottery, Need Before Greed, and Leader Only (you are the loot master). Leader Only is where Smart Loot and Loot Distribution hand items to group members; anything they do not claim goes to the plain 'loot this kind of item' boxes. The right half holds options that apply on their own, plus the Auto-Loot list: type an exact item name in the box under it and press Add (or Enter), and the item is always taken from Free For All and Leader Only windows. Each row has an x to remove it.
+
+## FFA Loot Options
+
+| Option | What it does | Default |
+|---|---|---|
+| **Accept any tradable** | The bot handles Free For All loot windows. It takes every tradable item, plus anything on the Auto-Loot list. No-Trade and Heirloom items are left behind unless 'Loot everything' is ticked.<br>*With this off, Free For All windows are ignored completely.* | off |
+| **Loot everything** | In Free For All windows the bot takes every item, No-Trade and Heirloom included.<br>*Needs 'Accept any tradable' ticked too.* | off |
+
+## Lotto Loot Options
+
+| Option | What it does | Default |
+|---|---|---|
+| **Accept All (including No-Trade)** | When a Lottery loot window opens, the bot enters the roll for everything in it.<br>*If both Lotto boxes are ticked, this one wins.* | off |
+| **Decline all** | When a Lottery loot window opens, the bot declines the roll. | off |
+
+## NBG Loot Options
+
+| Option | What it does | Default |
+|---|---|---|
+| **Need All (including No-Trade)** | When a Need Before Greed window opens, the bot picks Need.<br>*If several NBG boxes are ticked, Need wins, then Greed, then Decline.* | off |
+| **Greed All (including No-Trade)** | When a Need Before Greed window opens, the bot picks Greed. | off |
+| **Decline all** | When a Need Before Greed window opens, the bot declines it. | off |
+
+## Leader Only Loot Options
+
+| Option | What it does | Default |
+|---|---|---|
+| **Enable options below** | The bot handles Leader Only loot windows using the boxes below. With it off, Leader Only windows are left for you. | off |
+| **Loot Adepts** | The bot takes items with '(Adept)' in the name. | off |
+| **Loot Masters** | The bot takes items with '(Master)' in the name. | off |
+| **Loot Ancients** | The bot takes items with '(Ancient)' in the name. | off |
+| **Loot Illegible Scrolls** | The bot takes items whose name contains 'Illegible Scroll:'. | off |
+| **Loot Tradables** | The bot takes every item that is neither No-Trade nor Heirloom. A few names are always skipped: 'CD Armor:', 'CD Armor Voucher:' and 'Living Embodiment of Shadow'. | off |
+| **Loot everything** | The bot takes every item in the window. Once it has finished with the window, it closes it, even if something was left behind.<br>*Smart Loot and Loot Distribution still get first pick of each item.* | off |
+| **Smart Loot** | Before anything else, the bot gives each item to the first member of your group or raid (in slot order) whose Smart Loot quota still wants it, or wants an adornment on it. Quotas are set in the Smart Loot window (`ogre smartloot`). | off |
+| **Loot Distribution (see the Loot Distribution tab)** | Items Smart Loot did not hand out go to a Resolve auction first: the group is asked who gains the most Resolve from the item, and the winner gets it. Items nobody wants, or that do not qualify, fall through to the boxes above.<br>*Group only. In a raid nothing is auctioned. Each auction waits up to about 3 seconds for answers.* | off |
+
+## Misc Options
+
+| Option | What it does | Default |
+|---|---|---|
+| **TTS [Text to Speak] when a loot window has been open for 30 seconds.** | If a loot window is still open 30 seconds after it appeared, every one of your sessions says '<your name> Loot Window' out loud.<br>*Only works while 'Accept Loot' (Settings tab) is ticked.* | off |
+| **Auto Confirm No-Trade and Heirloom (this does not "Loot" them, only confirms after they have been looted/assigned.)** | When the game asks you to confirm taking a No-Trade or Heirloom item, the bot clicks yes for you.<br>*It never loots anything by itself. An Instance Controller run ticks this box.* | off |
+| **Do NOT loot shinies ( ? or ! )** | The bot stops picking up shinies ('?' and '!' collectibles) near you. Corpses and chests are still looted as usual.<br>*Applies to the automatic looter ('Loot Corpses/Chests' on the Settings tab) and to Instance Controller shiny steps.* | off |
+| **Testing: loot Free For All items by item ID (LootWindow:LootItem) instead of selecting and clicking them. Leader Only windows and assigns still click.** | A test option. In Free For All windows the bot takes each item directly instead of selecting it and clicking Loot, which is faster. Leader Only windows and handing items to others are not affected.<br>*Still being tried out. Untick it if Free For All items start being left behind.* | off |
+| **Play noise when an Exquisite Chest or A Reliquary drops (alerts the whole fleet).** | When an Exquisite Chest or A Reliquary appears, all your sessions get a message with a sound.<br>*Every session with this ticked sends its own alert, so tick it on one character only.* | off |
+| **Enable coin splitting with the group/raid after looting.** | Each time you loot coin, the bot splits that amount with your group or raid. | off |
+| **Only split if the coin includes 1 platinum or more.** | Coin is only split when the looted amount has at least 1 platinum in it. Gold, silver and copper alone are kept.<br>*Does nothing unless the box above is ticked. 99 gold does not count as 1 platinum.* | off |
+
+## Auto-Loot item names
+
+| Option | What it does | Default |
+|---|---|---|
+| **Always loot these exact item names (Free-For-All and Leader Only). Adds to the built-in list (Void Shard, Obol, ...).** | Items named here are always taken from Free For All and Leader Only windows, even No-Trade ones. Your names are added to the shipped list.<br>*The name must match exactly (case does not matter). The FFA or Leader Only master box must be ticked for its window type.* | empty |
+
+## Auto-Loot item names
+
+| Control | What it does | Default |
+|---|---|---|
+| **Exact item name** | Type an item name here (or fill it with From examine), then press Add or Enter to put it on the list. | empty |
+| **From examine** | Fills the name box with the item in the examine window you have open (examine the item in game first). Press Add to put it on the list.<br>*It only fills the box - nothing is added until you press Add. With no item examine window open, the box is left as it was and the window says 'Examine the item first, then press From examine'.* |  |
+| **Add** | Adds the typed name to the Auto-Loot list. It takes effect on the next loot window. |  |
+| **x (remove row)** | Removes that name from your list. |  |
+
+## Good to know
+
+- 'Accept Loot' on the Settings tab is the master switch. With it off, the bot ignores every loot window, whatever is ticked here.
+- 'Loot everything' under FFA only works when 'Accept any tradable' is also ticked. That box is what makes the bot handle Free For All windows at all.
+- The Leader Only boxes only work when 'Enable options below' is ticked. With it off, Leader Only windows (including Smart Loot and Loot Distribution) are left alone.
+- A paused bot does not loot Free For All or Leader Only windows. A window that opened while paused is not handled when you resume. Close it and open it again.
+- Starting an Instance Controller run ticks some of these for you: Leader Only 'Enable options below', 'Loot everything' and 'Smart Loot' on all your characters, and 'Auto Confirm No-Trade'. Solo, it also ticks both FFA boxes.
+- Auto-Loot names must match the item name exactly (upper or lower case does not matter). Your list is added to a shipped list (Void Shard, Obol and others). To remove a shipped name, list it as false in your own list file, Scripts\OgreSave\EQ2\Loot\custom\autoloot-names.json (the shipped file explains how). Just leaving a name out of that file does not remove it.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/loot-distribution.md
+
+# Loot Distribution
+
+Loot Distribution hands out gear from a Leader Only chest by Resolve. The looter asks the group about each piece of equipment. Every member's bot works out how much Resolve it would gain in the slot the item would replace, and the biggest gain wins. A plain upgrade always beats a 'maybe later' bid. The top half of this tab (Lootee and Weapon Choices) is what THIS character will accept when someone else's chest asks. The bottom half (Looter) only matters on the character opening the chest, and only when 'Loot Distribution' is ticked in the Leader Only block of the Loot tab.
+
+## Lootee Options. Options receiving loot.
+
+| Option | What it does | Default |
+|---|---|---|
+| **Match Type for secondary slot. Example: If you are using a tower shield, only accept a tower shield.** | For your secondary slot, this character only bids on the same kind of item it already holds there, for example tower shield for tower shield.<br>*If your secondary slot is empty, nothing matches, so you bid on nothing for that slot.* | off |
+| **Weapons only for secondary slot. Example: Scouts/Brawlers - This means you will NOT accept a shield in your secondary.** | For your secondary slot, this character only bids on weapons (sword, dagger, mace, axe, rapier, hammer, fist, katana, great sword, great axe, great hammer, staff, spear). Shields and other off-hand items are refused.<br>*A weapon that also fits your primary slot can still be bid on for primary.* | off |
+| **Match Type for ranged slot. Example: If you are using a crossbow, only accept a crossbow.** | For your ranged slot, this character only bids on the same kind of item it already holds there, for example crossbow for crossbow.<br>*If your ranged slot is empty, nothing matches.* | off |
+
+## Weapon Choices
+
+| Option | What it does | Default |
+|---|---|---|
+| **Do not accept two-handed weapons** | This character never bids on two-handed weapons.<br>*Tick both Weapon Choice boxes to take no weapons at all from distribution.* | off |
+| **Do not accept one-handed weapons** | This character never bids on one-handed weapons. Shields and other off-hand items that are not weapons are still accepted.<br>*Ranged items are not affected.* | off |
+
+## Looter Options. Options for the person opening the chest.
+
+| Option | What it does | Default |
+|---|---|---|
+| **Only distribute items at or above a minimum Resolve:** | Only items with at least the Resolve in the box below are auctioned. Lower items go to the normal Leader Only loot boxes instead. | off |
+| **Minimum Resolve** | The lowest Resolve an item needs to be auctioned. Only used when the box above is ticked. | empty (0 - no minimum) |
+
+## Good to know
+
+- Group only. In a raid nothing is auctioned; items go straight to the normal Leader Only loot boxes.
+- Only the looter needs 'Loot Distribution' ticked on the Loot tab. Everyone else answers with the Lootee and Weapon Choice boxes from their own tab, whatever their own Loot tab says.
+- Not auctioned: items with no Resolve, items you cannot equip, mercenary and mount gear, and items no class in the group can use. Those go to the normal loot boxes instead, as do items nobody bids on.
+- A character never bids on an item it already has equipped or in its bags.
+- 'Match Type' boxes need something in that slot. With an empty secondary or ranged slot and the box ticked, that character bids on nothing for that slot.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/onzone.md
+
+# OnZone
+
+OnZone does two things each time you finish zoning. It runs the commands in the Executes list, top to bottom. Then it cancels any of your maintained spells that are on the 'Cancel after zoning' list. Both wait until the new zone has fully loaded (about three and a half seconds after it appears), so they act on a zone that is really there.
+
+| Option | What it does | Default |
+|---|---|---|
+| **Executes** | Commands the bot runs, top to bottom, each time you finish zoning and the new zone has loaded. Switched-off lines are skipped.<br>*Runs even while OgreBot is paused. Double-click a line to switch it off; drag to reorder.* | empty |
+| **Full Ability list** | All of this character's abilities. Click one and press Add below, or double-click it, to put it on the 'Cancel after zoning' list. |  |
+| **Cancel after zoning** | After each zone has loaded, the bot cancels any of your maintained spells that match a name here, whatever its rank.<br>*Runs even while paused. Double-click a row to switch it off.* | empty |
+
+## Executes
+
+| Control | What it does | Default |
+|---|---|---|
+| **Command to run on zone** | Type a console command here. Put `eq2execute` in front of an in-game slash command. Press Enter or Add to put it on the list.<br>*Commas and ] are removed when you add the line.* | empty |
+| **Add** | Adds the typed command to the end of the Executes list. It is not run now, only after your next zone. |  |
+
+## Cancel after zoning
+
+| Control | What it does |
+|---|---|
+| **Add** | Adds the ability you clicked in the Full Ability list to the cancel list. Greyed out until you click one. |
+
+## Good to know
+
+- Both lists work even while OgreBot is paused. They only need OgreBot to be loaded.
+- The Executes list takes console commands. To run an in-game slash command, start the line with `eq2execute`. A command you add here is not run straight away.
+- Commas and ] are removed from a command when you add it.
+- The cancel list matches any rank: 'Assault' also cancels 'Assault XIII'. It only cancels spells you are maintaining (your own buffs and effects in the maintained window).
+- To add a spell to the cancel list, click it in the Full Ability list and press Add, or double-click it. In the cancel list, double-click a spell to switch it off, and the x removes it. The cancel list is shown A to Z because order does not matter there.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/other.md
+
+# Other
+
+Other holds options that do not have a tab of their own yet. The left column asks a dirge for Confront Fear when you have revive sickness, stops a few automatic cast cancels, and lets you accept group invites from any player nearby. The right column is a list of abilities the bot uses when you are stunned, stifled or rooted and have a detrimental on you, because the normal Cast Stack cannot act then.
+
+| Option | What it does | Default |
+|---|---|---|
+| **Request confront fear via uplink.** | When you get revive sickness, send a request to your other characters over the uplink. A dirge among them, with OgreBot running (not paused) and in your group or raid in the same zone, casts Confront Fear on you. Used only if the raid and group chat requests below did not go out.<br>*Needs no message and no dirge in view; the other sessions decide if they can help. Fighters are cured first, then priests, then everyone else.* | off |
+| **Request confront fear via group chat:** | When you get revive sickness and another dirge is in your group, say the text in the box beside this in group chat.<br>*Nothing is said if the box is empty. If you are a dirge yourself, nothing is asked.* | off |
+| **(group chat message)** | What to say in group chat to ask for Confront Fear.<br>*A message containing the word NULL is not sent.* | empty |
+| **Request confront fear via raid chat:** | When you get revive sickness and another dirge is in your raid, say the text in the box beside this in raid chat. This is tried before group chat.<br>*Nothing is said if the box is empty.* | off |
+| **(raid chat message)** | What to say in raid chat to ask for Confront Fear.<br>*A message containing the word NULL is not sent.* | empty |
+| **[NOT RECOMMENDED] Do not cancel group cures when no one has a detrimental.** | Normally the bot stops a group cure mid-cast when nobody needs it any more. Tick this to let it finish anyway.<br>*Some raid scripts tick this during a fight.* | off |
+| **[NOT RECOMMENDED] Do not cancel cure curse when no one has a curse.** | Normally the bot stops a Cure Curse mid-cast when the target no longer has a curse. Tick this to let it finish anyway. | off |
+| **[NOT RECOMMENDED] Do not cancel res when the person has been res'd already.** | Normally the bot stops a res mid-cast when the target is no longer a corpse, for example because someone else res'd them first. Tick this to let it finish anyway. | off |
+| **[NOT RECOMMENDED] Accept group/raid invites from ANYONE nearby.** | Accepts a group or raid invite from any player your client can see, not only from your own characters. It only works when 'Accept Invites' on the Settings tab is ticked too.<br>*Invites from your own characters are accepted by 'Accept Invites' alone.* | off |
+| **Use these while stunned / stifled / rooted:** | While the bot is running and you are stunned, stifled or rooted with a detrimental on you, it casts the first ready ability from the list below. Useful because the normal Cast Stack cannot cast in that state.<br>*Does nothing while 'Disable CS_Cure' on the Settings tab is ticked. The Enable/Disable Cures commands flip this box.* | off |
+| **Delay between casts (seconds)** | How long to wait after one of these abilities fires before the next one may. Decimals work. Blank or not a number means 3 seconds; 0 means no wait. | empty (3 seconds) |
+| **Full Ability list** | All of this character's abilities. Double-click one to add it to the end of the 'Use while disabled' list. |  |
+| **Use while disabled (in order)** | The abilities to use while stunned, stifled or rooted, best first. The bot casts the first one that is ready; one on cooldown just lets the next one try.<br>*Group or raid cures are skipped while 'Disable Group/Raid Cures in CS' is ticked on Settings, and single-target ones while 'Disable Single Target Cures in CS' is ticked.* | empty |
+
+## Good to know
+
+- Confront Fear requests go out only once per revive sickness, and only while the bot is running. If you are paused when the sickness lands, the request waits until you resume. A revive at a scout camp is ignored.
+- Only one channel is ever used for a request. Raid chat is tried first, then group chat, then the uplink.
+- The stunned list only fires when you have an Arcane, Noxious, Elemental or Trauma detrimental. It does not check that the ability cures that type, so abilities that give immunity work too.
+- 'Disable CS_Cure' on the Settings tab switches the stunned list off. The Enable Cures and Disable Cures commands also tick and untick 'Use these while stunned / stifled / rooted'.
+- To add to the stunned list, double-click an ability in the Full Ability list. In the saved list, drag rows to set priority, double-click to switch one off, and the x removes it.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/overseer.md
+
+# Overseer
+
+The left column controls the bot's daily Overseer run. The bot opens the Overseer window, turns in finished missions, adds any mission scrolls in your bags, starts new missions with the best agents it has, and afterwards uses any Research Material in your bags. The run starts on its own soon after OgreBot loads your profile, then at most once an hour. It will not start while the bot is paused, you are in combat or dead, or you are zoning. Start Overseer Now runs it straight away. The right column is a separate tool: stand at an Administrator Agent and it buys mission scrolls for you.
+
+## Overseer
+
+| Option | What it does | Default |
+|---|---|---|
+| **Do not touch overseer at all no matter what** | The bot does not run Overseer: no daily run, and Start Overseer Now does nothing (it says why in the console). Overseer reward windows are still answered.<br>*Buying missions (the right column) is a separate tool and still works.* | off |
+| **Only do overseer when in a guild hall** | The bot only starts the daily Overseer run on its own while you are in a guild hall.<br>*Start Overseer Now works anywhere.* | off |
+| **ONLY do Heritage Hunt [Daily]** | The only new mission the bot starts is 'Heritage Hunt [Daily]', and it skips Mishap missions. It still turns in finished missions and adds scrolls from your bags. | off |
+| **Do not consume research material when finished** | Normally, after a run in which it turned in at least one of your own missions, the bot uses any Research Material in your bags (Advancement, Companion, Mount, Tradeskill, Upgrade and General). Tick this to keep them. | off |
+| **Do not automatically add overseer quests** | Normally the bot uses every Overseer mission scroll in your bags and Overseer bag to add it to your missions, then looks at the list again. Tick this to leave the scrolls alone.<br>*'Overseer Boost to Season 5' is never used.* | off |
+| **Do not select overseer rewards when multiple are present** | When an Overseer reward window offers a choice, the bot normally takes the first reward. Tick this to leave the window for you. | off |
+| **Skip Charged Quests (The ones with a number beside them)** | The bot never starts charged missions. Normally it starts them once there are no daily or plain missions left to start. | off |
+| **Skip Non-Charged Quests (The ones that count against your daily limit)** | The bot never starts plain missions or 'Heritage Hunt [Daily]', so of the regular missions only charged ones are started. Mishap missions are not affected.<br>*When your daily limit is used up, the bot only tries charged missions anyway.* | off |
+| **Skip Mishap Quests/Agents** | The bot skips Mishap missions entirely and goes straight to the normal missions. | off |
+| **Skip Treasured Quests (Blue)** | The bot does not start plain Treasured (blue) missions.<br>*Charged missions of this colour are still started.* | off |
+| **Skip Legendary Quests (Yellow)** | The bot does not start plain Legendary (yellow) missions.<br>*Charged missions of this colour are still started.* | off |
+| **Skip Fabled Quests (Purple)** | The bot does not start plain Fabled (purple) missions.<br>*Charged missions of this colour are still started.* | off |
+| **Skip Celestial Quests (Green)** | The bot does not start plain Celestial (green) missions.<br>*Charged missions of this colour are still started.* | off |
+| **Use Agents with Traits that are not positive and not negative** | Normally the bot only sends agents whose traits help the mission, plus agents with no traits. Tick this to also send agents whose traits neither help nor hurt, when it needs more agents to start a mission.<br>*Never used for Mishap missions.* | off |
+| **Use Agents with Traits that are NEGATIVE** | Also send agents that carry a trait the mission dislikes, when it needs more agents to start the mission. They are used last.<br>*Never used for Mishap missions.* | off |
+| **Try EVERY quest each run (keep going until your charges hit 0 or no agents are left)** | Normally the bot tries at most 50 missions per run. Tick this to try every mission in the list once, stopping early only when no agent is free. | off |
+
+
+
+## Overseer - Manual run
+
+| Option | What it does |
+|---|---|
+| **Overseer: idle** | Shows what the Overseer run is doing: 'running' with the current step and how many missions it has started and turned in, or 'idle' with the totals from the last run. |
+| **Start Overseer Now** | Starts the daily Overseer run now. It ignores the guild hall box, combat, and the one-hour wait between runs. It does nothing if a run is already going, or if 'Do not touch overseer at all no matter what' is ticked.<br>*OgreBot must have a profile loaded.* |
+| **Stop** | Stops the daily Overseer run that is in progress, and a Buy Missions run too. |
+
+
+
+## Overseer options - For BUYING missions.
+
+| Option | What it does | Default |
+|---|---|---|
+| **Any** | Buy missions from any season. Ticking it unticks the season numbers; leaving every season box unticked means the same. | off |
+| **1** | Only buy missions from Overseer season 1.<br>*Only one season can be ticked: ticking one unticks the others.* | off |
+| **2** | Only buy missions from Overseer season 2. | off |
+| **3** | Only buy missions from Overseer season 3. | off |
+| **4** | Only buy missions from Overseer season 4. | off |
+| **5** | Only buy missions from Overseer season 5. | off |
+| **6** | Only buy missions from Overseer season 6. | off |
+| **7** | Only buy missions from Overseer season 7. | off |
+| **Any** | Buy missions of any colour. Ticking it unticks the colours; leaving every colour box unticked means the same. | off |
+| **Blue** | Only buy blue missions.<br>*Only one colour can be ticked: ticking one unticks the others.* | off |
+| **Yellow** | Only buy yellow missions. | off |
+| **Purple** | Only buy purple missions. | off |
+| **Green** | Only buy green missions. | off |
+| **Different missions (default 10)** | How many different missions to buy. From the missions this merchant sells that match your season and colour, the bot picks this many at random. | empty (10 is used) |
+| **Copies of each (default 10)** | How many copies of each chosen mission you want. The bot buys until you have this many in your bags, counting copies you already had. The most is 20. | empty (10 is used) |
+| **No Scribe Missions** | Normally the bot uses each copy of a mission right after buying it, to add it to your Overseer missions. Tick this to leave the scrolls in your bags. | off |
+| **Destroy Extra Missions Purchased** | After using the scrolls, the bot destroys any copies of that mission still in your bags.<br>*This includes copies you had before the run.* | off |
+| **Get to GH when done** | When a buy run finishes, each character travels to its own guild hall, the same as the Get To GH button. It does not happen if the run is stopped or fails. | off |
+| **Buy Missions** | Starts a buy run for this character with the options above. It uses the merchant window if it is open; otherwise it opens the nearest Administrator Agent, which must be within 10. Then it buys, uses and (if ticked) destroys the scrolls, one mission at a time.<br>*OgreBot must have a profile loaded. To stop it, type `ogre buyoverseermissions stop`.* |  |
+| **Buy Missions via OgreConsole** | Sends a buy run, with this screen's season, colour and amounts, to every character picked in the MCP For-Who window (everyone if it was never set). Each of them must be standing at its own Administrator Agent.<br>*No Scribe, Destroy and Get to GH are sent as they are set here, ticked or not, so every character uses this screen's choices, not its own tab.* |  |
+
+
+
+## Good to know
+
+- The Settings tab has its own 'Do not auto Overseer' box. Either that box or 'Do not touch overseer at all' stops the automatic run.
+- Start Overseer Now runs even when 'Only do overseer when in a guild hall' is ticked, and ignores the one-hour wait. It does not run while 'Do not touch overseer at all no matter what' is ticked - it says so in the console instead.
+- Ticking a 'do not' box during a run does not stop it. Press Stop. The mission and agent choices do change mid-run, from the next mission the bot picks.
+- The Skip Treasured/Legendary/Fabled/Celestial boxes only skip plain missions. A charged mission of that colour is still started.
+- The agent boxes never apply to Mishap missions. Those use a Mishap agent first if one is free, then only agents with helpful traits or no traits.
+- Stop stops a Buy Missions run too. `ogre buyoverseermissions stop` also works.
+- Season and Colour are one choice each: ticking a box unticks the others in its column. 'Any', or nothing ticked, means no filter.
+- 'Destroy Extra Missions Purchased' destroys every copy of that mission left in your bags, including copies you had before. With 'No Scribe Missions' also ticked, it buys the scrolls and then destroys them all.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/pack-pony.md
+
+# Pack Pony
+
+Pack Pony sends your Artisan's Pack Pony out to gather harvests by itself. With 'Enable Pack Pony' ticked and the bot running, the bot summons the pony, hails it and answers its questions using your choices below. If the pony offers to empty its packs, the bot accepts that first and then hails it again. The bot is paused while it does this and resumed afterwards. After a successful send-out it waits 2 hours 5 minutes before trying again, 10 minutes if the pony is still out or something failed, and 1 minute if you were busy. The three groups of boxes are the answers to the pony's three questions. Tick one box per group; ticking a box unticks the others in that group.
+
+| Option | What it does | Default |
+|---|---|---|
+| **Enable Pack Pony** | While the bot is running, it sends your pack pony out whenever the wait from the last run is over. | off |
+| **In Guild Hall only** | The pony is only sent out while you are in a guild hall. | off |
+| **Do not dismiss when finished** | The pony stays summoned after the run. Normally the bot dismisses it when it is done.<br>*Runs started by TaskRunner still dismiss it.* | off (the pony is dismissed) |
+| **Conversation 1 - Option 1 (1-59 harvests)** | When the pony asks its first question ('I need some level ... harvests'), the bot picks reply 1. | off |
+| **Conversation 1 - Option 2 (60-99 harvests)** | When the pony asks its first question, the bot picks reply 2. | off |
+| **Conversation 1 - Option 3 (100+ harvests)** | When the pony asks its first question, the bot picks reply 3. This is also used when no box in this group is ticked. | off (used anyway when none is ticked) |
+| **Conversation 1 - Option 4 (Special Events?)** | When the pony asks its first question, the bot picks reply 4. | off |
+| **Conversation 2 - Option 1 (1-9 / 60-69 / 100-109 harvests)** | When the pony asks its second question ('Gather level ... harvests'), the bot picks reply 1. | off |
+| **Conversation 2 - Option 2 (10-19 / 70-79 / 110-120 harvests)** | When the pony asks its second question, the bot picks reply 2. | off |
+| **Conversation 2 - Option 3 (20-29 / 80-89 / 120-130 harvests)** | When the pony asks its second question, the bot picks reply 3. This is also used when no box in this group is ticked. | off (used anyway when none is ticked) |
+| **Conversation 2 - Option 4 (30-39 / 90-95 / 131-140 harvests)** | When the pony asks its second question, the bot picks reply 4. | off |
+| **Conversation 3 - Option 1 (VoV 120-125 / PoM 110 / Thalumbra harvests / RoC 135)** | When the pony asks its third question ('Gather harvests from ...'), the bot picks reply 1. | off |
+| **Conversation 3 - Option 2 (RoR 125 / EP 110 harvests)** | When the pony asks its third question, the bot picks reply 2. This is also used when no box in this group is ticked. | off (used anyway when none is ticked) |
+| **Conversation 3 - Option 3 (BoZimara 125-130 / Luclin 110-120 harvests)** | When the pony asks its third question, the bot picks reply 3. | off |
+| **Conversation 3 - Option 4 (SoD 130 harvests)** | When the pony asks its third question, the bot picks reply 4. | off |
+
+## Good to know
+
+- The character needs the 'Summon Artisan's Pack Pony' ability, or the run does not start.
+- It never starts while you are in combat, while the bot is paused, or while another conversation window is open.
+- If no box in a group is ticked, the bot uses option 3 for Conversations 1 and 2, and option 2 for Conversation 3.
+- The boxes follow your earlier picks, the way the pony's questions do: Conversation 2 shows the replies the pony offers after your Conversation 1 pick (six under 1-59 harvests, five under 60-99, four under 100+), and Conversation 3 is only asked under 100+ harvests. Where a reply is not known (Special Events, Conversation 3 below 100) the boxes read 'placeholder' and can still be picked, in case the game adds one. A ticked box your path does not offer says 'not offered ..., pick another'. The options listed on this page are the ones shown for 100+ harvests, 120-130.
+- The wait timers are kept only while the session runs. After a reload the bot tries again straight away.
+- The harvest ranges in the box names describe what each reply meant in the old bot. The bot clicks the reply by its number (Option 1 = the first reply), so check them in game if the pony's replies change.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/post-cast.md
+
+# Post-Cast
+
+Post-Cast casts one thing right AFTER another has finished. Each row says 'after the bot casts B, cast A'. A can be an ability or an item; B is the ability that sets it off. For a spell with a cast time, A goes out once the cast bar is done; for an instant, straight after. Several rows can share the same B; they go one at a time, top to bottom.
+
+| Option | What it does | Default |
+|---|---|---|
+| **1. Cast THIS  (ability or item)** | Pick what the bot should cast afterwards. Click an ability or item to select it for the next row. |  |
+| **2. ...after this is cast** | Pick the ability that sets it off. After the bot casts this ability, the pick from list 1 follows. |  |
+| **Post-casts setup** | Your post-cast rows, shown as 'what to cast   After: what it follows'. Rows for the same ability fire top to bottom, one at a time, once that ability's cast is over.<br>*Double-click a row to switch it off. Drag to reorder.* | empty |
+
+## Post-Cast
+
+| Control | What it does |
+|---|---|
+| **Add** | Saves your two picks as a new row at the end of 'Post-casts setup'. It stays greyed out until you have picked one entry in each list. |
+
+## Good to know
+
+- To add a row, click the thing to cast in list 1, click the ability it follows in list 2, then press Add under 'Post-casts setup'. The text next to Add shows your two picks.
+- Any cast the bot makes can set off a post-cast: the Cast Stack, scripts and commands. Abilities you click yourself do not.
+- If your cast bar stays busy with something else for more than about 2 seconds after B, the post-cast is dropped, because it would no longer be 'after B'.
+- Names match any rank: 'Assault' also matches 'Assault XIII'. An ability must be ready; items are just tried.
+- A row that points at itself is ignored, and a post-cast never sets off another post-cast or a pre-cast.
+- 'Disable Post-Cast tab' on the Settings tab switches this whole tab off. While a script has 'Dynamic Ignore Encounter CAs' or 'Dynamic Ignore PBAE CAs' ticked, post-casts of that kind are skipped too.
+- In 'Post-casts setup', drag a row to change the order, double-click a row to switch it off, and the x removes it.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/pre-cast.md
+
+# Pre-Cast
+
+Pre-Cast casts one thing right BEFORE another. Each row says 'when the Cast Stack is about to cast B, cast A first'. A can be an ability or an item; B is the ability that sets it off. A pre-cast is optional: if A is not ready, B is cast anyway. Several rows can share the same B; they go one at a time, top to bottom, and then B goes out.
+
+| Option | What it does | Default |
+|---|---|---|
+| **1. Cast THIS  (ability or item)** | Pick what the bot should cast first. Click an ability or item to select it for the next row. |  |
+| **2. ...before this is cast** | Pick the ability that sets it off. When the Cast Stack is about to cast this ability, the pick from list 1 goes first. |  |
+| **Pre-casts setup** | Your pre-cast rows, shown as 'what to cast   On: what it goes before'. Rows for the same ability fire top to bottom, one at a time, then that ability is cast.<br>*Double-click a row to switch it off. Drag to reorder.* | empty |
+
+## Pre-Cast
+
+| Control | What it does |
+|---|---|
+| **Add** | Saves your two picks as a new row at the end of 'Pre-casts setup'. It stays greyed out until you have picked one entry in each list. |
+
+## Good to know
+
+- To add a row, click the thing to cast in list 1, click the ability it goes before in list 2, then press Add under 'Pre-casts setup'. The text next to Add shows your two picks.
+- Only casts the Cast Stack chooses get pre-casts. Casts from scripts, commands or other bot features do not.
+- Names match any rank: 'Assault' also matches 'Assault XIII'.
+- An ability must be ready to be pre-cast. Items are not checked for readiness; the bot just tries them.
+- A row that points at itself (the same ability in both lists) is ignored.
+- 'Disable Pre-Cast tab' on the Settings tab switches this whole tab off. While a script has 'Dynamic Ignore Encounter CAs' or 'Dynamic Ignore PBAE CAs' ticked, pre-casts of that kind are skipped too.
+- In 'Pre-casts setup', drag a row to change the order, double-click a row to switch it off, and the x removes it.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/pushover.md
+
+# Pushover
+
+Pushover is a separate phone and desktop notification service (pushover.net). With a Pushover account, the bot can send you a notification when certain things happen: a loot window left open, SmartLoot handing out an item, or a tell. Press 'Set up Pushover account' once to enter your Pushover details, then tick the notifications you want. The two Disable boxes at the top switch notifications off without losing your choices below.
+
+| Option | What it does | Default |
+|---|---|---|
+| **Set up Pushover account** | Opens the Pushover Account window. Enter your application API token and your user key from pushover.net, then Save. Its 'Send test' button sends a test notification.<br>*The test obeys the Disable boxes below, so untick them to test.* |  |
+| **Disable ALL Pushover Messages** | No Pushover notification is sent at all, whatever is ticked below. | off |
+| **Disable Normal Pushover Messages. But allow priority messages. (Such as getting tells from people not on your eq2chars)** | Only high-priority notifications are sent. Of the options below, that is just the tell from someone not on your EQ2Chars list; the rest are normal priority and are blocked. | off |
+| **[Normal Priority] When a loot window has been open for 60 seconds.** | If a loot window is still open 60 seconds after it appeared, you get a notification listing the items in it. | off |
+| **[Normal Priority] When smartloot assigns an item.** | Each time SmartLoot gives an item to someone, you get a notification with the time, who got it and the item. | off |
+| **[Normal Priority] When you get an in-game TELL from someone on your eq2chars list.** | When one of your own characters (anyone on the EQ2Chars tab) sends you a tell, you get a notification with who sent it and what they said. | off |
+| **[HIGHEST Priority] When you get an in-game TELL from someone NOT on your eq2chars list.** | When anyone not on your EQ2Chars list sends you a tell, you get a high-priority notification with who sent it and what they said.<br>*This is the one notification that still gets through 'Disable Normal Pushover Messages'.* | off |
+
+## Good to know
+
+- Nothing is sent until your Pushover application token and user key are saved with 'Set up Pushover account'. They are kept on this PC, outside your profile.
+- No tell notification is sent if you sent that person a tell in the last 60 seconds. You are clearly at the keyboard already.
+- Notifications go out at most about one every 10 seconds. If many pile up, the oldest waiting ones are dropped.
+- Scripts and commands can also send Pushover messages. The two Disable boxes block those too.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/spawn-events.md
+
+# Spawn Events
+
+Spawn Events works like Chat Events, but it watches for things appearing around you instead of chat. When something appears whose name contains your text, the bot can run a console command, post a line to OgreConsole, play a 'Ding' sound, or any mix of the three. Nothing happens until you tick "Enable Spawn Events" on the Settings tab. Build events with the boxes at the top; they appear in the Configured Events list below.
+
+| Option | What it does | Default |
+|---|---|---|
+| **Configured Events** | Your spawn events. Click a row to edit it, double-click to switch it off or on, drag a row to reorder, and click X to delete it.<br>*A switched-off row is kept but never fires. Every active row is checked, so the order does not matter.* | empty |
+
+## Add an event
+
+| Control | What it does | Default |
+|---|---|---|
+| **Actor to watch for** | Part or all of the name to watch for. The event fires when something with a matching name appears. Upper and lower case must match exactly.<br>*Required. An event with no name cannot be added.* | empty |
+| **Code to execute (leave blank for nothing)** | A console command to run when a match appears. It runs exactly as if you typed it into the InnerSpace console. Leave it blank if you only want the OC line or the Ding. | empty |
+| **OC - on success, send a message to OgreConsole** | When a match appears, a line goes to OgreConsole saying which character saw it, the text it matched and the full name of what appeared. | off |
+| **Ding - on success, play a 'Ding'** | When a match appears, a 'Ding' sound plays on this PC. | off |
+| **Add** | Adds the event to the list below. Pressing Enter in either text box does the same. While you are editing a row this button reads Update and saves your changes to that row. |  |
+| **Clear Options** | Unticks OC and Ding. Ticks otherwise carry over to the next event you add. |  |
+| **Cancel** | Only shown while editing a row. Stops editing without changing the row. |  |
+
+## Good to know
+
+- Nothing here works until "Enable Spawn Events" is ticked on the Settings tab.
+- The name match is case-sensitive: "vindicator" does not match "a Vindicator". Copy the name exactly as the game shows it. Part of the name is enough.
+- It fires when something comes into your view, not only for a fresh spawn. Things that were already around when OgreBot was loaded do not fire.
+- An event with no command, no OC and no Ding is ignored, and the console prints a warning about it.
+- The OC and Ding ticks stay ticked for the next event you add. Use Clear Options to untick them.
+- Spawn Events keep working while OgreBot is paused.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/tags.md
+
+# Tags
+
+Tags let one bot's cast switch other abilities off or on for a while, across all your bots. On the Cast Stack you give an ability an Embargo tag (it is blocked while the tag is on) or an Allow tag (it may only fire while the tag is on). When the bot casts an ability that carries a tag, the tag turns on, on this bot and on your other bots in the same relay group, for the time set here (a Cast Stack row set to 'Listen Only' never turns its tag on, and one set to 'Trigger Only' is not held back by it). This tab is where each tag is defined. The left list holds your tag names: type a name under it and press Add. Click a name to pick it, set its duration and options on the right, and press Add to put it in the Tags List. A tag that is not in the Tags List never turns on.
+
+| Option | What it does | Default |
+|---|---|---|
+| **Full Tag List** | Your tag names, sorted A-Z. Click a name to pick it for the Tags List on the right. Double-click a name to rename it, and click X to delete it.<br>*A name here does nothing until it is also added to the Tags List. Renaming it here does not rename it in the Tags List.* | empty |
+| **Tags List** | The tags that are actually defined, with their duration and options. Click a row to edit it and click X to delete it.<br>*Only tags in this list can turn on.* | empty |
+
+## Top of tab
+
+| Control | What it does | Default |
+|---|---|---|
+| **Globally mute all tag messages** | **Not active yet.** In the old bot it hid the tag lines in OgreConsole. | off |
+
+## Full Tag List (left)
+
+| Control | What it does | Default |
+|---|---|---|
+| **Tag name** | Type a new tag name here. Use the same name you put in the Embargo tag or Allow tag box on the Cast Stack. | empty |
+| **Add** | Adds the typed name to the Full Tag List. While you are renaming a name this reads Update. |  |
+
+## Tags List (right)
+
+| Control | What it does | Default |
+|---|---|---|
+| **Duration** | How many seconds the tag stays on after the ability is cast. Leave it blank to use the ability's own duration.<br>*Items need a number here.* | blank (the ability's own duration) |
+| **IRC** | **Not active yet.** In the old bot it also sent the tag over IRC. | off |
+| **Group** | The tag only turns on for bots in the caster's own group, instead of every bot in your relay group. | off |
+| **Me** | The tag only turns on for the character who cast the ability. Your other bots are not told. | off |
+| **Incl. caster** | **Not active yet.** In the old bot it added the caster's name and the ability to the tag message. | off |
+| **Hide from OgreConsole** | **Not active yet.** In the old bot it kept the tag message out of OgreConsole. | off |
+| **Maintained** | The tag stays on while the caster still has the buff in their maintained list, and turns off for every bot as soon as it drops. The duration is then only a safety limit.<br>*Any rank of the ability counts. For an item it is the buff the item puts on you when you use it.* | off |
+| **Add** | Adds the picked tag name, with the duration and ticks you set, to the Tags List. While you are editing a row this reads Update and saves your changes. |  |
+| **Clear Options** | Unticks every option. Ticks otherwise carry over to the next tag you add. |  |
+
+## Good to know
+
+- A tag used on the Cast Stack but missing from the Tags List (or typed differently) never turns on. The match ignores upper and lower case.
+- Leave Duration blank to use the ability's own duration. An item has no duration of its own, so an item that sets a tag must have a Duration here or the tag does not turn on.
+- Two bots can hold the same tag at once; it stays on until the last one runs out.
+- Only three options change anything: Group, Me and Maintained. IRC, Incl. caster and Hide from OgreConsole are shown for your information - the bot saves them but does not act on them (by design).
+- The ticks stay ticked for the next tag you add. Use Clear Options to untick them.
+- Press Save at the top to keep your changes for next time.
+- Changes to the Tags List are used straight away. Press Save at the top to keep them for next time.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/unload.md
+
+# Unload
+
+Unload is a list of commands the bot runs, top to bottom, when OgreBot closes. That is the X on the OgreBot window or its mini toolbar, or `ogre end bot`. It also happens when you camp to another character in the same game window, because OgreBot closes and reopens for the new character.
+
+| Option | What it does | Default |
+|---|---|---|
+| **Executes** | Commands the bot runs, top to bottom, when OgreBot closes. Switched-off lines are skipped.<br>*Also runs when you swap to another character in the same game window.* | empty |
+
+## Executes
+
+| Control | What it does | Default |
+|---|---|---|
+| **Command to run on unload** | Type a console command here. Put `eq2execute` in front of an in-game slash command. Press Enter or Add to put it on the list.<br>*Commas and ] are removed when you add the line.* | empty |
+| **Add** | Adds the typed command to the end of the list. It is not run now, only when OgreBot closes. |  |
+
+## Good to know
+
+- The list takes console commands. To run an in-game slash command, start the line with `eq2execute`.
+- Unlike the Load tab, a command you add here is NOT run when you add it. It only runs when OgreBot closes.
+- Commas and ] are removed from a command when you add it. A line that needs them will not run as typed.
+- Double-click a line to switch it off without deleting it. Drag a row to change the order. The x removes it.
