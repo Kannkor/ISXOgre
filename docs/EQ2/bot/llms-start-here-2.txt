@@ -18,6 +18,13 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.10.30.002 {#r2026-10-30-002}
+
+*Friday, October 30, 2026 at 2:02 AM EDT*
+
+- **Fixed** · Crafting: **Crafting reads your whole recipe book, even a very large one.** With a large recipe book, the bot could read only part of it, so a recipe a quest had just given you could be reported as "not a recipe in your book". It now keeps the recipe book open until the game has finished listing every recipe, and never opens it while a craft is running.
+- **Fixed** · Console: **An Auth raid button sent over IRC now works.** An Auth raid or Unauth raid MCP button set to send over IRC did nothing: every bridge read it as a request for a character named "all". It now runs on your own characters, and your bridge asks the raid once, the same as a button sent through OgreConsole.
+
 ## 2026.10.30.001 {#r2026-10-30-001}
 
 *Friday, October 30, 2026 at 12:11 AM EDT*
