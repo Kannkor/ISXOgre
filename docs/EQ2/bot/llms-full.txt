@@ -232,6 +232,20 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.10.30.001 {#r2026-10-30-001}
+
+*Friday, October 30, 2026 at 12:11 AM EDT*
+
+- **New** · Bot: **"Illicus, Zon Zobboz Swarmer in Revelations of Consequence [Raid] is set up".** The bot now sets up Illicus in Zon Zobboz: Revelations of Consequence [Raid]: camp spots, curse cures on, joust out, and a spread spot for each player with Crowded Animosity. His reflect puts up a 45-second REFLECT UP timer and backs pets off, and fighters hear "reflect up", "reflect down" and "Eye up" for the Commanding Eye. You still handle the mezzing.
+- **New** · Console: **Auth raid authorizes everyone in your raid on IRC in one click.** The new Auth raid command (-RaidAuth, ready for an MCP button) has every IRC bridge with a character in your raid authorize the others, and nobody outside the raid. Each PC posts one line, and every ask and answer shows in OgreConsole. Unauth raid (-RaidUnauth) takes back only the nicks added that way; nicks you authorized by hand stay.
+- **Fixed** · Bot: **"Aveliur: with movement on, each group hides behind its corpse".** With Aveliur_Movement on, each raid group now heads for its tentacle corpse about half a second after the corpses land and stays hidden for the full 15 seconds; before, the hide ended almost at once. Within 5m of the hide spot counts as hidden, a pull outside a raid behaves as group 1, and corpses already lying there when the fight restarts no longer start a false Hide.
+- **Fixed** · Bot: **"Illicus: everyone with Crowded Animosity gets their own spread spot".** In both Illicus fights (The Outer Swarmyard and Revelations of Consequence), players hit by Crowded Animosity now wait two seconds for everyone's report before picking a spread spot. Two players no longer end up on the same spot, and nobody is left standing in the group.
+- **Fixed** · Bot: **"Timed fight steps no longer end the moment they start".** In 20 fights a timed step (a hide, a joust out, a HUD countdown, a failsafe) could end a moment after it started instead of waiting out its time. Among them: Aveliur, Y'lus, Frejn, Emnitiun, The Soulbleeder, Do'Guen, Iron Forged Constructs, Kyrus of the Old Ways, The Kly, Xalgoz, Trakanon, Guardian of Arcanna'se, Sir Rouland, Kluzen, Beefcake, Chohnkanon and Territus.
+- **Fixed** · Bot: **Mercenary abilities are no longer cast when you have no mercenary up.** Shrink Mercenary and Mercenary Aspect: Roehn Theer (both forms) only work on your own mercenary, but the bot kept trying to cast them with no mercenary up. It now skips them until a mercenary is up.
+- **Fixed** · Windows: **OgreBot mini shows "Campspot active" instead of "Following" while a camp spot is on.** With a camp spot on, the mini window's status line still said it was following someone, even though the bot does not follow while a camp spot holds the character. It now shows "Campspot active" whenever a camp spot is on.
+- **Fixed** · Console: **IRC bridge commands from others are shown, and auth changes are said only when real.** OgreConsole now shows every IRC bridge command another person sends, such as -auth or -unauth, and commands from people who are not authorized, which are not run. Auth lines are said only when the list really changed, and your own IRC name is always authorized and never announced. Several -AIIR on one line now work, and the reply from your own sessions no longer posts to the channel.
+- **Fixed** · Console: **IRC says what it is doing, and "ogre irc" connects with the settings saved now.** OgreConsole now shows each IRC connection step - connecting, joined the channel, connection lost, stopped - and what a settings reload changed, such as the old and new channel. `ogre irc` reads the saved settings every time it connects, so a channel changed in OgreConsoleIRC.json is no longer ignored. A failing server's retries are shown once, not every 15 seconds.
+
 ## 2026.10.29.006 {#r2026-10-29-006}
 
 *Thursday, October 29, 2026 at 11:37 PM EDT*
