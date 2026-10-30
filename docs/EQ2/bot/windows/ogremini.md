@@ -13,7 +13,7 @@
 > - **Pause / Resume** - Pause stops the bot acting on its own (casting, following, camp spot, looting, Auto-Hunt). The button turns yellow and reads Resume.
 > - **Hide Main / Show Main** - hides or shows the main OgreBot window. The bot keeps running.
 > - **The top line** shows your class. The **cog** in the title bar lets you choose what this window shows: your class, your character's name, and a line saying what the bot is doing. Tick what you want and press Done.
-> - **What the bot is doing** (the bottom line) - Paused, the ability it is casting (Cast: ...) or item it is using (Item: ...), who it is following, Campspot active, or Idle.
+> - **What the bot is doing** (the bottom line) - Paused, the ability it is casting (Cast: ...) or item it is using (Item: ...), Campspot active (a camp spot outranks following - while one is on, the bot is not following), who it is following, or Idle.
 >
 > **Good to know**
 >
@@ -39,7 +39,7 @@ Both lines update by themselves while the bot runs. Here the character name is t
 | Control | What it does | Default |
 |---|---|---|
 | **Top line** | Shows your class, for example Templar. If you tick Character name in the cog, your name comes first: Kannkor · Templar. If neither is ticked, the line goes away and the buttons get the room. | your class |
-| **Status line (bottom)** | What the bot is doing right now. Only the first of these that is true shows: Paused, then Cast: and the ability the bot is casting, then Item: and the item it is using, then Following and who it follows, then Campspot active, and otherwise Idle.<br>*Cast: and Item: show only what the bot itself casts or uses, not what you click.* | shown |
+| **Status line (bottom)** | What the bot is doing right now. Only the first of these that is true shows: Paused, then Cast: and the ability the bot is casting, then Item: and the item it is using, then Campspot active (a camp spot holds the character, so following waits), then Following and who it follows, and otherwise Idle.<br>*Cast: and Item: show only what the bot itself casts or uses, not what you click.* | shown |
 
 
 

@@ -338,6 +338,9 @@
   "OgreBotAPI.Comms:IrcAuthIfInRaid": "[nick,toon]",
   "OgreBotAPI.Comms:IrcConnect": "[fw]",
   "OgreBotAPI.Comms:IrcDisconnect": "[fw]",
+  "OgreBotAPI.Comms:IrcRaidAuth": "[fw]",
+  "OgreBotAPI.Comms:IrcRaidCheck": "[fw,ask,toon]",
+  "OgreBotAPI.Comms:IrcRaidUnauth": "[fw]",
   "OgreBotAPI.Comms:IrcReload": "[fw]",
   "OgreBotAPI.Comms:LogStats": "[fw]",
   "OgreBotAPI.Comms:Message": "[fw,text,-tab name...,-sound ding|alarm]",
@@ -1232,8 +1235,10 @@
   "-Pushover",
   "-Question",
   "-Raid",
+  "-RaidAuth",
   "-raiddebuff",
   "-RaidInvite",
+  "-RaidUnauth",
   "-RawCommand",
   "-RawCommandOB_AP",
   "-RawCommandRequiresOgreBot_AllParams",
@@ -5616,6 +5621,12 @@
     false
    ]
   ],
+  "-raidauth": [
+   [
+    "forwho",
+    false
+   ]
+  ],
   "-raiddebuff": [
    [
     "forwho",
@@ -5641,6 +5652,12 @@
    ],
    [
     "bool",
+    false
+   ]
+  ],
+  "-raidunauth": [
+   [
+    "forwho",
     false
    ]
   ],

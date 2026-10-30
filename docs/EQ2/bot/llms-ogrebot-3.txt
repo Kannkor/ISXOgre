@@ -259,6 +259,7 @@ OgreConsole is the window where Ogre shows messages from all your characters. Th
 - Anyone who can talk in the channel can give themselves command rights with -auth, and a command can do anything, including closing every session. Use a private channel with a password; that is the only real protection.
 - Currently the only thing that pops the console open by itself is an incoming tell passed on from another of your sessions. 'Never auto open' stops that too.
 - Whatever is in the IRC boxes, the two passwords included, is also saved in this character's profile on Save, and so in a Save Custom Profile copy. The log never shows the passwords.
+- In a raid, the -RaidAuth command (Auth raid - put it on an MCP button) authorizes everyone in your raid to each other on their IRC links, and nobody outside it; -RaidUnauth (Unauth raid) takes back only the names added that way. Clicking it on every character of a PC still asks once.
 
 
 ---

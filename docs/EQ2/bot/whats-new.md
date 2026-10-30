@@ -10,6 +10,12 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.10.29.006 {#r2026-10-29-006}
+
+*Thursday, October 29, 2026 at 11:37 PM EDT*
+
+- **Fixed** · Crafting: **Quest crafting recognises "CAREFULLY Craft Far Seas Crafting Station".** In "Were Is the Messenger: Where the Weres Are", quest crafting did not recognise "CAREFULLY Craft Far Seas Crafting Station" as a craft step and left it for you. It now crafts the Far Seas Crafting Station for it.
+
 ## 2026.10.29.003 {#r2026-10-29-003}
 
 *Thursday, October 29, 2026 at 8:41 PM EDT*
