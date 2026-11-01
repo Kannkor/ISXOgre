@@ -1,8 +1,8 @@
-# OgreCraft
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../index.md).
 </div>
+
+# OgreCraft
 
 What Classic's *OgreCraftAPI Reference* page described, plus the crafting bot's own `OgreCraft` object, and what each one is in the new bot.
 
@@ -58,7 +58,7 @@ while !${ISXOgreEQ2.Craft.IsReady}
 
 | Old call | Today | Write instead | What changed | Notes |
 |---|---|---|---|---|
-| `OgreCraftAPI:AddLastScribedRecipe` | does nothing | `OgreBotAPI.Craft:AddLastScribedRecipe` | ➡️ Moved | Same argument order [forwho, quantity]. Says so and does nothing if nothing was scribed this session ( AddLastScribedRecipe). |
+| `OgreCraftAPI:AddLastScribedRecipe` | does nothing | `OgreBotAPI.Craft:AddLastScribedRecipe` | ➡️ Moved | Same argument order [forwho, quantity]. Says so and does nothing if nothing was scribed this session. |
 | `OgreCraftAPI:AddRecipe` | does nothing | `ISXOgreEQ2.Craft:AddRecipe` | ➡️ Moved | Same arguments, same order. Also accepts 'lastknownrecipe'. For another session: OgreBotAPI.Craft:AddRecipe[forwho,nameOrID,qty]. |
 | `OgreCraftAPI:AddRecipeListFromFile` | does nothing | `ISXOgreEQ2.Craft:AddRecipeListFromFile` | ➡️ Moved | The argument is the name of one of your saved queues; the extension is optional. There is no for-who door: OgreBotAPI.Craft does not register it. |
 | `OgreCraftAPI:AddRecipeNameForWho` | does nothing | `OgreBotAPI.Craft:AddRecipe` | ⚠️ Argument order changed | Renamed AND reordered. OgreCraft (ogre craftold) order: [forwho, quantity, name]. OgreCraftAPI (ogre craft) and the doc: [forwho, name, quantity]. New: [forwho, name\|id\|lastknownrecipe, quantity]. The name is now required - there is no default; pass lastknownrecipe explicitly. |
@@ -77,7 +77,7 @@ while !${ISXOgreEQ2.Craft.IsReady}
 | `OgreCraftAPI.QueueUpdated` | reads NULL | `ISXOgreEQ2.Craft.QueueUpdated` | ➡️ Moved |  |
 | `OgreCraftAPI.RecipesInQueue` | reads NULL | `ISXOgreEQ2.Craft.RecipesInQueue` | ➡️ Moved | The new count is setup-queue ROWS (Craft2's meaning).'s version actually counted distinct COMPONENTS (ic_Components), so a craftold script's number will differ. |
 | `OgreCraftAPI:ScribeRecipe` | does nothing | `OgreBotAPI.Craft:ScribeRecipe` | ➡️ Moved | Same argument order [forwho, name\|all]. The script door without a for-who is ISXOgreEQ2.Craft:ScribeRecipe[name]. |
-| `OgreCraftAPI:ShowMainWindow` | does nothing | `ISXOgreEQ2.Craft:Open` | ⚠️ Arguments changed | One bool became two calls: TRUE -&gt; ISXOgreEQ2.Craft:Open (also brings a minimized window back), FALSE -&gt; ISXOgreEQ2.Craft:Minimize (rolls the window up to its run controls; crafting keeps going). Open also turns on the reaction engine (craft lite) and marks craft open ( OgreEQ2CraftType::GetMethodImpl, case Method_Open). |
+| `OgreCraftAPI:ShowMainWindow` | does nothing | `ISXOgreEQ2.Craft:Open` | ⚠️ Arguments changed | One bool became two calls: TRUE -&gt; ISXOgreEQ2.Craft:Open (also brings a minimized window back), FALSE -&gt; ISXOgreEQ2.Craft:Minimize (rolls the window up to its run controls; crafting keeps going). Open also turns on the reaction engine (craft lite) and marks craft open. |
 | `OgreCraftAPI:ShowQueueWindow` | does nothing | `ogre craft` | ➡️ Lives somewhere else | No scriptable equivalent of showing/hiding just the queue; open the panel (ISXOgreEQ2.Craft:Open) and use its Queues tab. |
 | `OgreCraftAPI:Start` | does nothing | `OgreBotAPI.Craft:Start` | ➡️ Moved | Same argument [forwho]. The script door without a for-who is ISXOgreEQ2.Craft:Start. |
 | `OgreCraftAPI:StartLLL` | does nothing | `OgreBotAPI.Craft:StartLLL` | ➡️ Moved | Same argument [forwho]. Script door without for-who: ISXOgreEQ2.Craft:StartLLL. |
@@ -89,7 +89,7 @@ while !${ISXOgreEQ2.Craft.IsReady}
 
 | Old call | Today | Write instead | What changed | Notes |
 |---|---|---|---|---|
-| `OgreCraft:AddLastScribedRecipe` | does nothing | `OgreBotAPI.Craft:AddLastScribedRecipe` | ➡️ Moved | Same argument order [forwho, quantity]. Says so and does nothing if nothing was scribed this session ( AddLastScribedRecipe). |
+| `OgreCraft:AddLastScribedRecipe` | does nothing | `OgreBotAPI.Craft:AddLastScribedRecipe` | ➡️ Moved | Same argument order [forwho, quantity]. Says so and does nothing if nothing was scribed this session. |
 | `OgreCraft:AddRecipeID` | does nothing | `ISXOgreEQ2.Craft:AddRecipe` | ⚠️ Argument order changed | Classic order [quantity, id]; new order [id, quantity]. Renamed too (AddRecipeID and AddRecipeName are one call now). |
 | `OgreCraft:AddRecipeListFromFile` | does nothing | `ISXOgreEQ2.Craft:AddRecipeListFromFile` | ➡️ Moved | The argument is the name of one of your saved queues; the extension is optional. There is no for-who door: OgreBotAPI.Craft does not register it. |
 | `OgreCraft:AddRecipeName` | does nothing | `ISXOgreEQ2.Craft:AddRecipe` | ⚠️ Argument order changed | Classic order [quantity, name]; new order [name, quantity] (quantity defaults to 1). Renamed too. For another session, OgreBotAPI.Craft:AddRecipe takes the same two with the for-who in front. |
@@ -110,7 +110,7 @@ while !${ISXOgreEQ2.Craft.IsReady}
 | `OgreCraft.QueueUpdated` | reads NULL | `ISXOgreEQ2.Craft.QueueUpdated` | ➡️ Moved |  |
 | `OgreCraft.RecipesInQueue` | reads NULL | `ISXOgreEQ2.Craft.RecipesInQueue` | ➡️ Moved | The new count is setup-queue ROWS (Craft2's meaning).'s version actually counted distinct COMPONENTS (ic_Components), so a craftold script's number will differ. |
 | `OgreCraft:ScribeRecipe` | does nothing | `OgreBotAPI.Craft:ScribeRecipe` | ➡️ Moved | Same argument order [forwho, name\|all]. The script door without a for-who is ISXOgreEQ2.Craft:ScribeRecipe[name]. |
-| `OgreCraft:ShowMainWindow` | does nothing | `ISXOgreEQ2.Craft:Open` | ⚠️ Arguments changed | One bool became two calls: TRUE -&gt; ISXOgreEQ2.Craft:Open (also brings a minimized window back), FALSE -&gt; ISXOgreEQ2.Craft:Minimize (rolls the window up to its run controls; crafting keeps going). Open also turns on the reaction engine (craft lite) and marks craft open ( OgreEQ2CraftType::GetMethodImpl, case Method_Open). |
+| `OgreCraft:ShowMainWindow` | does nothing | `ISXOgreEQ2.Craft:Open` | ⚠️ Arguments changed | One bool became two calls: TRUE -&gt; ISXOgreEQ2.Craft:Open (also brings a minimized window back), FALSE -&gt; ISXOgreEQ2.Craft:Minimize (rolls the window up to its run controls; crafting keeps going). Open also turns on the reaction engine (craft lite) and marks craft open. |
 | `OgreCraft:ShowQueueWindow` | does nothing | `ogre craft` | ➡️ Lives somewhere else | No scriptable equivalent of showing/hiding just the queue; open the panel (ISXOgreEQ2.Craft:Open) and use its Queues tab. |
 | `OgreCraft:Start` | does nothing | `OgreBotAPI.Craft:Start` | ➡️ Moved | Same argument [forwho]. The script door without a for-who is ISXOgreEQ2.Craft:Start. |
 | `OgreCraft:UpdateScribedRecipe` | does nothing | — | ⛔ Removed | Nothing to call - delete the line. The last scribed recipe is tracked automatically, including scrolls scribed by hand. |

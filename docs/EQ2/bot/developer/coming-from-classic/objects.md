@@ -14,14 +14,13 @@ The Classic objects scripts used that Classic's docs never had a page for (`GetI
 
 | What happened | Names |
 |---|---|
-| ⚠️ Arguments changed | 76 |
+| ⚠️ Arguments changed | 78 |
 | ⚠️ Argument order changed | 10 |
 | ✏️ Renamed | 79 |
 | ➡️ Moved | 6 |
 | ➡️ Lives somewhere else | 168 |
 | 📄 In a data file now | 25 |
-| ⛔ Exists, does nothing yet | 1 |
-| ⛔ Not ported yet | 189 |
+| ⛔ Not ported yet | 188 |
 | ⛔ Removed | 52 |
 | **Total** | **606** |
 
@@ -71,7 +70,7 @@ call Obj_OgreUtilities.HandleWaitForCombat -TimeOutIfNoProgress 30
 |---|---|---|---|---|
 | `Obj_OgreUtilities:AcceptQuest` | does nothing | `OgreBotAPI.Quest:Accept` | ⚠️ Arguments changed | For-who is new as argument 0; questName (argument 1) is accepted and ignored. |
 | `Obj_OgreUtilities.Alignment` | reads NULL | — | ⛔ Not ported yet | Classic: Good / Evil / None / Unknown from the bind location (Me.GetGameData[Self.BindLocation]). 0 calls. New: no BindLocation or alignment read anywhere in ISXOgreEQ2 (searched). |
-| `Obj_OgreUtilities.AnyGroupMembersDead` | reads NULL | — | ⛔ Not ported yet | Classic: is any group member (me included) dead. New: no script-facing read (searched Roster / Combat / Zone regs,). The IC reads it privately: the path's dead-member hold and the named step's after-fight res run. |
+| `Obj_OgreUtilities.AnyGroupMembersDead` | reads NULL | — | ⛔ Not ported yet | Classic: is any group member (me included) dead. New: no script-facing read. The IC reads it privately: the path's dead-member hold and the named step's after-fight res run. |
 | `Obj_OgreUtilities.CallingScriptName` | reads NULL | — | ⛔ Not ported yet | Classic: internal - the script that created the object, passed to OgreNavLib / ZoneReset. No script on the new bot owns these engines. |
 | `call Obj_OgreUtilities.CallToGH` | does nothing | `OgreBotAPI.Movement:CallGH` | ⚠️ Arguments changed | For-who is new as argument 0. No _OnlyIfAvailableNow, no wait, no result. The fallback state machine is Movement:GetToGH; in an IC file, `recover` op callGH. |
 | `call Obj_OgreUtilities.CastAbilityID` | does nothing | `OgreBotAPI.Abilities:Cast` | ⚠️ Arguments changed | For-who is argument 0, the id argument 1. Nothing waits for the cast; in a data file wait on `not selfCasting`. |
@@ -99,10 +98,10 @@ call Obj_OgreUtilities.HandleWaitForCombat -TimeOutIfNoProgress 30
 | `Obj_OgreUtilities.Get_Hours` | reads NULL | `OgreBotAPI.Util.Hours` | ✏️ Renamed |  |
 | `Obj_OgreUtilities.Get_Minutes` | reads NULL | `OgreBotAPI.Util.Minutes` | ✏️ Renamed |  |
 | `Obj_OgreUtilities.Get_Seconds` | reads NULL | `OgreBotAPI.Util.Seconds` | ✏️ Renamed |  |
-| `Obj_OgreUtilities.Get_ZoneName` | reads NULL | — | ⛔ Not ported yet | Classic: "GUILDHALL" in a guild hall, otherwise the zone name without its number. 0 calls. No single member: OgreBotAPI.Zone.InGuildHall and OgreBotAPI.Zone.Name (number stripped, :3294) are the two halves. |
+| `Obj_OgreUtilities.Get_ZoneName` | reads NULL | — | ⛔ Not ported yet | Classic: "GUILDHALL" in a guild hall, otherwise the zone name without its number. 0 calls. No single member: OgreBotAPI.Zone.InGuildHall and OgreBotAPI.Zone.Name are the two halves. |
 | `Obj_OgreUtilities.GetAscensionClass` | reads NULL | `ISXOgreEQ2.Class.AscensionClass` | ➡️ Moved |  |
 | `call Obj_OgreUtilities.GetInGameQuestStep` | does nothing | — | ⛔ Not ported yet | Classic: makes the quest current in the journal and returns its first unchecked step (text, index, counts, zone) in a collection. New: no journal step reader. |
-| `call Obj_OgreUtilities.GetIntoCorrectZone` | does nothing | — | ⛔ Not ported yet | Classic: CORRECTZONE / GUILDHALL / else CallToGH, then CheckEvacTotems + GetIntoZoneFromGH. Incomplete in Classic itself: WhereAreWe never returns CORRECTZONE (that case is commented out, :1927-1929) and GetIntoZoneFromGH is not defined in this objectdef. 0 calls. |
+| `call Obj_OgreUtilities.GetIntoCorrectZone` | does nothing | — | ⛔ Not ported yet | Classic: CORRECTZONE / GUILDHALL / else CallToGH, then CheckEvacTotems + GetIntoZoneFromGH. Incomplete in Classic itself: WhereAreWe never returns CORRECTZONE and GetIntoZoneFromGH is not defined in this objectdef. 0 calls. |
 | `call Obj_OgreUtilities.GHToHouse` | does nothing | — | ⛔ Not ported yet | Classic: double-click 'Portal to Housing', filter the house list by name, enter, wait for zoning. 0 calls. New: no 'go to a house' door; the housing-portal clicks exist only inside DepotTransfer's transfer flow and GetToGH's guild-hall tab. |
 | `Obj_OgreUtilities.GroupInCombat` | reads NULL | — | ⛔ Not ported yet | Classic: any group member (not me) in combat mode; 3 calls. New: no script-facing or data-file read of group combat - OgreBotAPI.Combat.InCombat is ME only; the `inCombat` condition is me only too. |
 | `Obj_OgreUtilities.GroupWithinDistance` | reads NULL | `OgreBotAPI.Position.FarthestGroupDistance` | ⚠️ Arguments changed | Returns a number, not TRUE/FALSE. It counts every group member (a mercenary too), where Classic skipped non-PCs. In a data file: the `groupDistance` condition. |
@@ -117,7 +116,7 @@ call Obj_OgreUtilities.HandleWaitForCombat -TimeOutIfNoProgress 30
 | `call Obj_OgreUtilities.HandleWaitForCombat` | does nothing | `waitForCombat` | 📄 In a data file now | -Wait (deciseconds) -&gt; settleMs (x100); -SkipIfNoMobsRange -&gt; settleWithin; -TimeOutIfNoProgress (seconds) -&gt; noProgressMs (x1000). -NPCName / -ExitOnNPCAggroName / -ClearTarget have no keys: a named's fight is the `named` step's, and a stale target is dropped by the step itself. |
 | `call Obj_OgreUtilities.HandleWaitForCombat_old` | does nothing | — | ⛔ Not ported yet | Classic: the superseded positional version of HandleWaitForCombat; 0 calls in Classic itself. |
 | `call Obj_OgreUtilities.HandleWaitForCombatOrPower` | does nothing | — | ⛔ Not ported yet | Classic: hold while in combat AND power &gt; 1% - i.e. leave a fight when out of power; 3 calls. New: `waitForCombat` has no power exit. A `wait` on `or` of `not inCombat` and `myStat` {stat: power, compare: "&lt;=", value: 1} expresses the exit, but nothing drops the far target the way Classic did. |
-| `call Obj_OgreUtilities.HandleWaitForCombatUntilNPCSpawns` | does nothing | `actorPresent` | 📄 In a data file now | The 'drop a target beyond N' leg has no twin in a wait; waitForCombat drops a stale target on its own ( rule 6). |
+| `call Obj_OgreUtilities.HandleWaitForCombatUntilNPCSpawns` | does nothing | `actorPresent` | 📄 In a data file now | The 'drop a target beyond N' leg has no twin in a wait; waitForCombat drops a stale target on its own. |
 | `call Obj_OgreUtilities.HandleWaitForCombatWithNPC` | does nothing | `named` | 📄 In a data file now | For a plain 'until nothing hates us' hold use the `waitForCombat` step. |
 | `call Obj_OgreUtilities.HandleWaitForGroupDistance` | does nothing | `groupDistance` | 📄 In a data file now | A wait needs limitMs and onTimeout - Classic blocked forever. The farthest-member read counts every group member, not only PCs. |
 | `call Obj_OgreUtilities.HandleWaitForNPCToSpawn` | does nothing | `actorPresent` | 📄 In a data file now | The IC `named` step already waits for its named to spawn. |
@@ -128,13 +127,13 @@ call Obj_OgreUtilities.HandleWaitForCombat -TimeOutIfNoProgress 30
 | `Obj_OgreUtilities.IndexMatch` | reads NULL | — | ⛔ Removed | Classic: does the weakref index hold that exact string. 0 calls. The new bot's OgreBotAPI.IndexMatch was a stub that did nothing, and it was removed 2026-10-22. Search the index in your script. |
 | `Obj_OgreUtilities.InGuildHallZone` | reads NULL | `OgreBotAPI.Zone.InGuildHall` | ✏️ Renamed | Slightly wider than this list (it also knows guildhall_drunder, guildhall_skyshrinecapital and the catch-all). |
 | `Obj_OgreUtilities:Initialize_Depot` | does nothing | — | ⛔ Not ported yet | Classic: fills DepotNames. Internal to Handle_Depot (see it). |
-| `Obj_OgreUtilities.InternalVersion` | reads NULL | — | ⛔ Not ported yet | Classic: the backing string "1.001" returned by Version (75-78). There is no utilities object on the new bot to have a version; see Version for the adapter's. |
+| `Obj_OgreUtilities.InternalVersion` | reads NULL | — | ⛔ Not ported yet | Classic: the backing string "1.001" returned by Version. There is no utilities object on the new bot to have a version; see Version for the adapter's. |
 | `Obj_OgreUtilities.InZoneName` | reads NULL | `zone` | 📄 In a data file now | In a script: ${OgreBotAPI.Zone.Name} is the zone name with the number stripped - compare it yourself. |
 | `Obj_OgreUtilities.InZoneShortName` | reads NULL | — | ⛔ Not ported yet | ISXEQ2's own ${Zone.ShortName} is still there for a script. |
 | `Obj_OgreUtilities.IsAnyoneDead` | reads NULL | — | ⛔ Not ported yet | Classic: any group member (me included) is dead; 5 calls in. New: no script-facing read (see AnyGroupMembersDead); the IC's path / named holds read it privately. |
 | `Obj_OgreUtilities.IsGroupDead` | reads NULL | `onWipe` | 📄 In a data file now | Nothing to test in the file: author the recovery as the `onWipe` list (and `afterWipe`). No script-facing 'group is dead' member exists. |
 | `Obj_OgreUtilities.IsGroupDeadOrNoRes` | reads NULL | — | ⛔ Not ported yet | Classic: someone is dead AND (everyone is dead OR no living priest); 2 calls in/:661. New: no script-facing or data-file read; the IC wipe watch tests 'everyone dead' only. |
-| `Obj_OgreUtilities.ItemCount` | does nothing (stub) | `OgreBotAPI.Inventory.Count` *(does nothing yet)* | ⛔ Exists, does nothing yet | Do NOT use OgreBotAPI.Loot.ItemCount: it is SmartLoot's count of distinct capped item names, not a bag count. The data-file condition `hasItem` answers only 'is it in my bags'. |
+| `Obj_OgreUtilities.ItemCount` | reads NULL | `OgreBotAPI.Inventory.Count` | ⚠️ Arguments changed | Write `${OgreBotAPI.Inventory.Count[<name>,contains]}` - Classic matched a PART of the name, and the new default (exact) needs the whole name. Both count every stack in the bags and the Harvest Bag. Do NOT use OgreBotAPI.Loot.ItemCount: it is SmartLoot's count of distinct capped item names, not a bag count. The data-file condition `hasItem` answers only 'is it in my bags'. |
 | `Obj_OgreUtilities:Jump` | does nothing | `OgreBotAPI.Movement:Jump` | ⚠️ Arguments changed | For-who is new as argument 0. |
 | `call Obj_OgreUtilities.LoginToon` | does nothing | `ogre login` | ➡️ Lives somewhere else | It does not wait; the login runs in the adapter. |
 | `call Obj_OgreUtilities.NavTo` | does nothing | `OgreBotAPI.Movement:NavTo` | ⚠️ Arguments changed | For-who is argument 0; no _HowClose and no wait (see NavToLoc). |
@@ -143,7 +142,7 @@ call Obj_OgreUtilities.HandleWaitForCombat -TimeOutIfNoProgress 30
 | `Obj_OgreUtilities.NearLoc` | reads NULL | `nearSpot` | 📄 In a data file now | {"nearSpot":{"spots":[[x,y,z]],"within":10}}. No script-facing member; in a script, ISXEQ2's ${Math.Distance[${Me.Loc},x,y,z]} still answers it. |
 | `Obj_OgreUtilities.NPCCount` | reads NULL | `count` | 📄 In a data file now |  |
 | `Obj_OgreUtilities.NPCHatedCount` | reads NULL | `count` | 📄 In a data file now | {"count":{"of":"actors","find":{"query":"Distance &lt;= 30 && (Type == \"NPC\" \|\| Type == \"NamedNPC\") && Target.ID &gt; 0"},"compare":"&gt;","value":0}}. No script-facing member counts this. |
-| `Obj_OgreUtilities.Obj_OgreResources` | reads NULL | — | ⛔ Not ported yet | Classic: an Object_OgreResources. 0 references in instance or raid files. No equivalent found in ISXOgreEQ2 (searched the registrations). |
+| `Obj_OgreUtilities.Obj_OgreResources` | reads NULL | — | ⛔ Not ported yet | Classic: an Object_OgreResources. 0 references in instance or raid files. No equivalent found in ISXOgreEQ2. |
 | `Obj_OgreUtilities.Obj_Travel` | reads NULL | `OgreBotAPI.Travel:Fast` | ➡️ Lives somewhere else | The rest of Object_Travel maps onto the same sub-object (Travel, Bell, Druid, Spires, ToGuildHall, ZoneDoor...). |
 | `Obj_OgreUtilities.OgreNavChecks` | reads NULL | — | ⛔ Not ported yet | Classic: OgreNavLib's movement checks; content toggles them, e.g. Obj_OgreUtilities.OgreNavChecks:Set_Check_Group[FALSE,1000]. New: the OgreNavLib layer is a stub; the new nav has its own tunables through ISXOgreEQ2.Nav:Set, not these checks. |
 | `Obj_OgreUtilities.OgreNavEntry` | reads NULL | — | ⛔ Not ported yet | Classic: the OgreNavLib request object that NavToLocation / NavToLoc fill. The OgreNavLib layer is not ported: `ogre navlib` is a stub word, 'NOT PORTED YET'. Point-to-point nav is OgreBotAPI.Movement:NavTo (see NavToLoc). |
@@ -170,7 +169,7 @@ call Obj_OgreUtilities.HandleWaitForCombat -TimeOutIfNoProgress 30
 | `Obj_OgreUtilities.Version` | reads NULL | `ISXOgreEQ2.Version` | ➡️ Lives somewhere else | This is the whole extension's version, not a utilities version. |
 | `call Obj_OgreUtilities.WaitForActorClick` | does nothing | `OgreBotAPI.Actors:ClickQueued` | ⚠️ Arguments changed | The caller no longer waits; the click is queued. In a data file: `actorInteract` with awaitCastBar. |
 | `call Obj_OgreUtilities.WaitForCasting` | does nothing | `selfCasting` | 📄 In a data file now | {"wait":{"not":{"selfCasting":{}}},"limitMs":...,"onTimeout":...}. |
-| `call Obj_OgreUtilities.WaitForGroupPower` | does nothing | — | ⛔ Not ported yet | Classic: wait until every group member's power &gt;= _PowerPercent. 0 calls. New: `myStat` is my own only; no group power read in the condition table (2660-2712) or the Roster regs. |
+| `call Obj_OgreUtilities.WaitForGroupPower` | does nothing | — | ⛔ Not ported yet | Classic: wait until every group member's power &gt;= _PowerPercent. 0 calls. New: `myStat` is my own only; no group power read in the condition table or the Roster regs. |
 | `call Obj_OgreUtilities.WaitForGroupToZone` | does nothing | `zoneOut` | 📄 In a data file now | The health &gt; 90% leg is not part of zoneOut. |
 | `call Obj_OgreUtilities.WaitForLootWindow` | does nothing | `waitForLoot` | 📄 In a data file now |  |
 | `call Obj_OgreUtilities.WaitForPower` | does nothing | `myStat` | 📄 In a data file now |  |
@@ -178,7 +177,7 @@ call Obj_OgreUtilities.HandleWaitForCombat -TimeOutIfNoProgress 30
 | `call Obj_OgreUtilities.WaitForZoning` | does nothing | `zoneOut` | 📄 In a data file now | The door pick alone is OgreBotAPI.Travel:ZoneDoorFor. |
 | `call Obj_OgreUtilities.WaitWhileGroupMembersDead` | does nothing | `path` | 📄 In a data file now | There is no standalone 'wait while dead' step; it is part of `path` and `named`. |
 | `Obj_OgreUtilities.WhereAreWe` | reads NULL | — | ⛔ Not ported yet | Classic: GUILDHALL for any guild-hall short name, otherwise Zone.ShortName. 0 external calls. No single member; OgreBotAPI.Zone.InGuildHall answers the guild-hall half, and ISXEQ2's ${Zone.ShortName} the rest. |
-| `Obj_OgreUtilities:ZoneReset_PopulateInternalMemory` | does nothing | — | ⛔ Not ported yet | Classic: Obj_ZoneReset:PopulateInternalMemory, loading the zone-reuse timers; called only by Classic's. New: the Zone sub-object's reset reads are STUBS returning FALSE - ResetZoneData / ResetReady / ResetUpdating / ResetInfoAvailable. The zone resetter is `ogre zone`. |
+| `Obj_OgreUtilities:ZoneReset_PopulateInternalMemory` | does nothing | `OgreBotAPI.Zone:ResetUpdateInfo` | ⚠️ Arguments changed | For-who is new as argument 0. It starts a re-read of the Zone Reuse window, as Classic's did; wait for `${OgreBotAPI.Zone.ResetReady}` before reading `${OgreBotAPI.Zone.ResetZoneData[<zone>,<key>]}`. |
 | `Obj_OgreUtilities.ZoneTeleporterWindowVisible` | reads NULL | `zoneDoorWindow` | 📄 In a data file now |  |
 
 ## TabConfig
@@ -896,7 +895,6 @@ If your script needs one of these, leave it out for now and tell us - this list 
 - `Obj_OgreUtilities.IsAnyoneDead` - not ported yet
 - `SpellOb.IsAStun` - not ported yet
 - `Obj_OgreUtilities.IsGroupDeadOrNoRes` - not ported yet
-- `Obj_OgreUtilities.ItemCount` - exists, does nothing yet
 - `Items` - not ported yet
 - `TabConfig.LastClickedTabName` - not ported yet
 - `TabConfig.LavishSettingsConfigName` - not ported yet
@@ -987,4 +985,3 @@ If your script needs one of these, leave it out for now and tell us - this list 
 - `call Obj_OgreUtilities.WaitForGroupPower` - not ported yet
 - `call Obj_OgreUtilities.WaitForScript` - not ported yet
 - `Obj_OgreUtilities.WhereAreWe` - not ported yet
-- `Obj_OgreUtilities:ZoneReset_PopulateInternalMemory` - not ported yet

@@ -61,9 +61,9 @@ return "${OgreBotAPI.Util.MD5["${_Input}"]}"
 |---|---|---|---|---|
 | `command:OgreA` | does nothing | — | ⛔ Removed | Old: registered /; its handler already returned at once in Classic - "With 64 bit this is retired unless people want it again". Nothing to port. Public doc: NOT in. |
 | `command:OgreBotAtom` | does nothing | — | ⛔ Removed | Each atom has its own replacement - usually the matching `oc !c -<Verb>` console row or OgreBotAPI method. Where each Classic atom user was routed: section 7.2. |
-| `ISXOgre.Base64Decode` | does nothing | — | ⛔ Not ported yet | Old: returns the decoded text of a jsonvalue's scalar (outer quotes stripped) or of the literal argument. Public doc: YES - (Base64Decode - Member). |
+| `ISXOgre.Base64Decode` | does nothing | — | ⛔ Not ported yet | Old: returns the decoded text of a jsonvalue's scalar (outer quotes stripped) or of the literal argument. Public doc: YES - the classic docs' ISXOgre API page (Base64Decode - Member). |
 | `ISXOgre.Base64DecodeString` | does nothing | — | ⛔ Not ported yet | Old: returns the base64-decoded argv[0] taken by value. Public doc: NOT in. |
-| `ISXOgre.Base64Encode` | does nothing | — | ⛔ Not ported yet | Old: returns base64 of a jsonvalue's JSON (jsonvalue arg) or of the literal argument text. Public doc: YES - (Base64Encode - Member). |
+| `ISXOgre.Base64Encode` | does nothing | — | ⛔ Not ported yet | Old: returns base64 of a jsonvalue's JSON (jsonvalue arg) or of the literal argument text. Public doc: YES - the classic docs' ISXOgre API page (Base64Encode - Member). |
 | `ISXOgre.Base64EncodeString` | does nothing | — | ⛔ Not ported yet | Old: returns base64 of argv[0] taken by value. Public doc: NOT in. |
 | `ISXOgre.CleanString` | does nothing | — | ⛔ Not ported yet | Old: returns a filename-safe token: space -&gt; _, strips, [ ]: ' ` and / \ * ? " &lt; &gt; \|. Classic uses it to build the server key for tradeskill exports. Public doc: NOT in. |
 | `ISXOgre.DevBuild` | does nothing | — | ⛔ Not ported yet | Old: returns gISXOGRE_DEVELOPMENT_VERSION, a compile-time dev-build flag; Classic reads it in to pick the dev or live revision. Public doc: NOT in. |
@@ -88,8 +88,8 @@ return "${OgreBotAPI.Util.MD5["${_Input}"]}"
 | `ISXOgre.TimeUTC` | does nothing | — | ⛔ Not ported yet | Old: returns float64 seconds since the Unix epoch (time(nullptr)). Classic's only site is commented out. Public doc: NOT in. |
 | `ISXOgre.Username` | does nothing | `ISXOgreEQ2.Auth.Username` | ⚠️ Arguments changed | Drop the [1,2,3] - the new member needs no key (it does not read argc, so passing it is harmless but meaningless). Before auth it answers an empty string, not NULL. |
 | `ISXOgre.Version` | does nothing | `ISXOgreEQ2.Version` | ➡️ Moved | The new bot is two extensions with two versions: ${ISXOgreEQ2.Version} is the EQ2 adapter, ${ISXOgreX.Version} the core. Treat the value as text. |
-| `ISXOgre:Base64Decode` | does nothing | — | ⛔ Not ported yet | Old: decodes into a destination jsonvalue, restoring JSON shape when the payload is JSON. Public doc: YES - (Base64Decode - Method). |
-| `ISXOgre:Base64Encode` | does nothing | — | ⛔ Not ported yet | Old: encodes into a destination jsonvalue: [jsonref] in place, [jsonref, jsonref2], or [string, jsonref]. Public doc: YES - (Base64Encode - Method). |
+| `ISXOgre:Base64Decode` | does nothing | — | ⛔ Not ported yet | Old: decodes into a destination jsonvalue, restoring JSON shape when the payload is JSON. Public doc: YES - the classic docs' ISXOgre API page (Base64Decode - Method). |
+| `ISXOgre:Base64Encode` | does nothing | — | ⛔ Not ported yet | Old: encodes into a destination jsonvalue: [jsonref] in place, [jsonref, jsonref2], or [string, jsonref]. Public doc: YES - the classic docs' ISXOgre API page (Base64Encode - Method). |
 | `ISXOgre:DebugInfo` | does nothing | — | ⛔ Not ported yet | Old: calls outputDebugInfo: prints the InnerSpace install path, CWD, executable, IS build, session, virtual-input flag and extension hashes. Public doc: NOT in. |
 | `ISXOgre:DITW` | does nothing | — | ⛔ Removed | Old: registered at but GetMethod has no case for it, so the call already did nothing in Classic. Public doc: NOT in. |
 | `ISXOgre:FullScreen` | does nothing | — | ⛔ Not ported yet | Old: calls cISXOgreEQ2Config.Force_Full_Screen. Public doc: NOT in. |
@@ -111,21 +111,21 @@ return "${OgreBotAPI.Util.MD5["${_Input}"]}"
 | `ISXOgre:Test` | does nothing | — | ⛔ Removed | Old: - the whole body is commented out; it returns false and does nothing. Public doc: NOT in. |
 | `ISXOgre:TestIndex` | does nothing | — | ⛔ Removed | Old: is a developer sample of writing into a caller's index variable, "kept as a working sample". Not a feature; nothing in the new bot. Public doc: NOT in. |
 | `ISXOgre:TestJSON` | does nothing | — | ⛔ Removed | Not a feature; nothing in the new bot. Public doc: NOT in. |
-| `ogrehttpjob.Body` | does nothing | — | ⛔ Not ported yet | Old: returns the response body for the handle's job id. Public doc: YES - (ogrehttpjob Members). |
-| `ogrehttpjob.Complete` | does nothing | — | ⛔ Not ported yet | Old: returns TRUE iff Completed or Failed for the handle's job id. Public doc: YES - (ogrehttpjob Members). |
-| `ogrehttpjob.Error` | does nothing | — | ⛔ Not ported yet | Old: returns the libcurl error text for the handle's job id. Public doc: YES - (ogrehttpjob Members). |
-| `ogrehttpjob.Exists` | does nothing | — | ⛔ Not ported yet | Old: returns TRUE iff a job record exists for the handle's job id. Public doc: YES - (ogrehttpjob Members). |
-| `ogrehttpjob.ID` | does nothing | — | ⛔ Not ported yet | Old: returns the job id for the handle's job id. Public doc: YES - (ogrehttpjob Members). |
-| `ogrehttpjob.Ok` | does nothing | — | ⛔ Not ported yet | Old: returns TRUE iff Completed and 2xx for the handle's job id. Public doc: YES - (ogrehttpjob Members). |
-| `ogrehttpjob.State` | does nothing | — | ⛔ Not ported yet | Old: returns "Pending"/"Completed"/"Failed"/"None" for the handle's job id. Public doc: YES - (ogrehttpjob Members). |
-| `ogrehttpjob.Status` | does nothing | — | ⛔ Not ported yet | Old: returns the HTTP status code for the handle's job id. Public doc: YES - (ogrehttpjob Members). |
-| `ogrehttpjob:Release` | does nothing | — | ⛔ Not ported yet | Old: frees the job slot (OgreHttp::Release). Public doc: YES - (ogrehttpjob Methods). |
+| `ogrehttpjob.Body` | does nothing | — | ⛔ Not ported yet | Old: returns the response body for the handle's job id. Public doc: YES - the classic docs' ISXOgre API page (ogrehttpjob Members). |
+| `ogrehttpjob.Complete` | does nothing | — | ⛔ Not ported yet | Old: returns TRUE iff Completed or Failed for the handle's job id. Public doc: YES - the classic docs' ISXOgre API page (ogrehttpjob Members). |
+| `ogrehttpjob.Error` | does nothing | — | ⛔ Not ported yet | Old: returns the libcurl error text for the handle's job id. Public doc: YES - the classic docs' ISXOgre API page (ogrehttpjob Members). |
+| `ogrehttpjob.Exists` | does nothing | — | ⛔ Not ported yet | Old: returns TRUE iff a job record exists for the handle's job id. Public doc: YES - the classic docs' ISXOgre API page (ogrehttpjob Members). |
+| `ogrehttpjob.ID` | does nothing | — | ⛔ Not ported yet | Old: returns the job id for the handle's job id. Public doc: YES - the classic docs' ISXOgre API page (ogrehttpjob Members). |
+| `ogrehttpjob.Ok` | does nothing | — | ⛔ Not ported yet | Old: returns TRUE iff Completed and 2xx for the handle's job id. Public doc: YES - the classic docs' ISXOgre API page (ogrehttpjob Members). |
+| `ogrehttpjob.State` | does nothing | — | ⛔ Not ported yet | Old: returns "Pending"/"Completed"/"Failed"/"None" for the handle's job id. Public doc: YES - the classic docs' ISXOgre API page (ogrehttpjob Members). |
+| `ogrehttpjob.Status` | does nothing | — | ⛔ Not ported yet | Old: returns the HTTP status code for the handle's job id. Public doc: YES - the classic docs' ISXOgre API page (ogrehttpjob Members). |
+| `ogrehttpjob:Release` | does nothing | — | ⛔ Not ported yet | Old: frees the job slot (OgreHttp::Release). Public doc: YES - the classic docs' ISXOgre API page (ogrehttpjob Methods). |
 | `OgreOSA.Debug` | does nothing | — | ⛔ Not ported yet | Old: returns the OSA debug-log flag. New OSA: ${ISXOgreEQ2.OSA} registers only Open / Close / Target and has no members. Its settings are read from the OgreBot option store every pulse while the OSA is wanted. Public doc: no. |
 | `OgreOSA.Enabled` | does nothing | `OgreBotAPI.Options.Value` | ➡️ Lives somewhere else | There is no read of the OSA window's own open state; ${OgreBotAPI.Options.Value[checkbox_settings_enableonscreenassistant]} is the setting it follows. A window opened by hand with `ogre osa` while the box is unticked does not show up in it. |
 | `OgreOSA.ScanRadius` | does nothing | `OgreBotAPI.Options.Value` | ➡️ Lives somewhere else | The option is stored as text; the OSA clamps it to 200 and keeps its default of 50 when the option is missing. |
 | `OgreOSA.TargetsOnly` | does nothing | `OgreBotAPI.Options.Value` | ➡️ Lives somewhere else | Read ${OgreBotAPI.Options.Value[checkbox_osa_targetsonly]}. |
 | `OgreOSA:ClickingDone` | does nothing | `ISXOgreEQ2.OSA:Target` | ✏️ Renamed | See OgreOSA:DoTarget for the timing difference. |
-| `OgreOSA:ClickingStart` | does nothing | — | ⛔ Removed | Old: is the LGUI listbox OnLeftDown hook (EQ2OgreCommon/OgreOnScreenAssistant/EQ2OgreOnScreenAssistantXML.xml:52) that holds the scan so the listbox does not rebuild under a click. The new bot has no LGUI layer: "We do NOT use the ISUI (LGUI) layer in this extension"; the Ultralight OSA window's click calls ISXOgreEQ2.OSA:Target directly, so there is no listbox to hold. Public doc: no. |
+| `OgreOSA:ClickingStart` | does nothing | — | ⛔ Removed | Old: is the LGUI listbox OnLeftDown hook that holds the scan so the listbox does not rebuild under a click. The new bot has no LGUI layer: "We do NOT use the ISUI (LGUI) layer in this extension"; the Ultralight OSA window's click calls ISXOgreEQ2.OSA:Target directly, so there is no listbox to hold. Public doc: no. |
 | `OgreOSA:DoTarget` | does nothing | `ISXOgreEQ2.OSA:Target` | ✏️ Renamed | Not deferred any more: do not call it from inside a UI event callback. |
 | `OgreOSA:LoadConfig` | does nothing | — | ⛔ Removed | Old: re-pulls the OSA filters from OgreBot; Classic calls it after every OSA option change. New: nothing to call - the new OgreBot pushes the OSA config every pulse while the OSA is wanted, so a changed option applies on its own. Public doc: no. |
 | `OgreOSA:NoUpdate` | does nothing | — | ⛔ Removed | Old: - an isolation toggle: when TRUE a click targets WITHOUT arming the OgreBotAPI:UpdateNPCTarget nudge. New: OSA::Target only runs `target <id>` and logs it - there is no nudge to switch off. Public doc: no. |

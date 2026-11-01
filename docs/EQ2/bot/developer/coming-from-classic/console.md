@@ -1,8 +1,8 @@
-# Console commands (OgreConsole)
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../index.md).
 </div>
+
+# Console commands (OgreConsole)
 
 What changed between the Classic console (V1) and the new console (V2) for every command you type after `oc !c` or `oc !ci`, or put on an MCP button.
 
@@ -15,22 +15,22 @@ What changed between the Classic console (V1) and the new console (V2) for every
 
 | What happened | Names |
 |---|---|
-| ⚠️ Arguments changed | 36 |
+| ⚠️ Arguments changed | 37 |
 | ⚠️ Argument order changed | 10 |
 | ✏️ Renamed | 12 |
 | ➡️ Lives somewhere else | 1 |
 | 📄 In a data file now | 18 |
-| ⛔ Removed | 36 |
-| ✅ Works as is | 441 |
+| ⛔ Removed | 37 |
+| ✅ Works as is | 439 |
 | **Total** | **554** |
 
-441 of the 554 Classic commands are typed exactly as before (126 of those are other names - aliases - for a command, and keep working).
+439 of the 554 Classic commands are typed exactly as before (126 of those are other names - aliases - for a command, and keep working).
 
 ## 1. Commands you must change
 
 Every Classic console command that does not work as typed any more. Sorted by what to do.
 
-### ⚠️ Arguments changed (36)
+### ⚠️ Arguments changed (37)
 
 #### ⚠️ Arguments changed: `-ZoneDoor`
 
@@ -55,7 +55,6 @@ oc !c -ZoneDoor auto "${UserInput}"
 | `-ChangeCampSpot` | runs, arguments mean something else | `-ChangeCampSpot` | ⚠️ Arguments changed | Insert the for-who as the first argument. V1 had NO for-who: every session that heard the line acted. V2 reads argument 1 as the for-who, so an unconverted line's value lands in the for-who slot and the real argument falls back to its default - silently. Write `auto` there; that is what the MCP migration writes.<br>**Old:** `-ChangeCampSpot <x> <y> <z> (or one x,y,z token)`<br>**New:** `-ChangeCampSpot <fw> <x> <y> <z>`<br>… |
 | `-CheckMemberLevel` | runs, arguments mean something else | `-CheckMemberLevel` | ⚠️ Arguments changed | Insert the for-who as the first argument. V1 had NO for-who: every session that heard the line acted. V2 reads argument 1 as the for-who, so an unconverted line's value lands in the for-who slot and the real argument falls back to its default - silently. Write `auto` there; that is what the MCP migration writes.<br>**Old:** `-CheckMemberLevel <onlyShowNonMembers>`<br>**New:** `-CheckMemberLevel <fw> <value>`<br>V2 params: who, value (default FALSE). |
 | `-CompareQuest` | runs, arguments mean something else | `-CompareQuest` | ⚠️ Arguments changed | Drop the step-line arguments; send it from the box whose step is the reference. The answers come back to the asker.<br>**Old:** `-CompareQuest <fw> <questname> <step lines...>`<br>**New:** `-CompareQuest <fw> <questname>`<br>GROUP-scoped by default (comms is local-box). |
-| `-cs-set-cs-jo-ji-opt` | runs, arguments mean something else | `-cs-jo-ji` | ⚠️ Arguments changed | Move &lt;joustin&gt; from last to third. To keep V1's joust half, add `-joustoff <joustoff>` and `-joustin <joustin>` lines - the row no longer does it.<br>**Old:** `-cs-set-cs-jo-ji-opt <fw> <joustoff> <min> <max> <joustin>`<br>**New:** `-cs-set-cs-jo-ji-opt <fw> <joustoff> <joustin> <min> <max>`<br>BEHAVIOUR CHANGE UNDER THE SAME NAME: V2 executes ONLY OgreBotAPI.CampSpot:SetHere[who, mindistance, maxdistance]; the `joustoff` and `joustin` params are accepted and never used, so nobody is jousted off or in. |
 | `-Door` | runs, arguments mean something else | `-ZoneDoor` | ⚠️ Arguments changed | Insert the for-who as the first argument. V1 had NO for-who: every session that heard the line acted. V2 reads argument 1 as the for-who, so an unconverted line's value lands in the for-who slot and the real argument falls back to its default - silently. Write `auto` there; that is what the MCP migration writes.<br>**Old:** `-Door <dooroption>`<br>**New:** `-Door <fw> <dooroption>`<br>V2 params: who, dooroption (default 1). The V1 -...ForWho twins (already for-who first) are now aliases of the same row. |
 | `-DoorX` | runs, arguments mean something else | `-ZoneDoor` | ⚠️ Arguments changed | Insert the for-who as the first argument. V1 had NO for-who: every session that heard the line acted. V2 reads argument 1 as the for-who, so an unconverted line's value lands in the for-who slot and the real argument falls back to its default - silently. Write `auto` there; that is what the MCP migration writes.<br>**Old:** `-DoorX <dooroption>`<br>**New:** `-DoorX <fw> <dooroption>`<br>V2 params: who, dooroption (default 1). The V1 -...ForWho twins (already for-who first) are now aliases of the same row. |
 | `-EndScript` | runs, arguments mean something else | `-EndScript` | ⚠️ Arguments changed | Insert the for-who as the first argument. V1 had NO for-who: every session that heard the line acted. V2 reads argument 1 as the for-who, so an unconverted line's value lands in the for-who slot and the real argument falls back to its default - silently. Write `auto` there; that is what the MCP migration writes.<br>**Old:** `-EndScript <scriptname>`<br>**New:** `-EndScript <fw> <scriptname>`<br>V2 params: who, scriptname -&gt; OgreBotAPI.Bot:EndScript. NOT in (it lists -EndScript under 'no ForWho'), so no caller was converted by that pass. |
@@ -64,12 +63,14 @@ oc !c -ZoneDoor auto "${UserInput}"
 | `-ItemEmbargo` | runs, arguments mean something else | `-ItemEmbargo` | ⚠️ Arguments changed | Insert the for-who as the first argument. V1 had NO for-who: every session that heard the line acted. V2 reads argument 1 as the for-who, so an unconverted line's value lands in the for-who slot and the real argument falls back to its default - silently. Write `auto` there; that is what the MCP migration writes.<br>**Old:** `-ItemEmbargo <abilityid> <duration> [<args...>]`<br>**New:** `-ItemEmbargo <fw> <abilityid> <duration> [<args...>]`<br>… |
 | `-ItemRotate` | runs, arguments mean something else | `-ItemEmbargo` | ⚠️ Arguments changed | Insert the for-who as the first argument. V1 had NO for-who: every session that heard the line acted. V2 reads argument 1 as the for-who, so an unconverted line's value lands in the for-who slot and the real argument falls back to its default - silently. Write `auto` there; that is what the MCP migration writes.<br>**Old:** `-ItemRotate <abilityid> <duration> [<args...>]`<br>**New:** `-ItemRotate <fw> <abilityid> <duration> [<args...>]`<br>… |
 | `-Mentor` | runs, arguments mean something else | `-Mentor` | ⚠️ Arguments changed | Insert the for-who as the first argument. V1 had NO for-who: every session that heard the line acted. V2 reads argument 1 as the for-who, so an unconverted line's value lands in the for-who slot and the real argument falls back to its default - silently. Write `auto` there; that is what the MCP migration writes.<br>**Old:** `-Mentor <mentorwho>`<br>**New:** `-Mentor <fw> <mentorwho>`<br>V2 params: who, mentorwho (default ${Me.Name}). |
-| `-Move2Area` | runs, arguments mean something else | `-Move2Area` | ⚠️ Arguments changed | Move the for-who to the front and give three coordinates (x y z).<br>**Old:** `-Move2Area <X> <Z> <fw> <precision>`<br>**New:** `-Move2Area <fw> <x> <y> <z> <precision>`<br>V1's two coordinates were X and Z - a ground move (AreaToMoveTo(_XPos,_ZPos),). V2 takes x y z so ${Me.Loc} pastes straight in, and IGNORES y: put any number there. |
-| `-Move2AreaNoTarget` | runs, arguments mean something else | `-MoveToAreaNoTarget` | ⚠️ Arguments changed | Move the for-who to the front and give three coordinates (x y z).<br>**Old:** `-Move2AreaNoTarget <X> <Z> <fw> <precision>`<br>**New:** `-Move2AreaNoTarget <fw> <x> <y> <z> <precision>`<br>V1's two coordinates were X and Z - a ground move (AreaToMoveTo(_XPos,_ZPos),). V2 takes x y z so ${Me.Loc} pastes straight in, and IGNORES y: put any number there. The V2 row runs OgreBotAPI.Movement:Move2AreaNoTarget: it moves with or without a target, as V1 did. |
-| `-MoveToArea` | runs, arguments mean something else | `-Move2Area` | ⚠️ Arguments changed | Move the for-who to the front and give three coordinates (x y z).<br>**Old:** `-MoveToArea <X> <Z> <fw> <precision>`<br>**New:** `-MoveToArea <fw> <x> <y> <z> <precision>`<br>V1's two coordinates were X and Z - a ground move (AreaToMoveTo(_XPos,_ZPos),). V2 takes x y z so ${Me.Loc} pastes straight in, and IGNORES y: put any number there. |
-| `-MoveToAreaNoTarget` | runs, arguments mean something else | `-MoveToAreaNoTarget` | ⚠️ Arguments changed | Move the for-who to the front and give three coordinates (x y z).<br>**Old:** `-MoveToAreaNoTarget <X> <Z> <fw> <precision>`<br>**New:** `-MoveToAreaNoTarget <fw> <x> <y> <z> <precision>`<br>V1's two coordinates were X and Z - a ground move (AreaToMoveTo(_XPos,_ZPos),). V2 takes x y z so ${Me.Loc} pastes straight in, and IGNORES y: put any number there. The V2 row runs OgreBotAPI.Movement:Move2AreaNoTarget: it moves with or without a target, as V1 did. |
+| `-Move2Area` | runs, arguments mean something else | `-Move2Area` | ⚠️ Arguments changed | Move the for-who to the front and give three coordinates (x y z).<br>**Old:** `-Move2Area <X> <Z> <fw> <precision>`<br>**New:** `-Move2Area <fw> <x> <y> <z> <precision>`<br>V1's two coordinates were X and Z - a ground move. V2 takes x y z so ${Me.Loc} pastes straight in, and IGNORES y: put any number there. |
+| `-Move2AreaNoTarget` | runs, arguments mean something else | `-MoveToAreaNoTarget` | ⚠️ Arguments changed | Move the for-who to the front and give three coordinates (x y z).<br>**Old:** `-Move2AreaNoTarget <X> <Z> <fw> <precision>`<br>**New:** `-Move2AreaNoTarget <fw> <x> <y> <z> <precision>`<br>V1's two coordinates were X and Z - a ground move. V2 takes x y z so ${Me.Loc} pastes straight in, and IGNORES y: put any number there. The V2 row runs OgreBotAPI.Movement:Move2AreaNoTarget: it moves with or without a target, as V1 did. |
+| `-MoveToArea` | runs, arguments mean something else | `-Move2Area` | ⚠️ Arguments changed | Move the for-who to the front and give three coordinates (x y z).<br>**Old:** `-MoveToArea <X> <Z> <fw> <precision>`<br>**New:** `-MoveToArea <fw> <x> <y> <z> <precision>`<br>V1's two coordinates were X and Z - a ground move. V2 takes x y z so ${Me.Loc} pastes straight in, and IGNORES y: put any number there. |
+| `-MoveToAreaNoTarget` | runs, arguments mean something else | `-MoveToAreaNoTarget` | ⚠️ Arguments changed | Move the for-who to the front and give three coordinates (x y z).<br>**Old:** `-MoveToAreaNoTarget <X> <Z> <fw> <precision>`<br>**New:** `-MoveToAreaNoTarget <fw> <x> <y> <z> <precision>`<br>V1's two coordinates were X and Z - a ground move. V2 takes x y z so ${Me.Loc} pastes straight in, and IGNORES y: put any number there. The V2 row runs OgreBotAPI.Movement:Move2AreaNoTarget: it moves with or without a target, as V1 did. |
 | `-OgreBotAPI` | runs, arguments mean something else | `-OgreBotAPI` | ⚠️ Arguments changed | The method now receives the for-who first, as every new-bot OgreBotAPI method expects; the method name must be one the new OgreBotAPI registers (see the API conversion guide - most Classic flat names moved).<br>**Old:** `-OgreBotAPI <fw> <OldMethod> <args...> -> OgreBotAPI:<OldMethod>[<args...>]`<br>**New:** `-OgreBotAPI <fw> <method> <args...> -> OgreBotAPI:<method>[<fw>,<args...>]` |
 | `-OgreConsole_Show` | runs, arguments mean something else | `-OgreConsole_Show` | ⚠️ Arguments changed | Insert the for-who as the first argument. V1 had NO for-who: every session that heard the line acted. V2 reads argument 1 as the for-who, so an unconverted line's value lands in the for-who slot and the real argument falls back to its default - silently. Write `auto` there; that is what the MCP migration writes.<br>**Old:** `-OgreConsole_Show <show>`<br>**New:** `-OgreConsole_Show <fw> <value>`<br>V1 called OgreConsole:ShowOgreConsole locally. V2 params: who, value (default TRUE) -&gt; OgreBotAPI.Windows:ShowConsole. |
+| `-Poison_AutoConsume` | works | `-Poison_AutoConsume` | ⚠️ Arguments changed | Name the poison as the third argument - Cerebral Caustic Poison, or Cerebral Hemotoxin on an assassin or brigand. The classic row picked it from your class when it was left blank; the new row has no default and refuses a blank name.<br>**Old:** `-Poison_AutoConsume <fw> <value> [poison]`<br>**New:** `-Poison_AutoConsume <fw> <value> <poison>`<br>Not carried: the class default name, and the class check (any class acts on the poison it is given). |
+| `-Poison_Replenish` | works | `-Poison_Replenish` | ⚠️ Arguments changed | Name the poison as the second argument - Cerebral Caustic Poison, or Cerebral Hemotoxin on an assassin or brigand. The classic row picked it from your class when it was left blank; the new row pulls your configured stat potion instead.<br>**Old:** `-Poison_Replenish <fw> [poison]`<br>**New:** `-Poison_Replenish <fw> <poison>`<br>Not carried: the class default name, and the class check (any class pulls the poison it is given). |
 | `-Raid` | runs, arguments mean something else | `-Raid` | ⚠️ Arguments changed | Insert the for-who as the first argument. V1 had NO for-who: every session that heard the line acted. V2 reads argument 1 as the for-who, so an unconverted line's value lands in the for-who slot and the real argument falls back to its default - silently. Write `auto` there; that is what the MCP migration writes.<br>**Old:** `-Raid <chat>`<br>**New:** `-Raid <fw> <chat>`<br>… |
 | `-Run` | runs, arguments mean something else | `-Run` | ⚠️ Arguments changed | Nothing to retype; check the intent - V2 does what the name says.<br>**Old:** `-Run <fw> - flipped the current mode (a -Run sent to a box already running made it walk). New: -Run <fw> - sets run; a box already there is left alone` |
 | `-SetUpFor` | runs, arguments mean something else | `-SetUpFor` | ⚠️ Arguments changed | Pass the named mob's exact name, or nothing to auto-detect. A module phrase that is not the mob's name (e.g. 'Master' for The Djinn Master, 'reset') no longer matches - it logs "no encounter owns mob".<br>**Old:** `-SetUpFor <fw> <words after "Set up for">`<br>**New:** `-SetUpFor <fw> [<named mob name>] [<restart>]`<br>restart FALSE leaves a setup that is already running alone. |
@@ -134,7 +135,7 @@ oc !ci -ApplyVerb igw:${Me.Name} "boss_01_knight_light" "Touch"
 
 | You typed | Today | Type instead | What changed | Notes |
 |---|---|---|---|---|
-| `-Ask` | Unknown command | `OgreBotAPI.Comms:Query` | ➡️ Lives somewhere else | IC file: the `groupQuery` step - counts, allYes / anyYes / allNo / anyNo, per-member flags, raw answers, ready-made for-who lists. Script: the same engine - ${OgreBotAPI.Comms.GroupQuery[&lt;fw&gt;, -question, &lt;question&gt;, ...]} starts it and reads as its id; then ${OgreBotAPI.Comms.GroupQuery.Done[id]} / .Result[id] (JSON, the same names), or the event OgreEvent_GroupQueryDone(id, json). |
+| `-Ask` | Unknown command | `OgreBotAPI.Comms.GroupQuery` | ➡️ Lives somewhere else | IC file: the `groupQuery` step - counts, allYes / anyYes / allNo / anyNo, per-member flags, raw answers, ready-made for-who lists. Script: the same engine - ${OgreBotAPI.Comms.GroupQuery[&lt;fw&gt;, -question, &lt;question&gt;, ...]} starts it and reads as its id; then ${OgreBotAPI.Comms.GroupQuery.Done[id]} / .Result[id] (JSON, the same names), or the event OgreEvent_GroupQueryDone(id, json). |
 
 ### 📄 In a data file now (18)
 
@@ -161,7 +162,7 @@ oc !ci -ApplyVerb igw:${Me.Name} "boss_01_knight_light" "Touch"
 | `-ROSGTFDispell` | Unknown command | `dispel` | 📄 In a data file now | Nothing to type: the dispel is coded in Ogre/EQ2/Encounters/default/Chains of Eternity/Siren's Grotto - Dissension [Raid]/Overlord. |
 | `-ROTOVI` | Unknown command | `broadcast` | 📄 In a data file now | Note A |
 
-### ⛔ Removed (36)
+### ⛔ Removed (37)
 
 | You typed | Today | Type instead | What changed | Notes |
 |---|---|---|---|---|
@@ -169,10 +170,11 @@ oc !ci -ApplyVerb igw:${Me.Name} "boss_01_knight_light" "Touch"
 | `-AscensionEmbargo_Add_DoNotCombo` | Unknown command | — | ⛔ Removed | V1 -&gt; Command_AscensionEmbargo_Add_DoNotCombo :3086. |
 | `-AscensionEmbargo_Change_Disable_Status` | Unknown command | — | ⛔ Removed | V1 -&gt; Command_AscensionEmbargo_Change_Disable_Status :3055. |
 | `-AscensionEmbargo_Remove_DoNotCombo` | Unknown command | — | ⛔ Removed | V1 -&gt; Command_AscensionEmbargo_Remove_DoNotCombo :3075. |
-| `-cfw` | as the first thing on a line (`-cfw <who> -Verb ...`): works, for that line only. On a line by itself: does nothing - the lasting default it set is gone | — | ⛔ Removed | As the FIRST thing after `oc !c` / `oc !ci` (`oc !ci -cfw igw:${Me.Name} -letsgo`) it still works: the new console reads it as that one line's for-who, and the verb's empty for-who takes it (the tool skips that form). Only `-cfw <who>` on a line by itself is gone - it set a lasting default for later lines. Put the for-who on each of those later verbs instead (it is argument 1).<br>V1 -&gt; Command_Set_CustomCFW :1440 wrote This.Default_CFW - a PERSISTENT default that every later `auto` for-who resolved to (Get_CommandForWho :1449). |
+| `-cfw` | as the first thing on a line (`-cfw <who> -Verb ...`): works, for that line only. On a line by itself: does nothing - the lasting default it set is gone | — | ⛔ Removed | As the FIRST thing after `oc !c` / `oc !ci` (`oc !ci -cfw igw:${Me.Name} -letsgo`) it still works: the new console reads it as that one line's for-who, and the verb's empty for-who takes it (the tool skips that form). Only `-cfw <who>` on a line by itself is gone - it set a lasting default for later lines. Put the for-who on each of those later verbs instead (it is argument 1).<br>V1 -&gt; Command_Set_CustomCFW :1440 wrote This.Default_CFW - a PERSISTENT default that every later `auto` for-who resolved to. |
 | `-ChangeRadarYAxis` | Unknown command | — | ⛔ Removed | V1 -&gt; method ChangeRadarYAxis :5075 -&gt; OgreBotAPI:ChangeRadarYAxis :5085 (toggle the radar Y axis). The V2 row ran OgreBotAPI.Client:SetRadarYAxis, a stub that did nothing; both were removed 2026-10-22. |
 | `-cs-jo` | Unknown command | — | ⛔ Removed | Write the two steps it did: `-campspot <who> <min> <max>` then `-joustoff <joustoff>` (Classic: -cs-jo &lt;who&gt; &lt;joustoff&gt; &lt;min&gt; &lt;max&gt;; defaults auto, auto+casters, 2, 200). An MCP button is split for you.<br>**Old:** `-cs-jo <fw> <joustoff> <min> <max>`<br>**New:** `-campspot <fw> <min> <max> -joustoff <joustoff>` |
 | `-cs-jo-ji` | Unknown command | — | ⛔ Removed | Write the three steps it did: `-campspot <who> <min> <max>`, `-joustoff <joustoff>`, `-joustin <joustin>` (Classic: -cs-jo-ji &lt;who&gt; &lt;joustoff&gt; &lt;min&gt; &lt;max&gt; &lt;joustin&gt;; defaults auto, auto+casters, 2, 200, auto). An MCP button is split for you.<br>**Old:** `-cs-jo-ji <fw> <joustoff> <min> <max> <joustin>`<br>**New:** `-campspot <fw> <min> <max> -joustoff <joustoff> -joustin <joustin>` |
+| `-cs-set-cs-jo-ji-opt` | Unknown command | — | ⛔ Removed | Write the three steps it did: `-campspot <who> <min> <max>`, `-joustoff <joustoff>`, `-joustin <joustin>` (Classic: -cs-set-cs-jo-ji-opt &lt;who&gt; &lt;joustoff&gt; &lt;min&gt; &lt;max&gt; &lt;joustin&gt;, the same as -cs-jo-ji; defaults auto, auto+casters, 2, 200, auto). An MCP button is split for you.<br>**Old:** `-cs-set-cs-jo-ji-opt <fw> <joustoff> <min> <max> <joustin>`<br>**New:** `-campspot <fw> <min> <max> -joustoff <joustoff> -joustin <joustin>` |
 | `-Deity_Spend` | Unknown command | — | ⛔ Removed | V1 label. V1 -&gt; Command_Deity_Spend -&gt; OgreBotAPI:SpendDietyPoints, whose only working line (the QueueCommand) is commented out - a no-op on Classic too. |
 | `-DeitySpend` | Unknown command | — | ⛔ Removed | V1 label (shares the -Deity_Spend body). V1 -&gt; Command_Deity_Spend -&gt; OgreBotAPI:SpendDietyPoints, whose only working line (the QueueCommand) is commented out - a no-op on Classic too. |
 | `-DevBot` | Unknown command | — | ⛔ Removed | V1 -&gt; method DevBot :4916 = `timedcommand 0 ogre dev` (started). |
@@ -186,10 +188,10 @@ oc !ci -ApplyVerb igw:${Me.Name} "boss_01_knight_light" "Touch"
 | `-OgreACommandOB_AP` | Unknown command | — | ⛔ Removed | Not the same verb as -OgreCommandOB_AP (`ogre <cmd>`), which is live. |
 | `-Reload_DevBot` | Unknown command | — | ⛔ Removed | V1 -&gt; Command_Reload_DevBot :3769 -&gt; OgreBotAPI:Reload_DevBot (target `ogre dev`). |
 | `-ReloadOgreConsole` | Unknown command | — | ⛔ Removed | Close and reopen the panel: `ogre end console`, then `ogre console`.<br>V1 -&gt; Command_ReloadOgreConsole :4907 = `timedcommand 5 ogre console` + `timedcommnad 1 ogre end console` (typo: the close half never ran). |
-| `-Report_Back` | Unknown command | — | ⛔ Removed | Ask with groupQuery instead - the IC step `groupQuery`, or from a script ${OgreBotAPI.Comms.GroupQuery[&lt;fw&gt;, -question, ...]}: -item -&gt; question `itemCount`; -ScriptRunning and -CommandForMe -&gt; a LavishScript[...] question; -resolve_of_slot -&gt; loot distribution's own `lootBid`.<br>Classic callers: (EveryoneHaveItem),/654 (the resolve auction - replaced by lootBid), + + (OgreAutoQuest - not ported). |
+| `-Report_Back` | Unknown command | — | ⛔ Removed | Ask with groupQuery instead - the IC step `groupQuery`, or from a script ${OgreBotAPI.Comms.GroupQuery[&lt;fw&gt;, -question, ...]}: -item -&gt; question `itemCount`; -ScriptRunning and -CommandForMe -&gt; a LavishScript[...] question; -resolve_of_slot -&gt; loot distribution's own `lootBid`.<br>Classic callers: (EveryoneHaveItem), (the resolve auction - replaced by lootBid), + + (OgreAutoQuest - not ported). |
 | `-ReportForList_IRC` | Unknown command | — | ⛔ Removed | V1 -&gt; Command_ReportForList_IRC :3322 -&gt; OgreBotAPI:ReportForList_IRC (the roll-call emitter). It was an IRC roll call - who ANSWERED (i.e. is actually running the bot), ordered by actor id - with one consumer, Trakanon's Toxic Life rotation. |
 | `-Reporting` | Unknown command | — | ⛔ Removed | Any replacement has to answer "who is actually going to act", not "who is in my group" - see the -Reporting verdict in. |
-| `-ResolveBuffCheck` | Unknown command | — | ⛔ Removed | V1 sits inside a /* Need to remove this */ block (810-814), so V1 itself already answered "Unknown command"; its method Command_ResolveBuffCheck :3839 called OgreBotAPI:ResolveBuffCheck. |
+| `-ResolveBuffCheck` | Unknown command | — | ⛔ Removed | V1 sits inside a /* Need to remove this */ block, so V1 itself already answered "Unknown command"; its method Command_ResolveBuffCheck :3839 called OgreBotAPI:ResolveBuffCheck. |
 | `-RODFCJ` | Unknown command | — | ⛔ Removed | No encounter verb replaces it. |
 | `-RODMIR` | Unknown command | — | ⛔ Removed | V1 -&gt; Command_RODMIR :4715 -&gt; g_RaidOb:DMIR -&gt; Master:PlaceItem - the instrument item runner. |
 | `-RODTFP` | Unknown command | — | ⛔ Removed | Removed on purpose. The Fitzpitzle countdown belongs in its encounter file (Ogre/EQ2/Encounters/default/Tears of Veeshan/The Fabled), which waits for the two spells' ability ids.<br>V1 -&gt; Command_RODTFP :4791 -&gt; g_RaidOb:RODTFP[ae] -&gt; Fitzpitzle:AE - fed by (`irc !c me -RODTFP <Target.Casting.Label>`), an on-screen AE countdown read off the target's cast bar BY NAME. REMOVED 2026-10-14 - the console verb is not coming back; the fight lives in the encounter file, whose `_status` carries the ability-id capture as a deferred to-do. |
@@ -204,7 +206,7 @@ oc !ci -ApplyVerb igw:${Me.Name} "boss_01_knight_light" "Touch"
 
 ## 2. Every other command, A to Z
 
-These 441 commands are typed exactly as in Classic. An alias is another name for a command; it keeps working.
+These 439 commands are typed exactly as in Classic. An alias is another name for a command; it keeps working.
 
 | You typed | Notes |
 |---|---|
@@ -523,8 +525,6 @@ These 441 commands are typed exactly as in Classic. An alias is another name for
 | `-PetGetLost` |  |
 | `-PetOff` |  |
 | `-PetOn` | An alias of `-petattack` - it works as typed. |
-| `-Poison_AutoConsume` |  |
-| `-Poison_Replenish` |  |
 | `-PoP_TempAdorns` |  |
 | `-PortalToGuildHall` |  |
 | `-ProvingGrounds_Exit` |  |

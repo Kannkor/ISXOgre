@@ -1,8 +1,8 @@
-# Detrimentals
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../index.md).
 </div>
+
+# Detrimentals
 
 What Classic's *Detrimentals System* page described - the detrimental members and events of the old `ISXOgre` extension, and the `AskDetrimentals` helper - and what each one is in the new bot.
 
@@ -74,10 +74,10 @@ The old `ISXOgre` extension is not loaded with the new bot, so every `${ISXOgre.
 | `ISXOgre.DetrimentalInfo[main,back,Type]` | does nothing | `ISXOgreEQ2.Det.DetrimentalInfo[main,back,Type]` | ➡️ Moved | Note C |
 | `ISXOgre.DetrimentalInfo[main,back,UsesRemaining]` | does nothing | `ISXOgreEQ2.Det.DetrimentalInfo[main,back,UsesRemaining]` | ➡️ Moved | Note C |
 | `ISXOgre.DetrimentalInfo_JSON[main,back,-ExtraFields]` | does nothing | `ISXOgreEQ2.Det.DetrimentalInfo_JSON[main,back,-ExtraFields]` | ➡️ Moved | The extra fields are live server reads, empty on the first touch - the same caveat the doc gave. |
-| `OgreBotAPI.Ask` | does nothing | `OgreBotAPI.Comms:Query` | ➡️ Lives somewhere else | Note A |
-| `OgreBotAPI.Ask_AllFalse` | does nothing | `OgreBotAPI.Comms:Query` | ➡️ Lives somewhere else | Note A |
-| `OgreBotAPI.Ask_AllTrue` | does nothing | `OgreBotAPI.Comms:Query` | ➡️ Lives somewhere else | Note A |
-| `OgreBotAPI.Ask_AnyFalse` | does nothing | `OgreBotAPI.Comms:Query` | ➡️ Lives somewhere else | Note A |
-| `OgreBotAPI.Ask_AnyTrue` | does nothing | `OgreBotAPI.Comms:Query` | ➡️ Lives somewhere else | Note A |
-| `OgreBotAPI.Ask_CountTrue` | does nothing | `OgreBotAPI.Comms:Query` | ➡️ Lives somewhere else | Note A |
-| `OgreBotAPI.Ask_Json` | does nothing | `OgreBotAPI.Comms:Query` | ➡️ Lives somewhere else | Note A |
+| `OgreBotAPI.Ask` | does nothing | `OgreBotAPI.Comms.GroupQuery` | ➡️ Lives somewhere else | Note A |
+| `OgreBotAPI.Ask_AllFalse` | does nothing | `OgreBotAPI.Comms.GroupQuery` | ➡️ Lives somewhere else | Note A |
+| `OgreBotAPI.Ask_AllTrue` | does nothing | `OgreBotAPI.Comms.GroupQuery` | ➡️ Lives somewhere else | Note A |
+| `OgreBotAPI.Ask_AnyFalse` | does nothing | `OgreBotAPI.Comms.GroupQuery` | ➡️ Lives somewhere else | Note A |
+| `OgreBotAPI.Ask_AnyTrue` | does nothing | `OgreBotAPI.Comms.GroupQuery` | ➡️ Lives somewhere else | Note A |
+| `OgreBotAPI.Ask_CountTrue` | does nothing | `OgreBotAPI.Comms.GroupQuery` | ➡️ Lives somewhere else | Note A |
+| `OgreBotAPI.Ask_Json` | does nothing | `OgreBotAPI.Comms.GroupQuery` | ➡️ Lives somewhere else | Note A |
