@@ -18,6 +18,12 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.11.01.002 {#r2026-11-01-002}
+
+*Sunday, November 1, 2026 at 9:22 PM EST*
+
+- **Fixed** · Bot: **"Evuntressa, The Infected Poxlord and Infernal Tyrant Dennigrah now load for everyone".** Evuntressa in Abyssal Behest, The Infected Poxlord in Steppes of Oblivion and Infernal Tyrant Dennigrah in Edge of Oblivion were missing their fight setup for most players. All three now load for everyone and run the same way on every box.
+
 ## 2026.11.01.001 {#r2026-11-01-001}
 
 *Sunday, November 1, 2026 at 1:42 PM EST*
