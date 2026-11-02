@@ -18,6 +18,12 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.11.01.006 {#r2026-11-01-006}
+
+*Sunday, November 1, 2026 at 10:54 PM EST*
+
+- **Fixed** · Bot: **"Rage of Cthurath raids: Subtle Strikes only on fighters; Darathar cure asks wait".** In the Rage of Cthurath raid fights, only fighters try to cast Subtle Strikes, so other classes no longer log that they lack it. On Darathar, Void Bound Ancient, a player with Draconic Misdirection asks for the cure only once it can be cured, so priests no longer waste Cure Curse on it.
+
 ## 2026.11.01.003 {#r2026-11-01-003}
 
 *Sunday, November 1, 2026 at 9:43 PM EST*
