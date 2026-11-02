@@ -232,6 +232,12 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.11.01.003 {#r2026-11-01-003}
+
+*Sunday, November 1, 2026 at 9:43 PM EST*
+
+- **Fixed** · Bot: **"Cthurath, the Consumer: faster tank callouts; the raid stays out for Forced Isolation".** When Cthurath calls a fighter type, fighters now swap tanking within about two seconds instead of about eight. Forced Isolation on any raid member now sends everyone except the tank out, and they stay out until the curse is cured, even when the carrier is on another computer.
+
 ## 2026.11.01.002 {#r2026-11-01-002}
 
 *Sunday, November 1, 2026 at 9:22 PM EST*
