@@ -10,6 +10,12 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.11.03.002 {#r2026-11-03-002}
+
+*Tuesday, November 3, 2026 at 5:28 PM EST*
+
+- **Fixed** · Windows: **The windows now show on PCs where they were invisible.** On some PCs the OgreBot windows never appeared, although they still blocked clicks (the tour, for example). The game there draws its frames a second way that the windows were not hooked into; they now draw either way.
+
 ## 2026.11.03.001 {#r2026-11-03-001}
 
 *Tuesday, November 3, 2026 at 3:40 PM EST*
