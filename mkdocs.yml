@@ -145,6 +145,7 @@ nav:
               - "Potency / Crit Bonus / Fervor": EQ2/bot/windows/potcb.md
               - "Level Transmuting": EQ2/bot/windows/transmute.md
               - "Quest Compare": EQ2/bot/windows/questcompare.md
+              - "Temp Adornments": EQ2/bot/windows/tempadorns.md
           - "Crafting":
               - "Ogre Craft 3": EQ2/bot/windows/craft.md
               - "Craft Grandmasters": EQ2/bot/windows/craftgm.md

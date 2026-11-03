@@ -21,7 +21,7 @@
 > - Buttons are shared by every character on this PC and saved as you go.
 > - **Alt** + the backtick key opens and closes this window.
 > - A key assigned to a button follows it when you move the button or its page. Clearing the button removes its keys.
-> - A colour is kept however you close the picker; **Reset** takes a custom colour off.
+> - A colour is kept however you close the picker; **Reset** takes a custom colour off. The gear's **Reset all colours** takes every page's and button's colours off at once.
 > - A button needs a name - use **Clear button** to remove one.
 
 **Open it:** Press **Alt** and the backtick key together to open or close it, or type `ogre mcp` (close with `ogre end mcp`). `ogre mcp` does nothing if the MCP is already open. Tick **Enable OgreMCP** (OgreBot, Settings tab, On Load) to open it every time a profile loads.

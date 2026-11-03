@@ -1,8 +1,8 @@
-# Item Embargo (not finished)
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# Item Embargo (not finished)
 
 > **:warning: Not finished**
 >
@@ -20,6 +20,8 @@ Item Embargo is meant to stop your characters all using the same item at once: w
 |---|---|---|
 | **Full Item list** | **Not active yet.** Your registered items (from the Items tab). Click one to pick it for the form on the right, or double-click it to add it straight away with no options.<br>*This tab is not active yet in the new bot.* | your registered items |
 
+
+
 ## Options
 
 [![Options](../assets/ogrebot/tab-item-embargo-s2.png)](../assets/ogrebot/tab-item-embargo-s2.png "Click for full size")
@@ -28,6 +30,8 @@ Item Embargo is meant to stop your characters all using the same item at once: w
 |---|---|---|
 | **Globally Mute messages** | **Not active yet.** It is meant to stop item embargo messages being shown. | off |
 | **Item Embargo List** | **Not active yet.** The saved list of items that are meant to be embargoed, each with its duration and options.<br>*Click a row to edit it, double-click to switch it off or on, drag to reorder, x to remove.* | empty |
+
+
 
 ## Options
 
@@ -43,9 +47,11 @@ Item Embargo is meant to stop your characters all using the same item at once: w
 | **Add** | Adds the picked item with its Duration and ticked options to the list. When you are editing a row, it reads Update and saves your changes. |  |
 | **Clear Options** | Unticks all the option boxes. They otherwise carry over to the next Add. |  |
 
+
+
 ## Good to know
 
-- Nothing on this tab does anything yet in the new bot, and neither does 'Enable Item Embargo' on the Settings tab.
+- Nothing on this tab does anything yet in the new bot. 'Enable Item Embargo' on the Settings tab does: an item embargo sent by the -ItemEmbargo command (by the item's LinkID) makes the Cast Stack skip that item, but only while the box is ticked. Loading a profile clears every item embargo still running.
 - The Full Item list only shows items you have registered on the Items tab. If it is empty, register some there first.
 - The option flags stay ticked after an Add. Use Clear Options to untick them all before the next item.
 - On the list each row shows its options as coloured letters: IRC, G (Group), Me, I (Incl. caster) and H (Hide from OgreConsole). The same colour is used on the matching tick box.

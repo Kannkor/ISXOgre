@@ -28,6 +28,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogre
 > **Good to know**
 >
 > - A yellow star (*) in the title bar means there are unsaved changes. Closing OgreBot without saving loses them.
+> - A yellow warning under Save means the Instance Controller has run on this character and may have changed settings. Reload your profile before saving; Save still works.
 > - The X stops OgreBot, the same as `ogre end bot`. **Hide Main** on the small OgreBot window just hides this one.
 > - Hover a setting or button to see what it does.
 
@@ -56,6 +57,7 @@ The title bar has the usual ? (help), lock and X buttons. When the profile has c
 | **Profile: <name>** | The name of the profile that is loaded right now. |
 | **Save** | Asks 'Save current settings to <profile>?', then writes the loaded profile to disk. A message at the bottom says 'Profile saved', or 'No changes to save' if there was nothing to write.<br>*Nothing is saved automatically. Close OgreBot without saving and your changes are gone.* |
 | **Reload** | Throws away unsaved changes and reads the profile from disk again. The cast stack and every tab are refreshed. Settings that run when a profile loads run again.<br>*It only asks first if you changed something in this window. Changes made by commands or scripts are dropped without asking.* |
+| **⚠ The Instance Controller has run on this character and may have changed settings. Load your profile again before saving.** | Shows under Save once the Instance Controller has started a run with this character, whether it leads the run or is in the group the run drives. The run may have changed some settings, and saving now would keep those changes in your profile. Save still works, and also prints this warning in the console. Press Reload, or load a profile on the Profiles tab, and the warning goes away.<br>*The Instance Controller's 'Reload profile when the run ends' option reloads every character's profile when a zone ends, so the warning usually goes away by itself.* |
 
 
 
@@ -540,10 +542,10 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Enable Consume Items** | Turns on the Consume Items tab, so the bot automatically uses the items listed there (following that tab's zone and combat rules). When off, the consume-items command also does nothing. | off |
 | **Enable Aliases** | Turns on your custom aliases from the Aliases tab (names starting with *), so commands and Cast Stack targets can use them. When off, custom aliases resolve to nobody. The built-in @ slots such as @Tank are not affected. | off (the Cast Stack target dropdown treats a never-saved box as on) |
 | **Enable Ability Tracker** | Turns on the Ability Tracker tab. About twice a second the bot reads the cooldowns of the abilities listed there and shares them, for example with the OgreMCP cooldown buttons. | off |
-| **Enable Ability Embargo** | **Not active yet.** <br>*Embargoes sent by commands or other characters are still honoured whether or not this is ticked.* | off |
-| **Enable Tag Embargo** | **Not active yet.** <br>*Tag embargoes are still honoured by the Cast Stack whether or not this is ticked.* | off |
-| **Enable Tag Allow** | **Not active yet.** <br>*Tag allows are still honoured by the Cast Stack whether or not this is ticked.* | off |
-| **Enable Item Embargo** | **Not active yet.**  | off |
+| **Enable Ability Embargo** | Turns on ability embargoes. While it is ticked, the Cast Stack skips an ability that a command or another character has embargoed (-AbilityEmbargo) until the time is up. While it is off, embargoes are still kept but not followed, so ticking it later honours any that are still running.<br>*The Ability Embargo tab's own list, which tells your other characters to hold off when you cast, is not active yet in the new bot.* | off |
+| **Enable Tag Embargo** | Turns on Embargo tags (see the Tags tab). While it is ticked, the Cast Stack skips an ability whose Embargo tag is on, and casting an ability that carries an Embargo tag turns that tag on. While it is off, this character neither follows Embargo tags nor turns them on. Tags sent by your other characters are still kept, so ticking it later honours any that are still running. | off |
+| **Enable Tag Allow** | Turns on Allow tags (see the Tags tab). While it is ticked, an ability with an Allow tag only fires while that tag is on, and casting an ability that carries an Allow tag turns that tag on. While it is off, an Allow tag does not hold an ability back and casting does not turn one on. Tags sent by your other characters are still kept, so ticking it later honours any that are still running. | off |
+| **Enable Item Embargo** | Turns on item embargoes. While it is ticked, the Cast Stack skips an item that a command or another character has embargoed (-ItemEmbargo, by the item's LinkID) until the time is up. While it is off, embargoes are still kept but not followed, so ticking it later honours any that are still running.<br>*The Item Embargo tab's own list, which tells your other characters to hold off when you use an item, is not active yet in the new bot.* | off |
 
 
 
@@ -672,12 +674,16 @@ Not active yet in the new bot. You can build and save the list, but nothing acts
 |---|---|---|
 | **Full Ability list** | **Not active yet.** All of this character's abilities. Click one to put it in the form under the Ability Embargo List, or double-click it to add it straight to the list with no options. The search box above filters it.<br>*The tab is not active yet, so nothing on the list is used.* | your abilities |
 
+
+
 ## Options
 
 | Option | What it does | Default |
 |---|---|---|
 | **Globally Mute messages** | **Not active yet.** It will send every embargo message from this tab without showing it in OgreConsole, as if every row had Hide from OgreConsole ticked.<br>*Some Instance Controller setups tick it for you.* | off |
 | **Ability Embargo List** | **Not active yet.** Your saved embargo rows, each with its duration and option letters (IRC, G, Me, I, H). Click a row to load it into the form below and change it, double-click to switch it off, drag to reorder, X to remove. | empty |
+
+
 
 ## Add form (under the list)
 
@@ -693,10 +699,13 @@ Not active yet in the new bot. You can build and save the list, but nothing acts
 | **Add** | Adds the ability in the form, with the Duration and ticks you set, to the Ability Embargo List. Pressing Enter in a box does the same. After you click a row it becomes Update and saves your changes to that row instead (Cancel backs out). |  |
 | **Clear Options** | Unticks every option in the form. Ticks otherwise carry over to the next Add. The Duration box is left as it is. |  |
 
+
+
 ## Good to know
 
-- This tab does nothing yet in the new bot. The 'Enable Ability Embargo' box on the Settings tab is not read either.
-- The embargo command itself already works: the -AbilityEmbargo command (from a script or OgreConsole) stops the named characters casting an ability by its ID for a number of seconds. Only the automatic 'I cast it, so the rest of you hold off' step is missing.
+- This tab does nothing yet in the new bot. The 'Enable Ability Embargo' box on the Settings tab does work: an embargo is only followed while it is ticked.
+- The embargo command itself already works: the -AbilityEmbargo command (from a script or OgreConsole) stops the named characters casting an ability by its ID for a number of seconds, on characters with 'Enable Ability Embargo' ticked. Only the automatic 'I cast it, so the rest of you hold off' step is missing.
+- Loading a profile clears every ability and item embargo still running on that character.
 
 
 ---

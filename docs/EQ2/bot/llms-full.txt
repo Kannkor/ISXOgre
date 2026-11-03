@@ -232,6 +232,49 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.11.03.001 {#r2026-11-03-001}
+
+*Tuesday, November 3, 2026 at 3:40 PM EST*
+
+- **New** · Windows: **For Who takes a typed value.** The For Who window's gear has a Custom box: type any target the buttons cannot say, such as charA|charB|priest, and MCP buttons and bound keys use it until you clear it. Scripts and extensions can set it with ISXOgreEQ2.MCP:SetForWho["..."] and read it with ${ISXOgreEQ2.MCP.ForWho}.
+- **New** · Windows: **MCP can reset all colours at once.** The MCP's gear has a new Reset all colours button. After you confirm, every page and button, static ones included, goes back to the default colours. Names and commands are kept.
+- **New** · Windows: **More for people who build their own windows.** Extensions can now send data straight to their windows and back without going through LavishScript, and a window can read shared memory directly, even another game's. Scripts can give a text box the keyboard with ISXOgreX.UI:Focus and hear when a window is hidden or shown again. The "Build your own window" page has the details.
+- **New** · Windows: **Radar can always show quest NPCs.** The Radar Types window has a new qst npc button. It always shows NPCs with a feather or a quest update icon over their head, even with nokill hidden or quest only on. The quest only button is now labelled quest.
+- **New** · Windows: **Radar can show only quest targets.** The radar's Types window has a new quest only button. It narrows NPCs, named and nokill NPCs to the ones that update one of your quests, a mob to kill or an object to click; players and every other type stay as their own buttons say. The radar only checks for quest targets while it is on.
+- **New** · Windows: **Temp Adornments window and profiles.** `ogre tempadorns` opens a window where you pick the temporary adornment for each gear piece and save it as a profile. `ogre tempadorns <profile>` applies one on this toon, and `-TempAdorns <who> <profile>` applies it on other toons. Your classic Saved_Temp_Adorns.xml profiles are copied in, and the old PoP lists come ready-made as the profiles CBOC, Pot and HP.
+- **New** · Windows: **The OgreBot window warns before you save after an Instance Controller run.** Once the Instance Controller starts a run, the OgreBot window of every character in it shows a warning under Save: the run may have changed settings, so load your profile again before saving. Save still works, and saving while the warning shows also prints it in the console. Loading a profile takes the warning away, and the Instance Controller's own reload at the end of a zone usually does that for you.
+- **New** · Instance Controller: **A zone file's walk can kill the trash on the way.** A `path` step can now take `"killWithin": 15`: when a mob comes within 15 meters, the group stops where it is, kills it, then walks on. `killTypes` picks the kinds of mob to stop for (`"NPC"` unless you say otherwise), and `killLimitMs` leaves a mob behind that cannot be killed in two minutes.
+- **Changed** · Bot: **"Fights react faster: quick steps no longer wait a quarter second each".** A fight's list of steps used to take a quarter of a second for every step, even one that did not apply to you, so a long list could put a call-out or a target switch several seconds behind the mechanic. Steps that only set things up, such as a setting, a timer, a message or a cast request, now run together at once. A list still pauses at a step that acts in the game, such as moving, clicking or examining something, and at its waits.
+- **Changed** · Bot: **The embargo boxes on the Settings tab now work.** Enable Ability Embargo and Enable Item Embargo on the Settings tab now decide whether ability and item embargoes are followed, as in the old bot: both are off until you tick them. Before, every embargo applied whatever the boxes said. Item embargoes are now kept apart from ability embargoes, as in the old bot, and an item's LinkID also works in the unsigned form a guild bank or Census link shows.
+- **Changed** · Bot: **The tag boxes on the Settings tab now work, and a profile load clears embargoes.** Enable Tag Embargo and Enable Tag Allow on the Settings tab now decide whether Embargo and Allow tags are followed and turned on, as in the old bot: both are off until you tick them. Before, every tag applied whatever the boxes said. Loading a profile now also clears any ability or item embargo still running, so a new profile does not inherit them.
+- **Changed** · Windows: **Dragging moves the whole window.** When you drag a window, the whole window now follows the mouse smoothly, at any scale, without slowing the game. Restart the game after updating for this to take effect.
+- **Changed** · Windows: **HUD nearest NPC and PC look across the whole zone.** The HUD's nearest NPC and nearest PC lines used to look only 200 metres out. They now show the nearest one anywhere in the zone, so a named further away still shows.
+- **Changed** · Windows: **Ogre windows draw on the graphics card, outside the game.** Ogre's windows now run in their own small program, OgreUltralight.exe, which draws them on the graphics card instead of inside the game, so a click in a scaled window shows within a few milliseconds instead of a quarter of a second. If that program ever stops, the game carries on and the windows come back on their own, as after `ogre ui reload`. Restart the game after updating for this to take effect.
+- **Changed** · Windows: **Radar Types is tidier, can hide unnamed actors and shorten names.** The Radar Types window now has its three switches ([all], quest only, no name) on one row, with the types in an even grid under them. The new no name button shows or hides actors with no name, and a name button cuts the radar's names to the number beside it, on and off with a click. The tradeskill button is now called craft.
+- **Changed** · Windows: **Text in Ogre windows looks slightly different.** Window text is now drawn by a newer engine: it is a little lighter and a little wider, so a few tightly packed labels may be cut short or wrap differently. If a label you rely on no longer fits, tell us which window it is in.
+- **Changed** · Instance Controller: **IC zone files are named after their zone, and `ogre ic queue add` takes a zone name.** The shipped zone files now carry their zone's clean name, such as `_01_Oogothl_Sprawl_VerBohten_Atoll.json`, and a saved queue follows them on its own. `ogre ic queue add Oogothl Sprawl: Ver'Bohten Atoll [Heroic]` queues a zone by its name and difficulty, and `ogre ic queue add ${Zone.Name}` queues the zone you are in. A name without a difficulty, for a zone that has several, is refused with a line that lists them.
+- **Changed** · Instance Controller: **The Instance Controller rests for a minute after a wipe.** After a wipe, the Instance Controller now waits a minute where the zone starts over before it walks on. Revive sickness wears off and everyone buffs back up first. A zone file with its own wipe recovery steps is not changed.
+- **Changed** · Console: **One name for temporary adornments: TempAdorns.** PoP_TempAdorns, PoPTempAdorns and ApplyTempAdorn are now OgreBotAPI.TempAdorns:Apply and the console command -TempAdorns, which apply a saved profile. MCP buttons that used the old commands are converted for you, and the script converter names the new form. Name the profile on the line (for example `-TempAdorns all cboc`): the old default cboc is not assumed.
+- **Changed** · Other: **Converter adds the For Who to more console commands.** The script converter now writes auto in front of -ZoneDoor, -ImmRes, -ApplyVerb, -Raid, -Mentor and -EndScript when their first argument cannot be a For Who: a plain number or quoted text with a space (oc !c -ZoneDoor 1 becomes oc !c -ZoneDoor auto 1). A line that starts with a word or a variable stays on your to-do list, because that may already be the For Who. Running the converter again adds nothing.
+- **Fixed** · Bot: **"A bot part that fails no longer closes the game".** When one part of the bot hits an error, the bot now catches it: the game stays open, the other parts keep working, and the failing part tries again on the next frame. The error goes to the log at most once every 30 seconds, with a count of the repeats. Before, an error like this closed the game.
+- **Fixed** · Bot: **"A fight's wait for a move now waits for that move".** A fight step that waits for a move to finish could end at once if the move had not got going yet, for example while the zone's navigation map was still loading. It now waits until that move arrives, gives up or is stopped, or until the step's time limit runs out.
+- **Fixed** · Bot: **"A saved file with an odd character still loads".** A settings or data file that held one character the bot cannot read, often from editing it by hand or from an older bot, used to load as if it were empty. It now loads with that character shown as a placeholder, and the log says where in the file it was.
+- **Fixed** · Bot: **"Cthurath, the Consumer: the tank stays put for the stone ring, and the raid comes home".** Before the first fighter callout, the fighter tanking Cthurath no longer runs to the stone ring. A ring left standing after Forced Isolation is cured no longer sends the raid back out, and the isolation and ring messages show once per box instead of once per toon on every box.
+- **Fixed** · Bot: **"Raid fights coordinate across computers again".** In raid fights, the messages one player's bot sends the others, such as a cure request or a hand-off, now reach players on every computer, not only those on the sender's own. Heroic and solo fights keep them on the sending computer.
+- **Fixed** · Bot: **A raid chest you may not loot is left alone.** When the game says only the raid leader or assigned looters may loot a chest, auto-loot now leaves that chest for the rest of the zone. Before, it clicked it three more times and then warned that no loot window came.
+- **Fixed** · Bot: **Buffs that replace each other no longer loop.** Some out-of-combat buffs replace each other, such as cosmetic pets, familiar infusions and mount infusions. With several of them in the cast stack, the bot could cast them back and forth forever. After one of these buffs lands, the bot now waits for it to show as up (or one second) before casting another, so the highest one in your list stays.
+- **Fixed** · Bot: **Curable-disable no longer warns about an ability a character lacks.** A character without the curable-disable ability (for example 'Natural Cleanse' on a class that has no such spell) printed "not in your ability export" in the console. It now goes to the log file only.
+- **Fixed** · Bot: **Item embargoes now stop the item.** An item embargo (-ItemEmbargo, or Inventory:AddEmbargo with an item's LinkID) now makes the cast stack skip that item until the time is up. Before, it was stored and never checked, and a negative LinkID, which many items have, was thrown away. Abilities:ClearEmbargo now clears any ability id that was added, however large, and Inventory:ClearEmbargo clears an item's.
+- **Fixed** · Bot: **Joust On and Joust Off pick their usual toons again.** OgreBotAPI.Movement:JoustOn with no For Who now acts on the melee, and JoustOff on the casters, as in Classic. Before, a bare call acted on everyone. A call that names its For Who is unchanged.
+- **Fixed** · Bot: **No more casting at a group member who is out of sight.** A buff, heal or cure aimed at a group member who was far away or zoning could fire over and over, each time refused as too far away. The bot now treats a member it cannot see as out of range and waits until they are back.
+- **Fixed** · Bot: **Qworux in Thresinet's Den is fought in the middle of the platform.** In The Fabled Castle Highhold: Thresinet's Den, the group now fights Qworux in the middle of the platform instead of at the ledge. He sometimes ended up on the stairs, out of line of sight.
+- **Fixed** · Windows: **Radar dots no longer swim when you zoom.** Zooming the radar made the dots slide in and out before settling. They now jump straight to their new places; normal movement still glides.
+- **Fixed** · Windows: **Radar no longer labels unnamed dots with ?** On the radar, something with no name used to be labelled ?, which looked just like a ? shiny. It now has no label, as in the old radar.
+- **Fixed** · Windows: **The HUD comes back after a UI reload.** After ogre ui reload, or the window host restarting, the on-screen HUD (nearest NPC, nearest PC, raid lines) stayed gone until you reloaded the profile. It now comes back by itself.
+- **Fixed** · Windows: **The OSA no longer slows down every window.** With the OSA open, the in-game windows could get stuck redrawing the whole screen several times a second, so clicks and check boxes lagged badly, worst with a scaled window. The OSA now redraws only its own rows.
+- **Fixed** · Navigation: **A group zoning in no longer warns about the props file.** When several of your characters zoned in together, one of them could warn that it "could not write" a props file (Windows error 5). They were all saving the same file at the same moment, and the retry always saved it. The warning now shows only if the retry fails too.
+- **Fixed** · Other: **Converted calls keep their For Who.** The script converter now gives every call it rewrites its For Who: an old call with no arguments gets the old default (OgreBotAPI:Jump becomes OgreBotAPI.Movement:Jump[all]), and a renamed console command gets auto. CoV and the auto-consume calls now convert with their arguments. -StatPotions_AutoConsume with no potion name uses your configured stat potion again, as in Classic.
+
 ## 2026.11.01.006 {#r2026-11-01-006}
 
 *Sunday, November 1, 2026 at 10:54 PM EST*
@@ -777,6 +820,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogre
 > **Good to know**
 >
 > - A yellow star (*) in the title bar means there are unsaved changes. Closing OgreBot without saving loses them.
+> - A yellow warning under Save means the Instance Controller has run on this character and may have changed settings. Reload your profile before saving; Save still works.
 > - The X stops OgreBot, the same as `ogre end bot`. **Hide Main** on the small OgreBot window just hides this one.
 > - Hover a setting or button to see what it does.
 
@@ -805,6 +849,7 @@ The title bar has the usual ? (help), lock and X buttons. When the profile has c
 | **Profile: <name>** | The name of the profile that is loaded right now. |
 | **Save** | Asks 'Save current settings to <profile>?', then writes the loaded profile to disk. A message at the bottom says 'Profile saved', or 'No changes to save' if there was nothing to write.<br>*Nothing is saved automatically. Close OgreBot without saving and your changes are gone.* |
 | **Reload** | Throws away unsaved changes and reads the profile from disk again. The cast stack and every tab are refreshed. Settings that run when a profile loads run again.<br>*It only asks first if you changed something in this window. Changes made by commands or scripts are dropped without asking.* |
+| **⚠ The Instance Controller has run on this character and may have changed settings. Load your profile again before saving.** | Shows under Save once the Instance Controller has started a run with this character, whether it leads the run or is in the group the run drives. The run may have changed some settings, and saving now would keep those changes in your profile. Save still works, and also prints this warning in the console. Press Reload, or load a profile on the Profiles tab, and the warning goes away.<br>*The Instance Controller's 'Reload profile when the run ends' option reloads every character's profile when a zone ends, so the warning usually goes away by itself.* |
 
 
 
@@ -1289,10 +1334,10 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Enable Consume Items** | Turns on the Consume Items tab, so the bot automatically uses the items listed there (following that tab's zone and combat rules). When off, the consume-items command also does nothing. | off |
 | **Enable Aliases** | Turns on your custom aliases from the Aliases tab (names starting with *), so commands and Cast Stack targets can use them. When off, custom aliases resolve to nobody. The built-in @ slots such as @Tank are not affected. | off (the Cast Stack target dropdown treats a never-saved box as on) |
 | **Enable Ability Tracker** | Turns on the Ability Tracker tab. About twice a second the bot reads the cooldowns of the abilities listed there and shares them, for example with the OgreMCP cooldown buttons. | off |
-| **Enable Ability Embargo** | **Not active yet.** <br>*Embargoes sent by commands or other characters are still honoured whether or not this is ticked.* | off |
-| **Enable Tag Embargo** | **Not active yet.** <br>*Tag embargoes are still honoured by the Cast Stack whether or not this is ticked.* | off |
-| **Enable Tag Allow** | **Not active yet.** <br>*Tag allows are still honoured by the Cast Stack whether or not this is ticked.* | off |
-| **Enable Item Embargo** | **Not active yet.**  | off |
+| **Enable Ability Embargo** | Turns on ability embargoes. While it is ticked, the Cast Stack skips an ability that a command or another character has embargoed (-AbilityEmbargo) until the time is up. While it is off, embargoes are still kept but not followed, so ticking it later honours any that are still running.<br>*The Ability Embargo tab's own list, which tells your other characters to hold off when you cast, is not active yet in the new bot.* | off |
+| **Enable Tag Embargo** | Turns on Embargo tags (see the Tags tab). While it is ticked, the Cast Stack skips an ability whose Embargo tag is on, and casting an ability that carries an Embargo tag turns that tag on. While it is off, this character neither follows Embargo tags nor turns them on. Tags sent by your other characters are still kept, so ticking it later honours any that are still running. | off |
+| **Enable Tag Allow** | Turns on Allow tags (see the Tags tab). While it is ticked, an ability with an Allow tag only fires while that tag is on, and casting an ability that carries an Allow tag turns that tag on. While it is off, an Allow tag does not hold an ability back and casting does not turn one on. Tags sent by your other characters are still kept, so ticking it later honours any that are still running. | off |
+| **Enable Item Embargo** | Turns on item embargoes. While it is ticked, the Cast Stack skips an item that a command or another character has embargoed (-ItemEmbargo, by the item's LinkID) until the time is up. While it is off, embargoes are still kept but not followed, so ticking it later honours any that are still running.<br>*The Item Embargo tab's own list, which tells your other characters to hold off when you use an item, is not active yet in the new bot.* | off |
 
 
 
@@ -1421,12 +1466,16 @@ Not active yet in the new bot. You can build and save the list, but nothing acts
 |---|---|---|
 | **Full Ability list** | **Not active yet.** All of this character's abilities. Click one to put it in the form under the Ability Embargo List, or double-click it to add it straight to the list with no options. The search box above filters it.<br>*The tab is not active yet, so nothing on the list is used.* | your abilities |
 
+
+
 ## Options
 
 | Option | What it does | Default |
 |---|---|---|
 | **Globally Mute messages** | **Not active yet.** It will send every embargo message from this tab without showing it in OgreConsole, as if every row had Hide from OgreConsole ticked.<br>*Some Instance Controller setups tick it for you.* | off |
 | **Ability Embargo List** | **Not active yet.** Your saved embargo rows, each with its duration and option letters (IRC, G, Me, I, H). Click a row to load it into the form below and change it, double-click to switch it off, drag to reorder, X to remove. | empty |
+
+
 
 ## Add form (under the list)
 
@@ -1442,10 +1491,13 @@ Not active yet in the new bot. You can build and save the list, but nothing acts
 | **Add** | Adds the ability in the form, with the Duration and ticks you set, to the Ability Embargo List. Pressing Enter in a box does the same. After you click a row it becomes Update and saves your changes to that row instead (Cancel backs out). |  |
 | **Clear Options** | Unticks every option in the form. Ticks otherwise carry over to the next Add. The Duration box is left as it is. |  |
 
+
+
 ## Good to know
 
-- This tab does nothing yet in the new bot. The 'Enable Ability Embargo' box on the Settings tab is not read either.
-- The embargo command itself already works: the -AbilityEmbargo command (from a script or OgreConsole) stops the named characters casting an ability by its ID for a number of seconds. Only the automatic 'I cast it, so the rest of you hold off' step is missing.
+- This tab does nothing yet in the new bot. The 'Enable Ability Embargo' box on the Settings tab does work: an embargo is only followed while it is ticked.
+- The embargo command itself already works: the -AbilityEmbargo command (from a script or OgreConsole) stops the named characters casting an ability by its ID for a number of seconds, on characters with 'Enable Ability Embargo' ticked. Only the automatic 'I cast it, so the rest of you hold off' step is missing.
+- Loading a profile clears every ability and item embargo still running on that character.
 
 
 ---
@@ -2027,7 +2079,7 @@ HUDs puts live text straight onto your game screen: the nearest mob, the nearest
 
 | Option | What it does | Default |
 |---|---|---|
-| **Display nearest NamedNPC/NPC** | Shows one line on your screen with the closest mob within 200 metres and its distance. A named mob always wins over a normal one, even if the normal one is closer. | off |
+| **Display nearest NamedNPC/NPC** | Shows one line on your screen with the closest mob in the zone and its distance. A named mob always wins over a normal one, even if the normal one is closer. | off |
 | **X** | How far from the left edge of the screen the Nearest NPC line starts, in pixels. | blank (300) |
 | **Y** | How far down from the top of the screen the Nearest NPC line sits, in pixels. | blank (400) |
 
@@ -2035,7 +2087,7 @@ HUDs puts live text straight onto your game screen: the nearest mob, the nearest
 
 | Option | What it does | Default |
 |---|---|---|
-| **Display nearest PC** | Shows one line with the closest player within 200 metres who is not in your group or raid. The line is red under 30 metres, yellow under 150 and white further out. | off |
+| **Display nearest PC** | Shows one line with the closest player in the zone who is not in your group or raid. The line is red under 30 metres, yellow under 150 and white further out. | off |
 | **X** | How far from the left edge of the screen the Nearest PC line starts, in pixels. | blank (300) |
 | **Y** | How far down from the top of the screen the Nearest PC line sits, in pixels. | blank (380) |
 | **Msg alerts to OgreConsole** | When a player comes within 150 metres, and again within 30, a line such as 'Kannkor --> Nearest PC: Serath: 24.1 < 30' is posted to OgreConsole. Each player is reported once per distance band, and alerts are at least 5 seconds apart.<br>*Needs 'Display nearest PC' ticked.* | off |
@@ -2084,8 +2136,8 @@ HUDs puts live text straight onto your game screen: the nearest mob, the nearest
 
 ## What you see
 
-- Nearest NPC - one white line: 'Named NPC: <name>: <distance>' for the closest named mob within 200 metres, or 'NPC: <name>: <distance>' when no named mob is in range.
-- Nearest PC - one line: 'Nearest PC: <name>: <distance>' for the closest player within 200 metres who is not in your group or raid. It is red under 30 metres, yellow under 150 and white further out.
+- Nearest NPC - one white line: 'Named NPC: <name>: <distance>' for the closest named mob in the zone, or 'NPC: <name>: <distance>' when there is no named mob in the zone.
+- Nearest PC - one line: 'Nearest PC: <name>: <distance>' for the closest player in the zone who is not in your group or raid. It is red under 30 metres, yellow under 150 and white further out.
 - Group distance - one line per group member (you are not listed): '(2) Brutus: 12.3 * <their target> * <what they are casting>'. Names are cut to their first 6 letters so the columns line up.
 - Raid distance - one line per raid slot, '(01)' to '(24)', in the same layout as the group lines. An empty slot leaves a blank line and there is an extra gap after every 6 slots, so each line sits beside the matching row of the game's raid window.
 - Group and raid line colours show distance: white under 20 metres, yellow under 30, orange under 75, red at 75 or more, grey when the game reports 0.
@@ -2155,12 +2207,16 @@ Item Embargo is meant to stop your characters all using the same item at once: w
 |---|---|---|
 | **Full Item list** | **Not active yet.** Your registered items (from the Items tab). Click one to pick it for the form on the right, or double-click it to add it straight away with no options.<br>*This tab is not active yet in the new bot.* | your registered items |
 
+
+
 ## Options
 
 | Option | What it does | Default |
 |---|---|---|
 | **Globally Mute messages** | **Not active yet.** It is meant to stop item embargo messages being shown. | off |
 | **Item Embargo List** | **Not active yet.** The saved list of items that are meant to be embargoed, each with its duration and options.<br>*Click a row to edit it, double-click to switch it off or on, drag to reorder, x to remove.* | empty |
+
+
 
 ## Options
 
@@ -2176,9 +2232,11 @@ Item Embargo is meant to stop your characters all using the same item at once: w
 | **Add** | Adds the picked item with its Duration and ticked options to the list. When you are editing a row, it reads Update and saves your changes. |  |
 | **Clear Options** | Unticks all the option boxes. They otherwise carry over to the next Add. |  |
 
+
+
 ## Good to know
 
-- Nothing on this tab does anything yet in the new bot, and neither does 'Enable Item Embargo' on the Settings tab.
+- Nothing on this tab does anything yet in the new bot. 'Enable Item Embargo' on the Settings tab does: an item embargo sent by the -ItemEmbargo command (by the item's LinkID) makes the Cast Stack skip that item, but only while the box is ticked. Loading a profile clears every item embargo still running.
 - The Full Item list only shows items you have registered on the Items tab. If it is empty, register some there first.
 - The option flags stay ticked after an Add. Use Clear Options to untick them all before the next item.
 - On the list each row shows its options as coloured letters: IRC, G (Group), Me, I (Incl. caster) and H (Hide from OgreConsole). The same colour is used on the matching tick box.
@@ -2692,11 +2750,15 @@ Tags let one bot's cast switch other abilities off or on for a while, across all
 | **Full Tag List** | Your tag names, sorted A-Z. Click a name to pick it for the Tags List on the right. Double-click a name to rename it, and click X to delete it.<br>*A name here does nothing until it is also added to the Tags List. Renaming it here does not rename it in the Tags List.* | empty |
 | **Tags List** | The tags that are actually defined, with their duration and options. Click a row to edit it and click X to delete it.<br>*Only tags in this list can turn on.* | empty |
 
+
+
 ## Top of tab
 
 | Control | What it does | Default |
 |---|---|---|
 | **Globally mute all tag messages** | **Not active yet.** In the old bot it hid the tag lines in OgreConsole. | off |
+
+
 
 ## Full Tag List (left)
 
@@ -2704,6 +2766,8 @@ Tags let one bot's cast switch other abilities off or on for a while, across all
 |---|---|---|
 | **Tag name** | Type a new tag name here. Use the same name you put in the Embargo tag or Allow tag box on the Cast Stack. | empty |
 | **Add** | Adds the typed name to the Full Tag List. While you are renaming a name this reads Update. |  |
+
+
 
 ## Tags List (right)
 
@@ -2719,8 +2783,11 @@ Tags let one bot's cast switch other abilities off or on for a while, across all
 | **Add** | Adds the picked tag name, with the duration and ticks you set, to the Tags List. While you are editing a row this reads Update and saves your changes. |  |
 | **Clear Options** | Unticks every option. Ticks otherwise carry over to the next tag you add. |  |
 
+
+
 ## Good to know
 
+- Tags only work on a character whose Settings tab has them ticked: 'Enable Tag Embargo' for Embargo tags and 'Enable Tag Allow' for Allow tags. Both are off until you tick them. While a box is off, that character neither follows nor turns on that kind of tag.
 - A tag used on the Cast Stack but missing from the Tags List (or typed differently) never turns on. The match ignores upper and lower case.
 - Leave Duration blank to use the ability's own duration. An item has no duration of its own, so an item that sets a tag must have a Duration here or the tag does not turn on.
 - Two bots can hold the same tag at once; it stays on until the last one runs out.
@@ -3537,7 +3604,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - Buttons are shared by every character on this PC and saved as you go.
 > - **Alt** + the backtick key opens and closes this window.
 > - A key assigned to a button follows it when you move the button or its page. Clearing the button removes its keys.
-> - A colour is kept however you close the picker; **Reset** takes a custom colour off.
+> - A colour is kept however you close the picker; **Reset** takes a custom colour off. The gear's **Reset all colours** takes every page's and button's colours off at once.
 > - A button needs a name - use **Clear button** to remove one.
 
 **Open it:** Press **Alt** and the backtick key together to open or close it, or type `ogre mcp` (close with `ogre end mcp`). `ogre mcp` does nothing if the MCP is already open. Tick **Enable OgreMCP** (OgreBot, Settings tab, On Load) to open it every time a profile loads.
@@ -3740,6 +3807,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - **Fighter / Mage / Priest / Scout** - click once for that class, again for "Not" that class.
 > - **G1-G4** - a group of your raid.
 > - **Multi** - pick several; a character must match all of them (Fighter + G1 = fighters in group 1).
+> - **Custom** (the gear) - type any For Who the chips cannot say, like charA|charB|priest (| = or, + = and, - in front = not). Press Enter or Set; it replaces the chips until you clear it.
 >
 > **Good to know**
 >
@@ -3748,7 +3816,8 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - Each session keeps its own choice: your tank can send to Group while your enchanter sends to Me.
 > - The choice is not saved: a new session starts at Auto with nothing picked (everyone).
 > - The X hides this window, like Done, so the choice keeps working; the For Who button on the MCP brings it back.
-> - **Clear** resets the picks; the command preview setting stays.
+> - **Clear** resets the picks and any custom value; the command preview setting stays.
+> - A script or extension can set the custom value with ISXOgreEQ2.MCP:SetForWho["charA|charB|priest"]; ${ISXOgreEQ2.MCP.ForWho} reads what is in force.
 
 **Open it:** Click **For Who** in the Master Control Panel's title bar (click again to hide it). Tick **Open For Who on load** in the MCP's gear to show it every time the MCP opens.
 
@@ -3787,7 +3856,7 @@ Click a chip to pick it; click it again to un-pick it. With nothing picked the c
 | Control | What it does | Default |
 |---|---|---|
 | **Multi** | Lets you pick more than one chip. A character must match ALL of them - for example Group + Not Fighter = the group's non-fighters. All cannot be combined with anything. Turning Multi off keeps only the first pick. Resting the mouse on Multi says the same.<br>*Fighter + Priest matches nobody (no character is both).* | off |
-| **Clear** | Back to the start: Auto, nothing picked (everyone), Multi off. 'Show command preview' stays as it was. |  |
+| **Clear** | Back to the start: Auto, nothing picked (everyone), Multi off, no custom value. 'Show command preview' stays as it was. |  |
 | **Done** | Hides the window. Your choice stays in effect. |  |
 
 
@@ -3797,6 +3866,7 @@ Click a chip to pick it; click it again to un-pick it. With nothing picked the c
 | Control | What it does | Default |
 |---|---|---|
 | **Show command preview** | Shows a line under the buttons with what gets added to each command, for example 'auto -cfw igw:${Me.Name}+notfighter'. Display only. | off |
+| **Custom (box + Set)** | Type any For Who the chips cannot say, then press Enter or Set. It is used exactly as written: \| = or, + = and, a character name = that character, - in front = not (charA\|charB\|priest = charA, charB or any priest). While it is in force it covers the chips and shows the value; click it to change it. Any chip, Clear, or an empty Set goes back to the chips. Spaces are removed. | empty |
 | **× (close)** | Closes the settings box. The gear does the same. |  |
 
 
@@ -3806,14 +3876,19 @@ Click a chip to pick it; click it again to un-pick it. With nothing picked the c
 - The lit button in the top row is how commands are sent.
 - A lit chip (blue outline) is picked. All is green when picked. A red chip reading 'Not ...' means that class is excluded.
 - The preview line (when turned on) shows the route, then '-cfw' and the target that is added to each command. ${Me.Name} is shown as written; it becomes the clicking character's name when sent.
+- A box over the chips reading 'Custom' means a typed value is in force (shown in the box); the chips do not apply until you clear it.
 
 ## Good to know
 
 - The chips only apply to buttons that leave their target blank. A button whose every step names a target (Me, fighter, a character name ...) goes to that target whatever chips are picked. Auto / OC / IRC still applies to it.
 - Buttons made in Raw mode ignore For Who completely: they run only on the character that clicked.
-- Your For Who choice is saved with the MCP buttons and shared by every character on this PC. Changing it on one character changes it on all of them.
+- Each session keeps its own choice, in memory only: a new session starts at Auto with nothing picked (everyone), and changing it on one character does not change it on the others.
 - Me, Group and Raid mean the character that clicked (or pressed the bound key), not each character that receives the command.
 - Hide the window with Done (or the MCP's For Who button). Done, or closing it with its own X, keeps your choice: it is the same when the window opens again.
+
+### Setting it from a script or extension
+
+`ISXOgreEQ2.MCP:SetForWho["charA|charB|priest"]` sets the custom value on this session, exactly as typing it in the gear does: the window shows it, and MCP buttons and bound keys use it. `ISXOgreEQ2.MCP:SetForWho[all]` goes back to everyone. `${ISXOgreEQ2.MCP.ForWho}` reads the For Who in force (`all` = everyone). Like a choice made with the chips, it is not saved and belongs to this session only. An extension can run the same line with `ExecuteCommand`.
 
 ### Several chips at once (Multi)
 
@@ -4250,6 +4325,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > **What you can do here**
 >
 > - **Queue zones**: pick a zone on the left and double-click it (or Add). **Add all** queues every zone the list is showing (this folder, after the search and the variant filter), in its order. Drag rows to reorder.
+> - **Queue by name** from the console: `ogre ic queue add ${Zone.Name}` queues the zone you are in, and `ogre ic queue add Oogothl Sprawl: Ver'Bohten Atoll [Heroic]` any zone - its name with the difficulty, the way the game writes it.
 > - **Sort** (beside the Zones heading): the zones are listed by their number by default (**Sort: #**); click it for **Sort: A-Z**, by zone name. It is remembered, and Add all follows it.
 > - **Remove** and **Clear** sit beside the Queue heading. Remove takes out the highlighted row (click a row first; right-clicking the highlighted row does the same), Clear empties the queue. Each is greyed out until there is something for it to do.
 > - **Stop after this zone** (shown while a list runs): the zone you are in finishes, then the list stops and the end-of-list actions run (call to the guild hall or home, camp). Run clears it.
@@ -4334,7 +4410,7 @@ The Instance Controller (IC) runs a list of instanced zones for you, one after a
 |---|---|---|
 | **Difficulty ('choose…' until set)** | A difficulty that stays chosen while you browse. It is added to rows queued from files that have a difficulty menu, and checked against that file when you add. The bot does NOT use it during a run yet: when the row starts, IC only logs 'the difficulty on this row is recorded but not acted on yet'.<br>*Only shown when the selected file has a difficulty menu (a list of choices). Saved.* | empty |
 | **Difficulty number box (e.g. '1-80')** | Same as the Difficulty dropdown, for files that use a number range. It takes effect when you press Enter or click away. Also recorded only, not used yet.<br>*Only shown when the selected file uses a range. The range is checked when you add, not while you type.* | empty |
-| **Add** | Queues the selected file exactly like a double-click, including the variant popup.<br>*Disabled until a file is selected.* |  |
+| **Add** | Queues the selected file exactly like a double-click, including the variant popup.<br>*Disabled until a file is selected. Also from the console, by the zone's name with its difficulty: `ogre ic queue add Oogothl Sprawl: Ver'Bohten Atoll [Heroic]`, or `ogre ic queue add ${Zone.Name}` for the zone you are in. The console says which file it picked; a name with no difficulty, for a file that covers several, is refused with a line that lists them. `ogre ic queue add <root> <path>` adds a file by its path.* |  |
 | **Add all** | Queues every zone the Zones list is showing (this folder, after the search and the variant filter), in the list's order, each tagged with the variant chosen up top and the remembered difficulty. With no variant chosen, a file with 2 or more variants is left out. One console line says how many were added and why any were left out (already queued, needs a variant, refused).<br>*Greyed out when the list shows no zone files (folders are not zones). A zone already in the queue is not added again.* |  |
 
 
@@ -5112,7 +5188,7 @@ One row per kind of thing (by type) and one per con colour. Click a swatch to op
 
 | Control | What it does |
 |---|---|
-| **Swatch (coloured dot)** | Opens the colour picker for that row. The picker's heading uses the row's own name (named, tradeskill, nokill...). |
+| **Swatch (coloured dot)** | Opens the colour picker for that row. The picker's heading uses the row's own name (named, craft, nokill...). |
 | **#hex box** | Type a colour as # plus six hex digits (for example #ff8a3d). It applies as soon as the text is a valid colour.<br>*Anything else is ignored.* |
 | **Picker: #hex box** | The picked colour as text; type a colour here to set it. |
 | **Picker: R / G / B sliders** | Mix the colour from red, green and blue (0 to 255). The dots change as you drag. |
@@ -5165,7 +5241,7 @@ With auto-hide on, the radar becomes a clean overlay: the title bar is gone (so 
 ## What the window shows
 
 - Your character: the white dot with the cyan ring in the middle. The cyan wedge is the way you face.
-- Dot colours (colour by type, the default): npc orange, named orange and bigger with a glow, nokill (guards, merchants) grey, special yellow, players blue, pets light green, your pet bright green, mercenaries teal, corpses dark grey, tradeskill stations purple, resources (harvest nodes) teal-green, chests amber, doors brown, anything else grey. Every colour can be changed in the settings.
+- Dot colours (colour by type, the default): npc orange, named orange and bigger with a glow, nokill (guards, merchants) grey, special yellow, players blue, pets light green, your pet bright green, mercenaries teal, corpses dark grey, craft (crafting stations) purple, resources (harvest nodes) teal-green, chests amber, doors brown, anything else grey. Every colour can be changed in the settings.
 - Dot shapes: players and mercenaries are rounded squares; everything else is round. Named mobs are 3 pixels bigger with an orange glow.
 - Faded dots: corpses and anything at 0% health.
 - Your target: its dot turns white with a white halo and its name goes white and bold.
@@ -5223,8 +5299,13 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 >
 > **What you can do here**
 >
+> - **The top row**: **[all]**, **quest** (quest only), **qst npc** (quest NPCs) and **no name**. **The grid** under it: one button per type.
 > - **Click a type** (npc, named, pc, pet, corpse, chest, door...) to show or hide it.
 > - **other** covers anything not in the list.
+> - **quest** (quest only) narrows **npc**, **named** and **nokill** to the ones that update one of your quests - a mob to kill or an object to click. Every other type (pc, special, chest...) follows its own button.
+> - **qst npc** always shows NPCs with a feather (or a quest update / complete icon) - the ones the quest helper hails - even with **nokill** off or **quest** on.
+> - **no name** shows or hides actors with no name - mostly junk, sometimes not.
+> - **name** (bottom right) turns name cutting on and off: lit cuts every name on the radar to the number beside it (5 to start). Change the number in the box; it is kept while cutting is off.
 > - **[all]** shows everything; when everything is on it reads **[none]** and hides everything.
 >
 > **Good to know**
@@ -5255,17 +5336,21 @@ The coloured dot on each button is the colour that kind is drawn in on the radar
 | **mypet** | Your own pet. | shown |
 | **merc** | Mercenaries. | shown |
 | **corpse** | Corpses. | shown |
-| **tradeskill** | Crafting stations (forges, sewing tables and the like). | shown |
+| **craft** | Crafting stations (forges, sewing tables and the like). | shown |
 | **resource** | Harvest nodes. | shown |
 | **chest** | Treasure chests. | shown |
 | **door** | Doors. | shown |
 | **other** | Anything that is none of the kinds above. | shown |
+| **quest** | Narrows npc, named and nokill to the ones that update one of your quests - a mob to kill or an object to click. Every other type follows its own button. Saved like a type click. | off |
+| **qst npc** | Always shows quest NPCs - a feather, or a quest update / complete icon, over a no-kill NPC (the ones the quest helper hails) - even with nokill off or quest on. The radar looks for them every 2 seconds, only while this is on. | off |
+| **no name** | Actors with no name - mostly junk, sometimes not. Lit shows them, dim hides them. Saved like a type click. | shown |
+| **name** | The button turns name cutting on and off; while lit, every name on the radar is cut to the number in the box (5 to start). The number is kept while cutting is off. Saved like a type click. | off, 5 |
 | **Title bar close (X)** | Closes this window only. The radar keeps running. |  |
 
 ## What the window shows
 
 - A lit button means that kind is drawn on the radar; a dim one means it is hidden.
-- The line under the buttons: '[all] selects everything, or clears it when everything is on'.
+- The top row holds the four switches ([all], quest, qst npc, no name); the grid under it holds one button per type.
 
 ## Good to know
 
@@ -5857,6 +5942,91 @@ Press **Legend** in the title bar to see this. Green tick = on the same step as 
 ![Everyone on your step](../assets/questcompare/allgood.png) ![Waiting for answers](../assets/questcompare/waiting.png) ![Nothing compared yet](../assets/questcompare/empty.png)
 
 Left to right: everyone in step, a compare still waiting for answers, and a fresh window before anything was compared.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/tempadorns.md
+
+# Temp Adornments
+
+> **:bulb: In game - the ? button on this window says**
+>
+> Choose which temporary adornment goes on each gear piece and save it as a profile. Apply a profile here, on other toons, or with `ogre tempadorns <profile>`.
+>
+> **What you can do here**
+>
+> - **Pick a profile** on the left to edit it, or **+ New profile** to start an empty one.
+> - **Type an adornment** next to a gear piece, or tick pieces and click an adornment under the table to set it on all of them. A blank piece is skipped.
+> - **Save** stores the profile under its name. **Delete** removes it (click twice).
+> - **Apply** runs the selected profile on this toon. Put `igw:Name`, a group or `all` in **to** to run it on those toons instead.
+>
+> **Good to know**
+>
+> - A piece that still has the same adornment with time left is skipped. Tick **overwrite** to apply it anyway.
+> - **Primary (two-handed)** is used instead of **Primary** when nothing is in your off-hand.
+> - Every toon on this PC shares the same profiles.
+
+**Open it:** Type `ogre tempadorns`. If the window is already open, this does nothing. `ogre end tempadorns` (or the window's X) closes it. `ogre tempadorns <profile>` applies a saved profile without opening the window, and `ogre tempadorns list` prints your profiles.
+
+
+## What it is for
+
+A temporary adornment is a short-lived rune you put on a piece of gear. This window lets you say which one goes on which gear piece and save that as a profile, the way the classic bot's Temp Adorns window did. Applying a profile puts each listed adornment on its gear piece, one after another. You can apply it on this toon, on other toons (`igw:Name`, a group, `all`), from the console with `ogre tempadorns <profile>`, or from any box with `-TempAdorns <who> <profile>`. Three profiles come ready-made: CBOC, Pot and HP, the lists the old PoP button used. The first time the window opens it also copies in your profiles from the classic bot's Saved_Temp_Adorns.xml.
+
+## Profiles
+
+The list on the left is every profile you have saved. The number beside each name is how many gear pieces it sets.
+
+
+| Control | What it does |
+|---|---|
+| **a profile name** | Opens that profile in the table to edit, and makes it the one Apply runs. |
+| **+ New profile** | Clears the table and the name so you can build a new profile. |
+| **Reload** | Reads the profiles file again, for after you have edited it by hand. |
+
+
+
+## The gear table
+
+One row per gear piece. Type the adornment's full name, exactly as the item is called in your bags. Leave a piece blank to skip it.
+
+
+| Control | What it does |
+|---|---|
+| **Name** | The profile's name. One word: letters, digits, _ . and - (no spaces), up to 32 characters. It cannot be panel, end, list or apply, because `ogre tempadorns` uses those words itself. |
+| **x** | Empties that gear piece (nothing goes on it). |
+| **an adornment under the table** | Sets that adornment on every gear piece whose box is ticked. The list is every adornment your saved profiles use.<br>*Nothing happens if no box is ticked; the footer says so.* |
+| **Save** | Saves the profile under its name. A profile with the same name (any capitals) is replaced. The footer says what was saved, or why it was not. |
+| **Delete** | Deletes the profile. Click it twice: the first click turns it into 'Sure? click again'. |
+
+
+
+## Apply
+
+Runs the selected saved profile.
+
+
+| Control | What it does | Default |
+|---|---|---|
+| **Apply** | With the 'to' box empty, applies the profile on this toon. With a for-who in it (`igw:Name`, a group, `all`), sends `-TempAdorns <who> <profile>` so those toons apply it.<br>*Save first: Apply runs the profile as it is saved, not what is typed in the table.* |  |
+| **overwrite** | Applies every piece, even one that still has the same adornment with time left. | off |
+
+
+
+## What the window shows
+
+- The header shows your toon's name ('not in world' at character select).
+- The footer shows what the last button did, or where the profiles are saved.
+
+## Good to know
+
+- Every toon on this PC shares the same profiles (OgreSave/EQ2/TempAdorns/profiles.json).
+- Applying looks at each gear piece first. A piece that still has the same adornment with more than about 48 minutes left is skipped; tick overwrite to apply it anyway.
+- Primary (two-handed) is used instead of Primary when nothing is in your off-hand slot.
+- A gear piece with nothing equipped, or an adornment that is not in your bags, is skipped with one line in the console.
+- Applying waits its turn behind other queued bot work (it is one entry in the action queue).
+- The ready-made CBOC, Pot and HP profiles are the old PoP button's lists. You can change or delete them; they are not put back.
 
 
 ---
@@ -8044,7 +8214,17 @@ python ogre_convert.py fix <file.iss> --in-place            (keeps the name - se
 - a Classic call that had no for-who, where the only change is "the for-who is now the first argument":
   it puts `all` first. A script's own call only ever runs on the session running it, so `all` there means
   "this session" - exactly what the old call did;
-- a console command that was renamed and takes the same arguments;
+- the for-who of every call it rewrites: when the new call takes one and the Classic call passed no
+  arguments at all, the Classic default is written out (`OgreBotAPI:Jump` becomes
+  `OgreBotAPI.Movement:Jump[all]`, `OgreBotAPI:JoustOn` becomes `OgreBotAPI.Movement:JoustOn[Melee]`).
+  A call that passed arguments already passed its for-who first and keeps it. A Classic for-who with no
+  default matched nobody when it was left off, so that call stays on the list for you;
+- a console command that was renamed and takes the same arguments - and one that was renamed and now
+  takes a for-who first, which gets `auto` (`oc !c -Door 2` becomes `oc !c -ZoneDoor auto 2`: the line's
+  `-cfw`, or the For Who window, decides). A command that kept its name and now takes a for-who first gets
+  `auto` only when its first argument cannot be a for-who - a plain number or quoted text with a space
+  (`oc !c -ZoneDoor 1` becomes `oc !c -ZoneDoor auto 1`); with a word or a `${...}` there (`-Mentor Bob`),
+  it stays on the list, because that may already be the for-who. Running `fix` again adds nothing;
 - a Classic framework variable that was renamed to a plain member: `${OgreRelayGroup}` becomes
   `${ISXOgreEQ2.Auth.RelayGroup}` (and `${OgreRelayGroup.Length}` becomes `${ISXOgreEQ2.Auth.RelayGroup.Length}`),
   so a relay line like `relay ${OgreRelayGroup} ...` converts with no hand work.
@@ -8676,12 +8856,14 @@ event your script has attached an atom to, as hello does. Your script registers 
 
 ## Knowing when windows open and close
 
-Two events fire for **every** window - yours, OgreBot's, and the help windows the **?** button opens:
+These events fire for **every** window - yours, OgreBot's, and the help windows the **?** button opens:
 
 | Event | Arguments |
 |---|---|
 | `OgreUI_Opened` | `name` |
 | `OgreUI_Closed` | `name`, `reason`: `closed` (its **X**, or `ISXOgreX.UI:Close`) or `reload` |
+| `OgreUI_Shown` | `name`: an open window became visible |
+| `OgreUI_Hidden` | `name`: an open window was hidden |
 
 - ISXOgreX registers both events when it loads, so your script attaches with
   `Event[OgreUI_Closed]:AttachAtom[...]` and needs no `RegisterEvent`. Load ISXOgreX before your script
@@ -8694,7 +8876,9 @@ Two events fire for **every** window - yours, OgreBot's, and the help windows th
   you issue from there is still applied. Do your reads after the event, not from a load-time command.
 - The help window that the **?** button opens is named `help:` followed by the window's name, for example
   `help:hello`.
-- Hiding or showing a window does not fire them; only opening and closing does.
+- `OgreUI_Shown` and `OgreUI_Hidden` fire only when a window that is already open changes. Opening a window
+  fires `OgreUI_Opened` alone, and a window that opens hidden says nothing until it is first shown.
+  Minimizing is not hiding: a minimized window is still visible.
 
 ### Surviving a UI reload
 
@@ -8898,7 +9082,8 @@ say), reads `""` rather than `NULL`. The ids are listed on
 
 ## From a C++ extension
 
-There is no separate C++ API. An extension uses the same names through InnerSpace:
+An extension uses the same names through InnerSpace. For a window that changes many times a second there are
+also [direct calls](#without-lavishscript-the-ui-hosts-own-functions) into the UI host.
 
 ```cpp
 // open, change, read  (myDir = the folder your files are in, with forward slashes)
@@ -8925,6 +9110,92 @@ pISInterface->DetachEventTarget(ev, OnUIClosed);
   your extension or ISXOgreX loads first.
 - Events fire on the game's frame, the same thread your extension's pulse runs on.
 - Keep the callback short: it runs inside every window open and close.
+
+### Without LavishScript: the UI host's own functions
+
+Every `ISXOgreX.UI` call above is a LavishScript command, parsed on the game's frame. An extension that updates
+its windows many times a second can skip that and call the UI host directly. The host is `ISXOgreUIHost.dll`
+in `OgreUIRuntime`, loaded by ISXOgreX and never unloaded after that. Look the functions up with
+`GetProcAddress` once ISXOgreX is loaded; every call is a plain C call that returns at once:
+
+```cpp
+typedef void (*HostEvalJS_t)(const char *js);
+typedef void (*HostPostNative_t)(const char *channel, const void *data, int len);
+typedef int  (*HostNextNative_t)(const char *channel, char *buf, int bufSize, int *outLen);
+
+HMODULE host = GetModuleHandleA("ISXOgreUIHost.dll");
+auto postNative = (HostPostNative_t)GetProcAddress(host, "HostPostNative");
+auto nextNative = (HostNextNative_t)GetProcAddress(host, "HostNextNative");
+
+// to your window: one channel, any number of messages per frame
+postNative("mytool", "{\"hp\":91}", -1);        // len -1: a string; the window gets a JS string
+postNative("mytool.raw", bytes, byteCount);     // len >= 0: bytes; the window gets an ArrayBuffer
+
+// from your window (your pulse): empty the queue
+char buf[4096]; int len = 0;
+while (nextNative("mytool", buf, sizeof(buf), &len) == 1) { /* buf[0..len) is one message */ }
+```
+
+In the window:
+
+```js
+ogreNativeOn('mytool', function (messages) {          // one call per frame with everything that arrived
+  for (var i = 0; i < messages.length; i++) show(JSON.parse(messages[i]));
+});
+window.ogreCall('native', 'mytool', 'clicked:reset');  // to your extension: a string, ArrayBuffer or typed array
+```
+
+| Function | Signature | Does |
+|---|---|---|
+| `HostPostNative` | `void (const char *channel, const void *data, int len)` | Sends one message to the window's `ogreNativeOn(channel, ...)` handlers. `len < 0`: `data` is a NUL-terminated UTF-8 string and arrives as a string; `len >= 0`: `len` bytes arriving as an `ArrayBuffer`. Delivered in order, together with the others that arrived for that channel since the last frame. |
+| `HostNextNative` | `int (const char *channel, char *buf, int bufSize, int *outLen)` | Takes the oldest message the window sent on `channel`. `1` = copied into `buf` (`*outLen` bytes, not NUL-terminated); `0` = none waiting; `-1` = `buf` is too small, `*outLen` says how big it must be and the message stays queued. |
+| `HostEvalJS` | `void (const char *js)` | Runs `js` in the windows' page (all windows share one page). Returns nothing. |
+| `HostUISet` | `void (const char *key, const char *value)` | Stores `value` under `key` and puts it into the element with id `key`, searching every window (ids are page-wide: [keep yours your own](#names-keep-yours-your-own)). |
+| `HostUIGet` | `int (const char *key, char *buf, int bufSize)` | Copies the stored value of `key` into `buf` (NUL-terminated) and returns the bytes written. `0` means either no such key or an empty value, and a value longer than `bufSize - 1` is cut. |
+
+- **Any thread** may call them. They only queue the work; the UI program applies it on its next frame, and
+  any of them wakes it at once.
+- **One message is at most 1 MB**, either way. A bigger one is dropped and logged; send bulk data through
+  [shared memory](#shared-memory-in-a-window).
+- A window's `ogreNativeOn` handlers run in the window; one that throws is logged and the others still run.
+  Messages for a channel nobody listens to are dropped (logged once).
+- Each queue keeps at most 4096 messages; past that the oldest are dropped, logged. Empty yours every pulse.
+- `HostNextCommand` is **ISXOgreX's own**: it takes the commands every window sends with `ogreCall('cmd')`, and
+  a second reader would steal them. Do not call it.
+
+### Shared memory in a window
+
+A window can read a block of shared memory directly, with no copying and no parsing. Your extension creates a
+named file mapping (`CreateFileMapping`, a name such as `Local\MyTool.Raid`) and writes into it; the window
+asks for it by name:
+
+```js
+var buf = window.ogreCall('shm', 'Local\\MyTool.Raid');        // read-only; 'rw' as a third argument to write
+if (buf) {
+  var head = new Uint32Array(buf, 0, 2);                      // your own header: a version counter, a length
+  var data = new Uint8Array(buf, 8, head[1]);
+}
+```
+
+- The result is an `ArrayBuffer` over the mapping itself, or `null` when no mapping has that name. Its length
+  is the mapping's size rounded up to 4 KB, so keep your own length in a header.
+- **Every game on the PC can open the same name.** One UI program serves them all, which makes this a fast way
+  to share data between sessions.
+- **Use a version counter.** The window can read while your extension writes. Bump the counter before and
+  after each write, and have the window re-read when the two reads of it differ or it is odd.
+- Without `'rw'` the window gets its own copy of any page it writes into: the write never reaches the mapping,
+  and that page stops following your updates. Ask for `'rw'` when the window really writes.
+- The mapping stays open until the window drops its last reference to the buffer.
+
+## Giving a text box the keyboard
+
+`ISXOgreX.UI:Focus[name,id]` puts the keyboard in text field `id` of window `name`, for example from a key bind
+that opens a chat-style box. Keys then go to that field, **not the game**, until the player presses Escape (the
+first press clears the text, the second lets go) or clicks somewhere else.
+
+- It is refused when the window is not open or hidden, or `id` is not a text field.
+- Every call is written to the logs, because a bind that does this by accident looks to the player like a
+  keyboard that stopped working.
 
 ## Pitfalls
 
@@ -8982,10 +9253,16 @@ which replaces Ogre's entire UI and does not bring it back.
 | `.Height` | member of `Window` | - | int: screen pixels |
 | `ISXOgreX.UI:Move` | method | `name`, `x`, `y` | Puts window `name`'s top-left corner at `x`, `y` (screen pixels). Not saved. |
 | `ISXOgreX.UI:Size` | method | `name`, `width`, `height` | Sets window `name`'s size (screen pixels, above 0). Not saved. |
+| `ISXOgreX.UI:Focus` | method | `name`, `id` | Puts the keyboard in text field `id` of window `name` until Escape or a click elsewhere. Logged. |
 | `OgreUI_Opened` | event | `name` | A window opened. |
 | `OgreUI_Closed` | event | `name`, `reason` | A window closed; `reason` is `closed` or `reload`. |
+| `OgreUI_Shown` | event | `name` | An open window became visible. |
+| `OgreUI_Hidden` | event | `name` | An open window was hidden. |
 | `ogreUISet` | function in your window | `name`, `id`, `value` | Same as `ISXOgreX.UI:Set`, from the window's own script. |
-| `ogreCall` | function in your window | `'cmd'`, command line | Runs one LavishScript command line on the next frame. |
+| `ogreUIFocus` | function in your window | `name`, `id` | Same as `ISXOgreX.UI:Focus`, from the window's own script. `'1'` = focused, `'0'` = refused. |
+| `ogreCall` | function in your window | `'cmd'`, command line | Runs one LavishScript command line on the next frame. Also `'native'`, channel, payload (to your extension) and `'shm'`, name (shared memory) - see [Without LavishScript](#without-lavishscript-the-ui-hosts-own-functions). |
+| `ogreNativeOn` | function in your window | channel, `fn` | `fn(messages, channel)` gets every message your extension sent on `channel` since the last frame. |
+| `ogreNativeOff` | function in your window | channel, optional `fn` | Removes `fn` (or every handler) from `channel`. |
 | `ogrePlaceFixed` | function in your window | element, `x`, `y`, optional margin | Puts a `position: fixed` element's top-left at screen position `x`, `y` (the numbers `getBoundingClientRect()` and mouse events give), kept on screen, at any window scale. The element must be showing. |
 | `ogreFixedScale` | function in your window | element | number: the scale the element is drawn at (1 in an unscaled window). A size measured on screen divided by it is the size in the element's own pixels. |
 | `OgreBotAPI.Options.Value` | member | setting id | string: an OgreBot setting; `""` if unknown. |
@@ -9207,8 +9484,8 @@ nameds it kills, what it loots, and how it leaves. It is a JSON file. IC reads i
 time, on the character that runs IC, and that character leads the group through it.
 
 The zone files that ship with Ogre are written the same way, so the best way to learn is to open one beside this
-page. The examples below are cut from `Oogothl Sprawl - Ver'Bohten Atoll` and `Gerion - Dominion of Pain`, both in
-`Scripts\Ogre\EQ2\IC\default\Rage of Cthurath\`.
+page. The examples below are cut from `_01_Oogothl_Sprawl_VerBohten_Atoll.json` and `_05_Gerion_Dominion_of_Pain.json`,
+both in `Scripts\Ogre\EQ2\IC\default\Rage of Cthurath\`.
 
 > **No promises.** Use this at your own risk, and expect it to change. That said, Kannkor works hard to keep
 > things backwards compatible.
@@ -9236,6 +9513,39 @@ page. The examples below are cut from `Oogothl Sprawl - Ver'Bohten Atoll` and `G
 - A number at the start of a file name, like `_01_`, sorts the list: numbered files come first, in number order.
 - Every root loads. The same file in two roots shows up twice in the IC window: they are separate files, and
   neither replaces the other.
+
+### File names
+
+The zone files that ship with Ogre are named after their zone: take the zone's name, turn each space into `_`, and
+leave out `:` `'` `,` `[` `]` and the backtick. A file for one difficulty adds that difficulty to its name; a file for
+several difficulties does not. The number in front is kept.
+
+| File | `zone` | `variants` |
+|---|---|---|
+| `_01_Oogothl_Sprawl_VerBohten_Atoll.json` | `Oogothl Sprawl: Ver'Bohten Atoll` | `[Solo]`, `[Heroic]` |
+| `_01_Sodden_Archipelago_The_Forsaken_Isle.json` | `Sodden Archipelago: The Forsaken Isle` | `[Solo]`, `[Heroic I]` |
+| `_01_Sodden_Archipelago_The_Forsaken_Isle_Heroic_II.json` | `Sodden Archipelago: The Forsaken Isle` | `[Heroic II]` |
+
+Your own files in `custom` can have any name. Name them this way and they can be queued by name too.
+
+### Queue a zone by its name
+
+`ogre ic queue add <zone name>` queues the zone file named after that zone. Write the difficulty in the name, the way
+the game writes it: `ogre ic queue add Oogothl Sprawl: Ver'Bohten Atoll [Heroic]`. `ogre ic queue add ${Zone.Name}`
+queues the zone you are standing in. The console says which file it picked, then queues it as **Add** does.
+
+- The name needs the difficulty whenever the zone has one. Without it nothing is queued, and the line lists the
+  difficulties its files cover:
+  `"Oogothl Sprawl: Ver'Bohten Atoll" is in a file for [Solo] and [Heroic] - name one: ogre ic queue add Oogothl Sprawl: Ver'Bohten Atoll [Heroic]`.
+- A difficulty that no file of that zone covers is refused the same way, and the line lists the ones that are covered.
+- Case does not matter: `[heroic]` is `[Heroic]`.
+- The cleaned name works too, difficulty included: `ogre ic queue add Oogothl_Sprawl_VerBohten_Atoll_Heroic`.
+- When more than one root has a file of that name, `custom` is used first, then `test`, then `default`.
+- `ogre ic queue add <root> <path>` still queues any file by its root and its path. `ogre ic list` prints every loaded
+  file.
+
+A queued zone whose file is renamed follows its zone: the next time IC loads its list, the row points at the zone's
+new file, and the console says so.
 
 ## A zone file, start to finish
 
@@ -9375,7 +9685,8 @@ names the key and the nearest key IC does read (see [Checking your file](#checki
 - **A `zoneOut` that takes the group out ends its list.** Anything after it in that list is skipped.
 - **End**, **Max wait per zone** and closing the IC window stop the run where it stands. `exit` does not run.
 - **Wipes** are watched during `enter` and `steps`. IC runs the wipe recovery, then starts the zone again, leaving
-  out what is already done. After `wipeAttempts` recoveries, IC gives the zone up: the `afterWipe` steps run, `exit`
+  out what is already done. The built-in recovery revives everyone at the entrance, evacuates if they are not there,
+  and then rests for a minute so revive sickness wears off and buffs go back up. After `wipeAttempts` recoveries, IC gives the zone up: the `afterWipe` steps run, `exit`
   does not, and the list moves on to the next zone.
 - **Starting part-way.** The IC window's **named #** starts a zone at a named: IC backs up over the steps that lead
   to it (its walk, for instance) so they run too. It only works when you are already standing in that zone. A run
@@ -9479,6 +9790,24 @@ Here the group runs to each light the boss calls, while the lights are up and th
             },
             ...
 ```
+
+`forEach` can also walk saved values: `"vars": { "prefix": "<start of the name>" }` visits every value whose name
+starts with it, and `{{seq.<as>.name}}` is the rest of the name. Add `"groupMember": true` when that rest is a
+character's name: only members of the group are visited, with their names spelt as the game spells them.
+
+**Example: the first character with Escape ready casts it.** No character name is written into the file. Each member
+answers for itself, and `max: 1` stops after the first yes. If nobody has it ready, nothing is cast and the zone goes on.
+
+```json
+{ "stepId": "escape.ask", "do": "groupQuery", "var": "escapeReady", "question": "abilityReady", "ability": "Escape" },
+{ "stepId": "escape.first",
+  "forEach": { "vars": { "prefix": "escapeReady.yes.", "groupMember": true }, "as": "caster", "max": 1 },
+  "steps": [
+    { "stepId": "escape.cast", "do": "castAbility", "ability": "Escape", "sendTo": "{{seq.caster.name}}" }
+  ] }
+```
+
+"First" means first in alphabetical order among the members who answered yes, not first in the group.
 
 A loop step has no `do` of its own: the work goes in its `steps`. Loops can sit inside loops.
 
@@ -9586,6 +9915,35 @@ combat, then goes on.
 | `exitOnActorAggro` | | An actor's name. The walk ends the moment it is fighting the group. |
 | `fromStart` | `false` | With `campspot`: always start at the first spot. Without it, a group already near a later spot joins the walk there. |
 | `sendTo` | the whole group | Who walks. |
+| `killWithin` | | Meters, up to `100`. Kill the trash on the way: when a mob comes this close, the group stops where it is, kills every mob that close, then walks on. |
+| `killTypes` | `["NPC"]` | With `killWithin`: the kinds of mob to stop for, as for [`trash`](#trash): `"NPC"`, `"NamedNPC"`, `"Special"`. |
+| `killLimitMs` | `120000` | With `killWithin`: the longest one stop may take. Then the mob is left behind, the console says so, and the walk goes on. |
+
+**Example: walk to the named, killing the trash on the way.** The group walks past two spots to the named. Any mob
+that comes within 15 m of the IC character stops the walk until it is dead. A mob that is not dead after a minute is
+left behind.
+
+```json
+{ "stepId": "named2.walk", "do": "path", "using": "nav",
+  "spots": [[-310.4, 52.1, 118.7], [-262.9, 55.8, 160.3], [-221.0, 58.2, 204.6]],
+  "killWithin": 15, "killLimitMs": 60000 },
+{ "stepId": "named2", "do": "named", "name": "The Named", "spot": [-205.3, 58.9, 221.4] }
+```
+
+- **A stop.** The walk halts where the IC character is. With `nav` the group gathers on the IC character; with
+  `campspot` everyone's camp spot is put where the IC character stands. Every mob of `killTypes` within `killWithin`
+  is then pulled and killed from there, one at a time, the same way a [`trash`](#trash) step kills. When none is
+  left, the walk goes on to the spot it was walking to.
+- **Only what comes close.** The walk never leaves its way to look for a mob. To clear a whole room, put a
+  [`trash`](#trash) step at the spot instead.
+- **Nameds are walked past.** Add `"killTypes": ["NPC", "NamedNPC"]` to stop for them too. Anything that attacks the
+  group is fought either way.
+- **Left behind.** When a stop takes longer than `killLimitMs`, the console names the mobs it leaves, and the walk goes
+  on. That is not a failure. The walk does not stop for those mobs again on that stretch (a `nav` walk goes in
+  stretches of about 50 m).
+- **Time.** The stops do not count against `spotLimitMs`.
+- **The console** says each stop and what it is for (`named2.walk: a bog slug 12 m away - stopping to kill it`), and
+  how many were killed when the walk goes on.
 
 ### named
 
@@ -9715,6 +10073,8 @@ Clears every mob inside a circle around where the step starts, one at a time. Ca
 | `quietMs` | `60000` | With `wait`: the step ends after this long with nothing in the circle and nothing fighting the group. |
 | `move` | `"none"` | `"nav"` or `"campspot"` to walk to mobs more than 20 meters away. The group comes back at the end. |
 | `limitMs` | `600000` | The longest it may take. Reaching it fails the step. |
+
+To kill the trash on the way to a spot rather than around one, give the [`path`](#path) step `killWithin`.
 
 ### reward
 

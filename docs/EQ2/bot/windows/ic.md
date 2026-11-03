@@ -11,6 +11,7 @@
 > **What you can do here**
 >
 > - **Queue zones**: pick a zone on the left and double-click it (or Add). **Add all** queues every zone the list is showing (this folder, after the search and the variant filter), in its order. Drag rows to reorder.
+> - **Queue by name** from the console: `ogre ic queue add ${Zone.Name}` queues the zone you are in, and `ogre ic queue add Oogothl Sprawl: Ver'Bohten Atoll [Heroic]` any zone - its name with the difficulty, the way the game writes it.
 > - **Sort** (beside the Zones heading): the zones are listed by their number by default (**Sort: #**); click it for **Sort: A-Z**, by zone name. It is remembered, and Add all follows it.
 > - **Remove** and **Clear** sit beside the Queue heading. Remove takes out the highlighted row (click a row first; right-clicking the highlighted row does the same), Clear empties the queue. Each is greyed out until there is something for it to do.
 > - **Stop after this zone** (shown while a list runs): the zone you are in finishes, then the list stops and the end-of-list actions run (call to the guild hall or home, camp). Run clears it.
@@ -109,7 +110,7 @@ The Instance Controller (IC) runs a list of instanced zones for you, one after a
 |---|---|---|
 | **Difficulty ('choose…' until set)** | A difficulty that stays chosen while you browse. It is added to rows queued from files that have a difficulty menu, and checked against that file when you add. The bot does NOT use it during a run yet: when the row starts, IC only logs 'the difficulty on this row is recorded but not acted on yet'.<br>*Only shown when the selected file has a difficulty menu (a list of choices). Saved.* | empty |
 | **Difficulty number box (e.g. '1-80')** | Same as the Difficulty dropdown, for files that use a number range. It takes effect when you press Enter or click away. Also recorded only, not used yet.<br>*Only shown when the selected file uses a range. The range is checked when you add, not while you type.* | empty |
-| **Add** | Queues the selected file exactly like a double-click, including the variant popup.<br>*Disabled until a file is selected.* |  |
+| **Add** | Queues the selected file exactly like a double-click, including the variant popup.<br>*Disabled until a file is selected. Also from the console, by the zone's name with its difficulty: `ogre ic queue add Oogothl Sprawl: Ver'Bohten Atoll [Heroic]`, or `ogre ic queue add ${Zone.Name}` for the zone you are in. The console says which file it picked; a name with no difficulty, for a file that covers several, is refused with a line that lists them. `ogre ic queue add <root> <path>` adds a file by its path.* |  |
 | **Add all** | Queues every zone the Zones list is showing (this folder, after the search and the variant filter), in the list's order, each tagged with the variant chosen up top and the remembered difficulty. With no variant chosen, a file with 2 or more variants is left out. One console line says how many were added and why any were left out (already queued, needs a variant, refused).<br>*Greyed out when the list shows no zone files (folders are not zones). A zone already in the queue is not added again.* |  |
 
 

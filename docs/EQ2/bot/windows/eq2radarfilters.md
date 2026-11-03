@@ -10,8 +10,13 @@
 >
 > **What you can do here**
 >
+> - **The top row**: **[all]**, **quest** (quest only), **qst npc** (quest NPCs) and **no name**. **The grid** under it: one button per type.
 > - **Click a type** (npc, named, pc, pet, corpse, chest, door...) to show or hide it.
 > - **other** covers anything not in the list.
+> - **quest** (quest only) narrows **npc**, **named** and **nokill** to the ones that update one of your quests - a mob to kill or an object to click. Every other type (pc, special, chest...) follows its own button.
+> - **qst npc** always shows NPCs with a feather (or a quest update / complete icon) - the ones the quest helper hails - even with **nokill** off or **quest** on.
+> - **no name** shows or hides actors with no name - mostly junk, sometimes not.
+> - **name** (bottom right) turns name cutting on and off: lit cuts every name on the radar to the number beside it (5 to start). Change the number in the box; it is kept while cutting is off.
 > - **[all]** shows everything; when everything is on it reads **[none]** and hides everything.
 >
 > **Good to know**
@@ -46,17 +51,21 @@ The coloured dot on each button is the colour that kind is drawn in on the radar
 | **mypet** | Your own pet. | shown |
 | **merc** | Mercenaries. | shown |
 | **corpse** | Corpses. | shown |
-| **tradeskill** | Crafting stations (forges, sewing tables and the like). | shown |
+| **craft** | Crafting stations (forges, sewing tables and the like). | shown |
 | **resource** | Harvest nodes. | shown |
 | **chest** | Treasure chests. | shown |
 | **door** | Doors. | shown |
 | **other** | Anything that is none of the kinds above. | shown |
+| **quest** | Narrows npc, named and nokill to the ones that update one of your quests - a mob to kill or an object to click. Every other type follows its own button. Saved like a type click. | off |
+| **qst npc** | Always shows quest NPCs - a feather, or a quest update / complete icon, over a no-kill NPC (the ones the quest helper hails) - even with nokill off or quest on. The radar looks for them every 2 seconds, only while this is on. | off |
+| **no name** | Actors with no name - mostly junk, sometimes not. Lit shows them, dim hides them. Saved like a type click. | shown |
+| **name** | The button turns name cutting on and off; while lit, every name on the radar is cut to the number in the box (5 to start). The number is kept while cutting is off. Saved like a type click. | off, 5 |
 | **Title bar close (X)** | Closes this window only. The radar keeps running. |  |
 
 ## What the window shows
 
 - A lit button means that kind is drawn on the radar; a dim one means it is hidden.
-- The line under the buttons: '[all] selects everything, or clears it when everything is on'.
+- The top row holds the four switches ([all], quest, qst npc, no name); the grid under it holds one button per type.
 
 ## Good to know
 

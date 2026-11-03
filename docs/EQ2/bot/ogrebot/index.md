@@ -20,6 +20,7 @@
 > **Good to know**
 >
 > - A yellow star (*) in the title bar means there are unsaved changes. Closing OgreBot without saving loses them.
+> - A yellow warning under Save means the Instance Controller has run on this character and may have changed settings. Reload your profile before saving; Save still works.
 > - The X stops OgreBot, the same as `ogre end bot`. **Hide Main** on the small OgreBot window just hides this one.
 > - Hover a setting or button to see what it does.
 
@@ -54,6 +55,7 @@ The title bar has the usual ? (help), lock and X buttons. When the profile has c
 | **Profile: <name>** | The name of the profile that is loaded right now. |
 | **Save** | Asks 'Save current settings to <profile>?', then writes the loaded profile to disk. A message at the bottom says 'Profile saved', or 'No changes to save' if there was nothing to write.<br>*Nothing is saved automatically. Close OgreBot without saving and your changes are gone.* |
 | **Reload** | Throws away unsaved changes and reads the profile from disk again. The cast stack and every tab are refreshed. Settings that run when a profile loads run again.<br>*It only asks first if you changed something in this window. Changes made by commands or scripts are dropped without asking.* |
+| **⚠ The Instance Controller has run on this character and may have changed settings. Load your profile again before saving.** | Shows under Save once the Instance Controller has started a run with this character, whether it leads the run or is in the group the run drives. The run may have changed some settings, and saving now would keep those changes in your profile. Save still works, and also prints this warning in the console. Press Reload, or load a profile on the Profiles tab, and the warning goes away.<br>*The Instance Controller's 'Reload profile when the run ends' option reloads every character's profile when a zone ends, so the warning usually goes away by itself.* |
 
 
 

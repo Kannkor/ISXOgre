@@ -14,9 +14,9 @@ Every name Classic's *OgreBotAPI Reference* page listed, and what it is in the n
 
 | What happened | Names |
 |---|---|
-| ⚠️ Arguments changed | 72 |
+| ⚠️ Arguments changed | 73 |
 | ⚠️ Argument order changed | 7 |
-| ✏️ Renamed | 341 |
+| ✏️ Renamed | 340 |
 | ➡️ Moved | 113 |
 | ➡️ Lives somewhere else | 11 |
 | 📄 In a data file now | 4 |
@@ -71,7 +71,7 @@ Old names whose job is now in `OgreBotAPI.Abilities`.
 
 | Old call | Today | Write instead | What changed | Notes |
 |---|---|---|---|---|
-| `OgreBotAPI:AbilityEmbargo_AddRotateTimer` | does nothing | `OgreBotAPI.Abilities:AddEmbargo` `[fw,id,durationSec]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. `[forwho, ability, durationSeconds]` - the for-who comes first and the old two arguments move up one. `ability` is an id or a name; the duration is required, and 0 ends the embargo at once. Its siblings take the for-who first too: `:ClearEmbargo[forwho, ability]`, `:ClearAllEmbargos[forwho]`. |
+| `OgreBotAPI:AbilityEmbargo_AddRotateTimer` | does nothing | `OgreBotAPI.Abilities:AddEmbargo` `[fw,id,durationSec]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. `[forwho, ability, durationSeconds]` - the for-who comes first and the old two arguments move up one. `ability` is an id or a name; the duration is required, and 0 ends the embargo at once. Its siblings take the for-who first too: `:ClearEmbargo[forwho, ability]`, `:ClearAllEmbargos[forwho]`. These keep the ABILITY embargoes only, as Classic's ability list did; an item embargo is `Inventory:AddEmbargo`. The cast stack follows an ability embargo only while that toon's Enable Ability Embargo box (Settings) is ticked, as Classic. Classic's `... Args` tail took `-g <name>` (only a toon grouped with &lt;name&gt; embargoed); it is not read - the for-who replaces it, `igw:<name>`. |
 | `OgreBotAPI:AbilityEmbargo_ResetAbilityEmbargo` | does nothing | `OgreBotAPI.Abilities:ClearEmbargo` `[fw,ability]` | ✏️ Renamed |  |
 | `OgreBotAPI:AbilityEmbargo_ResetAllAbilityEmbargos` | does nothing | `OgreBotAPI.Abilities:ClearAllEmbargos` `[fw]` | ✏️ Renamed |  |
 | `OgreBotAPI.AbilityReady` | reads NULL | `OgreBotAPI.Abilities.Ready` | ✏️ Renamed |  |
@@ -121,7 +121,6 @@ Old names whose job is now in `OgreBotAPI.Abilities`.
 | `OgreBotAPI.Get_RotationData` | reads NULL | — | ⛔ Removed | Not ported: the new bot's `OgreBotAPI.Abilities.RotationData` was a stub that did nothing, and it was removed 2026-10-22. |
 | `OgreBotAPI.GetAbilityID` | reads NULL | `OgreBotAPI.Abilities.ID` `[name]` | ✏️ Renamed |  |
 | `OgreBotAPI.HaveMaintained` | reads NULL | `OgreBotAPI.Abilities.HaveMaintained` | ➡️ Moved |  |
-| `OgreBotAPI:ItemEmbargo_AddRotateTimer` | does nothing | `OgreBotAPI.Abilities:AddEmbargo` `[fw,id,durationSec]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. same verb as `AbilityEmbargo_AddRotateTimer` - they shared one id store and are one verb now: `[forwho, id, durationSeconds]`, the for-who first. |
 | `OgreBotAPI:NoCasting` | does nothing | `OgreBotAPI.Abilities:NoCasting` `[fw]` | ➡️ Moved | Not taken any more: `_TorF`. |
 | `OgreBotAPI:Rebuff` | does nothing | `OgreBotAPI.Abilities:Rebuff` `[fw]` | ➡️ Moved |  |
 | `OgreBotAPI:ResetFor_Dispells` | does nothing | `OgreBotAPI.Abilities:SetUpForDispells` `[fw,on=TRUE]` | ⚠️ Arguments changed | the OFF half of `SetUpFor_Dispells`: `OgreBotAPI.Abilities:SetUpForDispells["all",FALSE]`. Not the same toggle as `Enable_/Disable_Dispells`, which is the master checkbox. Pass FALSE as the value argument. |
@@ -244,7 +243,7 @@ Old names whose job is now in `OgreBotAPI.Bot`.
 | `OgreBotAPI:FlushQueued` | does nothing | — | ⛔ Removed | Not ported: the new bot's `OgreBotAPI.Bot:FlushQueued` was a stub that did nothing, and it was removed 2026-10-22. |
 | `OgreBotAPI.Get_ScriptBaseName` | reads NULL | `OgreBotAPI.Bot.ScriptBaseName` `[path,removeExtension=TRUE]` | ✏️ Renamed |  |
 | `OgreBotAPI.Get_Turbo` | reads NULL | — | ⛔ Removed | Not ported: the new bot's `OgreBotAPI.Bot.Turbo` was a stub that did nothing, and it was removed 2026-10-22. The new bot does not set LavishScript turbo. |
-| `OgreBotAPI:Initialize` | does nothing | `OgreBotAPI.Bot:Initialize` `[fw,...]` | ➡️ Moved |  |
+| `OgreBotAPI:Initialize` | does nothing | `OgreBotAPI.Bot:Initialize` `[fw]` | ➡️ Moved |  |
 | `OgreBotAPI:OnDeactivate` | does nothing | `OgreBotAPI.Bot:OnDeactivate` `[fw]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. |
 | `OgreBotAPI:Pause` | does nothing | `OgreBotAPI.Bot:Pause` `[fw]` | ➡️ Moved |  |
 | `OgreBotAPI.Paused` | reads NULL | `OgreBotAPI.Bot.Paused` | ➡️ Moved |  |
@@ -293,7 +292,7 @@ Old names whose job is now in `OgreBotAPI.Combat`.
 | `OgreBotAPI.CheckNoDefensiveOn` | reads NULL | `OgreBotAPI.Combat.NoDefensive` | ✏️ Renamed |  |
 | `OgreBotAPI.CheckNoOffensiveOn` | reads NULL | `OgreBotAPI.Combat.NoOffensive` | ✏️ Renamed |  |
 | `OgreBotAPI.CheckNoReqBowAbilities` | reads NULL | `OgreBotAPI.Combat.NoReqBowAbilities` | ✏️ Renamed |  |
-| `OgreBotAPI:ClearNoOffensiveOn` | does nothing | `OgreBotAPI.Combat:ClearNoOffensive` `[fw,...]` | ✏️ Renamed |  |
+| `OgreBotAPI:ClearNoOffensiveOn` | does nothing | `OgreBotAPI.Combat:ClearNoOffensive` `[fw]` | ✏️ Renamed |  |
 | `OgreBotAPI:Countdown` | does nothing | `OgreBotAPI.Combat:Countdown` `[fw,seconds=10,...]` | ➡️ Moved |  |
 | `OgreBotAPI.InCombat` | reads NULL | `OgreBotAPI.Combat.InCombat` | ➡️ Moved |  |
 | `OgreBotAPI.IsReady` | reads NULL | `OgreBotAPI.Combat.IsReady` | ➡️ Moved |  |
@@ -317,7 +316,7 @@ Old names whose job is now in `OgreBotAPI.Comms`.
 | Old call | Today | Write instead | What changed | Notes |
 |---|---|---|---|---|
 | `OgreBotAPI:Announce_AddEntry` | does nothing | `OgreBotAPI.Comms:AddAnnounce` `[fw,ability,to,text]` | ✏️ Renamed |  |
-| `OgreBotAPI:ConversationBubble` | does nothing | `OgreBotAPI.Comms:ConversationBubble` `[fw,...]` | ➡️ Moved |  |
+| `OgreBotAPI:ConversationBubble` | does nothing | `OgreBotAPI.Comms:ConversationBubble` `[fw,num=1]` | ➡️ Moved |  |
 | `OgreBotAPI:ConversationBubbleSpew` | does nothing | `OgreBotAPI.Comms:SpewConversationBubbles` `[fw]` | ✏️ Renamed |  |
 | `OgreBotAPI:ExecuteEvent` | does nothing | `OgreBotAPI.Comms:ExecuteEvent` `[fw,name,...]` | ➡️ Moved |  |
 | `OgreBotAPI:ExecuteEvent_JSON` | does nothing | `OgreBotAPI.Comms:ExecuteEventJSON` `[fw,name,json]` | ⚠️ Arguments changed | The arguments are different: Classic took `(string _ForWho="all", string _EventName, ... Args)`, the new call takes `[fw,name,json]`. |
@@ -326,7 +325,7 @@ Old names whose job is now in `OgreBotAPI.Comms`.
 | `OgreBotAPI:Message_NT` | does nothing | `OgreBotAPI.Comms:Message` `[fw,text,-tab name...,-sound ding\|alarm]` | ⚠️ Arguments changed | identical to `Message` - the "no timestamp" distinction stopped existing when the stamp was removed. Classic's positional `noise, NoiseToPlay` became FLAGS after the text: `-sound ding` (Classic `TRUE` / `Default`) or `-sound alarm` (Classic `Loud`) - both PLAY (ding.wav / chatalarm.wav, Ogre/Common/OgreSounds) - and `-tab <name>` (repeatable) also shows the line in that OgreConsole tab. A leftover positional `TRUE` is just ignored (no sound). SIGNATURE CHANGED - drop the positional noise / NoiseToPlay pair; for a sound put `"-sound","ding"` (Classic TRUE / Default) or `"-sound","alarm"` (Classic Loud) after the text. `"-tab","<name>"` also shows the line in that OgreConsole tab. |
 | `OgreBotAPI:Message_Relay` | does nothing | `OgreBotAPI.Comms:Broadcast` `[fw,text,-tab name...,-sound ding\|alarm]` | ⚠️ Arguments changed | renamed to `:Broadcast`. `:Message` renders locally; `:Broadcast` reaches the fleet. Classic's positional `noise, NoiseToPlay` became FLAGS after the text: `-sound ding` (Classic `TRUE` / `Default`) or `-sound alarm` (Classic `Loud`) - both PLAY (ding.wav / chatalarm.wav, Ogre/Common/OgreSounds) - and `-tab <name>` (repeatable) also shows the line in that OgreConsole tab. A leftover positional `TRUE` is just ignored (no sound). SIGNATURE CHANGED - drop the positional noise / NoiseToPlay pair; for a sound put `"-sound","ding"` (Classic TRUE / Default) or `"-sound","alarm"` (Classic Loud) after the text. `"-tab","<name>"` also shows the line in that OgreConsole tab. |
 | `OgreBotAPI:OgreIRC_AuthIfInRaid` | does nothing | `OgreBotAPI.Comms:IrcAuthIfInRaid` `[nick,toon]` | ✏️ Renamed |  |
-| `OgreBotAPI:OptNum` | does nothing | `OgreBotAPI.Comms:ConversationBubble` `[fw,...]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. |
+| `OgreBotAPI:OptNum` | does nothing | `OgreBotAPI.Comms:ConversationBubble` `[fw,num=1]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. |
 | `OgreBotAPI:Pushover` | does nothing | `OgreBotAPI.Comms:Pushover` `[fw,message...,-title t,-priority n]` | ➡️ Moved |  |
 | `OgreBotAPI:Send_Tell` | does nothing | `OgreBotAPI.Comms:SendTell` `[fw,target,message]` | ✏️ Renamed |  |
 | `OgreBotAPI:SetRelayGroup` | does nothing | — | ⛔ Not ported yet | Note A |
@@ -343,20 +342,20 @@ Old names whose job is now in `OgreBotAPI.Consumables`.
 
 | Old call | Today | Write instead | What changed | Notes |
 |---|---|---|---|---|
-| `OgreBotAPI:Check_Familiar` | does nothing | `OgreBotAPI.Consumables:CheckFamiliar` `[fw,...]` | ✏️ Renamed |  |
+| `OgreBotAPI:Check_Familiar` | does nothing | `OgreBotAPI.Consumables:CheckFamiliar` `[fw]` | ✏️ Renamed |  |
 | `OgreBotAPI:CheckMercenaryTraining` | does nothing | `OgreBotAPI.Consumables:CheckMercenaryTraining` `[fw]` | ➡️ Moved |  |
 | `OgreBotAPI:CheckMountTraining` | does nothing | `OgreBotAPI.Consumables:CheckMountTraining` `[fw,force=FALSE]` | ➡️ Moved |  |
-| `OgreBotAPI:CoV` | does nothing | `OgreBotAPI.Consumables:CoV` `[fw,...]` | ➡️ Moved |  |
-| `OgreBotAPI:Drink_Alcohol` | does nothing | `OgreBotAPI.Consumables:DrinkAlcohol` `[fw,...]` | ✏️ Renamed |  |
+| `OgreBotAPI:CoV` | does nothing | `OgreBotAPI.Consumables:CoV` `[fw,travel=Teleport,toon,allowSameZone=FALSE]` | ➡️ Moved |  |
+| `OgreBotAPI:Drink_Alcohol` | does nothing | `OgreBotAPI.Consumables:DrinkAlcohol` `[fw,item=""]` | ✏️ Renamed |  |
 | `OgreBotAPI:Force_MountOff` | does nothing | `OgreBotAPI.Consumables:MountDown` `[fw]` | ✏️ Renamed | same action-queue flow shape as `:MountUp`, holding {Movement} and gated on `!Me.IsMoving` exactly as Classic's f_ForceMountOff is - one `summon_mount` toggle instead of two, since the command is a toggle. |
 | `OgreBotAPI:Force_MountOn` | does nothing | `OgreBotAPI.Consumables:MountUp` `[fw]` | ✏️ Renamed |  |
-| `OgreBotAPI:Get_FoodDrink` | does nothing | `OgreBotAPI.Consumables:ReplenishFoodDrink` `[fw,...]` | ✏️ Renamed | Classic's member RETURNED the chosen name; the new verb acts on it rather than handing it back |
-| `OgreBotAPI:Get_Poisons` | does nothing | `OgreBotAPI.Consumables:ReplenishStatPotions` `[fw,...]` | ⚠️ Arguments changed | the poison's NAME is now required: `OgreBotAPI.Consumables:ReplenishStatPotions[<forwho>,<poison name>]`. Classic filled a blank name with its class pick (Cerebral Hemotoxin for an assassin or brigand, else Cerebral Caustic Poison); the new verb fills a blank name with the configured STAT POTION, so a blank call pulls a potion, not a poison. Classic also did nothing on a toon that is not a predator or a rogue; the new verb has no class check, so aim the for-who at the toons that use the poison. The rest is the same: the Poison, Potion, & Totem Depot within 11 of you, topped up to 100 in the bags, the inventory window closed after. |
-| `OgreBotAPI:Get_StatPotions` | does nothing | `OgreBotAPI.Consumables:ReplenishStatPotions` `[fw,...]` | ✏️ Renamed | as Get_FoodDrink - the new verb acts, it does not return the name |
+| `OgreBotAPI:Get_FoodDrink` | does nothing | `OgreBotAPI.Consumables:ReplenishFoodDrink` `[fw]` | ✏️ Renamed | Classic's member RETURNED the chosen name; the new verb acts on it rather than handing it back |
+| `OgreBotAPI:Get_Poisons` | does nothing | `OgreBotAPI.Consumables:ReplenishStatPotions` `[fw,potion=""]` | ⚠️ Arguments changed | the poison's NAME is now required: `OgreBotAPI.Consumables:ReplenishStatPotions[<forwho>,<poison name>]`. Classic filled a blank name with its class pick (Cerebral Hemotoxin for an assassin or brigand, else Cerebral Caustic Poison); the new verb fills a blank name with the configured STAT POTION, so a blank call pulls a potion, not a poison. Classic also did nothing on a toon that is not a predator or a rogue; the new verb has no class check, so aim the for-who at the toons that use the poison. The rest is the same: the Poison, Potion, & Totem Depot within 11 of you, topped up to 100 in the bags, the inventory window closed after. |
+| `OgreBotAPI:Get_StatPotions` | does nothing | `OgreBotAPI.Consumables:ReplenishStatPotions` `[fw,potion=""]` | ✏️ Renamed | as Get_FoodDrink - the new verb acts, it does not return the name |
 | `OgreBotAPI:Heartstone_RekindleBond` | does nothing | `OgreBotAPI.Consumables:RekindleHeartstone` `[fw]` | ✏️ Renamed |  |
-| `OgreBotAPI:Mercenary_AddMercenaries` | does nothing | `OgreBotAPI.Consumables:AddMercenaries` `[fw,...]` | ✏️ Renamed |  |
+| `OgreBotAPI:Mercenary_AddMercenaries` | does nothing | `OgreBotAPI.Consumables:AddMercenaries` `[fw]` | ✏️ Renamed |  |
 | `OgreBotAPI:ScrollOf` | does nothing | `OgreBotAPI.Consumables:ScrollOf` `[fw,name=Prowess,cancelIfDurationLessThan=0,useBest=FALSE]` | ➡️ Moved |  |
-| `OgreBotAPI:Summon_Familiar` | does nothing | `OgreBotAPI.Consumables:SummonFamiliar` `[fw,...]` | ✏️ Renamed |  |
+| `OgreBotAPI:Summon_Familiar` | does nothing | `OgreBotAPI.Consumables:SummonFamiliar` `[fw]` | ✏️ Renamed |  |
 
 ## OgreBotAPI.Cures
 
@@ -463,19 +462,19 @@ Old names whose job is now in `OgreBotAPI.HOs`.
 | `OgreBotAPI.DoHo_Get_TargetID` | reads NULL | `OgreBotAPI.HOs.DoTargetID` | ✏️ Renamed |  |
 | `OgreBotAPI:DoHO_Reset` | does nothing | `OgreBotAPI.HOs:DoReset` `[fw]` | ✏️ Renamed |  |
 | `OgreBotAPI:DoHO_Set_Enable` | does nothing | `OgreBotAPI.HOs:DoSetEnabled` `[fw,on=TRUE,option...]` | ✏️ Renamed |  |
-| `OgreBotAPI:DoHO_Setup` | does nothing | `OgreBotAPI.HOs:DoSetup` `[fw,...]` | ✏️ Renamed |  |
-| `OgreBotAPI:HO_Advance` | does nothing | `OgreBotAPI.HOs:Advance` `[fw,...]` | ✏️ Renamed |  |
+| `OgreBotAPI:DoHO_Setup` | does nothing | `OgreBotAPI.HOs:DoSetup` `[fw,option...]` | ✏️ Renamed |  |
+| `OgreBotAPI:HO_Advance` | does nothing | `OgreBotAPI.HOs:Advance` `[fw]` | ✏️ Renamed |  |
 | `OgreBotAPI:HO_Cancel_Starter` | does nothing | `OgreBotAPI.HOs:CancelStarter` `[fw]` | ✏️ Renamed | Not taken any more: `_CalledFrom`. |
 | `OgreBotAPI.HO_Class_Available` | reads NULL | `OgreBotAPI.HOs.WheelClassAvailable` `[class]` | ✏️ Renamed |  |
-| `OgreBotAPI:HO_Start` | does nothing | `OgreBotAPI.HOs:Start` `[fw,...]` | ✏️ Renamed |  |
-| `OgreBotAPI:HO_Starter` | does nothing | `OgreBotAPI.HOs:Starter` `[fw,...]` | ✏️ Renamed |  |
-| `OgreBotAPI:HO_Starter_Advance` | does nothing | `OgreBotAPI.HOs:Starter` `[fw,...]` | ✏️ Renamed |  |
+| `OgreBotAPI:HO_Start` | does nothing | `OgreBotAPI.HOs:Start` `[fw,-ActorID id,-SkipTimer]` | ✏️ Renamed |  |
+| `OgreBotAPI:HO_Starter` | does nothing | `OgreBotAPI.HOs:Starter` `[fw]` | ✏️ Renamed |  |
+| `OgreBotAPI:HO_Starter_Advance` | does nothing | `OgreBotAPI.HOs:Starter` `[fw]` | ✏️ Renamed |  |
 | `OgreBotAPI.HO_Starter_Class` | reads NULL | `OgreBotAPI.HOs.StarterClass` | ✏️ Renamed |  |
 | `OgreBotAPI.HO_Starter_Class_Available` | reads NULL | `OgreBotAPI.HOs.StarterClassAvailable` `[class]` | ✏️ Renamed |  |
 | `OgreBotAPI.HO_Starter_Visible` | reads NULL | `OgreBotAPI.HOs.StarterVisible` | ✏️ Renamed |  |
 | `OgreBotAPI.HO_TargetID` | reads NULL | `OgreBotAPI.HOs.TargetID` | ✏️ Renamed |  |
 | `OgreBotAPI.HO_Visible` | reads NULL | `OgreBotAPI.HOs.Visible` | ✏️ Renamed |  |
-| `OgreBotAPI:HO_Wheel_Advance` | does nothing | `OgreBotAPI.HOs:Advance` `[fw,...]` | ✏️ Renamed |  |
+| `OgreBotAPI:HO_Wheel_Advance` | does nothing | `OgreBotAPI.HOs:Advance` `[fw]` | ✏️ Renamed |  |
 | `OgreBotAPI.HO_Wheel_Class_Available` | reads NULL | `OgreBotAPI.HOs.WheelClassAvailable` `[class]` | ✏️ Renamed |  |
 | `OgreBotAPI.HO_Wheel_Name` | reads NULL | `OgreBotAPI.HOs.WheelName` | ✏️ Renamed |  |
 | `OgreBotAPI.HO_Wheel_Visible` | reads NULL | `OgreBotAPI.HOs.WheelVisible` | ✏️ Renamed |  |
@@ -491,28 +490,27 @@ Old names whose job is now in `OgreBotAPI.Inventory`.
 | Old call | Today | Write instead | What changed | Notes |
 |---|---|---|---|---|
 | `OgreBotAPI.AdornmentIconIDColour` | reads NULL | `OgreBotAPI.Inventory.AdornmentColour` `[iconId]` | ✏️ Renamed |  |
-| `OgreBotAPI:ApplyTempAdorn` | does nothing | `OgreBotAPI.Inventory:PoPTempAdorns` `[fw,...]` | ✏️ Renamed |  |
-| `OgreBotAPI:AutoConsumeTemporaryFamiliarExperience` | does nothing | `OgreBotAPI.Inventory:AutoConsumeFamiliarXP` `[fw,...]` | ✏️ Renamed |  |
-| `OgreBotAPI:AutoConsumeTemporaryMountTrainingReduction` | does nothing | `OgreBotAPI.Inventory:AutoConsumeMountTraining` `[fw,...]` | ✏️ Renamed |  |
-| `OgreBotAPI:AutoConsumeTemporaryResearchReduction` | does nothing | `OgreBotAPI.Inventory:AutoConsumeResearch` `[fw,...]` | ✏️ Renamed |  |
+| `OgreBotAPI:AutoConsumeTemporaryFamiliarExperience` | does nothing | `OgreBotAPI.Inventory:AutoConsumeFamiliarXP` `[fw]` | ✏️ Renamed |  |
+| `OgreBotAPI:AutoConsumeTemporaryMountTrainingReduction` | does nothing | `OgreBotAPI.Inventory:AutoConsumeMountTraining` `[fw]` | ✏️ Renamed |  |
+| `OgreBotAPI:AutoConsumeTemporaryResearchReduction` | does nothing | `OgreBotAPI.Inventory:AutoConsumeResearch` `[fw]` | ✏️ Renamed |  |
 | `OgreBotAPI.bAPIPackPonyRunning` | reads NULL | `OgreBotAPI.Inventory.PackPonyRunning` | ✏️ Renamed |  |
-| `OgreBotAPI:Change_FoodDrinkAutoConsume` | does nothing | `OgreBotAPI.Inventory:AutoConsumeFoodDrink` `[fw,...]` | ✏️ Renamed | the argument after the for-who is true\|false\|toggle |
-| `OgreBotAPI:Change_PoisonAutoConsume` | does nothing | `OgreBotAPI.Inventory:AutoConsumeStatPotions` `[fw,...]` | ⚠️ Arguments changed | the poison's NAME is now required: `OgreBotAPI.Inventory:AutoConsumeStatPotions[<forwho>,TRUE\|FALSE\|TOGGLE\|REPORT,<poison name>]` - the exact name of a stack in your bags. Classic filled a blank name with its class pick (Cerebral Hemotoxin for an assassin or brigand, else Cerebral Caustic Poison); the new verb refuses a blank name. Classic also did nothing on a toon that is not a predator or a rogue; the new verb has no class check, so aim the for-who at the toons that use the poison. Classic announced the new on/off state to the group; the new verb says it only in the session's own console. |
-| `OgreBotAPI:Change_StatPotionsAutoConsume` | does nothing | `OgreBotAPI.Inventory:AutoConsumeStatPotions` `[fw,...]` | ✏️ Renamed |  |
-| `OgreBotAPI:ChangeBeltAdorn` | does nothing | `OgreBotAPI.Inventory:ChangeBeltAdorn` `[fw,adornType,unequip=TRUE]` | ➡️ Moved | Not taken any more: `_SkipAdornMoving`. |
-| `OgreBotAPI:CheckGear` | does nothing | `OgreBotAPI.Inventory:CheckGear` `[fw,...]` | ➡️ Moved |  |
+| `OgreBotAPI:Change_FoodDrinkAutoConsume` | does nothing | `OgreBotAPI.Inventory:AutoConsumeFoodDrink` `[fw,value=TRUE]` | ✏️ Renamed | the argument after the for-who is true\|false\|toggle |
+| `OgreBotAPI:Change_PoisonAutoConsume` | does nothing | `OgreBotAPI.Inventory:AutoConsumeStatPotions` `[fw,value=TRUE,potion=""]` | ⚠️ Arguments changed | name the poison: `OgreBotAPI.Inventory:AutoConsumeStatPotions[<forwho>,TRUE\|FALSE\|TOGGLE\|REPORT,<poison name>]` - the exact name of a stack in your bags. Classic filled a blank name with its class pick (Cerebral Hemotoxin for an assassin or brigand, else Cerebral Caustic Poison); the new verb fills a blank name with the configured STAT potion (Planar Elixir of intellect), not a poison. Classic also did nothing on a toon that is not a predator or a rogue; the new verb has no class check, so aim the for-who at the toons that use the poison. Classic announced the new on/off state to the group; the new verb says it only in the session's own console. |
+| `OgreBotAPI:Change_StatPotionsAutoConsume` | does nothing | `OgreBotAPI.Inventory:AutoConsumeStatPotions` `[fw,value=TRUE,potion=""]` | ✏️ Renamed |  |
+| `OgreBotAPI:ChangeBeltAdorn` | does nothing | `OgreBotAPI.Inventory:ChangeBeltAdorn` `[fw,adornType,unequip=TRUE]` | ➡️ Moved | Classic's `_SkipAdornMoving` (TRUE = leave the old rune wherever the swap put it) is not taken: the new call always moves the old rune back to the bag slot the new one came from. Drop a fourth argument if the line passes one.<br>Not taken any more: `_SkipAdornMoving`. |
+| `OgreBotAPI:CheckGear` | does nothing | `OgreBotAPI.Inventory:CheckGear` `[fw,threshold=100]` | ➡️ Moved |  |
 | `OgreBotAPI:CheckPackPony` | does nothing | `OgreBotAPI.Inventory:CheckPackPony` `[fw,forceCheck=FALSE]` | ➡️ Moved |  |
 | `OgreBotAPI:Consume_Familiars` | does nothing | `OgreBotAPI.Inventory:ConsumeFamiliars` `[fw]` | ✏️ Renamed |  |
 | `OgreBotAPI:Consume_Status_Ignots` | does nothing | `OgreBotAPI.Inventory:ConsumeStatusIngots` `[fw,amount=99999]` | ✏️ Renamed |  |
 | `OgreBotAPI:Consume_Status_Ingots` | does nothing | `OgreBotAPI.Inventory:ConsumeStatusIngots` `[fw,amount=99999]` | ✏️ Renamed |  |
 | `OgreBotAPI:Consume_Status_Tokens` | does nothing | `OgreBotAPI.Inventory:ConsumeStatusTokens` `[fw,amount=99999]` | ✏️ Renamed |  |
-| `OgreBotAPI:ConsumeDeityBaubles` | does nothing | `OgreBotAPI.Inventory:ConsumeDeityBaubles` `[fw,...]` | ➡️ Moved |  |
+| `OgreBotAPI:ConsumeDeityBaubles` | does nothing | `OgreBotAPI.Inventory:ConsumeDeityBaubles` `[fw]` | ➡️ Moved |  |
 | `OgreBotAPI:ConsumeItems_ProcessList` | does nothing | `OgreBotAPI.Inventory:ConsumeList` `[fw,-fc,-all,-st]` | ✏️ Renamed |  |
 | `OgreBotAPI.ConvertAdornToRemoveSlot` | reads NULL | `OgreBotAPI.Inventory.AdornToRemoveSlot` `[adorn]` | ✏️ Renamed |  |
 | `OgreBotAPI.ConvertAdornToSlot` | reads NULL | `OgreBotAPI.Inventory.AdornToSlot` `[adorn,slot=21]` | ✏️ Renamed |  |
 | `OgreBotAPI:DestroyItem` | does nothing | `OgreBotAPI.Inventory:DestroyItem` `[fw,itemName]` | ➡️ Moved | Not taken any more: `_Charges`. |
 | `OgreBotAPI:DestroyItem_NoChecks` | does nothing | `OgreBotAPI.Inventory:DestroyItem` `[fw,itemName]` | ✏️ Renamed |  |
-| `OgreBotAPI:EquipCharm` | does nothing | `OgreBotAPI.Inventory:EquipCharm` `[fw,...]` | ➡️ Moved |  |
+| `OgreBotAPI:EquipCharm` | does nothing | `OgreBotAPI.Inventory:EquipCharm` `[fw,slot=1]` | ➡️ Moved |  |
 | `OgreBotAPI.EquipmentSlotAvailable` | reads NULL | `OgreBotAPI.Inventory.SlotAvailable` `[slot name]` | ✏️ Renamed | **Old:** `${OgreBotAPI.EquipmentSlotAvailable[cloak]}. New: ${OgreBotAPI.Inventory.SlotAvailable[cloak]} - TRUE when the item in that slot can be used now. Names (any case): primary, secondary, head, cloak, chest, shoulders, forearms, hands, legs, feet, left_ring, right_ring, ears, ears2, neck, left_wrist, right_wrist, ranged, ammo, waist, activate1, activate2, event_slot, food, drink. Pass the name: there is no default slot` |
 | `OgreBotAPI.EquipmentSlotNumAvailable` | reads NULL | `OgreBotAPI.Inventory.SlotNumAvailable` `[slot number 1-22]` | ✏️ Renamed | **Old:** `${OgreBotAPI.EquipmentSlotNumAvailable[20]}. New: ${OgreBotAPI.Inventory.SlotNumAvailable[20]} - Classic's numbers 1-22 (1 primary, 2 secondary, 3 head, 4 chest, ... 19 waist, 20 cloak, 21 activate1, 22 activate2), not ${Me.Equipment[N]}'s. Pass the number: there is no default` |
 | `OgreBotAPI:ExamineAllOfItem` | does nothing | `OgreBotAPI.Inventory:ExamineAll` `[fw,item...]` | ✏️ Renamed |  |
@@ -527,18 +525,18 @@ Old names whose job is now in `OgreBotAPI.Inventory`.
 | `OgreBotAPI:Initialize_AdornmentInfo` | does nothing | `OgreBotAPI.Inventory:InitAdornmentInfo` `[fw]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. |
 | `OgreBotAPI.IsAdornmentColour` | reads NULL | `OgreBotAPI.Inventory.IsAdornmentColour` `[iconId,colour]` | ➡️ Moved |  |
 | `OgreBotAPI.ItemCount` | reads NULL | `OgreBotAPI.Inventory.Count` `[itemName,exact\|contains]` | ⚠️ Arguments changed | Write OgreBotAPI.Inventory.Count[&lt;name&gt;,contains] - Classic matched a PART of the name (=-); `exact` (the default) needs the whole name. Both count every stack in the bags and the Harvest Bag. |
+| `OgreBotAPI:ItemEmbargo_AddRotateTimer` | does nothing | `OgreBotAPI.Inventory:AddEmbargo` `[fw,linkId,durationSec]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. `OgreBotAPI.Inventory:AddEmbargo[forwho, linkId, durationSeconds]`, the for-who first. It keeps the ITEM embargoes, apart from the ability ones as in Classic, so an ability embargo with the same number does not touch it. `linkId` is the item's LinkID as `${Me.Inventory[...].LinkID}` reads it; the cast stack skips that item until the embargo ends, while that toon's Enable Item Embargo box (Settings) is ticked. `Inventory:ClearEmbargo[forwho, linkId]` and `Inventory:ClearAllEmbargos[forwho]` lift item embargoes (new: Classic had no item reset). Classic's `... Args` tail took `-g <name>` (only a toon grouped with &lt;name&gt; embargoed); it is not read - the for-who replaces it, `igw:<name>`. |
 | `OgreBotAPI:KronoWindowCheck` | does nothing | — | ⛔ Removed | Not ported: the new bot's `OgreBotAPI.Inventory:KronoWindowCheck` was a stub that did nothing, and it was removed 2026-10-22. OgreBotAPI.Inventory:RedeemKrono already covers it: its flow includes the result-window check. |
 | `OgreBotAPI:Overseer_SpewMissionsInInventory` | does nothing | — | ⛔ Removed | Not ported: the new bot's `OgreBotAPI.Inventory:SpewOverseerMissions` was a stub that did nothing, and it was removed 2026-10-22. |
-| `OgreBotAPI:PoP_TempAdorns` | does nothing | `OgreBotAPI.Inventory:PoPTempAdorns` `[fw,...]` | ✏️ Renamed |  |
 | `OgreBotAPI:RedeemKrono` | does nothing | `OgreBotAPI.Inventory:RedeemKrono` `[fw]` | ➡️ Moved |  |
 | `OgreBotAPI.Slot_SlotNames` | reads NULL | `OgreBotAPI.Inventory.SlotName` `[n=1]` | ✏️ Renamed |  |
 | `OgreBotAPI.SlotNum_EQ2UIPageSlotNames` | reads NULL | `OgreBotAPI.Inventory.SlotUIName` `[n=1]` | ✏️ Renamed |  |
 | `OgreBotAPI.SlotNum_SlotNames` | reads NULL | `OgreBotAPI.Inventory.SlotName` `[n=1]` | ✏️ Renamed |  |
 | `OgreBotAPI:Spew_SlotNum_To_SlotNames` | does nothing | `OgreBotAPI.Inventory:SpewSlotNames` `[fw]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. |
 | `OgreBotAPI:Unpack` | does nothing | `OgreBotAPI.Inventory:Unpack` `[fw,item,...]` | ⚠️ Arguments changed | **Old:** `OgreBotAPI:Unpack[<fw>,<item>,<choice>]`<br>**New:** `OgreBotAPI.Inventory:Unpack[<fw>,<item>,-pick,<choice>]`<br>The reward choice is a flag now; a bare third argument is refused with a line naming -pick. -qty &lt;N&gt; unpacks N, -all keeps going until none is left, -pick &lt;number \| name \| lowest&gt; takes that reward when the window offers a choice (lowest = the one the character holds fewest of in its bags; a tie goes to the first in window order). An already-open reward window is waited out, up to 10 s. |
-| `OgreBotAPI:Unpack_Consume_Familiars` | does nothing | `OgreBotAPI.Inventory:UnpackConsumeFamiliars` `[fw,...]` | ✏️ Renamed |  |
+| `OgreBotAPI:Unpack_Consume_Familiars` | does nothing | `OgreBotAPI.Inventory:UnpackConsumeFamiliars` `[fw]` | ✏️ Renamed |  |
 | `OgreBotAPI:Unpack_EmpyralStones` | does nothing | `OgreBotAPI.Inventory:Unpack` `[fw,item,...]` | ⚠️ Arguments changed | **Old:** `OgreBotAPI:Unpack_EmpyralStones[<fw>,<choice=Lowest>]`<br>**New:** `OgreBotAPI.Inventory:Unpack[<fw>,"Empyral Stones",-all,-pick,lowest]`<br>Or -pick,"&lt;stone name&gt;" for one kind. The same flags unpack any item. |
-| `OgreBotAPI:Unpack_Familiars` | does nothing | `OgreBotAPI.Inventory:UnpackFamiliars` `[fw,...]` | ✏️ Renamed |  |
+| `OgreBotAPI:Unpack_Familiars` | does nothing | `OgreBotAPI.Inventory:UnpackFamiliars` `[fw]` | ✏️ Renamed |  |
 | `OgreBotAPI:Unpack_PlanarStones` | does nothing | `OgreBotAPI.Inventory:Unpack` `[fw,item,...]` | ⚠️ Arguments changed | **Old:** `OgreBotAPI:Unpack_PlanarStones[<fw>,<choice=Lowest>]`<br>**New:** `OgreBotAPI.Inventory:Unpack[<fw>,"Planar Stones",-all,-pick,lowest]`<br>Or -pick,"&lt;stone name&gt;" for one kind. The same flags unpack any item. |
 | `OgreBotAPI:Unpack_Quantity` | does nothing | `OgreBotAPI.Inventory:Unpack` `[fw,item,...]` | ⚠️ Arguments changed | **Old:** `OgreBotAPI:Unpack_Quantity[<fw>,<item>,<N>,<choice>]`<br>**New:** `OgreBotAPI.Inventory:Unpack[<fw>,<item>,-qty,<N>,-pick,<choice>]`<br>Leave -pick and its value out when there is no choice. The old "examine" item name (the item in the open examine window) is gone: name the item. |
 | `OgreBotAPI:UseItem` | does nothing | `OgreBotAPI.Inventory:Use` `[fw,item,...]` | ✏️ Renamed |  |
@@ -572,7 +570,7 @@ Old names whose job is now in `OgreBotAPI.Merchant`.
 | `OgreBotAPI:BuyFromMerchant` | does nothing | `OgreBotAPI.Merchant:Buy` `[fw,item,qty=1]` | ✏️ Renamed |  |
 | `OgreBotAPI:OpenAndBuyFromMerchant` | does nothing | `OgreBotAPI.Merchant:OpenAndBuy` `[fw,merchant,item,qty=1]` | ✏️ Renamed |  |
 | `OgreBotAPI:OpenAndBuyFromMerchantXTimes` | does nothing | `OgreBotAPI.Merchant:OpenAndBuyXTimes` `[fw,merchant,item,qty,times]` | ✏️ Renamed |  |
-| `OgreBotAPI:RepairGear` | does nothing | `OgreBotAPI.Merchant:Repair` `[fw,...]` | ✏️ Renamed |  |
+| `OgreBotAPI:RepairGear` | does nothing | `OgreBotAPI.Merchant:Repair` `[fw,force=FALSE]` | ✏️ Renamed |  |
 | `OgreBotAPI:SellToMerchant` | does nothing | `OgreBotAPI.Merchant:Sell` `[fw,item,qty=1]` | ✏️ Renamed |  |
 
 ## OgreBotAPI.Movement
@@ -706,16 +704,16 @@ Old names whose job is now in `OgreBotAPI.Quest`.
 |---|---|---|---|---|
 | `OgreBotAPI:AcceptQuest` | does nothing | `OgreBotAPI.Quest:Accept` `[fw,questName=""]` | ✏️ Renamed |  |
 | `OgreBotAPI.ActorHasQuest` | reads NULL | `OgreBotAPI.Quest.ActorHas` `[actorId=0]` | ✏️ Renamed |  |
-| `OgreBotAPI:CheckKunarkAscendingRequirements` | does nothing | `OgreBotAPI.Quest:CheckKunarkAscending` `[fw,...]` | ✏️ Renamed |  |
+| `OgreBotAPI:CheckKunarkAscendingRequirements` | does nothing | `OgreBotAPI.Quest:CheckKunarkAscending` `[fw]` | ✏️ Renamed |  |
 | `OgreBotAPI:CheckToShareQuest` | does nothing | `OgreBotAPI.Quest:CheckToShare` `[fw,zoneName]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. |
 | `OgreBotAPI:CompareQuestUpdate` | does nothing | `OgreBotAPI.Quest:CompareUpdate` `[fw,questName]` | ✏️ Renamed |  |
 | `OgreBotAPI:DailyEtherealMissionReset` | does nothing | — | ⛔ Removed | Not ported: the new bot's `OgreBotAPI.Quest:DailyMissionReset` was a stub that did nothing, and it was removed 2026-10-22. |
 | `OgreBotAPI:DeleteQuest` | does nothing | `OgreBotAPI.Quest:Delete` `[fw,questName]` | ✏️ Renamed |  |
-| `OgreBotAPI:DisplayEtherealMissionInfo` | does nothing | `OgreBotAPI.Quest:ShowMissionInfo` `[fw,...]` | ✏️ Renamed |  |
+| `OgreBotAPI:DisplayEtherealMissionInfo` | does nothing | `OgreBotAPI.Quest:ShowMissionInfo` `[fw]` | ✏️ Renamed |  |
 | `OgreBotAPI.GetDeityPoints` | does nothing (stub) | `OgreBotAPI.Quest.DeityPoints` *(does nothing yet)* | ⛔ Exists, does nothing yet |  |
 | `OgreBotAPI.HaveQuest` | reads NULL | `OgreBotAPI.Quest.Have` `[name]` | ✏️ Renamed |  |
 | `OgreBotAPI.LootQuestion` | reads NULL | `OgreBotAPI.Quest.SkipShinies` | ✏️ Renamed |  |
-| `OgreBotAPI:ShareAllMissions` | does nothing | `OgreBotAPI.Quest:ShareAllMissions` `[fw,...]` | ➡️ Moved |  |
+| `OgreBotAPI:ShareAllMissions` | does nothing | `OgreBotAPI.Quest:ShareAllMissions` `[fw]` | ➡️ Moved |  |
 | `OgreBotAPI:ShareMission` | does nothing | `OgreBotAPI.Quest:ShareMission` `[fw,questName]` | ➡️ Moved |  |
 | `OgreBotAPI:ShareQuest` | does nothing | `OgreBotAPI.Quest:ShareQuest` `[fw,questName]` | ➡️ Moved |  |
 | `OgreBotAPI:ShareQuestWhenAble` | does nothing | `OgreBotAPI.Quest:ShareQuestWhenAble` `[fw,questName,zoneName]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. |
@@ -788,6 +786,15 @@ Old names whose job is now in `OgreBotAPI.Session`.
 | `OgreBotAPI:StopRes` | does nothing | `OgreBotAPI.Session:StopRes` `[fw]` | ➡️ Moved |  |
 | `OgreBotAPI:UpdateCharacterDetails` | does nothing | `OgreBotAPI.Session:UpdateCharacterDetails` `[fw]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. gained a for-who. |
 
+## OgreBotAPI.TempAdorns
+
+Old names whose job is now in `OgreBotAPI.TempAdorns`.
+
+| Old call | Today | Write instead | What changed | Notes |
+|---|---|---|---|---|
+| `OgreBotAPI:ApplyTempAdorn` | does nothing | `OgreBotAPI.TempAdorns:Apply` `[fw,profile,overwrite=FALSE]` | ⚠️ Arguments changed | **Old:** `OgreBotAPI:ApplyTempAdorn[<fw>,<adorn=auto>,<slot=Both>] - the Umbra adornments on the primary and / or the chest`<br>**New:** ``OgreBotAPI.TempAdorns:Apply[<fw>,<profile>,<overwrite=FALSE>] - a saved profile: each gear piece it names gets its adornment. Make the profile in the Temp Adornments window (`ogre tempadorns`) and name it`` |
+| `OgreBotAPI:PoP_TempAdorns` | does nothing | `OgreBotAPI.TempAdorns:Apply` `[fw,profile,overwrite=FALSE]` | ✏️ Renamed | The adorn type is the profile: cboc / pot / hp are the ready-made profiles CBOC / Pot / HP (the old hardcoded lists), matched in any case. Name it - the old default cboc is not assumed. Classic also took the full adornment name (Maintained Machined Injector); write its profile name instead. |
+
 ## OgreBotAPI.Travel
 
 Old names whose job is now in `OgreBotAPI.Travel`.
@@ -833,7 +840,7 @@ Old names whose job is now in `OgreBotAPI.Util`.
 | `OgreBotAPI.RemoveColourCode` | reads NULL | `OgreBotAPI.Util.StripColourCodes` `[s]` | ✏️ Renamed |  |
 | `OgreBotAPI.RemoveZoneNumber` | reads NULL | `OgreBotAPI.Util.StripZoneNumber` `[s=${Zone.Name}]` | ✏️ Renamed |  |
 | `OgreBotAPI.RemoveZoneNumberOnly` | reads NULL | `OgreBotAPI.Util.StripZoneNumberOnly` `[s=${Zone.Name}]` | ✏️ Renamed |  |
-| `OgreBotAPI:Research_Material_Check` | does nothing | `OgreBotAPI.Util:CheckResearchMaterials` `[fw,...]` | ✏️ Renamed |  |
+| `OgreBotAPI:Research_Material_Check` | does nothing | `OgreBotAPI.Util:CheckResearchMaterials` `[fw]` | ✏️ Renamed |  |
 | `OgreBotAPI.RomanToInt` | reads NULL | `OgreBotAPI.Util.RomanToInt` `[s]` | ➡️ Moved |  |
 | `OgreBotAPI.RoundNumToNearestValue` | reads NULL | `OgreBotAPI.Util.RoundToNearest` `[value=0,step=1,incBy=0]` | ✏️ Renamed |  |
 | `OgreBotAPI.To_Float` | reads NULL | `OgreBotAPI.Util.ToFloat` `[s]` | ✏️ Renamed |  |
@@ -880,11 +887,11 @@ Old names whose job is now in `OgreBotAPI.Windows`.
 | `OgreBotAPI.Get_RewardID` | reads NULL | `OgreBotAPI.Windows.RewardID` `[num\|name,windowId]` | ✏️ Renamed |  |
 | `OgreBotAPI.Get_RewardLinkID` | reads NULL | `OgreBotAPI.Windows.RewardLinkID` `[num\|name,windowId]` | ✏️ Renamed |  |
 | `OgreBotAPI.Get_RewardName` | reads NULL | `OgreBotAPI.Windows.RewardName` `[num\|name,windowId]` | ✏️ Renamed |  |
-| `OgreBotAPI:InputTextWindow_Accept` | does nothing | `OgreBotAPI.Windows:InputTextAccept` `[fw,...]` | ✏️ Renamed |  |
+| `OgreBotAPI:InputTextWindow_Accept` | does nothing | `OgreBotAPI.Windows:InputTextAccept` `[fw]` | ✏️ Renamed |  |
 | `OgreBotAPI:InputTextWindow_AddText` | does nothing | `OgreBotAPI.Windows:InputTextAdd` `[fw,text]` | ✏️ Renamed | `[fw, text]`. Same page/child/visible gate as `:InputTextAccept` - a no-op when the input box is not up. |
 | `OgreBotAPI:InputTextWindow_ClearText` | does nothing | `OgreBotAPI.Windows:InputTextClear` `[fw]` | ✏️ Renamed | `[fw]`. |
 | `OgreBotAPI.IsCastingWindowVisible` | reads NULL | `OgreBotAPI.Windows.CastingWindowVisible` | ✏️ Renamed |  |
-| `OgreBotAPI:OK_Button` | does nothing | `OgreBotAPI.Windows:OK` `[fw,...]` | ✏️ Renamed |  |
+| `OgreBotAPI:OK_Button` | does nothing | `OgreBotAPI.Windows:OK` `[fw]` | ✏️ Renamed |  |
 | `OgreBotAPI:ProvingGrounds_Exit` | does nothing | `OgreBotAPI.Windows:ProvingGroundsExit` `[fw]` | ✏️ Renamed |  |
 | `OgreBotAPI:ProvingGrounds_Scoreboard_Close` | does nothing | `OgreBotAPI.Windows:ProvingGroundsScoreboardClose` `[fw]` | ✏️ Renamed |  |
 | `OgreBotAPI:ReplyDialog` | does nothing | `OgreBotAPI.Windows:Reply` `[fw,number\|text=1]` | ✏️ Renamed |  |
@@ -906,7 +913,7 @@ Old names whose job is now in `OgreBotAPI.Zone`.
 
 | Old call | Today | Write instead | What changed | Notes |
 |---|---|---|---|---|
-| `OgreBotAPI:Champions_Zone_Resetter` | does nothing | `OgreBotAPI.Zone:ChampionsResetter` `[fw,...]` | ✏️ Renamed |  |
+| `OgreBotAPI:Champions_Zone_Resetter` | does nothing | `OgreBotAPI.Zone:ChampionsResetter` `[fw,zone]` | ✏️ Renamed |  |
 | `OgreBotAPI:ChangeZoneTo` | does nothing | `OgreBotAPI.Zone:ChangeZoneTo` `[fw,toWho]` | ➡️ Moved |  |
 | `OgreBotAPI:CheckICPartyStatus` | does nothing | — | ⛔ Removed | Nothing to call - delete the line. To ask whether the group is running IC: Ask the group: ${OgreBotAPI.Comms.GroupQuery[${Me.Name},-question,"LavishScript[\${ISXOgreEQ2.IC.Running}]"]} returns an id; wait on .Done[id], then .Result[id] is JSON - "anyYes" = someone in the group is running IC, "yesWho" = who. |
 | `OgreBotAPI.CityRestrictions` | reads NULL | `OgreBotAPI.Zone.CityRestrictions` | ➡️ Moved |  |
@@ -916,10 +923,10 @@ Old names whose job is now in `OgreBotAPI.Zone`.
 | `OgreBotAPI.InHouseAccessZone` | reads NULL | `OgreBotAPI.Zone.InHouseAccess` | ✏️ Renamed |  |
 | `OgreBotAPI.InHouseZone` | reads NULL | `OgreBotAPI.Zone.InHouse` | ✏️ Renamed |  |
 | `OgreBotAPI.InInstance` | reads NULL | `OgreBotAPI.Zone.InInstance` | ➡️ Moved |  |
-| `OgreBotAPI:ResetZone` | does nothing | `OgreBotAPI.Zone:ResetZone` `[fw,...]` | ➡️ Moved |  |
+| `OgreBotAPI:ResetZone` | does nothing | `OgreBotAPI.Zone:ResetZone` `[fw,zone]` | ➡️ Moved |  |
 | `OgreBotAPI:Select_Zone_Version` | does nothing | `OgreBotAPI.Zone:SelectVersion` `[fw,version=OK]` | ✏️ Renamed |  |
-| `OgreBotAPI:ShareQuestsForZone` | does nothing | `OgreBotAPI.Zone:ShareQuestsForZone` `[fw,...]` | ➡️ Moved |  |
-| `OgreBotAPI:SpecialZoneSpecific` | does nothing | `OgreBotAPI.Zone:SpecialZoneSpecific` `[fw,...]` | ➡️ Moved |  |
+| `OgreBotAPI:ShareQuestsForZone` | does nothing | `OgreBotAPI.Zone:ShareQuestsForZone` `[fw,zone=""]` | ➡️ Moved |  |
+| `OgreBotAPI:SpecialZoneSpecific` | does nothing | `OgreBotAPI.Zone:SpecialZoneSpecific` `[fw]` | ➡️ Moved |  |
 | `OgreBotAPI:ToggleZoneReuse` | does nothing | `OgreBotAPI.Zone:ToggleZoneReuse` `[fw]` | ➡️ Moved |  |
 | `OgreBotAPI:Zone` | does nothing | `OgreBotAPI.Zone:Zone` `[fw,zone,...]` | ➡️ Moved |  |
 | `OgreBotAPI.ZoneName` | reads NULL | `OgreBotAPI.Zone.Name` | ✏️ Renamed |  |

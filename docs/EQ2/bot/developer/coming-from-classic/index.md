@@ -71,7 +71,7 @@ Every Classic name these pages cover so far, by what happened to it:
 
 | What happened | Names |
 |---|---|
-| ⚠️ Arguments changed | 235 |
+| ⚠️ Arguments changed | 238 |
 | ⚠️ Argument order changed | 31 |
 | ✏️ Renamed | 518 |
 | ➡️ Moved | 176 |
@@ -80,7 +80,7 @@ Every Classic name these pages cover so far, by what happened to it:
 | ⛔ Exists, does nothing yet | 1 |
 | ⛔ Not ported yet | 310 |
 | ⛔ Removed | 222 |
-| ✅ Works as is | 476 |
+| ✅ Works as is | 473 |
 | **Total** | **2468** |
 
 Can't find a name? Use the search box at the top - every old name is on one of these pages.

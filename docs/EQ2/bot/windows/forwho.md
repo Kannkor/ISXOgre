@@ -15,6 +15,7 @@
 > - **Fighter / Mage / Priest / Scout** - click once for that class, again for "Not" that class.
 > - **G1-G4** - a group of your raid.
 > - **Multi** - pick several; a character must match all of them (Fighter + G1 = fighters in group 1).
+> - **Custom** (the gear) - type any For Who the chips cannot say, like charA|charB|priest (| = or, + = and, - in front = not). Press Enter or Set; it replaces the chips until you clear it.
 >
 > **Good to know**
 >
@@ -23,7 +24,8 @@
 > - Each session keeps its own choice: your tank can send to Group while your enchanter sends to Me.
 > - The choice is not saved: a new session starts at Auto with nothing picked (everyone).
 > - The X hides this window, like Done, so the choice keeps working; the For Who button on the MCP brings it back.
-> - **Clear** resets the picks; the command preview setting stays.
+> - **Clear** resets the picks and any custom value; the command preview setting stays.
+> - A script or extension can set the custom value with ISXOgreEQ2.MCP:SetForWho["charA|charB|priest"]; ${ISXOgreEQ2.MCP.ForWho} reads what is in force.
 
 **Open it:** Click **For Who** in the Master Control Panel's title bar (click again to hide it). Tick **Open For Who on load** in the MCP's gear to show it every time the MCP opens.
 
@@ -70,7 +72,7 @@ Click a chip to pick it; click it again to un-pick it. With nothing picked the c
 | Control | What it does | Default |
 |---|---|---|
 | **Multi** | Lets you pick more than one chip. A character must match ALL of them - for example Group + Not Fighter = the group's non-fighters. All cannot be combined with anything. Turning Multi off keeps only the first pick. Resting the mouse on Multi says the same.<br>*Fighter + Priest matches nobody (no character is both).* | off |
-| **Clear** | Back to the start: Auto, nothing picked (everyone), Multi off. 'Show command preview' stays as it was. |  |
+| **Clear** | Back to the start: Auto, nothing picked (everyone), Multi off, no custom value. 'Show command preview' stays as it was. |  |
 | **Done** | Hides the window. Your choice stays in effect. |  |
 
 
@@ -82,6 +84,7 @@ Click a chip to pick it; click it again to un-pick it. With nothing picked the c
 | Control | What it does | Default |
 |---|---|---|
 | **Show command preview** | Shows a line under the buttons with what gets added to each command, for example 'auto -cfw igw:${Me.Name}+notfighter'. Display only. | off |
+| **Custom (box + Set)** | Type any For Who the chips cannot say, then press Enter or Set. It is used exactly as written: \| = or, + = and, a character name = that character, - in front = not (charA\|charB\|priest = charA, charB or any priest). While it is in force it covers the chips and shows the value; click it to change it. Any chip, Clear, or an empty Set goes back to the chips. Spaces are removed. | empty |
 | **× (close)** | Closes the settings box. The gear does the same. |  |
 
 
@@ -91,14 +94,19 @@ Click a chip to pick it; click it again to un-pick it. With nothing picked the c
 - The lit button in the top row is how commands are sent.
 - A lit chip (blue outline) is picked. All is green when picked. A red chip reading 'Not ...' means that class is excluded.
 - The preview line (when turned on) shows the route, then '-cfw' and the target that is added to each command. ${Me.Name} is shown as written; it becomes the clicking character's name when sent.
+- A box over the chips reading 'Custom' means a typed value is in force (shown in the box); the chips do not apply until you clear it.
 
 ## Good to know
 
 - The chips only apply to buttons that leave their target blank. A button whose every step names a target (Me, fighter, a character name ...) goes to that target whatever chips are picked. Auto / OC / IRC still applies to it.
 - Buttons made in Raw mode ignore For Who completely: they run only on the character that clicked.
-- Your For Who choice is saved with the MCP buttons and shared by every character on this PC. Changing it on one character changes it on all of them.
+- Each session keeps its own choice, in memory only: a new session starts at Auto with nothing picked (everyone), and changing it on one character does not change it on the others.
 - Me, Group and Raid mean the character that clicked (or pressed the bound key), not each character that receives the command.
 - Hide the window with Done (or the MCP's For Who button). Done, or closing it with its own X, keeps your choice: it is the same when the window opens again.
+
+### Setting it from a script or extension
+
+`ISXOgreEQ2.MCP:SetForWho["charA|charB|priest"]` sets the custom value on this session, exactly as typing it in the gear does: the window shows it, and MCP buttons and bound keys use it. `ISXOgreEQ2.MCP:SetForWho[all]` goes back to everyone. `${ISXOgreEQ2.MCP.ForWho}` reads the For Who in force (`all` = everyone). Like a choice made with the chips, it is not saved and belongs to this session only. An extension can run the same line with `ExecuteCommand`.
 
 ### Several chips at once (Multi)
 

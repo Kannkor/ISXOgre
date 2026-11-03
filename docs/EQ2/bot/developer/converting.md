@@ -1,8 +1,8 @@
-# Converting your scripts
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# Converting your scripts
 
 This page is for moving your own OgreBot Classic scripts over to the new OgreBot: side scripts, helper
 scripts, console lines and MCP buttons. It has a small tool that checks a script, fixes what it safely
@@ -74,7 +74,17 @@ python ogre_convert.py fix <file.iss> --in-place            (keeps the name - se
 - a Classic call that had no for-who, where the only change is "the for-who is now the first argument":
   it puts `all` first. A script's own call only ever runs on the session running it, so `all` there means
   "this session" - exactly what the old call did;
-- a console command that was renamed and takes the same arguments;
+- the for-who of every call it rewrites: when the new call takes one and the Classic call passed no
+  arguments at all, the Classic default is written out (`OgreBotAPI:Jump` becomes
+  `OgreBotAPI.Movement:Jump[all]`, `OgreBotAPI:JoustOn` becomes `OgreBotAPI.Movement:JoustOn[Melee]`).
+  A call that passed arguments already passed its for-who first and keeps it. A Classic for-who with no
+  default matched nobody when it was left off, so that call stays on the list for you;
+- a console command that was renamed and takes the same arguments - and one that was renamed and now
+  takes a for-who first, which gets `auto` (`oc !c -Door 2` becomes `oc !c -ZoneDoor auto 2`: the line's
+  `-cfw`, or the For Who window, decides). A command that kept its name and now takes a for-who first gets
+  `auto` only when its first argument cannot be a for-who - a plain number or quoted text with a space
+  (`oc !c -ZoneDoor 1` becomes `oc !c -ZoneDoor auto 1`); with a word or a `${...}` there (`-Mentor Bob`),
+  it stays on the list, because that may already be the for-who. Running `fix` again adds nothing;
 - a Classic framework variable that was renamed to a plain member: `${OgreRelayGroup}` becomes
   `${ISXOgreEQ2.Auth.RelayGroup}` (and `${OgreRelayGroup.Length}` becomes `${ISXOgreEQ2.Auth.RelayGroup.Length}`),
   so a relay line like `relay ${OgreRelayGroup} ...` converts with no hand work.

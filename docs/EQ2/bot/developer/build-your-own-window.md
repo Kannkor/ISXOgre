@@ -270,12 +270,14 @@ event your script has attached an atom to, as hello does. Your script registers 
 
 ## Knowing when windows open and close
 
-Two events fire for **every** window - yours, OgreBot's, and the help windows the **?** button opens:
+These events fire for **every** window - yours, OgreBot's, and the help windows the **?** button opens:
 
 | Event | Arguments |
 |---|---|
 | `OgreUI_Opened` | `name` |
 | `OgreUI_Closed` | `name`, `reason`: `closed` (its **X**, or `ISXOgreX.UI:Close`) or `reload` |
+| `OgreUI_Shown` | `name`: an open window became visible |
+| `OgreUI_Hidden` | `name`: an open window was hidden |
 
 - ISXOgreX registers both events when it loads, so your script attaches with
   `Event[OgreUI_Closed]:AttachAtom[...]` and needs no `RegisterEvent`. Load ISXOgreX before your script
@@ -288,7 +290,9 @@ Two events fire for **every** window - yours, OgreBot's, and the help windows th
   you issue from there is still applied. Do your reads after the event, not from a load-time command.
 - The help window that the **?** button opens is named `help:` followed by the window's name, for example
   `help:hello`.
-- Hiding or showing a window does not fire them; only opening and closing does.
+- `OgreUI_Shown` and `OgreUI_Hidden` fire only when a window that is already open changes. Opening a window
+  fires `OgreUI_Opened` alone, and a window that opens hidden says nothing until it is first shown.
+  Minimizing is not hiding: a minimized window is still visible.
 
 ### Surviving a UI reload
 
@@ -492,7 +496,8 @@ say), reads `""` rather than `NULL`. The ids are listed on
 
 ## From a C++ extension
 
-There is no separate C++ API. An extension uses the same names through InnerSpace:
+An extension uses the same names through InnerSpace. For a window that changes many times a second there are
+also [direct calls](#without-lavishscript-the-ui-hosts-own-functions) into the UI host.
 
 ```cpp
 // open, change, read  (myDir = the folder your files are in, with forward slashes)
@@ -519,6 +524,92 @@ pISInterface->DetachEventTarget(ev, OnUIClosed);
   your extension or ISXOgreX loads first.
 - Events fire on the game's frame, the same thread your extension's pulse runs on.
 - Keep the callback short: it runs inside every window open and close.
+
+### Without LavishScript: the UI host's own functions
+
+Every `ISXOgreX.UI` call above is a LavishScript command, parsed on the game's frame. An extension that updates
+its windows many times a second can skip that and call the UI host directly. The host is `ISXOgreUIHost.dll`
+in `OgreUIRuntime`, loaded by ISXOgreX and never unloaded after that. Look the functions up with
+`GetProcAddress` once ISXOgreX is loaded; every call is a plain C call that returns at once:
+
+```cpp
+typedef void (*HostEvalJS_t)(const char *js);
+typedef void (*HostPostNative_t)(const char *channel, const void *data, int len);
+typedef int  (*HostNextNative_t)(const char *channel, char *buf, int bufSize, int *outLen);
+
+HMODULE host = GetModuleHandleA("ISXOgreUIHost.dll");
+auto postNative = (HostPostNative_t)GetProcAddress(host, "HostPostNative");
+auto nextNative = (HostNextNative_t)GetProcAddress(host, "HostNextNative");
+
+// to your window: one channel, any number of messages per frame
+postNative("mytool", "{\"hp\":91}", -1);        // len -1: a string; the window gets a JS string
+postNative("mytool.raw", bytes, byteCount);     // len >= 0: bytes; the window gets an ArrayBuffer
+
+// from your window (your pulse): empty the queue
+char buf[4096]; int len = 0;
+while (nextNative("mytool", buf, sizeof(buf), &len) == 1) { /* buf[0..len) is one message */ }
+```
+
+In the window:
+
+```js
+ogreNativeOn('mytool', function (messages) {          // one call per frame with everything that arrived
+  for (var i = 0; i < messages.length; i++) show(JSON.parse(messages[i]));
+});
+window.ogreCall('native', 'mytool', 'clicked:reset');  // to your extension: a string, ArrayBuffer or typed array
+```
+
+| Function | Signature | Does |
+|---|---|---|
+| `HostPostNative` | `void (const char *channel, const void *data, int len)` | Sends one message to the window's `ogreNativeOn(channel, ...)` handlers. `len < 0`: `data` is a NUL-terminated UTF-8 string and arrives as a string; `len >= 0`: `len` bytes arriving as an `ArrayBuffer`. Delivered in order, together with the others that arrived for that channel since the last frame. |
+| `HostNextNative` | `int (const char *channel, char *buf, int bufSize, int *outLen)` | Takes the oldest message the window sent on `channel`. `1` = copied into `buf` (`*outLen` bytes, not NUL-terminated); `0` = none waiting; `-1` = `buf` is too small, `*outLen` says how big it must be and the message stays queued. |
+| `HostEvalJS` | `void (const char *js)` | Runs `js` in the windows' page (all windows share one page). Returns nothing. |
+| `HostUISet` | `void (const char *key, const char *value)` | Stores `value` under `key` and puts it into the element with id `key`, searching every window (ids are page-wide: [keep yours your own](#names-keep-yours-your-own)). |
+| `HostUIGet` | `int (const char *key, char *buf, int bufSize)` | Copies the stored value of `key` into `buf` (NUL-terminated) and returns the bytes written. `0` means either no such key or an empty value, and a value longer than `bufSize - 1` is cut. |
+
+- **Any thread** may call them. They only queue the work; the UI program applies it on its next frame, and
+  any of them wakes it at once.
+- **One message is at most 1 MB**, either way. A bigger one is dropped and logged; send bulk data through
+  [shared memory](#shared-memory-in-a-window).
+- A window's `ogreNativeOn` handlers run in the window; one that throws is logged and the others still run.
+  Messages for a channel nobody listens to are dropped (logged once).
+- Each queue keeps at most 4096 messages; past that the oldest are dropped, logged. Empty yours every pulse.
+- `HostNextCommand` is **ISXOgreX's own**: it takes the commands every window sends with `ogreCall('cmd')`, and
+  a second reader would steal them. Do not call it.
+
+### Shared memory in a window
+
+A window can read a block of shared memory directly, with no copying and no parsing. Your extension creates a
+named file mapping (`CreateFileMapping`, a name such as `Local\MyTool.Raid`) and writes into it; the window
+asks for it by name:
+
+```js
+var buf = window.ogreCall('shm', 'Local\\MyTool.Raid');        // read-only; 'rw' as a third argument to write
+if (buf) {
+  var head = new Uint32Array(buf, 0, 2);                      // your own header: a version counter, a length
+  var data = new Uint8Array(buf, 8, head[1]);
+}
+```
+
+- The result is an `ArrayBuffer` over the mapping itself, or `null` when no mapping has that name. Its length
+  is the mapping's size rounded up to 4 KB, so keep your own length in a header.
+- **Every game on the PC can open the same name.** One UI program serves them all, which makes this a fast way
+  to share data between sessions.
+- **Use a version counter.** The window can read while your extension writes. Bump the counter before and
+  after each write, and have the window re-read when the two reads of it differ or it is odd.
+- Without `'rw'` the window gets its own copy of any page it writes into: the write never reaches the mapping,
+  and that page stops following your updates. Ask for `'rw'` when the window really writes.
+- The mapping stays open until the window drops its last reference to the buffer.
+
+## Giving a text box the keyboard
+
+`ISXOgreX.UI:Focus[name,id]` puts the keyboard in text field `id` of window `name`, for example from a key bind
+that opens a chat-style box. Keys then go to that field, **not the game**, until the player presses Escape (the
+first press clears the text, the second lets go) or clicks somewhere else.
+
+- It is refused when the window is not open or hidden, or `id` is not a text field.
+- Every call is written to the logs, because a bind that does this by accident looks to the player like a
+  keyboard that stopped working.
 
 ## Pitfalls
 
@@ -576,10 +667,16 @@ which replaces Ogre's entire UI and does not bring it back.
 | `.Height` | member of `Window` | - | int: screen pixels |
 | `ISXOgreX.UI:Move` | method | `name`, `x`, `y` | Puts window `name`'s top-left corner at `x`, `y` (screen pixels). Not saved. |
 | `ISXOgreX.UI:Size` | method | `name`, `width`, `height` | Sets window `name`'s size (screen pixels, above 0). Not saved. |
+| `ISXOgreX.UI:Focus` | method | `name`, `id` | Puts the keyboard in text field `id` of window `name` until Escape or a click elsewhere. Logged. |
 | `OgreUI_Opened` | event | `name` | A window opened. |
 | `OgreUI_Closed` | event | `name`, `reason` | A window closed; `reason` is `closed` or `reload`. |
+| `OgreUI_Shown` | event | `name` | An open window became visible. |
+| `OgreUI_Hidden` | event | `name` | An open window was hidden. |
 | `ogreUISet` | function in your window | `name`, `id`, `value` | Same as `ISXOgreX.UI:Set`, from the window's own script. |
-| `ogreCall` | function in your window | `'cmd'`, command line | Runs one LavishScript command line on the next frame. |
+| `ogreUIFocus` | function in your window | `name`, `id` | Same as `ISXOgreX.UI:Focus`, from the window's own script. `'1'` = focused, `'0'` = refused. |
+| `ogreCall` | function in your window | `'cmd'`, command line | Runs one LavishScript command line on the next frame. Also `'native'`, channel, payload (to your extension) and `'shm'`, name (shared memory) - see [Without LavishScript](#without-lavishscript-the-ui-hosts-own-functions). |
+| `ogreNativeOn` | function in your window | channel, `fn` | `fn(messages, channel)` gets every message your extension sent on `channel` since the last frame. |
+| `ogreNativeOff` | function in your window | channel, optional `fn` | Removes `fn` (or every handler) from `channel`. |
 | `ogrePlaceFixed` | function in your window | element, `x`, `y`, optional margin | Puts a `position: fixed` element's top-left at screen position `x`, `y` (the numbers `getBoundingClientRect()` and mouse events give), kept on screen, at any window scale. The element must be showing. |
 | `ogreFixedScale` | function in your window | element | number: the scale the element is drawn at (1 in an unscaled window). A size measured on screen divided by it is the size in the element's own pixels. |
 | `OgreBotAPI.Options.Value` | member | setting id | string: an OgreBot setting; `""` if unknown. |

@@ -386,7 +386,7 @@ HUDs puts live text straight onto your game screen: the nearest mob, the nearest
 
 | Option | What it does | Default |
 |---|---|---|
-| **Display nearest NamedNPC/NPC** | Shows one line on your screen with the closest mob within 200 metres and its distance. A named mob always wins over a normal one, even if the normal one is closer. | off |
+| **Display nearest NamedNPC/NPC** | Shows one line on your screen with the closest mob in the zone and its distance. A named mob always wins over a normal one, even if the normal one is closer. | off |
 | **X** | How far from the left edge of the screen the Nearest NPC line starts, in pixels. | blank (300) |
 | **Y** | How far down from the top of the screen the Nearest NPC line sits, in pixels. | blank (400) |
 
@@ -394,7 +394,7 @@ HUDs puts live text straight onto your game screen: the nearest mob, the nearest
 
 | Option | What it does | Default |
 |---|---|---|
-| **Display nearest PC** | Shows one line with the closest player within 200 metres who is not in your group or raid. The line is red under 30 metres, yellow under 150 and white further out. | off |
+| **Display nearest PC** | Shows one line with the closest player in the zone who is not in your group or raid. The line is red under 30 metres, yellow under 150 and white further out. | off |
 | **X** | How far from the left edge of the screen the Nearest PC line starts, in pixels. | blank (300) |
 | **Y** | How far down from the top of the screen the Nearest PC line sits, in pixels. | blank (380) |
 | **Msg alerts to OgreConsole** | When a player comes within 150 metres, and again within 30, a line such as 'Kannkor --> Nearest PC: Serath: 24.1 < 30' is posted to OgreConsole. Each player is reported once per distance band, and alerts are at least 5 seconds apart.<br>*Needs 'Display nearest PC' ticked.* | off |
@@ -443,8 +443,8 @@ HUDs puts live text straight onto your game screen: the nearest mob, the nearest
 
 ## What you see
 
-- Nearest NPC - one white line: 'Named NPC: <name>: <distance>' for the closest named mob within 200 metres, or 'NPC: <name>: <distance>' when no named mob is in range.
-- Nearest PC - one line: 'Nearest PC: <name>: <distance>' for the closest player within 200 metres who is not in your group or raid. It is red under 30 metres, yellow under 150 and white further out.
+- Nearest NPC - one white line: 'Named NPC: <name>: <distance>' for the closest named mob in the zone, or 'NPC: <name>: <distance>' when there is no named mob in the zone.
+- Nearest PC - one line: 'Nearest PC: <name>: <distance>' for the closest player in the zone who is not in your group or raid. It is red under 30 metres, yellow under 150 and white further out.
 - Group distance - one line per group member (you are not listed): '(2) Brutus: 12.3 * <their target> * <what they are casting>'. Names are cut to their first 6 letters so the columns line up.
 - Raid distance - one line per raid slot, '(01)' to '(24)', in the same layout as the group lines. An empty slot leaves a blank line and there is an extra gap after every 6 slots, so each line sits beside the matching row of the game's raid window.
 - Group and raid line colours show distance: white under 20 metres, yellow under 30, orange under 75, red at 75 or more, grey when the game reports 0.
@@ -514,12 +514,16 @@ Item Embargo is meant to stop your characters all using the same item at once: w
 |---|---|---|
 | **Full Item list** | **Not active yet.** Your registered items (from the Items tab). Click one to pick it for the form on the right, or double-click it to add it straight away with no options.<br>*This tab is not active yet in the new bot.* | your registered items |
 
+
+
 ## Options
 
 | Option | What it does | Default |
 |---|---|---|
 | **Globally Mute messages** | **Not active yet.** It is meant to stop item embargo messages being shown. | off |
 | **Item Embargo List** | **Not active yet.** The saved list of items that are meant to be embargoed, each with its duration and options.<br>*Click a row to edit it, double-click to switch it off or on, drag to reorder, x to remove.* | empty |
+
+
 
 ## Options
 
@@ -535,9 +539,11 @@ Item Embargo is meant to stop your characters all using the same item at once: w
 | **Add** | Adds the picked item with its Duration and ticked options to the list. When you are editing a row, it reads Update and saves your changes. |  |
 | **Clear Options** | Unticks all the option boxes. They otherwise carry over to the next Add. |  |
 
+
+
 ## Good to know
 
-- Nothing on this tab does anything yet in the new bot, and neither does 'Enable Item Embargo' on the Settings tab.
+- Nothing on this tab does anything yet in the new bot. 'Enable Item Embargo' on the Settings tab does: an item embargo sent by the -ItemEmbargo command (by the item's LinkID) makes the Cast Stack skip that item, but only while the box is ticked. Loading a profile clears every item embargo still running.
 - The Full Item list only shows items you have registered on the Items tab. If it is empty, register some there first.
 - The option flags stay ticked after an Add. Use Clear Options to untick them all before the next item.
 - On the list each row shows its options as coloured letters: IRC, G (Group), Me, I (Incl. caster) and H (Hide from OgreConsole). The same colour is used on the matching tick box.
@@ -1051,11 +1057,15 @@ Tags let one bot's cast switch other abilities off or on for a while, across all
 | **Full Tag List** | Your tag names, sorted A-Z. Click a name to pick it for the Tags List on the right. Double-click a name to rename it, and click X to delete it.<br>*A name here does nothing until it is also added to the Tags List. Renaming it here does not rename it in the Tags List.* | empty |
 | **Tags List** | The tags that are actually defined, with their duration and options. Click a row to edit it and click X to delete it.<br>*Only tags in this list can turn on.* | empty |
 
+
+
 ## Top of tab
 
 | Control | What it does | Default |
 |---|---|---|
 | **Globally mute all tag messages** | **Not active yet.** In the old bot it hid the tag lines in OgreConsole. | off |
+
+
 
 ## Full Tag List (left)
 
@@ -1063,6 +1073,8 @@ Tags let one bot's cast switch other abilities off or on for a while, across all
 |---|---|---|
 | **Tag name** | Type a new tag name here. Use the same name you put in the Embargo tag or Allow tag box on the Cast Stack. | empty |
 | **Add** | Adds the typed name to the Full Tag List. While you are renaming a name this reads Update. |  |
+
+
 
 ## Tags List (right)
 
@@ -1078,8 +1090,11 @@ Tags let one bot's cast switch other abilities off or on for a while, across all
 | **Add** | Adds the picked tag name, with the duration and ticks you set, to the Tags List. While you are editing a row this reads Update and saves your changes. |  |
 | **Clear Options** | Unticks every option. Ticks otherwise carry over to the next tag you add. |  |
 
+
+
 ## Good to know
 
+- Tags only work on a character whose Settings tab has them ticked: 'Enable Tag Embargo' for Embargo tags and 'Enable Tag Allow' for Allow tags. Both are off until you tick them. While a box is off, that character neither follows nor turns on that kind of tag.
 - A tag used on the Cast Stack but missing from the Tags List (or typed differently) never turns on. The match ignores upper and lower case.
 - Leave Duration blank to use the ability's own duration. An item has no duration of its own, so an item that sets a tag must have a Duration here or the tag does not turn on.
 - Two bots can hold the same tag at once; it stays on until the last one runs out.

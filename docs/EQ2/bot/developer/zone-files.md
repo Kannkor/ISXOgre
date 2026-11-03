@@ -9,8 +9,8 @@ nameds it kills, what it loots, and how it leaves. It is a JSON file. IC reads i
 time, on the character that runs IC, and that character leads the group through it.
 
 The zone files that ship with Ogre are written the same way, so the best way to learn is to open one beside this
-page. The examples below are cut from `Oogothl Sprawl - Ver'Bohten Atoll` and `Gerion - Dominion of Pain`, both in
-`Scripts\Ogre\EQ2\IC\default\Rage of Cthurath\`.
+page. The examples below are cut from `_01_Oogothl_Sprawl_VerBohten_Atoll.json` and `_05_Gerion_Dominion_of_Pain.json`,
+both in `Scripts\Ogre\EQ2\IC\default\Rage of Cthurath\`.
 
 > **No promises.** Use this at your own risk, and expect it to change. That said, Kannkor works hard to keep
 > things backwards compatible.
@@ -38,6 +38,39 @@ page. The examples below are cut from `Oogothl Sprawl - Ver'Bohten Atoll` and `G
 - A number at the start of a file name, like `_01_`, sorts the list: numbered files come first, in number order.
 - Every root loads. The same file in two roots shows up twice in the IC window: they are separate files, and
   neither replaces the other.
+
+### File names
+
+The zone files that ship with Ogre are named after their zone: take the zone's name, turn each space into `_`, and
+leave out `:` `'` `,` `[` `]` and the backtick. A file for one difficulty adds that difficulty to its name; a file for
+several difficulties does not. The number in front is kept.
+
+| File | `zone` | `variants` |
+|---|---|---|
+| `_01_Oogothl_Sprawl_VerBohten_Atoll.json` | `Oogothl Sprawl: Ver'Bohten Atoll` | `[Solo]`, `[Heroic]` |
+| `_01_Sodden_Archipelago_The_Forsaken_Isle.json` | `Sodden Archipelago: The Forsaken Isle` | `[Solo]`, `[Heroic I]` |
+| `_01_Sodden_Archipelago_The_Forsaken_Isle_Heroic_II.json` | `Sodden Archipelago: The Forsaken Isle` | `[Heroic II]` |
+
+Your own files in `custom` can have any name. Name them this way and they can be queued by name too.
+
+### Queue a zone by its name
+
+`ogre ic queue add <zone name>` queues the zone file named after that zone. Write the difficulty in the name, the way
+the game writes it: `ogre ic queue add Oogothl Sprawl: Ver'Bohten Atoll [Heroic]`. `ogre ic queue add ${Zone.Name}`
+queues the zone you are standing in. The console says which file it picked, then queues it as **Add** does.
+
+- The name needs the difficulty whenever the zone has one. Without it nothing is queued, and the line lists the
+  difficulties its files cover:
+  `"Oogothl Sprawl: Ver'Bohten Atoll" is in a file for [Solo] and [Heroic] - name one: ogre ic queue add Oogothl Sprawl: Ver'Bohten Atoll [Heroic]`.
+- A difficulty that no file of that zone covers is refused the same way, and the line lists the ones that are covered.
+- Case does not matter: `[heroic]` is `[Heroic]`.
+- The cleaned name works too, difficulty included: `ogre ic queue add Oogothl_Sprawl_VerBohten_Atoll_Heroic`.
+- When more than one root has a file of that name, `custom` is used first, then `test`, then `default`.
+- `ogre ic queue add <root> <path>` still queues any file by its root and its path. `ogre ic list` prints every loaded
+  file.
+
+A queued zone whose file is renamed follows its zone: the next time IC loads its list, the row points at the zone's
+new file, and the console says so.
 
 ## A zone file, start to finish
 
@@ -177,7 +210,8 @@ names the key and the nearest key IC does read (see [Checking your file](#checki
 - **A `zoneOut` that takes the group out ends its list.** Anything after it in that list is skipped.
 - **End**, **Max wait per zone** and closing the IC window stop the run where it stands. `exit` does not run.
 - **Wipes** are watched during `enter` and `steps`. IC runs the wipe recovery, then starts the zone again, leaving
-  out what is already done. After `wipeAttempts` recoveries, IC gives the zone up: the `afterWipe` steps run, `exit`
+  out what is already done. The built-in recovery revives everyone at the entrance, evacuates if they are not there,
+  and then rests for a minute so revive sickness wears off and buffs go back up. After `wipeAttempts` recoveries, IC gives the zone up: the `afterWipe` steps run, `exit`
   does not, and the list moves on to the next zone.
 - **Starting part-way.** The IC window's **named #** starts a zone at a named: IC backs up over the steps that lead
   to it (its walk, for instance) so they run too. It only works when you are already standing in that zone. A run
@@ -281,6 +315,24 @@ Here the group runs to each light the boss calls, while the lights are up and th
             },
             ...
 ```
+
+`forEach` can also walk saved values: `"vars": { "prefix": "<start of the name>" }` visits every value whose name
+starts with it, and `{{seq.<as>.name}}` is the rest of the name. Add `"groupMember": true` when that rest is a
+character's name: only members of the group are visited, with their names spelt as the game spells them.
+
+**Example: the first character with Escape ready casts it.** No character name is written into the file. Each member
+answers for itself, and `max: 1` stops after the first yes. If nobody has it ready, nothing is cast and the zone goes on.
+
+```json
+{ "stepId": "escape.ask", "do": "groupQuery", "var": "escapeReady", "question": "abilityReady", "ability": "Escape" },
+{ "stepId": "escape.first",
+  "forEach": { "vars": { "prefix": "escapeReady.yes.", "groupMember": true }, "as": "caster", "max": 1 },
+  "steps": [
+    { "stepId": "escape.cast", "do": "castAbility", "ability": "Escape", "sendTo": "{{seq.caster.name}}" }
+  ] }
+```
+
+"First" means first in alphabetical order among the members who answered yes, not first in the group.
 
 A loop step has no `do` of its own: the work goes in its `steps`. Loops can sit inside loops.
 
@@ -388,6 +440,35 @@ combat, then goes on.
 | `exitOnActorAggro` | | An actor's name. The walk ends the moment it is fighting the group. |
 | `fromStart` | `false` | With `campspot`: always start at the first spot. Without it, a group already near a later spot joins the walk there. |
 | `sendTo` | the whole group | Who walks. |
+| `killWithin` | | Meters, up to `100`. Kill the trash on the way: when a mob comes this close, the group stops where it is, kills every mob that close, then walks on. |
+| `killTypes` | `["NPC"]` | With `killWithin`: the kinds of mob to stop for, as for [`trash`](#trash): `"NPC"`, `"NamedNPC"`, `"Special"`. |
+| `killLimitMs` | `120000` | With `killWithin`: the longest one stop may take. Then the mob is left behind, the console says so, and the walk goes on. |
+
+**Example: walk to the named, killing the trash on the way.** The group walks past two spots to the named. Any mob
+that comes within 15 m of the IC character stops the walk until it is dead. A mob that is not dead after a minute is
+left behind.
+
+```json
+{ "stepId": "named2.walk", "do": "path", "using": "nav",
+  "spots": [[-310.4, 52.1, 118.7], [-262.9, 55.8, 160.3], [-221.0, 58.2, 204.6]],
+  "killWithin": 15, "killLimitMs": 60000 },
+{ "stepId": "named2", "do": "named", "name": "The Named", "spot": [-205.3, 58.9, 221.4] }
+```
+
+- **A stop.** The walk halts where the IC character is. With `nav` the group gathers on the IC character; with
+  `campspot` everyone's camp spot is put where the IC character stands. Every mob of `killTypes` within `killWithin`
+  is then pulled and killed from there, one at a time, the same way a [`trash`](#trash) step kills. When none is
+  left, the walk goes on to the spot it was walking to.
+- **Only what comes close.** The walk never leaves its way to look for a mob. To clear a whole room, put a
+  [`trash`](#trash) step at the spot instead.
+- **Nameds are walked past.** Add `"killTypes": ["NPC", "NamedNPC"]` to stop for them too. Anything that attacks the
+  group is fought either way.
+- **Left behind.** When a stop takes longer than `killLimitMs`, the console names the mobs it leaves, and the walk goes
+  on. That is not a failure. The walk does not stop for those mobs again on that stretch (a `nav` walk goes in
+  stretches of about 50 m).
+- **Time.** The stops do not count against `spotLimitMs`.
+- **The console** says each stop and what it is for (`named2.walk: a bog slug 12 m away - stopping to kill it`), and
+  how many were killed when the walk goes on.
 
 ### named
 
@@ -517,6 +598,8 @@ Clears every mob inside a circle around where the step starts, one at a time. Ca
 | `quietMs` | `60000` | With `wait`: the step ends after this long with nothing in the circle and nothing fighting the group. |
 | `move` | `"none"` | `"nav"` or `"campspot"` to walk to mobs more than 20 meters away. The group comes back at the end. |
 | `limitMs` | `600000` | The longest it may take. Reaching it fails the step. |
+
+To kill the trash on the way to a spot rather than around one, give the [`path`](#path) step `killWithin`.
 
 ### reward
 

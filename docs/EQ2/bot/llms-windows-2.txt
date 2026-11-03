@@ -662,7 +662,7 @@ One row per kind of thing (by type) and one per con colour. Click a swatch to op
 
 | Control | What it does |
 |---|---|
-| **Swatch (coloured dot)** | Opens the colour picker for that row. The picker's heading uses the row's own name (named, tradeskill, nokill...). |
+| **Swatch (coloured dot)** | Opens the colour picker for that row. The picker's heading uses the row's own name (named, craft, nokill...). |
 | **#hex box** | Type a colour as # plus six hex digits (for example #ff8a3d). It applies as soon as the text is a valid colour.<br>*Anything else is ignored.* |
 | **Picker: #hex box** | The picked colour as text; type a colour here to set it. |
 | **Picker: R / G / B sliders** | Mix the colour from red, green and blue (0 to 255). The dots change as you drag. |
@@ -715,7 +715,7 @@ With auto-hide on, the radar becomes a clean overlay: the title bar is gone (so 
 ## What the window shows
 
 - Your character: the white dot with the cyan ring in the middle. The cyan wedge is the way you face.
-- Dot colours (colour by type, the default): npc orange, named orange and bigger with a glow, nokill (guards, merchants) grey, special yellow, players blue, pets light green, your pet bright green, mercenaries teal, corpses dark grey, tradeskill stations purple, resources (harvest nodes) teal-green, chests amber, doors brown, anything else grey. Every colour can be changed in the settings.
+- Dot colours (colour by type, the default): npc orange, named orange and bigger with a glow, nokill (guards, merchants) grey, special yellow, players blue, pets light green, your pet bright green, mercenaries teal, corpses dark grey, craft (crafting stations) purple, resources (harvest nodes) teal-green, chests amber, doors brown, anything else grey. Every colour can be changed in the settings.
 - Dot shapes: players and mercenaries are rounded squares; everything else is round. Named mobs are 3 pixels bigger with an orange glow.
 - Faded dots: corpses and anything at 0% health.
 - Your target: its dot turns white with a white halo and its name goes white and bold.
@@ -773,8 +773,13 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 >
 > **What you can do here**
 >
+> - **The top row**: **[all]**, **quest** (quest only), **qst npc** (quest NPCs) and **no name**. **The grid** under it: one button per type.
 > - **Click a type** (npc, named, pc, pet, corpse, chest, door...) to show or hide it.
 > - **other** covers anything not in the list.
+> - **quest** (quest only) narrows **npc**, **named** and **nokill** to the ones that update one of your quests - a mob to kill or an object to click. Every other type (pc, special, chest...) follows its own button.
+> - **qst npc** always shows NPCs with a feather (or a quest update / complete icon) - the ones the quest helper hails - even with **nokill** off or **quest** on.
+> - **no name** shows or hides actors with no name - mostly junk, sometimes not.
+> - **name** (bottom right) turns name cutting on and off: lit cuts every name on the radar to the number beside it (5 to start). Change the number in the box; it is kept while cutting is off.
 > - **[all]** shows everything; when everything is on it reads **[none]** and hides everything.
 >
 > **Good to know**
@@ -805,17 +810,21 @@ The coloured dot on each button is the colour that kind is drawn in on the radar
 | **mypet** | Your own pet. | shown |
 | **merc** | Mercenaries. | shown |
 | **corpse** | Corpses. | shown |
-| **tradeskill** | Crafting stations (forges, sewing tables and the like). | shown |
+| **craft** | Crafting stations (forges, sewing tables and the like). | shown |
 | **resource** | Harvest nodes. | shown |
 | **chest** | Treasure chests. | shown |
 | **door** | Doors. | shown |
 | **other** | Anything that is none of the kinds above. | shown |
+| **quest** | Narrows npc, named and nokill to the ones that update one of your quests - a mob to kill or an object to click. Every other type follows its own button. Saved like a type click. | off |
+| **qst npc** | Always shows quest NPCs - a feather, or a quest update / complete icon, over a no-kill NPC (the ones the quest helper hails) - even with nokill off or quest on. The radar looks for them every 2 seconds, only while this is on. | off |
+| **no name** | Actors with no name - mostly junk, sometimes not. Lit shows them, dim hides them. Saved like a type click. | shown |
+| **name** | The button turns name cutting on and off; while lit, every name on the radar is cut to the number in the box (5 to start). The number is kept while cutting is off. Saved like a type click. | off, 5 |
 | **Title bar close (X)** | Closes this window only. The radar keeps running. |  |
 
 ## What the window shows
 
 - A lit button means that kind is drawn on the radar; a dim one means it is hidden.
-- The line under the buttons: '[all] selects everything, or clears it when everything is on'.
+- The top row holds the four switches ([all], quest, qst npc, no name); the grid under it holds one button per type.
 
 ## Good to know
 

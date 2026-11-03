@@ -14,7 +14,7 @@ HUDs puts live text straight onto your game screen: the nearest mob, the nearest
 
 | Option | What it does | Default |
 |---|---|---|
-| **Display nearest NamedNPC/NPC** | Shows one line on your screen with the closest mob within 200 metres and its distance. A named mob always wins over a normal one, even if the normal one is closer. | off |
+| **Display nearest NamedNPC/NPC** | Shows one line on your screen with the closest mob in the zone and its distance. A named mob always wins over a normal one, even if the normal one is closer. | off |
 | **X** | How far from the left edge of the screen the Nearest NPC line starts, in pixels. | blank (300) |
 | **Y** | How far down from the top of the screen the Nearest NPC line sits, in pixels. | blank (400) |
 
@@ -24,7 +24,7 @@ HUDs puts live text straight onto your game screen: the nearest mob, the nearest
 
 | Option | What it does | Default |
 |---|---|---|
-| **Display nearest PC** | Shows one line with the closest player within 200 metres who is not in your group or raid. The line is red under 30 metres, yellow under 150 and white further out. | off |
+| **Display nearest PC** | Shows one line with the closest player in the zone who is not in your group or raid. The line is red under 30 metres, yellow under 150 and white further out. | off |
 | **X** | How far from the left edge of the screen the Nearest PC line starts, in pixels. | blank (300) |
 | **Y** | How far down from the top of the screen the Nearest PC line sits, in pixels. | blank (380) |
 | **Msg alerts to OgreConsole** | When a player comes within 150 metres, and again within 30, a line such as 'Kannkor --> Nearest PC: Serath: 24.1 < 30' is posted to OgreConsole. Each player is reported once per distance band, and alerts are at least 5 seconds apart.<br>*Needs 'Display nearest PC' ticked.* | off |
@@ -81,8 +81,8 @@ HUDs puts live text straight onto your game screen: the nearest mob, the nearest
 
 ## What you see
 
-- Nearest NPC - one white line: 'Named NPC: <name>: <distance>' for the closest named mob within 200 metres, or 'NPC: <name>: <distance>' when no named mob is in range.
-- Nearest PC - one line: 'Nearest PC: <name>: <distance>' for the closest player within 200 metres who is not in your group or raid. It is red under 30 metres, yellow under 150 and white further out.
+- Nearest NPC - one white line: 'Named NPC: <name>: <distance>' for the closest named mob in the zone, or 'NPC: <name>: <distance>' when there is no named mob in the zone.
+- Nearest PC - one line: 'Nearest PC: <name>: <distance>' for the closest player in the zone who is not in your group or raid. It is red under 30 metres, yellow under 150 and white further out.
 - Group distance - one line per group member (you are not listed): '(2) Brutus: 12.3 * <their target> * <what they are casting>'. Names are cut to their first 6 letters so the columns line up.
 - Raid distance - one line per raid slot, '(01)' to '(24)', in the same layout as the group lines. An empty slot leaves a blank line and there is an extra gap after every 6 slots, so each line sits beside the matching row of the game's raid window.
 - Group and raid line colours show distance: white under 20 metres, yellow under 30, orange under 75, red at 75 or more, grey when the game reports 0.

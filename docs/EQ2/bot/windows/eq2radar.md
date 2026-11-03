@@ -100,7 +100,7 @@ One row per kind of thing (by type) and one per con colour. Click a swatch to op
 
 | Control | What it does |
 |---|---|
-| **Swatch (coloured dot)** | Opens the colour picker for that row. The picker's heading uses the row's own name (named, tradeskill, nokill...). |
+| **Swatch (coloured dot)** | Opens the colour picker for that row. The picker's heading uses the row's own name (named, craft, nokill...). |
 | **#hex box** | Type a colour as # plus six hex digits (for example #ff8a3d). It applies as soon as the text is a valid colour.<br>*Anything else is ignored.* |
 | **Picker: #hex box** | The picked colour as text; type a colour here to set it. |
 | **Picker: R / G / B sliders** | Mix the colour from red, green and blue (0 to 255). The dots change as you drag. |
@@ -159,7 +159,7 @@ With auto-hide on, the radar becomes a clean overlay: the title bar is gone (so 
 ## What the window shows
 
 - Your character: the white dot with the cyan ring in the middle. The cyan wedge is the way you face.
-- Dot colours (colour by type, the default): npc orange, named orange and bigger with a glow, nokill (guards, merchants) grey, special yellow, players blue, pets light green, your pet bright green, mercenaries teal, corpses dark grey, tradeskill stations purple, resources (harvest nodes) teal-green, chests amber, doors brown, anything else grey. Every colour can be changed in the settings.
+- Dot colours (colour by type, the default): npc orange, named orange and bigger with a glow, nokill (guards, merchants) grey, special yellow, players blue, pets light green, your pet bright green, mercenaries teal, corpses dark grey, craft (crafting stations) purple, resources (harvest nodes) teal-green, chests amber, doors brown, anything else grey. Every colour can be changed in the settings.
 - Dot shapes: players and mercenaries are rounded squares; everything else is round. Named mobs are 3 pixels bigger with an orange glow.
 - Faded dots: corpses and anything at 0% health.
 - Your target: its dot turns white with a white halo and its name goes white and bold.

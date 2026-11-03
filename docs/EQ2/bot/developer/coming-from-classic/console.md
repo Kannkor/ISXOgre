@@ -15,22 +15,22 @@ What changed between the Classic console (V1) and the new console (V2) for every
 
 | What happened | Names |
 |---|---|
-| ⚠️ Arguments changed | 37 |
+| ⚠️ Arguments changed | 39 |
 | ⚠️ Argument order changed | 10 |
-| ✏️ Renamed | 12 |
+| ✏️ Renamed | 13 |
 | ➡️ Lives somewhere else | 1 |
 | 📄 In a data file now | 18 |
 | ⛔ Removed | 37 |
-| ✅ Works as is | 439 |
+| ✅ Works as is | 436 |
 | **Total** | **554** |
 
-439 of the 554 Classic commands are typed exactly as before (126 of those are other names - aliases - for a command, and keep working).
+436 of the 554 Classic commands are typed exactly as before (125 of those are other names - aliases - for a command, and keep working).
 
 ## 1. Commands you must change
 
 Every Classic console command that does not work as typed any more. Sorted by what to do.
 
-### ⚠️ Arguments changed (37)
+### ⚠️ Arguments changed (39)
 
 #### ⚠️ Arguments changed: `-ZoneDoor`
 
@@ -46,6 +46,8 @@ oc !c -ZoneDoor auto "${UserInput}"
 | `-AbilityEmbargo` | runs, arguments mean something else | `-AbilityEmbargo` | ⚠️ Arguments changed | Insert the for-who as the first argument. V1 had NO for-who: every session that heard the line acted. V2 reads argument 1 as the for-who, so an unconverted line's value lands in the for-who slot and the real argument falls back to its default - silently. Write `auto` there; that is what the MCP migration writes.<br>**Old:** `-AbilityEmbargo <abilityid> <duration> [<args...>]`<br>**New:** `-AbilityEmbargo <fw> <abilityid> <duration> [<args...>]`<br>… |
 | `-AbilityRotate` | runs, arguments mean something else | `-AbilityEmbargo` | ⚠️ Arguments changed | Insert the for-who as the first argument. V1 had NO for-who: every session that heard the line acted. V2 reads argument 1 as the for-who, so an unconverted line's value lands in the for-who slot and the real argument falls back to its default - silently. Write `auto` there; that is what the MCP migration writes.<br>**Old:** `-AbilityRotate <abilityid> <duration> [<args...>]`<br>**New:** `-AbilityRotate <fw> <abilityid> <duration> [<args...>]`<br>… |
 | `-Apply_Verb` | runs, arguments mean something else | `-ApplyVerb` | ⚠️ Arguments changed | Insert the for-who as the first argument. V1 had NO for-who: every session that heard the line acted. V2 reads argument 1 as the for-who, so an unconverted line's value lands in the for-who slot and the real argument falls back to its default - silently. Write `auto` there; that is what the MCP migration writes.<br>**Old:** `-Apply_Verb <actorname> <verb>`<br>**New:** `-Apply_Verb <fw> <actorname> <verb>`<br>V2 params: who, actorname, verb. Quoting one argument is still fine ("${UserInput}" stays one argument); only the command and its arguments inside ONE pair of quotes breaks the line. |
+| `-ApplyTempAdorn` | Unknown command | `-TempAdorns` | ⚠️ Arguments changed | Write `-TempAdorns <fw> <profile>`. Make the profile first in the Temp Adornments window (`ogre tempadorns`): put the adornments you want on Primary and Chest, save it, and name it on the line. An MCP button is converted for you.<br>**Old:** `-ApplyTempAdorn <fw> [adorn] [slot] - the Umbra adornments, on the primary and / or the chest`<br>**New:** `-TempAdorns <fw> <profile> [overwrite] - a saved profile: each gear piece it names gets its adornment` |
+| `-ApplyTempAdorns` | Unknown command | `-TempAdorns` | ⚠️ Arguments changed | Write `-TempAdorns <fw> <profile>`. Make the profile first in the Temp Adornments window (`ogre tempadorns`): put the adornments you want on Primary and Chest, save it, and name it on the line. An MCP button is converted for you.<br>**Old:** `-ApplyTempAdorns <fw> [adorn] [slot] - the Umbra adornments, on the primary and / or the chest`<br>**New:** `-TempAdorns <fw> <profile> [overwrite] - a saved profile: each gear piece it names gets its adornment` |
 | `-ApplyVerb` | runs, arguments mean something else | `-ApplyVerb` | ⚠️ Arguments changed | Insert the for-who as the first argument. V1 had NO for-who: every session that heard the line acted. V2 reads argument 1 as the for-who, so an unconverted line's value lands in the for-who slot and the real argument falls back to its default - silently. Write `auto` there; that is what the MCP migration writes.<br>**Old:** `-ApplyVerb <actorname> <verb>`<br>**New:** `-ApplyVerb <fw> <actorname> <verb>`<br>V2 params: who, actorname, verb. Quoting one argument is still fine ("${UserInput}" stays one argument); only the command and its arguments inside ONE pair of quotes breaks the line. |
 | `-AutoItemCure` | runs, arguments mean something else | `-AutoItemCure` | ⚠️ Arguments changed | Keep one cure type (or none). The exclusive / DirectTarget / Curse flags have no V2 argument.<br>**Old:** `-AutoItemCure <fw> [<flag> ...]`<br>**New:** `-AutoItemCure <fw> [<type>]` |
 | `-Cancel_Maintained` | runs, arguments mean something else | `-CancelMaintained` | ⚠️ Arguments changed | Insert the for-who as the first argument. V1 had NO for-who: every session that heard the line acted. V2 reads argument 1 as the for-who, so an unconverted line's value lands in the for-who slot and the real argument falls back to its default - silently. Write `auto` there; that is what the MCP migration writes.<br>**Old:** `-Cancel_Maintained <ability> [<more abilities...>]`<br>**New:** `-Cancel_Maintained <fw> <abilityname> [<args...>]`<br>V2 params: who, abilityname, args (rest). The V1 -CancelMaintainedForWho twin is now an alias of the same row. |
@@ -69,7 +71,7 @@ oc !c -ZoneDoor auto "${UserInput}"
 | `-MoveToAreaNoTarget` | runs, arguments mean something else | `-MoveToAreaNoTarget` | ⚠️ Arguments changed | Move the for-who to the front and give three coordinates (x y z).<br>**Old:** `-MoveToAreaNoTarget <X> <Z> <fw> <precision>`<br>**New:** `-MoveToAreaNoTarget <fw> <x> <y> <z> <precision>`<br>V1's two coordinates were X and Z - a ground move. V2 takes x y z so ${Me.Loc} pastes straight in, and IGNORES y: put any number there. The V2 row runs OgreBotAPI.Movement:Move2AreaNoTarget: it moves with or without a target, as V1 did. |
 | `-OgreBotAPI` | runs, arguments mean something else | `-OgreBotAPI` | ⚠️ Arguments changed | The method now receives the for-who first, as every new-bot OgreBotAPI method expects; the method name must be one the new OgreBotAPI registers (see the API conversion guide - most Classic flat names moved).<br>**Old:** `-OgreBotAPI <fw> <OldMethod> <args...> -> OgreBotAPI:<OldMethod>[<args...>]`<br>**New:** `-OgreBotAPI <fw> <method> <args...> -> OgreBotAPI:<method>[<fw>,<args...>]` |
 | `-OgreConsole_Show` | runs, arguments mean something else | `-OgreConsole_Show` | ⚠️ Arguments changed | Insert the for-who as the first argument. V1 had NO for-who: every session that heard the line acted. V2 reads argument 1 as the for-who, so an unconverted line's value lands in the for-who slot and the real argument falls back to its default - silently. Write `auto` there; that is what the MCP migration writes.<br>**Old:** `-OgreConsole_Show <show>`<br>**New:** `-OgreConsole_Show <fw> <value>`<br>V1 called OgreConsole:ShowOgreConsole locally. V2 params: who, value (default TRUE) -&gt; OgreBotAPI.Windows:ShowConsole. |
-| `-Poison_AutoConsume` | works | `-Poison_AutoConsume` | ⚠️ Arguments changed | Name the poison as the third argument - Cerebral Caustic Poison, or Cerebral Hemotoxin on an assassin or brigand. The classic row picked it from your class when it was left blank; the new row has no default and refuses a blank name.<br>**Old:** `-Poison_AutoConsume <fw> <value> [poison]`<br>**New:** `-Poison_AutoConsume <fw> <value> <poison>`<br>Not carried: the class default name, and the class check (any class acts on the poison it is given). |
+| `-Poison_AutoConsume` | works | `-Poison_AutoConsume` | ⚠️ Arguments changed | Name the poison as the third argument - Cerebral Caustic Poison, or Cerebral Hemotoxin on an assassin or brigand. The classic row picked it from your class when it was left blank; the new row fills a blank name with your configured stat potion instead.<br>**Old:** `-Poison_AutoConsume <fw> <value> [poison]`<br>**New:** `-Poison_AutoConsume <fw> <value> <poison>`<br>Not carried: the class default name, and the class check (any class acts on the poison it is given). |
 | `-Poison_Replenish` | works | `-Poison_Replenish` | ⚠️ Arguments changed | Name the poison as the second argument - Cerebral Caustic Poison, or Cerebral Hemotoxin on an assassin or brigand. The classic row picked it from your class when it was left blank; the new row pulls your configured stat potion instead.<br>**Old:** `-Poison_Replenish <fw> [poison]`<br>**New:** `-Poison_Replenish <fw> <poison>`<br>Not carried: the class default name, and the class check (any class pulls the poison it is given). |
 | `-Raid` | runs, arguments mean something else | `-Raid` | ⚠️ Arguments changed | Insert the for-who as the first argument. V1 had NO for-who: every session that heard the line acted. V2 reads argument 1 as the for-who, so an unconverted line's value lands in the for-who slot and the real argument falls back to its default - silently. Write `auto` there; that is what the MCP migration writes.<br>**Old:** `-Raid <chat>`<br>**New:** `-Raid <fw> <chat>`<br>… |
 | `-Run` | runs, arguments mean something else | `-Run` | ⚠️ Arguments changed | Nothing to retype; check the intent - V2 does what the name says.<br>**Old:** `-Run <fw> - flipped the current mode (a -Run sent to a box already running made it walk). New: -Run <fw> - sets run; a box already there is left alone` |
@@ -105,7 +107,7 @@ oc !ci -assist igw:${Me.Name} ${Me.Name}
 | `-Profile` | runs, arguments in the wrong places | `-LoadProfile` | ⚠️ Argument order changed | Move the for-who to the first argument.<br>**Old:** `-Profile <profilename> <fw>`<br>**New:** `-Profile <fw> <profilename>` |
 | `-ProfileForWho` | runs, arguments in the wrong places | `-LoadProfile` | ⚠️ Argument order changed | Move the for-who to the first argument.<br>**Old:** `-ProfileForWho <profilename> <fw>`<br>**New:** `-ProfileForWho <fw> <profilename>` |
 
-### ✏️ Renamed (12)
+### ✏️ Renamed (13)
 
 #### ✏️ Renamed: `-ApplyVerbForWho`
 
@@ -126,6 +128,7 @@ oc !ci -ApplyVerb igw:${Me.Name} "boss_01_knight_light" "Touch"
 | `-OgreCraft_AddRecipesFromQuest` | Unknown command | `-OgreCraft_StartQuest` | ✏️ Renamed | Replace the verb name; the arguments are the same (`<fw>`).<br>It does MORE than V1: V1 only QUEUED the quest's recipes (with a 6/3 quantity guess); V2 is a flow that crafts the current quest's pending recipe steps, one of each per pass, until none is pending. The for-who now filters; V1 ran it on every session that heard the line. |
 | `-Opt_Num` | Unknown command | `-ConversationBubble` | ✏️ Renamed | -Opt_Num was the same reply click as -ConversationBubble and is gone. Write `-ConversationBubble <fw> <num>`; V1 had no for-who, so put `auto` first (the For Who window).<br>**Old:** `-Opt_Num <num>`<br>**New:** `-ConversationBubble <fw> <num> (row -ConversationBubble)`<br>V2 params: who, num (default 1). |
 | `-OptNum` | Unknown command | `-ConversationBubble` | ✏️ Renamed | -Opt_Num was the same reply click as -ConversationBubble and is gone. Write `-ConversationBubble <fw> <num>`; V1 had no for-who, so put `auto` first (the For Who window).<br>**Old:** `-OptNum <num>`<br>**New:** `-ConversationBubble <fw> <num> (row -ConversationBubble)`<br>V2 params: who, num (default 1). |
+| `-PoP_TempAdorns` | Unknown command | `-TempAdorns` | ✏️ Renamed | Write `-TempAdorns` with the same arguments: `-TempAdorns <fw> cboc` (or pot / hp, or a profile you saved). Name the profile - the old default cboc is not assumed. An MCP button is converted for you.<br>**Old:** `-PoP_TempAdorns <fw> <cboc\|pot\|hp> <overwrite>`<br>**New:** `-TempAdorns <fw> <profile> <overwrite> - cboc / pot / hp are the ready-made profiles CBOC / Pot / HP (the old hardcoded lists)` |
 | `-Set_VampiricRequiem_Cancelling_Active` | Unknown command | `-CancelOnCast` | ✏️ Renamed | Write `-CancelOnCast <fw> <ability>` naming the trigger ability (for the old verb: Vampiric Requiem), and configure what it cancels in the Cancel On Cast tab. |
 | `-Unpack_EmpyralStones` | Unknown command | `-Unpack` | ✏️ Renamed | Use `-Unpack <fw> "Empyral Stones" -all -pick lowest` (or `-pick "<stone name>"` for one kind).<br>**Old:** `-Unpack_EmpyralStones <fw> [Lowest \| <stone name>]`<br>**New:** `-Unpack <fw> "Empyral Stones" -all -pick lowest` |
 | `-Unpack_PlanarStones` | Unknown command | `-Unpack` | ✏️ Renamed | Use `-Unpack <fw> "Planar Stones" -all -pick lowest` (or `-pick "<stone name>"` for one kind).<br>**Old:** `-Unpack_PlanarStones <fw> [Lowest \| <stone name>]`<br>**New:** `-Unpack <fw> "Planar Stones" -all -pick lowest` |
@@ -206,7 +209,7 @@ oc !ci -ApplyVerb igw:${Me.Name} "boss_01_knight_light" "Touch"
 
 ## 2. Every other command, A to Z
 
-These 439 commands are typed exactly as in Classic. An alias is another name for a command; it keeps working.
+These 436 commands are typed exactly as in Classic. An alias is another name for a command; it keeps working.
 
 | You typed | Notes |
 |---|---|
@@ -232,8 +235,6 @@ These 439 commands are typed exactly as in Classic. An alias is another name for
 | `-Alias_ChangeEntryFor` |  |
 | `-Alias_RemoveEntry` |  |
 | `-AltarOfTheAncients` |  |
-| `-ApplyTempAdorn` |  |
-| `-ApplyTempAdorns` | An alias of `-ApplyTempAdorn` - it works as typed. |
 | `-ArcannaseEffigyOfRebirth` |  |
 | `-AReward` | An alias of `-AcceptReward` - it works as typed. |
 | `-AssistForWho` |  |
@@ -318,7 +319,7 @@ These 439 commands are typed exactly as in Classic. An alias is another name for
 | `-ccsw` | An alias of `-ChangeCampSpot` - it works as typed. |
 | `-Champions_Zone_Resetter` |  |
 | `-Change_Campspot_Who` | An alias of `-ChangeCampSpot` - it works as typed. |
-| `-ChangeBeltAdorn` |  |
+| `-ChangeBeltAdorn` | Nothing to change - unless the line passes a fourth argument (skip moving adornments): drop it. The old rune is always moved back to the bag slot the new one came from.<br>**Old:** `-ChangeBeltAdorn <fw> <value> [unequip] [skipadornmoving]`<br>**New:** `-ChangeBeltAdorn <fw> <value> [unequip]` |
 | `-ChangeCampSpotBy` | An alias of `-ccsb` - it works as typed. |
 | `-ChangeCampSpotWho` | An alias of `-ChangeCampSpot` - it works as typed. |
 | `-ChangeCastStack` | An alias of `-ChangeCastStackListBoxItem` - it works as typed. |
@@ -525,7 +526,6 @@ These 439 commands are typed exactly as in Classic. An alias is another name for
 | `-PetGetLost` |  |
 | `-PetOff` |  |
 | `-PetOn` | An alias of `-petattack` - it works as typed. |
-| `-PoP_TempAdorns` |  |
 | `-PortalToGuildHall` |  |
 | `-ProvingGrounds_Exit` |  |
 | `-ProvingGrounds_Scoreboard_Close` |  |

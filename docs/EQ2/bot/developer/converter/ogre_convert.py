@@ -31,9 +31,17 @@ WHAT `fix` REWRITES - and nothing else:
   * an old call whose ONLY change is "the for-who is now argument 0" on an object that acted on its own
     session (every Ogre_CampSpot / Obj_* / OgreBotAPI method that had no for-who): `all` is inserted
     first - a script's own call only ever runs on the session running it, so that is what the old call did;
-    (both of the above only when the call passes every argument the new form requires - a call that leaves
+  * THE FOR-WHO: every rewritten call whose new form takes a for-who gets one (the map row's `forWhoInsert`):
+    a call that passed no arguments at all leaned on the old default, which is written out
+    (`OgreBotAPI:Jump` -> `OgreBotAPI.Movement:Jump[all]`); a call that passed arguments already passed its
+    for-who first, and keeps it;
+    (all of the above only when the call passes every argument the new form requires - a call that leaves
     one off or blank is a TO-DO instead: the new verb refuses it);
-  * a console verb that was renamed with the same arguments;
+  * a console verb that was renamed with the same arguments; and one renamed whose only change is the for-who
+    the new verb takes first: `auto` is written after it (`-Door 2` -> `-ZoneDoor auto 2` - the line's -cfw or
+    the For Who window decides). A verb that kept its name gains `auto` only when its first argument cannot be a
+    for-who (a plain number, or quoted text with a space: `-ZoneDoor 1` -> `-ZoneDoor auto 1`); any other first
+    argument stays a to-do (it may already be the for-who), and a line it converted is not touched again;
   * a Classic framework variable renamed to a plain member: `${OgreRelayGroup}` (and `${OgreRelayGroup.Length}`
     etc.) becomes `${ISXOgreEQ2.Auth.RelayGroup}` - the same text under its new name.
 Everything else - argument reorders, changed arguments, data-file moves, not-ported names - is left in
@@ -157,7 +165,13 @@ def console_hits(M, line):
             i += 2 if tl in ('-tab', '-rg') else 1; continue
         if known(t):
             out.append((t, False, pos)); i += 1
-            for typ, allp in M.con_params.get(tl, []):
+            params = list(M.con_params.get(tl, []))
+            row = M.by_verb.get(tl)
+            if row and i < n and console_kept_forwho(M, row, t, toks[i][0]) == 'insert':
+                # a kept-name verb still in its V1 shape (no for-who yet, F-377): walk it as V1 - without the for-who -
+                # or its V1 argument count would swallow the next command (`-ZoneDoor 1 -OptNum 3`)
+                params = [p for k, p in enumerate(params) if k != next((j for j, q in enumerate(params) if q[0] == 'forwho'), -1)]
+            for typ, allp in params:
                 if typ == 'rest':
                     while i < n and not (toks[i][0].lower() == '-endargs' if allp else bound(toks[i][0])): i += 1
                     if i < n and toks[i][0].lower() == '-endargs': i += 1
@@ -548,7 +562,82 @@ def cmd_lookup(M, names):
             print()
 
 # ------------------------------------------------------------------ fix (mechanical pass)
-FW_NOTE = 'The for-who is now argument 0'
+FW_DONE = ' with `%s` as the for-who'
+
+def with_forwho(fwi, after):
+    """THE for-who rule of a rewrite: the map row's `forWhoInsert` says what a converted call must gain - the map's
+    generator decides it once, from the two signatures. `after` is the line just past the old name.
+    -> (text to write after the new name, characters of `after` it replaces).
+      when `always`  the old call had no for-who: the value goes in front of whatever it passes (`[all,` / `[all]`)
+      when `noArgs`  the old for-who was already argument 0: only a call passing NOTHING gains it (`X` / `X[]` -> `X[all]`);
+                     a call passing anything passes its for-who already
+    A script call gains `all` (it only ever runs on the session running it) or the old declared default; a console line
+    gains `auto` (console_forwho)."""
+    v = (fwi or {}).get('value')
+    if not v: return '', 0
+    if after.startswith('[]'): return '[%s]' % v, 2
+    if after.startswith('['): return ('[%s,' % v, 1) if fwi['when'] == 'always' else ('', 0)
+    return '[%s]' % v, 0
+
+def console_forwho(M, row, verb):
+    """The console half: a V1 verb whose only change is the for-who V2 puts first (forWhoInsert, value `auto`) is rewritten
+    to the new spelling with `auto` after it - ONLY when the spelling changes (`-Door 2` -> `-ZoneDoor auto 2`). A verb
+    that keeps its name is console_kept_forwho's."""
+    fwi = row.get('forWhoInsert') or {}
+    nf = row.get('newForm') or ''
+    if fwi.get('when') != 'always' or not fwi.get('value') or not nf.startswith('-') or nf.lower() == verb.lower() \
+            or nf.lower() not in M.new_console:
+        return None
+    return nf + ' ' + fwi['value']
+
+def _drop_lsvars(text):
+    """`text` with every ${...} taken out (braces nest; an unclosed one runs to the end) - what is left is what the line
+    says literally, whatever the variables expand to."""
+    out, depth, i = [], 0, 0
+    while i < len(text):
+        if text.startswith('${', i):
+            depth += 1; i += 2; continue
+        if depth and text[i] == '{': depth += 1
+        elif depth and text[i] == '}': depth -= 1
+        elif not depth: out.append(text[i])
+        i += 1
+    return ''.join(out)
+
+def not_a_forwho(tok):
+    """True when a console argument CANNOT be a for-who, by the bot's for-who grammar:
+      a plain number    the grammar reads a bare number as an actor id - a value that changes every time the actor
+                        zones, so it is never written into a script (and no EQ2 toon name is a number);
+      quoted text with a space (outside any ${...})   the grammar has no space combinator: a for-who with a space
+                        in it matches nobody, so nobody writes one.
+    Anything else - a word, a ${...}, `auto`, `all`, `igw:...` - may be a for-who: a word is a toon or session name to
+    the grammar, so it is never guessed."""
+    if re.fullmatch(r'[0-9]+', tok): return True
+    return len(tok) >= 2 and tok[0] == '"' and tok[-1] == '"' and bool(re.search(r'\s', _drop_lsvars(tok[1:-1])))
+
+def console_first_arg(line, end):
+    """The first argument token after a console verb that ends at line[end] - the way console_hits() splits a line
+    (`"quoted text"` or a run of non-blanks) - or '' when none follows."""
+    m = re.match(r'\s+("[^"]*"?|\S+)', line[end:])
+    return m.group(1) if m else ''
+
+def console_kept_forwho(M, row, verb, first):
+    """The console half for a verb that KEPT its name and only gained the for-who V2 puts first (forWhoInsert `auto`,
+    always; -ImmRes, -ZoneDoor, -Mentor, -ApplyVerb, -Raid, -EndScript). -> 'insert' (write `auto` before `first`),
+    'converted' (`first` is the `auto` a converter writes - a V1 line never had one there: V1 read `auto` only as a
+    for-who), or None (a to-do, as before).
+    It inserts only when `first` cannot be a for-who (not_a_forwho): `-ZoneDoor 1` -> `-ZoneDoor auto 1`,
+    `-ApplyVerb "a worn monument" "Polish Monument"` -> `-ApplyVerb auto "a worn monument" ...`. A word or a ${...}
+    first (`-Mentor Bob`, `-ZoneDoor "${UserInput}"`) may already be the line's for-who, so it is the writer's.
+    IDEMPOTENT by construction: the `auto` it writes is not a not_a_forwho token, so a second `fix` reads the converted
+    line as converted and adds nothing; and a line someone converted by hand starts with its for-who, which is never
+    a not_a_forwho token either."""
+    fwi = row.get('forWhoInsert') or {}
+    nf = row.get('newForm') or ''
+    if fwi.get('when') != 'always' or fwi.get('value') != 'auto' or nf.lower() != verb.lower() \
+            or nf.lower() not in M.new_console:
+        return None
+    if first.lower() == 'auto' or first.lower().startswith('auto+'): return 'converted'
+    return 'insert' if not_a_forwho(first) else None
 
 def call_args(line, at):
     """The top-level arguments of the `[...]` that opens at line[at] (each stripped), or None when it does not close
@@ -596,18 +685,14 @@ def fix_line(M, line, n, todo, own=frozenset()):
         # counted short (nor is one whose `[` does not close on the line)
         short = need > 0 and given is not None and not any('${' in a for a in given) \
             and (len(given) < need or any(not a for a in given[:need]))
-        if st in ('moved', 'renamed') and safe and args_ok and not short and not row.get('argsDropped'):
-            out.append(line[pos:m.start()]); out.append(nf); pos = m.end()
-            todo.append((n, old, 'DONE', '-> %s' % nf)); continue
-        if st == 'signature' and safe and not short and (row.get('note') or '').startswith(FW_NOTE) and not row.get('argsDropped')                 and row.get('argsCheck') == 'same-count':
-            after = line[m.end():]
-            out.append(line[pos:m.start()]); out.append(nf)
-            if after.startswith('['):
-                out.append('[all,' if not after.startswith('[]') else '[all')
-                pos = m.end() + 1
-            else:
-                out.append('[all]'); pos = m.end()
-            todo.append((n, old, 'DONE', '-> %s with `all` as the for-who (the old call acted on its own session; so does this one)' % nf)); continue
+        fwi = row.get('forWhoInsert') or {}
+        # a moved/renamed call; or a call whose ONLY change is the for-who it never had (forWhoInsert `always`)
+        rewrite = (st in ('moved', 'renamed') and args_ok) or \
+            (st == 'signature' and fwi.get('when') == 'always' and row.get('argsCheck') == 'same-count')
+        if rewrite and safe and not short and not row.get('argsDropped'):
+            ins, used = with_forwho(fwi, line[m.end():])
+            out.append(line[pos:m.start()]); out.append(nf + ins); pos = m.end() + used
+            todo.append((n, old, 'DONE', '-> %s' % nf + (FW_DONE % fwi['value'] if ins else ''))); continue
         why = row.get('howToFix') or ''
         if st in ('moved', 'renamed', 'signature') and not args_ok:
             why = 'check the arguments first - the map cannot prove they line up. ' + why
@@ -678,6 +763,14 @@ def fix_line(M, line, n, todo, own=frozenset()):
         elif row and row['status'] == 'renamed' and row.get('newForm') and not row.get('note'):
             new = new[:at] + row['newForm'] + new[at + len(verb):]
             todo.append((n, verb, 'DONE', '-> %s' % row['newForm']))
+        elif row and console_forwho(M, row, verb):
+            new = new[:at] + console_forwho(M, row, verb) + new[at + len(verb):]
+            todo.append((n, verb, 'DONE', '-> %s' % row['newForm'] + FW_DONE % row['forWhoInsert']['value']))
+        elif row and not quoted and console_kept_forwho(M, row, verb, console_first_arg(new, at + len(verb))) == 'insert':
+            new = new[:at + len(verb)] + ' ' + row['forWhoInsert']['value'] + new[at + len(verb):]
+            todo.append((n, verb, 'DONE', '-> %s' % row['newForm'] + FW_DONE % row['forWhoInsert']['value']))
+        elif row and not quoted and console_kept_forwho(M, row, verb, console_first_arg(new, at + len(verb))) == 'converted':
+            pass                                         # converted already (its `auto`) - nothing left to do
         elif row and row['status'] != 'unchanged':
             todo.append((n, verb, row['status'], row.get('howToFix') or ''))
     return new
