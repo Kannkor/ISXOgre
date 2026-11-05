@@ -14,9 +14,9 @@ The Classic objects scripts used that Classic's docs never had a page for (`GetI
 
 | What happened | Names |
 |---|---|
-| ⚠️ Arguments changed | 78 |
+| ⚠️ Arguments changed | 77 |
 | ⚠️ Argument order changed | 10 |
-| ✏️ Renamed | 79 |
+| ✏️ Renamed | 80 |
 | ➡️ Moved | 6 |
 | ➡️ Lives somewhere else | 168 |
 | 📄 In a data file now | 25 |
@@ -70,7 +70,7 @@ call Obj_OgreUtilities.HandleWaitForCombat -TimeOutIfNoProgress 30
 |---|---|---|---|---|
 | `Obj_OgreUtilities:AcceptQuest` | does nothing | `OgreBotAPI.Quest:Accept` | ⚠️ Arguments changed | For-who is new as argument 0; questName (argument 1) is accepted and ignored. |
 | `Obj_OgreUtilities.Alignment` | reads NULL | — | ⛔ Not ported yet | Classic: Good / Evil / None / Unknown from the bind location (Me.GetGameData[Self.BindLocation]). 0 calls. New: no BindLocation or alignment read anywhere in ISXOgreEQ2 (searched). |
-| `Obj_OgreUtilities.AnyGroupMembersDead` | reads NULL | — | ⛔ Not ported yet | Classic: is any group member (me included) dead. New: no script-facing read. The IC reads it privately: the path's dead-member hold and the named step's after-fight res run. |
+| `Obj_OgreUtilities.AnyGroupMembersDead` | reads NULL | — | ⛔ Not ported yet | Classic: is any group member (this toon included) dead. New: no script-facing read. The IC reads it privately: the path's dead-member hold and the named step's after-fight res run. |
 | `Obj_OgreUtilities.CallingScriptName` | reads NULL | — | ⛔ Not ported yet | Classic: internal - the script that created the object, passed to OgreNavLib / ZoneReset. No script on the new bot owns these engines. |
 | `call Obj_OgreUtilities.CallToGH` | does nothing | `OgreBotAPI.Movement:CallGH` | ⚠️ Arguments changed | For-who is new as argument 0. No _OnlyIfAvailableNow, no wait, no result. The fallback state machine is Movement:GetToGH; in an IC file, `recover` op callGH. |
 | `call Obj_OgreUtilities.CastAbilityID` | does nothing | `OgreBotAPI.Abilities:Cast` | ⚠️ Arguments changed | For-who is argument 0, the id argument 1. Nothing waits for the cast; in a data file wait on `not selfCasting`. |
@@ -103,11 +103,11 @@ call Obj_OgreUtilities.HandleWaitForCombat -TimeOutIfNoProgress 30
 | `call Obj_OgreUtilities.GetInGameQuestStep` | does nothing | — | ⛔ Not ported yet | Classic: makes the quest current in the journal and returns its first unchecked step (text, index, counts, zone) in a collection. New: no journal step reader. |
 | `call Obj_OgreUtilities.GetIntoCorrectZone` | does nothing | — | ⛔ Not ported yet | Classic: CORRECTZONE / GUILDHALL / else CallToGH, then CheckEvacTotems + GetIntoZoneFromGH. Incomplete in Classic itself: WhereAreWe never returns CORRECTZONE and GetIntoZoneFromGH is not defined in this objectdef. 0 calls. |
 | `call Obj_OgreUtilities.GHToHouse` | does nothing | — | ⛔ Not ported yet | Classic: double-click 'Portal to Housing', filter the house list by name, enter, wait for zoning. 0 calls. New: no 'go to a house' door; the housing-portal clicks exist only inside DepotTransfer's transfer flow and GetToGH's guild-hall tab. |
-| `Obj_OgreUtilities.GroupInCombat` | reads NULL | — | ⛔ Not ported yet | Classic: any group member (not me) in combat mode; 3 calls. New: no script-facing or data-file read of group combat - OgreBotAPI.Combat.InCombat is ME only; the `inCombat` condition is me only too. |
+| `Obj_OgreUtilities.GroupInCombat` | reads NULL | — | ⛔ Not ported yet | Classic: any group member (not this toon) in combat mode; 3 calls. New: no script-facing or data-file read of group combat - OgreBotAPI.Combat.InCombat reads this toon only; the `inCombat` condition reads this toon only too. |
 | `Obj_OgreUtilities.GroupWithinDistance` | reads NULL | `OgreBotAPI.Position.FarthestGroupDistance` | ⚠️ Arguments changed | Returns a number, not TRUE/FALSE. It counts every group member (a mercenary too), where Classic skipped non-PCs. In a data file: the `groupDistance` condition. |
 | `call Obj_OgreUtilities.Handle_Depot` | does nothing | — | ⛔ Not ported yet | Classic: for every harvest depot within 12 m, open it and press Deposit All. 0 calls. New: nothing deposits bag harvests into a nearby depot. DepotTransfer clicks the same Deposit All button, but only inside its house &lt;-&gt; guild-hall depot transfer. |
 | `call Obj_OgreUtilities.HandleCampSpotToLoc` | does nothing | `campSpot` | 📄 In a data file now | Two steps: {"do":"campSpot","op":"setLoc","loc":[x,y,z],"sendTo":"igw:{{me}}"} then {"wait":"atCampSpot","limitMs":...,"onTimeout":...}. |
-| `call Obj_OgreUtilities.HandleCampSpotToPort` | does nothing | — | ⛔ Not ported yet | Classic: camp the group onto a teleport spot and wait until the camp spot is suddenly far (we were ported), then clear it; one call, in an Archive file. New: nothing walks the group INTO a teleport loc. The IC `teleporter` step is the clicked kind only - every toon clicks an actor. |
+| `call Obj_OgreUtilities.HandleCampSpotToPort` | does nothing | — | ⛔ Not ported yet | Classic: camp the group onto a teleport spot and wait until the camp spot is suddenly far (the group was ported), then clear it; one call, in an Archive file. New: nothing walks the group INTO a teleport loc. The IC `teleporter` step is the clicked kind only - every toon clicks an actor. |
 | `call Obj_OgreUtilities.HandleClickActor` | does nothing | `OgreBotAPI.Actors:Click` | ⚠️ Arguments changed | For-who is new as argument 0. No distance limit and no wait for the cast; use OgreBotAPI.Actors:ClickQueued if you need the cast-bar wait. |
 | `call Obj_OgreUtilities.HandleClickActor_Special` | does nothing | `OgreBotAPI:Special` | ⚠️ Arguments changed | For-who is new as argument 0; no distance limit, no cast wait. |
 | `call Obj_OgreUtilities.HandleConversation` | does nothing | — | ⛔ Not ported yet | Classic: walks a hard-coded list of class-trainer conversation lines (Chosooth, Najena, Miragul...) for ConverseWithScrollMerchant. 0 external calls. No equivalent; the generic form is `actorInteract` op dialog. |
@@ -124,15 +124,15 @@ call Obj_OgreUtilities.HandleWaitForCombat -TimeOutIfNoProgress 30
 | `call Obj_OgreUtilities.HandleWaitTime` | does nothing | `ms` | 📄 In a data file now | {"wait":"ms","limitMs":&lt;deciseconds x 100&gt;,"onTimeout":"proceed"}. |
 | `call Obj_OgreUtilities.HandleZoneDoor` | does nothing | `OgreBotAPI.Travel:ZoneDoorFor` | ⚠️ Arguments changed | For-who is new as argument 0, the option argument 1. In a data file: the `zoneDoorWindow` action (op choose). |
 | `Obj_OgreUtilities.HaveAbilityID` | reads NULL | `hasAbility` | 📄 In a data file now |  |
-| `Obj_OgreUtilities.IndexMatch` | reads NULL | — | ⛔ Removed | Classic: does the weakref index hold that exact string. 0 calls. The new bot's OgreBotAPI.IndexMatch was a stub that did nothing, and it was removed 2026-10-22. Search the index in your script. |
+| `Obj_OgreUtilities.IndexMatch` | reads NULL | — | ⛔ Removed | Classic: does the weakref index hold that exact string. 0 calls. A new-bot member cannot receive a weakref index: search the index in your script. |
 | `Obj_OgreUtilities.InGuildHallZone` | reads NULL | `OgreBotAPI.Zone.InGuildHall` | ✏️ Renamed | Slightly wider than this list (it also knows guildhall_drunder, guildhall_skyshrinecapital and the catch-all). |
 | `Obj_OgreUtilities:Initialize_Depot` | does nothing | — | ⛔ Not ported yet | Classic: fills DepotNames. Internal to Handle_Depot (see it). |
 | `Obj_OgreUtilities.InternalVersion` | reads NULL | — | ⛔ Not ported yet | Classic: the backing string "1.001" returned by Version. There is no utilities object on the new bot to have a version; see Version for the adapter's. |
 | `Obj_OgreUtilities.InZoneName` | reads NULL | `zone` | 📄 In a data file now | In a script: ${OgreBotAPI.Zone.Name} is the zone name with the number stripped - compare it yourself. |
 | `Obj_OgreUtilities.InZoneShortName` | reads NULL | — | ⛔ Not ported yet | ISXEQ2's own ${Zone.ShortName} is still there for a script. |
-| `Obj_OgreUtilities.IsAnyoneDead` | reads NULL | — | ⛔ Not ported yet | Classic: any group member (me included) is dead; 5 calls in. New: no script-facing read (see AnyGroupMembersDead); the IC's path / named holds read it privately. |
+| `Obj_OgreUtilities.IsAnyoneDead` | reads NULL | — | ⛔ Not ported yet | Classic: any group member (this toon included) is dead; 5 calls, in the instance helpers. New: no script-facing read (see AnyGroupMembersDead); the IC's path / named holds read it privately. |
 | `Obj_OgreUtilities.IsGroupDead` | reads NULL | `onWipe` | 📄 In a data file now | Nothing to test in the file: author the recovery as the `onWipe` list (and `afterWipe`). No script-facing 'group is dead' member exists. |
-| `Obj_OgreUtilities.IsGroupDeadOrNoRes` | reads NULL | — | ⛔ Not ported yet | Classic: someone is dead AND (everyone is dead OR no living priest); 2 calls in/:661. New: no script-facing or data-file read; the IC wipe watch tests 'everyone dead' only. |
+| `Obj_OgreUtilities.IsGroupDeadOrNoRes` | reads NULL | — | ⛔ Not ported yet | Classic: someone is dead AND (everyone is dead OR no living priest); 2 calls, in the instance helpers. New: no script-facing or data-file read; the IC wipe watch tests 'everyone dead' only. |
 | `Obj_OgreUtilities.ItemCount` | reads NULL | `OgreBotAPI.Inventory.Count` | ⚠️ Arguments changed | Write `${OgreBotAPI.Inventory.Count[<name>,contains]}` - Classic matched a PART of the name, and the new default (exact) needs the whole name. Both count every stack in the bags and the Harvest Bag. Do NOT use OgreBotAPI.Loot.ItemCount: it is SmartLoot's count of distinct capped item names, not a bag count. The data-file condition `hasItem` answers only 'is it in my bags'. |
 | `Obj_OgreUtilities:Jump` | does nothing | `OgreBotAPI.Movement:Jump` | ⚠️ Arguments changed | For-who is new as argument 0. |
 | `call Obj_OgreUtilities.LoginToon` | does nothing | `ogre login` | ➡️ Lives somewhere else | It does not wait; the login runs in the adapter. |
@@ -147,7 +147,7 @@ call Obj_OgreUtilities.HandleWaitForCombat -TimeOutIfNoProgress 30
 | `Obj_OgreUtilities.OgreNavChecks` | reads NULL | — | ⛔ Not ported yet | Classic: OgreNavLib's movement checks; content toggles them, e.g. Obj_OgreUtilities.OgreNavChecks:Set_Check_Group[FALSE,1000]. New: the OgreNavLib layer is a stub; the new nav has its own tunables through ISXOgreEQ2.Nav:Set, not these checks. |
 | `Obj_OgreUtilities.OgreNavEntry` | reads NULL | — | ⛔ Not ported yet | Classic: the OgreNavLib request object that NavToLocation / NavToLoc fill. The OgreNavLib layer is not ported: `ogre navlib` is a stub word, 'NOT PORTED YET'. Point-to-point nav is OgreBotAPI.Movement:NavTo (see NavToLoc). |
 | `Obj_OgreUtilities.OnCorrectCharacter` | reads NULL | — | ⛔ Not ported yet | Classic: CleanName[Me.Name] equals the toon. 0 calls. No member; compare ${OgreBotAPI.Util.Clean[${Me.Name}]} yourself (see CleanName). |
-| `call Obj_OgreUtilities.OnQuestStep` | does nothing | — | ⛔ Not ported yet | Classic: is quest X on a step whose text matches (-ExactMatch, -StepIndex, -CurrentZoneOnly, extra -StepText) - reads the journal via GetInGameQuestStep; 19 calls, e.g.. New: no quest-step reader. The Quest sub-object has Have / ActorHas / DeityPoints / SkipShinies; the only journal reads are the current quest's NAME and completed-quest lookups for travel. |
+| `call Obj_OgreUtilities.OnQuestStep` | does nothing | — | ⛔ Not ported yet | Classic: is quest X on a step whose text matches (-ExactMatch, -StepIndex, -CurrentZoneOnly, extra -StepText) - reads the journal via GetInGameQuestStep; 19 calls, e.g. the Wracklands Diaku Corral instance file. New: no quest-step reader. The Quest sub-object has Have / ActorHas / DeityPoints / SkipShinies; the only journal reads are the current quest's NAME and completed-quest lookups for travel. |
 | `call Obj_OgreUtilities.Open_Depot` | does nothing | — | ⛔ Not ported yet | Classic: DoubleClick a depot by id and wait for the window. Part of Handle_Depot. (A plain double-click by id is OgreBotAPI.Actors:Click.) |
 | `call Obj_OgreUtilities.PreCombatBuff` | does nothing | `named` | 📄 In a data file now | Only before a named pull: keys prebuffMs (_Seconds x 1000) and preCastTagMs (_TagDuration x 1000) on the `named` step. There is no standalone buff-up step. |
 | `Obj_OgreUtilities.QuestIt` | reads NULL | — | ⛔ Not ported yet | Classic: internal iterator over Quests. Not script-facing. |
@@ -169,7 +169,7 @@ call Obj_OgreUtilities.HandleWaitForCombat -TimeOutIfNoProgress 30
 | `Obj_OgreUtilities.Version` | reads NULL | `ISXOgreEQ2.Version` | ➡️ Lives somewhere else | This is the whole extension's version, not a utilities version. |
 | `call Obj_OgreUtilities.WaitForActorClick` | does nothing | `OgreBotAPI.Actors:ClickQueued` | ⚠️ Arguments changed | The caller no longer waits; the click is queued. In a data file: `actorInteract` with awaitCastBar. |
 | `call Obj_OgreUtilities.WaitForCasting` | does nothing | `selfCasting` | 📄 In a data file now | {"wait":{"not":{"selfCasting":{}}},"limitMs":...,"onTimeout":...}. |
-| `call Obj_OgreUtilities.WaitForGroupPower` | does nothing | — | ⛔ Not ported yet | Classic: wait until every group member's power &gt;= _PowerPercent. 0 calls. New: `myStat` is my own only; no group power read in the condition table or the Roster regs. |
+| `call Obj_OgreUtilities.WaitForGroupPower` | does nothing | — | ⛔ Not ported yet | Classic: wait until every group member's power &gt;= _PowerPercent. 0 calls. New: `myStat` reads this toon only; no group power read in the condition table or the Roster regs. |
 | `call Obj_OgreUtilities.WaitForGroupToZone` | does nothing | `zoneOut` | 📄 In a data file now | The health &gt; 90% leg is not part of zoneOut. |
 | `call Obj_OgreUtilities.WaitForLootWindow` | does nothing | `waitForLoot` | 📄 In a data file now |  |
 | `call Obj_OgreUtilities.WaitForPower` | does nothing | `myStat` | 📄 In a data file now |  |
@@ -277,7 +277,7 @@ call Obj_OgreUtilities.HandleWaitForCombat -TimeOutIfNoProgress 30
 
 **Note B** (7 rows below): The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it.
 
-**Note C** (3 rows below): takes a `persistentref` (a LavishScript reference passed by name). Watch the pair order - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has.
+**Note C** (3 rows below): It took a `persistentref` (a LavishScript reference passed by name), which the new bot cannot take. The new reader is keyed on the DETRIMENT ICON PAIR, not on a name: `${OgreBotAPI.Cures.Detrimental[<main>,<back>,<actorId>,"<field>"]}` (field defaults to "exists"; "CurrentIncrements" and "Duration" are the other common ones). Watch the pair order - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has.
 
 | Old call | Today | Write instead | What changed | Notes |
 |---|---|---|---|---|
@@ -286,35 +286,35 @@ call Obj_OgreUtilities.HandleWaitForCombat -TimeOutIfNoProgress 30
 | `GetInfoOb.Archetype` | reads NULL | `OgreBotAPI.Roster.ArchetypeOf` `[class]` | ✏️ Renamed | Not taken any more: `IncludeMe`. |
 | `GetInfoOb.AscensionVitalityRemaining` | reads NULL | — | ⛔ Not ported yet |  |
 | `GetInfoOb:CancelEffect` | does nothing | `OgreBotAPI.Cures:CancelDetrimental` `[fw,mainId,backdropId]` | ⚠️ Arguments changed | Note B |
-| `GetInfoOb:CancelEffect_ref` | does nothing | `OgreBotAPI.Cures:CancelDetrimental` `[fw,mainId,backdropId]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. takes a `persistentref` (a LavishScript reference passed by name). |
-| `GetInfoOb.CheckMobDetriment` | reads NULL | `OgreBotAPI.Cures.Detrimental` `[main=0,back=0,actorId=0,field=exists]` | ⚠️ Arguments changed | the new reader is keyed on the DETRIMENT ICON PAIR, not on a name: `${OgreBotAPI.Cures.Detrimental[<main>,<back>,<actorId>,"<field>"]}` (field defaults to "exists"; "CurrentIncrements" and "Duration" are the other common ones). Watch the pair order - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has. |
-| `GetInfoOb.CheckMobDetriment_Increment` | reads NULL | `OgreBotAPI.Cures.Detrimental` `[main=0,back=0,actorId=0,field=exists]` | ⚠️ Arguments changed | pass `"CurrentIncrements"`. the new reader is keyed on the DETRIMENT ICON PAIR, not on a name: `${OgreBotAPI.Cures.Detrimental[<main>,<back>,<actorId>,"<field>"]}` (field defaults to "exists"; "CurrentIncrements" and "Duration" are the other common ones). Watch the pair order - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has. |
+| `GetInfoOb:CancelEffect_ref` | does nothing | `OgreBotAPI.Cures:CancelDetrimental` `[fw,mainId,backdropId]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. It took a `persistentref` (a LavishScript reference passed by name), which the new bot cannot take. |
+| `GetInfoOb.CheckMobDetriment` | reads NULL | `OgreBotAPI.Cures.Detrimental` `[main=0,back=0,actorId=0,field=exists]` | ⚠️ Arguments changed | The new reader is keyed on the DETRIMENT ICON PAIR, not on a name: `${OgreBotAPI.Cures.Detrimental[<main>,<back>,<actorId>,"<field>"]}` (field defaults to "exists"; "CurrentIncrements" and "Duration" are the other common ones). Watch the pair order - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has. |
+| `GetInfoOb.CheckMobDetriment_Increment` | reads NULL | `OgreBotAPI.Cures.Detrimental` `[main=0,back=0,actorId=0,field=exists]` | ⚠️ Arguments changed | Pass `"CurrentIncrements"`. The new reader is keyed on the DETRIMENT ICON PAIR, not on a name: `${OgreBotAPI.Cures.Detrimental[<main>,<back>,<actorId>,"<field>"]}` (field defaults to "exists"; "CurrentIncrements" and "Duration" are the other common ones). Watch the pair order - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has. |
 | `GetInfoOb.Class` | reads NULL | `OgreBotAPI.Roster.NearestOfClass` | ✏️ Renamed | Faithful: scope auto-detects (raid if in one, else group); a match is the member's SUBCLASS or its class TIER, so `"warrior"` finds a berserker; self answers first with no distance test; distance must be &gt; 0 (Classic's guard against members reading 0 while zoning) and &lt;= range. Deliberate superset: ARCHETYPE also matches, so `"fighter"` finds any of them - Classic's hand-written switch only knew subclass\|tier. |
 | `GetInfoOb.Clean` | reads NULL | `OgreBotAPI.Util.Clean` `[s]` | ➡️ Moved |  |
 | `GetInfoOb.CleanNameWithSpaces` | reads NULL | `OgreBotAPI.Util.Clean` `[s]` | ✏️ Renamed |  |
-| `GetInfoOb.CleanNameWithUnderscores` | reads NULL | — | ⛔ Not ported yet | the underscore variant of CleanName. `Util.Clean` is the ported one; the underscore form has no twin. |
+| `GetInfoOb.CleanNameWithUnderscores` | reads NULL | — | ⛔ Not ported yet | The underscore variant of CleanName. `Util.Clean` is the ported one; the underscore form has no twin. |
 | `GetInfoOb.CommandForMe` | reads NULL | `OgreBotAPI.ForWho.Me` | ✏️ Renamed |  |
 | `GetInfoOb.CommandForMe_Check` | reads NULL | `OgreBotAPI.ForWho.Me` | ✏️ Renamed |  |
 | `GetInfoOb.CommandForMe_Eval_Me` | reads NULL | `OgreBotAPI.ForWho.Me` | ✏️ Renamed |  |
 | `GetInfoOb.CountGroupBy_` | reads NULL | `OgreBotAPI.Roster.CountGroupBy` | ⚠️ Argument order changed | Note A |
 | `GetInfoOb.CountRaidBy_` | reads NULL | `OgreBotAPI.Roster.CountRaidBy` | ⚠️ Argument order changed | Note A |
-| `GetInfoOb.CurableDisable` | reads NULL | — | ⛔ Not ported yet | takes a `persistentref` (a LavishScript reference passed by name). |
+| `GetInfoOb.CurableDisable` | reads NULL | — | ⛔ Not ported yet | It took a `persistentref` (a LavishScript reference passed by name), which the new bot cannot take. |
 | `GetInfoOb.CureCurseNotRecentlyCast` | reads NULL | — | ⛔ Not ported yet | Classic's per-target cure throttle, read out of its own cure queue. The new engine owns request de-duplication internally (see the Obj_Cure* objects), so there is no throttle to consult. |
 | `GetInfoOb.CurrentIncrements` | reads NULL | `OgreBotAPI.Cures.Detrimental` `[main=0,back=0,actorId=0,field=exists]` | ✏️ Renamed | Classic looked the detriment up by NAME; the new reader is keyed on the DETRIMENT ICON PAIR, not on a name: `${OgreBotAPI.Cures.Detrimental[<main>,<back>,<actorId>,"<field>"]}` (field defaults to "exists"; "CurrentIncrements" and "Duration" are the other common ones). Watch the pair order - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has. |
-| `GetInfoOb.CurrentIncrements_ID` | reads NULL | `OgreBotAPI.Cures.Detrimental` `[main=0,back=0,actorId=0,field=exists]` | ⚠️ Arguments changed | pass `"CurrentIncrements"` as the field. the new reader is keyed on the DETRIMENT ICON PAIR, not on a name: `${OgreBotAPI.Cures.Detrimental[<main>,<back>,<actorId>,"<field>"]}` (field defaults to "exists"; "CurrentIncrements" and "Duration" are the other common ones). Watch the pair order - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has. |
+| `GetInfoOb.CurrentIncrements_ID` | reads NULL | `OgreBotAPI.Cures.Detrimental` `[main=0,back=0,actorId=0,field=exists]` | ⚠️ Arguments changed | Pass `"CurrentIncrements"` as the field. The new reader is keyed on the DETRIMENT ICON PAIR, not on a name: `${OgreBotAPI.Cures.Detrimental[<main>,<back>,<actorId>,"<field>"]}` (field defaults to "exists"; "CurrentIncrements" and "Duration" are the other common ones). Watch the pair order - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has. |
 | `GetInfoOb.CurrentIncrements_ref` | reads NULL | `OgreBotAPI.Cures.Detrimental` `[main=0,back=0,actorId=0,field=exists]` | ✏️ Renamed | Note C |
 | `GetInfoOb.CursesInGroup` | reads NULL | `OgreBotAPI.Cures.GroupCurses` | ✏️ Renamed |  |
 | `GetInfoOb.DetrimentalInfo` | reads NULL | `OgreBotAPI.Cures.Detrimental` `[main=0,back=0,actorId=0,field=exists]` | ✏️ Renamed |  |
 | `GetInfoOb.DetrimentalInfo_ref` | reads NULL | `OgreBotAPI.Cures.Detrimental` `[main=0,back=0,actorId=0,field=exists]` | ⚠️ Arguments changed |  |
-| `GetInfoOb.DotDuration` | reads NULL | `OgreBotAPI.Cures.Detrimental` `[main=0,back=0,actorId=0,field=exists]` | ✏️ Renamed | pass `"Duration"` as the field. the new reader is keyed on the DETRIMENT ICON PAIR, not on a name: `${OgreBotAPI.Cures.Detrimental[<main>,<back>,<actorId>,"<field>"]}` (field defaults to "exists"; "CurrentIncrements" and "Duration" are the other common ones). Watch the pair order - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has. |
+| `GetInfoOb.DotDuration` | reads NULL | `OgreBotAPI.Cures.Detrimental` `[main=0,back=0,actorId=0,field=exists]` | ✏️ Renamed | Pass `"Duration"` as the field. The new reader is keyed on the DETRIMENT ICON PAIR, not on a name: `${OgreBotAPI.Cures.Detrimental[<main>,<back>,<actorId>,"<field>"]}` (field defaults to "exists"; "CurrentIncrements" and "Duration" are the other common ones). Watch the pair order - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has. |
 | `GetInfoOb.DotDuration_ref` | reads NULL | `OgreBotAPI.Cures.Detrimental` `[main=0,back=0,actorId=0,field=exists]` | ✏️ Renamed | Note C |
-| `GetInfoOb.Dotted` | reads NULL | `OgreBotAPI.Cures.Detrimental` `[main=0,back=0,actorId=0,field=exists]` | ✏️ Renamed | the default field "exists" is this question. the new reader is keyed on the DETRIMENT ICON PAIR, not on a name: `${OgreBotAPI.Cures.Detrimental[<main>,<back>,<actorId>,"<field>"]}` (field defaults to "exists"; "CurrentIncrements" and "Duration" are the other common ones). Watch the pair order - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has. |
+| `GetInfoOb.Dotted` | reads NULL | `OgreBotAPI.Cures.Detrimental` `[main=0,back=0,actorId=0,field=exists]` | ✏️ Renamed | The default field "exists" is this question. The new reader is keyed on the DETRIMENT ICON PAIR, not on a name: `${OgreBotAPI.Cures.Detrimental[<main>,<back>,<actorId>,"<field>"]}` (field defaults to "exists"; "CurrentIncrements" and "Duration" are the other common ones). Watch the pair order - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has. |
 | `GetInfoOb.Dotted_ref` | reads NULL | `OgreBotAPI.Cures.Detrimental` `[main=0,back=0,actorId=0,field=exists]` | ✏️ Renamed | Note C |
-| `GetInfoOb.DottedDescription_ref` | reads NULL | `OgreBotAPI.Cures.DetrimentalText` `[main=0,back=0,actorId=0,field=exists]` | ✏️ Renamed | takes a `persistentref` (a LavishScript reference passed by name). The id-keyed `.DetrimentalText` is the working form. |
-| `GetInfoOb.DottedExamine_ref` | reads NULL | — | ⛔ Not ported yet | opened the EXAMINE window for a detriment, which is a window action rather than a detriment read - `Cures.Detrimental` / `.DetrimentalText` answer about the detriment, not about examining it. No twin, and it took a persistentref besides. |
-| `GetInfoOb.DottedName_ref` | reads NULL | `OgreBotAPI.Cures.DetrimentalText` `[main=0,back=0,actorId=0,field=exists]` | ✏️ Renamed | takes a `persistentref` (a LavishScript reference passed by name). The id-keyed `.DetrimentalText` is the working form. |
-| `GetInfoOb.EquipOrInven` | reads NULL | — | ⛔ Not ported yet | answers whether an item is equipped or in a bag. The Inventory surface exposes slot and adornment reads but no equipped-vs-bagged lookup. |
-| `GetInfoOb.Evaluate_Num` | reads NULL | — | ⛔ Not ported yet | a generic numeric comparator (v1 &lt;op&gt; v2). Nothing to port - write the comparison inline; `Util.Between` / `.BetweenFloat` cover the range case. |
+| `GetInfoOb.DottedDescription_ref` | reads NULL | `OgreBotAPI.Cures.DetrimentalText` `[main=0,back=0,actorId=0,field=exists]` | ✏️ Renamed | It took a `persistentref` (a LavishScript reference passed by name), which the new bot cannot take. The id-keyed `.DetrimentalText` is the working form. |
+| `GetInfoOb.DottedExamine_ref` | reads NULL | — | ⛔ Not ported yet | Opened the EXAMINE window for a detriment, which is a window action rather than a detriment read - `Cures.Detrimental` / `.DetrimentalText` answer about the detriment, not about examining it. No twin, and it took a persistentref besides. |
+| `GetInfoOb.DottedName_ref` | reads NULL | `OgreBotAPI.Cures.DetrimentalText` `[main=0,back=0,actorId=0,field=exists]` | ✏️ Renamed | It took a `persistentref` (a LavishScript reference passed by name), which the new bot cannot take. The id-keyed `.DetrimentalText` is the working form. |
+| `GetInfoOb.EquipOrInven` | reads NULL | — | ⛔ Not ported yet | Answers whether an item is equipped or in a bag. The Inventory surface exposes slot and adornment reads but no equipped-vs-bagged lookup. |
+| `GetInfoOb.Evaluate_Num` | reads NULL | — | ⛔ Not ported yet | A generic numeric comparator (v1 &lt;op&gt; v2). Nothing to port - write the comparison inline; `Util.Between` / `.BetweenFloat` cover the range case. |
 | `GetInfoOb.FlaggedToon` | reads NULL | `OgreBotAPI.Roster.Flagged` `[n=1]` | ✏️ Renamed |  |
 | `GetInfoOb:FlagToon` | does nothing | `OgreBotAPI.Roster:Flag` `[fw,n=1]` | ⚠️ Arguments changed | Note B |
 | `GetInfoOb:Get_GroupIDs` | does nothing | `OgreBotAPI.Roster.SortGroupByID` | ✏️ Renamed | Classic handed back a collection to iterate; the new surface is INDEXED - ask for rank n rather than filling a container. `ExcludeToon` has no argument twin: filter it caller-side. |
@@ -348,23 +348,23 @@ call Obj_OgreUtilities.HandleWaitForCombat -TimeOutIfNoProgress 30
 | `GetInfoOb:SpewFlags` | does nothing | `OgreBotAPI.Roster:SpewFlags` `[fw]` | ⚠️ Arguments changed | Note B |
 | `GetInfoOb:ToonFlagged` | does nothing | `OgreBotAPI.Roster.Flagged` `[n=1]` | ✏️ Renamed | Not taken any more: `_Where`. |
 | `GetInfoOb.ToonMarked` | reads NULL | `OgreBotAPI.Roster.Marked` | ✏️ Renamed |  |
-| `GetInfoOb.Trim` | reads NULL | — | ⛔ Not ported yet | a string trim. `Util` carries the conversions LavishScript lacks but has no Trim; LavishScript's own string members cover it. |
-| `GetInfoOb:TroubadorPoWMythCloakProc` | does nothing | — | ⛔ Not ported yet | a class-and-item-specific proc tracker. Fight/class one-offs are not API on the new bot - they belong in an encounter module or a method hatch. |
-| `GetInfoOb.TroubadorPoWMythCloakProcOn` | reads NULL | — | ⛔ Not ported yet | state for the Troubador proc tracker - a class one-off, not API. See TroubadorPoWMythCloakProc. |
-| `GetInfoOb.TroubadorPowMythCloakProcTimer` | reads NULL | — | ⛔ Not ported yet | state for the Troubador proc tracker - a class one-off, not API. See TroubadorPoWMythCloakProc. |
+| `GetInfoOb.Trim` | reads NULL | — | ⛔ Not ported yet | A string trim. `Util` carries the conversions LavishScript lacks but has no Trim; LavishScript's own string members cover it. |
+| `GetInfoOb:TroubadorPoWMythCloakProc` | does nothing | — | ⛔ Not ported yet | A class-and-item-specific proc tracker. Fight/class one-offs are not API on the new bot - they belong in an encounter module or a method hatch. |
+| `GetInfoOb.TroubadorPoWMythCloakProcOn` | reads NULL | — | ⛔ Not ported yet | State for the Troubador proc tracker - a class one-off, not API. See TroubadorPoWMythCloakProc. |
+| `GetInfoOb.TroubadorPowMythCloakProcTimer` | reads NULL | — | ⛔ Not ported yet | State for the Troubador proc tracker - a class one-off, not API. See TroubadorPoWMythCloakProc. |
 | `GetInfoOb:UnflagAll` | does nothing | `OgreBotAPI.Roster:UnflagAll` `[fw]` | ⚠️ Arguments changed | Note B |
 | `GetInfoOb:UnflagToon` | does nothing | `OgreBotAPI.Roster:Unflag` `[fw,n=1]` | ⚠️ Arguments changed | Note B |
 | `GetInfoOb:UnmarkToon` | does nothing | `OgreBotAPI.Roster:Unmark` `[fw]` | ⚠️ Arguments changed | Note B |
 | `GetInfoOb.UplinkName` | reads NULL | `OgreBotAPI.Comms.UplinkName` | ➡️ Moved |  |
-| `call GetInfoOb.WaitForCasting` | does nothing | — | ⛔ Not ported yet | a blocking wait on 'am I still casting'. It casts nothing: its whole body is `wait ${_TimeToWaitForCasting} ${Me.CastingSpell}` then `while ${Me.CastingSpell} wait 3` - wait for a cast to start, then for it to finish. No wait-for-cast helper was built: `${Me.CastingSpell}` is a plain ISXEQ2 read, so a script writes the wait itself. `Abilities.CancelCurrentCast` is not the cast: it reads the manual cancel flag. |
+| `call GetInfoOb.WaitForCasting` | does nothing | — | ⛔ Not ported yet | A blocking wait on 'am I still casting'. It casts nothing: its whole body is `wait ${_TimeToWaitForCasting} ${Me.CastingSpell}` then `while ${Me.CastingSpell} wait 3` - wait for a cast to start, then for it to finish. No wait-for-cast helper was built: `${Me.CastingSpell}` is a plain ISXEQ2 read, so a script writes the wait itself. `Abilities.CancelCurrentCast` is not the cast: it reads the manual cancel flag. |
 
 ## ClassInfo
 
 | Old call | Today | Write instead | What changed | Notes |
 |---|---|---|---|---|
-| `ClassInfo.Archetype` | reads NULL | `OgreBotAPI.Roster.ArchetypeOf` `[class]` | ✏️ Renamed | pass `${Me.ID}`. `${ISXOgreEQ2.Class.Archetype}` is the direct read. |
+| `ClassInfo.Archetype` | reads NULL | `OgreBotAPI.Roster.ArchetypeOf` `[class]` | ✏️ Renamed | Pass `${Me.ID}`. `${ISXOgreEQ2.Class.Archetype}` is the direct read. |
 | `ClassInfo.ChangeValue` | reads NULL | `${ISXOgreEQ2.Class:ChangeValue[<member>,<value>]}` | ➡️ Lives somewhere else |  |
-| `ClassInfo:Clear` | does nothing | — | ⛔ Not ported yet | internal reset of Classic's own class cache; the new bot has no such cache to clear |
+| `ClassInfo:Clear` | does nothing | — | ⛔ Not ported yet | Internal reset of Classic's own class cache; the new bot has no such cache to clear |
 | `ClassInfo.GroupWaterBreathingAbility` | reads NULL | `${ISXOgreEQ2.Class.WaterBreathingAbility}` | ➡️ Lives somewhere else |  |
 | `ClassInfo.HasEpic2` | reads NULL | `${ISXOgreEQ2.Class.HasEpic2}` | ➡️ Lives somewhere else |  |
 | `ClassInfo.IsAnimalist` | reads NULL | `${ISXOgreEQ2.Class.Is["animalist"]}` | ➡️ Lives somewhere else |  |
@@ -420,7 +420,7 @@ call Obj_OgreUtilities.HandleWaitForCombat -TimeOutIfNoProgress 30
 | `ClassInfo.OnKaladimServer` | reads NULL | `${ISXOgreEQ2.Class.OnKaladimServer}` | ➡️ Lives somewhere else |  |
 | `ClassInfo.OnTLEServer` | reads NULL | `${ISXOgreEQ2.Class.OnTLEServer}` | ➡️ Lives somewhere else |  |
 | `ClassInfo.OnVarsoonServer` | reads NULL | `${ISXOgreEQ2.Class.OnVarsoonServer}` | ➡️ Lives somewhere else |  |
-| `ClassInfo.RangerEpic2AbilityID` | reads NULL | — | ⛔ Not ported yet | a hard-coded constant in Classic's class table, not an API read |
+| `ClassInfo.RangerEpic2AbilityID` | reads NULL | — | ⛔ Not ported yet | A hard-coded constant in Classic's class table, not an API read |
 | `ClassInfo:Update` | does nothing | `${ISXOgreEQ2.Class:Update}` | ➡️ Lives somewhere else |  |
 | `ClassInfo:UpdateAscensionClass` | does nothing | `${ISXOgreEQ2.Class.AscensionClass}` | ➡️ Lives somewhere else |  |
 | `ClassInfo:UpdateServer` | does nothing | `${ISXOgreEQ2.Class:UpdateServer}` | ➡️ Lives somewhere else |  |
@@ -436,16 +436,16 @@ call Obj_OgreUtilities.HandleWaitForCombat -TimeOutIfNoProgress 30
 | `Items` | not defined - the new bot does not load Classic's framework, so the name does not exist | — | ⛔ Not ported yet | Not ported - there is no replacement yet. Nothing in content used it; if two toons fire the purse together, take it out of all but one cast stack.<br>OgreBot's internal spacer for Ahrmatal's Ringmail Purse: when one group member used it, the others held theirs for 30 seconds so only one purse fired at a time. |
 | `LetsGo` | not defined - the new bot does not load Classic's framework, so the name does not exist | `OgreBotAPI.CampSpot:Release` | ⚠️ Arguments changed | Call OgreBotAPI.CampSpot:Release with `all` as the for-who first; in IC and fight files use `campSpot` `op` "release".<br>OgreBot's worker behind 'let's go': cleared the no-offensive/no-defensive holds, the threat ignore list, the assist overrides, follow pause and no-move, stood up from feign death, cleared every campspot, the HO icon lists and the bow-ability block. |
 | `Mentor` | not defined - the new bot does not load Classic's framework, so the name does not exist | `OgreBotAPI.Roster:Mentor` | ⚠️ Arguments changed | Call OgreBotAPI.Roster:Mentor[&lt;forwho&gt;,&lt;name&gt;].<br>OgreBot's worker that mentored a group member when you out-levelled them and neither of you was already mentored. |
-| `Obj_CreateInstance_Helpers` | not defined - the new bot does not load Classic's framework, so the name does not exist | — | ⛔ Removed | The loader object of the Instance_Helpers script, used to create an Obj_OgreIH object inside an instance file when the source was not installed. |
+| `Obj_CreateInstance_Helpers` | not defined - the new bot does not load Classic's framework, so the name does not exist | — | ⛔ Removed | Delete the call: IC zone files are data and need no Obj_OgreIH; each of its members has its own row.<br>The loader object of the Instance_Helpers script, used to create an Obj_OgreIH object inside an instance file when the source was not installed. |
 | `Obj_CreateOgreUtilities` | not defined - the new bot does not load Classic's framework, so the name does not exist | — | ⛔ Removed | Delete the call: there is no helper object to create; use OgreBotAPI / ISXOgreEQ2 directly.<br>The loader object of the OgreUtilities helper script, used to create an Obj_OgreUtilities object inside another script when the source was not installed. |
 | `Obj_Kord.Initialise_IC` | not defined - the new bot does not load Classic's framework, so the name does not exist | — | ⛔ Removed | Note A |
 | `Obj_OgreUtilities.OgreMapControllerOb` | not defined - the new bot does not load Classic's framework, so the name does not exist | — | ⛔ Removed | Delete the line. Zone maps load by themselves in the new bot.<br>Nothing real: Obj_OgreUtilities never had this member. The name belongs to a separate global LavishNav map loader; one archived script echoed whether the member existed while debugging. |
 | `Obj_OgreUtilities.OgreNavLib` | not defined - the new bot does not load Classic's framework, so the name does not exist | automatic (no call) | ➡️ Lives somewhere else | Delete these lines: the new bot loads the current zone's navmesh by itself. To walk somewhere use OgreBotAPI.Movement:NavTo (or a `path` step with `using` "nav").<br>The OgreNav navigation library object inside Obj_OgreUtilities; content used it only to point it at a zone's map folder and load that map (ChangeLoadingPath, LoadMap, Set_AutoLoadMapOnZone). |
 | `Obj_Pushover` | not defined - the new bot does not load Classic's framework, so the name does not exist | `OgreBotAPI.Comms:Pushover` | ➡️ Lives somewhere else | Drop the exists check and call OgreBotAPI.Comms:Pushover directly - it is always there, and it drops the message itself (with one log line) when Pushover is not set up.<br>LostSync's Pushover object - scripts checked ${Obj_Pushover(exists)} before sending. |
 | `Obj_Pushover.PushoverSendMsg` | not defined - the new bot does not load Classic's framework, so the name does not exist | `OgreBotAPI.Comms:Pushover` | ⚠️ Arguments changed | Write OgreBotAPI.Comms:Pushover[all,"&lt;message&gt;",-title,"&lt;title&gt;",-priority,&lt;n&gt;]. The sound is accepted but ignored (the log says so). The new bot already pushes tells and SmartLoot assignments by itself.<br>Sent a Pushover notification: PushoverSendMsg "&lt;title&gt;" "&lt;message&gt;" "&lt;sound&gt;" &lt;priority&gt;. |
-| `Obj_SpewStats` | not defined - the new bot does not load Classic's framework, so the name does not exist | — | ⛔ Removed | To report a stat to chat use OgreBotAPI.Debug:BroadcastStat (or the console `-SpewStat`). Reading a stat back into a script is not ported: the stub that stood for it (OgreBotAPI.Debug.SpewStat) did nothing and was removed 2026-10-22.<br>OgreBot's stat reporter: read your stats, currencies, factions, skills and recipe counts from the game windows, either returned to the script (GetSpewStat, e.g. potency) or sent to chat. |
+| `Obj_SpewStats` | not defined - the new bot does not load Classic's framework, so the name does not exist | — | ⛔ Removed | To report a stat to chat use OgreBotAPI.Debug:BroadcastStat (or the console `-SpewStat`). Reading a stat back into a script is not ported.<br>OgreBot's stat reporter: read your stats, currencies, factions, skills and recipe counts from the game windows, either returned to the script (GetSpewStat, e.g. potency) or sent to chat. |
 | `Object_OgreTravelMesh_Traveling` | not defined - the new bot does not load Classic's framework, so the name does not exist | `ISXOgreEQ2.TravelMesh.TMActive` | ✏️ Renamed | Read ${ISXOgreEQ2.TravelMesh.TMActive} - TRUE while a travel-mesh route is running. `ogre_convert.py fix` swaps it.<br>Classic's travel mesh global: TRUE while it was moving the character zone to zone. Side scripts waited on it (`while ${Object_OgreTravelMesh_Traveling}`). |
-| `Object_Timer` | not defined - the new bot does not load Classic's framework, so the name does not exist | `ogretimer` | ✏️ Renamed | Declare `variable ogretimer Timer_X` (or `variable ogretimer Timer_X = 1500` to start it running, in ms) - the core's countdown, with the same methods and members (Set, SetSeconds, SetMinutes, SetHours, SetMinimum..., Inc / Dec..., Stop; TimeLeft in ms, SecondsLeft). `ogre_convert.py fix` swaps the type in every declaration; then remove the `#include` of OgreCommon/Object_Timer.inc. An ogretimer only counts down: to fire an event when time runs out use ISXOgreEQ2.Scheduler:FireEvent[ms,&lt;event&gt;]. In fight and IC files use the `timer` action and the `timerLeft` / `timerExpired` conditions.<br>… |
+| `Object_Timer` | not defined - the new bot does not load Classic's framework, so the name does not exist | `ogretimer` | ✏️ Renamed | Declare `variable ogretimer Timer_X` (or `variable ogretimer Timer_X = 1500` to start it running, in ms) - the core's countdown, with the same methods and members (Set, SetSeconds, SetMinutes, SetHours, SetMinimum..., Inc / Dec..., Stop; TimeLeft in ms, SecondsLeft). `ogre_convert.py fix` swaps the type in every declaration; then remove the `#include` of `OgreCommon/Object_Timer.inc`. An ogretimer only counts down: to fire an event when time runs out use ISXOgreEQ2.Scheduler:FireEvent[ms,&lt;event&gt;]. In fight and IC files use the `timer` action and the `timerLeft` / `timerExpired` conditions.<br>… |
 | `ogre bookcase` | not defined - the new bot does not load Classic's framework, so the name does not exist | — | ⛔ Removed | Delete the line - there is no replacement.<br>Classic's bookcase tool. |
 | `ogre craft2int` | not defined - the new bot does not load Classic's framework, so the name does not exist | — | ⛔ Removed | Delete the line. To craft, use `ogre craft`.<br>Classic's internal craft2 loader. |
 | `ogre craftingmats` | works | `ogre craftingmats` | ⚠️ Arguments changed | Keep `ogre craftingmats -<flags>` lines as they are. A bare `ogre craftingmats` that meant "pull the default mats" becomes `ogre craftingmats -vov -sig` (or the script call `ISXOgreEQ2.CraftingMats:Get`). A line whose first flag has no dash (`ogre craftingmats cd sig`) needs the dash: `ogre craftingmats -cd -sig`. A script can write `ISXOgreEQ2.CraftingMats:Get[-cd,-sig]`.<br>… |
@@ -460,7 +460,7 @@ call Obj_OgreUtilities.HandleWaitForCombat -TimeOutIfNoProgress 30
 | `Ogre_Instance_Controller_Assister` | not defined - the new bot does not load Classic's framework, so the name does not exist | — | ⛔ Removed | Delete the line - there is no replacement.<br>Classic's instance-controller assistant (the `ogre ica` window). |
 | `OgreBackwardKey` | not defined - the new bot does not load Classic's framework, so the name does not exist | — | ⛔ Not ported yet | There is no script-readable key bind in the new bot. Do not hold keys: to step somewhere, move to a location with OgreBotAPI.Movement:ToLoc (or NavTo), or in a fight file use `movement` `op` "navTo" or a `campSpot`.<br>The key your client uses to walk backward (default s), which fight scripts held for a moment to back away. |
 | `OgreBotAPI:NotTarget` | not defined - the new bot does not load Classic's framework, so the name does not exist | — | ⛔ Removed | Note A |
-| `OgreBotHUDs` | not defined - the new bot does not load Classic's framework, so the name does not exist | `onScreenTimer` | 📄 In a data file now | For the countdown slots use the `onScreenTimer` action in the fight file (`slot` 1-10, `time`, `message`, `minUpdate`; `op` "clear" to remove), or OgreBotAPI.Util:OnScreenTimer from a script. The HUD panels themselves are ISXOgreEQ2.HUDs (Open, :Close, :Set).<br>OgreBot's on-screen overlays: NPC, group, raid and nearest-player HUDs, plus ten raid-module countdown slots (RM.RO[1..10]) that fight scripts filled with a message and a timer. |
+| `OgreBotHUDs` | not defined - the new bot does not load Classic's framework, so the name does not exist | `onScreenTimer` | 📄 In a data file now | For the countdown slots use the `onScreenTimer` action in the fight file (`slot` 1-10, `time`, `message`, `minUpdate`; `op` "clear" to remove), or OgreBotAPI.Util:OnScreenTimer from a script. The HUD panels themselves are ISXOgreEQ2.HUDs (:Open, :Close, :Set).<br>OgreBot's on-screen overlays: NPC, group, raid and nearest-player HUDs, plus ten raid-module countdown slots (RM.RO[1..10]) that fight scripts filled with a message and a timer. |
 | `OgreBotScriptName` | not defined - the new bot does not load Classic's framework, so the name does not exist | `ISXOgreEQ2.OgreBot.IsReady` | ➡️ Lives somewhere else | There is no OgreBot script any more. To ask whether the bot is up, read ${ISXOgreEQ2.OgreBot.IsReady}; to wait while it is paused, read ${OgreBotAPI.Bot.Paused}; call OgreBotAPI methods directly instead of queueing commands into the bot.<br>The file name of the running OgreBot script, so other scripts could check that OgreBot was running (`Script[${OgreBotScriptName}](exists)`) or queue commands into it. |
 | `OgreConsole.bUplink` | not defined - the new bot does not load Classic's framework, so the name does not exist | `!${LavishScript.Executable.Right[14].Equal["EverQuest2.exe"]}` | ➡️ Lives somewhere else | Test "not the game" with plain LavishScript: !${LavishScript.Executable.Right[14].Equal["EverQuest2.exe"]} is TRUE outside the game. Do not test for InnerSpace.exe - people rename it (e.g. Steam.exe).<br>TRUE when the script ran outside the game (in the InnerSpace uplink). |
 | `OgreConsole:SendToIRC` | not defined - the new bot does not load Classic's framework, so the name does not exist | irc &lt;text&gt; | ➡️ Lives somewhere else | Use the `irc` command: `irc <text>` says the text in the IRC channel (it needs the IRC hub in the uplink, as before).<br>Sent a line of text to the IRC channel. |
@@ -510,8 +510,8 @@ call Obj_OgreUtilities.HandleWaitForCombat -TimeOutIfNoProgress 30
 | `ProfileConfig:LoadDefaultBaseSetName` | does nothing | `${ISXOgreEQ2.OgreBot:Save} / :LoadProfile / :CreateProfile / :DeleteProfile` | ➡️ Lives somewhere else |  |
 | `ProfileConfig:LoadDefaultBaseSetNameList` | does nothing | `${ISXOgreEQ2.OgreBot:Save} / :LoadProfile / :CreateProfile / :DeleteProfile` | ➡️ Lives somewhere else |  |
 | `ProfileConfig:LoadDefaultProfile` | does nothing | `${ISXOgreEQ2.OgreBot:Save} / :LoadProfile / :CreateProfile / :DeleteProfile` | ➡️ Lives somewhere else |  |
-| `ProfileConfig:LoadProfile` | does nothing | `OgreBotAPI.Options:LoadProfile` `[fw, name, tabOnly]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. |
-| `ProfileConfig:LoadProfileForWho` | does nothing | `OgreBotAPI.Options:LoadProfile` `[fw, name, tabOnly]` | ⚠️ Arguments changed | The arguments are different: Classic took `(string ForWho, string sProfileName=Use_UI)`, the new call takes `[fw, name, tabOnly]`. |
+| `ProfileConfig:LoadProfile` | does nothing | `OgreBotAPI.Options:LoadProfile` `[fw, name]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it.<br>Not taken any more: `_LoadOnlyTab`. |
+| `ProfileConfig:LoadProfileForWho` | does nothing | `OgreBotAPI.Options:LoadProfile` `[fw, name]` | ✏️ Renamed |  |
 | `ProfileConfig:LoadProfileParts` | does nothing | `${ISXOgreEQ2.OgreBot:Save} / :LoadProfile / :CreateProfile / :DeleteProfile` | ➡️ Lives somewhere else |  |
 | `ProfileConfig.Ref` | reads NULL | — | ⛔ Not ported yet | Note A |
 | `ProfileConfig:RefreshImportProfileList` | does nothing | `${ISXOgreEQ2.OgreBot:Save} / :LoadProfile / :CreateProfile / :DeleteProfile` | ➡️ Lives somewhere else |  |
@@ -531,7 +531,7 @@ call Obj_OgreUtilities.HandleWaitForCombat -TimeOutIfNoProgress 30
 
 ## Ob_AutoTarget
 
-**Note A** (12 rows below): the new type returns a whole entry as JSON - `${OgreBotAPI.AutoTarget.Entry[n]}` (1-based) - instead of one member per field. Read the entry and take the field out of the JSON. `.JSON` gives the whole working list at once.
+**Note A** (12 rows below): The new type returns a whole entry as JSON - `${OgreBotAPI.AutoTarget.Entry[n]}` (1-based) - instead of one member per field. Read the entry and take the field out of the JSON. `.JSON` gives the whole working list at once.
 
 **Note B** (5 rows below): The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it.
 
@@ -543,11 +543,11 @@ call Obj_OgreUtilities.HandleWaitForCombat -TimeOutIfNoProgress 30
 |---|---|---|---|---|
 | `Ob_AutoTarget.ActorName` | reads NULL | `OgreBotAPI.AutoTarget.EntryName` `[n]` | ✏️ Renamed | Note D |
 | `Ob_AutoTarget.ActorNameOrderedItem` | reads NULL | `OgreBotAPI.AutoTarget.EntryName` `[n]` | ✏️ Renamed | Note D |
-| `Ob_AutoTarget:AddActor` | does nothing | `OgreBotAPI.AutoTarget:AddActor` `[fw, name, minHP=0, checkCollision=FALSE, aggroOnGroupOnly=TRUE, maxHP=0, aggroOnNonFighterOnly=FALSE, aggroOnNotMe=FALSE, keepLast=FALSE]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. insert a for-who at the front; every other argument keeps its position |
+| `Ob_AutoTarget:AddActor` | does nothing | `OgreBotAPI.AutoTarget:AddActor` `[fw, name, minHP=0, checkCollision=FALSE, aggroOnGroupOnly=TRUE, maxHP=0, aggroOnNonFighterOnly=FALSE, aggroOnNotMe=FALSE, keepLast=FALSE]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. Insert a for-who at the front; every other argument keeps its position |
 | `Ob_AutoTarget:AddActorFromUI` | does nothing | — | ⛔ Not ported yet | Note C |
-| `Ob_AutoTarget:AddAddsThenNamed` | does nothing | — | ⛔ Not ported yet | a Classic list-building convenience that ordered adds before the named. No new-bot equivalent - build the list with :AddActor in the order you want. |
+| `Ob_AutoTarget:AddAddsThenNamed` | does nothing | — | ⛔ Not ported yet | A Classic list-building convenience that ordered adds before the named. No new-bot equivalent - build the list with :AddActor in the order you want. |
 | `Ob_AutoTarget:AddListBoxItem` | does nothing | — | ⛔ Not ported yet | Note C |
-| `Ob_AutoTarget:AddNamed` | does nothing | — | ⛔ Not ported yet | as AddAddsThenNamed - a list-building convenience with no new-bot twin |
+| `Ob_AutoTarget:AddNamed` | does nothing | — | ⛔ Not ported yet | Classic's added one entry to its AutoTarget list for any named NPC, with the settings in its AutoTarget window. No new-bot equivalent - build the list with :AddActor. |
 | `Ob_AutoTarget.AggroOnGroupOnly` | reads NULL | `OgreBotAPI.AutoTarget.Entry` `[n]` | ✏️ Renamed | Note A |
 | `Ob_AutoTarget.AggroOnGroupOnlyOrderedItem` | reads NULL | `OgreBotAPI.AutoTarget.Entry` `[n]` | ✏️ Renamed | Note A |
 | `Ob_AutoTarget.AggroOnNonFighterOnly` | reads NULL | `OgreBotAPI.AutoTarget.Entry` `[n]` | ✏️ Renamed | Note A |
@@ -557,15 +557,15 @@ call Obj_OgreUtilities.HandleWaitForCombat -TimeOutIfNoProgress 30
 | `Ob_AutoTarget.CheckCollision` | reads NULL | `OgreBotAPI.AutoTarget.Entry` `[n]` | ✏️ Renamed | Note A |
 | `Ob_AutoTarget.CheckCollisionOrderedItem` | reads NULL | `OgreBotAPI.AutoTarget.Entry` `[n]` | ✏️ Renamed | Note A |
 | `Ob_AutoTarget:Clear` | does nothing | `OgreBotAPI.AutoTarget:Clear` `[fw]` | ⚠️ Arguments changed | Note B |
-| `Ob_AutoTarget:ClearSavedLists` | does nothing | — | ⛔ Not ported yet | bulk on-disk catalogue management. :DeleteSaved removes ONE saved list; there is no delete-everything verb. |
+| `Ob_AutoTarget:ClearSavedLists` | does nothing | — | ⛔ Not ported yet | Bulk on-disk catalogue management. :DeleteSaved removes ONE saved list; there is no delete-everything verb. |
 | `Ob_AutoTarget:DeleteList` | does nothing | `OgreBotAPI.AutoTarget:DeleteSaved` `[fw, name]` | ⚠️ Arguments changed | Note B |
-| `Ob_AutoTarget.Enable_Status` | reads NULL | — | ⛔ Not ported yet | an internal Object_Enable_Status sub-object, not script-facing. The master switch is .Enabled / :SetEnabled and the keyed pause is .Suppressed / :Suppress / :Release. |
+| `Ob_AutoTarget.Enable_Status` | reads NULL | — | ⛔ Not ported yet | An internal Object_Enable_Status sub-object, not script-facing. The master switch is .Enabled / :SetEnabled and the keyed pause is .Suppressed / :Suppress / :Release. |
 | `Ob_AutoTarget.HasActor` | reads NULL | `OgreBotAPI.AutoTarget.HasActor` `[name]` | ➡️ Moved |  |
 | `Ob_AutoTarget.Items` | reads NULL | `OgreBotAPI.AutoTarget.Count` | ✏️ Renamed |  |
 | `Ob_AutoTarget:LoadListFromSaveList` | does nothing | `OgreBotAPI.AutoTarget:LoadSaved` `[fw, name]` | ⚠️ Arguments changed | Note B |
 | `Ob_AutoTarget:LoadListFromSaveListForWho` | does nothing | `OgreBotAPI.AutoTarget:LoadSaved` `[fw, name]` | ⚠️ Argument order changed | The for-who moved from argument 2 to argument 1 (first). |
 | `Ob_AutoTarget:LoadSavedLists` | does nothing | — | ⛔ Not ported yet | Classic pre-loaded the saved-list catalogue into memory. The new engine reads the catalogue on demand (.SavedCount / .SavedName / :LoadSaved), so there is nothing to pre-load. |
-| `Ob_AutoTarget:LoadZoneFileIntoMemory` | does nothing | — | ⛔ Not ported yet | as LoadSavedLists - the per-zone file is read on demand |
+| `Ob_AutoTarget:LoadZoneFileIntoMemory` | does nothing | — | ⛔ Not ported yet | Classic's loaded this zone's saved AutoTarget lists from their file into memory. The new engine reads the saved lists on demand (.SavedCount / .SavedName / :LoadSaved), so there is nothing to load. |
 | `Ob_AutoTarget.MaxHPToTarget` | reads NULL | `OgreBotAPI.AutoTarget.Entry` `[n]` | ✏️ Renamed | Note A |
 | `Ob_AutoTarget.MaxHPToTargetOrderedItem` | reads NULL | `OgreBotAPI.AutoTarget.Entry` `[n]` | ✏️ Renamed | Note A |
 | `Ob_AutoTarget.MinHPToTarget` | reads NULL | `OgreBotAPI.AutoTarget.Entry` `[n]` | ✏️ Renamed | Note A |
@@ -573,16 +573,16 @@ call Obj_OgreUtilities.HandleWaitForCombat -TimeOutIfNoProgress 30
 | `Ob_AutoTarget.Ob_AutoTargetList` | reads NULL | `OgreBotAPI.AutoTarget.JSON` | ✏️ Renamed |  |
 | `Ob_AutoTarget.OrderedItem` | reads NULL | `OgreBotAPI.AutoTarget.EntryName` `[n]` | ✏️ Renamed | Note D |
 | `Ob_AutoTarget:PopulateUI` | does nothing | — | ⛔ Not ported yet | Note C |
-| `Ob_AutoTarget:RemoveActor` | does nothing | `OgreBotAPI.AutoTarget:RemoveActor` `[fw, name]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. removes EVERY match, case-insensitive |
+| `Ob_AutoTarget:RemoveActor` | does nothing | `OgreBotAPI.AutoTarget:RemoveActor` `[fw, name]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. Removes EVERY match, case-insensitive |
 | `Ob_AutoTarget:RemoveFromUI` | does nothing | — | ⛔ Not ported yet | Note C |
 | `Ob_AutoTarget:Reset` | does nothing | `OgreBotAPI.AutoTarget:Clear` `[fw]` | ⚠️ Arguments changed | Note B |
 | `Ob_AutoTarget:SaveList` | does nothing | `OgreBotAPI.AutoTarget:Save` `[fw, name]` | ⚠️ Arguments changed | Note B |
-| `Ob_AutoTarget.set_OgreAutoTarget` | reads NULL | — | ⛔ Not ported yet | a LavishSettings settingsetref - Classic's on-disk store handle. Internal; the new engine owns its own persistence. |
+| `Ob_AutoTarget.set_OgreAutoTarget` | reads NULL | — | ⛔ Not ported yet | A LavishSettings settingsetref - Classic's on-disk store handle. Internal; the new engine owns its own persistence. |
 | `Ob_AutoTarget:Spew` | does nothing | `${OgreBotAPI.AutoTarget.JSON}` | ➡️ Lives somewhere else |  |
 
 ## Obj_Collection
 
-**Note A** (32 rows below): Classic's collection-JOURNAL scraper (open the journal, walk entries, click Location/Missing). There is no new-bot equivalent. `${ISXOgreEQ2.Collection}` exists but is a different thing - the `ogre cm` collection-manager DRIVER (`.Running` / `.Status` / `:Run` / `:Stop`) - and it is NOT reachable from `OgreBotAPI`. REMOVED: "We only need 2 things" - `ogre cm` (the depot: only usable pieces, pull them out and add them) and `ogre cm 1` / `-inventory` (add the shinies in your bags), both in ${ISXOgreEQ2.Collection}; "The other collection stuff is stuff we do not need at this time." The journal scraper, shiny data files, no-trade list and report window are not needed.
+**Note A** (32 rows below): Classic's collection-JOURNAL scraper (open the journal, walk entries, click Location/Missing). There is no new-bot equivalent. `${ISXOgreEQ2.Collection}` exists but is a different thing - the `ogre cm` collection-manager DRIVER (`.Running` / `.Status` / `:Run` / `:Stop`) - and it is NOT reachable from `OgreBotAPI`. REMOVED: only two collection jobs stay - `ogre cm` (the depot: only usable pieces, pull them out and add them) and `ogre cm 1` / `-inventory` (add the shinies in your bags), both in ${ISXOgreEQ2.Collection}; the journal scraper, shiny data files, no-trade list and report window are not needed.
 
 **Note B** (3 rows below): Not needed in the new bot. To add collection pieces, use `ogre cm` (from the depot) or `ogre cm 1` (the shinies in your bags).
 
@@ -626,48 +626,48 @@ call Obj_OgreUtilities.HandleWaitForCombat -TimeOutIfNoProgress 30
 
 ## SpellOb
 
-**Note A** (11 rows below): the ability export does not carry this field (it has 46; this is not one of them), so there is nothing to read it from. `${OgreBotAPI.Abilities.InfoRaw[<nameOrId>]}` dumps the whole record if you want to confirm what IS there.
+**Note A** (11 rows below): The ability export does not carry this field (it has 46; this is not one of them), so there is nothing to read it from. `${OgreBotAPI.Abilities.InfoRaw[<nameOrId>]}` dumps the whole record if you want to confirm what IS there.
 
 **Note B** (3 rows below): The arguments are different: Classic took `(string AbilityName)`, the new call takes `[nameOrId,field]`.
 
 | Old call | Today | Write instead | What changed | Notes |
 |---|---|---|---|---|
-| `SpellOb.AbilityExists` | reads NULL | `OgreBotAPI.Abilities.ID` `[name]` | ✏️ Renamed | resolve by id, not by name (Rule 10) |
-| `SpellOb.AbilityName` | reads NULL | `OgreBotAPI.Abilities.ShortName` `[nameOrId]` | ✏️ Renamed | the catalog answers by id; Rule 10 forbids resolving an ability by NAME without per-site approval |
-| `SpellOb.AllowRaid` | reads NULL | `OgreBotAPI.Abilities.Info` `[nameOrId,field]` | ⚠️ Arguments changed | The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. pass `"AllowRaid"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"AllowRaid"]}` |
+| `SpellOb.AbilityExists` | reads NULL | `OgreBotAPI.Abilities.ID` `[name]` | ✏️ Renamed | Pass a name or an id - it answers from the bot's ability export, not the game server |
+| `SpellOb.AbilityName` | reads NULL | `OgreBotAPI.Abilities.ShortName` `[nameOrId]` | ✏️ Renamed | It takes a name or an id and answers from the bot's ability export, not the game server (ISXEQ2's own `${Me.Ability[name,...]}` lookup asks the server - do not use it) |
+| `SpellOb.AllowRaid` | reads NULL | `OgreBotAPI.Abilities.Info` `[nameOrId,field]` | ⚠️ Arguments changed | The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. Pass `"AllowRaid"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"AllowRaid"]}` |
 | `SpellOb.BLAdvantage` | reads NULL | — | ⛔ Not ported yet | Note A |
 | `SpellOb.BLPrimal` | reads NULL | — | ⛔ Not ported yet | Note A |
 | `SpellOb.BLPrimalMinSavLevel` | reads NULL | — | ⛔ Not ported yet | Note A |
-| `SpellOb.CastingTime` | reads NULL | `OgreBotAPI.Abilities.Info` `[nameOrId,field]` | ⚠️ Arguments changed | The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. pass `"CastingTime"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"CastingTime"]}` |
-| `SpellOb.ConcentrationCost` | reads NULL | `OgreBotAPI.Abilities.Info` `[nameOrId,field]` | ⚠️ Arguments changed | The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. pass `"ConcentrationCost"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"ConcentrationCost"]}` |
+| `SpellOb.CastingTime` | reads NULL | `OgreBotAPI.Abilities.Info` `[nameOrId,field]` | ⚠️ Arguments changed | The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. Pass `"CastingTime"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"CastingTime"]}` |
+| `SpellOb.ConcentrationCost` | reads NULL | `OgreBotAPI.Abilities.Info` `[nameOrId,field]` | ⚠️ Arguments changed | The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. Pass `"ConcentrationCost"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"ConcentrationCost"]}` |
 | `SpellOb.ConvertToInt64` | reads NULL | `OgreBotAPI.Util.ToInt` `[s]` | ✏️ Renamed |  |
 | `SpellOb.DamageType` | reads NULL | — | ⛔ Not ported yet | Note A |
 | `SpellOb.DamageTypeGroup` | reads NULL | — | ⛔ Not ported yet | Note A |
 | `SpellOb.DescRestrictions` | reads NULL | — | ⛔ Not ported yet | Note A |
-| `SpellOb.EffectRadius` | reads NULL | `OgreBotAPI.Abilities.Info` `[nameOrId,field]` | ⚠️ Arguments changed | The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. pass `"EffectRadius"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"EffectRadius"]}` |
+| `SpellOb.EffectRadius` | reads NULL | `OgreBotAPI.Abilities.Info` `[nameOrId,field]` | ⚠️ Arguments changed | The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. Pass `"EffectRadius"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"EffectRadius"]}` |
 | `SpellOb.FeralAdvantage` | reads NULL | — | ⛔ Not ported yet | Note A |
 | `SpellOb.FeralPrimal` | reads NULL | — | ⛔ Not ported yet | Note A |
 | `SpellOb.GetAbilityExFullName` | reads NULL | `OgreBotAPI.Abilities.Info` `[nameOrId,field]` | ⚠️ Arguments changed | Note B |
 | `SpellOb.GetAbilityFullName` | reads NULL | `OgreBotAPI.Abilities.Info` `[nameOrId,field]` | ⚠️ Arguments changed | Note B |
 | `SpellOb.GetAbilityNameNum` | reads NULL | `OgreBotAPI.Abilities.Info` `[nameOrId,field]` | ⚠️ Arguments changed | Note B |
 | `SpellOb.GetAbilityShortName` | reads NULL | `OgreBotAPI.Abilities.ShortName` `[nameOrId]` | ✏️ Renamed |  |
-| `SpellOb.ID` | reads NULL | `OgreBotAPI.Abilities.Info` `[nameOrId,field]` | ⚠️ Arguments changed | The arguments are different: Classic took `(string AbilityName)`, the new call takes `[nameOrId,field]`. pass `"ID"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"ID"]}` |
+| `SpellOb.ID` | reads NULL | `OgreBotAPI.Abilities.Info` `[nameOrId,field]` | ⚠️ Arguments changed | The arguments are different: Classic took `(string AbilityName)`, the new call takes `[nameOrId,field]`. Pass `"ID"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"ID"]}` |
 | `SpellOb.IsAStun` | reads NULL | — | ⛔ Not ported yet | Note A |
-| `SpellOb.MaxRange` | reads NULL | `OgreBotAPI.Abilities.Info` `[nameOrId,field]` | ⚠️ Arguments changed | The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. pass `"MaxRange"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"MaxRange"]}` |
-| `SpellOb.MinRange` | reads NULL | `OgreBotAPI.Abilities.Info` `[nameOrId,field]` | ⚠️ Arguments changed | The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. pass `"MinRange"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"MinRange"]}` |
-| `SpellOb.Name` | reads NULL | `OgreBotAPI.Abilities.Info` `[nameOrId,field]` | ⚠️ Arguments changed | The arguments are different: Classic took `(string AbilityIDX)`, the new call takes `[nameOrId,field]`. pass `"Name"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"Name"]}` |
-| `SpellOb.PowerCost` | reads NULL | `OgreBotAPI.Abilities.Info` `[nameOrId,field]` | ⚠️ Arguments changed | The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. pass `"PowerCost"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"PowerCost"]}` |
-| `SpellOb.RecastTime` | reads NULL | `OgreBotAPI.Abilities.Info` `[nameOrId,field]` | ⚠️ Arguments changed | The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. pass `"RecastTime"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"RecastTime"]}` |
-| `SpellOb.RecoveryTime` | reads NULL | `OgreBotAPI.Abilities.Info` `[nameOrId,field]` | ⚠️ Arguments changed | The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. pass `"RecoveryTime"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"RecoveryTime"]}` |
-| `SpellOb.SpellBookType` | reads NULL | `OgreBotAPI.Abilities.Info` `[nameOrId,field]` | ⚠️ Arguments changed | The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. pass `"SpellBookType"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"SpellBookType"]}` |
+| `SpellOb.MaxRange` | reads NULL | `OgreBotAPI.Abilities.Info` `[nameOrId,field]` | ⚠️ Arguments changed | The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. Pass `"MaxRange"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"MaxRange"]}` |
+| `SpellOb.MinRange` | reads NULL | `OgreBotAPI.Abilities.Info` `[nameOrId,field]` | ⚠️ Arguments changed | The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. Pass `"MinRange"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"MinRange"]}` |
+| `SpellOb.Name` | reads NULL | `OgreBotAPI.Abilities.Info` `[nameOrId,field]` | ⚠️ Arguments changed | The arguments are different: Classic took `(string AbilityIDX)`, the new call takes `[nameOrId,field]`. Pass `"Name"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"Name"]}` |
+| `SpellOb.PowerCost` | reads NULL | `OgreBotAPI.Abilities.Info` `[nameOrId,field]` | ⚠️ Arguments changed | The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. Pass `"PowerCost"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"PowerCost"]}` |
+| `SpellOb.RecastTime` | reads NULL | `OgreBotAPI.Abilities.Info` `[nameOrId,field]` | ⚠️ Arguments changed | The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. Pass `"RecastTime"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"RecastTime"]}` |
+| `SpellOb.RecoveryTime` | reads NULL | `OgreBotAPI.Abilities.Info` `[nameOrId,field]` | ⚠️ Arguments changed | The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. Pass `"RecoveryTime"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"RecoveryTime"]}` |
+| `SpellOb.SpellBookType` | reads NULL | `OgreBotAPI.Abilities.Info` `[nameOrId,field]` | ⚠️ Arguments changed | The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. Pass `"SpellBookType"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"SpellBookType"]}` |
 | `SpellOb.SpiritualAdvantage` | reads NULL | — | ⛔ Not ported yet | Note A |
 | `SpellOb.SpiritualPrimal` | reads NULL | — | ⛔ Not ported yet | Note A |
-| `SpellOb.TargetType` | reads NULL | `OgreBotAPI.Abilities.Info` `[nameOrId,field]` | ⚠️ Arguments changed | The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. pass `"TargetType"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"TargetType"]}` |
+| `SpellOb.TargetType` | reads NULL | `OgreBotAPI.Abilities.Info` `[nameOrId,field]` | ⚠️ Arguments changed | The arguments are different: Classic took `(int64 AbilityIDX)`, the new call takes `[nameOrId,field]`. Pass `"TargetType"` as the field: `${OgreBotAPI.Abilities.Info[<nameOrId>,"TargetType"]}` |
 | `SpellOb.VerifyID` | reads NULL | `OgreBotAPI.Abilities.ID` `[name]` | ✏️ Renamed |  |
 
 ## g_RaidOb
 
-**Note A** (19 rows below): a dispatch shim into ONE raid module's method (the body forwards to e.g. `RO_Doomfire_TheMoltenCaldera_Raid.Chancellor:Joust`). Fight-specific behaviour is not API on the new bot: it lives in the encounter module itself, or in a method hatch on `OgreEncounterAPI` when the vocabulary cannot express it.
+**Note A** (19 rows below): A dispatch shim into ONE raid module's method (the body forwards to e.g. `RO_Doomfire_TheMoltenCaldera_Raid.Chancellor:Joust`). Fight-specific behaviour is not API on the new bot: it lives in the encounter module itself, or in a method hatch on `OgreEncounterAPI` when the vocabulary cannot express it.
 
 | Old call | Today | Write instead | What changed | Notes |
 |---|---|---|---|---|
@@ -703,12 +703,12 @@ call Obj_OgreUtilities.HandleWaitForCombat -TimeOutIfNoProgress 30
 | `Obj_CureCurseCalled:AutoAddID` | does nothing | `OgreBotAPI.Cures:RequestCurse` `[fw,victim]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it.<br>Not taken any more: `_HardTarget`. |
 | `Obj_CureCurseCalled:AutoRemove` | does nothing | — | ⛔ Not ported yet | Note A |
 | `Obj_CureCurseCalled.bEmpty` | reads NULL | — | ⛔ Not ported yet | Note A |
-| `Obj_CureCurseCalled.CastCureCurse` | reads NULL | `OgreBotAPI.Cures.CurseCalled` | ✏️ Renamed | Classic's member also ACTED when read (queued the cast, returned TRUE to cancel the current spell); the new bot separates request from serve, so `.CurseCalled` only READS. A bare read asks about ME; pass a victim, or "any" for the fleet-wide read. Classic's `call` WAITED inline - adapter methods never yield, so express the wait in the caller (Sequence/WaitUntil on the curse clearing). |
+| `Obj_CureCurseCalled.CastCureCurse` | reads NULL | `OgreBotAPI.Cures.CurseCalled` | ✏️ Renamed | Classic's member also ACTED when read (queued the cast, returned TRUE to cancel the current spell); the new bot separates request from serve, so `.CurseCalled` only READS. A bare read asks about this toon; pass a victim, or "any" for the fleet-wide read. Classic's `call` WAITED inline - adapter methods never yield, so express the wait in the caller (Sequence/WaitUntil on the curse clearing). |
 | `call Obj_CureCurseCalled.CastCureCurseHardTarget` | does nothing | `${OgreBotAPI.Cures:RequestCurse["all",<victim>]}` | ➡️ Lives somewhere else |  |
-| `Obj_CureCurseCalled.Get_GroupCursedMember` | reads NULL | `OgreBotAPI.Cures.CursedID` `[-archetype X...,-uncurable,-uncurableonly,-GroupOnly]` | ✏️ Renamed | the Classic member took an INDEX (_Num) to walk cursed members. `.CursedID` returns the top-priority one; for the whole set read `.RaidCursedIDs` (JSON) and index that. |
+| `Obj_CureCurseCalled.Get_GroupCursedMember` | reads NULL | `OgreBotAPI.Cures.CursedID` `[-archetype X...,-uncurable,-uncurableonly,-GroupOnly]` | ✏️ Renamed | The Classic member took an INDEX (_Num) to walk cursed members. `.CursedID` returns the top-priority one; for the whole set read `.RaidCursedIDs` (JSON) and index that. |
 | `Obj_CureCurseCalled.GetID_CursedMember` | reads NULL | `OgreBotAPI.Cures.CursedID` `[-archetype X...,-uncurable,-uncurableonly,-GroupOnly]` | ✏️ Renamed |  |
-| `Obj_CureCurseCalled.GetID_GroupCursedMember` | reads NULL | `OgreBotAPI.Cures.CursedID` `[-archetype X...,-uncurable,-uncurableonly,-GroupOnly]` | ✏️ Renamed | pass the `-GroupOnly` option to restrict it to the group |
-| `Obj_CureCurseCalled.GetID_RaidCursedMember` | reads NULL | `OgreBotAPI.Cures.CursedID` `[-archetype X...,-uncurable,-uncurableonly,-GroupOnly]` | ✏️ Renamed | raid scope is the default when you are in a raid; `-GroupOnly` narrows it |
+| `Obj_CureCurseCalled.GetID_GroupCursedMember` | reads NULL | `OgreBotAPI.Cures.CursedID` `[-archetype X...,-uncurable,-uncurableonly,-GroupOnly]` | ✏️ Renamed | Pass the `-GroupOnly` option to restrict it to the group |
+| `Obj_CureCurseCalled.GetID_RaidCursedMember` | reads NULL | `OgreBotAPI.Cures.CursedID` `[-archetype X...,-uncurable,-uncurableonly,-GroupOnly]` | ✏️ Renamed | Raid scope is the default when you are in a raid; `-GroupOnly` narrows it |
 | `Obj_CureCurseCalled.GroupCurseCount` | reads NULL | `OgreBotAPI.Cures.GroupCurses` | ✏️ Renamed |  |
 | `Obj_CureCurseCalled.ic_CursedToons` | reads NULL | `OgreBotAPI.Cures.RaidCursedIDs` | ✏️ Renamed | JSON array of ids, not a collection you index by name |
 | `Obj_CureCurseCalled:Remove` | does nothing | — | ⛔ Not ported yet | Note A |
@@ -719,14 +719,14 @@ call Obj_OgreUtilities.HandleWaitForCombat -TimeOutIfNoProgress 30
 
 | Old call | Today | Write instead | What changed | Notes |
 |---|---|---|---|---|
-| `Obj_CureCalled:AutoAdd` | does nothing | `OgreBotAPI.Cures:Request` `[fw,victim,kinds...]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. for a CURSE use `Cures:RequestCurse` - a curse is its own channel, not one of the four basic cure kinds |
+| `Obj_CureCalled:AutoAdd` | does nothing | `OgreBotAPI.Cures:Request` `[fw,victim,kinds...]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. For a CURSE use `Cures:RequestCurse` - a curse is its own channel, not one of the four basic cure kinds |
 | `Obj_CureCalled.bCasted` | reads NULL | — | ⛔ Not ported yet | Note A |
 | `Obj_CureCalled.bKeep` | reads NULL | — | ⛔ Not ported yet | Note A |
-| `Obj_CureCalled.bValidCureAbility` | reads NULL | — | ⛔ Not ported yet | internal validity flag for the cached cure ability |
+| `Obj_CureCalled.bValidCureAbility` | reads NULL | — | ⛔ Not ported yet | Internal validity flag for the cached cure ability |
 | `call Obj_CureCalled.CastCure` | does nothing | `OgreBotAPI.Cures:Request["<forwho>","<victim>"{,kinds...}]   (ask; the engine serves)` | ➡️ Lives somewhere else |  |
 | `call Obj_CureCalled.CastCure_Actual` | does nothing | `OgreBotAPI.Cures:Request["<forwho>","<victim>"{,kinds...}]   /   to fire a specific ability yourself: OgreBotAPI.Abilities:Cast` | ➡️ Lives somewhere else |  |
 | `Obj_CureCalled.CureAbility` | reads NULL | — | ⛔ Not ported yet |  |
-| `Obj_CureCalled.icc_Entries` | reads NULL | `${OgreBotAPI.Cures.CurseCalled}` | ➡️ Lives somewhere else | the consumer sites read `.Used` (is anything queued) and call `:Clear`. The read is `Cures.CurseCalled`. There is deliberately NO clear verb: entries retire themselves when the victim is cured or the 8s deadline passes, so clearing by hand would fight the engine. |
+| `Obj_CureCalled.icc_Entries` | reads NULL | `${OgreBotAPI.Cures.CurseCalled}` | ➡️ Lives somewhere else | The consumer sites read `.Used` (is anything queued) and call `:Clear`. The read is `Cures.CurseCalled`. There is deliberately NO clear verb: entries retire themselves when the victim is cured or the 8s deadline passes, so clearing by hand would fight the engine. |
 | `Obj_CureCalled.RecentlyCastOn` | reads NULL | — | ⛔ Not ported yet | Note A |
 | `Obj_CureCalled:RemoveByCustomFlag` | does nothing | — | ⛔ Not ported yet | Note A |
 | `Obj_CureCalled:RemoveByToon` | does nothing | — | ⛔ Not ported yet | Note A |
@@ -739,14 +739,14 @@ call Obj_OgreUtilities.HandleWaitForCombat -TimeOutIfNoProgress 30
 
 | Old call | Today | Write instead | What changed | Notes |
 |---|---|---|---|---|
-| `Obj_CurseCalled:AutoAdd` | does nothing | `OgreBotAPI.Cures:Request` `[fw,victim,kinds...]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. for a CURSE use `Cures:RequestCurse` - a curse is its own channel, not one of the four basic cure kinds |
+| `Obj_CurseCalled:AutoAdd` | does nothing | `OgreBotAPI.Cures:Request` `[fw,victim,kinds...]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. For a CURSE use `Cures:RequestCurse` - a curse is its own channel, not one of the four basic cure kinds |
 | `Obj_CurseCalled.bCasted` | reads NULL | — | ⛔ Not ported yet | Note A |
 | `Obj_CurseCalled.bKeep` | reads NULL | — | ⛔ Not ported yet | Note A |
-| `Obj_CurseCalled.bValidCureAbility` | reads NULL | — | ⛔ Not ported yet | internal validity flag for the cached cure ability |
+| `Obj_CurseCalled.bValidCureAbility` | reads NULL | — | ⛔ Not ported yet | Internal validity flag for the cached cure ability |
 | `call Obj_CurseCalled.CastCure` | does nothing | `OgreBotAPI.Cures:RequestCurse["<forwho>","<victim>"]   (ask; the engine serves)` | ➡️ Lives somewhere else | The read 'is a curse cure called right now?' is Cures.CurseCalled (see Obj_CureCurseCalled.CastCureCurse). |
 | `call Obj_CurseCalled.CastCure_Actual` | does nothing | `OgreBotAPI.Cures:RequestCurse["<forwho>","<victim>"]   /   to fire a specific ability yourself: OgreBotAPI.Abilities:Cast` | ➡️ Lives somewhere else |  |
 | `Obj_CurseCalled.CureAbility` | reads NULL | — | ⛔ Not ported yet |  |
-| `Obj_CurseCalled.icc_Entries` | reads NULL | `${OgreBotAPI.Cures.CurseCalled}` | ➡️ Lives somewhere else | the consumer sites read `.Used` (is anything queued) and call `:Clear`. The read is `Cures.CurseCalled`. There is deliberately NO clear verb: entries retire themselves when the victim is cured or the 8s deadline passes, so clearing by hand would fight the engine. |
+| `Obj_CurseCalled.icc_Entries` | reads NULL | `${OgreBotAPI.Cures.CurseCalled}` | ➡️ Lives somewhere else | The consumer sites read `.Used` (is anything queued) and call `:Clear`. The read is `Cures.CurseCalled`. There is deliberately NO clear verb: entries retire themselves when the victim is cured or the 8s deadline passes, so clearing by hand would fight the engine. |
 | `Obj_CurseCalled.RecentlyCastOn` | reads NULL | — | ⛔ Not ported yet | Note A |
 | `Obj_CurseCalled:RemoveByCustomFlag` | does nothing | — | ⛔ Not ported yet | Note A |
 | `Obj_CurseCalled:RemoveByToon` | does nothing | — | ⛔ Not ported yet | Note A |
@@ -755,15 +755,15 @@ call Obj_OgreUtilities.HandleWaitForCombat -TimeOutIfNoProgress 30
 
 ## GroupCureOb
 
-**Note A** (4 rows below): a per-kind count of afflicted group members. The new Cures surface counts curses and answers per-detriment questions via `.Detrimental[main,back,id,field]`, but has no per-cure-kind group tally.
+**Note A** (4 rows below): A per-kind count of afflicted group members. The new Cures surface counts curses and answers per-detriment questions via `.Detrimental[main,back,id,field]`, but has no per-cure-kind group tally.
 
 | Old call | Today | Write instead | What changed | Notes |
 |---|---|---|---|---|
 | `GroupCureOb.Arcane` | reads NULL | — | ⛔ Not ported yet | Note A |
 | `GroupCureOb.Elemental` | reads NULL | — | ⛔ Not ported yet | Note A |
-| `GroupCureOb.GroupCureAvailable` | reads NULL | `OgreBotAPI.Cures:RequestGroup["<forwho>"]` | ➡️ Lives somewhere else | the 3 consumer sites all do `AbilityID:Set[${GroupCureOb.GroupCureAvailable}]` and then cast it - that whole shape becomes one `:RequestGroup`. Note also that a hard-coded ability-NAME table is Rule-10 territory now; the export catalog is the name source. |
+| `GroupCureOb.GroupCureAvailable` | reads NULL | `OgreBotAPI.Cures:RequestGroup["<forwho>"]` | ➡️ Lives somewhere else | The 3 consumer sites all do `AbilityID:Set[${GroupCureOb.GroupCureAvailable}]` and then cast it - that whole shape becomes one `:RequestGroup`. Classic's hard-coded table of ability names goes too: the cast stack picks the group cure itself. |
 | `GroupCureOb.Noxious` | reads NULL | — | ⛔ Not ported yet | Note A |
-| `GroupCureOb.NumOfPCsAfflicted` | reads NULL | — | ⛔ Not ported yet | a count of PCs carrying ANY curable detriment. The new surface counts CURSES (.GroupCurses/.RaidCurses) and exposes per-detriment reads (.Detrimental), but has no all-afflicted tally. |
+| `GroupCureOb.NumOfPCsAfflicted` | reads NULL | — | ⛔ Not ported yet | A count of PCs carrying ANY curable detriment. The new surface counts CURSES (.GroupCurses/.RaidCurses) and exposes per-detriment reads (.Detrimental), but has no all-afflicted tally. |
 | `GroupCureOb.NumOfPCsCursed` | reads NULL | `OgreBotAPI.Cures.GroupCurses` | ✏️ Renamed | `.RaidCurses` is the raid-wide twin |
 | `GroupCureOb.Trauma` | reads NULL | — | ⛔ Not ported yet | Note A |
 
@@ -772,7 +772,7 @@ call Obj_OgreUtilities.HandleWaitForCombat -TimeOutIfNoProgress 30
 | Old call | Today | Write instead | What changed | Notes |
 |---|---|---|---|---|
 | `Abilities.Ability` | reads NULL | `OgreBotAPI.Abilities.ID` `[name]` | ✏️ Renamed |  |
-| `Abilities.AddIndex` | reads NULL | `OgreBotAPI.Abilities.ID` `[name]` | ⚠️ Arguments changed | The arguments are different: Classic took ``, the new call takes `[name]`. |
+| `Abilities.AddIndex` | reads NULL | `OgreBotAPI.Abilities.ID` `[name]` | ⚠️ Arguments changed | The arguments are different: Classic took `()`, the new call takes `[name]`. |
 | `Abilities.GetIndexBy` | reads NULL | `OgreBotAPI.Abilities.ID` `[name]` | ✏️ Renamed | Not taken any more: `_Value`. |
 | `Abilities.GetIndexByID` | reads NULL | `OgreBotAPI.Abilities.ID` `[name]` | ✏️ Renamed |  |
 | `Abilities.GetIndexByName` | reads NULL | `OgreBotAPI.Abilities.ID` `[name]` | ✏️ Renamed |  |
@@ -781,17 +781,17 @@ call Obj_OgreUtilities.HandleWaitForCombat -TimeOutIfNoProgress 30
 
 | Old call | Today | Write instead | What changed | Notes |
 |---|---|---|---|---|
-| `OgreBotDebug.bIncludeMSTime` | reads NULL | — | ⛔ Not ported yet | a Classic formatting flag on its own echo helper; the new `Debug:Echo` owns its formatting |
+| `OgreBotDebug.bIncludeMSTime` | reads NULL | — | ⛔ Not ported yet | A Classic formatting flag on its own echo helper; the new `Debug:Echo` owns its formatting |
 | `OgreBotDebug:Echo` | does nothing | `OgreBotAPI.Debug:Echo` `[fw,text,text2=""]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. |
-| `OgreBotDebug:EchoIf` | does nothing | — | ⛔ Not ported yet | no conditional-echo verb; gate the call yourself and use Debug:Echo |
+| `OgreBotDebug:EchoIf` | does nothing | — | ⛔ Not ported yet | No conditional-echo verb; gate the call yourself and use Debug:Echo |
 | `OgreBotDebug.Prefix` | reads NULL | `OgreBotAPI.Debug.DebugPrefix` | ✏️ Renamed |  |
 
 ## OgreBotInternals
 
 | Old call | Today | Write instead | What changed | Notes |
 |---|---|---|---|---|
-| `OgreBotInternals.bInternal` | reads NULL | — | ⛔ Not ported yet | internal build flag |
-| `OgreBotInternals.Is_InternalVersion` | reads NULL | — | ⛔ Not ported yet | asks whether this is an internal build. No new-bot equivalent is exposed; `Debug.Version` / `.CheckVersion` are the version reads (and `.CheckVersion` is a STUB). |
+| `OgreBotInternals.bInternal` | reads NULL | — | ⛔ Not ported yet | Internal build flag |
+| `OgreBotInternals.Is_InternalVersion` | reads NULL | — | ⛔ Not ported yet | Asks whether this is an internal build. No new-bot equivalent is exposed; `Debug.Version` / `.CheckVersion` are the version reads (and `.CheckVersion` is a STUB). |
 
 ## Not in the new bot yet
 

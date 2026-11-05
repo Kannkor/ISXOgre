@@ -31,31 +31,36 @@ HUDs puts live text straight onto your game screen: the nearest mob, the nearest
 | **Ding alerts** | Plays a short ding when a player comes within 30 metres. If 'Msg alerts' is also ticked, it dings at 150 metres too. A ding under 30 metres also posts the OgreConsole line, even without 'Msg alerts'.<br>*Needs 'Display nearest PC' ticked.* | off |
 | **Loud alarm when close** | When a player comes within 30 metres, plays a louder two-tone alarm instead of the short ding.<br>*Does nothing on its own. 'Msg alerts' or 'Ding alerts' must also be ticked.* | off |
 
-## Group Distance
+## Group Information
 
-[![Group Distance](../assets/ogrebot/tab-huds-s3.png)](../assets/ogrebot/tab-huds-s3.png "Click for full size")
-
-| Option | What it does | Default |
-|---|---|---|
-| **Display group distance** | Shows a line for each other group member: their slot number, name, distance, their target and what they are casting. The colour shows distance: white close, then yellow, orange and red further out.<br>*In a raid with 'Display raid distance' ticked, the raid lines replace these.* | off |
-| **X** | How far from the left edge of the screen the group lines start, in pixels. | blank (300) |
-| **Y** | How far down from the top of the screen the first group line sits, in pixels. | blank (420) |
-| **Line spacing** | How many pixels apart the group lines are. | blank (12) |
-
-## Raid Distance
-
-[![Raid Distance](../assets/ogrebot/tab-huds-s4.png)](../assets/ogrebot/tab-huds-s4.png "Click for full size")
+[![Group Information](../assets/ogrebot/tab-huds-s3.png)](../assets/ogrebot/tab-huds-s3.png "Click for full size")
 
 | Option | What it does | Default |
 |---|---|---|
-| **Display raid distance** | In a raid, shows one line per raid slot (01 to 24) with the same details as the group lines. Empty slots stay blank so every line matches the raid window. Outside a raid it shows your group instead. | off |
+| **Display group information** | Shows a line for each other group member: their slot number, name, distance, their target and what they are casting. The colour shows distance: white close, then yellow, orange and red further out.<br>*In a raid with 'Display raid information' ticked, the raid lines replace these.* | off |
+| **X** | How far from the left edge of the screen the group lines start, in pixels. Not used while your group follows the raid settings (Display raid information on, Only in a raid off). | blank (300) |
+| **Y** | How far down from the top of the screen the first group line sits, in pixels. Not used while your group follows the raid settings (Display raid information on, Only in a raid off). | blank (420) |
+| **Line spacing** | How many pixels apart the group lines are. Not used while your group follows the raid settings (Display raid information on, Only in a raid off). | blank (12) |
+| **Hide names** | Leaves the slot number and name off each group line, so it shows only the distance, target and cast. Not used while your group follows the raid settings (Display raid information on, Only in a raid off). | off |
+| **Hide casting** | Leaves off the 'what they are casting' part of each group line. Not used while your group follows the raid settings (Display raid information on, Only in a raid off). | off |
+| **Name width** | How many letters of each name and target the group lines show. Longer ones are cut and shorter ones padded, so every line's cast starts in the same place. Not used while your group follows the raid settings (Display raid information on, Only in a raid off). | blank (6) |
+
+## Raid Information
+
+[![Raid Information](../assets/ogrebot/tab-huds-s4.png)](../assets/ogrebot/tab-huds-s4.png "Click for full size")
+
+| Option | What it does | Default |
+|---|---|---|
+| **Display raid information** | In a raid, shows one line per raid slot (01 to 24) with the same details as the group lines. Empty slots stay blank so every line matches the raid window. Outside a raid it shows your group instead, with the settings below, unless Only in a raid is ticked. | off |
+| **Only in a raid** | Shows the raid lines only while you are in a raid. Outside a raid nothing is drawn here, and your group shows only if Display group information is ticked, with the Group Information settings. Unticked, the settings below cover your group outside a raid too. | off |
 | **X** | How far from the left edge of the screen the raid lines start, in pixels. Scan Raid Window fills this in. | blank (300) |
 | **Y** | How far down the screen raid slot 1's line sits, in pixels. Scan Raid Window fills this in. | blank (420) |
 | **Line spacing** | How many pixels apart the lines within one raid group are. Scan Raid Window fills this in from the raid window's own row height. | blank (12) |
 | **Group gap** | Extra pixels added after slots 6, 12 and 18, so each raid group lines up with its block in the raid window. | blank (6) |
 | **Scan Raid Window** | Reads where your raid window is on screen and fills in the four boxes above. The raid lines are placed right beside it (on the left if there is no room on the right). The HUD moves straight away.<br>*Open the raid window first. If it cannot read the window you get 'Scan failed - see console'. Press Save to keep the numbers.* |  |
-| **Hide names** | Leaves the slot number and name off each line, so it shows only the distance, target and cast. Applies to the group lines too. | off |
-| **Hide casting** | Leaves off the 'what they are casting' part of each line. Applies to the group lines too. | off |
+| **Hide names** | Leaves the slot number and name off each line, so it shows only the distance, target and cast. Outside a raid your group's lines use it too, unless Only in a raid is ticked. | off |
+| **Hide casting** | Leaves off the 'what they are casting' part of each line. Outside a raid your group's lines use it too, unless Only in a raid is ticked. | off |
+| **Name width** | How many letters of each name and target are shown. Longer ones are cut and shorter ones padded, so every line's cast starts in the same place. Outside a raid your group's lines use it too, unless Only in a raid is ticked. | blank (6) |
 
 ## Raid Options
 
@@ -83,8 +88,8 @@ HUDs puts live text straight onto your game screen: the nearest mob, the nearest
 
 - Nearest NPC - one white line: 'Named NPC: <name>: <distance>' for the closest named mob in the zone, or 'NPC: <name>: <distance>' when there is no named mob in the zone.
 - Nearest PC - one line: 'Nearest PC: <name>: <distance>' for the closest player in the zone who is not in your group or raid. It is red under 30 metres, yellow under 150 and white further out.
-- Group distance - one line per group member (you are not listed): '(2) Brutus: 12.3 * <their target> * <what they are casting>'. Names are cut to their first 6 letters so the columns line up.
-- Raid distance - one line per raid slot, '(01)' to '(24)', in the same layout as the group lines. An empty slot leaves a blank line and there is an extra gap after every 6 slots, so each line sits beside the matching row of the game's raid window.
+- Group information - one line per group member (you are not listed): '(2) Brutus: 12.3 * <their target> * <what they are casting>'. Names are cut to their first 6 letters so the columns line up.
+- Raid information - one line per raid slot, '(01)' to '(24)', in the same layout as the group lines. An empty slot leaves a blank line and there is an extra gap after every 6 slots, so each line sits beside the matching row of the game's raid window.
 - Group and raid line colours show distance: white under 20 metres, yellow under 30, orange under 75, red at 75 or more, grey when the game reports 0.
 - The 'what they are casting' part shows the spell name for members running the new bot. For anyone else it just says 'casting'.
 - Raid Options - up to 10 lines written by encounter files and scripts, usually a message with a countdown in seconds (for example 'Adds incoming: 12.4'). Each line disappears 5 seconds after its countdown ends.
@@ -93,8 +98,8 @@ HUDs puts live text straight onto your game screen: the nearest mob, the nearest
 ## Good to know
 
 - The HUD layer has no title bar and ignores the mouse, so you cannot move it by dragging. Use the X and Y boxes to move each block.
-- With 'Display raid distance' ticked and no raid, you see your group instead. So you do not need both boxes ticked. In a raid, the raid lines replace the group lines.
+- With 'Display raid information' ticked and no raid, you see your group instead, with the raid settings. So you do not need both boxes ticked. Tick 'Only in a raid' to keep the two apart: then outside a raid your group shows only with 'Display group information', using the Group Information settings. In a raid, the raid lines replace the group lines.
 - The alert boxes only work while 'Display nearest PC' is ticked, and 'Loud alarm when close' does nothing unless 'Msg alerts' or 'Ding alerts' is also ticked.
-- Scan Raid Window fills in the four Raid Distance boxes, but you still have to press Save to keep them.
+- Scan Raid Window fills in the four raid position boxes, but you still have to press Save to keep them.
 - Emptying a position box does not move the block to 0,0. The block stays where it was, even after the profile is loaded again. It only goes back to its default position after the game client is restarted.
 

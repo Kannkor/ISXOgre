@@ -52,7 +52,7 @@ The old `ISXOgre` extension is not loaded with the new bot, so every `${ISXOgre.
 
 **Note C** (4 rows below): An empty answer is now an empty STRING; Classic answered NULL (no object) when the read came back empty or the det was absent. Poll the new numeric field iseffectinfoavailable first: it is the examine-ready gate, so you stop re-reading an empty string.
 
-**Note D** (3 rows below): Two behaviour changes: (1) the diff is keyed on the ICON PAIR, not the effect ID - a recast that gets a new ID is an Updated, not Removed+Added, and two dets with the same icons fire once; still says "ID-keyed" (stale comment). (2) No scan and no events while you are dead.
+**Note D** (3 rows below): Two behaviour changes: (1) the diff is keyed on the ICON PAIR, not the effect ID - a recast that gets a new ID is an Updated, not Removed+Added, and two dets with the same icons fire once. (2) No scan and no events while you are dead.
 
 | Old call | Today | Write instead | What changed | Notes |
 |---|---|---|---|---|
@@ -60,7 +60,7 @@ The old `ISXOgre` extension is not loaded with the new bot, so every `${ISXOgre.
 | `event:OgreEvent_OnDetrimentalRemoved` | works | — | ✅ Works as is | Note D |
 | `event:OgreEvent_OnDetrimentalUpdated` | works | — | ✅ Works as is | Note D |
 | `ISXOgre.DetrimentalInfo[main,back,-actorID,<id>,field]` | does nothing | `ISXOgreEQ2.Det.DetrimentalInfo[main,back,-actorID,<id>,field]` | ➡️ Moved |  |
-| `ISXOgre.DetrimentalInfo[main,back,-maxEffects,<n>,field]` | does nothing | `ISXOgreEQ2.Det.DetrimentalInfo[main,back,-maxEffects,<n>,field]` | ➡️ Moved | The default is 7 in the code today, the same as Classic - but the comments beside it say 10. If you need more than 7, pass -maxEffects explicitly. |
+| `ISXOgre.DetrimentalInfo[main,back,-maxEffects,<n>,field]` | does nothing | `ISXOgreEQ2.Det.DetrimentalInfo[main,back,-maxEffects,<n>,field]` | ➡️ Moved | The default is 10, not Classic's 7 - a deliberate change: on a busy raid named a mechanic det can sit past the 7th effect, and a walk that stops short reports the det absent. A read on another actor with no -maxEffects walks up to 10 effects; a read on yourself ignores it. To keep Classic's exact window, pass -maxEffects 7. |
 | `ISXOgre.DetrimentalInfo[main,back,backdropiconid]` | does nothing | `ISXOgreEQ2.Det.DetrimentalInfo[main,back,backdropiconid]` | ➡️ Moved | Note B |
 | `ISXOgre.DetrimentalInfo[main,back,cancel]` | does nothing | `ISXOgreEQ2.Det.DetrimentalInfo[main,back,cancel]` | ➡️ Moved | A read that acts is easy to miss in review - ISXOgreEQ2.Det:DetrimentalCancel[main,back] says the same thing out loud. |
 | `ISXOgre.DetrimentalInfo[main,back,currentincrements]` | does nothing | `ISXOgreEQ2.Det.DetrimentalInfo[main,back,currentincrements]` | ➡️ Moved | Note B |

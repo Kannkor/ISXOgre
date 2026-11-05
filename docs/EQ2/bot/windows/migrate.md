@@ -73,6 +73,7 @@ When the bot loads and finds Classic files for an item that the new bot does not
 - Opening the window with `ogre migrate` first copies anything that is still waiting, without asking - the same as the automatic run.
 - Profiles: files that were missing or could not be read are skipped and counted in the orange message. Running it again copies the same set, so re-running will not fix them - check ISXOgreEQ2.log for which files.
 - Inventory Manager lists (sell, destroy, restock) go into your own custom files. A list you already have is kept, not replaced, unless you use Re-run (overwrite).
+- Saved AutoTarget lists go into one file per zone. A list you already have in the new bot is kept, and any others are added beside it. Re-run (overwrite) replaces only the lists with the same name, and never removes one.
 - The first time the bot loads, the New User Tour runs first. The automatic copy starts a few seconds after the tour is finished or skipped.
 - Typing `ogre migrate` while the window is open does nothing.
 

@@ -1,8 +1,8 @@
-# Ability Details
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# Ability Details
 
 > **:bulb: In game - the ? button on this window says**
 >
@@ -38,6 +38,8 @@ Whose export this is, how many entries it holds (every rank of every ability) an
 |---|---|
 | **Ability Export** | Opens the Ability Export window, where you make a fresh export. Shown only when there is no export or it is out of date.<br>*When the export finishes the window shows the new one by itself.* |
 
+
+
 ## Search and the list
 
 Every ability in your export, sorted by name with each line's ranks together, lowest level first. Lvl and Tier are the rank's level and spell tier. The count under the search box shows how many match out of the total.
@@ -46,9 +48,11 @@ Every ability in your export, sorted by name with each line's ranks together, lo
 
 | Control | What it does |
 |---|---|
-| **Search** | Filters the list as you type. Words match the ability's name. A number matches its ID or its line ID (and names with that number in them). A test such as `IsInterrupt = TRUE`, `HOIconID = NULL` or `Level >= 100` checks a field, exactly the way CastVia and TypeID check it. Everything you type must match.<br>*A field name typed without a comparison and a value is shown in orange under the box and ignored until you finish it.* |
+| **Search** | Filters the list as you type. Words match the ability's name. A number matches its ID or its line ID (and names with that number in them). A test such as `IsInterrupt = TRUE`, `HOIconID = NULL` or `Level >= 100` checks a field, exactly the way FindCastableID and FindAndCast check it. Everything you type must match.<br>*A field name typed without a comparison and a value is shown in orange under the box and ignored until you finish it.* |
 | **Click a row** | Shows every field of that rank on the right. |
 | **Right-click a row** | Copy name or Copy ID of that rank. |
+
+
 
 ## The selected ability
 
@@ -62,11 +66,14 @@ Every field the export holds for that rank, exactly as written: the name, IDs, l
 | **Right-click a field** | Copy value copies the value. Copy as a search term copies `Field = value`, which you can paste into the search box to find every ability with the same value. |
 | **Title bar close (X)** | Closes the window. Same as `ogre end abilitydetails`. |
 
+
+
 ## Opening it on one ability
 
 `ogre abilitydetails Assault` (the ability's own name, no rank) selects the rank the bot uses. A specific rank's full name (`Assault X`) or an ID selects exactly that rank, and the line under its name says which rank the bot uses instead. Either way the search is filled in with the ability's name, so all its ranks are listed. If nothing matches, nothing is selected, the line says so in orange and the console says it too.
 
 [![Opening it on one ability](../assets/abilitydetails/opened.png)](../assets/abilitydetails/opened.png "Click for full size")
+
 
 ## What the window shows
 

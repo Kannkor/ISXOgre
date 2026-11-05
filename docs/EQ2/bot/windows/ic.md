@@ -67,7 +67,7 @@ The Instance Controller (IC) runs a list of instanced zones for you, one after a
 
 | Control | What it does | Default |
 |---|---|---|
-| **Root dropdown (e.g. "test (4)")** | Picks which of the three content roots to browse: default, test or custom. Each shows how many files it has. Picking one goes to that root's top folder and clears the selected file. The choice is saved.<br>*Browse choice only. The roots have no priority order. The count is the files that load; a root can also list files that are not valid (red).* | default; on first ever open it auto-jumps to the first root that has files |
+| **Root dropdown (e.g. "custom (4)")** | Picks which content root to browse, default or custom. Each shows how many files it has. Picking one goes to that root's top folder and clears the selected file. The choice is saved.<br>*Browse choice only. The roots have no priority order. The count is the files that load; a root can also list files that are not valid (red).* | default; on first ever open it auto-jumps to the first root that has files |
 | **Up** | Goes up one folder in the browse list and clears the selected file.<br>*Disabled at a root's top level.* |  |
 | **search** | Filters the browse list to files whose zone name or path contains the text. Not case-sensitive. It applies about 0.2 seconds after you stop typing.<br>*Not saved, so it clears when the extension reloads.* | empty |
 | **any variant / [Solo] / [Heroic] / ...** | Two jobs. (1) Hides files that do not have this variant. (2) Every zone you queue is tagged with this variant, which decides which instance the zone-in travels to. 'any variant (browse only)' turns the filter off and tags nothing. The choices are every variant found in the loaded zone files. Saved.<br>*With 'any', queuing a file that has 2+ variants pops up a pick-one menu at the row.* | any variant |
@@ -205,12 +205,12 @@ When the window is too short for every option, the option grid scrolls (the list
 
 ## What the window shows
 
-- Root dropdown: the root name plus its file count, e.g. "test (4)".
+- Root dropdown: the root name plus its file count, e.g. "custom (4)".
 - Breadcrumb: <root> or <root> / <folder>.
 - Zones list header: "Zones (shown of total loaded)".
 - Zones list folder rows: ▸ name, then the number of files under it.
 - Zones list file rows: the zone name (or path) plus chips - one per variant (e.g. [Solo], [Heroic]) or "no variants"; a difficulty chip (a range "1-80" or choices "normal/expert"); ".iss" when the file hands the run to a LavishScript file. Hover shows the zone name and root/path.
-- Zones list empty messages tell apart: "no zone files loaded", "this root is empty - try test (4)", "nothing in this folder matches", "nothing matches the filter".
+- Zones list empty messages tell apart: "no zone files loaded", "this root is empty - try custom (4)", "nothing in this folder matches", "nothing matches the filter".
 - Queue header: "Queue (n)".
 - Queue rows: label (zone name + variant), and grey sub-text - "diff X" when a difficulty is set; "start at step N (named 3)" when a start point is set; otherwise "stopped at step N (stepId)" when there is a Resume point. While a list runs, a ▶ marks the row it is on.
 - Add-bar text: "Double-click a zone to queue it", or "<zone> as [Heroic]", or "<zone> — double-click to choose a variant".
@@ -219,7 +219,7 @@ When the window is too short for every option, the option grid scrolls (the list
 - Startup Options rows: checkbox, label, grey monospace command, and S/D/G chips (lit = runs in that mode, ringed = your current mode).
 - Startup Options status: "E of T enabled · K would run now (solo|duo|group)".
 - Settings - Lock table: green "fresh - N row(s)" (read in the last 15 minutes and not marked out of date), or orange "stale", plus "a refresh is armed" while a re-read is waiting.
-- Settings - Content roots: default = Scripts/Ogre/EQ2/IC/default, test = Scripts/Ogre/EQ2/IC/test, custom = Scripts/OgreSave/EQ2/IC/custom.
+- Settings - Content roots: default = Scripts/Ogre/EQ2/IC/default, custom = Scripts/OgreSave/EQ2/IC/custom.
 - Settings - Pause: Instance Controller and OgreBot, each "running" or orange "PAUSED".
 
 ## Good to know

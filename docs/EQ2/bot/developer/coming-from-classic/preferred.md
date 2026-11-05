@@ -1,8 +1,8 @@
-# Preferred group members
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../index.md).
 </div>
+
+# Preferred group members
 
 The `…Preferred` calls Classic's *Preferred Group & Raid Members* page described - pick the best member of an archetype in a fixed priority order - and what each one is in the new bot.
 
@@ -25,9 +25,9 @@ The `…Preferred` calls Classic's *Preferred Group & Raid Members* page describ
 |---|---|---|---|---|
 | `GetInfoOb:Get_GroupIDsPreferred` | does nothing | `${OgreBotAPI.Roster.SortGroupByID[<mode>,<search>]}` | ➡️ Lives somewhere else |  |
 | `GetInfoOb:Get_GroupNamesPreferred` | does nothing | `${OgreBotAPI.Roster.SortGroupByID[<mode>,<search>]}` | ➡️ Lives somewhere else |  |
-| `GetInfoOb:Get_RaidIDsPreferred` | does nothing | `OgreBotAPI.Roster.RaidIDPreferred` | ✏️ Renamed | it has NO consumer callers - both apparent 'call sites' are prose inside a BLOCK COMMENT in describing how the tier-keyed ordering works. My site counter strips `;`-prefixed lines but not block comments, so entries with 1-2 sites are worth eyeballing. |
+| `GetInfoOb:Get_RaidIDsPreferred` | does nothing | `OgreBotAPI.Roster.RaidIDPreferred` | ✏️ Renamed | Nothing calls it - the two places that name it are prose inside a block comment in the Unknown Steppes of Oblivion raid module describing how the tier-keyed ordering works. |
 | `GetInfoOb:Get_RaidNamesPreferred` | does nothing | `${OgreBotAPI.Roster.SortGroupByID[<mode>,<search>]}` | ➡️ Lives somewhere else |  |
-| `GetInfoOb.GetClassPreferredOrder` | reads NULL | — | ⛔ Not ported yet | the class-priority ladder. It survives as the ORDERING inside `Roster.*Preferred`, but is not exposed as a read of its own. |
+| `GetInfoOb.GetClassPreferredOrder` | reads NULL | — | ⛔ Not ported yet | The class-priority ladder. It survives as the ORDERING inside `Roster.*Preferred`, but is not exposed as a read of its own. |
 | `OgreBotAPI.GetGroupIDPreferred` | reads NULL | `OgreBotAPI.Roster.GroupIDPreferred` | ✏️ Renamed |  |
 | `GetInfoOb.GetGroupIDPreferred_` | reads NULL | `OgreBotAPI.Roster.GroupIDPreferred` | ✏️ Renamed |  |
 | `OgreBotAPI.GetGroupNamePreferred` | reads NULL | `OgreBotAPI.Roster.GroupNamePreferred` | ✏️ Renamed |  |

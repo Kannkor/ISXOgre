@@ -42,9 +42,9 @@ An atom attached to an event the new bot never raises never runs - and nothing s
 | `OgreEvent_SmartLootAssigned` | works | — | ✅ Works as is |  |
 | `OgreEvent_SpewStats` | works | — | ✅ Works as is |  |
 | `OgreEvents:OgreEvent_GearConditionReport` | does nothing | — | ⛔ Not ported yet | Classic handler returns on its first line - dead. |
-| `OgreEvents:OgreEvent_InGameTell` | does nothing | automatic (no call) | ➡️ Lives somewhere else | Nothing to call: the new bot relays and pushes tells by itself; the OgreBot settings above switch the parts. |
+| `OgreEvents:OgreEvent_InGameTell` | does nothing | automatic (no call) | ➡️ Lives somewhere else | Nothing to call: the new bot relays and pushes tells by itself. The OgreBot settings `checkbox_pushover_on_tell_from_stranger` and `checkbox_pushover_on_tell_from_eq2chars` switch the Pushover part, `checkbox_setup_broadcastonlystrangertells` the console part. |
 | `OgreEvents:OgreEvent_InGameTellSent` | does nothing | automatic (no call) | ➡️ Lives somewhere else | Nothing to call: the new bot does this by itself. |
-| `OgreEvents:OgreEvent_KronoRedemption` | does nothing | — | ⛔ Not ported yet | Classic handler, attached at, only echoes 'redeemed / failed to redeem a Krono' to the console. The new bot fires the event but has no console echo attached to it; searched and. Attach your own atom if you want the line. |
+| `OgreEvents:OgreEvent_KronoRedemption` | does nothing | — | ⛔ Not ported yet | Classic handler only echoes 'redeemed / failed to redeem a Krono' to the console. The new bot fires the event but has no console echo attached to it. Attach your own atom if you want the line. |
 | `OgreEvents:OgreEvent_OnAbilityCast` | does nothing | automatic (no call) | ➡️ Lives somewhere else | Nothing to call: the new bot relays every cast by itself. |
 | `OgreEvents:OgreEvent_OnAbilityCastCompleted` | does nothing | — | ⛔ Not ported yet | Classic handler relays the completion to the other sessions as OgreEvent_OthersOnAbilityCastCompleted. New: no cast-completion event is raised at all, so there is nothing to relay. |
 | `OgreEvents:OgreEvent_OnAbilityReadyTimersUpdate` | does nothing | — | ⛔ Not ported yet | Classic echo-only handler, never attached. Dead in Classic. The event fires on the new bot - see event:OgreEvent_OnAbilityReadyTimersUpdate. |
@@ -54,7 +54,7 @@ An atom attached to an event the new bot never raises never runs - and nothing s
 | `OgreEvents:OgreEvent_OthersOnAbilityCast` | does nothing | — | ⛔ Not ported yet | Classic handler returns on its first line - dead. Nothing to port. |
 | `OgreEvents:OgreEvent_OthersOnAbilityCastCompleted` | does nothing | — | ⛔ Not ported yet | Classic handler has an EMPTY body. Nothing to port. |
 | `OgreEvents:OgreEvent_OthersOnItemUse` | does nothing | — | ⛔ Not ported yet | Classic handler returns on its first line - dead. Nothing to port. |
-| `OgreEvents:OgreEvent_SmartLootAssigned` | does nothing | — | ⛔ Not ported yet | Classic 'Testing only' handler that echoes '&lt;toon&gt; looted &lt;n&gt; &lt;item&gt;'. The new bot fires the event with no echo attached; searched /. |
+| `OgreEvents:OgreEvent_SmartLootAssigned` | does nothing | — | ⛔ Not ported yet | Classic 'Testing only' handler that echoes '&lt;toon&gt; looted &lt;n&gt; &lt;item&gt;'. The new bot fires the event with no echo attached. Attach your own atom if you want the line. |
 | `OgreEvents:OgreEvent_SpewStats` | does nothing | — | ⛔ Not ported yet | Classic handler only echoes the JSON, and is NOT attached. Dead in Classic. The event itself fires on the new bot - see event:OgreEvent_SpewStats. |
 | `OgreEvents:OgreEvent_SpewStats2` | does nothing | — | ⛔ Not ported yet | Classic test handler that echoes the JSON; never attached. Dead in Classic. |
 

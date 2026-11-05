@@ -23,8 +23,8 @@ Setup holds the numbers that tune when the bot fights: how hurt a mob must be be
 | **Targets for Smart AEs** | How many mobs must be in range before the bot uses a point-blank or targeted area attack, while 'AE Smart CAs' on the Settings tab is ticked.<br>*A Cast Stack entry's own '# of mobs' overrides this.* | blank (counts as 2) |
 | **Targets for Smart Encounters** | How many mobs the linked encounter must have before the bot uses an encounter-wide attack, while 'Encounter Smart CAs' on the Settings tab is ticked. A single mob never qualifies.<br>*A Cast Stack entry's own '# of mobs' overrides this; a '# of mobs' of 1 always allows it.* | blank (counts as 2) |
 | **Melee move when less (40)** | The move options on Settings only move you when the mob is closer than this distance. 'Face mob in combat' only turns you toward mobs within this distance too. | blank (counts as 40) |
-| **Auto Follow:** | The group member the `-forcefollow` command follows, using the game's own follow. It only works while 'Auto Follow Mode' on Settings is ticked, and only if that person is in your group and alive.<br>*The list shows your group and raid members. Nothing follows automatically; the command has to be sent.* | empty |
-| **Auto Follow within (35):** | **Not active yet.** It is meant to be the distance for auto follow. | blank |
+| **Auto Follow:** | Who Auto Follow follows: a group member's name, or an alias such as @Tank (your custom * aliases are listed while Enable Aliases on Settings is ticked). With 'Auto Follow Mode' on Settings ticked, the bot starts the game's own /follow on them whenever you are out of combat with nothing to attack, not already following anyone, and they are alive and closer than 'Auto Follow within'. The `-forcefollow` command starts it straight away.<br>*The list shows your group and raid members, the built-in @ aliases that name somebody right now, and your custom * aliases while Enable Aliases is ticked.* | empty |
+| **Auto Follow within (35):** | Auto Follow only starts while the person is closer than this, measured flat (height left out). Blank means 35. 0 never starts it on its own; `-forcefollow` ignores this distance. | blank (35) |
 
 
 
@@ -45,6 +45,6 @@ Setup holds the numbers that tune when the bot fights: how hurt a mob must be be
 
 - All the percentage boxes compare the MOB's health (or yours) to the number: 'at or below' for the mob boxes, 'at or above' for your own health and power.
 - 'Attack NPC with 100% HP' on the Settings tab switches off the attack and pet mob-health boxes in one go. 'Ignore NPC HP to move' on Settings does the same for the move box.
-- Auto Follow does nothing on its own. It only sets who the `-forcefollow` command follows, and only when 'Auto Follow Mode' on Settings is ticked.
+- Auto Follow starts only out of combat with nothing to attack, and only when you are not already following someone. Once the game's /follow is running, the bot leaves it to the game.
 - The OgreConsole boxes about sound and opening the console are read on the session that RECEIVES the broadcast tell, not on the character that got the tell.
 

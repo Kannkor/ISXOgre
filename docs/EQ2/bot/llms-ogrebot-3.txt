@@ -95,7 +95,7 @@ Debug holds switches that make the bot explain itself. Each box turns on extra l
 | **HeroicOpportunityDebug: logs each HO the bot opens - the actor, the starter ability it chose, whether the starter icon was visible and whether the timer was skipped. The HO engine spans five files and had one log line in all of them, so an HO that never starts was previously silent. (Light - one line per HO)** | Logs each HO the bot starts: the mob, the starter ability it chose, whether the starter icon was showing, and whether the wait timer was skipped. | off |
 | **AssistDebug: logs what assist decided, and names the three outcomes that look identical from outside - claiming a target, 'I am in control' and 'leave me alone'. Only speaks when the answer CHANGES, so it is safe to leave on. (Light)** | Logs who assist wants you to attack and why. It only logs when that answer changes, so it is safe to leave on. | off |
 | **ReapplyValueDebug: for every ward carrying an RW< value, logs its remaining damage against the value you set and whether that counts as depleted. Use it when a ward is not re-cast, or is re-cast constantly - it tells you which of the two numbers is wrong. (Noisy - one line per ward every tick)** | For every ward with a 'Reapply-ward <=' value, logs how much damage it has left, your value, and whether that counts as used up. Use it when a ward is not re-cast, or is re-cast all the time.<br>*Noisy: one line per ward each time the Cast Stack runs.* | off |
-| **AbilityViaDebug: logs each CastVia query exactly as the bot parsed it - every term, the options in effect, anything it was told to ignore, and which ability won (or that NOTHING matched, which otherwise looks the same as a deliberate hold). (Light - one line per query)** | When a script or command asks the bot to find an ability by description (CastVia), logs how the request was read, what was ruled out, and which ability won, or that nothing matched. | off |
+| **AbilityViaDebug: logs each ability query exactly as the bot parsed it - every term, the options in effect, anything it was told to ignore, and which ability won (or that NOTHING matched, which otherwise looks the same as a deliberate hold). (Light - one line per query)** | When a script or command asks the bot to find an ability by description (FindCastableID or FindAndCast), logs how the request was read, what was ruled out, and which ability won, or that nothing matched. | off |
 | **AliasesDebug: each time the alias list is rebuilt, logs every record and who it currently resolves to, or 'nobody live'. Separates an alias that failed to parse from one that simply has nobody online - downstream both just fail to match. (Light - once per rebuild)** | Each time the Aliases list is rebuilt, logs every alias and who it points to right now, or 'nobody live'. Tells a mistyped alias apart from one whose characters are simply not online. | off |
 | **ProfilePartsDebug: on profile load, logs whether Profile Parts is on and which tab is being read from which shared file, disabled mappings included. Use it when a tab shows settings you do not remember saving. (Light - once per load)** | When a profile loads, logs whether Profile Parts is on and which tab is being read from which shared file, including switched-off ones. Use it when a tab shows settings you do not remember saving. | off |
 | **LoadingProcessDebug: times each step of opening the bot - the ability export, the roster, the cast stack, every tab seed - so a slow or apparently hung load names the step responsible instead of one silent gap. (Light - once per load)** | Times each step of opening the bot (abilities, roster, Cast Stack, each tab), so a slow or stuck load shows which step is to blame. | off |
@@ -106,9 +106,9 @@ Debug holds switches that make the bot explain itself. Each box turns on extra l
 
 | Option | What it does | Default |
 |---|---|---|
-| **Failed casts: already covered - CastingProgressDebug above reports every cast that was issued and did not complete, with the reason. A second flag for the same lines would only split one story across two switches.** | **Not active yet.** Does nothing. Casts that fail are already reported by CastingProgressDebug. | off |
-| **Queued commands: the command queue already logs unconditionally, so there is nothing here to turn ON. What this wants is the opposite - a MUTE - which is a different control and a different decision.** | **Not active yet.** Does nothing. The command queue already logs all the time. | off |
-| **Dispels: there is no dispel module in the new bot yet. A dispel is an ordinary cast-stack entry, and the walk trace already says why one was or was not picked. Wire this if dispels ever get their own handling.** | **Not active yet.** Does nothing. Dispels are ordinary Cast Stack entries, and CSEvalDebug already shows why one was or was not picked. | off |
+| **Failed casts: already covered - CastingProgressDebug above reports every cast that was issued and did not complete, with the reason. A second flag for the same lines would only split one story across two switches.** | **Does nothing, by design.** Casts that fail are already reported by CastingProgressDebug. | off |
+| **Queued commands: the command queue already logs unconditionally, so there is nothing here to turn ON. What this wants is the opposite - a MUTE - which is a different control and a different decision.** | **Does nothing, by design.** The command queue already logs all the time. | off |
+| **Dispels: there is no dispel module in the new bot yet. A dispel is an ordinary cast-stack entry, and the walk trace already says why one was or was not picked. Wire this if dispels ever get their own handling.** | **Does nothing, by design.** Dispels are ordinary Cast Stack entries, and CSEvalDebug already shows why one was or was not picked. | off |
 
 
 
@@ -401,21 +401,6 @@ The class tab is named after your class (Coercer, Dirge, Channeler, and so on) a
 | **Cast Confront Fear** | Your dirge casts Confront Fear on whoever is waiting for it: fighters first, then priests, then everyone else, oldest request first. Requests come from your other characters, the request text below, and your own revive sickness.<br>*Nothing is cast while it is unticked: requests still queue and are dropped after 2 minutes. Requests are sent by the 'Request confront fear' boxes on the Other tab of the character who died.* | off |
 | **Confront Fear text to listen for:Example: Need a confront fear** | When someone says a line containing this text in group, raid or a tell, your dirge adds them to its Confront Fear list. Capital letters do not matter.<br>*Empty means chat is not listened to. The cure itself still needs 'Cast Confront Fear' ticked.* | empty |
 | **Confront Fear text to listen for from other dirges: Example: Casting confront fear on** | When another player says a line containing this text in group, raid or a tell, your dirge takes the LAST word of that line as a name and removes that player from its Confront Fear list, so two dirges do not cure the same player.<br>*Put the name at the end of the line, for example 'Casting confront fear on Bob'. Your own lines are ignored. The bot does not say this line itself.* | empty |
-
-
-
-## Inquisitor
-
-| Option | What it does | Default |
-|---|---|---|
-| **Verdict On Epics @** | **Not active yet.** It is meant to use Verdict on epic mobs when they reach the health % typed in the box below. | off |
-| **(% box beside it)** | **Not active yet.** The mob health % for 'Verdict On Epics @'. | empty |
-| **Verdict On Epic Named @** | **Not active yet.** It is meant to use Verdict on named epic mobs when they reach the health % typed in the box below. | off |
-| **(% box beside it)** | **Not active yet.** The mob health % for 'Verdict On Epic Named @'. | empty |
-| **Verdict On Heroics @** | **Not active yet.** It is meant to use Verdict on heroic mobs when they reach the health % typed in the box below. | off |
-| **(% box beside it)** | **Not active yet.** The mob health % for 'Verdict On Heroics @'. | empty |
-| **Verdict On Heroic Named @** | **Not active yet.** It is meant to use Verdict on named heroic mobs when they reach the health % typed in the box below. | off |
-| **(% box beside it)** | **Not active yet.** The mob health % for 'Verdict On Heroic Named @'. | empty |
 
 
 

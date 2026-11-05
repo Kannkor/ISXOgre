@@ -16,7 +16,7 @@
 >
 > **Good to know**
 >
-> - Reset forgets the window's saved position. Move it where you want and use Save Position again.
+> - Reset does not save. Reopen the window or log out and back in and it is back at its saved spot. To keep the reset spot, use Save Position.
 > - A hidden window stays hidden; Reset only moves it.
 > - Each window's own title-bar right-click menu also has Reset.
 
@@ -44,7 +44,7 @@ One row per open window (this one is left out).
 
 | Control | What it does |
 |---|---|
-| **Reset** | Moves that window back to where it first opened, at its starting size and at the UI scale set in Ogre Options, unlocks it, and makes sure its title bar is on the current screen. Any position you saved for it with Save Position is forgotten.<br>*A hidden window stays hidden - Reset only moves it.* |
+| **Reset** | Moves that window back to where it first opened, at its starting size and at the UI scale set in Ogre Options, unlocks it, and makes sure its title bar is on the current screen. The position you saved with Save Position is kept, so after you close the window or log out it opens at the saved spot again.<br>*A hidden window stays hidden - Reset only moves it.* |
 
 ## Reset everything
 
@@ -52,7 +52,7 @@ One row per open window (this one is left out).
 
 | Control | What it does |
 |---|---|
-| **Reset All Windows** | Does a Reset on every window in the list at once, hidden ones included. Help windows and the OgreHUD are listed but left where they are; use their own Reset button.<br>*No confirmation. Every saved position is forgotten.* |
+| **Reset All Windows** | Does a Reset on every window in the list at once, hidden ones included. Help windows and the OgreHUD are listed but left where they are; use their own Reset button.<br>*No confirmation. Saved positions are kept.* |
 | **Title bar close (X)** | Closes this window, the same as `ogre end windowreset`. Nothing else changes. |
 
 ## What the window shows
@@ -66,7 +66,7 @@ One row per open window (this one is left out).
 ## Good to know
 
 - Every window also has a Reset on its own title-bar right-click menu. This window is for the ones you cannot reach.
-- Reset forgets a window's saved position, so it opens at its default spot next time too. Drag it where you want it and use Save Position again.
+- Reset does not save. Reopen the window or log out and back in and it is back at its saved spot. To keep the reset spot, use Save Position.
 - Only windows that are open right now are listed. A closed window is not affected.
 - The list does not update by itself; press Refresh after opening or closing windows.
 

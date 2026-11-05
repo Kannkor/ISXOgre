@@ -81,7 +81,7 @@ The tabs down the left are in three blocks. At the top: Auto Target, Cast Stack,
 | Control | What it does | Default |
 |---|---|---|
 | **A tab (click)** | Shows that tab's settings on the right. The tab you are on is outlined. | Settings |
-| **A struck-through tab (for example Auto-Hunt, Item Embargo)** | Not finished yet. Some of its settings do nothing yet, even though you can change and save them. That tab's own page says which ones work. The tab itself also says NOT FINISHED at the top. |  |
+| **A struck-through tab (for example Auto-Hunt)** | Not finished yet. Some of its settings do nothing yet, even though you can change and save them. That tab's own page says which ones work. The tab itself also says NOT FINISHED at the top. |  |
 
 
 

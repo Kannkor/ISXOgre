@@ -6,12 +6,12 @@ To convert a Classic script, follow the procedure on the Converting your scripts
 
 ## Read it all
 
-- [Everything in one document](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-full.txt): the entire documentation, 884 KB. If that is too much to read at once, use the smaller pieces below - together they are the same text.
+- [Everything in one document](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-full.txt): the entire documentation, 913 KB. If that is too much to read at once, use the smaller pieces below - together they are the same text.
 - [Start here (part 1 of 2)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-start-here-1.txt): 16 KB - Start here
-- [Start here (part 2 of 2)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-start-here-2.txt): 149 KB - Start here
-- [OgreBot (part 1 of 3)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-ogrebot-1.txt): 98 KB - OgreBot; OgreBot - Tabs
-- [OgreBot (part 2 of 3)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-ogrebot-2.txt): 97 KB - OgreBot - Tabs
-- [OgreBot (part 3 of 3)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-ogrebot-3.txt): 51 KB - OgreBot - Tabs
+- [Start here (part 2 of 2)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-start-here-2.txt): 174 KB - Start here
+- [OgreBot (part 1 of 3)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-ogrebot-1.txt): 100 KB - OgreBot; OgreBot - Tabs
+- [OgreBot (part 2 of 3)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-ogrebot-2.txt): 100 KB - OgreBot - Tabs
+- [OgreBot (part 3 of 3)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-ogrebot-3.txt): 50 KB - OgreBot - Tabs
 - [Windows (part 1 of 4)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-1.txt): 98 KB - Windows - Everyday; Windows - Running content
 - [Windows (part 2 of 4)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-2.txt): 94 KB - Windows - Running content; Windows - Loot and items
 - [Windows (part 3 of 4)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-3.txt): 91 KB - Windows - Loot and items; Windows - Crafting; Windows - Groups and accounts

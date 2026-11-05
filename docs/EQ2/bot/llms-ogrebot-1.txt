@@ -79,7 +79,7 @@ The tabs down the left are in three blocks. At the top: Auto Target, Cast Stack,
 | Control | What it does | Default |
 |---|---|---|
 | **A tab (click)** | Shows that tab's settings on the right. The tab you are on is outlined. | Settings |
-| **A struck-through tab (for example Auto-Hunt, Item Embargo)** | Not finished yet. Some of its settings do nothing yet, even though you can change and save them. That tab's own page says which ones work. The tab itself also says NOT FINISHED at the top. |  |
+| **A struck-through tab (for example Auto-Hunt)** | Not finished yet. Some of its settings do nothing yet, even though you can change and save them. That tab's own page says which ones work. The tab itself also says NOT FINISHED at the top. |  |
 
 
 
@@ -180,7 +180,7 @@ Auto Target lets the bot pick its own targets from a list, instead of assisting 
 | Option | What it does | Default |
 |---|---|---|
 | **Scan Radius:** | How far Auto Target looks for targets, measured straight-line around you. | 0 (counts as 50) |
-| **Rescan time (MS):** | Not used by the new bot. Auto Target re-checks every 0.25 seconds whatever this says - a fixed rate, fast enough for every fight. | 0 |
+| **Rescan time (MS):** | **Does nothing, by design.** Auto Target re-checks every 0.25 seconds whatever this says - a fixed rate, fast enough for every fight. | 0 |
 | **Scan Height:** | Only mobs whose height differs from yours by less than this are considered, so mobs on a floor above or below are ignored. | 0 (counts as 5) |
 | **Auto-Target List Editor** | The editor below: build rows on the left, the working list and this zone's saved lists on the right, and the Balance generator underneath. | empty |
 
@@ -313,7 +313,7 @@ The Cast Stack is the bot's main casting list. Every turn the bot walks the Cast
 
 - Types, in short. Buff: kept up, re-cast when it drops. NonCombatBuff: the same, but only while you are out of combat. Combat: only while the target is in combat. Heal / PowerHeal: when the target's health / power is at or below the HP / Mana %. Cure / CureCurse: when someone has something that ability can remove / a curse. Res: resurrects a dead player. CA and Debuff: attacks on your target; NamedCA and NamedDebuff only on named mobs, NonNamedCA only on non-named mobs. Special / Custom: advanced types that are cast when ready.
 - The Type list only offers the types that fit the ability (a resurrection only offers Res, a buff offers Buff or NonCombatBuff). Items offer the 12 basic types. If your ability export is missing, every type is offered.
-- Fields appear and disappear with the Type: Target only shows where you can choose one (attacks always go at your target), '# of ppl' / '# of mobs' only for group or area abilities, HP / Mana % only for heals, Savagery only for Beastlords, Diss only for Channelers. Items get Type, Target, HP / Mana %, Requires Item Equipped and the tags.
+- Fields appear and disappear with the Type: Target only shows where you can choose one (attacks always go at your target), '# of ppl' / '# of mobs' only for group or area abilities, HP / Mana % only for heals, Savagery only for Beastlords, Diss only for Channelers. Items follow their Type too: Target for all but attacks, HP / Mana % only for heals, '# of ppl' for cures, plus Requires Item Equipped and the tags.
 - When you press Add or Update, values in fields that are hidden for the chosen Type are thrown away.
 - If a required field is missing, Add / Update does nothing and a message lists what is wrong.
 - Cast order colours: gold = Buff or NonCombatBuff, blue = Combat, light red = CA, red = NamedCA, pink = NonNamedCA, orange = Debuff, dark orange = NamedDebuff, magenta = Res, dark green = Cure, teal = CureCurse, bright green = Heal, cyan = PowerHeal, light cyan = Custom, lavender = Special. Pale yellow means this character does not have that ability (or the item is not in your bags or gear) right now. A switched-off entry keeps its colour but is struck through and dimmed.
@@ -436,17 +436,17 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 
 | Option | What it does | Default |
 |---|---|---|
-| **Disabled** | The bot never chooses abilities that move you up the hate list when a script or command asks for an ability, or when it picks an HO ability.<br>*Your normal Cast Stack still casts them if they are on it.* | off |
-| **Only if you are not tanking** | When picking an HO ability, the bot skips abilities that move you up the hate list unless the mob is attacking you.<br>*Only affects HO picks. If the bot cannot tell who is tanking, the ability is skipped.* | off |
-| **Only if a fighter is not tanking** | When picking an HO ability, the bot skips abilities that move you up the hate list unless a fighter player is tanking the mob. Fighters on the threat-fighter ignore list do not count.<br>*Only affects HO picks. If the bot cannot tell who is tanking, the ability is skipped.* | off |
-| **Disabled** | The bot never chooses force-target (taunt) abilities when a script or command asks for an ability, or when it picks an HO ability.<br>*Your normal Cast Stack still casts them if they are on it.* | off |
-| **Only if you are not tanking** | When picking an HO ability, the bot skips force-target abilities unless you are top of the mob's hate list.<br>*Only affects HO picks. If the bot cannot tell who is tanking, the ability is skipped.* | off |
-| **Only if a fighter is not tanking** | When picking an HO ability, the bot skips force-target abilities unless a fighter player is tanking the mob. Fighters on the threat-fighter ignore list do not count.<br>*Only affects HO picks. If the bot cannot tell who is tanking, the ability is skipped.* | off |
-| **Disabled** | The bot never chooses hate-increasing abilities when a script or command asks for an ability, or when it picks an HO ability.<br>*Your normal Cast Stack still casts them if they are on it.* | off |
-| **Only if you are not tanking** | When picking an HO ability, the bot skips hate-increasing abilities unless the mob is attacking you.<br>*Only affects HO picks. If the bot cannot tell who is tanking, the ability is skipped.* | off |
-| **Only if a fighter is not tanking** | When picking an HO ability, the bot skips hate-increasing abilities unless a fighter player is tanking the mob. Unlike the other two groups, the ignore list is not used here.<br>*Only affects HO picks.* | off |
-| **No Threat Position Decreases** | The bot never chooses abilities that move you down the hate list when a script or command asks for an ability, or when it picks an HO ability.<br>*Your normal Cast Stack still casts them if they are on it.* | off |
-| **No Threat Decrease** | The bot never chooses hate-reducing abilities when a script or command asks for an ability, or when it picks an HO ability.<br>*Your normal Cast Stack still casts them if they are on it.* | off |
+| **Disabled** | The bot never casts abilities that move you up the hate list: not from the Cast Stack, not when a script or command asks for an ability, and not when it picks an HO ability. | off |
+| **Only if you are not tanking** | The bot does not cast these abilities while you are tanking the mob, from the Cast Stack or for an HO. | off |
+| **Only if a fighter is not tanking** | The bot does not cast these abilities while a fighter player is tanking the mob, from the Cast Stack or for an HO. A fighter on the ignore list (-ThreatFighterIgnoreList_Add) does not count, which is how a tank who must not hold the mob lets the others taunt off them. | off |
+| **Disabled** | The bot never casts force-target (taunt) abilities: not from the Cast Stack, not when a script or command asks for an ability, and not when it picks an HO ability. | off |
+| **Only if you are not tanking** | The bot does not cast these abilities while you are tanking the mob, from the Cast Stack or for an HO. | off |
+| **Only if a fighter is not tanking** | The bot does not cast these abilities while a fighter player is tanking the mob, from the Cast Stack or for an HO. A fighter on the ignore list (-ThreatFighterIgnoreList_Add) does not count, which is how a tank who must not hold the mob lets the others taunt off them. | off |
+| **Disabled** | The bot never casts hate-increasing abilities: not from the Cast Stack, not when a script or command asks for an ability, and not when it picks an HO ability. | off |
+| **Only if you are not tanking** | The bot does not cast these abilities while you are tanking the mob, from the Cast Stack or for an HO. | off |
+| **Only if a fighter is not tanking** | The bot does not cast these abilities while a fighter player is tanking the mob, from the Cast Stack or for an HO. The ignore list is not used here. | off |
+| **No Threat Position Decreases** | The bot never casts abilities that move you down the hate list: not from the Cast Stack, not when a script or command asks for an ability, and not when it picks an HO ability. | off |
+| **No Threat Decrease** | The bot never casts hate-reducing abilities: not from the Cast Stack, not when a script or command asks for an ability, and not when it picks an HO ability. | off |
 
 
 
@@ -514,10 +514,9 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Show Surge messages** | **Not active yet.**  | off |
 | **Disable Merc Support** | The bot stops sending your mercenary to attack the mob you are fighting (and stops pulling it back off other mobs). | off |
 | **Cancel Invis After Combat** | When you are invisible, out of combat and have no mob left to attack, the bot cancels your invisibility. | off |
-| **Enable Raid Setups** | In raid zones, the bot runs the encounter setups written for that zone's fights (setup, triggers and mechanics). When off, no raid encounter setup runs automatically and you cannot start one by hand.<br>*If a setup already ran for a mob, its clean-up still runs when that mob dies, even after you untick this.* | off |
-| **Enable Limited Raid Setups** | **Not active yet.**  | off |
-| **Enable Heroic Setups** | The same as 'Enable Raid Setups', but for every zone that is not a raid zone (heroic, solo and so on). | off |
-| **Disable Auto Setups** | **Not active yet.**  | off |
+| **Enable Raid Setups** | In raid zones, the bot runs the encounter setups written for that zone's fights (setup, triggers and mechanics). When off, no setup starts, by itself or by hand. Unticking mid-fight stops everything the fight was doing straight away, and ticking it again carries on watching the same fight without running its setup again. If a setup did run, its clean-up still happens when the mob dies, whichever way this box is.<br>*If a setup already ran for a mob, its clean-up still runs when that mob dies, even after you untick this.* | off |
+| **Enable Heroic Setups** | The same as 'Enable Raid Setups', but for every zone that is not a raid zone (heroic, solo and so on). Turn it off at any point in a fight to take over, and back on to carry on. | off |
+| **Disable Auto Setups** | Stops encounter setups starting on their own, in both raid and heroic zones. A setup you start yourself, or one the Instance Controller asks for, still runs, and a fight already set up carries on. The zone's Enable Raid Setups or Enable Heroic Setups box must still be on for any setup to run. | off |
 | **Auto Target when Hated** | When you have no target, or only something you can't fight (a corpse, chest, shiny or NoKill NPC), the bot looks about once a second for a mob within 30 meters (and roughly your height) that is attacking someone in your group, and targets it. It never does this while you are assisting someone (Auto Assist). | off |
 | **Disable Mortal Coil Dispel** | Mages: the bot normally dispels the 'Mortal Coil' buff from named mobs in range with your dispel ability. Tick this to stop it.<br>*'No Dispels' on the Settings tab also stops it.* | off |
 | **Wait for Recovery time** | Normally the bot picks the next ability the moment a cast lands, queuing it during the recovery time. Tick this to make it wait out each ability's recovery time (minus 0.2 seconds) first. Items are not affected. | off |
@@ -542,10 +541,10 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Enable Consume Items** | Turns on the Consume Items tab, so the bot automatically uses the items listed there (following that tab's zone and combat rules). When off, the consume-items command also does nothing. | off |
 | **Enable Aliases** | Turns on your custom aliases from the Aliases tab (names starting with *), so commands and Cast Stack targets can use them. When off, custom aliases resolve to nobody. The built-in @ slots such as @Tank are not affected. | off (the Cast Stack target dropdown treats a never-saved box as on) |
 | **Enable Ability Tracker** | Turns on the Ability Tracker tab. About twice a second the bot reads the cooldowns of the abilities listed there and shares them, for example with the OgreMCP cooldown buttons. | off |
-| **Enable Ability Embargo** | Turns on ability embargoes. While it is ticked, the Cast Stack skips an ability that a command or another character has embargoed (-AbilityEmbargo) until the time is up. While it is off, embargoes are still kept but not followed, so ticking it later honours any that are still running.<br>*The Ability Embargo tab's own list, which tells your other characters to hold off when you cast, is not active yet in the new bot.* | off |
+| **Enable Ability Embargo** | Turns on ability embargoes. While it is ticked, casting an ability on the Ability Embargo tab tells your other characters to hold off it, and the Cast Stack skips an ability that a command or another character has embargoed (-AbilityEmbargo) until the time is up. While it is off, nothing is sent, and embargoes are still kept but not followed, so ticking it later honours any that are still running.<br>*The Ability Embargo tab's own list, which tells your other characters to hold off when you cast, is not active yet in the new bot.* | off |
 | **Enable Tag Embargo** | Turns on Embargo tags (see the Tags tab). While it is ticked, the Cast Stack skips an ability whose Embargo tag is on, and casting an ability that carries an Embargo tag turns that tag on. While it is off, this character neither follows Embargo tags nor turns them on. Tags sent by your other characters are still kept, so ticking it later honours any that are still running. | off |
 | **Enable Tag Allow** | Turns on Allow tags (see the Tags tab). While it is ticked, an ability with an Allow tag only fires while that tag is on, and casting an ability that carries an Allow tag turns that tag on. While it is off, an Allow tag does not hold an ability back and casting does not turn one on. Tags sent by your other characters are still kept, so ticking it later honours any that are still running. | off |
-| **Enable Item Embargo** | Turns on item embargoes. While it is ticked, the Cast Stack skips an item that a command or another character has embargoed (-ItemEmbargo, by the item's LinkID) until the time is up. While it is off, embargoes are still kept but not followed, so ticking it later honours any that are still running.<br>*The Item Embargo tab's own list, which tells your other characters to hold off when you use an item, is not active yet in the new bot.* | off |
+| **Enable Item Embargo** | Turns on item embargoes. While it is ticked, the Cast Stack skips an item that a command or another character has embargoed (-ItemEmbargo, by the item's LinkID) until the time is up, and using an item on the Item Embargo tab's list tells your other characters to hold off it. While it is off, nothing is sent, and embargoes are still kept but not followed, so ticking it later honours any that are still running. | off |
 
 
 
@@ -602,7 +601,7 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 
 | Option | What it does | Default |
 |---|---|---|
-| **Auto Follow Mode** | Allows the force-follow command to start the game's own /follow on the character named in 'Auto Follow:' on the Setup tab; when off, that command does nothing. The box does not start following on its own.<br>*It will not follow a character who is dead or nearly dead.* | off |
+| **Auto Follow Mode** | Turns Auto Follow on: out of combat, with nothing to attack, the bot starts the game's own /follow on the person named in 'Auto Follow:' on the Setup tab, when they are in your group, alive and within 'Auto Follow within'. It also lets the `-forcefollow` command start that follow. When off, neither does anything.<br>*It will not follow a character who is dead or nearly dead.* | off |
 | **Do not auto-level Mercenary** | **Not active yet.**  | off |
 | **Disable OgreFly** | When following, the bot normally takes off, flies at the leader's height and lands with them. Tick this to keep following on the ground only. Swimming to the leader's depth still works. | off |
 | **Skip cutscenes** | **Not active yet.**  | off |
@@ -636,8 +635,8 @@ Setup holds the numbers that tune when the bot fights: how hurt a mob must be be
 | **Targets for Smart AEs** | How many mobs must be in range before the bot uses a point-blank or targeted area attack, while 'AE Smart CAs' on the Settings tab is ticked.<br>*A Cast Stack entry's own '# of mobs' overrides this.* | blank (counts as 2) |
 | **Targets for Smart Encounters** | How many mobs the linked encounter must have before the bot uses an encounter-wide attack, while 'Encounter Smart CAs' on the Settings tab is ticked. A single mob never qualifies.<br>*A Cast Stack entry's own '# of mobs' overrides this; a '# of mobs' of 1 always allows it.* | blank (counts as 2) |
 | **Melee move when less (40)** | The move options on Settings only move you when the mob is closer than this distance. 'Face mob in combat' only turns you toward mobs within this distance too. | blank (counts as 40) |
-| **Auto Follow:** | The group member the `-forcefollow` command follows, using the game's own follow. It only works while 'Auto Follow Mode' on Settings is ticked, and only if that person is in your group and alive.<br>*The list shows your group and raid members. Nothing follows automatically; the command has to be sent.* | empty |
-| **Auto Follow within (35):** | **Not active yet.** It is meant to be the distance for auto follow. | blank |
+| **Auto Follow:** | Who Auto Follow follows: a group member's name, or an alias such as @Tank (your custom * aliases are listed while Enable Aliases on Settings is ticked). With 'Auto Follow Mode' on Settings ticked, the bot starts the game's own /follow on them whenever you are out of combat with nothing to attack, not already following anyone, and they are alive and closer than 'Auto Follow within'. The `-forcefollow` command starts it straight away.<br>*The list shows your group and raid members, the built-in @ aliases that name somebody right now, and your custom * aliases while Enable Aliases is ticked.* | empty |
+| **Auto Follow within (35):** | Auto Follow only starts while the person is closer than this, measured flat (height left out). Blank means 35. 0 never starts it on its own; `-forcefollow` ignores this distance. | blank (35) |
 
 
 
@@ -656,7 +655,7 @@ Setup holds the numbers that tune when the bot fights: how hurt a mob must be be
 
 - All the percentage boxes compare the MOB's health (or yours) to the number: 'at or below' for the mob boxes, 'at or above' for your own health and power.
 - 'Attack NPC with 100% HP' on the Settings tab switches off the attack and pet mob-health boxes in one go. 'Ignore NPC HP to move' on Settings does the same for the move box.
-- Auto Follow does nothing on its own. It only sets who the `-forcefollow` command follows, and only when 'Auto Follow Mode' on Settings is ticked.
+- Auto Follow starts only out of combat with nothing to attack, and only when you are not already following someone. Once the game's /follow is running, the bot leaves it to the game.
 - The OgreConsole boxes about sound and opening the console are read on the session that RECEIVES the broadcast tell, not on the character that got the tell.
 
 
@@ -666,13 +665,13 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogre
 
 # Ability Embargo
 
-Not active yet in the new bot. You can build and save the list, but nothing acts on it. The tab is for abilities that only one of your characters should use at a time. When this character casts an ability on the list, the bot will tell your other characters not to cast that same ability for a set time (the Duration, or the ability's own duration if left blank). To build the list, click an ability on the left, set the options in the form under the Ability Embargo List, then press Add. Click a row on the right to change it, double-click a row to switch it off, drag a row to move it, and use the X to remove it.
+The tab is for abilities that only one of your characters should use at a time. When this character casts an ability on the list, it tells your other characters not to cast that same ability for a set time (the Duration, or the ability's own duration if left blank). It works while 'Enable Ability Embargo' is ticked on the Settings tab, on the character that casts it and on the ones that should hold off. To build the list, click an ability on the left, set the options in the form under the Ability Embargo List, then press Add. Click a row on the right to change it, double-click a row to switch it off, drag a row to move it, and use the X to remove it.
 
 ## Ability Embargo
 
 | Option | What it does | Default |
 |---|---|---|
-| **Full Ability list** | **Not active yet.** All of this character's abilities. Click one to put it in the form under the Ability Embargo List, or double-click it to add it straight to the list with no options. The search box above filters it.<br>*The tab is not active yet, so nothing on the list is used.* | your abilities |
+| **Full Ability list** | All of this character's abilities. Click one to put it in the form under the Ability Embargo List, or double-click it to add it straight to the list with no options. The search box above filters it. | your abilities |
 
 
 
@@ -680,8 +679,8 @@ Not active yet in the new bot. You can build and save the list, but nothing acts
 
 | Option | What it does | Default |
 |---|---|---|
-| **Globally Mute messages** | **Not active yet.** It will send every embargo message from this tab without showing it in OgreConsole, as if every row had Hide from OgreConsole ticked.<br>*Some Instance Controller setups tick it for you.* | off |
-| **Ability Embargo List** | **Not active yet.** Your saved embargo rows, each with its duration and option letters (IRC, G, Me, I, H). Click a row to load it into the form below and change it, double-click to switch it off, drag to reorder, X to remove. | empty |
+| **Globally Mute messages** | Sends every embargo from this tab without showing it in OgreConsole, as if every row had Hide from OgreConsole ticked. Nothing is stopped: the embargo still goes out, over IRC too if the row has IRC ticked.<br>*Some Instance Controller setups tick it for you.* | off |
+| **Ability Embargo List** | The abilities that are embargoed when you cast them, each with its Duration and options. When you cast an ability on this list, the other characters hold off that ability for its Duration. Click a row to load it into the form below and change it, double-click to switch it off, drag to reorder, X to remove. | empty |
 
 
 
@@ -690,12 +689,14 @@ Not active yet in the new bot. You can build and save the list, but nothing acts
 | Control | What it does | Default |
 |---|---|---|
 | **Ability name** | The ability for the new row. Clicking an ability on the left fills it in, or you can type and pick from the suggestions. |  |
-| **Duration** | **Not active yet.** How many seconds your other characters should hold off. Leave it blank to use the ability's own duration. | blank |
-| **IRC** | **Not active yet.** Will also send the embargo over IRC, to characters on other computers. | off |
-| **Group** | **Not active yet.** Will send the embargo only to characters in this character's group. | off |
-| **Me** | **Not active yet.** Will stop only this character from recasting the ability for the duration. Nothing is sent to anyone else. | off |
-| **Incl. caster** | **Not active yet.** Will add who cast it and the ability name to the embargo message. | off |
-| **Hide from OgreConsole** | **Not active yet.** Will send the embargo message without showing it in OgreConsole. It still reaches your other characters. | off |
+| **Duration** | How many seconds your other characters should hold off. Leave it blank to use the ability's own duration. | blank |
+| **Add** | Seconds added to the duration, for example to hold off a little longer than the ability's own duration. | blank |
+| **Subtract** | Seconds taken off the duration, for example so the next character is ready just before the first one's runs out. | blank |
+| **IRC** | Also sends the embargo over IRC, to characters on other computers. | off |
+| **Group** | Sends the embargo only to characters in this character's group. | off |
+| **Me** | Stops only this character from recasting the ability for the duration. Nothing is sent to anyone else. | off |
+| **Incl. caster** | Adds who cast it and the ability's name to the end of the embargo line, so anyone reading OgreConsole or IRC can see where it came from. | off |
+| **Hide from OgreConsole** | Sends the embargo without showing it in OgreConsole. It still reaches your other characters. | off |
 | **Add** | Adds the ability in the form, with the Duration and ticks you set, to the Ability Embargo List. Pressing Enter in a box does the same. After you click a row it becomes Update and saves your changes to that row instead (Cancel backs out). |  |
 | **Clear Options** | Unticks every option in the form. Ticks otherwise carry over to the next Add. The Duration box is left as it is. |  |
 
@@ -703,8 +704,11 @@ Not active yet in the new bot. You can build and save the list, but nothing acts
 
 ## Good to know
 
-- This tab does nothing yet in the new bot. The 'Enable Ability Embargo' box on the Settings tab does work: an embargo is only followed while it is ticked.
-- The embargo command itself already works: the -AbilityEmbargo command (from a script or OgreConsole) stops the named characters casting an ability by its ID for a number of seconds, on characters with 'Enable Ability Embargo' ticked. Only the automatic 'I cast it, so the rest of you hold off' step is missing.
+- Nothing is sent unless 'Enable Ability Embargo' (Settings tab) is ticked on the character that casts the ability. The characters that should hold off need it ticked too, or they ignore the embargo.
+- A row is matched by the ability, whatever its rank, and the embargo is sent by name, so a character with a different rank of it holds off too.
+- An instant ability sends when it is cast. An ability with a cast time sends when the cast bar shows it, so a cast that never started sends nothing. If something makes it instant, so there is no cast bar, it sends once the ability is seen on cooldown, up to 3 seconds later. Casting a listed ability by hand counts too, if it shows on the cast bar.
+- If a row has no Duration and the ability has none of its own (some last until cancelled), nothing is sent and the console says so. Give the row a Duration.
+- The embargo is sent with the -AbilityEmbargo command, so you can watch it go out in OgreConsole (unless Hide from OgreConsole or Globally Mute is ticked). The character that cast the ability gets it too, as in the old bot. You can also send one yourself: -AbilityEmbargo takes an ability name or an ID.
 - Loading a profile clears every ability and item embargo still running on that character.
 
 

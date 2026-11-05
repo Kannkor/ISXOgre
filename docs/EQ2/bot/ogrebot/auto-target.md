@@ -26,7 +26,7 @@ Auto Target lets the bot pick its own targets from a list, instead of assisting 
 | Option | What it does | Default |
 |---|---|---|
 | **Scan Radius:** | How far Auto Target looks for targets, measured straight-line around you. | 0 (counts as 50) |
-| **Rescan time (MS):** | Not used by the new bot. Auto Target re-checks every 0.25 seconds whatever this says - a fixed rate, fast enough for every fight. | 0 |
+| **Rescan time (MS):** | **Does nothing, by design.** Auto Target re-checks every 0.25 seconds whatever this says - a fixed rate, fast enough for every fight. | 0 |
 | **Scan Height:** | Only mobs whose height differs from yours by less than this are considered, so mobs on a floor above or below are ignored. | 0 (counts as 5) |
 | **Auto-Target List Editor** | The editor below: build rows on the left, the working list and this zone's saved lists on the right, and the Balance generator underneath. | empty |
 

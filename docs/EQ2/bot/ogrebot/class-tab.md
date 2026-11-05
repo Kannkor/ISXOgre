@@ -90,23 +90,6 @@ The class tab is named after your class (Coercer, Dirge, Channeler, and so on) a
 
 
 
-## Inquisitor
-
-[![Inquisitor tab](../assets/ogrebot-classes/class-inquisitor.png)](../assets/ogrebot-classes/class-inquisitor.png "Click for full size")
-
-| Option | What it does | Default |
-|---|---|---|
-| **Verdict On Epics @** | **Not active yet.** It is meant to use Verdict on epic mobs when they reach the health % typed in the box below. | off |
-| **(% box beside it)** | **Not active yet.** The mob health % for 'Verdict On Epics @'. | empty |
-| **Verdict On Epic Named @** | **Not active yet.** It is meant to use Verdict on named epic mobs when they reach the health % typed in the box below. | off |
-| **(% box beside it)** | **Not active yet.** The mob health % for 'Verdict On Epic Named @'. | empty |
-| **Verdict On Heroics @** | **Not active yet.** It is meant to use Verdict on heroic mobs when they reach the health % typed in the box below. | off |
-| **(% box beside it)** | **Not active yet.** The mob health % for 'Verdict On Heroics @'. | empty |
-| **Verdict On Heroic Named @** | **Not active yet.** It is meant to use Verdict on named heroic mobs when they reach the health % typed in the box below. | off |
-| **(% box beside it)** | **Not active yet.** The mob health % for 'Verdict On Heroic Named @'. | empty |
-
-
-
 ## Mystic
 
 [![Mystic tab](../assets/ogrebot-classes/class-mystic.png)](../assets/ogrebot-classes/class-mystic.png "Click for full size")

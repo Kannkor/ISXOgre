@@ -20,7 +20,7 @@ Tags let one bot's cast switch other abilities off or on for a while, across all
 
 | Control | What it does | Default |
 |---|---|---|
-| **Globally mute all tag messages** | **Not active yet.** In the old bot it hid the tag lines in OgreConsole. | off |
+| **Globally mute all tag messages** | Sends every tag without showing it in OgreConsole, as if every row had Hide from OgreConsole ticked. Nothing is stopped: the tag still goes out, over IRC too if the row has IRC ticked. | off |
 
 
 
@@ -38,11 +38,11 @@ Tags let one bot's cast switch other abilities off or on for a while, across all
 | Control | What it does | Default |
 |---|---|---|
 | **Duration** | How many seconds the tag stays on after the ability is cast. Leave it blank to use the ability's own duration.<br>*Items need a number here.* | blank (the ability's own duration) |
-| **IRC** | **Not active yet.** In the old bot it also sent the tag over IRC. | off |
+| **IRC** | Also sends the tag over IRC, to characters on other computers. | off |
 | **Group** | The tag only turns on for bots in the caster's own group, instead of every bot in your relay group. | off |
 | **Me** | The tag only turns on for the character who cast the ability. Your other bots are not told. | off |
-| **Incl. caster** | **Not active yet.** In the old bot it added the caster's name and the ability to the tag message. | off |
-| **Hide from OgreConsole** | **Not active yet.** In the old bot it kept the tag message out of OgreConsole. | off |
+| **Incl. caster** | Adds who cast it and what they cast to the end of the tag line, so anyone reading OgreConsole or IRC can see where it came from. | off |
+| **Hide from OgreConsole** | Sends the tag without showing it in OgreConsole. It still reaches your other characters. | off |
 | **Maintained** | The tag stays on while the caster still has the buff in their maintained list, and turns off for every bot as soon as it drops. The duration is then only a safety limit.<br>*Any rank of the ability counts. For an item it is the buff the item puts on you when you use it.* | off |
 | **Add** | Adds the picked tag name, with the duration and ticks you set, to the Tags List. While you are editing a row this reads Update and saves your changes. |  |
 | **Clear Options** | Unticks every option. Ticks otherwise carry over to the next tag you add. |  |
@@ -55,7 +55,8 @@ Tags let one bot's cast switch other abilities off or on for a while, across all
 - A tag used on the Cast Stack but missing from the Tags List (or typed differently) never turns on. The match ignores upper and lower case.
 - Leave Duration blank to use the ability's own duration. An item has no duration of its own, so an item that sets a tag must have a Duration here or the tag does not turn on.
 - Two bots can hold the same tag at once; it stays on until the last one runs out.
-- Only three options change anything: Group, Me and Maintained. IRC, Incl. caster and Hide from OgreConsole are shown for your information - the bot saves them but does not act on them (by design).
+- A tag goes out with the -AbilityTag command, so you can watch it in OgreConsole (unless Hide from OgreConsole or Globally mute is ticked).
+- A Maintained tag sent over IRC stays on for its full Duration on your other PCs: only your own PC hears when the buff drops.
 - The ticks stay ticked for the next tag you add. Use Clear Options to untick them.
 - Press Save at the top to keep your changes for next time.
 - Changes to the Tags List are used straight away. Press Save at the top to keep them for next time.

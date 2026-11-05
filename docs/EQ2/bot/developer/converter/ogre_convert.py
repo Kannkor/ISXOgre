@@ -45,7 +45,9 @@ WHAT `fix` REWRITES - and nothing else:
   * a Classic framework variable renamed to a plain member: `${OgreRelayGroup}` (and `${OgreRelayGroup.Length}`
     etc.) becomes `${ISXOgreEQ2.Auth.RelayGroup}` - the same text under its new name.
 Everything else - argument reorders, changed arguments, data-file moves, not-ported names - is left in
-place and listed as a TO-DO with the map's how-to-fix line. A person (or Claude, following the
+place and listed as a TO-DO with the map's how-to-fix line. So is a FUNCTION-FORM call
+(`call OgreBotAPI.DestroyItem "Rusty Key" 3`): the new bot has no function to call, so its to-do says to write
+the new form with the call's arguments inside its brackets. A person (or Claude, following the
 "Converting your scripts" page of the OgreBot docs) does those.
 
 WHAT `sweep` CALLS UNRESOLVED (any of these -> exit 1):
@@ -564,6 +566,20 @@ def cmd_lookup(M, names):
 # ------------------------------------------------------------------ fix (mechanical pass)
 FW_DONE = ' with `%s` as the for-who'
 
+def function_form_todo(nf, shape):
+    """The to-do's first words for a FUNCTION-FORM call - `call OgreBotAPI.DestroyItem "Rusty Key" 3` (F-395).
+    `fix` never rewrites one: the new bot has no function to `call`, and the arguments after the name are the Classic
+    FUNCTION's, space-separated (a Classic function's parameters are not always its method's: DestroyItem's function
+    has no for-who, OpenAndBuyFromMerchant's does), so the new form's argument count proves nothing about the call. The
+    writer moves them into the new form's brackets. A method is written as a call, a member as a `${...}` read; a new
+    form that takes a for-who first (`[fw, ...]`) gets one unless the call already passes it."""
+    lead = 'a function-form call (`call ...`) is never rewritten - the new bot has no function to call. '
+    if not re.match(r'^[A-Za-z_][A-Za-z0-9_]*(?:[.:][A-Za-z0-9_]+)+$', nf or ''): return lead
+    form = ('`%s[...]`' if ':' in nf else '`${%s[...]}`') % nf
+    fw = bool(re.match(r'^\[\s*(?:fw|forwho)\b', shape or '', re.I))
+    return lead + 'Write %s in its place, with this call\'s arguments inside the brackets, comma-separated%s. ' % (
+        form, ' - the for-who first (`all` unless the call already passes one)' if fw else '')
+
 def with_forwho(fwi, after):
     """THE for-who rule of a rewrite: the map row's `forWhoInsert` says what a converted call must gain - the map's
     generator decides it once, from the two signatures. `after` is the line just past the old name.
@@ -676,7 +692,10 @@ def fix_line(M, line, n, todo, own=frozenset()):
         nsep = ':' if ':' in nf.split('OgreBotAPI', 1)[-1] else '.'
         safe = nf.startswith('OgreBotAPI') and not m.group(1) and sep == nsep
         has_args = line[m.end():m.end() + 1] == '['
-        args_ok = (not has_args) or row.get('argsCheck') == 'same-count'
+        # 'compatible' too: the old call passes what the new form needs and the arguments are kept exactly as written -
+        # CancelCasting[fw, Args...] -> Abilities:CancelCasting[fw, except..., -flags]. A profile's command text is moved
+        # to the new form by this same rule when the bot loads it.
+        args_ok = (not has_args) or row.get('argsCheck') in ('same-count', 'compatible')
         # the map proves the two signatures line up, not that THIS call passes what the new form needs - a call
         # that leaves off (or blanks) an argument the new form requires is the writer's to finish
         need = row.get('argsNeeded') or 0
@@ -694,7 +713,12 @@ def fix_line(M, line, n, todo, own=frozenset()):
             out.append(line[pos:m.start()]); out.append(nf + ins); pos = m.end() + used
             todo.append((n, old, 'DONE', '-> %s' % nf + (FW_DONE % fwi['value'] if ins else ''))); continue
         why = row.get('howToFix') or ''
-        if st in ('moved', 'renamed', 'signature') and not args_ok:
+        if st in ('moved', 'renamed', 'signature') and m.group(1):
+            # a FUNCTION-FORM call (`call OgreBotAPI.DestroyItem "X" 3`): never rewritten (`safe`), and its arguments are
+            # the Classic function's - the counts below do not apply (they read "needs 2 argument(s) ... leaves one off"
+            # on every row, F-395)
+            why = function_form_todo(nf, row.get('newSignature')) + why
+        elif st in ('moved', 'renamed', 'signature') and not args_ok:
             why = 'check the arguments first - the map cannot prove they line up. ' + why
         elif st in ('moved', 'renamed', 'signature') and short:
             why = ('check the arguments first - the new form needs %d argument(s) here and this call leaves one off or blank. '

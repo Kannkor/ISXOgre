@@ -232,6 +232,78 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.11.05.001 {#r2026-11-05-001}
+
+*Thursday, November 5, 2026 at 12:27 PM EST*
+
+- **New** · Bot: **The Item Embargo tab now works.** When one of your characters uses an item on the Item Embargo list, it now tells your other characters to hold off that item for the row's Duration, with Group, Me, IRC, Hide from OgreConsole and Globally Mute working as in the old bot. Enable Item Embargo on the Settings tab has to be ticked on the character that uses the item and on the ones that should hold off. A row without a Duration sends nothing and says so, and the Include caster option no longer does anything.
+- **New** · Setup: **Migration now brings your saved AutoTarget lists.** The Migration Assistant has a new item that copies the lists you saved per zone in OldBot. It runs by itself the next time the bot loads. A list you already have in the new bot is kept, and your OldBot files are not changed.
+- **Changed** · Bot: **Enable Limited Raid Setups is gone from Settings.** The Enable Limited Raid Setups box is removed; it did nothing in this bot. Enable Raid Setups and Enable Heroic Setups are the boxes that turn encounter setups on or off.
+- **Changed** · Bot: **HO picks read the Only if boxes the same way as the Cast Stack.** The Only if you are not tanking and Only if a fighter is not tanking boxes now mean the same thing for HO picks as for the Cast Stack. HO picks used to read them the other way round.
+- **Changed** · Bot: **HUDs tab - Group Information and Raid Information, each with its own settings.** Group Distance and Raid Distance are now Group Information and Raid Information, and the group has its own Hide names, Hide casting and Name width. Tick the new Only in a raid box and, outside a raid, your group shows only with Display group information, using its own settings; unticked, the raid settings cover your group as before. Every number box on the tab shows the value it uses while blank.
+- **Changed** · Bot: **Inquisitor tab - the Verdict options are gone, use the Cast Stack.** The four Verdict options on the Inquisitor tab are removed; they did nothing in this bot. Verdict is now done in the Cast Stack: add it as an entry, set NPC HP < to the health you want, and tick Named NPCs Only if it is for named mobs. Any values saved for the old boxes are ignored.
+- **Changed** · Bot: **Refine checks each item before it refines it.** ogre refine now goes through the same safety check as im destroy and im tse, and refining works as before. Before each refine it reads the item again and prints one REFINE line naming it, so it never refines something that moved in your bags. If the stack is gone it moves on to the next item.
+- **Changed** · Bot: **Status lines and the Instance Controller's folders are tidier.** Status and startup lines no longer print internal reference numbers or folder names from our own development. The Instance Controller window now lists only the content folders you can use. If the Codex tabs have no API token yet, the message now tells you where to set it: open a Codex tab in OgreBot and click Setup API Token.
+- **Changed** · Bot: **Two ability-query calls have names that say what they do.** `${OgreBotAPI.Abilities.TypeID[...]}` is now `${OgreBotAPI.Abilities.FindCastableID[...]}`: it finds an ability you can cast right now that matches the query and gives back its id, without casting it. `OgreBotAPI.Abilities:CastVia[...]` is now `OgreBotAPI.Abilities:FindAndCast[...]`: the same search, then it casts the winner. The arguments are the same, and the old names are gone, so change them in your scripts.
+- **Changed** · Bot: **Unticking Enable Raid or Heroic Setups mid-fight stops the fight logic at once.** Turn the box off at any point to take over: everything the fight was doing stops straight away, including its movement. Tick it again and the bot carries on watching the same fight, without running the setup again. If a setup ran, its clean-up still happens when the mob dies, even with the box off; before, that clean-up waited until you ticked it again.
+- **Changed** · Windows: **Reset no longer forgets a window's saved spot.** Reset, on a window's right-click menu or in Reset UI Windows, still puts the window back at its starting spot, size and scale and unlocks it, but it no longer saves that. Close the window or log out and back in and it comes back where you saved it. To keep the reset spot, use Save Position.
+- **Changed** · Console: **Console command descriptions rewritten in plain words.** The descriptions in the OgreConsole command list were cleaned up: 35 texts now say what the command actually does, including some that were copied from another command, out of date or unfinished. The commands themselves did not change.
+- **Changed** · Console: **The "target bugged" line no longer shows on the Errors tab.** When the game shows a target name with no real target behind it, the bot clears it by itself, so there is nothing for you to do. That line now goes to the regular console instead of OgreConsole's Errors tab.
+- **Changed** · Other: **Classic's Mount, FastTravelOld, Report_Back and ascension calls are marked removed.** Classic's `Mount`, `FastTravelOld`, `Report_Back`, the five ascension combo calls and `GuidedAscension` were listed as not ported yet; they are removed on purpose, and each row says what to write instead. Classic's `Get_AbilityTypeID`, `Get_AbilityVia` and `CastAbility_Via` now point at `FindCastableID` and `FindAndCast`.
+- **Fixed** · Bot: **-AcceptQuest with a name shares the quest again.** A group leader with auto share on now shares the named quest two seconds after accepting it.
+- **Fixed** · Bot: **-GetToConcentration stops as soon as it reaches the target.** It cancelled one buff per point over the target, which could drop far more than needed. It now counts what each buff costs.
+- **Fixed** · Bot: **-RaidInvite sends a raid invite.** The console row was sending a group invite. It now reaches the raid verb, and -Invite loses a param nothing read.
+- **Fixed** · Bot: **A bare console command now means you, the sender.** Left-out names and locations on a command now fill from the box that sent it, not each box that receives it. So a bare -Come2Me brings everyone to you, and a formation rings your spot. Commands where a default made no sense, such as -Tell, the Travel rows and the alias rows, now need the argument and print one line without it.
+- **Fixed** · Bot: **A cast stack Recast Delay over 10 seconds lasts its full length.** A Recast Delay longer than 10 seconds was forgotten the first time anything else cast after those 10 seconds, which you only saw on a cast that failed. Now the delay lasts as long as you set it, whether the attempt worked or not. Entries without a Recast Delay are unchanged.
+- **Fixed** · Bot: **A cast that skips the cast bar now counts.** If a proc makes an ability instant, the cast bar never shows it, so the Announce and Ability Embargo tabs missed it. They now pick it up once the ability is seen on cooldown, up to 3 seconds later.
+- **Fixed** · Bot: **A misspelt section name in a fight file is reported when it loads.** If an encounter (fight) file has a section name the bot does not know, such as "setups" or "OnPulse" for "onPulse", the console now prints one warning for that file naming each one, with the right spelling when only the capitals are wrong. Before, that whole section was skipped without a word; the file still loads, and a name starting with _ is a note and is never reported.
+- **Fixed** · Bot: **A misspelt section name in a Hide Effects, Hot Zones or travel file is reported.** If one of these files has a section name the bot does not know, such as "Groups" for "groups", the console now prints one warning for that file naming it, where before the section was skipped without a word; the file still loads, and a name starting with _ is a note. A file still using the old "nomerge" spelling, here or in a fight file, now says "file WARNING" instead of "skipped", because it does load (merged, not replaced).
+- **Fixed** · Bot: **A running inventory, merchant or collection job stops cleanly when you zone.** Inventory, quiver, merchant, collection and merchant craft runs could freeze when the world went away under them, because their stop never got to run. Each now stops at the zone or camp and says so.
+- **Fixed** · Bot: **A typo in -ExitClient keeps the countdown.** A value that is not a whole number of at least 1 used to close the client at once. It now uses the normal 30 seconds.
+- **Fixed** · Bot: **Ability Efficiency counts the instant hit on "instantly and every N seconds".** `ogre ae` left out the first hit of abilities that damage "instantly and every N seconds", so a 24-second line ticking every 4 seconds counted 6 hits instead of 7. It now counts it, so those abilities score higher than they did in OldBot, for example Bloody Reminder, Darksong Blade, Invective, Leg Bite, Plague and Sever. Every other ability's number is unchanged.
+- **Fixed** · Bot: **Ability Embargo now works.** Casting an ability on the Ability Embargo tab now tells your other characters to hold off it, over IRC too if the row asks. It matches the whole ability line, so a different rank still counts, and Add and Subtract boxes are back on the form. On both embargo tabs, Globally Mute only hides the message, and ticking the caster box shows who sent it and what.
+- **Fixed** · Bot: **Auto Follow starts following on its own, and its list offers aliases again.** With Auto Follow Mode ticked, the bot now starts the game's /follow on the Auto Follow name by itself: out of combat, with nothing to attack, not already following, and the person alive and within Auto Follow within (blank = 35). Before, only the -forcefollow command did it. The Auto Follow list offers the built-in @ aliases such as @Tank again, plus your custom * aliases while Enable Aliases is ticked.
+- **Fixed** · Bot: **CancelCasting casts again with -CastAbility and -CastAbilityOnPlayer.** OgreBotAPI.Abilities:CancelCasting now honours -CastAbility, -CastAbilityOnPlayer and -CastHOAbilityIconID, as the old bot did: it casts what you name, then cancels what is on the cast bar. Before, a line using them did nothing. Lines written for the old bot need the new form, OgreBotAPI.Abilities:CancelCasting.
+- **Fixed** · Bot: **Cast Stack - a Combat entry can target any group or raid member again.** With an entry's Type set to Combat, the Target list left out every group and raid member, so a raid-wide combat spell such as Iceshield could only be aimed at yourself or an alias. The members are listed again, as in OldBot; only @Group, @Raid and @NotSelfGroup stay off the list for Combat.
+- **Fixed** · Bot: **Cast Stack - cure items can cure the whole group, and editing one keeps its # of ppl.** An item entry's fields now follow its Type: a cure item shows '# of ppl' instead of HP / Mana %, which only heals show. Set '# of ppl' for an item that cures the whole group, such as Penitent's Absolution: it is used, without targeting anyone, once that many group members need a cure; leave it blank for an item that cures one person. Before, the field was hidden and saving the entry deleted a # that came from an OldBot profile.
+- **Fixed** · Bot: **Casting on a player checks first again.** -CastAbilityOnPlayer and OgreBotAPI.Abilities:CastOnPlayer sent the cast without checking it, so an out-of-range or unready ability was sent anyway. They now check, as the old bot did, that the ability is ready, you have the power, the player is in range and in sight, and you are not moving when it cannot be cast on the move. CastOnPlayerNoChecks still skips the checks.
+- **Fixed** · Bot: **Commands that need an argument now say so.** A bare -Cast_Interrupt, the four HO icon rows, AutoTarget:Suppress and :Release with no reason, Options:LoadProfile with no name, and the ApplyVerb family with a blank actor or verb each print one line. Before, they did nothing, or acted on the wrong thing: HO icon 0 is a real icon. LoadProfile no longer takes a third argument.
+- **Fixed** · Bot: **Consume Status Ingots messages show on all your characters.** Consume Status Ingots now sends its messages to all your characters, as the old bot did: "Failed to consume ..., skipping." when it gives up on an item, and "Finished consuming Ingots." at the end of every run. A run that reached its limit of tries used to end without it; now it also says some are left. Like the old bot, it now stops if the character loses its target.
+- **Fixed** · Bot: **Consume Status Tokens works through the whole amount, as the old bot did.** Consume Status Tokens no longer gives up after two tries that use nothing: like the old bot, it uses every Status Token and then every Status Coin until none are left or the amount you asked for is spent, and every try counts toward that amount. One run makes at most 250 tries and says so if any are left. It now always sends its finished message.
+- **Fixed** · Bot: **DestroyItem means what it meant in the old bot.** OgreBotAPI.Inventory:DestroyItem was the destroy without the charge check, the opposite of the old bot's DestroyItem. Now it checks charges as the old one did, and the destroy without checks is Inventory:DestroyItemNoChecks. DestroyItemChecked is gone, and the -DestroyItem console commands work as before.
+- **Fixed** · Bot: **Disable Auto Setups works.** The Disable Auto Setups box on Settings did nothing in this bot. It now stops encounter setups starting on their own in raid and heroic zones, as it did in OldBot. A setup you start yourself still runs, and a fight already set up carries on.
+- **Fixed** · Bot: **Group and raid HUD casts line up again.** The group and raid HUD printed each member's target at full length, so the casting text after it started at a different place on every row. The name and target are now fixed-width columns, six letters as in the old bot, so every row's cast lines up; the HUDs tab's new Name width box sets how many letters.
+- **Fixed** · Bot: **Item jobs running together keep their own limits.** Two jobs that use up items, like im destroy and ogre refine, can now run at the same time and each keeps its own limits and end count. Before, the second job took over the first one's limits, so an im destroy cap could be lost. ogre refine also sees a used-up stack when another stack of the same name is in your bags, so it no longer fires one extra Refine or prints the yellow REFINE line.
+- **Fixed** · Bot: **LetsGo now clears everything a fight left behind.** As well as what it cleared before, LetsGo now clears script holds on auto target, the HO icon allow and disable lists, the per-mob no-offensive list, the threat ignore list and the no-bow switch. Closing the bot clears the per-mob list and the no-bow switch too. Combat:SetNoReqBowAbilities now really skips abilities that need a bow, so the fights that use it work.
+- **Fixed** · Bot: **Low gear warning is back.** When you die, OgreBot again checks your gear and tells every OgreConsole when it reaches 30%, 20%, 10% or 0%, and dings at 30% or under. Checking gear by hand reports to OgreConsole too, not only to the InnerSpace console.
+- **Fixed** · Bot: **Messages and tells keep their commas.** Comms:Message, Comms:Broadcast and Comms:SendTell no longer cut the text at an unquoted comma. Comms:Emit and Comms:Query now take their JSON last, so it arrives whole: Emit is [fw,name,cfw,dest,ev,dataJson] and Query is [fw,kind,cfw,timeoutMs,paramsJson]. A blank Emit name or Query kind prints a line.
+- **Fixed** · Bot: **NearestOfClass finds the closest, and FlagNextPerson rotates.** Roster.NearestOfClass returned the first member in range; it now returns the closest. FlagNextPerson now goes round the group in an order every box agrees on, can filter by archetype or base class, and in a raid can reach slot 24.
+- **Fixed** · Bot: **Old DestroyItem calls keep their charge check.** The old bot's `OgreBotAPI:DestroyItem[who,item,charges]` only destroys an item with no charges or exactly that many. The converter and the coming-from-classic pages sent it to `OgreBotAPI.Inventory:DestroyItem`, which has no charge check, and dropped the charges. They now send it to `OgreBotAPI.Inventory:DestroyItemChecked` with the charges kept, and an old profile's line moves there too when it loads (`DestroyItem_NoChecks` still becomes `Inventory:DestroyItem`).
+- **Fixed** · Bot: **Overseer no longer picks a quest the daily allowance can't cover.** Right after a start, the game's allowance label could still show the old number, which put the used quest back and sent the run to a quest the game then refused. The count now only goes down during a run. A start the game did not take is named in the end-of-run line ("1 did not start") instead of being counted as started.
+- **Fixed** · Bot: **Profile lines that call the old bot's OgreBotAPI are moved to the new form.** Old OgreBotAPI calls in a profile from the old bot, such as `OgreBotAPI:CancelCasting[...]` in Load lines, event code or console Announce rows, did nothing in the new bot. When the profile loads, each one now changes to its new form, `OgreBotAPI.Abilities:CancelCasting[...]`, arguments as written, and the profile saves. The console names each line changed; one that cannot be changed safely stays as written and is listed in the log.
+- **Fixed** · Bot: **Renaming an alias keeps the row as it was.** ForWho:RenameAlias now renames the row where it stands, keeping its place in the list and its no-raid and disabled settings. A name already taken, or an alias that does not exist, gets a line and changes nothing.
+- **Fixed** · Bot: **ResetFor_Intercept puts back what SetUpFor_Intercept turned off.** Intercept used to stay off until ticked by hand. Reset now turns on exactly what Setup turned off, so an entry you had off stays off. The Guardian entry is touched on Guardians only.
+- **Fixed** · Bot: **Scripts can see a pack pony run.** OgreBotAPI.Inventory.PackPonyRunning always said FALSE. It now says TRUE while a pack pony run is in progress, whether the Inventory tab, a task or a script started it.
+- **Fixed** · Bot: **Several reads and small verbs now answer correctly.** Combat.IsReady goes FALSE when the bot closes, Vars names ignore case as they always did, spawn and despawn events match any case, ranger Unfetter counts as long as the ranger owns it, AutoTarget.SavedCount and SavedName load the current zone first, Comms.Query_Last only tracks your own queries, ShowWiki says so when no quest is open, and a bare MCP:Send no longer re-sends the last button.
+- **Fixed** · Bot: **Tags now show in OgreConsole and can go over IRC.** A tag now goes out as a line you can read in OgreConsole. The IRC, Hide from OgreConsole and Globally mute options on the Tags tab now work, and the caster box adds who cast it. A Maintained tag sent over IRC stays on for its full Duration on your other PCs.
+- **Fixed** · Bot: **Tags with a blank Duration and Maintained tags work properly.** A tag with a blank Duration now uses the ability's own duration, as the tab says. A Maintained tag could also let go about a second after the cast, before the buff had landed, and now waits for it.
+- **Fixed** · Bot: **Text that only starts with a # keeps its first letters.** Removing a colour code now checks that it really is one, so a name like "#1 Dungeon Entrance" stays whole. Every colour of code is removed from zone names, not only green.
+- **Fixed** · Bot: **The Cast Stack now honours the threat boxes.** Ticking Disabled under Threat Position Increases, Force Targets or Threat Increase, or ticking No Threat Position Decreases or No Threat Decrease, now stops the Cast Stack casting those abilities. Those boxes only covered HO picks and script requests before, so a rotation carried on casting them.
+- **Fixed** · Bot: **The marked column in the stats spew works again.** The marked value had moved, so the stats spew always showed it as off. It reads the right place now.
+- **Fixed** · Bot: **The Only if boxes now work in the Cast Stack.** Under Threat Position Increases, Force Targets and Threat Increase, the Only if you are not tanking and Only if a fighter is not tanking boxes now apply to the Cast Stack. For a tank swap, a tank who must not hold the mob uses -ThreatFighterIgnoreList_Add so the others stop counting them as tanking and can taunt off them.
+- **Fixed** · Bot: **The raid HUD shows your group at the raid X and Y outside a raid.** With Display raid information on and no raid, your group's lines were drawn at the Group Information X and Y, which most people never set, so they landed at 300 instead of where you put the raid lines. They now go at the raid X, Y and line spacing, as they did in OldBot. Tick the new Only in a raid box to keep raid and group apart.
+- **Fixed** · Bot: **The word me now means you in every name or actor argument.** Position reads, Assist anchors, invites and the rest now all read me as your own character, and Mentor takes an @alias. Invite, RaidInvite, MakeLeader and Mentor print one line when the name is missing instead of doing nothing.
+- **Fixed** · Windows: **You can pick a zone for Force reset.** On the Zone Reset window, clicking a queued zone now selects it for Force reset. Each queued zone has its own x to remove it. A click used to remove the zone, and selecting one took a ctrl-click that nothing on screen mentioned.
+- **Fixed** · Console: **ApplyVerb finds actors by type again, and says when nothing matches.** ApplyVerb and ApplyVerbQueued now take a type word as well as a name, as they did in OldBot: npc, namednpc, nokillnpc, pc, special, chest, resource or door picks the nearest actor of that type. Before, `-ApplyVerb all NoKillNPC "Turn Left"` searched for a name and quietly did nothing. When nothing matches, a console line now says so.
+- **Fixed** · Setup: **MCP migration keeps OldBot's coloured text as text.** OldBot's button colours were text colours, but the migration turned them into solid button backgrounds. New migrations now carry them over as text colours, as they were. Buttons already migrated keep their colours: right-click one for Set colour and Set text colour to change them.
+- **Fixed** · Other: **Coming-from-Classic console rows say what Classic's command did.** 29 removed commands on the Coming from Classic console page showed an internal trace of Classic's code instead of plain words. Each now says what the Classic command did and what to write instead, for example "Classic's cast the HQ ear. The HQ Ear feature is not in the new bot; delete the line." On 26 rows of the API pages and the converter's to-do list, the sentence after "so that keeps it." or "the new call takes ..." now starts with a capital letter.
+- **Fixed** · Other: **Coming-from-Classic notes say what they mean instead of "as above".** Notes that only said "As above" or "As AutoHunt_AddPath" (the ascension, AutoHunt path and `Get_AbilityVia` rows, among others) now say what the Classic call did and what to do. The `Get_FoodDrink`, `Get_StatPotions` and `Get_CurePotions` notes wrongly said Classic's call handed back a name; they now say the new call does the same depot top-up. Console notes that listed "V2 params: ..." now give the default or say what the command runs.
+- **Fixed** · Other: **Coming-from-Classic notes start with a capital letter.** About 140 notes on the Coming from Classic pages, and 58 in the converter's map, began with a small letter ("renamed to `Session:Harvest` ..."). Each now starts with a capital; a note that starts with a name (`holdUp`) still starts as written. The `OgreBotAPI:Mount` row now says what Classic's did - one `/summon_mount`, a toggle - and to write `OgreBotAPI.Consumables:MountUp` to get on or `:MountDown` to get off.
+- **Fixed** · Other: **Coming-from-Classic pages name the zone and fight instead of half a file path.** On the Coming from Classic pages and in the converter's notes, a row that pointed at a real example printed half a folder path, such as "Real use: Ogre/EQ2/IC/default/Rage of", or ended in mid-sentence ("Public doc: NOT in."). Those rows now say what to open in words: the step and the zone file it is in ("step `named4.target` in the zone file for The Fabled Castle Highhold: Thresinet's Den"), or the fight's encounter file and its zone.
+- **Fixed** · Other: **Coming-from-Classic pages say what to write instead of how the bot was built.** About 60 rows on the Coming from Classic pages said when a piece of the new bot was taken out. Now each says what the Classic call did and what to write instead - most often "Delete the call", sometimes the call to use, such as `OgreBotAPI.Abilities:CancelCasting`. The item embargo note's LinkID example (3182156554 is the same item as -1112810742) is back.
+- **Fixed** · Other: **Converter explains old call-style lines.** For an old line like `call OgreBotAPI.DestroyItem "Rusty Key" 3`, the converter's to-do list said the call left out an argument, even when it passed them all. It now says what to do: write the new command in its place and put the same arguments inside its brackets, separated by commas. It still does not rewrite these lines for you.
+- **Fixed** · Other: **Converter notes and the Coming-from-Classic pages read in plain words.** The converter's notes (`ogre_convert.py lookup` and its to-do list) and the Coming from Classic pages now say the same thing, without folder paths or notes meant for the bot's builders ("(me included)" now reads "(this toon included)"). Casting by ability name is fine - the bot picks the best rank itself - and the potion-cure settings point at `OgreBotAPI.Cures:ItemCure`. Sentences that used to vanish are back, such as "Put `all` first" on the camp-spot `Clear` rows.
+
 ## 2026.11.03.002 {#r2026-11-03-002}
 
 *Tuesday, November 3, 2026 at 5:28 PM EST*
@@ -877,7 +949,7 @@ The tabs down the left are in three blocks. At the top: Auto Target, Cast Stack,
 | Control | What it does | Default |
 |---|---|---|
 | **A tab (click)** | Shows that tab's settings on the right. The tab you are on is outlined. | Settings |
-| **A struck-through tab (for example Auto-Hunt, Item Embargo)** | Not finished yet. Some of its settings do nothing yet, even though you can change and save them. That tab's own page says which ones work. The tab itself also says NOT FINISHED at the top. |  |
+| **A struck-through tab (for example Auto-Hunt)** | Not finished yet. Some of its settings do nothing yet, even though you can change and save them. That tab's own page says which ones work. The tab itself also says NOT FINISHED at the top. |  |
 
 
 
@@ -978,7 +1050,7 @@ Auto Target lets the bot pick its own targets from a list, instead of assisting 
 | Option | What it does | Default |
 |---|---|---|
 | **Scan Radius:** | How far Auto Target looks for targets, measured straight-line around you. | 0 (counts as 50) |
-| **Rescan time (MS):** | Not used by the new bot. Auto Target re-checks every 0.25 seconds whatever this says - a fixed rate, fast enough for every fight. | 0 |
+| **Rescan time (MS):** | **Does nothing, by design.** Auto Target re-checks every 0.25 seconds whatever this says - a fixed rate, fast enough for every fight. | 0 |
 | **Scan Height:** | Only mobs whose height differs from yours by less than this are considered, so mobs on a floor above or below are ignored. | 0 (counts as 5) |
 | **Auto-Target List Editor** | The editor below: build rows on the left, the working list and this zone's saved lists on the right, and the Balance generator underneath. | empty |
 
@@ -1111,7 +1183,7 @@ The Cast Stack is the bot's main casting list. Every turn the bot walks the Cast
 
 - Types, in short. Buff: kept up, re-cast when it drops. NonCombatBuff: the same, but only while you are out of combat. Combat: only while the target is in combat. Heal / PowerHeal: when the target's health / power is at or below the HP / Mana %. Cure / CureCurse: when someone has something that ability can remove / a curse. Res: resurrects a dead player. CA and Debuff: attacks on your target; NamedCA and NamedDebuff only on named mobs, NonNamedCA only on non-named mobs. Special / Custom: advanced types that are cast when ready.
 - The Type list only offers the types that fit the ability (a resurrection only offers Res, a buff offers Buff or NonCombatBuff). Items offer the 12 basic types. If your ability export is missing, every type is offered.
-- Fields appear and disappear with the Type: Target only shows where you can choose one (attacks always go at your target), '# of ppl' / '# of mobs' only for group or area abilities, HP / Mana % only for heals, Savagery only for Beastlords, Diss only for Channelers. Items get Type, Target, HP / Mana %, Requires Item Equipped and the tags.
+- Fields appear and disappear with the Type: Target only shows where you can choose one (attacks always go at your target), '# of ppl' / '# of mobs' only for group or area abilities, HP / Mana % only for heals, Savagery only for Beastlords, Diss only for Channelers. Items follow their Type too: Target for all but attacks, HP / Mana % only for heals, '# of ppl' for cures, plus Requires Item Equipped and the tags.
 - When you press Add or Update, values in fields that are hidden for the chosen Type are thrown away.
 - If a required field is missing, Add / Update does nothing and a message lists what is wrong.
 - Cast order colours: gold = Buff or NonCombatBuff, blue = Combat, light red = CA, red = NamedCA, pink = NonNamedCA, orange = Debuff, dark orange = NamedDebuff, magenta = Res, dark green = Cure, teal = CureCurse, bright green = Heal, cyan = PowerHeal, light cyan = Custom, lavender = Special. Pale yellow means this character does not have that ability (or the item is not in your bags or gear) right now. A switched-off entry keeps its colour but is struck through and dimmed.
@@ -1234,17 +1306,17 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 
 | Option | What it does | Default |
 |---|---|---|
-| **Disabled** | The bot never chooses abilities that move you up the hate list when a script or command asks for an ability, or when it picks an HO ability.<br>*Your normal Cast Stack still casts them if they are on it.* | off |
-| **Only if you are not tanking** | When picking an HO ability, the bot skips abilities that move you up the hate list unless the mob is attacking you.<br>*Only affects HO picks. If the bot cannot tell who is tanking, the ability is skipped.* | off |
-| **Only if a fighter is not tanking** | When picking an HO ability, the bot skips abilities that move you up the hate list unless a fighter player is tanking the mob. Fighters on the threat-fighter ignore list do not count.<br>*Only affects HO picks. If the bot cannot tell who is tanking, the ability is skipped.* | off |
-| **Disabled** | The bot never chooses force-target (taunt) abilities when a script or command asks for an ability, or when it picks an HO ability.<br>*Your normal Cast Stack still casts them if they are on it.* | off |
-| **Only if you are not tanking** | When picking an HO ability, the bot skips force-target abilities unless you are top of the mob's hate list.<br>*Only affects HO picks. If the bot cannot tell who is tanking, the ability is skipped.* | off |
-| **Only if a fighter is not tanking** | When picking an HO ability, the bot skips force-target abilities unless a fighter player is tanking the mob. Fighters on the threat-fighter ignore list do not count.<br>*Only affects HO picks. If the bot cannot tell who is tanking, the ability is skipped.* | off |
-| **Disabled** | The bot never chooses hate-increasing abilities when a script or command asks for an ability, or when it picks an HO ability.<br>*Your normal Cast Stack still casts them if they are on it.* | off |
-| **Only if you are not tanking** | When picking an HO ability, the bot skips hate-increasing abilities unless the mob is attacking you.<br>*Only affects HO picks. If the bot cannot tell who is tanking, the ability is skipped.* | off |
-| **Only if a fighter is not tanking** | When picking an HO ability, the bot skips hate-increasing abilities unless a fighter player is tanking the mob. Unlike the other two groups, the ignore list is not used here.<br>*Only affects HO picks.* | off |
-| **No Threat Position Decreases** | The bot never chooses abilities that move you down the hate list when a script or command asks for an ability, or when it picks an HO ability.<br>*Your normal Cast Stack still casts them if they are on it.* | off |
-| **No Threat Decrease** | The bot never chooses hate-reducing abilities when a script or command asks for an ability, or when it picks an HO ability.<br>*Your normal Cast Stack still casts them if they are on it.* | off |
+| **Disabled** | The bot never casts abilities that move you up the hate list: not from the Cast Stack, not when a script or command asks for an ability, and not when it picks an HO ability. | off |
+| **Only if you are not tanking** | The bot does not cast these abilities while you are tanking the mob, from the Cast Stack or for an HO. | off |
+| **Only if a fighter is not tanking** | The bot does not cast these abilities while a fighter player is tanking the mob, from the Cast Stack or for an HO. A fighter on the ignore list (-ThreatFighterIgnoreList_Add) does not count, which is how a tank who must not hold the mob lets the others taunt off them. | off |
+| **Disabled** | The bot never casts force-target (taunt) abilities: not from the Cast Stack, not when a script or command asks for an ability, and not when it picks an HO ability. | off |
+| **Only if you are not tanking** | The bot does not cast these abilities while you are tanking the mob, from the Cast Stack or for an HO. | off |
+| **Only if a fighter is not tanking** | The bot does not cast these abilities while a fighter player is tanking the mob, from the Cast Stack or for an HO. A fighter on the ignore list (-ThreatFighterIgnoreList_Add) does not count, which is how a tank who must not hold the mob lets the others taunt off them. | off |
+| **Disabled** | The bot never casts hate-increasing abilities: not from the Cast Stack, not when a script or command asks for an ability, and not when it picks an HO ability. | off |
+| **Only if you are not tanking** | The bot does not cast these abilities while you are tanking the mob, from the Cast Stack or for an HO. | off |
+| **Only if a fighter is not tanking** | The bot does not cast these abilities while a fighter player is tanking the mob, from the Cast Stack or for an HO. The ignore list is not used here. | off |
+| **No Threat Position Decreases** | The bot never casts abilities that move you down the hate list: not from the Cast Stack, not when a script or command asks for an ability, and not when it picks an HO ability. | off |
+| **No Threat Decrease** | The bot never casts hate-reducing abilities: not from the Cast Stack, not when a script or command asks for an ability, and not when it picks an HO ability. | off |
 
 
 
@@ -1312,10 +1384,9 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Show Surge messages** | **Not active yet.**  | off |
 | **Disable Merc Support** | The bot stops sending your mercenary to attack the mob you are fighting (and stops pulling it back off other mobs). | off |
 | **Cancel Invis After Combat** | When you are invisible, out of combat and have no mob left to attack, the bot cancels your invisibility. | off |
-| **Enable Raid Setups** | In raid zones, the bot runs the encounter setups written for that zone's fights (setup, triggers and mechanics). When off, no raid encounter setup runs automatically and you cannot start one by hand.<br>*If a setup already ran for a mob, its clean-up still runs when that mob dies, even after you untick this.* | off |
-| **Enable Limited Raid Setups** | **Not active yet.**  | off |
-| **Enable Heroic Setups** | The same as 'Enable Raid Setups', but for every zone that is not a raid zone (heroic, solo and so on). | off |
-| **Disable Auto Setups** | **Not active yet.**  | off |
+| **Enable Raid Setups** | In raid zones, the bot runs the encounter setups written for that zone's fights (setup, triggers and mechanics). When off, no setup starts, by itself or by hand. Unticking mid-fight stops everything the fight was doing straight away, and ticking it again carries on watching the same fight without running its setup again. If a setup did run, its clean-up still happens when the mob dies, whichever way this box is.<br>*If a setup already ran for a mob, its clean-up still runs when that mob dies, even after you untick this.* | off |
+| **Enable Heroic Setups** | The same as 'Enable Raid Setups', but for every zone that is not a raid zone (heroic, solo and so on). Turn it off at any point in a fight to take over, and back on to carry on. | off |
+| **Disable Auto Setups** | Stops encounter setups starting on their own, in both raid and heroic zones. A setup you start yourself, or one the Instance Controller asks for, still runs, and a fight already set up carries on. The zone's Enable Raid Setups or Enable Heroic Setups box must still be on for any setup to run. | off |
 | **Auto Target when Hated** | When you have no target, or only something you can't fight (a corpse, chest, shiny or NoKill NPC), the bot looks about once a second for a mob within 30 meters (and roughly your height) that is attacking someone in your group, and targets it. It never does this while you are assisting someone (Auto Assist). | off |
 | **Disable Mortal Coil Dispel** | Mages: the bot normally dispels the 'Mortal Coil' buff from named mobs in range with your dispel ability. Tick this to stop it.<br>*'No Dispels' on the Settings tab also stops it.* | off |
 | **Wait for Recovery time** | Normally the bot picks the next ability the moment a cast lands, queuing it during the recovery time. Tick this to make it wait out each ability's recovery time (minus 0.2 seconds) first. Items are not affected. | off |
@@ -1340,10 +1411,10 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Enable Consume Items** | Turns on the Consume Items tab, so the bot automatically uses the items listed there (following that tab's zone and combat rules). When off, the consume-items command also does nothing. | off |
 | **Enable Aliases** | Turns on your custom aliases from the Aliases tab (names starting with *), so commands and Cast Stack targets can use them. When off, custom aliases resolve to nobody. The built-in @ slots such as @Tank are not affected. | off (the Cast Stack target dropdown treats a never-saved box as on) |
 | **Enable Ability Tracker** | Turns on the Ability Tracker tab. About twice a second the bot reads the cooldowns of the abilities listed there and shares them, for example with the OgreMCP cooldown buttons. | off |
-| **Enable Ability Embargo** | Turns on ability embargoes. While it is ticked, the Cast Stack skips an ability that a command or another character has embargoed (-AbilityEmbargo) until the time is up. While it is off, embargoes are still kept but not followed, so ticking it later honours any that are still running.<br>*The Ability Embargo tab's own list, which tells your other characters to hold off when you cast, is not active yet in the new bot.* | off |
+| **Enable Ability Embargo** | Turns on ability embargoes. While it is ticked, casting an ability on the Ability Embargo tab tells your other characters to hold off it, and the Cast Stack skips an ability that a command or another character has embargoed (-AbilityEmbargo) until the time is up. While it is off, nothing is sent, and embargoes are still kept but not followed, so ticking it later honours any that are still running.<br>*The Ability Embargo tab's own list, which tells your other characters to hold off when you cast, is not active yet in the new bot.* | off |
 | **Enable Tag Embargo** | Turns on Embargo tags (see the Tags tab). While it is ticked, the Cast Stack skips an ability whose Embargo tag is on, and casting an ability that carries an Embargo tag turns that tag on. While it is off, this character neither follows Embargo tags nor turns them on. Tags sent by your other characters are still kept, so ticking it later honours any that are still running. | off |
 | **Enable Tag Allow** | Turns on Allow tags (see the Tags tab). While it is ticked, an ability with an Allow tag only fires while that tag is on, and casting an ability that carries an Allow tag turns that tag on. While it is off, an Allow tag does not hold an ability back and casting does not turn one on. Tags sent by your other characters are still kept, so ticking it later honours any that are still running. | off |
-| **Enable Item Embargo** | Turns on item embargoes. While it is ticked, the Cast Stack skips an item that a command or another character has embargoed (-ItemEmbargo, by the item's LinkID) until the time is up. While it is off, embargoes are still kept but not followed, so ticking it later honours any that are still running.<br>*The Item Embargo tab's own list, which tells your other characters to hold off when you use an item, is not active yet in the new bot.* | off |
+| **Enable Item Embargo** | Turns on item embargoes. While it is ticked, the Cast Stack skips an item that a command or another character has embargoed (-ItemEmbargo, by the item's LinkID) until the time is up, and using an item on the Item Embargo tab's list tells your other characters to hold off it. While it is off, nothing is sent, and embargoes are still kept but not followed, so ticking it later honours any that are still running. | off |
 
 
 
@@ -1400,7 +1471,7 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 
 | Option | What it does | Default |
 |---|---|---|
-| **Auto Follow Mode** | Allows the force-follow command to start the game's own /follow on the character named in 'Auto Follow:' on the Setup tab; when off, that command does nothing. The box does not start following on its own.<br>*It will not follow a character who is dead or nearly dead.* | off |
+| **Auto Follow Mode** | Turns Auto Follow on: out of combat, with nothing to attack, the bot starts the game's own /follow on the person named in 'Auto Follow:' on the Setup tab, when they are in your group, alive and within 'Auto Follow within'. It also lets the `-forcefollow` command start that follow. When off, neither does anything.<br>*It will not follow a character who is dead or nearly dead.* | off |
 | **Do not auto-level Mercenary** | **Not active yet.**  | off |
 | **Disable OgreFly** | When following, the bot normally takes off, flies at the leader's height and lands with them. Tick this to keep following on the ground only. Swimming to the leader's depth still works. | off |
 | **Skip cutscenes** | **Not active yet.**  | off |
@@ -1434,8 +1505,8 @@ Setup holds the numbers that tune when the bot fights: how hurt a mob must be be
 | **Targets for Smart AEs** | How many mobs must be in range before the bot uses a point-blank or targeted area attack, while 'AE Smart CAs' on the Settings tab is ticked.<br>*A Cast Stack entry's own '# of mobs' overrides this.* | blank (counts as 2) |
 | **Targets for Smart Encounters** | How many mobs the linked encounter must have before the bot uses an encounter-wide attack, while 'Encounter Smart CAs' on the Settings tab is ticked. A single mob never qualifies.<br>*A Cast Stack entry's own '# of mobs' overrides this; a '# of mobs' of 1 always allows it.* | blank (counts as 2) |
 | **Melee move when less (40)** | The move options on Settings only move you when the mob is closer than this distance. 'Face mob in combat' only turns you toward mobs within this distance too. | blank (counts as 40) |
-| **Auto Follow:** | The group member the `-forcefollow` command follows, using the game's own follow. It only works while 'Auto Follow Mode' on Settings is ticked, and only if that person is in your group and alive.<br>*The list shows your group and raid members. Nothing follows automatically; the command has to be sent.* | empty |
-| **Auto Follow within (35):** | **Not active yet.** It is meant to be the distance for auto follow. | blank |
+| **Auto Follow:** | Who Auto Follow follows: a group member's name, or an alias such as @Tank (your custom * aliases are listed while Enable Aliases on Settings is ticked). With 'Auto Follow Mode' on Settings ticked, the bot starts the game's own /follow on them whenever you are out of combat with nothing to attack, not already following anyone, and they are alive and closer than 'Auto Follow within'. The `-forcefollow` command starts it straight away.<br>*The list shows your group and raid members, the built-in @ aliases that name somebody right now, and your custom * aliases while Enable Aliases is ticked.* | empty |
+| **Auto Follow within (35):** | Auto Follow only starts while the person is closer than this, measured flat (height left out). Blank means 35. 0 never starts it on its own; `-forcefollow` ignores this distance. | blank (35) |
 
 
 
@@ -1454,7 +1525,7 @@ Setup holds the numbers that tune when the bot fights: how hurt a mob must be be
 
 - All the percentage boxes compare the MOB's health (or yours) to the number: 'at or below' for the mob boxes, 'at or above' for your own health and power.
 - 'Attack NPC with 100% HP' on the Settings tab switches off the attack and pet mob-health boxes in one go. 'Ignore NPC HP to move' on Settings does the same for the move box.
-- Auto Follow does nothing on its own. It only sets who the `-forcefollow` command follows, and only when 'Auto Follow Mode' on Settings is ticked.
+- Auto Follow starts only out of combat with nothing to attack, and only when you are not already following someone. Once the game's /follow is running, the bot leaves it to the game.
 - The OgreConsole boxes about sound and opening the console are read on the session that RECEIVES the broadcast tell, not on the character that got the tell.
 
 
@@ -1464,13 +1535,13 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogre
 
 # Ability Embargo
 
-Not active yet in the new bot. You can build and save the list, but nothing acts on it. The tab is for abilities that only one of your characters should use at a time. When this character casts an ability on the list, the bot will tell your other characters not to cast that same ability for a set time (the Duration, or the ability's own duration if left blank). To build the list, click an ability on the left, set the options in the form under the Ability Embargo List, then press Add. Click a row on the right to change it, double-click a row to switch it off, drag a row to move it, and use the X to remove it.
+The tab is for abilities that only one of your characters should use at a time. When this character casts an ability on the list, it tells your other characters not to cast that same ability for a set time (the Duration, or the ability's own duration if left blank). It works while 'Enable Ability Embargo' is ticked on the Settings tab, on the character that casts it and on the ones that should hold off. To build the list, click an ability on the left, set the options in the form under the Ability Embargo List, then press Add. Click a row on the right to change it, double-click a row to switch it off, drag a row to move it, and use the X to remove it.
 
 ## Ability Embargo
 
 | Option | What it does | Default |
 |---|---|---|
-| **Full Ability list** | **Not active yet.** All of this character's abilities. Click one to put it in the form under the Ability Embargo List, or double-click it to add it straight to the list with no options. The search box above filters it.<br>*The tab is not active yet, so nothing on the list is used.* | your abilities |
+| **Full Ability list** | All of this character's abilities. Click one to put it in the form under the Ability Embargo List, or double-click it to add it straight to the list with no options. The search box above filters it. | your abilities |
 
 
 
@@ -1478,8 +1549,8 @@ Not active yet in the new bot. You can build and save the list, but nothing acts
 
 | Option | What it does | Default |
 |---|---|---|
-| **Globally Mute messages** | **Not active yet.** It will send every embargo message from this tab without showing it in OgreConsole, as if every row had Hide from OgreConsole ticked.<br>*Some Instance Controller setups tick it for you.* | off |
-| **Ability Embargo List** | **Not active yet.** Your saved embargo rows, each with its duration and option letters (IRC, G, Me, I, H). Click a row to load it into the form below and change it, double-click to switch it off, drag to reorder, X to remove. | empty |
+| **Globally Mute messages** | Sends every embargo from this tab without showing it in OgreConsole, as if every row had Hide from OgreConsole ticked. Nothing is stopped: the embargo still goes out, over IRC too if the row has IRC ticked.<br>*Some Instance Controller setups tick it for you.* | off |
+| **Ability Embargo List** | The abilities that are embargoed when you cast them, each with its Duration and options. When you cast an ability on this list, the other characters hold off that ability for its Duration. Click a row to load it into the form below and change it, double-click to switch it off, drag to reorder, X to remove. | empty |
 
 
 
@@ -1488,12 +1559,14 @@ Not active yet in the new bot. You can build and save the list, but nothing acts
 | Control | What it does | Default |
 |---|---|---|
 | **Ability name** | The ability for the new row. Clicking an ability on the left fills it in, or you can type and pick from the suggestions. |  |
-| **Duration** | **Not active yet.** How many seconds your other characters should hold off. Leave it blank to use the ability's own duration. | blank |
-| **IRC** | **Not active yet.** Will also send the embargo over IRC, to characters on other computers. | off |
-| **Group** | **Not active yet.** Will send the embargo only to characters in this character's group. | off |
-| **Me** | **Not active yet.** Will stop only this character from recasting the ability for the duration. Nothing is sent to anyone else. | off |
-| **Incl. caster** | **Not active yet.** Will add who cast it and the ability name to the embargo message. | off |
-| **Hide from OgreConsole** | **Not active yet.** Will send the embargo message without showing it in OgreConsole. It still reaches your other characters. | off |
+| **Duration** | How many seconds your other characters should hold off. Leave it blank to use the ability's own duration. | blank |
+| **Add** | Seconds added to the duration, for example to hold off a little longer than the ability's own duration. | blank |
+| **Subtract** | Seconds taken off the duration, for example so the next character is ready just before the first one's runs out. | blank |
+| **IRC** | Also sends the embargo over IRC, to characters on other computers. | off |
+| **Group** | Sends the embargo only to characters in this character's group. | off |
+| **Me** | Stops only this character from recasting the ability for the duration. Nothing is sent to anyone else. | off |
+| **Incl. caster** | Adds who cast it and the ability's name to the end of the embargo line, so anyone reading OgreConsole or IRC can see where it came from. | off |
+| **Hide from OgreConsole** | Sends the embargo without showing it in OgreConsole. It still reaches your other characters. | off |
 | **Add** | Adds the ability in the form, with the Duration and ticks you set, to the Ability Embargo List. Pressing Enter in a box does the same. After you click a row it becomes Update and saves your changes to that row instead (Cancel backs out). |  |
 | **Clear Options** | Unticks every option in the form. Ticks otherwise carry over to the next Add. The Duration box is left as it is. |  |
 
@@ -1501,8 +1574,11 @@ Not active yet in the new bot. You can build and save the list, but nothing acts
 
 ## Good to know
 
-- This tab does nothing yet in the new bot. The 'Enable Ability Embargo' box on the Settings tab does work: an embargo is only followed while it is ticked.
-- The embargo command itself already works: the -AbilityEmbargo command (from a script or OgreConsole) stops the named characters casting an ability by its ID for a number of seconds, on characters with 'Enable Ability Embargo' ticked. Only the automatic 'I cast it, so the rest of you hold off' step is missing.
+- Nothing is sent unless 'Enable Ability Embargo' (Settings tab) is ticked on the character that casts the ability. The characters that should hold off need it ticked too, or they ignore the embargo.
+- A row is matched by the ability, whatever its rank, and the embargo is sent by name, so a character with a different rank of it holds off too.
+- An instant ability sends when it is cast. An ability with a cast time sends when the cast bar shows it, so a cast that never started sends nothing. If something makes it instant, so there is no cast bar, it sends once the ability is seen on cooldown, up to 3 seconds later. Casting a listed ability by hand counts too, if it shows on the cast bar.
+- If a row has no Duration and the ability has none of its own (some last until cancelled), nothing is sent and the console says so. Give the row a Duration.
+- The embargo is sent with the -AbilityEmbargo command, so you can watch it go out in OgreConsole (unless Hide from OgreConsole or Globally Mute is ticked). The character that cast the ability gets it too, as in the old bot. You can also send one yourself: -AbilityEmbargo takes an ability name or an ID.
 - Loading a profile clears every ability and item embargo still running on that character.
 
 
@@ -2100,27 +2176,32 @@ HUDs puts live text straight onto your game screen: the nearest mob, the nearest
 | **Ding alerts** | Plays a short ding when a player comes within 30 metres. If 'Msg alerts' is also ticked, it dings at 150 metres too. A ding under 30 metres also posts the OgreConsole line, even without 'Msg alerts'.<br>*Needs 'Display nearest PC' ticked.* | off |
 | **Loud alarm when close** | When a player comes within 30 metres, plays a louder two-tone alarm instead of the short ding.<br>*Does nothing on its own. 'Msg alerts' or 'Ding alerts' must also be ticked.* | off |
 
-## Group Distance
+## Group Information
 
 | Option | What it does | Default |
 |---|---|---|
-| **Display group distance** | Shows a line for each other group member: their slot number, name, distance, their target and what they are casting. The colour shows distance: white close, then yellow, orange and red further out.<br>*In a raid with 'Display raid distance' ticked, the raid lines replace these.* | off |
-| **X** | How far from the left edge of the screen the group lines start, in pixels. | blank (300) |
-| **Y** | How far down from the top of the screen the first group line sits, in pixels. | blank (420) |
-| **Line spacing** | How many pixels apart the group lines are. | blank (12) |
+| **Display group information** | Shows a line for each other group member: their slot number, name, distance, their target and what they are casting. The colour shows distance: white close, then yellow, orange and red further out.<br>*In a raid with 'Display raid information' ticked, the raid lines replace these.* | off |
+| **X** | How far from the left edge of the screen the group lines start, in pixels. Not used while your group follows the raid settings (Display raid information on, Only in a raid off). | blank (300) |
+| **Y** | How far down from the top of the screen the first group line sits, in pixels. Not used while your group follows the raid settings (Display raid information on, Only in a raid off). | blank (420) |
+| **Line spacing** | How many pixels apart the group lines are. Not used while your group follows the raid settings (Display raid information on, Only in a raid off). | blank (12) |
+| **Hide names** | Leaves the slot number and name off each group line, so it shows only the distance, target and cast. Not used while your group follows the raid settings (Display raid information on, Only in a raid off). | off |
+| **Hide casting** | Leaves off the 'what they are casting' part of each group line. Not used while your group follows the raid settings (Display raid information on, Only in a raid off). | off |
+| **Name width** | How many letters of each name and target the group lines show. Longer ones are cut and shorter ones padded, so every line's cast starts in the same place. Not used while your group follows the raid settings (Display raid information on, Only in a raid off). | blank (6) |
 
-## Raid Distance
+## Raid Information
 
 | Option | What it does | Default |
 |---|---|---|
-| **Display raid distance** | In a raid, shows one line per raid slot (01 to 24) with the same details as the group lines. Empty slots stay blank so every line matches the raid window. Outside a raid it shows your group instead. | off |
+| **Display raid information** | In a raid, shows one line per raid slot (01 to 24) with the same details as the group lines. Empty slots stay blank so every line matches the raid window. Outside a raid it shows your group instead, with the settings below, unless Only in a raid is ticked. | off |
+| **Only in a raid** | Shows the raid lines only while you are in a raid. Outside a raid nothing is drawn here, and your group shows only if Display group information is ticked, with the Group Information settings. Unticked, the settings below cover your group outside a raid too. | off |
 | **X** | How far from the left edge of the screen the raid lines start, in pixels. Scan Raid Window fills this in. | blank (300) |
 | **Y** | How far down the screen raid slot 1's line sits, in pixels. Scan Raid Window fills this in. | blank (420) |
 | **Line spacing** | How many pixels apart the lines within one raid group are. Scan Raid Window fills this in from the raid window's own row height. | blank (12) |
 | **Group gap** | Extra pixels added after slots 6, 12 and 18, so each raid group lines up with its block in the raid window. | blank (6) |
 | **Scan Raid Window** | Reads where your raid window is on screen and fills in the four boxes above. The raid lines are placed right beside it (on the left if there is no room on the right). The HUD moves straight away.<br>*Open the raid window first. If it cannot read the window you get 'Scan failed - see console'. Press Save to keep the numbers.* |  |
-| **Hide names** | Leaves the slot number and name off each line, so it shows only the distance, target and cast. Applies to the group lines too. | off |
-| **Hide casting** | Leaves off the 'what they are casting' part of each line. Applies to the group lines too. | off |
+| **Hide names** | Leaves the slot number and name off each line, so it shows only the distance, target and cast. Outside a raid your group's lines use it too, unless Only in a raid is ticked. | off |
+| **Hide casting** | Leaves off the 'what they are casting' part of each line. Outside a raid your group's lines use it too, unless Only in a raid is ticked. | off |
+| **Name width** | How many letters of each name and target are shown. Longer ones are cut and shorter ones padded, so every line's cast starts in the same place. Outside a raid your group's lines use it too, unless Only in a raid is ticked. | blank (6) |
 
 ## Raid Options
 
@@ -2144,8 +2225,8 @@ HUDs puts live text straight onto your game screen: the nearest mob, the nearest
 
 - Nearest NPC - one white line: 'Named NPC: <name>: <distance>' for the closest named mob in the zone, or 'NPC: <name>: <distance>' when there is no named mob in the zone.
 - Nearest PC - one line: 'Nearest PC: <name>: <distance>' for the closest player in the zone who is not in your group or raid. It is red under 30 metres, yellow under 150 and white further out.
-- Group distance - one line per group member (you are not listed): '(2) Brutus: 12.3 * <their target> * <what they are casting>'. Names are cut to their first 6 letters so the columns line up.
-- Raid distance - one line per raid slot, '(01)' to '(24)', in the same layout as the group lines. An empty slot leaves a blank line and there is an extra gap after every 6 slots, so each line sits beside the matching row of the game's raid window.
+- Group information - one line per group member (you are not listed): '(2) Brutus: 12.3 * <their target> * <what they are casting>'. Names are cut to their first 6 letters so the columns line up.
+- Raid information - one line per raid slot, '(01)' to '(24)', in the same layout as the group lines. An empty slot leaves a blank line and there is an extra gap after every 6 slots, so each line sits beside the matching row of the game's raid window.
 - Group and raid line colours show distance: white under 20 metres, yellow under 30, orange under 75, red at 75 or more, grey when the game reports 0.
 - The 'what they are casting' part shows the spell name for members running the new bot. For anyone else it just says 'casting'.
 - Raid Options - up to 10 lines written by encounter files and scripts, usually a message with a countdown in seconds (for example 'Adds incoming: 12.4'). Each line disappears 5 seconds after its countdown ends.
@@ -2154,9 +2235,9 @@ HUDs puts live text straight onto your game screen: the nearest mob, the nearest
 ## Good to know
 
 - The HUD layer has no title bar and ignores the mouse, so you cannot move it by dragging. Use the X and Y boxes to move each block.
-- With 'Display raid distance' ticked and no raid, you see your group instead. So you do not need both boxes ticked. In a raid, the raid lines replace the group lines.
+- With 'Display raid information' ticked and no raid, you see your group instead, with the raid settings. So you do not need both boxes ticked. Tick 'Only in a raid' to keep the two apart: then outside a raid your group shows only with 'Display group information', using the Group Information settings. In a raid, the raid lines replace the group lines.
 - The alert boxes only work while 'Display nearest PC' is ticked, and 'Loud alarm when close' does nothing unless 'Msg alerts' or 'Ding alerts' is also ticked.
-- Scan Raid Window fills in the four Raid Distance boxes, but you still have to press Save to keep them.
+- Scan Raid Window fills in the four raid position boxes, but you still have to press Save to keep them.
 - Emptying a position box does not move the block to 0,0. The block stays where it was, even after the profile is loaded again. It only goes back to its default position after the game client is restarted.
 
 
@@ -2199,19 +2280,15 @@ Invis Abilities lists the stealth abilities the bot may use to open a Cast Stack
 
 Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/item-embargo.md
 
-# Item Embargo (not finished)
+# Item Embargo
 
-> **:warning: Not finished**
->
-> OgreBot marks this tab as not finished (its name is struck through). Some options below work and some do not yet - each one says which.
-
-Item Embargo is meant to stop your characters all using the same item at once: when one uses a listed item, the others hold off for the set time. In the new bot this tab is not active yet. You can build and save the list, but nothing reads it, so it has no effect. How the screen works: the Full Item list on the left shows your registered items (from the Items tab). Click one to pick it, set a Duration and the option flags under the right-hand list, then press Add. Double-clicking an item adds it straight away with no options. On the right-hand list, click a row to edit it (Add becomes Update, with a Cancel), double-click a row to switch it off or on, drag rows to reorder them, and use the x to remove one.
+Item Embargo stops your characters all using the same item at once: when one of them uses an item on this list, it tells the others to hold off that item for the row's Duration. It works while 'Enable Item Embargo' is ticked on the Settings tab, on the character that uses the item and on the ones that should hold off. How the screen works: the Full Item list on the left shows your registered items (from the Items tab). Click one to pick it, set a Duration and the option flags under the right-hand list, then press Add. Double-clicking an item adds it straight away with no options. On the right-hand list, click a row to edit it (Add becomes Update, with a Cancel), double-click a row to switch it off or on, drag rows to reorder them, and use the x to remove one.
 
 ## Item Embargo
 
 | Option | What it does | Default |
 |---|---|---|
-| **Full Item list** | **Not active yet.** Your registered items (from the Items tab). Click one to pick it for the form on the right, or double-click it to add it straight away with no options.<br>*This tab is not active yet in the new bot.* | your registered items |
+| **Full Item list** | Your registered items (from the Items tab). Click one to pick it for the form on the right, or double-click it to add it straight away with no options. | your registered items |
 
 
 
@@ -2219,8 +2296,8 @@ Item Embargo is meant to stop your characters all using the same item at once: w
 
 | Option | What it does | Default |
 |---|---|---|
-| **Globally Mute messages** | **Not active yet.** It is meant to stop item embargo messages being shown. | off |
-| **Item Embargo List** | **Not active yet.** The saved list of items that are meant to be embargoed, each with its duration and options.<br>*Click a row to edit it, double-click to switch it off or on, drag to reorder, x to remove.* | empty |
+| **Globally Mute messages** | Sends every embargo from this tab without showing it in OgreConsole, as if every row had Hide from OgreConsole ticked. Nothing is stopped: the embargo still goes out, over IRC too if the row has IRC ticked. | off |
+| **Item Embargo List** | The items that are embargoed when you use them, each with its Duration and options. When you use an item on this list, the other characters hold off that item for its Duration.<br>*Click a row to edit it, double-click to switch it off or on, drag to reorder, x to remove. Rows are checked from the top; a Me row or a row without a Duration ends the check for that item.* | empty |
 
 
 
@@ -2229,12 +2306,12 @@ Item Embargo is meant to stop your characters all using the same item at once: w
 | Control | What it does | Default |
 |---|---|---|
 | **Item name** | The item to add. Type part of a name to get suggestions from your registered items, or click an item in the Full Item list. | empty |
-| **Duration** | How many seconds the other characters are meant to hold off after the item is used. | empty |
-| **IRC** | Meant to announce the embargo over IRC. | off |
-| **Group** | Meant to limit the embargo to group members. | off |
-| **Me** | Meant to limit the embargo to this character. | off |
-| **Incl. caster** | Meant to include the character who used the item, and the item's name, in the embargo. | off |
-| **Hide from OgreConsole** | Meant to send the embargo without showing it in OgreConsole. | off |
+| **Duration** | How many seconds the other characters hold off the item after you use it. A row without one sends nothing. | empty |
+| **IRC** | Also sends the embargo over IRC, so characters on other PCs hold off too. | off |
+| **Group** | Only the characters in your group hold off the item. | off |
+| **Me** | Only this character holds off the item. Nothing is sent to the others. | off |
+| **Incl. caster** | Adds who used it and the item's name to the end of the embargo line, so anyone reading OgreConsole or IRC can see which item it was. The line only carries the item's LinkID otherwise. | off |
+| **Hide from OgreConsole** | Sends the embargo without showing it in OgreConsole. It still reaches every character. | off |
 | **Add** | Adds the picked item with its Duration and ticked options to the list. When you are editing a row, it reads Update and saves your changes. |  |
 | **Clear Options** | Unticks all the option boxes. They otherwise carry over to the next Add. |  |
 
@@ -2242,7 +2319,11 @@ Item Embargo is meant to stop your characters all using the same item at once: w
 
 ## Good to know
 
-- Nothing on this tab does anything yet in the new bot. 'Enable Item Embargo' on the Settings tab does: an item embargo sent by the -ItemEmbargo command (by the item's LinkID) makes the Cast Stack skip that item, but only while the box is ticked. Loading a profile clears every item embargo still running.
+- Nothing is sent unless 'Enable Item Embargo' (Settings tab) is ticked on the character that uses the item. The characters that should hold off need it ticked too, or they ignore the embargo.
+- Every row needs a Duration. A row without one sends nothing and the console says so when the item is used.
+- A row is matched by the item's name, so it works for an item in your bags or one you have equipped.
+- The embargo is sent with the -ItemEmbargo command and the item's LinkID, so you can watch it go out in OgreConsole (unless Hide from OgreConsole or Globally Mute is ticked). The character that used the item gets it too, as in the old bot.
+- Loading a profile clears every item embargo still running.
 - The Full Item list only shows items you have registered on the Items tab. If it is empty, register some there first.
 - The option flags stay ticked after an Add. Use Clear Options to untick them all before the next item.
 - On the list each row shows its options as coloured letters: IRC, G (Group), Me, I (Incl. caster) and H (Hide from OgreConsole). The same colour is used on the matching tick box.
@@ -2762,7 +2843,7 @@ Tags let one bot's cast switch other abilities off or on for a while, across all
 
 | Control | What it does | Default |
 |---|---|---|
-| **Globally mute all tag messages** | **Not active yet.** In the old bot it hid the tag lines in OgreConsole. | off |
+| **Globally mute all tag messages** | Sends every tag without showing it in OgreConsole, as if every row had Hide from OgreConsole ticked. Nothing is stopped: the tag still goes out, over IRC too if the row has IRC ticked. | off |
 
 
 
@@ -2780,11 +2861,11 @@ Tags let one bot's cast switch other abilities off or on for a while, across all
 | Control | What it does | Default |
 |---|---|---|
 | **Duration** | How many seconds the tag stays on after the ability is cast. Leave it blank to use the ability's own duration.<br>*Items need a number here.* | blank (the ability's own duration) |
-| **IRC** | **Not active yet.** In the old bot it also sent the tag over IRC. | off |
+| **IRC** | Also sends the tag over IRC, to characters on other computers. | off |
 | **Group** | The tag only turns on for bots in the caster's own group, instead of every bot in your relay group. | off |
 | **Me** | The tag only turns on for the character who cast the ability. Your other bots are not told. | off |
-| **Incl. caster** | **Not active yet.** In the old bot it added the caster's name and the ability to the tag message. | off |
-| **Hide from OgreConsole** | **Not active yet.** In the old bot it kept the tag message out of OgreConsole. | off |
+| **Incl. caster** | Adds who cast it and what they cast to the end of the tag line, so anyone reading OgreConsole or IRC can see where it came from. | off |
+| **Hide from OgreConsole** | Sends the tag without showing it in OgreConsole. It still reaches your other characters. | off |
 | **Maintained** | The tag stays on while the caster still has the buff in their maintained list, and turns off for every bot as soon as it drops. The duration is then only a safety limit.<br>*Any rank of the ability counts. For an item it is the buff the item puts on you when you use it.* | off |
 | **Add** | Adds the picked tag name, with the duration and ticks you set, to the Tags List. While you are editing a row this reads Update and saves your changes. |  |
 | **Clear Options** | Unticks every option. Ticks otherwise carry over to the next tag you add. |  |
@@ -2797,7 +2878,8 @@ Tags let one bot's cast switch other abilities off or on for a while, across all
 - A tag used on the Cast Stack but missing from the Tags List (or typed differently) never turns on. The match ignores upper and lower case.
 - Leave Duration blank to use the ability's own duration. An item has no duration of its own, so an item that sets a tag must have a Duration here or the tag does not turn on.
 - Two bots can hold the same tag at once; it stays on until the last one runs out.
-- Only three options change anything: Group, Me and Maintained. IRC, Incl. caster and Hide from OgreConsole are shown for your information - the bot saves them but does not act on them (by design).
+- A tag goes out with the -AbilityTag command, so you can watch it in OgreConsole (unless Hide from OgreConsole or Globally mute is ticked).
+- A Maintained tag sent over IRC stays on for its full Duration on your other PCs: only your own PC hears when the buff drops.
 - The ticks stay ticked for the next tag you add. Use Clear Options to untick them.
 - Press Save at the top to keep your changes for next time.
 - Changes to the Tags List are used straight away. Press Save at the top to keep them for next time.
@@ -2919,7 +3001,7 @@ Debug holds switches that make the bot explain itself. Each box turns on extra l
 | **HeroicOpportunityDebug: logs each HO the bot opens - the actor, the starter ability it chose, whether the starter icon was visible and whether the timer was skipped. The HO engine spans five files and had one log line in all of them, so an HO that never starts was previously silent. (Light - one line per HO)** | Logs each HO the bot starts: the mob, the starter ability it chose, whether the starter icon was showing, and whether the wait timer was skipped. | off |
 | **AssistDebug: logs what assist decided, and names the three outcomes that look identical from outside - claiming a target, 'I am in control' and 'leave me alone'. Only speaks when the answer CHANGES, so it is safe to leave on. (Light)** | Logs who assist wants you to attack and why. It only logs when that answer changes, so it is safe to leave on. | off |
 | **ReapplyValueDebug: for every ward carrying an RW< value, logs its remaining damage against the value you set and whether that counts as depleted. Use it when a ward is not re-cast, or is re-cast constantly - it tells you which of the two numbers is wrong. (Noisy - one line per ward every tick)** | For every ward with a 'Reapply-ward <=' value, logs how much damage it has left, your value, and whether that counts as used up. Use it when a ward is not re-cast, or is re-cast all the time.<br>*Noisy: one line per ward each time the Cast Stack runs.* | off |
-| **AbilityViaDebug: logs each CastVia query exactly as the bot parsed it - every term, the options in effect, anything it was told to ignore, and which ability won (or that NOTHING matched, which otherwise looks the same as a deliberate hold). (Light - one line per query)** | When a script or command asks the bot to find an ability by description (CastVia), logs how the request was read, what was ruled out, and which ability won, or that nothing matched. | off |
+| **AbilityViaDebug: logs each ability query exactly as the bot parsed it - every term, the options in effect, anything it was told to ignore, and which ability won (or that NOTHING matched, which otherwise looks the same as a deliberate hold). (Light - one line per query)** | When a script or command asks the bot to find an ability by description (FindCastableID or FindAndCast), logs how the request was read, what was ruled out, and which ability won, or that nothing matched. | off |
 | **AliasesDebug: each time the alias list is rebuilt, logs every record and who it currently resolves to, or 'nobody live'. Separates an alias that failed to parse from one that simply has nobody online - downstream both just fail to match. (Light - once per rebuild)** | Each time the Aliases list is rebuilt, logs every alias and who it points to right now, or 'nobody live'. Tells a mistyped alias apart from one whose characters are simply not online. | off |
 | **ProfilePartsDebug: on profile load, logs whether Profile Parts is on and which tab is being read from which shared file, disabled mappings included. Use it when a tab shows settings you do not remember saving. (Light - once per load)** | When a profile loads, logs whether Profile Parts is on and which tab is being read from which shared file, including switched-off ones. Use it when a tab shows settings you do not remember saving. | off |
 | **LoadingProcessDebug: times each step of opening the bot - the ability export, the roster, the cast stack, every tab seed - so a slow or apparently hung load names the step responsible instead of one silent gap. (Light - once per load)** | Times each step of opening the bot (abilities, roster, Cast Stack, each tab), so a slow or stuck load shows which step is to blame. | off |
@@ -2930,9 +3012,9 @@ Debug holds switches that make the bot explain itself. Each box turns on extra l
 
 | Option | What it does | Default |
 |---|---|---|
-| **Failed casts: already covered - CastingProgressDebug above reports every cast that was issued and did not complete, with the reason. A second flag for the same lines would only split one story across two switches.** | **Not active yet.** Does nothing. Casts that fail are already reported by CastingProgressDebug. | off |
-| **Queued commands: the command queue already logs unconditionally, so there is nothing here to turn ON. What this wants is the opposite - a MUTE - which is a different control and a different decision.** | **Not active yet.** Does nothing. The command queue already logs all the time. | off |
-| **Dispels: there is no dispel module in the new bot yet. A dispel is an ordinary cast-stack entry, and the walk trace already says why one was or was not picked. Wire this if dispels ever get their own handling.** | **Not active yet.** Does nothing. Dispels are ordinary Cast Stack entries, and CSEvalDebug already shows why one was or was not picked. | off |
+| **Failed casts: already covered - CastingProgressDebug above reports every cast that was issued and did not complete, with the reason. A second flag for the same lines would only split one story across two switches.** | **Does nothing, by design.** Casts that fail are already reported by CastingProgressDebug. | off |
+| **Queued commands: the command queue already logs unconditionally, so there is nothing here to turn ON. What this wants is the opposite - a MUTE - which is a different control and a different decision.** | **Does nothing, by design.** The command queue already logs all the time. | off |
+| **Dispels: there is no dispel module in the new bot yet. A dispel is an ordinary cast-stack entry, and the walk trace already says why one was or was not picked. Wire this if dispels ever get their own handling.** | **Does nothing, by design.** Dispels are ordinary Cast Stack entries, and CSEvalDebug already shows why one was or was not picked. | off |
 
 
 
@@ -3225,21 +3307,6 @@ The class tab is named after your class (Coercer, Dirge, Channeler, and so on) a
 | **Cast Confront Fear** | Your dirge casts Confront Fear on whoever is waiting for it: fighters first, then priests, then everyone else, oldest request first. Requests come from your other characters, the request text below, and your own revive sickness.<br>*Nothing is cast while it is unticked: requests still queue and are dropped after 2 minutes. Requests are sent by the 'Request confront fear' boxes on the Other tab of the character who died.* | off |
 | **Confront Fear text to listen for:Example: Need a confront fear** | When someone says a line containing this text in group, raid or a tell, your dirge adds them to its Confront Fear list. Capital letters do not matter.<br>*Empty means chat is not listened to. The cure itself still needs 'Cast Confront Fear' ticked.* | empty |
 | **Confront Fear text to listen for from other dirges: Example: Casting confront fear on** | When another player says a line containing this text in group, raid or a tell, your dirge takes the LAST word of that line as a name and removes that player from its Confront Fear list, so two dirges do not cure the same player.<br>*Put the name at the end of the line, for example 'Casting confront fear on Bob'. Your own lines are ignored. The bot does not say this line itself.* | empty |
-
-
-
-## Inquisitor
-
-| Option | What it does | Default |
-|---|---|---|
-| **Verdict On Epics @** | **Not active yet.** It is meant to use Verdict on epic mobs when they reach the health % typed in the box below. | off |
-| **(% box beside it)** | **Not active yet.** The mob health % for 'Verdict On Epics @'. | empty |
-| **Verdict On Epic Named @** | **Not active yet.** It is meant to use Verdict on named epic mobs when they reach the health % typed in the box below. | off |
-| **(% box beside it)** | **Not active yet.** The mob health % for 'Verdict On Epic Named @'. | empty |
-| **Verdict On Heroics @** | **Not active yet.** It is meant to use Verdict on heroic mobs when they reach the health % typed in the box below. | off |
-| **(% box beside it)** | **Not active yet.** The mob health % for 'Verdict On Heroics @'. | empty |
-| **Verdict On Heroic Named @** | **Not active yet.** It is meant to use Verdict on named heroic mobs when they reach the health % typed in the box below. | off |
-| **(% box beside it)** | **Not active yet.** The mob health % for 'Verdict On Heroic Named @'. | empty |
 
 
 
@@ -4261,7 +4328,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 >
 > **Good to know**
 >
-> - Reset forgets the window's saved position. Move it where you want and use Save Position again.
+> - Reset does not save. Reopen the window or log out and back in and it is back at its saved spot. To keep the reset spot, use Save Position.
 > - A hidden window stays hidden; Reset only moves it.
 > - Each window's own title-bar right-click menu also has Reset.
 
@@ -4283,13 +4350,13 @@ One row per open window (this one is left out).
 
 | Control | What it does |
 |---|---|
-| **Reset** | Moves that window back to where it first opened, at its starting size and at the UI scale set in Ogre Options, unlocks it, and makes sure its title bar is on the current screen. Any position you saved for it with Save Position is forgotten.<br>*A hidden window stays hidden - Reset only moves it.* |
+| **Reset** | Moves that window back to where it first opened, at its starting size and at the UI scale set in Ogre Options, unlocks it, and makes sure its title bar is on the current screen. The position you saved with Save Position is kept, so after you close the window or log out it opens at the saved spot again.<br>*A hidden window stays hidden - Reset only moves it.* |
 
 ## Reset everything
 
 | Control | What it does |
 |---|---|
-| **Reset All Windows** | Does a Reset on every window in the list at once, hidden ones included. Help windows and the OgreHUD are listed but left where they are; use their own Reset button.<br>*No confirmation. Every saved position is forgotten.* |
+| **Reset All Windows** | Does a Reset on every window in the list at once, hidden ones included. Help windows and the OgreHUD are listed but left where they are; use their own Reset button.<br>*No confirmation. Saved positions are kept.* |
 | **Title bar close (X)** | Closes this window, the same as `ogre end windowreset`. Nothing else changes. |
 
 ## What the window shows
@@ -4303,7 +4370,7 @@ One row per open window (this one is left out).
 ## Good to know
 
 - Every window also has a Reset on its own title-bar right-click menu. This window is for the ones you cannot reach.
-- Reset forgets a window's saved position, so it opens at its default spot next time too. Drag it where you want it and use Save Position again.
+- Reset does not save. Reopen the window or log out and back in and it is back at its saved spot. To keep the reset spot, use Save Position.
 - Only windows that are open right now are listed. A closed window is not affected.
 - The list does not update by itself; press Refresh after opening or closing windows.
 
@@ -4379,7 +4446,7 @@ The Instance Controller (IC) runs a list of instanced zones for you, one after a
 
 | Control | What it does | Default |
 |---|---|---|
-| **Root dropdown (e.g. "test (4)")** | Picks which of the three content roots to browse: default, test or custom. Each shows how many files it has. Picking one goes to that root's top folder and clears the selected file. The choice is saved.<br>*Browse choice only. The roots have no priority order. The count is the files that load; a root can also list files that are not valid (red).* | default; on first ever open it auto-jumps to the first root that has files |
+| **Root dropdown (e.g. "custom (4)")** | Picks which content root to browse, default or custom. Each shows how many files it has. Picking one goes to that root's top folder and clears the selected file. The choice is saved.<br>*Browse choice only. The roots have no priority order. The count is the files that load; a root can also list files that are not valid (red).* | default; on first ever open it auto-jumps to the first root that has files |
 | **Up** | Goes up one folder in the browse list and clears the selected file.<br>*Disabled at a root's top level.* |  |
 | **search** | Filters the browse list to files whose zone name or path contains the text. Not case-sensitive. It applies about 0.2 seconds after you stop typing.<br>*Not saved, so it clears when the extension reloads.* | empty |
 | **any variant / [Solo] / [Heroic] / ...** | Two jobs. (1) Hides files that do not have this variant. (2) Every zone you queue is tagged with this variant, which decides which instance the zone-in travels to. 'any variant (browse only)' turns the filter off and tags nothing. The choices are every variant found in the loaded zone files. Saved.<br>*With 'any', queuing a file that has 2+ variants pops up a pick-one menu at the row.* | any variant |
@@ -4501,12 +4568,12 @@ When the window is too short for every option, the option grid scrolls (the list
 
 ## What the window shows
 
-- Root dropdown: the root name plus its file count, e.g. "test (4)".
+- Root dropdown: the root name plus its file count, e.g. "custom (4)".
 - Breadcrumb: <root> or <root> / <folder>.
 - Zones list header: "Zones (shown of total loaded)".
 - Zones list folder rows: ▸ name, then the number of files under it.
 - Zones list file rows: the zone name (or path) plus chips - one per variant (e.g. [Solo], [Heroic]) or "no variants"; a difficulty chip (a range "1-80" or choices "normal/expert"); ".iss" when the file hands the run to a LavishScript file. Hover shows the zone name and root/path.
-- Zones list empty messages tell apart: "no zone files loaded", "this root is empty - try test (4)", "nothing in this folder matches", "nothing matches the filter".
+- Zones list empty messages tell apart: "no zone files loaded", "this root is empty - try custom (4)", "nothing in this folder matches", "nothing matches the filter".
 - Queue header: "Queue (n)".
 - Queue rows: label (zone name + variant), and grey sub-text - "diff X" when a difficulty is set; "start at step N (named 3)" when a start point is set; otherwise "stopped at step N (stepId)" when there is a Resume point. While a list runs, a ▶ marks the row it is on.
 - Add-bar text: "Double-click a zone to queue it", or "<zone> as [Heroic]", or "<zone> — double-click to choose a variant".
@@ -4515,7 +4582,7 @@ When the window is too short for every option, the option grid scrolls (the list
 - Startup Options rows: checkbox, label, grey monospace command, and S/D/G chips (lit = runs in that mode, ringed = your current mode).
 - Startup Options status: "E of T enabled · K would run now (solo|duo|group)".
 - Settings - Lock table: green "fresh - N row(s)" (read in the last 15 minutes and not marked out of date), or orange "stale", plus "a refresh is armed" while a re-read is waiting.
-- Settings - Content roots: default = Scripts/Ogre/EQ2/IC/default, test = Scripts/Ogre/EQ2/IC/test, custom = Scripts/OgreSave/EQ2/IC/custom.
+- Settings - Content roots: default = Scripts/Ogre/EQ2/IC/default, custom = Scripts/OgreSave/EQ2/IC/custom.
 - Settings - Pause: Instance Controller and OgreBot, each "running" or orange "PAUSED".
 
 ## Good to know
@@ -4551,11 +4618,11 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > **What you can do here**
 >
 > - **Refresh** - read the zone list and timers from the game again.
-> - **Click a zone** on the left to queue it; click it on the right to remove it. The **Add** buttons queue many at once.
+> - **Click a zone** on the left to queue it; click its **x** on the right to remove it. The **Add** buttons queue many at once.
 > - **Show** - tick Solo, Heroic, Raid or Other to choose which zones the list shows. **Sort** - by Status (resettable first), Type (solo, heroic, raid) or Name. These only change the view: the **Add** buttons still look at every zone.
 > - **Reset queue for me** - reset every queued zone on this character.
 > - **Reset queue via ... for ...** - send the reset to the characters in the Master Control Panel's For Who window.
-> - **Force reset** - ctrl-click a queued zone, then press it twice: the first press only arms it, a second press within 5 seconds does the reset.
+> - **Force reset** - click a queued zone to select it, then press it twice: the first press only arms it, a second press within 5 seconds does the reset.
 >
 > **Good to know**
 >
@@ -4593,8 +4660,8 @@ The zones you picked. The queue is kept while the bot is loaded, even if you clo
 
 | Control | What it does | Default |
 |---|---|---|
-| **Click a queued zone** | Removes it from the queue. |  |
-| **Ctrl-click (or Alt-click) a queued zone** | Selects that zone as the Force reset target (it is highlighted). Ctrl-click it again to unselect. Display only until you press Force reset. |  |
+| **Click a queued zone** | Selects that zone as the Force reset target (it is highlighted). Click it again to unselect. Display only until you press Force reset. |  |
+| **x on a queued zone** | Removes it from the queue. |  |
 | **Clear list** | Empties the reset queue. |  |
 | **Force reset selected / Force reset: <zone> / Click again to SPEND a charge on: <zone>** | Spends one of your limited zone reset charges to reset the selected zone right now, even if it is locked. It takes two clicks: the first click only arms the button (its text changes to 'Click again to SPEND a charge on: <zone>'), and a second click within 5 seconds does the reset. The bot then opens the Zone Reuse window, finds the zone, clicks Force Reset, and only clicks the confirm button if the game's confirm message names exactly that zone. If it does not, nothing is clicked, no charge is spent, and the confirm window is left open for you.<br>*Cannot be undone. If you do not click again within 5 seconds, the button goes back to normal and nothing is spent.* | greyed out until a zone is selected (and while the window is busy) |
 | **Reset queue for me** | Resets the lockout timer of every queued zone on this character only, one zone every half second.<br>*Greyed out while the window is busy. With an empty queue it just says the queue is empty.* |  |
@@ -4623,7 +4690,7 @@ A reminder of how the lists work, and that Force reset spends a limited charge.
 
 ### Choosing a Force reset target
 
-Ctrl-click a zone in the queue:
+Click a zone in the queue:
 
 ![Force reset target](../assets/zonereset/force.png)
 
@@ -7589,15 +7656,19 @@ Whose export this is, how many entries it holds (every rank of every ability) an
 |---|---|
 | **Ability Export** | Opens the Ability Export window, where you make a fresh export. Shown only when there is no export or it is out of date.<br>*When the export finishes the window shows the new one by itself.* |
 
+
+
 ## Search and the list
 
 Every ability in your export, sorted by name with each line's ranks together, lowest level first. Lvl and Tier are the rank's level and spell tier. The count under the search box shows how many match out of the total.
 
 | Control | What it does |
 |---|---|
-| **Search** | Filters the list as you type. Words match the ability's name. A number matches its ID or its line ID (and names with that number in them). A test such as `IsInterrupt = TRUE`, `HOIconID = NULL` or `Level >= 100` checks a field, exactly the way CastVia and TypeID check it. Everything you type must match.<br>*A field name typed without a comparison and a value is shown in orange under the box and ignored until you finish it.* |
+| **Search** | Filters the list as you type. Words match the ability's name. A number matches its ID or its line ID (and names with that number in them). A test such as `IsInterrupt = TRUE`, `HOIconID = NULL` or `Level >= 100` checks a field, exactly the way FindCastableID and FindAndCast check it. Everything you type must match.<br>*A field name typed without a comparison and a value is shown in orange under the box and ignored until you finish it.* |
 | **Click a row** | Shows every field of that rank on the right. |
 | **Right-click a row** | Copy name or Copy ID of that rank. |
+
+
 
 ## The selected ability
 
@@ -7608,6 +7679,8 @@ Every field the export holds for that rank, exactly as written: the name, IDs, l
 | **Copy JSON** | Copies the whole entry, in the same order as the window shows it. |
 | **Right-click a field** | Copy value copies the value. Copy as a search term copies `Field = value`, which you can paste into the search box to find every ability with the same value. |
 | **Title bar close (X)** | Closes the window. Same as `ogre end abilitydetails`. |
+
+
 
 ## Opening it on one ability
 
@@ -7894,6 +7967,7 @@ When the bot loads and finds Classic files for an item that the new bot does not
 - Opening the window with `ogre migrate` first copies anything that is still waiting, without asking - the same as the automatic run.
 - Profiles: files that were missing or could not be read are skipped and counted in the orange message. Running it again copies the same set, so re-running will not fix them - check ISXOgreEQ2.log for which files.
 - Inventory Manager lists (sell, destroy, restock) go into your own custom files. A list you already have is kept, not replaced, unless you use Re-run (overwrite).
+- Saved AutoTarget lists go into one file per zone. A list you already have in the new bot is kept, and any others are added beside it. Re-run (overwrite) replaces only the lists with the same name, and never removes one.
 - The first time the bot loads, the New User Tour runs first. The automatic copy starts a few seconds after the tour is finished or skipped.
 - Typing `ogre migrate` while the window is open does nothing.
 
