@@ -48458,10 +48458,10 @@
    "surface": "AskDetrimentals"
   },
   {
-   "howToFix": "Write `ISXOgreEQ2.Det.DetrimentalInfo[main,back,cancel]` instead of `ISXOgre.DetrimentalInfo[main,back,cancel]`.",
+   "howToFix": "Write `ISXOgreEQ2.Det:DetrimentalCancel[main,back]` instead of `ISXOgre.DetrimentalInfo[main,back,cancel]`.",
    "id": "AskDetrimentals|ISXOgre.DetrimentalInfo[main,back,cancel]",
-   "newForm": "ISXOgreEQ2.Det.DetrimentalInfo[main,back,cancel]",
-   "note": "A read that acts is easy to miss in review - ISXOgreEQ2.Det:DetrimentalCancel[main,back] says the same thing out loud.",
+   "newForm": "ISXOgreEQ2.Det:DetrimentalCancel[main,back]",
+   "note": "This one changes shape: a ${...} read becomes a method call, so replace the whole `noop ${...}` line, not just the text inside it. Left as a read, the word cancels nothing.",
    "oldCall": "ISXOgre.DetrimentalInfo[main,back,cancel]",
    "oldName": "ISXOgre.DetrimentalInfo[main,back,cancel]",
    "oldSpellingToday": "does nothing (the old extension is not loaded with the new bot)",
