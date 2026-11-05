@@ -222,6 +222,52 @@ Drag the right edge, the bottom edge, or the bottom-right corner of a window to 
 
 ---
 
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/no-ogre-windows.md
+
+# No Ogre windows
+
+OgreBot loads and runs, but no Ogre windows appear in the game. If the InnerSpace console says **Windows is blocking EverQuest2.exe from starting other programs**, this page is the fix.
+
+## What is wrong
+
+Ogre's windows run in a small program of their own, `OgreUltralight.exe`, which the game starts. A Windows security setting called Exploit Protection has a rule on `EverQuest2.exe` that stops it starting any other program, so the windows never start.
+
+You may not have set this rule yourself. Other software can add it.
+
+## Turn the rule off
+
+Close the game first.
+
+1. Open **Windows Security**.
+2. Open **App & browser control**, then **Exploit protection settings**.
+3. Open the **Program settings** tab.
+4. Find `EverQuest2.exe`. There can be more than one, one for each copy of the game. Do these steps for each one.
+5. Choose **Edit**, then find **Do not allow child processes**. Turn off **Override system settings** for it, then choose **Apply**.
+6. Start the game and load OgreBot.
+
+Windows may show slightly different names on your version.
+
+## If you cannot turn it off
+
+On a work PC or a shared PC you may not be allowed to change this. Ogre can have the InnerSpace uplink start its windows instead of the game. In the InnerSpace console, type:
+
+```
+ogre ui uplinkstart on
+```
+
+Then restart the game. Use this only if you cannot remove the rule. To go back, type `ogre ui uplinkstart off` and restart the game. On its own, `ogre ui uplinkstart` shows whether this is on.
+
+## Still no windows?
+
+Send this file to Kannkor, from your InnerSpace folder:
+
+```
+x64\Extensions\ISXDK35\OgreUIRuntime\ISXOgreUIHost.log
+```
+
+
+---
+
 Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/whats-new.md
 
 # What's new
@@ -231,6 +277,22 @@ What changed in OgreBot, release by release, newest first. Every release listed 
 A release is named by the day it was published and its number that day: **2026.10.16.005** is the fifth release on October 16, 2026. Releases with nothing you would notice are not listed, so the numbers can skip.
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
+
+## 2026.11.05.005 {#r2026-11-05-005}
+
+*Thursday, November 5, 2026 at 5:09 PM EST*
+
+- **New** · Bot: **Start auto-login from IRC.** -List_AutoLoginProfiles, -LaunchAutoLogin and -LoadCharacter now work from IRC, for authorised senders only. A toon in no auto-login profile gets a refusal line.
+- **New** · Windows: **No Ogre windows now says why when Windows blocks them.** If a Windows Exploit Protection rule stops the game starting Ogre's window program, the InnerSpace console now says so and the help page opens, once a day per PC. On a PC where that rule cannot be changed, ogre ui uplinkstart on has the uplink start the windows instead.
+- **Fixed** · Bot: **A detrimental read no longer cancels anything.** The cancel word is gone from Det.DetrimentalInfo: a read never changes the game, so use ISXOgreEQ2.Det:DetrimentalCancel[main,back], where the conversion kit now points. Scheduler:ClearNonPersistent no longer drops the bot's own delayed casts and actions. A pinned HOs:Start finishes its correction while the bot is paused.
+- **Fixed** · Bot: **CastStack:Load and Import now cast what they load.** A cast stack loaded with CastStack:Load or Import had no ability ids, so nothing in it cast. Both now resolve ability names as a profile load does. CastStack:TestCast with a name the export does not know now says so and casts nothing, where it used to cast the first eligible entry.
+- **Fixed** · Bot: **Embargo and allow tags apply at once, with or without the hub.** CastStack:HoldTag, ClearEmbargo, ClearAllow, ClearAllEmbargos and ClearAllAllows now change this session first, then tell the others, so they work with no console hub. HoldTag -m now ties the hold to your own buff with a grace and a time limit, where the hold used to drop at once, and other sessions hold plain until you let go.
+- **Fixed** · Bot: **GetQuest stops at the first failure.** A round that fails, such as standing too far from the NPC, now ends the run with one line and puts Do Not Accept Quests back. It used to keep going up to the attempt cap with that setting off, and could accept quests you did not ask for.
+- **Fixed** · Bot: **IC:Complete and IC:Fail on a steps zone.** IC:Complete on a steps zone now refuses with one line, since those zones complete themselves. IC:Fail ends a steps zone at its current step, and during a zone-in it stops the route. A script zone after a steps zone no longer inherits its verdict or progress.
+- **Fixed** · Bot: **LogToonIn reaches a toon on another account.** At character select, a toon that is not on the list used to end the login. LogToonIn and Game:Login now enter the world on the first listed character, camp to the login screen and log the toon in. In combat it still stops with its line, and a toon with no saved login still gets a refusal.
+- **Fixed** · Bot: **Queue:Add Flow keeps the flow's holds.** A Flow added with Queue:Add or Queue.Enqueue now carries the holds, halts and lifetime its flow is registered with. A flow name that is not registered gets one line at Add.
+- **Fixed** · Bot: **Stale target reads, Kunark check, unsaved edits.** ISXOgreEQ2.NPCTarget and NPCTargetID read nothing out of the world, and Encounter.IsActive answers for every encounter naming that mob. CheckKunarkAscendingRequirements now reads the journal and reports real answers. Loading over unsaved edits prints a warning, large UI saves are no longer dropped, and potency and crit bonus time no longer counts the zone load.
+- **Fixed** · Windows: **The in-game UI shows when RivaTuner is running.** With RivaTuner Statistics Server running, which MSI Afterburner can start on its own, no Ogre windows appeared in game. They now show alongside it. Restart the game after patching to get this fix.
 
 ## 2026.11.05.001 {#r2026-11-05-001}
 

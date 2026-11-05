@@ -6,9 +6,9 @@ To convert a Classic script, follow the procedure on the Converting your scripts
 
 ## Read it all
 
-- [Everything in one document](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-full.txt): the entire documentation, 913 KB. If that is too much to read at once, use the smaller pieces below - together they are the same text.
-- [Start here (part 1 of 2)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-start-here-1.txt): 16 KB - Start here
-- [Start here (part 2 of 2)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-start-here-2.txt): 174 KB - Start here
+- [Everything in one document](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-full.txt): the entire documentation, 918 KB. If that is too much to read at once, use the smaller pieces below - together they are the same text.
+- [Start here (part 1 of 2)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-start-here-1.txt): 17 KB - Start here
+- [Start here (part 2 of 2)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-start-here-2.txt): 178 KB - Start here
 - [OgreBot (part 1 of 3)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-ogrebot-1.txt): 100 KB - OgreBot; OgreBot - Tabs
 - [OgreBot (part 2 of 3)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-ogrebot-2.txt): 100 KB - OgreBot - Tabs
 - [OgreBot (part 3 of 3)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-ogrebot-3.txt): 50 KB - OgreBot - Tabs
@@ -26,6 +26,7 @@ Each page on its own, as plain Markdown, in menu order:
 - [OgreBot - User Guide](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/index.md)
 - [The super secret project](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/super-secret-project.md)
 - [The basics](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/basics.md)
+- [No Ogre windows](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/no-ogre-windows.md)
 - [What's new](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/whats-new.md)
 
 ## OgreBot

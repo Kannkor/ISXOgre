@@ -10,6 +10,22 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.11.05.005 {#r2026-11-05-005}
+
+*Thursday, November 5, 2026 at 5:09 PM EST*
+
+- **New** · Bot: **Start auto-login from IRC.** -List_AutoLoginProfiles, -LaunchAutoLogin and -LoadCharacter now work from IRC, for authorised senders only. A toon in no auto-login profile gets a refusal line.
+- **New** · Windows: **No Ogre windows now says why when Windows blocks them.** If a Windows Exploit Protection rule stops the game starting Ogre's window program, the InnerSpace console now says so and the help page opens, once a day per PC. On a PC where that rule cannot be changed, ogre ui uplinkstart on has the uplink start the windows instead.
+- **Fixed** · Bot: **A detrimental read no longer cancels anything.** The cancel word is gone from Det.DetrimentalInfo: a read never changes the game, so use ISXOgreEQ2.Det:DetrimentalCancel[main,back], where the conversion kit now points. Scheduler:ClearNonPersistent no longer drops the bot's own delayed casts and actions. A pinned HOs:Start finishes its correction while the bot is paused.
+- **Fixed** · Bot: **CastStack:Load and Import now cast what they load.** A cast stack loaded with CastStack:Load or Import had no ability ids, so nothing in it cast. Both now resolve ability names as a profile load does. CastStack:TestCast with a name the export does not know now says so and casts nothing, where it used to cast the first eligible entry.
+- **Fixed** · Bot: **Embargo and allow tags apply at once, with or without the hub.** CastStack:HoldTag, ClearEmbargo, ClearAllow, ClearAllEmbargos and ClearAllAllows now change this session first, then tell the others, so they work with no console hub. HoldTag -m now ties the hold to your own buff with a grace and a time limit, where the hold used to drop at once, and other sessions hold plain until you let go.
+- **Fixed** · Bot: **GetQuest stops at the first failure.** A round that fails, such as standing too far from the NPC, now ends the run with one line and puts Do Not Accept Quests back. It used to keep going up to the attempt cap with that setting off, and could accept quests you did not ask for.
+- **Fixed** · Bot: **IC:Complete and IC:Fail on a steps zone.** IC:Complete on a steps zone now refuses with one line, since those zones complete themselves. IC:Fail ends a steps zone at its current step, and during a zone-in it stops the route. A script zone after a steps zone no longer inherits its verdict or progress.
+- **Fixed** · Bot: **LogToonIn reaches a toon on another account.** At character select, a toon that is not on the list used to end the login. LogToonIn and Game:Login now enter the world on the first listed character, camp to the login screen and log the toon in. In combat it still stops with its line, and a toon with no saved login still gets a refusal.
+- **Fixed** · Bot: **Queue:Add Flow keeps the flow's holds.** A Flow added with Queue:Add or Queue.Enqueue now carries the holds, halts and lifetime its flow is registered with. A flow name that is not registered gets one line at Add.
+- **Fixed** · Bot: **Stale target reads, Kunark check, unsaved edits.** ISXOgreEQ2.NPCTarget and NPCTargetID read nothing out of the world, and Encounter.IsActive answers for every encounter naming that mob. CheckKunarkAscendingRequirements now reads the journal and reports real answers. Loading over unsaved edits prints a warning, large UI saves are no longer dropped, and potency and crit bonus time no longer counts the zone load.
+- **Fixed** · Windows: **The in-game UI shows when RivaTuner is running.** With RivaTuner Statistics Server running, which MSI Afterburner can start on its own, no Ogre windows appeared in game. They now show alongside it. Restart the game after patching to get this fix.
+
 ## 2026.11.05.001 {#r2026-11-05-001}
 
 *Thursday, November 5, 2026 at 12:27 PM EST*

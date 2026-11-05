@@ -4708,7 +4708,12 @@
     false
    ]
   ],
-  "-launchautologin": [],
+  "-launchautologin": [
+   [
+    "one",
+    false
+   ]
+  ],
   "-letsgo": [
    [
     "forwho",
@@ -4743,7 +4748,12 @@
     false
    ]
   ],
-  "-loadcharacter": [],
+  "-loadcharacter": [
+   [
+    "one",
+    false
+   ]
+  ],
   "-loadprofile": [
    [
     "forwho",
@@ -41263,6 +41273,9 @@
    "oldSpellingToday": "works",
    "status": "unchanged",
    "surface": "console",
+   "v2Params": [
+    "profile:one"
+   ],
    "v2Row": "-LaunchAutoLogin"
   },
   {
@@ -41305,6 +41318,9 @@
    "oldSpellingToday": "works",
    "status": "unchanged",
    "surface": "console",
+   "v2Params": [
+    "toon:one"
+   ],
    "v2Row": "-LoadCharacter"
   },
   {
