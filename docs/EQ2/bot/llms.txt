@@ -6,15 +6,15 @@ To convert a Classic script, follow the procedure on the Converting your scripts
 
 ## Read it all
 
-- [Everything in one document](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-full.txt): the entire documentation, 918 KB. If that is too much to read at once, use the smaller pieces below - together they are the same text.
-- [Start here (part 1 of 2)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-start-here-1.txt): 17 KB - Start here
-- [Start here (part 2 of 2)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-start-here-2.txt): 178 KB - Start here
-- [OgreBot (part 1 of 3)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-ogrebot-1.txt): 100 KB - OgreBot; OgreBot - Tabs
-- [OgreBot (part 2 of 3)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-ogrebot-2.txt): 100 KB - OgreBot - Tabs
-- [OgreBot (part 3 of 3)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-ogrebot-3.txt): 50 KB - OgreBot - Tabs
+- [Everything in one document](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-full.txt): the entire documentation, 941 KB. If that is too much to read at once, use the smaller pieces below - together they are the same text.
+- [Start here (part 1 of 2)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-start-here-1.txt): 18 KB - Start here
+- [Start here (part 2 of 2)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-start-here-2.txt): 188 KB - Start here
+- [OgreBot (part 1 of 3)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-ogrebot-1.txt): 99 KB - OgreBot; OgreBot - Tabs
+- [OgreBot (part 2 of 3)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-ogrebot-2.txt): 96 KB - OgreBot - Tabs
+- [OgreBot (part 3 of 3)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-ogrebot-3.txt): 57 KB - OgreBot - Tabs
 - [Windows (part 1 of 4)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-1.txt): 98 KB - Windows - Everyday; Windows - Running content
-- [Windows (part 2 of 4)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-2.txt): 94 KB - Windows - Running content; Windows - Loot and items
-- [Windows (part 3 of 4)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-3.txt): 91 KB - Windows - Loot and items; Windows - Crafting; Windows - Groups and accounts
+- [Windows (part 2 of 4)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-2.txt): 100 KB - Windows - Running content; Windows - Loot and items
+- [Windows (part 3 of 4)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-3.txt): 95 KB - Windows - Loot and items; Windows - Crafting; Windows - Groups and accounts
 - [Windows (part 4 of 4)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-4.txt): 82 KB - Windows - Groups and accounts; Windows - Tools
 - [Developers (part 1 of 2)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-1.txt): 74 KB - Developers; Developers - Guides
 - [Developers (part 2 of 2)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-2.txt): 40 KB - Developers - Guides
@@ -39,6 +39,7 @@ Each page on its own, as plain Markdown, in menu order:
 - [Cast Stack](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/cast-stack.md)
 - [Settings](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/settings.md)
 - [Setup](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/setup.md)
+- [Status](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/status.md)
 - [Ability Embargo](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/ability-embargo.md)
 - [Ability Research](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/ability-research.md)
 - [Ability Tracker](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/ability-tracker.md)
@@ -100,12 +101,14 @@ Each page on its own, as plain Markdown, in menu order:
 - [Zone Reset](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/zonereset.md)
 - [OSA](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/osa.md)
 - [NPC Cast Monitoring](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/npccast.md)
+- [Tag Timers](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/tagtimers.md)
 - [Effect Tracker](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/effecttracker.md)
 - [Hide Effects](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/hideeffects.md)
 - [Radar](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/eq2radar.md)
 - [Radar Types](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/eq2radarfilters.md)
 - [Nav](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/nav.md)
 - [Travel Helper](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/travel.md)
+- [Points of Interest and Paths](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/paths.md)
 - [Safe Fall Trainer](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/safefall.md)
 
 ## Windows - Loot and items

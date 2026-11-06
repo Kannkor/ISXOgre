@@ -180,30 +180,30 @@ The flat `OgreBotAPI:` camp-spot calls. They moved into `OgreBotAPI.CampSpot`.
 
 What you type after `oc !c` / `oc !ci`.
 
-**Note A** (4 rows below): An alias of `-ChangeCampSpot` - it works as typed.
+**Note A** (6 rows below): An alias of `-CS_Set_ChangeCampSpotBy` - it works as typed.
 
-**Note B** (3 rows below): An alias of `-CS_Set_ChangeCampSpotBy` - it works as typed.
+**Note B** (4 rows below): An alias of `-ChangeCampSpot` - it works as typed.
 
 | You typed | Today | Type instead | What changed | Notes |
 |---|---|---|---|---|
 | `-campspot` | works | — | ✅ Works as is |  |
 | `-ccs` | runs, arguments mean something else | `-ChangeCampSpot` | ⚠️ Arguments changed | Insert the for-who as the first argument. V1 had NO for-who: every session that heard the line acted. V2 reads argument 1 as the for-who, so an unconverted line's value lands in the for-who slot and the real argument falls back to its default - silently. Write `auto` there; that is what the MCP migration writes.<br>**Old:** `-ccs <x> <y> <z> (or one x,y,z token)`<br>**New:** `-ccs <fw> <x> <y> <z>`<br>… |
-| `-ccsb` | works | — | ✅ Works as is |  |
-| `-ccsbfw` | works | — | ✅ Works as is | Note B |
-| `-ccsbw` | works | — | ✅ Works as is | Note B |
-| `-ccsbyforwho` | works | — | ✅ Works as is | Note B |
-| `-ccsfw` | works | — | ✅ Works as is | Note A |
-| `-ccsw` | works | — | ✅ Works as is | Note A |
+| `-ccsb` | works | — | ✅ Works as is | Note A |
+| `-ccsbfw` | works | — | ✅ Works as is | Note A |
+| `-ccsbw` | works | — | ✅ Works as is | Note A |
+| `-ccsbyforwho` | works | — | ✅ Works as is | Note A |
+| `-ccsfw` | works | — | ✅ Works as is | Note B |
+| `-ccsw` | works | — | ✅ Works as is | Note B |
 | `-Change_CampSpot` | runs, arguments mean something else | `-ChangeCampSpot` | ⚠️ Arguments changed | Insert the for-who as the first argument. V1 had NO for-who: every session that heard the line acted. V2 reads argument 1 as the for-who, so an unconverted line's value lands in the for-who slot and the real argument falls back to its default - silently. Write `auto` there; that is what the MCP migration writes.<br>**Old:** `-Change_CampSpot <x> <y> <z> (or one x,y,z token)`<br>**New:** `-Change_CampSpot <fw> <x> <y> <z>`<br>… |
-| `-Change_Campspot_Who` | works | — | ✅ Works as is | Note A |
+| `-Change_Campspot_Who` | works | — | ✅ Works as is | Note B |
 | `-ChangeCampSpot` | runs, arguments mean something else | `-ChangeCampSpot` | ⚠️ Arguments changed | Insert the for-who as the first argument. V1 had NO for-who: every session that heard the line acted. V2 reads argument 1 as the for-who, so an unconverted line's value lands in the for-who slot and the real argument falls back to its default - silently. Write `auto` there; that is what the MCP migration writes.<br>**Old:** `-ChangeCampSpot <x> <y> <z> (or one x,y,z token)`<br>**New:** `-ChangeCampSpot <fw> <x> <y> <z>`<br>… |
-| `-ChangeCampSpotBy` | works | — | ✅ Works as is | An alias of `-ccsb` - it works as typed. |
-| `-ChangeCampSpotWho` | works | — | ✅ Works as is | Note A |
+| `-ChangeCampSpotBy` | works | — | ✅ Works as is | Note A |
+| `-ChangeCampSpotWho` | works | — | ✅ Works as is | Note B |
 | `-cs` | works | — | ✅ Works as is | An alias of `-campspot` - it works as typed. |
 | `-cs-circle` | works | — | ✅ Works as is | An alias of `-CS_Set_Formation_Circle` - it works as typed. |
 | `-cs-monkey` | works | — | ✅ Works as is | An alias of `-CS_Set_Formation_MonkeyInMiddle` - it works as typed. |
 | `-cs-monkeyRaid` | works | — | ✅ Works as is | An alias of `-CS_Set_Formation_MonkeyInMiddleRaid` - it works as typed. |
-| `-cs-set-ccs-by` | works | — | ✅ Works as is | An alias of `-ccsb` - it works as typed. |
+| `-cs-set-ccs-by` | works | — | ✅ Works as is | Note A |
 | `-cs-set-cs` | works | — | ✅ Works as is | An alias of `-campspot` - it works as typed. |
 | `-CS_ClearAll` | works | — | ✅ Works as is |  |
 | `-CS_ClearCampSpot` | works | — | ✅ Works as is |  |

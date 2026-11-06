@@ -1,0 +1,122 @@
+<div class="ogre-beta" markdown>
+**OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
+</div>
+
+# Points of Interest and Paths
+
+> **:bulb: In game - the ? button on this window says**
+>
+> Names spots in the zone you are in, and saves walks through them. They are kept on this PC, for every toon.
+>
+> **What you can do here**
+>
+> - **Add** - save a point of interest at x, y, z. Leave those blank to use where you stand. **My Loc** fills them in for you.
+> - **Remove / Rename** - change a point of interest of your own.
+> - **New / Delete** - make or drop a path. A zone can hold as many as you like.
+> - **Add / Remove / Clear** under the point list - build the path. A point is a point of interest or x,y,z.
+> - **Nav / Camp spot** - how the toon walks that path. **Loop** starts it over after the last point.
+> - **Start / Stop** - walk the path on this box.
+> - **Import** - bring this zone's old AutoHunt path across from OgreBot Classic.
+>
+> **Good to know**
+>
+> - A point of interest's name works wherever a location does in this zone: `-ChangeCampSpot`, `-TravelMesh`.
+> - A shipped point of interest cannot be removed or renamed. Adding your own of that name overrides it.
+> - Start stops with a line if a point cannot be found, before anything moves. Zoning ends a walk.
+> - The first time you enter a zone with an old AutoHunt path, it comes across by itself as a path called Default. Nothing you already have is overwritten, and what you delete does not come back unless you press **Import**.
+> - The Auto-Hunt tab picks one of these paths to walk between pulls.
+
+**Open it:** Type `ogre paths`, or press **Edit paths** on the Auto-Hunt tab of OgreBot. `ogre end paths` or the window's X closes it. A path being walked goes on.
+
+[![Points of Interest and Paths](../assets/paths/window.png)](../assets/paths/window.png "Click for full size")
+
+## What it is for
+
+This window holds the named spots and the saved walks of the zone you are in. A point of interest is a name for a spot: the name then works wherever a location does in this zone, such as `-ChangeCampSpot`, `-NavTo` and `-TravelMesh`. A path is a list of points that a toon walks in order, and a zone can hold as many paths as you like. Both are kept on this PC, for every toon, and everything here also has a command for scripts.
+
+## Zone and Import
+
+The top line names the zone everything below belongs to. While you are zoning, or while the travel data loads, it says why the lists are empty.
+
+[![Zone and Import](../assets/paths/head.png)](../assets/paths/head.png "Click for full size")
+
+| Control | What it does |
+|---|---|
+| **Import** | Brings this zone's saved Auto-Hunt route across from OgreBot Classic, even if that was done before. A name or path already here is never overwritten.<br>*This also happens by itself, once, the first time you enter a zone that has an old route.* |
+
+
+
+## Points of interest
+
+Click a row to fill in the name, the x, y, z boxes and the path's Point box.
+
+[![Points of interest](../assets/paths/pois.png)](../assets/paths/pois.png "Click for full size")
+
+| Control | What it does |
+|---|---|
+| **Name (box)** | The name of the point of interest to add. It cannot be empty, hold a comma or read as a number, because it would then read as a location. |
+| **x / y / z (boxes)** | Where the point of interest is. Leave all three blank to use where you stand. |
+| **My Loc** | Fills x, y and z from where you stand, so you can change them before you add. |
+| **Add** | Saves the point of interest in this zone. A name you already have moves to the new spot. A name the bot ships with is overridden by yours, and it stays yours until you remove it. |
+| **Remove** | Removes the selected point of interest of yours. If it was overriding a shipped one, the shipped one is back.<br>*Greyed out for a shipped point of interest.* |
+| **New name (box)** | The new name for Rename. |
+| **Rename** | Renames the selected point of interest of yours. A name another point of interest here holds is refused, and a path that used the old name does not follow it.<br>*Greyed out for a shipped point of interest.* |
+
+
+
+## Paths
+
+Click a path to select it. Its points show in the list under these buttons.
+
+[![Paths](../assets/paths/paths.png)](../assets/paths/paths.png "Click for full size")
+
+| Control | What it does | Default |
+|---|---|---|
+| **New path name (box)** | The name of the path to make. |  |
+| **New** | Makes an empty path in this zone. It walks by Nav and does not loop until you change it. A name already here is refused, so a slip cannot empty a path. |  |
+| **Delete** | Deletes the selected path.<br>*No confirmation.* |  |
+| **Walk by Nav / Camp spot** | How the toon walks this path. Nav goes to each point on the navigation map. Camp spot moves the camp spot to each point and lets the leash bring the toon. | Nav |
+| **Loop** | Starts the path over at the first point after the last, until something stops it. | off |
+| **Start** | Walks the selected path on this box, in place of any walk under way. Every point is checked first: one that cannot be found stops it with a line, before anything moves.<br>*It runs while OgreBot is paused, and OgreBot must be open.* |  |
+| **Stop** | Stops the walk on this box. The toon stands where it is. |  |
+
+
+
+## Points of the path
+
+The selected path's points, in the order they are walked.
+
+[![Points of the path](../assets/paths/points.png)](../assets/paths/points.png "Click for full size")
+
+| Control | What it does |
+|---|---|
+| **Point: a name, or x,y,z (box)** | The point to add: the name of a point of interest, or x,y,z. A name is looked for when the path starts, so its point of interest can come later. |
+| **Add** | Adds the point to the end of the selected path. |
+| **Remove** | Removes the selected point. A path that passes the same point twice keeps the other one. |
+| **Clear** | Takes every point off the selected path. The path stays, with its Walk by and Loop settings.<br>*No confirmation.* |
+
+
+
+## What the window shows
+
+- 'shipped' or 'yours' beside a point of interest: shipped ones come with the bot and cannot be removed or renamed.
+- 'at an actor' in place of a location: a shipped point of interest that names an actor, not a spot. It has no location of its own, so a path or a location verb cannot use it.
+- Green text: the path being walked and the point it is walking to, with a line under the lists saying the same.
+- The last line of the window: the last thing the bot said about a point of interest or a path, a refusal included.
+
+## Good to know
+
+- Everything here is for the zone you are in. Another zone has its own points of interest and paths.
+- Zoning ends a walk, with a line. So does death, a point the toon cannot get to, and closing OgreBot.
+- A camp spot walk needs 'Allow Camp Spot' on for that toon. When it ends, the camp spot is cleared if the walk was stopped, and stays at the last point if the walk finished.
+- The first time you enter a zone that has an old OgreBot Classic route, it comes across by itself as a path called Default, and one line says how many points came and which did not. What you delete afterwards does not come back unless you press Import.
+- The Auto-Hunt tab picks one of these paths to walk between pulls. Start here walks a path with no hunting, and hunting leaves that walk alone.
+- A path or a point of interest saved on one box shows on every other box on this PC within a second or so.
+
+### For scripts
+
+The same things have commands: `OgreBotAPI.POI` for points of interest and `OgreBotAPI.Paths` for paths. In OgreConsole, `-POI_Add` saves a point of interest, `-Path` walks a path and `-PathStop` stops it.
+
+### A zone with no points of interest yet
+
+![Empty](../assets/paths/empty.png)

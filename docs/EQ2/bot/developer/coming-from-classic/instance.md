@@ -104,7 +104,7 @@ call Obj_OgreIH.Get_Chest
 | `Obj_OgreIH.HandleMultipleRewards_ToggleLoot` | reads NULL | — | ⛔ Removed | Write the reward you want in the `reward` step's `choose`. |
 | `call Obj_OgreIH.HandleNamedw` | does nothing | `named` | 📄 In a data file now | -NoChests / -NoShinies = leave the loot step out; -trash names have no step of their own (see Obj_OgreIH.ClearTrashUntilNamedSpawns). |
 | `call Obj_OgreIH.HandleNamedw_ref` | does nothing | `named` | 📄 In a data file now | See Obj_OgreIH.HandleNamedw. |
-| `Obj_OgreIH:HoldUp` | does nothing | `movement` | 📄 In a data file now | holdUp has no `sendTo`; for the group outside a data file: OgreBotAPI.Movement:HoldUp[fw]. |
+| `Obj_OgreIH:HoldUp` | does nothing | `movement` | 📄 In a data file now | Now also stops the move in progress. For the group outside a data file: OgreBotAPI.Movement:StopFollow[fw], or -holdup on the console. |
 | `Obj_OgreIH:Jump` | does nothing | `movement` | 📄 In a data file now |  |
 | `Obj_OgreIH:Jump_Me` | does nothing | `movement` | 📄 In a data file now |  |
 | `call Obj_OgreIH.KeepGroupBehindOnNPC` | does nothing | `campSpot` | 📄 In a data file now | Fight positioning - the encounter file's job, not the IC's. |

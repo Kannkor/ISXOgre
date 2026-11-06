@@ -12,7 +12,8 @@ Assist tells the bot whose fight to join. Pick people (or aliases such as @Tank)
 | Option | What it does | Default |
 |---|---|---|
 | **Choose whom to assist** | Pick a group or raid member, or an alias such as @Tank, to add them to the bottom of the Assist order list. The dropdown then resets; a name already on the list is not added twice.<br>*The choices are refreshed every time you open the dropdown.* | n/a (it adds a name, it stores nothing itself) |
-| **Assist order — drag to set priority, double-click to disable** | The people to assist, in priority order. The bot uses the first one who is in your group or raid and in this zone, and ignores the rest until that person is gone.<br>*Disabled names stay in place (struck through) and are skipped.* | empty |
+| **Only assist within (meters)** | The bot only assists players within this many meters of you. A player further away is skipped, the same as a player in another zone: the bot tries the next name on the list, and if nobody is close enough your target is left alone. Leave it blank for 100. 0 means no limit. |  |
+| **Assist order — drag to set priority, double-click to disable** | The people to assist, in priority order. The bot uses the first one who is in your group or raid, in this zone and within range, and ignores the rest until that person is gone.<br>*Disabled names stay in place (struck through) and are skipped.* | empty |
 
 
 

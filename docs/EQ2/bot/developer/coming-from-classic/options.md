@@ -1,10 +1,10 @@
-# OgreBot option ids
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../index.md).
 </div>
 
-Scripts and MCP buttons change OgreBot's options by id: `oc !c -ChangeOgreBotUIOption <who> <id> <value>`, `OgreBotAPI.Options:Set[<who>,<id>,<value>]`, or read one with `${OgreBotAPI.Options.Value[<id>]}`. Most ids are the same in the new bot (691 of them exist there). The ones below are Classic ids the new bot does not have.
+# OgreBot option ids
+
+Scripts and MCP buttons change OgreBot's options by id: `oc !c -ChangeOgreBotUIOption <who> <id> <value>`, `OgreBotAPI.Options:Set[<who>,<id>,<value>]`, or read one with `${OgreBotAPI.Options.Value[<id>]}`. Most ids are the same in the new bot (690 of them exist there). The ones below are Classic ids the new bot does not have.
 
 > **:warning: Setting an id the new bot does not have does nothing**
 >
@@ -14,6 +14,8 @@ Scripts and MCP buttons change OgreBot's options by id: `oc !c -ChangeOgreBotUIO
 
 These ids did nothing even in Classic (switched off there, or never an option at all). A line that sets one can go.
 
+- `checkbox_autohunt_looppath`
+- `checkbox_autohunt_movementonly`
 - `checkbox_inquisitor_verdictepicnamedonly`
 - `checkbox_inquisitor_verdictepics`
 - `checkbox_inquisitor_verdictheroicnamedonly`
@@ -21,10 +23,17 @@ These ids did nothing even in Classic (switched off there, or never an option at
 - `checkbox_other_handlefieldmedic`
 - `checkbox_settings_doho`
 - `checkbox_settings_raidoptionslimited`
+- `listbox_autohunt_path_order`
 - `textentry_inquisitor_verdictepicnamedonlypercent`
 - `textentry_inquisitor_verdictepicspercent`
 - `textentry_inquisitor_verdictheroicnamedonlypercent`
 - `textentry_inquisitor_verdictheroicspercent`
+
+## Renamed
+
+| Old id | New id |
+|---|---|
+| `checkbox_autohunt_autohunt` | `checkbox_donotsave_autohunt` |
 
 ## Not in the new bot (53)
 

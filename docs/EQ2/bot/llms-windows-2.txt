@@ -374,6 +374,53 @@ With the NPC Cast Monitoring checkbox turned off in OgreBot:
 
 ---
 
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/tagtimers.md
+
+# Tag Timers
+
+> **:bulb: In game - the ? button on this window says**
+>
+> Shows every Embargo and Allow tag on this character right now, so you can see why an ability is being held back or let through.
+>
+> **What you can do here**
+>
+> - Tick **Show Tag Timers window** on the Tags tab to have it open with the profile, or use `ogre tags` to open it once.
+> - Drag the edges to resize it, like any other Ogre window.
+>
+> **What each column means**
+>
+> - **Tag**: the tag's name.
+> - **Type**: Embargo holds an ability back, Allow lets it through.
+> - **From**: the character who set the tag. Two characters holding one tag show as two lines.
+> - **Sent to**: who the tag went to: all, group, raid, me, or a character's name.
+> - **Time left**: counts down. A tag coupled to a buff says "while <buff> is up" and ends when the buff does.
+>
+> **Good to know**
+>
+> - **unknown** means the tag came from a command or a script that did not name anyone.
+> - The window only shows tags. It changes nothing.
+
+**Open it:** Tick **Show Tag Timers window** on the [Tags tab](../ogrebot/tags.md) to have it open with the profile, or type `ogre tags`. `ogre end tags` closes it.
+
+## What it is for
+
+Shows every Embargo and Allow tag on this character right now, so you can see why an ability is being held back or let through. It only shows tags: it changes nothing.
+
+## The list
+
+One line per holder. Two characters holding the same tag show as two lines, and the tag stays on until the last of them lets go. The lines stay sorted by tag name, so they do not jump about as the clocks run.
+
+| Control | What it does |
+|---|---|
+| **Tag** | The tag's name. |
+| **Type** | Embargo holds an ability back, Allow lets it through. |
+| **From** | The character who set the tag. **unknown** means a command or a script armed it without naming anyone. |
+| **Sent to** | Who the tag went to: all, group, raid, me, or a character's name. |
+| **Time left** | Counts down. A tag coupled to a buff says while that buff is up, and ends when the buff does. |
+
+
+---
+
 Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/effecttracker.md
 
 # Effect Tracker
@@ -894,6 +941,14 @@ The top line is the state (Moving in green, Failed in red, Arrived highlighted, 
 - The window closes itself as soon as a trip ends, so you rarely see Arrived, Stopped or Failed in it. The console says how the trip ended.
 - While nav is paused it keeps control of your character, so nothing else (follow, camp spot) will move it until you Resume or STOP.
 
+## Points of interest and paths
+
+A point of interest is a name you give a spot in a zone. A path is a saved list of spots to walk in order. Both are kept in the [Points of Interest and Paths window](paths.md): type `ogre paths`.
+
+- A point of interest's name works wherever a location does in that zone: `oc !c -NavTo igw:${Me.Name} bell`, `oc !c -ChangeCampSpot igw:${Me.Name} bell`, and `-TravelMesh` to reach it from another zone.
+- `oc !c -Path igw:${Me.Name} <name>` walks a saved path, and `oc !c -PathStop igw:${Me.Name}` stops it. It runs while OgreBot is paused, and zoning ends it.
+- The [Auto-Hunt tab](../ogrebot/auto-hunt.md) picks a path to walk between pulls.
+
 ## Other states
 
 Paused with the Pause button:
@@ -994,6 +1049,120 @@ The list shows every destination the map offers, in the map's order. Type in the
 ### When nothing can be opened
 
 ![Failed](../assets/travel/failed.png)
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/paths.md
+
+# Points of Interest and Paths
+
+> **:bulb: In game - the ? button on this window says**
+>
+> Names spots in the zone you are in, and saves walks through them. They are kept on this PC, for every toon.
+>
+> **What you can do here**
+>
+> - **Add** - save a point of interest at x, y, z. Leave those blank to use where you stand. **My Loc** fills them in for you.
+> - **Remove / Rename** - change a point of interest of your own.
+> - **New / Delete** - make or drop a path. A zone can hold as many as you like.
+> - **Add / Remove / Clear** under the point list - build the path. A point is a point of interest or x,y,z.
+> - **Nav / Camp spot** - how the toon walks that path. **Loop** starts it over after the last point.
+> - **Start / Stop** - walk the path on this box.
+> - **Import** - bring this zone's old AutoHunt path across from OgreBot Classic.
+>
+> **Good to know**
+>
+> - A point of interest's name works wherever a location does in this zone: `-ChangeCampSpot`, `-TravelMesh`.
+> - A shipped point of interest cannot be removed or renamed. Adding your own of that name overrides it.
+> - Start stops with a line if a point cannot be found, before anything moves. Zoning ends a walk.
+> - The first time you enter a zone with an old AutoHunt path, it comes across by itself as a path called Default. Nothing you already have is overwritten, and what you delete does not come back unless you press **Import**.
+> - The Auto-Hunt tab picks one of these paths to walk between pulls.
+
+**Open it:** Type `ogre paths`, or press **Edit paths** on the Auto-Hunt tab of OgreBot. `ogre end paths` or the window's X closes it. A path being walked goes on.
+
+## What it is for
+
+This window holds the named spots and the saved walks of the zone you are in. A point of interest is a name for a spot: the name then works wherever a location does in this zone, such as `-ChangeCampSpot`, `-NavTo` and `-TravelMesh`. A path is a list of points that a toon walks in order, and a zone can hold as many paths as you like. Both are kept on this PC, for every toon, and everything here also has a command for scripts.
+
+## Zone and Import
+
+The top line names the zone everything below belongs to. While you are zoning, or while the travel data loads, it says why the lists are empty.
+
+| Control | What it does |
+|---|---|
+| **Import** | Brings this zone's saved Auto-Hunt route across from OgreBot Classic, even if that was done before. A name or path already here is never overwritten.<br>*This also happens by itself, once, the first time you enter a zone that has an old route.* |
+
+
+
+## Points of interest
+
+Click a row to fill in the name, the x, y, z boxes and the path's Point box.
+
+| Control | What it does |
+|---|---|
+| **Name (box)** | The name of the point of interest to add. It cannot be empty, hold a comma or read as a number, because it would then read as a location. |
+| **x / y / z (boxes)** | Where the point of interest is. Leave all three blank to use where you stand. |
+| **My Loc** | Fills x, y and z from where you stand, so you can change them before you add. |
+| **Add** | Saves the point of interest in this zone. A name you already have moves to the new spot. A name the bot ships with is overridden by yours, and it stays yours until you remove it. |
+| **Remove** | Removes the selected point of interest of yours. If it was overriding a shipped one, the shipped one is back.<br>*Greyed out for a shipped point of interest.* |
+| **New name (box)** | The new name for Rename. |
+| **Rename** | Renames the selected point of interest of yours. A name another point of interest here holds is refused, and a path that used the old name does not follow it.<br>*Greyed out for a shipped point of interest.* |
+
+
+
+## Paths
+
+Click a path to select it. Its points show in the list under these buttons.
+
+| Control | What it does | Default |
+|---|---|---|
+| **New path name (box)** | The name of the path to make. |  |
+| **New** | Makes an empty path in this zone. It walks by Nav and does not loop until you change it. A name already here is refused, so a slip cannot empty a path. |  |
+| **Delete** | Deletes the selected path.<br>*No confirmation.* |  |
+| **Walk by Nav / Camp spot** | How the toon walks this path. Nav goes to each point on the navigation map. Camp spot moves the camp spot to each point and lets the leash bring the toon. | Nav |
+| **Loop** | Starts the path over at the first point after the last, until something stops it. | off |
+| **Start** | Walks the selected path on this box, in place of any walk under way. Every point is checked first: one that cannot be found stops it with a line, before anything moves.<br>*It runs while OgreBot is paused, and OgreBot must be open.* |  |
+| **Stop** | Stops the walk on this box. The toon stands where it is. |  |
+
+
+
+## Points of the path
+
+The selected path's points, in the order they are walked.
+
+| Control | What it does |
+|---|---|
+| **Point: a name, or x,y,z (box)** | The point to add: the name of a point of interest, or x,y,z. A name is looked for when the path starts, so its point of interest can come later. |
+| **Add** | Adds the point to the end of the selected path. |
+| **Remove** | Removes the selected point. A path that passes the same point twice keeps the other one. |
+| **Clear** | Takes every point off the selected path. The path stays, with its Walk by and Loop settings.<br>*No confirmation.* |
+
+
+
+## What the window shows
+
+- 'shipped' or 'yours' beside a point of interest: shipped ones come with the bot and cannot be removed or renamed.
+- 'at an actor' in place of a location: a shipped point of interest that names an actor, not a spot. It has no location of its own, so a path or a location verb cannot use it.
+- Green text: the path being walked and the point it is walking to, with a line under the lists saying the same.
+- The last line of the window: the last thing the bot said about a point of interest or a path, a refusal included.
+
+## Good to know
+
+- Everything here is for the zone you are in. Another zone has its own points of interest and paths.
+- Zoning ends a walk, with a line. So does death, a point the toon cannot get to, and closing OgreBot.
+- A camp spot walk needs 'Allow Camp Spot' on for that toon. When it ends, the camp spot is cleared if the walk was stopped, and stays at the last point if the walk finished.
+- The first time you enter a zone that has an old OgreBot Classic route, it comes across by itself as a path called Default, and one line says how many points came and which did not. What you delete afterwards does not come back unless you press Import.
+- The Auto-Hunt tab picks one of these paths to walk between pulls. Start here walks a path with no hunting, and hunting leaves that walk alone.
+- A path or a point of interest saved on one box shows on every other box on this PC within a second or so.
+
+### For scripts
+
+The same things have commands: `OgreBotAPI.POI` for points of interest and `OgreBotAPI.Paths` for paths. In OgreConsole, `-POI_Add` saves a point of interest, `-Path` walks a path and `-PathStop` stops it.
+
+### A zone with no points of interest yet
+
+![Empty](../assets/paths/empty.png)
 
 
 ---
@@ -1183,72 +1352,3 @@ SmartLoot hands out drops from a Leader Only loot window. It decides who gets ea
 ![The warning banner](../assets/smartloot/banner.png)
 
 If a SmartLoot file on disk is damaged, a red banner names it and **Save** will not overwrite it. Fix or remove the file, then press **Revert**.
-
-
----
-
-Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/potcb.md
-
-# Potency / Crit Bonus / Fervor
-
-> **:bulb: In game - the ? button on this window says**
->
-> Records your Potency, Crit Bonus and Fervor during fights and shows averages, lows, highs and time at cap. It only measures; it changes nothing.
->
-> **What you can do here**
->
-> - **Stop / Start** - pause and carry on recording. The numbers are kept.
-> - **Reset** - throw away every number and start the session over.
-> - **Hover** a figure for more detail.
->
-> **Good to know**
->
-> - **At cap** is when the game says the stat is capped. **At peak** is time at your best value this session.
-> - Closing the window stops recording, the same as `ogre end potcb`. **Stop** stops recording and keeps the window open.
-
-**Open it:** Type `ogre potcb` (or `ogre cbpot`). This opens the window and starts recording. `ogre end potcb` (or the window's X) stops recording and closes it; `ogre potcb off` does the same while it is recording.
-
-## What it is for
-
-This window records your Potency, Crit Bonus and Fervor several times a second and shows how they behaved during your fights: the average, lowest and highest value in combat, how much of the time the game said the stat was capped, and how much of the time you were at your best value. It is a measuring tool only; it does not change what the bot does. All the averages are weighted by time, so a slow frame does not count more than a smooth one.
-
-## Start, Stop and Reset
-
-The green text on the left says 'sampling every 200 ms' while recording, or 'stopped'.
-
-| Control | What it does | Default |
-|---|---|---|
-| **Start / Stop** | Stop pauses the recording. Start carries on from where it stopped; the numbers so far are kept. The time while stopped is not counted. | Stop (recording starts when the window is opened) |
-| **Reset** | Throws away every number and starts the session over. Recording keeps going if it was on.<br>*No confirmation.* |  |
-
-## The table
-
-One row per stat. Hover most numbers for more detail.
-
-## What the window shows
-
-- Now: the value right now.
-- Combat avg: your average while in combat (hover for how long you have been in combat). Out of combat you are usually unbuffed, so combat is what matters.
-- Min / Max: the lowest and highest value seen in combat.
-- At cap: the share of combat time the game's own tooltip said the stat had reached its cap.
-- At peak: the share of combat time you were at (or within 0.1% of) the highest value seen this session. When a new highest value appears, this starts again from zero, so it is optimistic early on.
-- Spread: a small bar chart of your combat time split into ten steps from 0% to 100% of your peak. The right-most (green) bar is time spent near your peak. Hover a bar for its exact share. Like At peak, it starts again when a new peak appears.
-- Peak: the highest value seen this session, in or out of combat (hover for how long ago it was set).
-- All avg: the average over the whole session, in and out of combat (hover for the overall min and max).
-- 'no combat time yet': recording, but you have not been in combat. 'no samples yet': the stat has not been read yet.
-- Footer: how long the session has been recording and how much of it was in combat.
-
-## Good to know
-
-- Closing the window with the X stops the recording, the same as `ogre end potcb`. Stop stops it and keeps the window open.
-- Opening the window with `ogre potcb` always starts recording.
-- Zoning is not counted as time, so a long zone-in does not inflate 'At peak'.
-- The numbers are lost when the bot is unloaded; nothing is saved to a file.
-
-### Just started, before any combat
-
-![Before combat](../assets/potcb/nocombat.png)
-
-### Stopped
-
-![Stopped](../assets/potcb/stopped.png)

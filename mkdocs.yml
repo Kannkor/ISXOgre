@@ -76,6 +76,7 @@ nav:
               - "Cast Stack": EQ2/bot/ogrebot/cast-stack.md
               - "Settings": EQ2/bot/ogrebot/settings.md
               - "Setup": EQ2/bot/ogrebot/setup.md
+              - "Status": EQ2/bot/ogrebot/status.md
               - "Ability Embargo": EQ2/bot/ogrebot/ability-embargo.md
               - "Ability Research": EQ2/bot/ogrebot/ability-research.md
               - "Ability Tracker": EQ2/bot/ogrebot/ability-tracker.md
@@ -134,12 +135,14 @@ nav:
               - "Zone Reset": EQ2/bot/windows/zonereset.md
               - "OSA": EQ2/bot/windows/osa.md
               - "NPC Cast Monitoring": EQ2/bot/windows/npccast.md
+              - "Tag Timers": EQ2/bot/windows/tagtimers.md
               - "Effect Tracker": EQ2/bot/windows/effecttracker.md
               - "Hide Effects": EQ2/bot/windows/hideeffects.md
               - "Radar": EQ2/bot/windows/eq2radar.md
               - "Radar Types": EQ2/bot/windows/eq2radarfilters.md
               - "Nav": EQ2/bot/windows/nav.md
               - "Travel Helper": EQ2/bot/windows/travel.md
+              - "Points of Interest and Paths": EQ2/bot/windows/paths.md
               - "Safe Fall Trainer": EQ2/bot/windows/safefall.md
           - "Loot and items":
               - "SmartLoot": EQ2/bot/windows/smartloot.md

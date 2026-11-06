@@ -96,6 +96,8 @@ Auto Target lets the bot pick its own targets from a list, instead of assisting 
 
 ## Good to know
 
+- Your own name is a valid row. Put it below the mobs you want and the bot targets you whenever none of them are up, so it stops hitting anything else.
+- Pressing Enter in the name box adds the row, the same as Add actor. While you are editing a row, Enter updates it.
 - While Auto Target is on, the Assist tab is ignored completely.
 - With 'Allow Out of Combat Scanning' unticked, the bot picks nothing until a mob has aggro on you or you are in combat. Your current target is never dropped by this.
 - The working list lasts for this game session only. It survives zoning, but not a restart, and the Save button at the top does NOT save it. Use 'Save list' to keep it.

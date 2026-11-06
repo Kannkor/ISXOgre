@@ -8,6 +8,95 @@ Index of every page and of every file like this one: https://kannkor.github.io/I
 
 ---
 
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/tags.md
+
+# Tags
+
+Tags let one bot's cast switch other abilities off or on for a while, across all your bots. On the Cast Stack you give an ability an Embargo tag (it is blocked while the tag is on) or an Allow tag (it may only fire while the tag is on). When the bot casts an ability that carries a tag, the tag turns on, on this bot and on your other bots in the same relay group, for the time set here (a Cast Stack row set to 'Listen Only' never turns its tag on, and one set to 'Trigger Only' is not held back by it). This tab is where each tag is defined. The left list holds your tag names: type a name under it and press Add. Click a name to pick it, set its duration and options on the right, and press Add to put it in the Tags List. A tag that is not in the Tags List never turns on.
+
+| Option | What it does | Default |
+|---|---|---|
+| **Full Tag List** | Your tag names, sorted A-Z. Click a name to pick it for the Tags List on the right. Double-click a name to rename it, and click X to delete it.<br>*A name here does nothing until it is also added to the Tags List. Renaming it here does not rename it in the Tags List.* | empty |
+| **Tags List** | The tags that are actually defined, with their duration and options. Click a row to edit it and click X to delete it.<br>*Only tags in this list can turn on.* | empty |
+
+
+
+## Top of tab
+
+| Control | What it does | Default |
+|---|---|---|
+| **Show Tag Timers window** | Opens the [Tag Timers](../windows/tagtimers.md) window, which lists every Embargo and Allow tag on this character, who set it, who it went to and how long is left. Unticking closes it. `ogre tags` opens it once. | off |
+| **Globally mute all tag messages** | Sends every tag without showing it in OgreConsole, as if every row had Hide from OgreConsole ticked. Nothing is stopped: the tag still goes out, over IRC too if the row has IRC ticked. | off |
+
+
+
+## Full Tag List (left)
+
+| Control | What it does | Default |
+|---|---|---|
+| **Tag name** | Type a new tag name here. Use the same name you put in the Embargo tag or Allow tag box on the Cast Stack. | empty |
+| **Add** | Adds the typed name to the Full Tag List. While you are renaming a name this reads Update. |  |
+
+
+
+## Tags List (right)
+
+| Control | What it does | Default |
+|---|---|---|
+| **Duration** | How many seconds the tag stays on after the ability is cast. Leave it blank to use the ability's own duration.<br>*Items need a number here, and so does an ability with no duration of its own. An ability that lasts until cancelled needs one too, unless Maintained is ticked. The longest a tag can hold is 600 seconds, on every bot: a bigger number, with + and - added, stops at 600.* | blank (the ability's own duration) |
+| **IRC** | Also sends the tag over IRC, to characters on other computers. | off |
+| **Group** | The tag only turns on for bots in the caster's own group, instead of every bot in your relay group. | off |
+| **Me** | The tag only turns on for the character who cast the ability. Your other bots are not told. | off |
+| **Incl. caster** | Adds who cast it and what they cast to the end of the tag line, so anyone reading OgreConsole or IRC can see where it came from. | off |
+| **Hide from OgreConsole** | Sends the tag without showing it in OgreConsole. It still reaches your other characters. | off |
+| **Maintained** | The tag stays on while the caster still has the buff in their maintained list, and turns off for every bot as soon as it drops. The duration is then only a safety limit.<br>*Any rank of the ability counts. For an item it is the buff the item puts on you when you use it. With Duration blank on an ability that lasts until cancelled, the limit is 10 minutes.* | off |
+| **Add** | Adds the picked tag name, with the duration and ticks you set, to the Tags List. While you are editing a row this reads Update and saves your changes. |  |
+| **Clear Options** | Unticks every option. Ticks otherwise carry over to the next tag you add. |  |
+
+
+
+## Good to know
+
+- Tags only work on a character whose Settings tab has them ticked: 'Enable Tag Embargo' for Embargo tags and 'Enable Tag Allow' for Allow tags. Both are off until you tick them. While a box is off, that character neither follows nor turns on that kind of tag.
+- A tag used on the Cast Stack but missing from the Tags List (or typed differently) never turns on. The match ignores upper and lower case.
+- Leave Duration blank to use the ability's own duration. An item has no duration of its own, so an item that sets a tag must have a Duration here or the tag does not turn on.
+- Two bots can hold the same tag at once; it stays on until the last one runs out.
+- A tag goes out with the -AbilityTag command, so you can watch it in OgreConsole (unless Hide from OgreConsole or Globally mute is ticked).
+- A Maintained tag sent over IRC stays on for its full Duration on your other PCs: only your own PC hears when the buff drops.
+- The ticks stay ticked for the next tag you add. Use Clear Options to untick them.
+- Press Save at the top to keep your changes for next time.
+- Changes to the Tags List are used straight away. Press Save at the top to keep them for next time.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/unload.md
+
+# Unload
+
+Unload is a list of commands the bot runs, top to bottom, when OgreBot closes. That is the X on the OgreBot window or its mini toolbar, or `ogre end bot`. It also happens when you camp to another character in the same game window, because OgreBot closes and reopens for the new character.
+
+| Option | What it does | Default |
+|---|---|---|
+| **Executes** | Commands the bot runs, top to bottom, when OgreBot closes. Switched-off lines are skipped.<br>*Also runs when you swap to another character in the same game window.* | empty |
+
+## Executes
+
+| Control | What it does | Default |
+|---|---|---|
+| **Command to run on unload** | Type a console command here. Put `eq2execute` in front of an in-game slash command. Press Enter or Add to put it on the list.<br>*Commas and ] are removed when you add the line.* | empty |
+| **Add** | Adds the typed command to the end of the list. It is not run now, only when OgreBot closes. |  |
+
+## Good to know
+
+- The list takes console commands. To run an in-game slash command, start the line with `eq2execute`.
+- Unlike the Load tab, a command you add here is NOT run when you add it. It only runs when OgreBot closes.
+- Commas and ] are removed from a command when you add it. A line that needs them will not run as typed.
+- Double-click a line to switch it off without deleting it. Drag a row to change the order. The x removes it.
+
+
+---
+
 Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/admin.md
 
 # Admin

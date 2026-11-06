@@ -71,14 +71,14 @@ Every Classic name these pages cover so far, by what happened to it:
 
 | What happened | Names |
 |---|---|
-| ⚠️ Arguments changed | 241 |
+| ⚠️ Arguments changed | 245 |
 | ⚠️ Argument order changed | 31 |
 | ✏️ Renamed | 517 |
-| ➡️ Moved | 173 |
+| ➡️ Moved | 172 |
 | ➡️ Lives somewhere else | 289 |
 | 📄 In a data file now | 210 |
 | ⛔ Exists, does nothing yet | 1 |
-| ⛔ Not ported yet | 299 |
+| ⛔ Not ported yet | 296 |
 | ⛔ Removed | 235 |
 | ✅ Works as is | 472 |
 | **Total** | **2468** |

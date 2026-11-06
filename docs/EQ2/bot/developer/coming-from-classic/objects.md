@@ -16,11 +16,11 @@ The Classic objects scripts used that Classic's docs never had a page for (`GetI
 |---|---|
 | ⚠️ Arguments changed | 77 |
 | ⚠️ Argument order changed | 10 |
-| ✏️ Renamed | 80 |
+| ✏️ Renamed | 79 |
 | ➡️ Moved | 6 |
 | ➡️ Lives somewhere else | 168 |
 | 📄 In a data file now | 25 |
-| ⛔ Not ported yet | 188 |
+| ⛔ Not ported yet | 189 |
 | ⛔ Removed | 52 |
 | **Total** | **606** |
 
@@ -291,7 +291,7 @@ call Obj_OgreUtilities.HandleWaitForCombat -TimeOutIfNoProgress 30
 | `GetInfoOb.CheckMobDetriment_Increment` | reads NULL | `OgreBotAPI.Cures.Detrimental` `[main=0,back=0,actorId=0,field=exists]` | ⚠️ Arguments changed | Pass `"CurrentIncrements"`. The new reader is keyed on the DETRIMENT ICON PAIR, not on a name: `${OgreBotAPI.Cures.Detrimental[<main>,<back>,<actorId>,"<field>"]}` (field defaults to "exists"; "CurrentIncrements" and "Duration" are the other common ones). Watch the pair order - Classic's `Object_IconIDs` declares BACKDROP FIRST, so `=A B` means main=B, back=A. Reading it left-to-right compiles, runs, and asks about a detriment nobody has. |
 | `GetInfoOb.Class` | reads NULL | `OgreBotAPI.Roster.NearestOfClass` | ✏️ Renamed | Faithful: scope auto-detects (raid if in one, else group); a match is the member's SUBCLASS or its class TIER, so `"warrior"` finds a berserker; self answers first with no distance test; distance must be &gt; 0 (Classic's guard against members reading 0 while zoning) and &lt;= range. Deliberate superset: ARCHETYPE also matches, so `"fighter"` finds any of them - Classic's hand-written switch only knew subclass\|tier. |
 | `GetInfoOb.Clean` | reads NULL | `OgreBotAPI.Util.Clean` `[s]` | ➡️ Moved |  |
-| `GetInfoOb.CleanNameWithSpaces` | reads NULL | `OgreBotAPI.Util.Clean` `[s]` | ✏️ Renamed |  |
+| `GetInfoOb.CleanNameWithSpaces` | reads NULL | — | ⛔ Not ported yet | Not the same thing as OgreBotAPI.CleanNameWithSpaces, despite the name: this one returns the LAST space-separated word of its input, Util.Clean keeps the whole text. No Classic script calls it, so it has no port. To get the last word yourself: ${s.Token[${Math.Calc[${s.Count[" "]}+1]}," "]}. |
 | `GetInfoOb.CleanNameWithUnderscores` | reads NULL | — | ⛔ Not ported yet | The underscore variant of CleanName. `Util.Clean` is the ported one; the underscore form has no twin. |
 | `GetInfoOb.CommandForMe` | reads NULL | `OgreBotAPI.ForWho.Me` | ✏️ Renamed |  |
 | `GetInfoOb.CommandForMe_Check` | reads NULL | `OgreBotAPI.ForWho.Me` | ✏️ Renamed |  |
@@ -829,6 +829,7 @@ If your script needs one of these, leave it out for now and tell us - this list 
 - `Obj_OgreUtilities.CallingScriptName` - not ported yet
 - `ProfileConfig.CheckCopingOldServerProfile` - not ported yet
 - `call Obj_OgreUtilities.CheckEvacTotems` - not ported yet
+- `GetInfoOb.CleanNameWithSpaces` - not ported yet
 - `GetInfoOb.CleanNameWithUnderscores` - not ported yet
 - `ClassInfo:Clear` - not ported yet
 - `ProfileConfig:Clear` - not ported yet

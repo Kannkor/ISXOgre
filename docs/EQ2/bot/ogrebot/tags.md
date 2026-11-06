@@ -20,6 +20,7 @@ Tags let one bot's cast switch other abilities off or on for a while, across all
 
 | Control | What it does | Default |
 |---|---|---|
+| **Show Tag Timers window** | Opens the [Tag Timers](../windows/tagtimers.md) window, which lists every Embargo and Allow tag on this character, who set it, who it went to and how long is left. Unticking closes it. `ogre tags` opens it once. | off |
 | **Globally mute all tag messages** | Sends every tag without showing it in OgreConsole, as if every row had Hide from OgreConsole ticked. Nothing is stopped: the tag still goes out, over IRC too if the row has IRC ticked. | off |
 
 
@@ -37,13 +38,13 @@ Tags let one bot's cast switch other abilities off or on for a while, across all
 
 | Control | What it does | Default |
 |---|---|---|
-| **Duration** | How many seconds the tag stays on after the ability is cast. Leave it blank to use the ability's own duration.<br>*Items need a number here.* | blank (the ability's own duration) |
+| **Duration** | How many seconds the tag stays on after the ability is cast. Leave it blank to use the ability's own duration.<br>*Items need a number here, and so does an ability with no duration of its own. An ability that lasts until cancelled needs one too, unless Maintained is ticked. The longest a tag can hold is 600 seconds, on every bot: a bigger number, with + and - added, stops at 600.* | blank (the ability's own duration) |
 | **IRC** | Also sends the tag over IRC, to characters on other computers. | off |
 | **Group** | The tag only turns on for bots in the caster's own group, instead of every bot in your relay group. | off |
 | **Me** | The tag only turns on for the character who cast the ability. Your other bots are not told. | off |
 | **Incl. caster** | Adds who cast it and what they cast to the end of the tag line, so anyone reading OgreConsole or IRC can see where it came from. | off |
 | **Hide from OgreConsole** | Sends the tag without showing it in OgreConsole. It still reaches your other characters. | off |
-| **Maintained** | The tag stays on while the caster still has the buff in their maintained list, and turns off for every bot as soon as it drops. The duration is then only a safety limit.<br>*Any rank of the ability counts. For an item it is the buff the item puts on you when you use it.* | off |
+| **Maintained** | The tag stays on while the caster still has the buff in their maintained list, and turns off for every bot as soon as it drops. The duration is then only a safety limit.<br>*Any rank of the ability counts. For an item it is the buff the item puts on you when you use it. With Duration blank on an ability that lasts until cancelled, the limit is 10 minutes.* | off |
 | **Add** | Adds the picked tag name, with the duration and ticks you set, to the Tags List. While you are editing a row this reads Update and saves your changes. |  |
 | **Clear Options** | Unticks every option. Ticks otherwise carry over to the next tag you add. |  |
 

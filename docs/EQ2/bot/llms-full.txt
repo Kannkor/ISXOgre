@@ -185,7 +185,7 @@ Every OgreBot window works the same way. This page covers what they all share.
 | **Title** | The window's name. Drag it to move the window. Double-click it to minimize or restore the window. |
 | **▼ / ▲** | Minimizes the window: it rolls up to its title bar where it is, so you can get to the game or another window quickly. Click **▲** to restore it to exactly the size it had. Some windows keep a line showing while minimized - the Instance Controller keeps its run status and a Pause button. A window always opens at its normal size; being minimized is not remembered. A few windows do not have it: OgreBot's small toolbar, and the Effect Tracker, which has its own Shrink button. |
 | **?** | Opens a short help box for this window. Its **Full documentation** button opens this guide. |
-| **Lock** | Click it to lock the window, and again to unlock it. A locked window cannot be moved or resized, and the padlock is lit while it is locked. Locking remembers the window's place, so it opens there, still locked, next time. |
+| **Lock** | Click it to lock the window, and again to unlock it. A locked window cannot be moved or resized, and the padlock is lit while it is locked. The lock is remembered for next time. It does not save the window's place: use **Save Position** for that. |
 | **X** | Closes the window. |
 
 Some windows put extra buttons in the title bar too, for example a gear for settings.
@@ -199,15 +199,17 @@ Right-click a window's title bar for this menu:
 | Item | What it does |
 |---|---|
 | **Help** | The same as the **?** button. |
-| **Save Position** | Remembers where the window is and how big it is. It opens there next time. |
+| **Save Position** | Remembers where the window is and how big it is. It opens there next time. It is dimmed while the window is locked: unlock the window to save its position. |
+| **Lock / Unlock** | Stops the window from being moved or resized, or allows it again. Like the padlock, it is remembered for next time. |
+| **Minimize / Restore** | The same as the **▼ / ▲** button. |
+| **Reset** | Puts the window back where it first opened, at its first size, turns off Lock and Pin to back, sets Console back to use default, and restores it if it was minimized. |
+| **More** | A sub-menu of the items below. |
 | **Scale + / Scale -** | Makes this window bigger or smaller. |
 | **Scale: use default** | Goes back to the size set in Ogre Options. |
-| **Lock / Unlock** | Stops the window from being moved or resized, or allows it again. Like the padlock, it is remembered for next time. |
 | **Pin to back / Unpin from back** | A pinned window always stays behind every window that is not pinned, even when you click it. Remembered for next time. |
 | **When Console is open** | A sub-menu: what this window does when the InnerSpace console opens over it - **Use default**, **Slide below**, **Hide** or **Leave in place**. **Use default** follows the choice in Ogre Options (named in brackets); the other three are this window's own, whatever Ogre Options says. The ticked one is in force. Remembered for next time. |
-| **Minimize / Restore** | The same as the **▼ / ▲** button. |
 | **Minimize all windows / Restore all windows** | Minimizes every Ogre window that is open, or - once they all are - restores them all. |
-| **Reset** | Puts the window back where it first opened, at its first size, turns off Lock and Pin to back, sets Console back to use default, and restores it if it was minimized. |
+| **Match on all sessions** | Moves this window to the same place, size and scale, and minimizes or restores it, on every session on this PC that has it open. Locked windows move too and stay locked. Nothing is saved: use **Save Position** for that. |
 
 ## The help box
 
@@ -277,6 +279,46 @@ What changed in OgreBot, release by release, newest first. Every release listed 
 A release is named by the day it was published and its number that day: **2026.10.16.005** is the fifth release on October 16, 2026. Releases with nothing you would notice are not listed, so the numbers can skip.
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
+
+## 2026.11.06.001 {#r2026-11-06-001}
+
+*Friday, November 6, 2026 at 4:08 AM EST*
+
+- **New** · Bot: **A Status tab, and an amber dot when something is holding a tab up.** The OgreBot window has a new Status tab showing what the bot is holding or set to, such as Auto Target suppressed, No Move and the camp spot. When Auto Target is suppressed, its tab gets an amber dot you can see from any tab, and a Held line that says why, with a Release button for holds a player set.
+- **New** · Bot: **Auto Assist has a range.** The Assist tab has a new box, Only assist within (meters), 100 by default. A player further away is skipped and the bot tries the next name on the list. 0 means no limit.
+- **New** · Windows: **Match on all sessions, and a shorter window menu.** Right-click a window's title bar and choose More, then Match on all sessions, to give every session on this PC the same place, size and scale for that window, locked or not. It saves nothing, so use Save Position to keep it. The menu is shorter too: Scale, Pin to back, When Console is open and Minimize all windows moved under More.
+- **New** · Windows: **MCP buttons can have their own text size.** Right-click an MCP button and choose Set text size to give it its own size. Leave it blank to go back to the default. Converting an OldBot MCP now keeps its per-button sizes.
+- **New** · Windows: **Tag Timers window.** A new window lists every Embargo and Allow tag on your character: the tag, its type, who set it, who it went to and how long is left. Tick Show Tag Timers window on the Tags tab, or use `ogre tags`.
+- **New** · Navigation: **Points of interest and saved paths.** The new Points of Interest and Paths window (ogre paths) names spots in a zone and saves walks through them, by nav or by camp spot, and Auto-Hunt can walk one between pulls. The first time you enter a zone with an old OgreBot Classic AutoHunt route, it comes across by itself as a path called Default. An Import button on the window runs it again.
+- **Changed** · Bot: **A tag lasts the same time on every character.** The longest a tag can hold is 600 seconds. A Duration above that used to run its full length on the caster and stop at 600 on everyone else; it now stops at 600 for all of them.
+- **Changed** · Bot: **HoldUp merged into StopFollow, and -ccsb nudges the base spot.** Movement:HoldUp is gone: use Movement:StopFollow, and -holdup now runs it, so it also stops the move in progress. -ccsb now nudges the base camp spot, as -CS_Set_ChangeCampSpotBy does. JoustIn resumes a paused follow, and HeadingTo reads -1 and AlreadyFacing FALSE for an unknown actor.
+- **Changed** · Bot: **Travel mesh: Stop, group trips, and no resume on arrival.** TravelMesh:Stop on a route someone else started now prints one line saying whose it is, and -force stops it anyway. A mesh trip no longer resumes the group on arrival, so a bot you paused stays paused; the Instance Controller still resumes its own group. -TravelMeshGroup sent to several characters now has each plan its own route and relays nothing, so it no longer restarts every route.
+- **Changed** · Windows: **Lock no longer saves a window's position.** Locking a window, pinning it to the back and choosing its console mode now save only that setting. Before, each one also saved where the window was, and all accounts on a PC share that saved spot, so a lock on one account could undo a Save Position on another. Use Save Position to save where a window opens; it is dimmed while the window is locked.
+- **Changed** · Navigation: **A point of interest works as a location.** A point of interest's name now works wherever a location does in that zone, such as -NavTo, -Move2Area, -ChangeCampSpot and -Waypoint and the verbs behind them. An unknown name prints one line and nothing moves.
+- **Fixed** · Bot: **A refused craft start changes nothing.** A start refused for an empty queue, a low tradeskill level or no selected quest no longer turns craft lite on or clears the last run's stop reason. Do NOT load recipes on startup now also holds for Craft:Open and Craft:Lite. A craft panel that cannot open leaves craft as it was.
+- **Fixed** · Bot: **A stuck Move2Area or Come2Me gives up.** A move into a wall used to hold forward until something else moved the toon. After 10 seconds with no progress it now stops and prints one line saying where it stuck and how far from its goal.
+- **Fixed** · Bot: **Auto Target can target you, and Enter adds a row.** Your own name on the Auto Target list works again: the bot targets you when nothing above you on the list is up. Pressing Enter in the name box now adds the row.
+- **Fixed** · Bot: **Auto-login uses the session a row names.** A launch always took the lowest free session, whatever the row named. A row above that came up on the wrong session, and the retry started a second client. Each row now launches on the session it names.
+- **Fixed** · Bot: **Camp spot nudges and resets.** CampSpot:SetRelativeLoc refuses a NULL or non-number coordinate instead of using 0. NudgeBy on a slot with no spot changes nothing and says so, SetRelativeBy after SetRelativeLoc moves the spot by exactly the nudge, and ResetAll now drops leash holds.
+- **Fixed** · Bot: **ChangeZoneTo, Druid and ToGuildHall.** ChangeZoneTo now moves only the characters you named, and it recognises instance numbers of any length. Travel:Druid no longer answers a conversation it did not start. Travel:ToGuildHall needs a door within 15 units, and prints one line when there is none.
+- **Fixed** · Bot: **Fast travel -mto number picks that spot.** Fast travel -mto with a number always went to the last sub-map spot, whatever the number. A number now picks that spot, counting from 1, and -mto Last asks for the last one. Without -mto the last spot is still the default.
+- **Fixed** · Bot: **Harvest Lite while paused, oau, and a missed trade.** Harvest Lite and Targeting:Target now target while OgreBot is paused. oau scans an open container and leaves it open, or opens each Scroll Depot in range in turn and closes it after. A trade that finds nothing to hand over now rejects the window it opened.
+- **Fixed** · Bot: **IM counts a depot withdraw, Decide handles every window.** IM.IsRunning, Mode and Status now report a depot withdraw from anywhere, so -end waits for it. A typed Loot:Decide now goes through every open loot window in turn, not just the one on top.
+- **Fixed** · Bot: **IRC notices a link that has gone silent.** A link that died quietly used to look connected until the next line was lost. After 5 minutes with nothing from the server the hub now checks it and reconnects if nothing answers, and a line that fails to send goes out after the reconnect.
+- **Fixed** · Bot: **LetsGo clears the joust ignore and stands a feigned toon.** LetsGo now turns Ignore Joust Commands off and stands a feigned toon, as OgreBot Classic did. An encounter that calls LetsGo stands a feigned toon too.
+- **Fixed** · Bot: **LogToonIn skips locked characters.** Logging a toon in from another account's character list used to pick the first character listed, and a locked one sat until the 180 second timeout. It now picks the first character the account can play, and empty slots are ignored. A locked toon, or a list with nothing playable, now gets one line straight away.
+- **Fixed** · Bot: **Merchant:Buy accepts its prompt and says why it did nothing.** Merchant:Buy now accepts the purchase prompt, and Buy and Sell print one line when they cannot act. Overseer:BuyMissions refuses a first word that is not a flag, so a stray stop no longer starts a buy run. Scribe_Empyral touches only scribeable items.
+- **Fixed** · Bot: **MountUp leaves a mounted toon alone.** Consumables:MountUp used to run its sit and toggle sequence whatever you were doing, which could unseat a toon already on a mount. It now prints one line and stops when you are mounted.
+- **Fixed** · Bot: **Pets engage when you are assisting a player.** The bot only sent your pet in when you had the mob targeted directly, so a character assisting a player, the default, often left its pet idle. It now sends the pet whenever your target leads to the mob, as old OgreBot did.
+- **Fixed** · Bot: **Reward windows open before OgreBot loaded are seen.** RewardWindowID, RewardID and AcceptReward only knew windows that appeared after the bot loaded. With none known, they now read the open window directly.
+- **Fixed** · Bot: **The Auto Hunt box turns hunting on and off.** Ticking Auto Hunt on the tab now starts hunting and unticking stops it, the same switch as -autohunt, and each shows what the other did. It never loads ticked, so a profile always starts with hunting off.
+- **Fixed** · Bot: **The tag "no duration" message names the ability and the reason.** When a cast cannot set its tag, the message now names what was cast and says why: it has no duration of its own, it lasts until cancelled, it is not in the ability export, or it is an item. Before, it blamed items on every cast. A Maintained tag with a blank Duration now works on an ability that lasts until cancelled, with a 10 minute limit.
+- **Fixed** · Bot: **The word after !c is an IRC handle.** A word between !c and the command is an IRC handle, not a for-who. A typed line with a word that is not all, me or this PC's handle used to drop it and run on every box; it now runs nothing and says so in one line. Who a command is for goes after the command.
+- **Fixed** · Bot: **Travel mesh reads no longer freeze the client.** TMZones, TMEdges and the other travel data reads now answer at once, reading 0 or empty until the data has loaded. They used to wait for the load, with no limit.
+- **Fixed** · Bot: **Zoning or camping now ends what cannot survive it.** Depot withdraws, IM runs, refine, UI scans, consume items and nav trips used to freeze over a zone and carry on with stale state in the next one. They now stop with a line, or end cleanly. Travel and the travel mesh still cross zones as before, and a mesh route walks on from where it lands.
+- **Fixed** · Console: **CheckResearch reports to OgreConsole.** The -CheckResearch result now shows in OgreConsole, where it used to go only to the InnerSpace console.
+- **Fixed** · Console: **IRC no longer looks disconnected with two connected PCs.** With two PCs on connected uplinks, the PC not on IRC told the other one IRC was down every 15 seconds, so MCP buttons kept saying "IRC not connected" and some went through OgreConsole instead. Each PC now listens only to its own IRC connection.
+- **Removed** · Bot: **Auto-Hunt movement mode.** -autohunt and AutoHunt:SetMode now take off or hunt. The words movement, movementonly, move, on and grind are gone, and any of them now turns Auto-Hunt off with a line. To walk with no hunting, press Start in the ogre paths window or use -Path.
 
 ## 2026.11.05.005 {#r2026-11-05-005}
 
@@ -1182,6 +1224,8 @@ Auto Target lets the bot pick its own targets from a list, instead of assisting 
 
 ## Good to know
 
+- Your own name is a valid row. Put it below the mobs you want and the bot targets you whenever none of them are up, so it stops hitting anything else.
+- Pressing Enter in the name box adds the row, the same as Add actor. While you are editing a row, Enter updates it.
 - While Auto Target is on, the Assist tab is ignored completely.
 - With 'Allow Out of Combat Scanning' unticked, the bot picks nothing until a mob has aggro on you or you are in combat. Your current target is never dropped by this.
 - The working list lasts for this game session only. It survives zoning, but not a restart, and the Save button at the top does NOT save it. Use 'Save list' to keep it.
@@ -1593,6 +1637,19 @@ Setup holds the numbers that tune when the bot fights: how hurt a mob must be be
 
 ---
 
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/status.md
+
+# Status
+
+Status shows what this bot is holding, ignoring or set to right now, grouped by topic: whether it is paused, why it is or is not assisting, whether Auto Target is suppressed, No Move and the camp spot, who it is following, which fighters are not being counted, and what is disabled in the Cast Stack. Anything out of the ordinary is highlighted. Nothing on this tab is saved. When something is holding up another tab, that tab gets an amber dot in the tab list, which you can see from any tab, and a Held line beside its title. Hover the dot to see why. If a player or a script set the hold, the Held line has a Release button. Holds the bot sets itself end on their own.
+
+## Good to know
+
+- The tab updates about twice a second while the OgreBot window is open.
+
+
+---
+
 Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/ability-embargo.md
 
 # Ability Embargo
@@ -1818,7 +1875,8 @@ Assist tells the bot whose fight to join. Pick people (or aliases such as @Tank)
 | Option | What it does | Default |
 |---|---|---|
 | **Choose whom to assist** | Pick a group or raid member, or an alias such as @Tank, to add them to the bottom of the Assist order list. The dropdown then resets; a name already on the list is not added twice.<br>*The choices are refreshed every time you open the dropdown.* | n/a (it adds a name, it stores nothing itself) |
-| **Assist order — drag to set priority, double-click to disable** | The people to assist, in priority order. The bot uses the first one who is in your group or raid and in this zone, and ignores the rest until that person is gone.<br>*Disabled names stay in place (struck through) and are skipped.* | empty |
+| **Only assist within (meters)** | The bot only assists players within this many meters of you. A player further away is skipped, the same as a player in another zone: the bot tries the next name on the list, and if nobody is close enough your target is left alone. Leave it blank for 100. 0 means no limit. |  |
+| **Assist order — drag to set priority, double-click to disable** | The people to assist, in priority order. The bot uses the first one who is in your group or raid, in this zone and within range, and ignores the rest until that person is gone.<br>*Disabled names stay in place (struck through) and are skipped.* | empty |
 
 
 
@@ -1853,14 +1911,15 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogre
 >
 > OgreBot marks this tab as not finished (its name is struck through). Some options below work and some do not yet - each one says which.
 
-Auto-Hunt is a simple grinding mode. The bot looks for a mob near you, targets it and opens the fight with the first ready ability from your Pull Abilities list; your Cast Stack then fights as usual. This tab is marked not finished: the mob choice and safety settings work, but the walking part does not. The Auto Hunt and Movement Only boxes and the nav path list do nothing yet, so the bot never walks a route; it pulls what comes within the scan radius. To switch it on, use the OgreConsole command `-autohunt` with hunt, movement or off. It only runs while OgreBot is open with a profile loaded and the bot is not paused.
+Auto-Hunt is a simple grinding mode. The bot looks for a mob near you, targets it and opens the fight with the first ready ability from your Pull Abilities list; your Cast Stack then fights as usual. Pick a saved path under Path and it walks that path between pulls; with none picked it pulls what comes within the scan radius. This tab is marked not finished. To switch it on, use the OgreConsole command `-autohunt` with hunt or off. It only runs while OgreBot is open with a profile loaded and the bot is not paused.
 
 ## Auto-Hunt
 
 | Option | What it does | Default |
 |---|---|---|
-| **Auto Hunt** | **Not active yet.** It will be the on/off switch for Auto-Hunt. For now, start and stop it with the OgreConsole command `-autohunt` (hunt, movement or off). | off |
-| **Movement Only** | **Not active yet.** It will make Auto-Hunt walk without pulling. The command `-autohunt movement` exists, but for now it does not walk anywhere; it only holds you still while a safety check is tripped. | off |
+| **Auto Hunt** | **Not active yet.** Ticked, Auto-Hunt runs on this character: scan, camp, prebuff, pull, and walk the path picked below between pulls. The same switch as the OgreConsole command `-autohunt` (hunt or off). It never loads ticked: a profile always starts with it off. | off |
+
+
 
 ## Auto Hunt Options
 
@@ -1873,6 +1932,8 @@ Auto-Hunt is a simple grinding mode. The bot looks for a mob near you, targets i
 | **Check Mana @** | While anyone in your group (or raid) has less power than the % in the box beside it, the bot stops pulling and holds still. | off |
 | **Check Mana @ (box)** | The power % used by Check Mana @. Only used while Check Mana @ is ticked. | empty (never stops the hunt) |
 | **Check if any group members dead** | While anyone in your group (or raid) is dead, the bot stops pulling and holds still.<br>*A group member who is not in the zone also counts as dead, so the hunt waits for them to arrive.* | off |
+
+
 
 ## Ignore mobs by con
 
@@ -1888,11 +1949,15 @@ Auto-Hunt is a simple grinding mode. The bot looks for a mob near you, targets i
 | **Non-Aggro** | The bot only pulls mobs that would attack you on sight. Mobs that leave you alone are skipped. | off |
 | **Named** | The bot never pulls named mobs.<br>*Even when unticked, normal mobs in range are pulled before named ones.* | off |
 
+
+
 ## Pull Abilities
 
 | Option | What it does | Default |
 |---|---|---|
 | **First ready one is used; drag order = priority** | Your pull list. When the bot has a mob targeted and you are out of combat, it uses the first entry from the top that is ready. Type in the box above to find one of your abilities or items; picking it adds it. Drag rows to change the order, double-click a row to switch it off or on.<br>*With an empty list the bot targets mobs but never pulls them.* | empty |
+
+
 
 ## Behaviour
 
@@ -1906,23 +1971,26 @@ Auto-Hunt is a simple grinding mode. The bot looks for a mob near you, targets i
 | **Delay After Combat** | **Not active yet.**  | off |
 | **Pause on Exquisite Chest drop** | While an Exquisite chest is lying within 50 of you, the bot stops pulling and holds still, so you can deal with it.<br>*It carries on by itself once the chest is gone.* | off |
 
-## Nav Paths
+
+
+## Path
 
 | Option | What it does | Default |
 |---|---|---|
-| **Add a nav point** | **Not active yet.** It will list named places in the zone to add to the route; for now the list is always empty.<br>*Opened, it says 'No named nav points yet - not built in the new bot'.* | empty |
-| **Nav Path Order** | **Not active yet.** It will hold the route Auto-Hunt walks, in order. It is saved with your profile, but nothing uses it. | empty |
-| **Clear** | Empties the Nav Path Order list. Press Save at the top to keep the change. |  |
-| **Loop path** | **Not active yet.** It will make the route start over when it reaches the end. | off |
+| **Walk this path** | Which of this zone's saved paths Auto-Hunt walks between pulls. It stops for each pull and carries on at the same point. Choose (none) to hunt where you stand. The list is the zone you are in: another zone has its own.<br>*A name saved for another zone gets one line here, and the bot hunts where it stands.* | (none) |
+| **Edit paths** | Opens the window that holds this zone's points of interest and paths: `ogre paths`. |  |
+
+
 
 ## Good to know
 
-- Ticking Auto Hunt does not start anything. Use `-autohunt` in OgreConsole (hunt / movement / off). That choice is not saved with your profile, so Auto-Hunt starts off every time the bot is loaded fresh.
+- Ticking Auto Hunt does not start anything. Use `-autohunt` in OgreConsole (hunt / off). That choice is not saved with your profile, so Auto-Hunt starts off every time the bot is loaded fresh.
 - A mob that is already attacking your group is targeted before any new pull, whatever its con. The con, Non-Aggro and Named filters only decide which NEW mob to pull. With 'Check Aggro' ticked the bot instead holds still and leaves that fight to your normal combat settings.
 - 'Check if any group members dead' and 'Check HP @' also count a group member who is not in the zone. The hunt waits until they arrive.
 - Pulls only happen while you are out of combat, and only if at least one entry in the pull list is ready to use. With an empty list the bot targets a mob and just waits.
 - If the Scan radius box is blank, the bot looks 35 around you.
-- Movement mode (`-autohunt movement`) does not walk anywhere yet and never pulls. The safety checks still apply in it: while one of them is tripped (Check Aggro, HP, Mana, dead members, Exquisite chest), the bot holds you still.
+- The bot stops walking for each pull and for a tripped safety check, then carries on at the same point. A path that ends, or cannot start because a point cannot be found, is not tried again until you send `-autohunt hunt` or pick another path; the bot hunts where it stands.
+- A walk with no hunting is the Start button of the `ogre paths` window. Hunting leaves a walk you started alone.
 
 
 ---
@@ -2905,6 +2973,7 @@ Tags let one bot's cast switch other abilities off or on for a while, across all
 
 | Control | What it does | Default |
 |---|---|---|
+| **Show Tag Timers window** | Opens the [Tag Timers](../windows/tagtimers.md) window, which lists every Embargo and Allow tag on this character, who set it, who it went to and how long is left. Unticking closes it. `ogre tags` opens it once. | off |
 | **Globally mute all tag messages** | Sends every tag without showing it in OgreConsole, as if every row had Hide from OgreConsole ticked. Nothing is stopped: the tag still goes out, over IRC too if the row has IRC ticked. | off |
 
 
@@ -2922,13 +2991,13 @@ Tags let one bot's cast switch other abilities off or on for a while, across all
 
 | Control | What it does | Default |
 |---|---|---|
-| **Duration** | How many seconds the tag stays on after the ability is cast. Leave it blank to use the ability's own duration.<br>*Items need a number here.* | blank (the ability's own duration) |
+| **Duration** | How many seconds the tag stays on after the ability is cast. Leave it blank to use the ability's own duration.<br>*Items need a number here, and so does an ability with no duration of its own. An ability that lasts until cancelled needs one too, unless Maintained is ticked. The longest a tag can hold is 600 seconds, on every bot: a bigger number, with + and - added, stops at 600.* | blank (the ability's own duration) |
 | **IRC** | Also sends the tag over IRC, to characters on other computers. | off |
 | **Group** | The tag only turns on for bots in the caster's own group, instead of every bot in your relay group. | off |
 | **Me** | The tag only turns on for the character who cast the ability. Your other bots are not told. | off |
 | **Incl. caster** | Adds who cast it and what they cast to the end of the tag line, so anyone reading OgreConsole or IRC can see where it came from. | off |
 | **Hide from OgreConsole** | Sends the tag without showing it in OgreConsole. It still reaches your other characters. | off |
-| **Maintained** | The tag stays on while the caster still has the buff in their maintained list, and turns off for every bot as soon as it drops. The duration is then only a safety limit.<br>*Any rank of the ability counts. For an item it is the buff the item puts on you when you use it.* | off |
+| **Maintained** | The tag stays on while the caster still has the buff in their maintained list, and turns off for every bot as soon as it drops. The duration is then only a safety limit.<br>*Any rank of the ability counts. For an item it is the buff the item puts on you when you use it. With Duration blank on an ability that lasts until cancelled, the limit is 10 minutes.* | off |
 | **Add** | Adds the picked tag name, with the duration and ticks you set, to the Tags List. While you are editing a row this reads Update and saves your changes. |  |
 | **Clear Options** | Unticks every option. Ticks otherwise carry over to the next tag you add. |  |
 
@@ -3802,6 +3871,7 @@ Right-click any button slot for this menu. On an empty slot, Assign to key and C
 | **Rename…** | Changes the text on the button (up to 40 letters). Renaming an empty slot makes a button with just a label.<br>*A button needs a name: an empty name is refused and the box says so. To remove a button, use Clear button.* |
 | **Set colour…** | Opens the colour picker for the button's background. The text colour adjusts itself to stay readable unless you set one. Reset takes the colour off again. |
 | **Set text colour…** | Opens the colour picker for the button's text. Auto goes back to the automatic readable colour. |
+| **Set text size…** | Gives this button its own text size, from 6 to 40. Leave it blank to go back to the size in the MCP settings. |
 | **Assign to key…** | Opens the Assign keys window for this button, to fire it from a keyboard key, a G-key or an extra mouse button. The key belongs to the button: move the button, or move its page, and the key still presses it.<br>*Only shown on a slot that has a button. Clearing the button, or deleting its page, removes its keys.* |
 | **Copy button** | Remembers the button (label, command and colours) for pasting, and puts a code for it on your Windows clipboard so you can share it. The code starts with OGREMCP1.<br>*Only shown on a slot that has a button.* |
 | **Paste "<name>" [over "<name>"]** | Puts the copied button into this slot. The menu names the button, and the one it would replace.<br>*The copied button is shared by every character on this PC, so you can copy on one and paste on another. Pasting over a button keeps that button's keys, so they now press what you pasted.* |
@@ -5035,6 +5105,53 @@ With the NPC Cast Monitoring checkbox turned off in OgreBot:
 
 ---
 
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/tagtimers.md
+
+# Tag Timers
+
+> **:bulb: In game - the ? button on this window says**
+>
+> Shows every Embargo and Allow tag on this character right now, so you can see why an ability is being held back or let through.
+>
+> **What you can do here**
+>
+> - Tick **Show Tag Timers window** on the Tags tab to have it open with the profile, or use `ogre tags` to open it once.
+> - Drag the edges to resize it, like any other Ogre window.
+>
+> **What each column means**
+>
+> - **Tag**: the tag's name.
+> - **Type**: Embargo holds an ability back, Allow lets it through.
+> - **From**: the character who set the tag. Two characters holding one tag show as two lines.
+> - **Sent to**: who the tag went to: all, group, raid, me, or a character's name.
+> - **Time left**: counts down. A tag coupled to a buff says "while <buff> is up" and ends when the buff does.
+>
+> **Good to know**
+>
+> - **unknown** means the tag came from a command or a script that did not name anyone.
+> - The window only shows tags. It changes nothing.
+
+**Open it:** Tick **Show Tag Timers window** on the [Tags tab](../ogrebot/tags.md) to have it open with the profile, or type `ogre tags`. `ogre end tags` closes it.
+
+## What it is for
+
+Shows every Embargo and Allow tag on this character right now, so you can see why an ability is being held back or let through. It only shows tags: it changes nothing.
+
+## The list
+
+One line per holder. Two characters holding the same tag show as two lines, and the tag stays on until the last of them lets go. The lines stay sorted by tag name, so they do not jump about as the clocks run.
+
+| Control | What it does |
+|---|---|
+| **Tag** | The tag's name. |
+| **Type** | Embargo holds an ability back, Allow lets it through. |
+| **From** | The character who set the tag. **unknown** means a command or a script armed it without naming anyone. |
+| **Sent to** | Who the tag went to: all, group, raid, me, or a character's name. |
+| **Time left** | Counts down. A tag coupled to a buff says while that buff is up, and ends when the buff does. |
+
+
+---
+
 Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/effecttracker.md
 
 # Effect Tracker
@@ -5555,6 +5672,14 @@ The top line is the state (Moving in green, Failed in red, Arrived highlighted, 
 - The window closes itself as soon as a trip ends, so you rarely see Arrived, Stopped or Failed in it. The console says how the trip ended.
 - While nav is paused it keeps control of your character, so nothing else (follow, camp spot) will move it until you Resume or STOP.
 
+## Points of interest and paths
+
+A point of interest is a name you give a spot in a zone. A path is a saved list of spots to walk in order. Both are kept in the [Points of Interest and Paths window](paths.md): type `ogre paths`.
+
+- A point of interest's name works wherever a location does in that zone: `oc !c -NavTo igw:${Me.Name} bell`, `oc !c -ChangeCampSpot igw:${Me.Name} bell`, and `-TravelMesh` to reach it from another zone.
+- `oc !c -Path igw:${Me.Name} <name>` walks a saved path, and `oc !c -PathStop igw:${Me.Name}` stops it. It runs while OgreBot is paused, and zoning ends it.
+- The [Auto-Hunt tab](../ogrebot/auto-hunt.md) picks a path to walk between pulls.
+
 ## Other states
 
 Paused with the Pause button:
@@ -5655,6 +5780,120 @@ The list shows every destination the map offers, in the map's order. Type in the
 ### When nothing can be opened
 
 ![Failed](../assets/travel/failed.png)
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/paths.md
+
+# Points of Interest and Paths
+
+> **:bulb: In game - the ? button on this window says**
+>
+> Names spots in the zone you are in, and saves walks through them. They are kept on this PC, for every toon.
+>
+> **What you can do here**
+>
+> - **Add** - save a point of interest at x, y, z. Leave those blank to use where you stand. **My Loc** fills them in for you.
+> - **Remove / Rename** - change a point of interest of your own.
+> - **New / Delete** - make or drop a path. A zone can hold as many as you like.
+> - **Add / Remove / Clear** under the point list - build the path. A point is a point of interest or x,y,z.
+> - **Nav / Camp spot** - how the toon walks that path. **Loop** starts it over after the last point.
+> - **Start / Stop** - walk the path on this box.
+> - **Import** - bring this zone's old AutoHunt path across from OgreBot Classic.
+>
+> **Good to know**
+>
+> - A point of interest's name works wherever a location does in this zone: `-ChangeCampSpot`, `-TravelMesh`.
+> - A shipped point of interest cannot be removed or renamed. Adding your own of that name overrides it.
+> - Start stops with a line if a point cannot be found, before anything moves. Zoning ends a walk.
+> - The first time you enter a zone with an old AutoHunt path, it comes across by itself as a path called Default. Nothing you already have is overwritten, and what you delete does not come back unless you press **Import**.
+> - The Auto-Hunt tab picks one of these paths to walk between pulls.
+
+**Open it:** Type `ogre paths`, or press **Edit paths** on the Auto-Hunt tab of OgreBot. `ogre end paths` or the window's X closes it. A path being walked goes on.
+
+## What it is for
+
+This window holds the named spots and the saved walks of the zone you are in. A point of interest is a name for a spot: the name then works wherever a location does in this zone, such as `-ChangeCampSpot`, `-NavTo` and `-TravelMesh`. A path is a list of points that a toon walks in order, and a zone can hold as many paths as you like. Both are kept on this PC, for every toon, and everything here also has a command for scripts.
+
+## Zone and Import
+
+The top line names the zone everything below belongs to. While you are zoning, or while the travel data loads, it says why the lists are empty.
+
+| Control | What it does |
+|---|---|
+| **Import** | Brings this zone's saved Auto-Hunt route across from OgreBot Classic, even if that was done before. A name or path already here is never overwritten.<br>*This also happens by itself, once, the first time you enter a zone that has an old route.* |
+
+
+
+## Points of interest
+
+Click a row to fill in the name, the x, y, z boxes and the path's Point box.
+
+| Control | What it does |
+|---|---|
+| **Name (box)** | The name of the point of interest to add. It cannot be empty, hold a comma or read as a number, because it would then read as a location. |
+| **x / y / z (boxes)** | Where the point of interest is. Leave all three blank to use where you stand. |
+| **My Loc** | Fills x, y and z from where you stand, so you can change them before you add. |
+| **Add** | Saves the point of interest in this zone. A name you already have moves to the new spot. A name the bot ships with is overridden by yours, and it stays yours until you remove it. |
+| **Remove** | Removes the selected point of interest of yours. If it was overriding a shipped one, the shipped one is back.<br>*Greyed out for a shipped point of interest.* |
+| **New name (box)** | The new name for Rename. |
+| **Rename** | Renames the selected point of interest of yours. A name another point of interest here holds is refused, and a path that used the old name does not follow it.<br>*Greyed out for a shipped point of interest.* |
+
+
+
+## Paths
+
+Click a path to select it. Its points show in the list under these buttons.
+
+| Control | What it does | Default |
+|---|---|---|
+| **New path name (box)** | The name of the path to make. |  |
+| **New** | Makes an empty path in this zone. It walks by Nav and does not loop until you change it. A name already here is refused, so a slip cannot empty a path. |  |
+| **Delete** | Deletes the selected path.<br>*No confirmation.* |  |
+| **Walk by Nav / Camp spot** | How the toon walks this path. Nav goes to each point on the navigation map. Camp spot moves the camp spot to each point and lets the leash bring the toon. | Nav |
+| **Loop** | Starts the path over at the first point after the last, until something stops it. | off |
+| **Start** | Walks the selected path on this box, in place of any walk under way. Every point is checked first: one that cannot be found stops it with a line, before anything moves.<br>*It runs while OgreBot is paused, and OgreBot must be open.* |  |
+| **Stop** | Stops the walk on this box. The toon stands where it is. |  |
+
+
+
+## Points of the path
+
+The selected path's points, in the order they are walked.
+
+| Control | What it does |
+|---|---|
+| **Point: a name, or x,y,z (box)** | The point to add: the name of a point of interest, or x,y,z. A name is looked for when the path starts, so its point of interest can come later. |
+| **Add** | Adds the point to the end of the selected path. |
+| **Remove** | Removes the selected point. A path that passes the same point twice keeps the other one. |
+| **Clear** | Takes every point off the selected path. The path stays, with its Walk by and Loop settings.<br>*No confirmation.* |
+
+
+
+## What the window shows
+
+- 'shipped' or 'yours' beside a point of interest: shipped ones come with the bot and cannot be removed or renamed.
+- 'at an actor' in place of a location: a shipped point of interest that names an actor, not a spot. It has no location of its own, so a path or a location verb cannot use it.
+- Green text: the path being walked and the point it is walking to, with a line under the lists saying the same.
+- The last line of the window: the last thing the bot said about a point of interest or a path, a refusal included.
+
+## Good to know
+
+- Everything here is for the zone you are in. Another zone has its own points of interest and paths.
+- Zoning ends a walk, with a line. So does death, a point the toon cannot get to, and closing OgreBot.
+- A camp spot walk needs 'Allow Camp Spot' on for that toon. When it ends, the camp spot is cleared if the walk was stopped, and stays at the last point if the walk finished.
+- The first time you enter a zone that has an old OgreBot Classic route, it comes across by itself as a path called Default, and one line says how many points came and which did not. What you delete afterwards does not come back unless you press Import.
+- The Auto-Hunt tab picks one of these paths to walk between pulls. Start here walks a path with no hunting, and hunting leaves that walk alone.
+- A path or a point of interest saved on one box shows on every other box on this PC within a second or so.
+
+### For scripts
+
+The same things have commands: `OgreBotAPI.POI` for points of interest and `OgreBotAPI.Paths` for paths. In OgreConsole, `-POI_Add` saves a point of interest, `-Path` walks a path and `-PathStop` stops it.
+
+### A zone with no points of interest yet
+
+![Empty](../assets/paths/empty.png)
 
 
 ---

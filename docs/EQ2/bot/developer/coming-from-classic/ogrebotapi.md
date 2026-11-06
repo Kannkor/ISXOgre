@@ -14,14 +14,14 @@ Every name Classic's *OgreBotAPI Reference* page listed, and what it is in the n
 
 | What happened | Names |
 |---|---|
-| ⚠️ Arguments changed | 77 |
+| ⚠️ Arguments changed | 81 |
 | ⚠️ Argument order changed | 7 |
-| ✏️ Renamed | 338 |
-| ➡️ Moved | 111 |
+| ✏️ Renamed | 339 |
+| ➡️ Moved | 110 |
 | ➡️ Lives somewhere else | 11 |
 | 📄 In a data file now | 4 |
 | ⛔ Exists, does nothing yet | 1 |
-| ⛔ Not ported yet | 66 |
+| ⛔ Not ported yet | 62 |
 | ⛔ Removed | 53 |
 | ✅ Works as is | 17 |
 | **Total** | **685** |
@@ -203,11 +203,8 @@ Old names whose job is now in `OgreBotAPI.AutoHunt`.
 
 | Old call | Today | Write instead | What changed | Notes |
 |---|---|---|---|---|
-| `OgreBotAPI:AutoHunt_AddPath` | does nothing | — | ⛔ Not ported yet | The AutoHunt path verbs fed a path walker the new bot does not have yet; delete the call. They come back as :AddPoint / :ClearPoints when the walker is built. |
-| `OgreBotAPI:AutoHunt_AddPoint` | does nothing | — | ⛔ Not ported yet | Classic's added one point to its AutoHunt path, the list its path walker followed. The new bot has no path walker yet; delete the call. |
 | `OgreBotAPI:AutoHunt_CheckHP` | does nothing | `OgreBotAPI.AutoHunt:SetCheckHP` `[fw,n]` | ✏️ Renamed |  |
 | `OgreBotAPI:AutoHunt_CheckMana` | does nothing | `OgreBotAPI.AutoHunt:SetCheckMana` `[fw,n]` | ✏️ Renamed |  |
-| `OgreBotAPI:AutoHunt_ClearPoints` | does nothing | — | ⛔ Not ported yet | Classic's emptied its AutoHunt path, the list its path walker followed. The new bot has no path walker yet; delete the call. |
 | `OgreBotAPI:AutoHunt_ScanRadius` | does nothing | `OgreBotAPI.AutoHunt:SetScanRadius` `[fw,n]` | ✏️ Renamed |  |
 
 ## OgreBotAPI.AutoTarget
@@ -578,7 +575,6 @@ Old names whose job is now in `OgreBotAPI.Movement`.
 | Old call | Today | Write instead | What changed | Notes |
 |---|---|---|---|---|
 | `OgreBotAPI:AscensionEmbargo_Remove_DoNotCombo` | does nothing | — | ⛔ Removed | Classic's removed an entry from the ascension do-not-combo list. Ascension combos are not in the new bot; delete the call. |
-| `OgreBotAPI:AutoHunt_RemovePoint` | does nothing | — | ⛔ Not ported yet | Classic's removed one point from its AutoHunt path, the list its path walker followed. The new bot has no path walker yet; delete the call. |
 | `OgreBotAPI:AutoRun` | does nothing | `OgreBotAPI.Movement:AutoRun` `[fw]` | ➡️ Moved |  |
 | `OgreBotAPI:CallGH` | does nothing | `OgreBotAPI.Movement:CallGH` `[fw]` | ➡️ Moved |  |
 | `OgreBotAPI:Come2Me` | does nothing | `OgreBotAPI.Movement:Come2Me` `[fw,toWho=me,precision=3]` | ⚠️ Argument order changed | The for-who moved from argument 2 to argument 1 (first). |
@@ -594,7 +590,7 @@ Old names whose job is now in `OgreBotAPI.Movement`.
 | `OgreBotAPI.GettingToGH` | reads NULL | `OgreBotAPI.Movement.GettingToGH` | ➡️ Moved |  |
 | `OgreBotAPI:GetToConcentration` | does nothing | `OgreBotAPI.Movement:GetToConcentration` `[fw,concentration=4]` | ➡️ Moved |  |
 | `OgreBotAPI:GetToGH` | does nothing | `OgreBotAPI.Movement:GetToGH` `[fw]` | ➡️ Moved |  |
-| `OgreBotAPI:HoldUp` | does nothing | `OgreBotAPI.Movement:HoldUp` `[fw]` | ➡️ Moved |  |
+| `OgreBotAPI:HoldUp` | does nothing | `OgreBotAPI.Movement:StopFollow` `[fw]` | ✏️ Renamed |  |
 | `call OgreBotAPI.HouseWindowToGH` | does nothing | `OgreBotAPI.Movement:GetToGH` `[fw]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. The house-window leg is one route inside the ported driver, not a separate verb |
 | `OgreBotAPI:JoustIn` | does nothing | `OgreBotAPI.Movement:JoustIn` `[fw]` | ➡️ Moved |  |
 | `OgreBotAPI:JoustOff` | does nothing | `OgreBotAPI.Movement:JoustOff` `[fw]` | ➡️ Moved |  |
@@ -667,6 +663,17 @@ Old names whose job is now in `OgreBotAPI.Overseer`.
 | `OgreBotAPI:Overseer_AddAgentsToCollection` | does nothing | `OgreBotAPI.Overseer:AddAgents` `[fw,destroy=TRUE]` | ✏️ Renamed |  |
 | `OgreBotAPI:Overseer_AutoAddOverseerQuests` | does nothing | `OgreBotAPI.Overseer:AutoAddQuests` `[fw]` | ✏️ Renamed |  |
 | `OgreBotAPI:Overseer_CheckQuests` | does nothing | `OgreBotAPI.Overseer:CheckQuests` `[fw]` | ✏️ Renamed |  |
+
+## OgreBotAPI.Paths
+
+Old names whose job is now in `OgreBotAPI.Paths`.
+
+| Old call | Today | Write instead | What changed | Notes |
+|---|---|---|---|---|
+| `OgreBotAPI:AutoHunt_AddPath` | does nothing | `OgreBotAPI.Paths:AddPoint` `[name,point]` | ⚠️ Arguments changed | **Old:** `OgreBotAPI:AutoHunt_AddPath["Camp North"]`<br>**New:** `OgreBotAPI.Paths:AddPoint[Default,"Camp North"]`<br>Classic's added one point to the end of its one path for the zone. A point is now the name of a point of interest in the zone you are in, or x,y,z, and not a nav map region. Classic refused a name its map did not hold when it was added; the new bot checks every point when the path starts. The first entry to a zone with a saved Classic route brings it across by itself, as a path called Default. |
+| `OgreBotAPI:AutoHunt_AddPoint` | does nothing | `OgreBotAPI.Paths:AddPoint` `[name,point]` | ⚠️ Arguments changed | **Old:** `OgreBotAPI:AutoHunt_AddPoint["Camp North"]`<br>**New:** `OgreBotAPI.Paths:AddPoint[Default,"Camp North"]`<br>Classic's added one point to the end of its one path for the zone. A point is now the name of a point of interest in the zone you are in, or x,y,z, and not a nav map region. Classic refused a name its map did not hold when it was added; the new bot checks every point when the path starts. The first entry to a zone with a saved Classic route brings it across by itself, as a path called Default. |
+| `OgreBotAPI:AutoHunt_ClearPoints` | does nothing | `OgreBotAPI.Paths:Clear` `[name]` | ⚠️ Arguments changed | **Old:** `OgreBotAPI:AutoHunt_ClearPoints`<br>**New:** `OgreBotAPI.Paths:Clear[Default]`<br>Classic's emptied its one path for the zone. The new verb empties the named path, which stays with its mover and its loop setting. |
+| `OgreBotAPI:AutoHunt_RemovePoint` | does nothing | `OgreBotAPI.Paths:RemovePoint` `[name,point]` | ⚠️ Arguments changed | **Old:** `OgreBotAPI:AutoHunt_RemovePoint["Camp North"]`<br>**New:** `OgreBotAPI.Paths:RemovePoint[Default,"Camp North"]`<br>Classic's took one point off its one path for the zone. The new verb takes the first point of that text off the named path, in any case. |
 
 ## OgreBotAPI.Pet
 
@@ -1039,10 +1046,6 @@ If your script needs one of these, leave it out for now and tell us - this list 
 
 - `OgreBotAPI:AfterProfileLoad` - not ported yet
 - `OgreBotAPI:Aliases_ShowAllBuiltInAliases` - not ported yet
-- `OgreBotAPI:AutoHunt_AddPath` - not ported yet
-- `OgreBotAPI:AutoHunt_AddPoint` - not ported yet
-- `OgreBotAPI:AutoHunt_ClearPoints` - not ported yet
-- `OgreBotAPI:AutoHunt_RemovePoint` - not ported yet
 - `OgreBotAPI.bBuyingFromMerchantConfirmation` - not ported yet
 - `OgreBotAPI.bCacheEquipmentAdornmentNames` - not ported yet
 - `OgreBotAPI.bInternal` - not ported yet

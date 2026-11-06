@@ -1,14 +1,14 @@
-# Auto-Hunt (not finished)
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# Auto-Hunt (not finished)
 
 > **:warning: Not finished**
 >
 > OgreBot marks this tab as not finished (its name is struck through). Some options below work and some do not yet - each one says which.
 
-Auto-Hunt is a simple grinding mode. The bot looks for a mob near you, targets it and opens the fight with the first ready ability from your Pull Abilities list; your Cast Stack then fights as usual. This tab is marked not finished: the mob choice and safety settings work, but the walking part does not. The Auto Hunt and Movement Only boxes and the nav path list do nothing yet, so the bot never walks a route; it pulls what comes within the scan radius. To switch it on, use the OgreConsole command `-autohunt` with hunt, movement or off. It only runs while OgreBot is open with a profile loaded and the bot is not paused.
+Auto-Hunt is a simple grinding mode. The bot looks for a mob near you, targets it and opens the fight with the first ready ability from your Pull Abilities list; your Cast Stack then fights as usual. Pick a saved path under Path and it walks that path between pulls; with none picked it pulls what comes within the scan radius. This tab is marked not finished. To switch it on, use the OgreConsole command `-autohunt` with hunt or off. It only runs while OgreBot is open with a profile loaded and the bot is not paused.
 
 [![Auto-Hunt tab](../assets/ogrebot/tab-auto-hunt.png)](../assets/ogrebot/tab-auto-hunt.png "Click for full size")
 
@@ -18,8 +18,9 @@ Auto-Hunt is a simple grinding mode. The bot looks for a mob near you, targets i
 
 | Option | What it does | Default |
 |---|---|---|
-| **Auto Hunt** | **Not active yet.** It will be the on/off switch for Auto-Hunt. For now, start and stop it with the OgreConsole command `-autohunt` (hunt, movement or off). | off |
-| **Movement Only** | **Not active yet.** It will make Auto-Hunt walk without pulling. The command `-autohunt movement` exists, but for now it does not walk anywhere; it only holds you still while a safety check is tripped. | off |
+| **Auto Hunt** | **Not active yet.** Ticked, Auto-Hunt runs on this character: scan, camp, prebuff, pull, and walk the path picked below between pulls. The same switch as the OgreConsole command `-autohunt` (hunt or off). It never loads ticked: a profile always starts with it off. | off |
+
+
 
 ## Auto Hunt Options
 
@@ -34,6 +35,8 @@ Auto-Hunt is a simple grinding mode. The bot looks for a mob near you, targets i
 | **Check Mana @** | While anyone in your group (or raid) has less power than the % in the box beside it, the bot stops pulling and holds still. | off |
 | **Check Mana @ (box)** | The power % used by Check Mana @. Only used while Check Mana @ is ticked. | empty (never stops the hunt) |
 | **Check if any group members dead** | While anyone in your group (or raid) is dead, the bot stops pulling and holds still.<br>*A group member who is not in the zone also counts as dead, so the hunt waits for them to arrive.* | off |
+
+
 
 ## Ignore mobs by con
 
@@ -51,6 +54,8 @@ Auto-Hunt is a simple grinding mode. The bot looks for a mob near you, targets i
 | **Non-Aggro** | The bot only pulls mobs that would attack you on sight. Mobs that leave you alone are skipped. | off |
 | **Named** | The bot never pulls named mobs.<br>*Even when unticked, normal mobs in range are pulled before named ones.* | off |
 
+
+
 ## Pull Abilities
 
 [![Pull Abilities](../assets/ogrebot/tab-auto-hunt-s4.png)](../assets/ogrebot/tab-auto-hunt-s4.png "Click for full size")
@@ -58,6 +63,8 @@ Auto-Hunt is a simple grinding mode. The bot looks for a mob near you, targets i
 | Option | What it does | Default |
 |---|---|---|
 | **First ready one is used; drag order = priority** | Your pull list. When the bot has a mob targeted and you are out of combat, it uses the first entry from the top that is ready. Type in the box above to find one of your abilities or items; picking it adds it. Drag rows to change the order, double-click a row to switch it off or on.<br>*With an empty list the bot targets mobs but never pulls them.* | empty |
+
+
 
 ## Behaviour
 
@@ -73,23 +80,26 @@ Auto-Hunt is a simple grinding mode. The bot looks for a mob near you, targets i
 | **Delay After Combat** | **Not active yet.**  | off |
 | **Pause on Exquisite Chest drop** | While an Exquisite chest is lying within 50 of you, the bot stops pulling and holds still, so you can deal with it.<br>*It carries on by itself once the chest is gone.* | off |
 
-## Nav Paths
 
-[![Nav Paths](../assets/ogrebot/tab-auto-hunt-s6.png)](../assets/ogrebot/tab-auto-hunt-s6.png "Click for full size")
+
+## Path
+
+[![Path](../assets/ogrebot/tab-auto-hunt-s6.png)](../assets/ogrebot/tab-auto-hunt-s6.png "Click for full size")
 
 | Option | What it does | Default |
 |---|---|---|
-| **Add a nav point** | **Not active yet.** It will list named places in the zone to add to the route; for now the list is always empty.<br>*Opened, it says 'No named nav points yet - not built in the new bot'.* | empty |
-| **Nav Path Order** | **Not active yet.** It will hold the route Auto-Hunt walks, in order. It is saved with your profile, but nothing uses it. | empty |
-| **Clear** | Empties the Nav Path Order list. Press Save at the top to keep the change. |  |
-| **Loop path** | **Not active yet.** It will make the route start over when it reaches the end. | off |
+| **Walk this path** | Which of this zone's saved paths Auto-Hunt walks between pulls. It stops for each pull and carries on at the same point. Choose (none) to hunt where you stand. The list is the zone you are in: another zone has its own.<br>*A name saved for another zone gets one line here, and the bot hunts where it stands.* | (none) |
+| **Edit paths** | Opens the window that holds this zone's points of interest and paths: `ogre paths`. |  |
+
+
 
 ## Good to know
 
-- Ticking Auto Hunt does not start anything. Use `-autohunt` in OgreConsole (hunt / movement / off). That choice is not saved with your profile, so Auto-Hunt starts off every time the bot is loaded fresh.
+- Ticking Auto Hunt does not start anything. Use `-autohunt` in OgreConsole (hunt / off). That choice is not saved with your profile, so Auto-Hunt starts off every time the bot is loaded fresh.
 - A mob that is already attacking your group is targeted before any new pull, whatever its con. The con, Non-Aggro and Named filters only decide which NEW mob to pull. With 'Check Aggro' ticked the bot instead holds still and leaves that fight to your normal combat settings.
 - 'Check if any group members dead' and 'Check HP @' also count a group member who is not in the zone. The hunt waits until they arrive.
 - Pulls only happen while you are out of combat, and only if at least one entry in the pull list is ready to use. With an empty list the bot targets a mob and just waits.
 - If the Scan radius box is blank, the bot looks 35 around you.
-- Movement mode (`-autohunt movement`) does not walk anywhere yet and never pulls. The safety checks still apply in it: while one of them is tripped (Check Aggro, HP, Mana, dead members, Exquisite chest), the bot holds you still.
+- The bot stops walking for each pull and for a tripped safety check, then carries on at the same point. A path that ends, or cannot start because a point cannot be found, is not tried again until you send `-autohunt hunt` or pick another path; the bot hunts where it stands.
+- A walk with no hunting is the Start button of the `ogre paths` window. Hunting leaves a walk you started alone.
 

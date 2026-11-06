@@ -24,7 +24,7 @@ What changed between the Classic console (V1) and the new console (V2) for every
 | ✅ Works as is | 435 |
 | **Total** | **554** |
 
-435 of the 554 Classic commands are typed exactly as before (125 of those are other names - aliases - for a command, and keep working).
+435 of the 554 Classic commands are typed exactly as before (126 of those are other names - aliases - for a command, and keep working).
 
 ## 1. Commands you must change
 
@@ -308,7 +308,7 @@ These 435 commands are typed exactly as in Classic. An alias is another name for
 | `-ccaston` | An alias of `-CastAbilityOnPlayer` - it works as typed. |
 | `-CCastStack` | An alias of `-ChangeCastStackListBoxItem` - it works as typed. |
 | `-CCastStackByTag` | An alias of `-ChangeCastStackListBoxItemByTag` - it works as typed. |
-| `-ccsb` |  |
+| `-ccsb` | An alias of `-CS_Set_ChangeCampSpotBy` - it works as typed. |
 | `-ccsbfw` | An alias of `-CS_Set_ChangeCampSpotBy` - it works as typed. |
 | `-ccsbw` | An alias of `-CS_Set_ChangeCampSpotBy` - it works as typed. |
 | `-ccsbyforwho` | An alias of `-CS_Set_ChangeCampSpotBy` - it works as typed. |
@@ -321,7 +321,7 @@ These 435 commands are typed exactly as in Classic. An alias is another name for
 | `-Champions_Zone_Resetter` |  |
 | `-Change_Campspot_Who` | An alias of `-ChangeCampSpot` - it works as typed. |
 | `-ChangeBeltAdorn` | Nothing to change - unless the line passes a fourth argument (skip moving adornments): drop it. The old rune is always moved back to the bag slot the new one came from.<br>**Old:** `-ChangeBeltAdorn <fw> <value> [unequip] [skipadornmoving]`<br>**New:** `-ChangeBeltAdorn <fw> <value> [unequip]` |
-| `-ChangeCampSpotBy` | An alias of `-ccsb` - it works as typed. |
+| `-ChangeCampSpotBy` | An alias of `-CS_Set_ChangeCampSpotBy` - it works as typed. |
 | `-ChangeCampSpotWho` | An alias of `-ChangeCampSpot` - it works as typed. |
 | `-ChangeCastStack` | An alias of `-ChangeCastStackListBoxItem` - it works as typed. |
 | `-ChangeCastStackByTag` | An alias of `-ChangeCastStackListBoxItemByTag` - it works as typed. |
@@ -365,7 +365,7 @@ These 435 commands are typed exactly as in Classic. An alias is another name for
 | `-cs-circle` | An alias of `-CS_Set_Formation_Circle` - it works as typed. |
 | `-cs-monkey` | An alias of `-CS_Set_Formation_MonkeyInMiddle` - it works as typed. |
 | `-cs-monkeyRaid` | An alias of `-CS_Set_Formation_MonkeyInMiddleRaid` - it works as typed. |
-| `-cs-set-ccs-by` | An alias of `-ccsb` - it works as typed. |
+| `-cs-set-ccs-by` | An alias of `-CS_Set_ChangeCampSpotBy` - it works as typed. |
 | `-cs-set-cs` | An alias of `-campspot` - it works as typed. |
 | `-CS_ClearAll` |  |
 | `-CS_ClearCampSpot` |  |

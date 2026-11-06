@@ -152,7 +152,7 @@
   "OgreBotAPI.AutoHunt.SafetyTripped": null,
   "OgreBotAPI.AutoHunt:SetCheckHP": "[fw,n]",
   "OgreBotAPI.AutoHunt:SetCheckMana": "[fw,n]",
-  "OgreBotAPI.AutoHunt:SetMode": "[fw,off|movement|hunt]",
+  "OgreBotAPI.AutoHunt:SetMode": "[fw,off|hunt]",
   "OgreBotAPI.AutoHunt:SetScanRadius": "[fw,n]",
   "OgreBotAPI.AutoTarget": null,
   "OgreBotAPI.AutoTarget.Active": null,
@@ -587,7 +587,6 @@
   "OgreBotAPI.Movement:ForceFollow": "[fw]",
   "OgreBotAPI.Movement:GetToConcentration": "[fw,concentration=4]",
   "OgreBotAPI.Movement:GetToGH": "[fw]",
-  "OgreBotAPI.Movement:HoldUp": "[fw]",
   "OgreBotAPI.Movement:JoustIn": "[fw]",
   "OgreBotAPI.Movement:JoustOff": "[fw]",
   "OgreBotAPI.Movement:JoustOn": "[fw]",
@@ -625,6 +624,21 @@
   "OgreBotAPI.Overseer:AutoAddQuests": "[fw]",
   "OgreBotAPI.Overseer:BuyMissions": "[fw,flags=\"\"]",
   "OgreBotAPI.Overseer:CheckQuests": "[fw]",
+  "OgreBotAPI.POI": null,
+  "OgreBotAPI.POI.Count": null,
+  "OgreBotAPI.POI.Loc": "[name]",
+  "OgreBotAPI.POI:Add": "[name,x?,y?,z?,sender?]",
+  "OgreBotAPI.POI:Remove": "[name]",
+  "OgreBotAPI.POI:Rename": "[old,new]",
+  "OgreBotAPI.Paths": null,
+  "OgreBotAPI.Paths.Count": null,
+  "OgreBotAPI.Paths.Running": null,
+  "OgreBotAPI.Paths:AddPoint": "[name,point]",
+  "OgreBotAPI.Paths:Clear": "[name]",
+  "OgreBotAPI.Paths:Delete": "[name]",
+  "OgreBotAPI.Paths:RemovePoint": "[name,point]",
+  "OgreBotAPI.Paths:Start": "[fw,name]",
+  "OgreBotAPI.Paths:Stop": "[fw]",
   "OgreBotAPI.Pet": null,
   "OgreBotAPI.Pet:Assist": "[fw]",
   "OgreBotAPI.Pet:Attack": "[fw]",
@@ -1216,6 +1230,8 @@
   "-Overseer_BuyMissions",
   "-Overseer_CheckQuests",
   "-PackPony",
+  "-Path",
+  "-PathStop",
   "-pause",
   "-pet-attack",
   "-pet-off",
@@ -1228,6 +1244,7 @@
   "-PetGetLost",
   "-PetOff",
   "-PetOn",
+  "-POI_Add",
   "-Poison_AutoConsume",
   "-Poison_Replenish",
   "-PortalToGuildHall",
@@ -4864,7 +4881,7 @@
     false
    ],
    [
-    "float",
+    "string",
     false
    ],
    [
@@ -4886,7 +4903,7 @@
     false
    ],
    [
-    "float",
+    "string",
     false
    ],
    [
@@ -4908,7 +4925,7 @@
     false
    ],
    [
-    "float",
+    "string",
     false
    ],
    [
@@ -4930,7 +4947,7 @@
     false
    ],
    [
-    "float",
+    "string",
     false
    ],
    [
@@ -4958,7 +4975,7 @@
     false
    ],
    [
-    "float",
+    "string",
     false
    ],
    [
@@ -4986,7 +5003,7 @@
     false
    ],
    [
-    "float",
+    "string",
     false
    ],
    [
@@ -5014,7 +5031,7 @@
     false
    ],
    [
-    "float",
+    "string",
     false
    ],
    [
@@ -5411,6 +5428,22 @@
     false
    ]
   ],
+  "-path": [
+   [
+    "forwho",
+    false
+   ],
+   [
+    "string",
+    false
+   ]
+  ],
+  "-pathstop": [
+   [
+    "forwho",
+    false
+   ]
+  ],
   "-pause": [
    [
     "forwho",
@@ -5480,6 +5513,28 @@
   "-peton": [
    [
     "forwho",
+    false
+   ]
+  ],
+  "-poi_add": [
+   [
+    "string",
+    false
+   ],
+   [
+    "string",
+    false
+   ],
+   [
+    "string",
+    false
+   ],
+   [
+    "string",
+    false
+   ],
+   [
+    "string",
     false
    ]
   ],
@@ -7139,6 +7194,7 @@
   "packs",
   "patch",
   "patcher",
+  "paths",
   "perf",
   "pony",
   "potcb",
@@ -7165,6 +7221,8 @@
   "smalldepottobigdepot",
   "smartloot",
   "staples",
+  "tags",
+  "tagtimers",
   "taskrunner",
   "tempadorns",
   "tour",
@@ -7908,7 +7966,7 @@
    "ClearLoadExecute",
    "ClearOnZoneExecute",
    "ClearUnloadExecute",
-   "CmdAHClearNavPathList",
+   "CmdAHOpenPaths",
    "CmdEquipCharm1",
    "CmdEquipCharm2",
    "EditAnnounce",
@@ -7977,7 +8035,6 @@
    "checkbox_aliases_noraid",
    "checkbox_ascension_etherflash_preventport",
    "checkbox_assassin_exploitweakness",
-   "checkbox_autohunt_autohunt",
    "checkbox_autohunt_campspot",
    "checkbox_autohunt_checkaggro",
    "checkbox_autohunt_checkdead",
@@ -7995,8 +8052,6 @@
    "checkbox_autohunt_ignorered",
    "checkbox_autohunt_ignorewhite",
    "checkbox_autohunt_ignoreyellow",
-   "checkbox_autohunt_looppath",
-   "checkbox_autohunt_movementonly",
    "checkbox_autohunt_pauseonexquisitechest",
    "checkbox_autohunt_prebuff",
    "checkbox_autohunt_useirc",
@@ -8054,6 +8109,7 @@
    "checkbox_debug_whatisthebotdoing",
    "checkbox_defiler_donotuselegbite",
    "checkbox_dirge_confrontfear",
+   "checkbox_donotsave_autohunt",
    "checkbox_donotsave_dynamicassist",
    "checkbox_donotsave_dynamiccampspot",
    "checkbox_donotsave_dynamicignorecounterability",
@@ -8399,6 +8455,7 @@
    "checkbox_tags_hidefromogreconsole",
    "checkbox_tags_includecaster",
    "checkbox_tags_meonly",
+   "checkbox_tags_show_timers",
    "checkbox_tags_useabilitymaintained",
    "checkbox_warlock_debugging_for_myth",
    "checkbox_warlock_donotforce_nomythondarksiphoning",
@@ -8436,7 +8493,6 @@
    "listbox_announce_list",
    "listbox_announce_order",
    "listbox_assist_order",
-   "listbox_autohunt_path_order",
    "listbox_autohunt_pullspells_order",
    "listbox_canceloncast_bufflist",
    "listbox_canceloncast_castlist",
@@ -8498,6 +8554,7 @@
    "textentry_aliases_alias_ID",
    "textentry_aliases_aliasfor_ID",
    "textentry_announce_text",
+   "textentry_assist_range",
    "textentry_autohunt_checkhp",
    "textentry_autohunt_checkmana",
    "textentry_autohunt_scanradius",
@@ -8640,6 +8697,12 @@
    "textentry_vampiricrequiem_waittime"
   ],
   "removed": {
+   "checkbox_autohunt_looppath": {
+    "status": "removed"
+   },
+   "checkbox_autohunt_movementonly": {
+    "status": "removed"
+   },
    "checkbox_inquisitor_verdictepicnamedonly": {
     "status": "removed"
    },
@@ -8661,6 +8724,9 @@
    "checkbox_settings_raidoptionslimited": {
     "status": "removed"
    },
+   "listbox_autohunt_path_order": {
+    "status": "removed"
+   },
    "textentry_inquisitor_verdictepicnamedonlypercent": {
     "status": "removed"
    },
@@ -8674,7 +8740,11 @@
     "status": "removed"
    }
   },
-  "renamed": {}
+  "renamed": {
+   "checkbox_autohunt_autohunt": {
+    "to": "checkbox_donotsave_autohunt"
+   }
+  }
  },
  "rows": [
   {
@@ -9952,8 +10022,11 @@
    "surface": "OgreBotAPI"
   },
   {
-   "howToFix": "Not ported - there is no replacement yet.",
+   "howToFix": "Write `OgreBotAPI.Paths:AddPoint` instead of `OgreBotAPI:AutoHunt_AddPath`; the arguments changed: Old: OgreBotAPI:AutoHunt_AddPath[\"Camp North\"]\nNew: OgreBotAPI.Paths:AddPoint[Default,\"Camp North\"]\nClassic's added one point to the end of its one path for the zone. A point is now the name of a point of interest in the zone you are in, or x,y,z, and not a nav map region. Classic refused a name its map did not hold when it was added; the new bot checks every point when the path starts. The first entry to a zone with a saved Classic route brings it across by itself, as a path called Default.",
    "id": "OgreBotAPI:AutoHunt_AddPath",
+   "newForm": "OgreBotAPI.Paths:AddPoint",
+   "newSignature": "[name,point]",
+   "note": "Old: OgreBotAPI:AutoHunt_AddPath[\"Camp North\"]\nNew: OgreBotAPI.Paths:AddPoint[Default,\"Camp North\"]\nClassic's added one point to the end of its one path for the zone. A point is now the name of a point of interest in the zone you are in, or x,y,z, and not a nav map region. Classic refused a name its map did not hold when it was added; the new bot checks every point when the path starts. The first entry to a zone with a saved Classic route brings it across by itself, as a path called Default.",
    "oldCall": "OgreBotAPI:AutoHunt_AddPath",
    "oldKinds": [
     "m"
@@ -9961,12 +10034,15 @@
    "oldName": "AutoHunt_AddPath",
    "oldSignature": "(string _Value)",
    "oldSpellingToday": "does nothing - no error in any log (the method no longer exists)",
-   "status": "notPorted",
+   "status": "signature",
    "surface": "OgreBotAPI"
   },
   {
-   "howToFix": "Not ported - there is no replacement yet.",
+   "howToFix": "Write `OgreBotAPI.Paths:AddPoint` instead of `OgreBotAPI:AutoHunt_AddPoint`; the arguments changed: Old: OgreBotAPI:AutoHunt_AddPoint[\"Camp North\"]\nNew: OgreBotAPI.Paths:AddPoint[Default,\"Camp North\"]\nClassic's added one point to the end of its one path for the zone. A point is now the name of a point of interest in the zone you are in, or x,y,z, and not a nav map region. Classic refused a name its map did not hold when it was added; the new bot checks every point when the path starts. The first entry to a zone with a saved Classic route brings it across by itself, as a path called Default.",
    "id": "OgreBotAPI:AutoHunt_AddPoint",
+   "newForm": "OgreBotAPI.Paths:AddPoint",
+   "newSignature": "[name,point]",
+   "note": "Old: OgreBotAPI:AutoHunt_AddPoint[\"Camp North\"]\nNew: OgreBotAPI.Paths:AddPoint[Default,\"Camp North\"]\nClassic's added one point to the end of its one path for the zone. A point is now the name of a point of interest in the zone you are in, or x,y,z, and not a nav map region. Classic refused a name its map did not hold when it was added; the new bot checks every point when the path starts. The first entry to a zone with a saved Classic route brings it across by itself, as a path called Default.",
    "oldCall": "OgreBotAPI:AutoHunt_AddPoint",
    "oldKinds": [
     "m"
@@ -9974,7 +10050,7 @@
    "oldName": "AutoHunt_AddPoint",
    "oldSignature": "(string _Value)",
    "oldSpellingToday": "does nothing - no error in any log (the method no longer exists)",
-   "status": "notPorted",
+   "status": "signature",
    "surface": "OgreBotAPI"
   },
   {
@@ -10020,8 +10096,11 @@
    "surface": "OgreBotAPI"
   },
   {
-   "howToFix": "Not ported - there is no replacement yet.",
+   "howToFix": "Write `OgreBotAPI.Paths:Clear` instead of `OgreBotAPI:AutoHunt_ClearPoints`; the arguments changed: Old: OgreBotAPI:AutoHunt_ClearPoints\nNew: OgreBotAPI.Paths:Clear[Default]\nClassic's emptied its one path for the zone. The new verb empties the named path, which stays with its mover and its loop setting.",
    "id": "OgreBotAPI:AutoHunt_ClearPoints",
+   "newForm": "OgreBotAPI.Paths:Clear",
+   "newSignature": "[name]",
+   "note": "Old: OgreBotAPI:AutoHunt_ClearPoints\nNew: OgreBotAPI.Paths:Clear[Default]\nClassic's emptied its one path for the zone. The new verb empties the named path, which stays with its mover and its loop setting.",
    "oldCall": "OgreBotAPI:AutoHunt_ClearPoints",
    "oldKinds": [
     "m"
@@ -10029,12 +10108,15 @@
    "oldName": "AutoHunt_ClearPoints",
    "oldSignature": "()",
    "oldSpellingToday": "does nothing - no error in any log (the method no longer exists)",
-   "status": "notPorted",
+   "status": "signature",
    "surface": "OgreBotAPI"
   },
   {
-   "howToFix": "Not ported - there is no replacement yet.",
+   "howToFix": "Write `OgreBotAPI.Paths:RemovePoint` instead of `OgreBotAPI:AutoHunt_RemovePoint`; the arguments changed: Old: OgreBotAPI:AutoHunt_RemovePoint[\"Camp North\"]\nNew: OgreBotAPI.Paths:RemovePoint[Default,\"Camp North\"]\nClassic's took one point off its one path for the zone. The new verb takes the first point of that text off the named path, in any case.",
    "id": "OgreBotAPI:AutoHunt_RemovePoint",
+   "newForm": "OgreBotAPI.Paths:RemovePoint",
+   "newSignature": "[name,point]",
+   "note": "Old: OgreBotAPI:AutoHunt_RemovePoint[\"Camp North\"]\nNew: OgreBotAPI.Paths:RemovePoint[Default,\"Camp North\"]\nClassic's took one point off its one path for the zone. The new verb takes the first point of that text off the named path, in any case.",
    "oldCall": "OgreBotAPI:AutoHunt_RemovePoint",
    "oldKinds": [
     "m"
@@ -10042,7 +10124,7 @@
    "oldName": "AutoHunt_RemovePoint",
    "oldSignature": "(string _Value)",
    "oldSpellingToday": "does nothing - no error in any log (the method no longer exists)",
-   "status": "notPorted",
+   "status": "signature",
    "surface": "OgreBotAPI"
   },
   {
@@ -10067,14 +10149,15 @@
    "surface": "OgreBotAPI"
   },
   {
-   "howToFix": "Write `OgreBotAPI.AutoHunt:SetMode` instead of `OgreBotAPI:AutoHunt_SetMode`. New arguments: `[fw,off|movement|hunt]`.",
+   "howToFix": "Write `OgreBotAPI.AutoHunt:SetMode` instead of `OgreBotAPI:AutoHunt_SetMode`; the arguments changed: The words are off and hunt. `movement` (with `movementonly` and `move`), `on` and `grind` are gone: any of them now sets Off and prints a line. Write hunt for `on` or `grind`. For `movement`, walk a saved path with `OgreBotAPI.Paths:Start`. The same goes for the words of -autohunt.",
    "id": "OgreBotAPI:AutoHunt_SetMode",
    "newForm": "OgreBotAPI.AutoHunt:SetMode",
-   "newSignature": "[fw,off|movement|hunt]",
+   "newSignature": "[fw,off|hunt]",
+   "note": "The words are off and hunt. `movement` (with `movementonly` and `move`), `on` and `grind` are gone: any of them now sets Off and prints a line. Write hunt for `on` or `grind`. For `movement`, walk a saved path with `OgreBotAPI.Paths:Start`. The same goes for the words of -autohunt.",
    "oldCall": "OgreBotAPI:AutoHunt_SetMode",
    "oldName": "AutoHunt_SetMode",
    "oldSpellingToday": "reads NULL - no error in any log (the member no longer exists)",
-   "status": "renamed",
+   "status": "signature",
    "surface": "OgreBotAPI"
   },
   {
@@ -16359,16 +16442,16 @@
   {
    "argsCheck": "same-count",
    "example": {
-    "after": "OgreBotAPI.Movement:HoldUp[\"${_CommandForWho}\"]",
+    "after": "OgreBotAPI.Movement:StopFollow[\"${_CommandForWho}\"]",
     "before": "OgreBotAPI:HoldUp[\"${_CommandForWho}\"]"
    },
    "forWhoInsert": {
     "value": "all",
     "when": "noArgs"
    },
-   "howToFix": "Write `OgreBotAPI.Movement:HoldUp` instead of `OgreBotAPI:HoldUp`. New arguments: `[fw]`.",
+   "howToFix": "Write `OgreBotAPI.Movement:StopFollow` instead of `OgreBotAPI:HoldUp`. New arguments: `[fw]`.",
    "id": "OgreBotAPI:HoldUp",
-   "newForm": "OgreBotAPI.Movement:HoldUp",
+   "newForm": "OgreBotAPI.Movement:StopFollow",
    "newSignature": "[fw]",
    "oldCall": "OgreBotAPI:HoldUp",
    "oldKinds": [
@@ -16377,7 +16460,7 @@
    "oldName": "HoldUp",
    "oldSignature": "(string _ForWho=\"all\")",
    "oldSpellingToday": "does nothing - no error in any log (the method no longer exists)",
-   "status": "moved",
+   "status": "renamed",
    "surface": "OgreBotAPI"
   },
   {
@@ -23987,12 +24070,8 @@
    "surface": "GetInfoOb"
   },
   {
-   "argsCheck": "same-count",
-   "argsNeeded": 1,
-   "howToFix": "Write `OgreBotAPI.Util.Clean` instead of `GetInfoOb.CleanNameWithSpaces`. New arguments: `[s]`.",
+   "howToFix": "Not ported - there is no replacement yet.",
    "id": "GetInfoOb.CleanNameWithSpaces",
-   "newForm": "OgreBotAPI.Util.Clean",
-   "newSignature": "[s]",
    "oldCall": "GetInfoOb.CleanNameWithSpaces",
    "oldKinds": [
     "x"
@@ -24000,7 +24079,7 @@
    "oldName": "CleanNameWithSpaces",
    "oldSignature": "(string _Input)",
    "oldSpellingToday": "reads NULL - no error in any log (the member no longer exists)",
-   "status": "renamed",
+   "status": "notPorted",
    "surface": "GetInfoOb"
   },
   {
@@ -34078,7 +34157,7 @@
    "surface": "console",
    "v2Params": [
     "who:forwho",
-    "x:float",
+    "x:string",
     "y:float",
     "z:float",
     "precision:float"
@@ -34100,7 +34179,7 @@
    "surface": "console",
    "v2Params": [
     "who:forwho",
-    "x:float",
+    "x:string",
     "y:float",
     "z:float",
     "precision:float"
@@ -34122,7 +34201,7 @@
    "surface": "console",
    "v2Params": [
     "who:forwho",
-    "x:float",
+    "x:string",
     "y:float",
     "z:float",
     "precision:float"
@@ -34144,7 +34223,7 @@
    "surface": "console",
    "v2Params": [
     "who:forwho",
-    "x:float",
+    "x:string",
     "y:float",
     "z:float",
     "precision:float"
@@ -34219,7 +34298,7 @@
    "howToFix": "Insert the for-who as the first argument. V1 had NO for-who: every session that heard the line acted. V2 reads argument 1 as the for-who, so an unconverted line's value lands in the for-who slot and the real argument falls back to its default - silently. Write `auto` there; that is what the MCP migration writes.",
    "id": "console:-ChangeCampSpot",
    "newForm": "-ChangeCampSpot",
-   "note": "Old: -ChangeCampSpot <x> <y> <z> (or one x,y,z token)\nNew: -ChangeCampSpot <fw> <x> <y> <z>\nEach coordinate defaults to \"3\" on the command, but it runs CampSpot:SetLoc, which sets nothing when a coordinate is missing, empty, NULL or not a number. Classic's refused one the same way; pass all three. Classic's `-ChangeCampSpotWho` family (already for-who first) is now another name for this command.",
+   "note": "Old: -ChangeCampSpot <x> <y> <z> (or one x,y,z token)\nNew: -ChangeCampSpot <fw> <x> <y> <z>\nEach coordinate defaults to \"3\" on the command, but it runs CampSpot:SetLoc, which sets nothing when a coordinate is missing, empty, NULL or not a number, or when a name is not a point of interest in this zone. Classic's refused one the same way; pass all three. Classic's `-ChangeCampSpotWho` family (already for-who first) is now another name for this command.",
    "oldCall": "-ChangeCampSpot",
    "oldKinds": [
     "verb"
@@ -34240,7 +34319,7 @@
    "howToFix": "Insert the for-who as the first argument. V1 had NO for-who: every session that heard the line acted. V2 reads argument 1 as the for-who, so an unconverted line's value lands in the for-who slot and the real argument falls back to its default - silently. Write `auto` there; that is what the MCP migration writes.",
    "id": "console:-Change_CampSpot",
    "newForm": "-ChangeCampSpot",
-   "note": "Old: -Change_CampSpot <x> <y> <z> (or one x,y,z token)\nNew: -Change_CampSpot <fw> <x> <y> <z>\nEach coordinate defaults to \"3\" on the command, but it runs CampSpot:SetLoc, which sets nothing when a coordinate is missing, empty, NULL or not a number. Classic's refused one the same way; pass all three. Classic's `-ChangeCampSpotWho` family (already for-who first) is now another name for this command.",
+   "note": "Old: -Change_CampSpot <x> <y> <z> (or one x,y,z token)\nNew: -Change_CampSpot <fw> <x> <y> <z>\nEach coordinate defaults to \"3\" on the command, but it runs CampSpot:SetLoc, which sets nothing when a coordinate is missing, empty, NULL or not a number, or when a name is not a point of interest in this zone. Classic's refused one the same way; pass all three. Classic's `-ChangeCampSpotWho` family (already for-who first) is now another name for this command.",
    "oldCall": "-Change_CampSpot",
    "oldKinds": [
     "verb"
@@ -34261,7 +34340,7 @@
    "howToFix": "Insert the for-who as the first argument. V1 had NO for-who: every session that heard the line acted. V2 reads argument 1 as the for-who, so an unconverted line's value lands in the for-who slot and the real argument falls back to its default - silently. Write `auto` there; that is what the MCP migration writes.",
    "id": "console:-ccs",
    "newForm": "-ChangeCampSpot",
-   "note": "Old: -ccs <x> <y> <z> (or one x,y,z token)\nNew: -ccs <fw> <x> <y> <z>\nEach coordinate defaults to \"3\" on the command, but it runs CampSpot:SetLoc, which sets nothing when a coordinate is missing, empty, NULL or not a number. Classic's refused one the same way; pass all three. Classic's `-ChangeCampSpotWho` family (already for-who first) is now another name for this command.",
+   "note": "Old: -ccs <x> <y> <z> (or one x,y,z token)\nNew: -ccs <fw> <x> <y> <z>\nEach coordinate defaults to \"3\" on the command, but it runs CampSpot:SetLoc, which sets nothing when a coordinate is missing, empty, NULL or not a number, or when a name is not a point of interest in this zone. Classic's refused one the same way; pass all three. Classic's `-ChangeCampSpotWho` family (already for-who first) is now another name for this command.",
    "oldCall": "-ccs",
    "oldKinds": [
     "verb"
@@ -35078,9 +35157,10 @@
    "v2Row": "-CS_Set_ChangeCampSpotBy"
   },
   {
-   "howToFix": "Nothing to change.",
+   "howToFix": "Nothing to change - `-ccsb` is an alias of `-CS_Set_ChangeCampSpotBy`.",
    "id": "console:-ccsb",
-   "newForm": "-ccsb",
+   "newForm": "-CS_Set_ChangeCampSpotBy",
+   "note": "An alias of `-CS_Set_ChangeCampSpotBy` - it works as typed.",
    "oldCall": "-ccsb",
    "oldKinds": [
     "verb"
@@ -35095,13 +35175,13 @@
     "y:string",
     "z:string"
    ],
-   "v2Row": "-ccsb"
+   "v2Row": "-CS_Set_ChangeCampSpotBy"
   },
   {
-   "howToFix": "Nothing to change - `-ChangeCampSpotBy` is an alias of `-ccsb`.",
+   "howToFix": "Nothing to change - `-ChangeCampSpotBy` is an alias of `-CS_Set_ChangeCampSpotBy`.",
    "id": "console:-ChangeCampSpotBy",
-   "newForm": "-ccsb",
-   "note": "An alias of `-ccsb` - it works as typed.",
+   "newForm": "-CS_Set_ChangeCampSpotBy",
+   "note": "An alias of `-CS_Set_ChangeCampSpotBy` - it works as typed.",
    "oldCall": "-ChangeCampSpotBy",
    "oldKinds": [
     "verb"
@@ -35116,13 +35196,13 @@
     "y:string",
     "z:string"
    ],
-   "v2Row": "-ccsb"
+   "v2Row": "-CS_Set_ChangeCampSpotBy"
   },
   {
-   "howToFix": "Nothing to change - `-cs-set-ccs-by` is an alias of `-ccsb`.",
+   "howToFix": "Nothing to change - `-cs-set-ccs-by` is an alias of `-CS_Set_ChangeCampSpotBy`.",
    "id": "console:-cs-set-ccs-by",
-   "newForm": "-ccsb",
-   "note": "An alias of `-ccsb` - it works as typed.",
+   "newForm": "-CS_Set_ChangeCampSpotBy",
+   "note": "An alias of `-CS_Set_ChangeCampSpotBy` - it works as typed.",
    "oldCall": "-cs-set-ccs-by",
    "oldKinds": [
     "verb"
@@ -35137,7 +35217,7 @@
     "y:string",
     "z:string"
    ],
-   "v2Row": "-ccsb"
+   "v2Row": "-CS_Set_ChangeCampSpotBy"
   },
   {
    "howToFix": "Nothing to change.",
@@ -45022,7 +45102,7 @@
    "howToFix": "This is authored in a data file now: `movement`.",
    "id": "Obj_OgreIH.HoldUp",
    "newForm": "movement",
-   "note": "holdUp has no `sendTo`; for the group outside a data file: OgreBotAPI.Movement:HoldUp[fw].",
+   "note": "Now also stops the move in progress. For the group outside a data file: OgreBotAPI.Movement:StopFollow[fw], or -holdup on the console.",
    "oldCall": "Obj_OgreIH:HoldUp",
    "oldKinds": [
     "m"
