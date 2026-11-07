@@ -1,8 +1,8 @@
-# Analysis
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# Analysis
 
 > **:bulb: In game - the ? button on this window says**
 >
@@ -40,8 +40,10 @@ Next to the tabs: the zone, scan progress while a scan runs, and the number of s
 | Control | What it does | Default |
 |---|---|---|
 | **Monitor / Scan / Events / Sessions** | Switches the page shown.<br>*The window remembers the tab while the game is running.* | Monitor |
-| **filter… (placeholder)** | Narrows what is listed: on Monitor it filters the Members list by name, on Scan the results by name or type, on Events the log lines. Not case-sensitive. Display only.<br>*Does not filter the Actors or Timestamps lists.* | empty |
+| **filter… (placeholder)** | Narrows what is listed: on Monitor it filters the Members list by name, on Scan the results by name or type. Not case-sensitive. Display only.<br>*Does not filter the Actors or Timestamps lists. On the Events tab this box is hidden: Search the log does the same job there.* | empty |
 | **Title bar close (X)** | Closes the window and stops everything it was doing: monitoring and the event logs go off, and a scan in progress, a + Cursor countdown and 'Add new spawns that match' stop. What was recorded is kept.<br>*The same as `ogre end analysis`.* |  |
+
+
 
 ## Monitor - buttons
 
@@ -58,6 +60,8 @@ Next to the tabs: the zone, scan progress while a scan runs, and the number of s
 | **x on an actor row** | Stops watching just that actor. What was recorded for it is dropped with it. |  |
 | **Clear all** | Removes every actor from the Actors list, with everything recorded for them.<br>*No confirmation. Export on the Sessions tab first if you want to keep it.* |  |
 
+
+
 ## Monitor - the four lists
 
 Work from left to right: pick an actor, then a detail or a moment.
@@ -70,6 +74,8 @@ Work from left to right: pick an actor, then a detail or a moment.
 | **Click a detail (Members list)** | Shows every value that detail has had, with the time, in the History list. |
 | **Click a moment (Timestamps list)** | Fills 'What else changed at that instant' with every detail that changed at that moment. This is the main use of the tool - for example, what the NPC's animation and target were when it started a cast. |
 | **Right-click an actor or any line** | Copy this line; on an actor, Stop watching it. |
+
+
 
 ## Scan
 
@@ -100,6 +106,8 @@ Takes a snapshot of every actor that matches your terms - over 80 details each. 
 | **Stop comparing** | Goes back from a comparison to the selected result's details. |  |
 | **Right-click a result or a detail** | Copy this line, Copy all its details (every detail of that result, one per line), Monitor it, or Remove from the results. |  |
 
+
+
 ## Events
 
 Seven logs of game events: announce (big on-screen messages), despawn, spawn, choice (choice-window text), reward (reward-window text), text (incoming text such as combat lines) and chat (chat lines, with speaker and channel). Each keeps its last 2000 lines.
@@ -108,13 +116,15 @@ Seven logs of game events: announce (big on-screen messages), despawn, spawn, ch
 
 | Control | What it does | Default |
 |---|---|---|
-| **Taps: ON / Taps: off** | Switches the event logs on and off. It reads 'Taps: ON' while they are recording. | off (the button still says ON) |
+| **Taps: ON / Taps: off** | Switches the event logs on and off. It reads 'Taps: ON' while they are recording. | off |
 | **announce / despawn / spawn / choice / reward / text / chat (n)** | Picks which log is shown below. The number is how many lines it holds. | announce |
 | **Search the log** | Shows only the recorded lines that contain what you type (any case), searching everything already recorded in the log shown - use it any time, after the fact. The count beside it says how many lines match.<br>*The same search as the filter box at the top of the other tabs (that box is hidden on this tab).* | empty |
 | **Record only lines containing + Add** | From now on, a NEW line is recorded only if it contains one of these words (any case). It works before the fact: lines already in the log are not touched. Applies to all seven logs.<br>*Lines already recorded are not removed.* | none (everything is recorded) |
 | **× (on a filter)** | Removes that filter. |  |
 | **Clear log** | Empties the log that is shown. The other logs are kept. |  |
 | **Right-click a line** | Copy this line, or Copy all the lines shown (the log shown, with the search applied). |  |
+
+
 
 ## Sessions
 
@@ -125,6 +135,8 @@ Seven logs of game events: announce (big on-screen messages), despawn, spawn, ch
 | **name (blank = timestamped) (placeholder)** | The name to save under. Leave blank for a name like session_2026-09-27_201455. | empty |
 | **Export** | Saves the monitored actors (with everything recorded) and the scan results to a file in OgreSave/EQ2/Analysis.<br>*The event logs are not saved. A file with the same name is overwritten.* |  |
 | **Click a saved session** | Loads that file. It REPLACES the monitored actors and scan results you have now, and turns monitoring off.<br>*No confirmation - export first if you want to keep what is on screen.* |  |
+
+
 
 ## What the window shows
 
@@ -166,4 +178,4 @@ With no terms the Scan button turns red:
 
 ### Console commands
 
-`ogreanalysis` also takes words for things the window cannot do: `monitor remove <id>`, `monitor list`, `taps on|off`, `rate <ms>`, `status`, `sessions`, `import <name>`.
+`ogre analysis` also takes words for things the window cannot do: `monitor remove <id>`, `monitor list`, `taps on|off`, `rate <ms>`, `status`, `sessions`, `import <name>`.

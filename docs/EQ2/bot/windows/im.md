@@ -1,8 +1,8 @@
-# Inventory Manager
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# Inventory Manager
 
 > **:bulb: In game - the ? button on this window says**
 >
@@ -11,7 +11,7 @@
 > **What you can do here**
 >
 > - **Run tab** - Look shows in the console what a mode would do; Run starts it. While something runs, Run becomes Queue.
-> - **Sell list / Destroy list** - double-click a left row to add it; right-click a right row to remove it.
+> - **Sell list / Destroy list** - double-click a left row to add it; click a right row, then right-click it to remove it.
 > - **TSE, Depot, Restock** - saved options for those modes. Depot saves only when you press Save.
 > - **Trade** - queue items for nearby players, then Run the queue.
 > - **Stop** stops the work; **Close** only closes the window. The X (or `ogre end im`) does both.
@@ -45,6 +45,8 @@ The tabs only change what you see. The dot and word on the right say whether IM 
 | **Never** | Hides the log strip for good. Saved. Use the Log button to get the setting back. | off |
 | **Clear it** | Empties the activity log. |  |
 
+
+
 ## Run tab - the modes
 
 One row per mode. Look prints what the mode would do in the console and changes nothing. Run starts it. While anything is running, every Run turns into Queue and every Look greys out (see the second picture).
@@ -66,11 +68,14 @@ One row per mode. Look prints what the mode would do in the console and changes 
 | **Run (quiver)** | Fills your equipped quiver or pouch with ammo from your bags, then from the Ammo Depot. |
 | **Queue (any mode, while something runs)** | Adds that mode to the waiting line. Queued modes run one after another, in the order you clicked, when the current one finishes. A dot or ×2 beside the mode name shows it is waiting.<br>*Look buttons stay greyed out until everything has finished.* |
 
+
+
 ## Run tab - Right now
 
 Read-only. Window says whether IM counts its window as open. Doing names the running mode (or idle). Detail shows that mode's current step. Queued (only when something is waiting) lists the modes still to come, in order.
 
 [![Run tab - Right now](../assets/im/run-now.png)](../assets/im/run-now.png "Click for full size")
+
 
 ## Sell list tab
 
@@ -83,8 +88,10 @@ Left: what the open merchant would buy from you (green = already on your sell li
 | **type to filter… (left)** | Hides left-hand rows whose name does not contain the text. Not case-sensitive. Display only. | empty |
 | **Double-click a left row** | Adds that item to the sell list (or destroy list on the Destroy tab) and saves it. The row turns green.<br>*Adding an item that is already there does nothing.* |  |
 | **type to filter… (right)** | Hides right-hand rows whose name does not contain the text. Display only. | empty |
-| **Right-click a right row** | Removes that item from the list and saves it. |  |
+| **Click a right row, then right-click it** | Removes that item from the list and saves it.<br>*Right-clicking a row that is not selected only selects it, so a stray right-click never removes anything.* |  |
 | **Re-open merchant** | Reads the merchant again and refills the left list. If no merchant window is open it opens one within reach first (your last one, your target, or the nearest). Either way it then closes the merchant window.<br>*It closes the merchant window even if you opened it yourself. If no merchant is within reach it says so in the console and the list is left as it was.* |  |
+
+
 
 ## Destroy list tab
 
@@ -99,6 +106,8 @@ Same two lists as the Sell tab: left is what is in your bags, right is your save
 | **Harvest** | Also use items in your Harvest bag, for the list and the run. Saved. | off |
 | **Shared TS** | Also use items in your Shared Tradeskill bag, for the list and the run. Saved. | off |
 | **Refresh** | Re-reads your bags and rebuilds the left list. |  |
+
+
 
 ## TSE tab
 
@@ -121,6 +130,8 @@ Everything here is saved, and a plain `ogre im tse` (or Run tse) uses it. Option
 | **Overseer / Harvest** | Lets TSE also use items in your Overseer bag or your Harvest bag. Each box is for its own bag. | off |
 | **Shared TS** | Lets TSE also look in your Shared Tradeskill bag. That bag holds crafting materials, so it rarely has anything TSE can use. | off |
 
+
+
 ## Depot tab
 
 This builds the depot line a plain `ogre im depot` (and Run depot, and the -depot step of a chain) uses. Nothing is sent until you press Save; the line under 'The line this sends' shows what Save will store.
@@ -141,6 +152,8 @@ This builds the depot line a plain `ogre im depot` (and Run depot, and the -depo
 | **Back to saved** | Throws away your unsaved ticks and shows the saved line again. |  |
 | **Save** | Saves the line shown above. From now on Run depot, `ogre im depot` and the -depot chain step use it.<br>*Greyed out when no depot is ticked, no container size is ticked, or a ticked depot has nothing it could take (no tier, no All, and no item box that depot accepts - a red note says which).* |  |
 
+
+
 ## Restock tab
 
 A profile is a list of items with a target amount. Rows that do not apply to this character (by For who) are dimmed. Changes save as you make them.
@@ -154,10 +167,16 @@ A profile is a list of items with a target amount. Rows that do not apply to thi
 | **Run this profile** | Pulls items from your depots until you hold each row's target (only the rows meant for this character). Never buys.<br>*Greyed out while IM is running something.* |  |
 | **Target** | How many of that item to hold. Saved when you leave the box or press Enter. 0 removes the row. |  |
 | **For who** | Which characters this row is for: all, a name, @Scout1, a class word such as priests, *Team:Name and so on. Saved when you leave the box or press Enter. Other characters skip the row. | all |
+| **▾ (beside For who)** | Opens a short list to pick from: All, Fighter, Mage, Priest, Scout, G1 to G4. Picking one fills the box and saves it. |  |
 | **× (Drop)** | Removes that row from the profile and saves. |  |
 | **item name…** | The exact name of the item for a new row. | empty |
+| **From examine** | Fills the name in from the item examine window you have open. |  |
 | **Amount (next to item name)** | The target for the new row. | 1 |
-| **Add** | Adds the row (for 'all') to the profile shown and saves. If the item is already there, its target is replaced. |  |
+| **for who: all** | Who the new row is for: all, a name, or a class such as fighter. Empty means all. | empty (all) |
+| **▾ (beside for who: all)** | The same short list. Picking one fills the box; nothing is saved until you press Add. |  |
+| **Add** | Adds the row to the profile shown and saves, for the characters in the for who box. If the item is already there, its target is replaced. |  |
+
+
 
 ## Trade tab
 
@@ -174,7 +193,10 @@ A list of hand-overs: which item, how many, to whom. The list lives only until t
 | **player…** | Who gets the item. | empty |
 | **qty or all** | How many to hand over. Empty or 'all' means every one you have. | empty (all) |
 | **item name…** | The item to hand over. | empty |
+| **From examine** | Fills the name in from the item examine window you have open. |  |
 | **Queue it** | Adds the entry to the end of the list. Needs a player and an item. |  |
+
+
 
 ## Quiver tab
 
@@ -183,7 +205,10 @@ A list of hand-overs: which item, how many, to whom. The list lives only until t
 | Control | What it does | Default |
 |---|---|---|
 | **Arrows (bow) / Bolts (crossbow) / Throwing (shuriken)** | The ammo name to refill with. Filling the quiver uses the ammo already in your quiver first, then this name, then the built-in name shown in grey. | empty (built-in name) |
+| **Examine** | Sets that kind of ammo to the item in the examine window you have open. |  |
 | **Fill the quiver** | Fills your equipped quiver or pouch with ammo from your bags first, then from the Ammo Depot. The kind of ammo follows your ranged weapon and what is already in the quiver. |  |
+
+
 
 ## Button row and closing
 
@@ -196,6 +221,8 @@ A list of hand-overs: which item, how many, to whom. The list lives only until t
 | **Help in console** | Prints the list of `ogre im` commands in the console. |
 | **Close** | Closes the window. A mode that is running keeps running. Cancels a pending -end, and closes a merchant window IM left open.<br>*To stop the work and close, use `ogre end im`.* |
 | **Title bar close (X)** | Stops the work and closes the window, the same as `ogre end im`. Also cancels a pending -end and closes a merchant window IM left open. |
+
+
 
 ## What the window shows
 

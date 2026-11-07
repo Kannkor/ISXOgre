@@ -1,8 +1,8 @@
-# Master Control Panel
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# Master Control Panel
 
 > **:bulb: In game - the ? button on this window says**
 >
@@ -46,6 +46,8 @@ The buttons in the title bar. The **?**, the lock and the X are on every window.
 | **Title bar close (X)** | Closes the MCP, and with it the For Who, Build command and Assign keys windows.<br>*Key binds still work with the window closed.* |
 | **Alt + backtick key (keyboard)** | Opens the MCP if it is closed, closes it if it is open. |
 
+
+
 ## Pages (left column)
 
 Each page is its own set of buttons for the right-hand block. The static block does not change when you switch pages.
@@ -63,6 +65,8 @@ Each page is its own set of buttons for the right-hand block. The static block d
 | **Right-click a page > Set text colour…** | Opens the colour picker for the page name's text. Auto goes back to a colour that reads well on the background. |  |
 | **Right-click a page > Delete page…** | Asks you to type the page's exact name, then removes the page, all its buttons and any keys assigned to them. You stay on the page you were on.<br>*Only shown when 'Allow deleting pages' is ticked and there is more than one page.* |  |
 
+
+
 ## Static buttons
 
 The first block of button columns (3 by default). These buttons are the same whichever page you are on - a good place for Follow, Pause, Resume and Evac.
@@ -74,6 +78,8 @@ The first block of button columns (3 by default). These buttons are the same whi
 | **Click a button** | Sends the button's command. It goes to the characters picked in For Who, unless the button names its own target in every step (for example 'fighter' or 'Me'), in which case it goes to that target. A button made in Raw mode runs only on the character that clicked it. The button flashes; an empty button does nothing. |  |
 | **Drag a button** | Drop it on another slot to swap the two (or move it, if the slot is empty). You can drag between the static block and the page block.<br>*Letting go over empty space cancels the move. A key assigned to the button moves with it.* | on (needs Allow moving) |
 
+
+
 ## Page buttons
 
 The block to the right of the dashed line. It shows the buttons of the page you picked. Grow the window wider for more columns, taller for more rows.
@@ -83,6 +89,8 @@ The block to the right of the dashed line. It shows the buttons of the page you 
 | Control | What it does |
 |---|---|
 | **Drag a button onto a page** | Moves the button to that page: into the same spot if it is free, otherwise the first free spot. When it lands on a page other than the one you are on, a message names that page.<br>*A key assigned to the button moves with it.* |
+
+
 
 ## Right-click a button
 
@@ -103,6 +111,8 @@ Right-click any button slot for this menu. On an empty slot, Assign to key and C
 | **Paste "<name>" from clipboard** | Shown when your Windows clipboard holds a button code (for example one someone sent you). Puts that button into this slot. A code can only make a button; it never runs anything. |
 | **Clear button** | Empties the slot: the command, label, colours and any keys assigned to the button are removed. Asks first. |
 
+
+
 ## Colour picker
 
 Used by every Set colour and Set text colour. The button changes while you drag, and the colour is kept however you close the picker (Done, Escape, or a click on the grid).
@@ -116,6 +126,8 @@ Used by every Set colour and Set text colour. The button changes while you drag,
 | **Reset / Auto** | For a background it reads Reset and takes the custom colour off, so the button or page goes back to the theme's colour. For text it reads Auto and goes back to the automatic readable colour. |
 | **Done** | Closes the picker. The colour is already on the button and is saved. |
 
+
+
 ## Rename
 
 [![Rename](../assets/mcp/rename.png)](../assets/mcp/rename.png "Click for full size")
@@ -125,6 +137,8 @@ Used by every Set colour and Set text colour. The button changes while you drag,
 | **Name box** | The new name. Enter = OK, Escape = Cancel. |
 | **OK** | Saves the name. For a button, an empty name is refused with a note in red - use Clear button to remove a button. |
 | **Cancel** | Closes without changing anything. |
+
+
 
 ## Clear and paste-over warning
 
@@ -138,6 +152,8 @@ The same small box asks before Clear button, and before a paste that would repla
 | **Clear / Paste** | Goes ahead. |  |
 | **Cancel** | Leaves the button as it was. |  |
 
+
+
 ## Delete page
 
 [![Delete page](../assets/mcp/deletepage.png)](../assets/mcp/deletepage.png "Click for full size")
@@ -147,6 +163,8 @@ The same small box asks before Clear button, and before a paste that would repla
 | **Type the page name** | Delete stays greyed out until this matches the page name exactly (capitals count). |
 | **Delete** | Removes the page, every button on it and any keys assigned to those buttons. |
 | **Cancel** | Keeps the page. |
+
+
 
 ## Find
 
@@ -160,6 +178,8 @@ Opened by the magnifier. Searches every button, static ones first, then page by 
 | **Click a result** | Switches to that button's page and rings the button for a couple of seconds. It does not press it. If the button is outside the window, a message says its page, row and column. |  |
 | **▶ Run** | Sends that button's command right away, the same as clicking it, and keeps the Find drawer open. |  |
 | **x (close)** | Closes Find. Clicking anywhere outside it also closes it. |  |
+
+
 
 ## Settings (the gear)
 
@@ -180,7 +200,10 @@ The Layout drawer. Changes show at once and are saved. They change the buttons, 
 | **Allow moving (drag to rearrange)** | Lets you drag buttons and pages around. Turn it off to stop accidental moves; clicking still works. | on |
 | **Allow deleting pages** | Adds Delete page… to a page's right-click menu. | off |
 | **Open For Who on load** | Shows the For Who window whenever the MCP opens. | off |
+| **Reset all colours** | Takes the background and text colour off every button and page, static buttons too, the same as Reset in the colour picker on each one. Names and commands are kept. It asks first. |  |
 | **x (close)** | Closes the drawer. The gear does the same. |  |
+
+
 
 ## What the window shows
 

@@ -47,7 +47,7 @@ An atom attached to an event the new bot never raises never runs - and nothing s
 | `OgreEvents:OgreEvent_KronoRedemption` | does nothing | — | ⛔ Not ported yet | Classic handler only echoes 'redeemed / failed to redeem a Krono' to the console. The new bot fires the event but has no console echo attached to it. Attach your own atom if you want the line. |
 | `OgreEvents:OgreEvent_OnAbilityCast` | does nothing | automatic (no call) | ➡️ Lives somewhere else | Nothing to call: the new bot relays every cast by itself. |
 | `OgreEvents:OgreEvent_OnAbilityCastCompleted` | does nothing | — | ⛔ Not ported yet | Classic handler relays the completion to the other sessions as OgreEvent_OthersOnAbilityCastCompleted. New: no cast-completion event is raised at all, so there is nothing to relay. |
-| `OgreEvents:OgreEvent_OnAbilityReadyTimersUpdate` | does nothing | — | ⛔ Not ported yet | Classic echo-only handler, never attached. Dead in Classic. The event fires on the new bot - see event:OgreEvent_OnAbilityReadyTimersUpdate. |
+| `OgreEvents:OgreEvent_OnAbilityReadyTimersUpdate` | does nothing | — | ⛔ Not ported yet | Classic echo-only handler, never attached. Dead in Classic. The event fires on the new bot: attach your own handler to OgreEvent_OnAbilityReadyTimersUpdate. It is local now, so a script on another session does not hear this toon's timers. |
 | `OgreEvents:OgreEvent_OnAbilityReadyTimersUpdate2` | does nothing | — | ⛔ Not ported yet | Classic echo-only test handler, never attached. Dead in Classic. |
 | `OgreEvents:OgreEvent_OnGainedTithe` | does nothing | — | ⛔ Not ported yet | Classic handler: with checkbox_settings_autospend_deitypoints, queue OgreBotAPI:SpendDietyPoints. Dead twice in Classic: nothing ever fires OgreEvent_OnGainedTithe (no Execute in EQ2OgreBot / EQ2OgreCommon / OgreCommon), and SpendDietyPoints' working line is commented out. New: the event is a registered stub and there is no deity-point spender. |
 | `OgreEvents:OgreEvent_OnItemUse` | does nothing | automatic (no call) | ➡️ Lives somewhere else | Nothing to call: the new bot relays every item use by itself. |
@@ -55,7 +55,7 @@ An atom attached to an event the new bot never raises never runs - and nothing s
 | `OgreEvents:OgreEvent_OthersOnAbilityCastCompleted` | does nothing | — | ⛔ Not ported yet | Classic handler has an EMPTY body. Nothing to port. |
 | `OgreEvents:OgreEvent_OthersOnItemUse` | does nothing | — | ⛔ Not ported yet | Classic handler returns on its first line - dead. Nothing to port. |
 | `OgreEvents:OgreEvent_SmartLootAssigned` | does nothing | — | ⛔ Not ported yet | Classic 'Testing only' handler that echoes '&lt;toon&gt; looted &lt;n&gt; &lt;item&gt;'. The new bot fires the event with no echo attached. Attach your own atom if you want the line. |
-| `OgreEvents:OgreEvent_SpewStats` | does nothing | — | ⛔ Not ported yet | Classic handler only echoes the JSON, and is NOT attached. Dead in Classic. The event itself fires on the new bot - see event:OgreEvent_SpewStats. |
+| `OgreEvents:OgreEvent_SpewStats` | does nothing | — | ⛔ Not ported yet | Classic handler only echoes the JSON, and is NOT attached. Dead in Classic. The event itself fires on the new bot: attach your own handler to OgreEvent_SpewStats. |
 | `OgreEvents:OgreEvent_SpewStats2` | does nothing | — | ⛔ Not ported yet | Classic test handler that echoes the JSON; never attached. Dead in Classic. |
 
 ## Not in the new bot yet

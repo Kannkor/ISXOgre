@@ -1,8 +1,8 @@
-# Quest Compare
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# Quest Compare
 
 > **:bulb: In game - the ? button on this window says**
 >
@@ -34,11 +34,13 @@ The top line is the quest that was compared last. Under it is a one-line summary
 
 [![Quest and summary line](../assets/questcompare/status.png)](../assets/questcompare/status.png "Click for full size")
 
+
 ## The member rows
 
 One row per group member (not you). A member on a different step shows the first line of their quest step that differs from yours. See the Legend section for what each icon means.
 
 [![The member rows](../assets/questcompare/rows.png)](../assets/questcompare/rows.png "Click for full size")
+
 
 ## Auto compare and Compare again
 
@@ -51,11 +53,14 @@ One row per group member (not you). A member on a different step shows the first
 | **Legend** | Shows or hides the icon legend over the window. Click anywhere on the legend to close it. |  |
 | **Title bar close (X)** | Closes the window. Auto compare keeps working and will reopen the window if it finds a problem. |  |
 
+
+
 ## Legend - what the icons mean
 
 Press **Legend** in the title bar to see this. Green tick = on the same step as you. Red cross = on a different step (the row shows their line). Orange ! = does not have this quest at all. Grey ? = did not answer in time (zoning, or the bot is not loaded on that character). Three dots = still waiting for an answer. Empty ring = nothing compared yet.
 
 [![Legend - what the icons mean](../assets/questcompare/legend.png)](../assets/questcompare/legend.png "Click for full size")
+
 
 ## What the window shows
 

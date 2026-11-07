@@ -1,16 +1,19 @@
-# Chat Events
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# Chat Events
 
 Chat Events watches the game's incoming text for words you choose. When a line contains your text, the bot can run a console command, post a line to OgreConsole, play a 'Ding' sound, or any mix of the three. Nothing happens until you tick "Enable Chat Events" on the Settings tab. You build the events with the boxes at the top, and they appear in the Configured Events list below. Click a row to edit it, double-click it to switch it off or on, drag it to reorder, and use the X to delete it.
 
 [![Chat Events tab](../assets/ogrebot/tab-chat-events.png)](../assets/ogrebot/tab-chat-events.png "Click for full size")
 
+
 | Option | What it does | Default |
 |---|---|---|
 | **Configured Events** | Your chat events. Each row shows the text it watches for, its command, and OC or Ding if ticked. Click a row to edit it, double-click to switch it off or on, drag a row to reorder, and click X to delete it.<br>*A switched-off row is kept but never fires. The order does not change anything; every active row is checked.* | empty |
+
+
 
 ## Add an event
 
@@ -23,6 +26,8 @@ Chat Events watches the game's incoming text for words you choose. When a line c
 | **Add** | Adds the event to the list below. Pressing Enter in either text box does the same. While you are editing a row this button reads Update and saves your changes to that row. |  |
 | **Clear Options** | Unticks OC and Ding. Ticks otherwise carry over to the next event you add. |  |
 | **Cancel** | Only shown while editing a row. Stops editing without changing the row. |  |
+
+
 
 ## Good to know
 

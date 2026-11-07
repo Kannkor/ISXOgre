@@ -155,7 +155,7 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Elemental** | With 'Enable Selective Group Cures' on, group cures count and cure Elemental. | off |
 | **Noxious** | With 'Enable Selective Group Cures' on, group cures count and cure Noxious. | off |
 | **Trauma** | With 'Enable Selective Group Cures' on, group cures count and cure Trauma. | off |
-| **X Abillties to Auto Cure Potions** | If you are casting when you need a cure potion (one of the types ticked below is on you and you have a ready potion for it), the bot cancels the cast so the potion can be used.<br>*It only cancels. The drinking is done by 'Enable Auto Cure Potions', so tick both.* | off |
+| **X Abillties to Auto Cure Potions** | If you are casting when you need a cure potion (one of the types ticked below is on you and you have a ready potion for it), the bot cancels the cast and drinks the potion.<br>*It drinks whether or not 'Enable Auto Cure Potions' is ticked. It does not cancel a cure, a cast you started yourself, or anything while the cast stack or its cures are disabled.* | off |
 | **Enable Auto Cure Potions** | When you are not casting and carry a ready 'Cure <type>' potion for a detrimental on you, the bot drinks it, checking about twice a second. Only the types ticked below are used. Potions only ever cure yourself. | off |
 | **Arcane** | Allows automatic cure potions to be used for Arcane. | off |
 | **Elemental** | Allows automatic cure potions to be used for Elemental. | off |
@@ -170,7 +170,7 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 
 | Option | What it does | Default |
 |---|---|---|
-| **Allow Camp Spot** | Allows this character to use a camp spot. When on, the bot returns you to your camp spot when you stray from it. When off, a camp spot cannot even be set on this character, and it never walks back to one.<br>*Scripts and encounters can tick and untick this during a fight; it takes effect at once.* | off |
+| **Allow Camp Spot** | Allows this character to use a camp spot. When on, the bot returns you to your camp spot when you stray from it. When off, a camp spot cannot even be set on this character, it never walks back to one, and it stays put for the Come2Me, Move2Area and Move2AreaNoTarget commands.<br>*Scripts and encounters can tick and untick this during a fight; it takes effect at once.* | off |
 | **Dynamic Camp Spot** | Shows whether a camp spot is set: the bot ticks it when a spot is set and unticks it when the spot is cleared. Untick it yourself to stop the bot returning to the camp spot without deleting the spot.<br>*Setting a new spot ticks it again.* | off (not saved; the bot sets it) |
 | **Auto Assist** | Switches assisting on. While it is ticked, the bot targets for the first available player on the Assist tab, or the player set by an assist command. Unticked, it does not assist at all.<br>*Auto Target, when it is on, takes over from assisting whatever this box says. 'ogre assist' still shows who you would assist while the box is off.* | off |
 | **Dynamic Assist** | **Not active yet.** The assist command remembers who to assist on its own; this box is not used or updated. | off (not saved) |
@@ -210,12 +210,12 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Auto Target when Hated** | When you have no target, or only something you can't fight (a corpse, chest, shiny or NoKill NPC), the bot looks about once a second for a mob within 30 meters (and roughly your height) that is attacking someone in your group, and targets it. It never does this while you are assisting someone (Auto Assist). | off |
 | **Disable Mortal Coil Dispel** | Mages: the bot normally dispels the 'Mortal Coil' buff from named mobs in range with your dispel ability. Tick this to stop it.<br>*'No Dispels' on the Settings tab also stops it.* | off |
 | **Wait for Recovery time** | Normally the bot picks the next ability the moment a cast lands, queuing it during the recovery time. Tick this to make it wait out each ability's recovery time (minus 0.2 seconds) first. Items are not affected. | off |
-| **Allow Specials to be Targets** | **Not active yet.**  | off |
+| **Allow Specials to be Targets** | Lets the bot fight a Special actor (not an NPC and not a player, such as a door or a clickable object): when your target, or your target's target, is one, it becomes your kill target, and the Cast Stack, auto-attack and movement act on it as on a mob. A few zones whose fights need this allow it with the box off. | off |
 | **Use reduced stun checks** | The Cast Stack decides you are stunned when you cannot turn, or when your Mining ability is not ready. Tick this to drop the 'cannot turn' test, so being unable to turn alone no longer stops casting. | off |
 | **Dynamic ignore stun checks** | While ticked, the Cast Stack skips its stun tests entirely and tries to cast even if you look stunned.<br>*Meant for encounter scripts, for fights where the game falsely reports a stun.* | off (not saved; clears on reload) |
 | **DoV Raid Debuffs** | When chat says the Destiny of Velious (DoV) raid debuff is about to expire on a mob, the bot re-casts your archetype's DoV raid debuff on it. | off |
 | **Allow moving to cast** | Lets the bot move you into range to cast the Destiny of Velious (DoV) raid debuff, when the request to cast it does not say otherwise. | off |
-| **Enable PvP** | **Not active yet.**  | off |
+| **Enable PvP** | Lets the bot fight enemy players: when your target, or your target's target, is a player the game marks as an enemy, they become your kill target, and the Cast Stack, auto-attack and movement act on them as on a mob. Friendly players are never affected. | off |
 
 
 
@@ -233,7 +233,7 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Enable Consume Items** | Turns on the Consume Items tab, so the bot automatically uses the items listed there (following that tab's zone and combat rules). When off, the consume-items command also does nothing. | off |
 | **Enable Aliases** | Turns on your custom aliases from the Aliases tab (names starting with *), so commands and Cast Stack targets can use them. When off, custom aliases resolve to nobody. The built-in @ slots such as @Tank are not affected. | off (the Cast Stack target dropdown treats a never-saved box as on) |
 | **Enable Ability Tracker** | Turns on the Ability Tracker tab. About twice a second the bot reads the cooldowns of the abilities listed there and shares them, for example with the OgreMCP cooldown buttons. | off |
-| **Enable Ability Embargo** | Turns on ability embargoes. While it is ticked, casting an ability on the Ability Embargo tab tells your other characters to hold off it, and the Cast Stack skips an ability that a command or another character has embargoed (-AbilityEmbargo) until the time is up. While it is off, nothing is sent, and embargoes are still kept but not followed, so ticking it later honours any that are still running.<br>*The Ability Embargo tab's own list, which tells your other characters to hold off when you cast, is not active yet in the new bot.* | off |
+| **Enable Ability Embargo** | Turns on ability embargoes. While it is ticked, casting an ability on the Ability Embargo tab tells your other characters to hold off it, and the Cast Stack skips an ability that a command or another character has embargoed (-AbilityEmbargo) until the time is up. While it is off, nothing is sent, and embargoes are still kept but not followed, so ticking it later honours any that are still running. | off |
 | **Enable Tag Embargo** | Turns on Embargo tags (see the Tags tab). While it is ticked, the Cast Stack skips an ability whose Embargo tag is on, and casting an ability that carries an Embargo tag turns that tag on. While it is off, this character neither follows Embargo tags nor turns them on. Tags sent by your other characters are still kept, so ticking it later honours any that are still running. | off |
 | **Enable Tag Allow** | Turns on Allow tags (see the Tags tab). While it is ticked, an ability with an Allow tag only fires while that tag is on, and casting an ability that carries an Allow tag turns that tag on. While it is off, an Allow tag does not hold an ability back and casting does not turn one on. Tags sent by your other characters are still kept, so ticking it later honours any that are still running. | off |
 | **Enable Item Embargo** | Turns on item embargoes. While it is ticked, the Cast Stack skips an item that a command or another character has embargoed (-ItemEmbargo, by the item's LinkID) until the time is up, and using an item on the Item Embargo tab's list tells your other characters to hold off it. While it is off, nothing is sent, and embargoes are still kept but not followed, so ticking it later honours any that are still running. | off |
@@ -247,10 +247,10 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | Option | What it does | Default |
 |---|---|---|
 | **Accept Loot** | Lets the bot answer loot windows, using the choices on the Loot tab (for example lotto accept or decline, and free-for-all accept). When off, loot windows are left for you. | off |
-| **Loot Corpses/Chests** | While out of combat, the bot loots corpses and chests, and picks up shinies, that are already within reach. It does not walk to them. It also turns on a fix for mobs that get stuck in a 'dead but not lootable' state, by using the Loot action on them.<br>*Shinies can be switched off on the Loot tab.* | off |
+| **Loot Corpses/Chests** | The bot loots corpses and chests, and picks up shinies, that are already within reach, unless you are in combat with something to attack. Shinies wait until you are out of combat. It does not walk to them. It also turns on a fix for mobs that get stuck in a 'dead but not lootable' state, by using the Loot action on them.<br>*Shinies can be switched off on the Loot tab.* | off |
 | **Do not loot Corpses** | When looting is on, corpses are skipped. Chests and shinies are still looted. | off |
 | **Do not loot chests** | When looting is on, chests are skipped. This also applies to the Instance Controller's chest-looting step. | off |
-| **Loot InCombat** | Lets the bot loot corpses, chests and shinies within reach while you are in combat. It is separate from 'Loot Corpses/Chests', which only covers out of combat, so tick both to loot at all times. | off |
+| **Loot InCombat** | Lets the bot loot corpses and chests within reach while you are in combat with something to attack. It is separate from 'Loot Corpses/Chests', which covers every other moment, so tick both to loot at all times. Shinies always wait until you are out of combat. | off |
 | **Move to loot-bugged mobs** | Off unless you tick it. The Instance Controller turns it on for its runs (a Startup Options row). Needs 'Loot Corpses/Chests'. When the mob you have targeted is stuck in the 'dead but not lootable' state and is too far away to loot, but no more than 40 m away, the bot moves you to it so the fix can use the Loot action on it, then moves you back to where you were. Only a character that has that mob targeted moves. The move takes priority over the camp spot: the camp spot does not pull you back until you are back. It gives up after 20 seconds getting there or 20 seconds getting back, and a zone with no navigation mesh is skipped. |  |
 | **Accept Invites** | Accepts group and raid invites from characters on your EQ2Chars list. With the Other tab's option for anyone in range also on, it accepts invites from any nearby player. | off |
 | **Accept No Choice Rewards** | When a reward window appears that offers only one reward and nothing to choose, the bot accepts it. New quest offers and reward windows with choices are left alone. | off |
@@ -274,7 +274,6 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Enable OgreMCP** | Opens the OgreMCP panel each time the profile loads. | off |
 | **Do not check Research on load** | By default the bot checks ability research when the profile loads and when a 'Research of ...' finished message appears, claiming finished research and starting the next ability from your Ability Research list. Tick this to stop those automatic checks. | off (so research IS checked) |
 | **Do not check Mount Training** | **Not active yet.** The bot does not check mount training on load; the manual mount-training command still works. | off |
-| **No Revision History** | **Not active yet.**  | off |
 | **Spew BoZ Completed Research** | **Not active yet.** The Ballads of Zimara (BoZ) research readout exists as a manual command only. | off |
 | **Spew Sub Status** | **Not active yet.**  | off |
 
@@ -287,7 +286,7 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | Option | What it does | Default |
 |---|---|---|
 | **No Available Setups** | On zone-in the bot normally lists the fights in this zone that have encounter setups. Tick this to hide that automatic message. Asking for the list yourself still shows it. | off |
-| **Auto Share Missions** | Shortly after zoning in, if you are the group leader, the bot shares your quests and missions for this zone with the group. This works even while the bot is paused. | off |
+| **Auto Share Missions** | Shortly after zoning in, if you are the group leader, the bot shares your quests and missions for this zone with the group. A group leader also shares a mission the bot has just accepted. This works even while the bot is paused. | off |
 | **Disable DBC Claim** | **Not active yet.**  | off |
 | **Try to keep Familiar up** | After every zone-in to an instance (not overland, not a guild hall) the bot summons your familiar. If it was already up that dismisses it, and the 'Your Familiar has been dismissed' message makes the bot summon it again - so it is up either way. Any other time that message appears, it is summoned again too, with a message on the console and in OgreConsole. Adventure level 100 and up (read once when OgreBot loads). | off |
 | **Do not summon mount** | When OgreBot loads and after every zone-in, the bot summons your equipped mount if you are not on it - not in combat, not on a griffon (adventure level 100 and up). It says so on the console and in OgreConsole when it does - a mount should never just drop. Tick this to stop it. |  |
@@ -305,6 +304,7 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Do not auto-level Mercenary** | **Not active yet.**  | off |
 | **Disable OgreFly** | When following, the bot normally takes off, flies at the leader's height and lands with them. Tick this to keep following on the ground only. Swimming to the leader's depth still works. | off |
 | **Skip cutscenes** | **Not active yet.**  | off |
+| **Close F2P upsell window** | Closes the All-Access upsell window when the game shows it, checking once a second while you are out of combat. For free-to-play accounts. | off |
 | **Enable Pets in Dropdowns** | Adds the pets that are up - yours, your group's and your raid's - to the Cast Stack's Target list, as Pet: and the owner's name (Pet:Bob is Bob's pet). A buff or heal set to a pet is cast on that pet: the bot targets it, casts, and puts your target back. A pet's own ability needs no pet target.<br>*The list is read when OgreBot opens; close and reopen it to see a pet that was summoned since.* | off |
 | **Enable Quest Compare** | Makes this character the group's quest reference. When one of its quests updates, the bot asks the rest of the group whether they are on the same step and reports anyone who differs. Ticking it opens the Quest Compare window and unticks it on the rest of the group, so there is only one reference. | off |
 | **Auto-Handle HQ Earring** | **Not active yet.**  | off |

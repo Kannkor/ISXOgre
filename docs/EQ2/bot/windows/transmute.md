@@ -1,8 +1,8 @@
-# Level Transmuting
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# Level Transmuting
 
 > **:bulb: In game - the ? button on this window says**
 >
@@ -40,11 +40,13 @@ The dot is green while a run is going. Next to it is what the bot is doing right
 
 [![Header and the stones-only notice](../assets/transmute/header.png)](../assets/transmute/header.png "Click for full size")
 
+
 ## The readout
 
 Merchant and Item are fixed - the tool only works with Barnaby and the Minor Lapis Lazuli Transmuter's Stone. Transmuting is your skill as last read from the Persona window (Start reads it, then it is read again at the start of each round, so it shows unavailable until a run has read it). Rounds counts the rounds started out of the most you allowed. Buys shows the visits to Barnaby and how many stones your bags really gained. Transmutes shows how many stones were tried and how many really got used up. Last is the latest thing that happened.
 
 [![The readout](../assets/transmute/readout.png)](../assets/transmute/readout.png "Click for full size")
+
 
 ## Quantity and round limit
 
@@ -54,6 +56,8 @@ Merchant and Item are fixed - the tool only works with Barnaby and the Minor Lap
 |---|---|---|
 | **Buy** | How many stones you want to be holding when each visit to Barnaby is done. The bot only buys the difference, so stones left over from the last round are used first. 1 to 800.<br>*Locked while a run is going. It is a total to hold, not an amount added every round.* | 60 |
 | **per visit, at most ... round(s)** | The hard stop: the most rounds one run will make. Each round is one visit to Barnaby. The run also stops earlier if the Transmuting skill is readable and capped. 1 to 500.<br>*If the skill cannot be read, the run cannot tell when you are capped and goes on until this limit.* | 20 |
+
+
 
 ## Start, Stop, Refresh
 
@@ -66,11 +70,14 @@ Merchant and Item are fixed - the tool only works with Barnaby and the Minor Lap
 | **Refresh** | Redraws the window with the latest numbers. It does not change anything, and it does not read the skill. |
 | **Title bar close (X)** | Stops a run that is going, then closes the window. The Persona window is closed and OgreBot resumes, as with Stop.<br>*The same as `ogre end leveltransmuting`. Stop stops the run and keeps the window open.* |
 
+
+
 ## When the skill cannot be read
 
 The bot reads your Transmuting skill from the Persona window, Skills > General, which Start opens itself. It reads it once when the window opens and again at the start of every round. If the window is closed during a run, the next round opens it again. If the Transmuting row still does not read, Transmuting shows 'unavailable' in orange and a note appears; the run then cannot tell when you are capped and goes on until the round limit, unless a trip, a buy or a transmute fails first and stops it. Before your first run the skill has not been read yet, so the window shows 'unavailable' and a note saying it is read when you press Start.
 
 [![When the skill cannot be read](../assets/transmute/skillhint.png)](../assets/transmute/skillhint.png "Click for full size")
+
 
 ## What the window shows
 

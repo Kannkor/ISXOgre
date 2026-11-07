@@ -280,6 +280,60 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.11.06.002 {#r2026-11-06-002}
+
+*Friday, November 6, 2026 at 8:44 PM EST*
+
+- **Changed** · Bot: **A missing or out-of-date ability export now loads OgreBot paused.** OgreBot used to load running on an old export, or on none. It now loads paused, as classic OgreBot did, and says so in the export prompt. It stays paused after the export finishes, so resume it when you are ready.
+- **Changed** · Bot: **The AbilityViaDebug box on the Debug tab is now Ability query debug.** On the Debug tab, the box labelled AbilityViaDebug now reads Ability query debug. It is the same box, and your saved setting carries over.
+- **Changed** · Bot: **The HO icon lookup reads Classic's -No options.** `OgreBotAPI.Abilities.FindCastableHOIconAbilityID` now reads the -No options Classic's `Get_HOIconAbility` took, such as -NoStun and -NoRoot, on top of your settings boxes. An option it does not use is named once on the console and ignored, where before it was dropped without a word.
+- **Changed** · Bot: **Two more ability calls have names that say what they do.** `${OgreBotAPI.Abilities.InterruptID[actor]}` is now `${OgreBotAPI.Abilities.FindCastableInterruptID[actor]}`, and `${OgreBotAPI.Abilities.HOIconAbility[icon,...]}` is now `${OgreBotAPI.Abilities.FindCastableHOIconAbilityID[icon,...]}`. Each one finds an ability you can cast right now and gives back its id, without casting it. The arguments are the same and the old names are gone, so change them in your scripts.
+- **Changed** · Bot: **Watcher alerts make their sound, and Track Shiny sees the whole zone.** Find now plays the alarm when a listed name appears or leaves, on the session that saw it, as classic OgreBot did. Track Shiny now dings every session when it finds a new shiny, and it looks through the whole zone, nearest first, where it used to stop at 100 metres.
+- **Changed** · Other: **ogre export says where a script's options go.** `ogre export` still takes only -start, -default and stop, and now says where the options go when it refuses a word: a script passes them to `ISXOgreEQ2.Export:Abilities`, for example `ISXOgreEQ2.Export:Abilities[-tradeskill]`. The Classic conversion guide says the same, and it now answers for the old words `ogre tell`, `ogre mapper` and `ogre det`.
+- **Fixed** · Bot: **A blank movement key call goes back to your key bind.** `OgreBotAPI.Movement:SetForwardKey`, `SetBackwardKey`, `SetFlyUpKey` and `SetFlyDownKey` with no key now go back to your own key bind; they used to set w, s, Home or End, whatever you had bound. Naming a key works as before, until your key binds next change. A script that named a key before anything had moved no longer leaves the other movement keys unset.
+- **Fixed** · Bot: **A misspelt section name is reported in every data file.** Every data file you can layer with your own copy now prints one warning naming a section it does not know, such as "Zones" for "zones", where before the section was skipped without a word. Only that section is skipped, and a name starting with _ is a note. A crafting mats list with no "key" now says it was not used, and a Hide Effects add or remove for a group that does not exist says it did nothing, instead of "skipped".
+- **Fixed** · Bot: **A relay group in the list is one name everywhere.** A group in the relay group list is now joined at profile load and left on close under the name you typed. A name with a space or a symbol used to become a squashed copy there, so the toon stayed in the real group after closing. `im trade` now gives the real reason an entry stopped short, such as the partner cancelling, instead of always saying the window cap was reached.
+- **Fixed** · Bot: **Ability checks know when you are dead or stunned.** Abilities.CanCastOn now answers dead or stunned, and heroic opportunities and the ability query stop picking abilities then, honouring the two stun checkboxes as the cast stack does. The ability query also uses the same range, movement and position checks as everything else, and Lifeburn and Manaburn are no longer refused for the IsReady test the cast stack skips.
+- **Fixed** · Bot: **Allow Specials to be Targets and Enable PvP now work.** Both boxes now do what they say: a Special actor, or an enemy player, can be your kill target, so the Cast Stack, auto-attack and movement act on it. A few zones whose fights need a Special allow it with the box off, as classic OgreBot did. A shiny now also waits for your cast to finish before the bot goes for it.
+- **Fixed** · Bot: **Cancelling a cast for a cure potion now drinks the potion.** With X Abilities to Auto Cure Potions ticked, the bot cancels your cast and drinks the potion, even with the auto cure potion box off. Before, it could cancel cast after cast and never drink, and a potion on recast could read as ready. It leaves a cure on the bar alone, stops if the cast stack or its cures are switched off, and does nothing while paused or told not to cure.
+- **Fixed** · Bot: **CastInterrupt keeps your cast when no interrupt is ready.** Abilities:CastInterrupt looks for a ready interrupt first and cancels what you are casting only if it found one. Before, it dropped your cast and then found nothing to interrupt with, unlike the classic bot and the fight-file castInterrupt step.
+- **Fixed** · Bot: **Fighters use a Formless Energy Inverter to dispel.** A fighter holding a Handcrafted Formless Energy Inverter now uses it when a fight calls for a dispel. The bot searched for it in a way known to miss Formless items, so the dispel could stay silent, and a recast on it could read as ready. It now finds all five inverters the way the classic bot did.
+- **Fixed** · Bot: **Five smaller fixes from the audit.** Consume Items waits for a newly seen item's details, so its timer uses the real duration instead of 10 minutes. Looting forgets what it opened after every zoning, evacs included, and the Codex token button opens the API tokens page. Asking for Confront Fear only counts dirges within 100 m, and Call of the Veteran uses your item unless the porter nearby is yours.
+- **Fixed** · Bot: **GetQuest stops on a dialogue it does not know.** GetQuest now clicks through a conversation only when the first reply is the row's opening line. Any other reply stops the run, clicks nothing and prints what it saw, and a first reply that merely contains the finished text now stops as maxed out on faction. A custom row must now have startingQuestText, or its file is refused with a line saying so.
+- **Fixed** · Bot: **Heroic Opportunities no longer pick stealth abilities.** The Heroic Opportunity picker now skips hostile abilities that require stealth, even while you are stealthed, as the classic bot does. Before, a stealthed scout could spend one on an HO icon.
+- **Fixed** · Bot: **Long game text no longer reads as empty.** A long quest step, stat tooltip, reply row or script variable now reads whole. Before, anything over about 1,000 characters came back empty.
+- **Fixed** · Bot: **Looting carries on between mobs.** In combat with nothing to attack, looting now follows Loot Corpses/Chests, as classic OgreBot did, so corpses and chests in reach are taken in the gap between mobs instead of waiting for combat to end. Loot InCombat now rules only while you have something to attack. Shinies still wait until you are out of combat.
+- **Fixed** · Bot: **Move behind and move in front do not back into a wall.** A toon too close to the mob now only backs out when the way to its spot is clear, as Classic did. Before, it kept backing into a wall or a ledge.
+- **Fixed** · Bot: **Names and commands with spaces stay whole.** A relay group name, a zone script path or a quoted word in a Load, OnZone or Unload list line, a chat or spawn event's code, or an NPC cast rule's command now stays in one piece instead of splitting at the space. Write such a line as you would type it in the console; a backslash before a quote is no longer needed. An NPC cast rule's OgreBotAPI command now runs once, where it used to run twice.
+- **Fixed** · Bot: **Names with a backslash or a quote reach the game whole.** Every item, ability, quest, zone and key name the bot puts into a game command is now quoted the same way, so a colour code, a backslash or a double quote in one arrives whole instead of losing a character or breaking the command. Fight files, zone files and travel data are no longer refused for holding a double quote in such a name. `Comms:ExecuteEvent` sends each argument whole again, so one with a comma stays one argument.
+- **Fixed** · Bot: **Ogre Follow: 0 means the default, and a missing leader stops it.** A distance of 0 for -ogrefollow now means its default instead of being refused. A leader who cannot be found now turns follow off, as Classic did, instead of leaving you following the last one.
+- **Fixed** · Bot: **Quest Helper holds object clicks after a hail.** Quest Helper no longer clicks a nearby object in the 5 seconds after a hail or an answered reply, as in the classic bot. A dialogue it has no answer for now writes one log line, not one every half second.
+- **Fixed** · Bot: **Quiver slots, stale research rows, and Allow Camp Spot on move commands.** The quiver refill now moves ammo to the container's next open slot, and Ability Research reports a row missing from your export and starts the next one, 3 seconds after research ends. Announce fills *target* in any case, Tell To Target only tells players, and auto-accepted missions share with the group when Auto Share Missions is on. With Allow Camp Spot off, a character now ignores Come2Me and Move2Area, as classic OgreBot did.
+- **Fixed** · Bot: **Sharing a mission follows the classic rules.** -ShareAllMissions and -ShareMission now stop if you leave the zone before the group has gathered, as the zone share already did. -ShareQuest shares straight away with whoever is here, where it used to wait up to 5 minutes for the group. A quest only counts as a mission for -ShareMission if its category is Mission or Mission: Weekly.
+- **Fixed** · Bot: **The depot-all option leaves ammo and potions in your bags.** `ogre im depot -depotall` was also emptying your ammo and your poisons, potions and totems into their depots. It now uses the seven depots classic OgreBot used, and `-ada` still deposits all your ammo when you ask for it.
+- **Fixed** · Bot: **The misspelt section warning no longer says the file still loads.** The warning for a section name the bot does not know no longer ends with "The file still loads". If the section was the only one the file had, the next line says the file was not used, and the two lines disagreed.
+- **Fixed** · Bot: **The performance lists stop showing a diagnostic's name.** A diagnostic's name could show in the performance lists, the lag dump and the log, and now it does not. The Migration Assistant's InnerSpace profile item says Add what is missing, and its text says Classic. A Craft Grandmasters row for a recipe not in your book is no longer green, the Analysis Actors list shows its last count, and the Assign keys hint names gamepad buttons.
+- **Fixed** · Bot: **Trading counts a partner who accepts first.** When the other player accepted a trade in the last moment before the bot did, the items moved but the run read the trade as not accepted and stopped there. That accept now counts, and the run goes on to the next trade window.
+- **Fixed** · Windows: **Close F2P upsell window is back on Settings.** The Close F2P upsell window box had gone missing from Settings. It is back, and it now closes the upsell within a second when you are out of combat, where it used to take up to 100 seconds.
+- **Fixed** · Windows: **The Analysis history heading shows a name as it is.** The heading over the Analysis history list shows a name holding `&` or `<` as it is. Before, it showed `&amp;` or `&lt;`.
+- **Fixed** · Instance Controller: **Interrupts pick an ability that can reach the caster.** A fight file or NPC cast rule that interrupts now picks an ability that is in range, in line of sight and affordable on the mob that is casting. Before, it picked the fastest ready one and the cast could fail.
+- **Fixed** · Crafting: **Buying waits for the purchase to show in your bags.** After each buy the merchant flow now waits up to 2 seconds for the items to show in your bags, and moves on the moment they do. It used to wait a flat second, so a slow bag update could buy the same items twice.
+- **Fixed** · Console: **Move Bag Contents goes to open slots.** ogre mbc now puts each item into an open slot of the destination bag, so what is already there stays put and a smaller bag works. When that bag fills it stops and says how many items moved. ogre buyfuel now only takes the name from an item examine window, not a spell, effect or tooltip.
+- **Fixed** · Console: **ogre trade hands over the item you examined.** `ogre trade` now hands over the item you examined. Before, it pointed one place off in your bags, so it could offer a different item. It now finds the item the same way as `ogre im trade`.
+- **Fixed** · Console: **Reply window: the exact reply wins, and LAST_ENTRY works.** -ReplyDialog now picks the reply that says exactly your text before one that only contains it, so "Yes" no longer takes "Yes, but later" because it stands higher. LAST_ENTRY picks the last reply, as it did in Classic.
+- **Fixed** · Console: **Select window: the last choice given wins, and a number can be a label.** -Select_Window_AP now uses the last option given, as Classic did, not the first. A number no row has is matched as the text of a row, so a list of amounts can be picked by its label.
+- **Fixed** · Other: **Coming from Classic rows say the thing itself.** About 35 rows on the Coming from Classic pages and in the converter told you to see another row. Each now says what you need right there.
+- **Fixed** · Other: **Help and docs corrected for Watcher, Inventory Manager and Migration Assistant.** Watcher's help now says the window's X stops Find and Track Shiny; it used to say closing the window stops nothing. Inventory Manager's help now gives the real way to remove a list row: click it, then right-click it. Migration Assistant now lists saved AutoTarget lists and the InnerSpace profile, SmartLoot's page covers + Group and + Raid, and the Assign keys pictures show keys on their button.
+- **Fixed** · Other: **Removed Classic calls now say what to use instead.** When a removed Classic call has a replacement, the converter's to-do list and the Coming from Classic pages now name it instead of saying there is none: OgreBotAPI:Mount points at Consumables:MountUp and MountDown, for example. Console notes say Classic and the new command rather than V1 and V2, and the for-who advice is in plain words. Converted scripts come out the same.
+- **Fixed** · Other: **The converter flags ogre words that kept their name but changed.** The Classic converter used to pass `ogre mesh "<zone>" -me`, `ogre npccastmonitoring` and `ogre move` without a word, though each now does something else. It flags those lines now and says what to write, and it answers for about 120 more old ogre words. The No Revision History box is gone from Settings, because there is no revision window for it to stop.
+- **Fixed** · Other: **The converter now answers for 45 more old ogre words.** The Classic converter used to stop and ask at words such as `ogre meshint`, `ogre depot`, `ogre int` and `ogre map`, because it had no answer for them. Now each one says what to write instead: `ogre mesh`, `ogre im depot`, `ogre bot`, or that the line can go. Words that are not in the new bot yet say so, and the coming-from-classic pages list them all.
+- **Fixed** · Other: **Window guides match the windows again.** The guides for TaskRunner Lists, OgreConsole, Ogre Options, Master Control Panel, Reset UI Windows and Inventory Manager were behind the windows. TaskRunner Lists is rewritten around its list box, Run button, Run options and drag to reorder. OgreConsole's Errors tab, the MCP's Reset all colours and the shorter right-click menu are now covered.
+- **Removed** · Bot: **Cast and item calls no longer relay to other sessions.** `OgreBotAPI.Abilities:CastRelay`, `:CastNoExportRelay`, `:CastOnPlayerRelay`, `OgreBotAPI.Inventory:UseRelay` and `:UseOnPlayerRelay` are gone. Send a console line instead: `oc !c -CastAbility igw:${Me.Name} "Assault"` for the sessions on this PC, `irc !c -CastAbility irw:${Me.Name} "Assault"` for a raid across PCs. `-CastAbilityNoExport`, `-CastAbilityOnPlayer`, `-UseItem` and `-UseItemOnPlayer` work the same way.
+- **Removed** · Console: **Lag, Pulse, Travel, Hide Effects and more are `ogre` commands only.** The separate `ogrelag`, `ogrepulsebudget`, `ogrepulseprof`, `ogretravel`, `ogrequestcompare`, `ogreforwhogroups`, `ogrehideeffects`, `ogresafefall` and `ogreleveltransmuting` commands are gone. Type `ogre lag`, `ogre pulse`, `ogre pulseprof`, `ogre travel`, `ogre questcompare`, `ogre forwhogroups`, `ogre hideeffects`, `ogre safefall` and `ogre lt`. Each word is its own script method, for example `${ISXOgreEQ2.Lag:Report[30]}`, and a word a command does not know now says so.
+- **Removed** · Console: **Radar and Inventory Manager are `ogre` commands only.** The separate `ogreradar` and `ogreim` commands are gone. Type `ogre radar` and `ogre im`, with the same words as before. Each word is now its own script method, for example `ISXOgreEQ2.Radar:Rate[20]` and `OgreBotAPI.IM:Sell[all,preview]`.
+- **Removed** · Console: **The spawn, window, loot and pack pony commands are script methods.** The separate `ogrespawn`, `ogrespawndelay`, `ogrewindows`, `ogrelootscan`, `ogrechatcmd`, `ogrepackpony` and `ogreeventspine` commands are gone. Call `ISXOgreEQ2.Spawn:Status`, `Spawn:DelayStatus`, `WindowReactions:Status`, `LootScan:Status`, `ChatCmd:On` and `PackPony:Start`, or read `${ISXOgreEQ2.Events.StatsJSON}`. `PackPony:Start` refuses a word it does not know instead of starting anyway.
+- **Removed** · Console: **Zone Reset, Task Runner, Analysis and more are `ogre` commands only.** The separate `ogrezonereset`, `ogretaskrunner`, `ogreanalysis`, `ogreeffecttracker`, `ogrenpccast`, `ogrepushover` and `ogrecraftgm` commands are gone. Type `ogre zone`, `ogre taskrunner`, `ogre analysis`, `ogre effecttracker`, `ogre npccast`, `ogre pushover` and `ogre craftgm`. Each word is its own script method, for example `ISXOgreEQ2.ZoneReset:Status`, and a word a command does not know now says so.
+
 ## 2026.11.06.001 {#r2026-11-06-001}
 
 *Friday, November 6, 2026 at 4:08 AM EST*
@@ -315,7 +369,7 @@ Dates and times are US Eastern time (EST in winter, EDT in summer).
 - **Fixed** · Bot: **The tag "no duration" message names the ability and the reason.** When a cast cannot set its tag, the message now names what was cast and says why: it has no duration of its own, it lasts until cancelled, it is not in the ability export, or it is an item. Before, it blamed items on every cast. A Maintained tag with a blank Duration now works on an ability that lasts until cancelled, with a 10 minute limit.
 - **Fixed** · Bot: **The word after !c is an IRC handle.** A word between !c and the command is an IRC handle, not a for-who. A typed line with a word that is not all, me or this PC's handle used to drop it and run on every box; it now runs nothing and says so in one line. Who a command is for goes after the command.
 - **Fixed** · Bot: **Travel mesh reads no longer freeze the client.** TMZones, TMEdges and the other travel data reads now answer at once, reading 0 or empty until the data has loaded. They used to wait for the load, with no limit.
-- **Fixed** · Bot: **Zoning or camping now ends what cannot survive it.** Depot withdraws, IM runs, refine, UI scans, consume items and nav trips used to freeze over a zone and carry on with stale state in the next one. They now stop with a line, or end cleanly. Travel and the travel mesh still cross zones as before, and a mesh route walks on from where it lands.
+- **Fixed** · Bot: **Zoning or camping now ends what cannot survive it.** Depot withdraws, IM runs, refine, consume items and nav trips used to freeze over a zone and carry on with stale state in the next one. They now stop with a line, or end cleanly. Travel and the travel mesh still cross zones as before, and a mesh route walks on from where it lands.
 - **Fixed** · Console: **CheckResearch reports to OgreConsole.** The -CheckResearch result now shows in OgreConsole, where it used to go only to the InnerSpace console.
 - **Fixed** · Console: **IRC no longer looks disconnected with two connected PCs.** With two PCs on connected uplinks, the PC not on IRC told the other one IRC was down every 15 seconds, so MCP buttons kept saying "IRC not connected" and some went through OgreConsole instead. Each PC now listens only to its own IRC connection.
 - **Removed** · Bot: **Auto-Hunt movement mode.** -autohunt and AutoHunt:SetMode now take off or hunt. The words movement, movementonly, move, on and grind are gone, and any of them now turns Auto-Hunt off with a line. To walk with no hunting, press Start in the ogre paths window or use -Path.
@@ -1006,7 +1060,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogre
 > - The X stops OgreBot, the same as `ogre end bot`. **Hide Main** on the small OgreBot window just hides this one.
 > - Hover a setting or button to see what it does.
 
-**Open it:** Type `ogre`. OgreBot loads running, with this window hidden: click **Show Main** on the small OgreBot window to see it (if the character's ability export is missing or out of date, the window is shown instead so you see the export prompt). `ogre -p` loads OgreBot paused with this window shown. `ogre end bot` closes OgreBot.
+**Open it:** Type `ogre`. OgreBot loads running, with this window hidden: click **Show Main** on the small OgreBot window to see it (if the character's ability export is missing or out of date, OgreBot loads paused and the window is shown so you see the export prompt; it stays paused after the export, so resume it when you are ready). `ogre -p` loads OgreBot paused with this window shown. `ogre end bot` closes OgreBot.
 
 ## What it is for
 
@@ -1048,7 +1102,7 @@ Type part of a setting's name to find it on any tab. The list shows each match w
 
 ## The tab list
 
-The tabs down the left are in three blocks. At the top: Auto Target, Cast Stack, Settings, Setup, then your class tab. In the middle: every other tab, A to Z. At the bottom: Admin, Debug, EQ2Chars, Key Binds, OgreConsole, Profiles, Relay Groups and Uplink Info. Each block is in A to Z order, except that the class tab is always last in the top block.
+The tabs down the left are in three blocks. At the top: Auto Target, Cast Stack, Settings, Setup, Status, then your class tab. In the middle: every other tab, A to Z. At the bottom: Admin, Debug, EQ2Chars, Key Binds, OgreConsole, Profiles, Relay Groups and Uplink Info. Each block is in A to Z order, except that the class tab is always last in the top block.
 
 | Control | What it does | Default |
 |---|---|---|
@@ -1445,7 +1499,7 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Elemental** | With 'Enable Selective Group Cures' on, group cures count and cure Elemental. | off |
 | **Noxious** | With 'Enable Selective Group Cures' on, group cures count and cure Noxious. | off |
 | **Trauma** | With 'Enable Selective Group Cures' on, group cures count and cure Trauma. | off |
-| **X Abillties to Auto Cure Potions** | If you are casting when you need a cure potion (one of the types ticked below is on you and you have a ready potion for it), the bot cancels the cast so the potion can be used.<br>*It only cancels. The drinking is done by 'Enable Auto Cure Potions', so tick both.* | off |
+| **X Abillties to Auto Cure Potions** | If you are casting when you need a cure potion (one of the types ticked below is on you and you have a ready potion for it), the bot cancels the cast and drinks the potion.<br>*It drinks whether or not 'Enable Auto Cure Potions' is ticked. It does not cancel a cure, a cast you started yourself, or anything while the cast stack or its cures are disabled.* | off |
 | **Enable Auto Cure Potions** | When you are not casting and carry a ready 'Cure <type>' potion for a detrimental on you, the bot drinks it, checking about twice a second. Only the types ticked below are used. Potions only ever cure yourself. | off |
 | **Arcane** | Allows automatic cure potions to be used for Arcane. | off |
 | **Elemental** | Allows automatic cure potions to be used for Elemental. | off |
@@ -1458,7 +1512,7 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 
 | Option | What it does | Default |
 |---|---|---|
-| **Allow Camp Spot** | Allows this character to use a camp spot. When on, the bot returns you to your camp spot when you stray from it. When off, a camp spot cannot even be set on this character, and it never walks back to one.<br>*Scripts and encounters can tick and untick this during a fight; it takes effect at once.* | off |
+| **Allow Camp Spot** | Allows this character to use a camp spot. When on, the bot returns you to your camp spot when you stray from it. When off, a camp spot cannot even be set on this character, it never walks back to one, and it stays put for the Come2Me, Move2Area and Move2AreaNoTarget commands.<br>*Scripts and encounters can tick and untick this during a fight; it takes effect at once.* | off |
 | **Dynamic Camp Spot** | Shows whether a camp spot is set: the bot ticks it when a spot is set and unticks it when the spot is cleared. Untick it yourself to stop the bot returning to the camp spot without deleting the spot.<br>*Setting a new spot ticks it again.* | off (not saved; the bot sets it) |
 | **Auto Assist** | Switches assisting on. While it is ticked, the bot targets for the first available player on the Assist tab, or the player set by an assist command. Unticked, it does not assist at all.<br>*Auto Target, when it is on, takes over from assisting whatever this box says. 'ogre assist' still shows who you would assist while the box is off.* | off |
 | **Dynamic Assist** | **Not active yet.** The assist command remembers who to assist on its own; this box is not used or updated. | off (not saved) |
@@ -1496,12 +1550,12 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Auto Target when Hated** | When you have no target, or only something you can't fight (a corpse, chest, shiny or NoKill NPC), the bot looks about once a second for a mob within 30 meters (and roughly your height) that is attacking someone in your group, and targets it. It never does this while you are assisting someone (Auto Assist). | off |
 | **Disable Mortal Coil Dispel** | Mages: the bot normally dispels the 'Mortal Coil' buff from named mobs in range with your dispel ability. Tick this to stop it.<br>*'No Dispels' on the Settings tab also stops it.* | off |
 | **Wait for Recovery time** | Normally the bot picks the next ability the moment a cast lands, queuing it during the recovery time. Tick this to make it wait out each ability's recovery time (minus 0.2 seconds) first. Items are not affected. | off |
-| **Allow Specials to be Targets** | **Not active yet.**  | off |
+| **Allow Specials to be Targets** | Lets the bot fight a Special actor (not an NPC and not a player, such as a door or a clickable object): when your target, or your target's target, is one, it becomes your kill target, and the Cast Stack, auto-attack and movement act on it as on a mob. A few zones whose fights need this allow it with the box off. | off |
 | **Use reduced stun checks** | The Cast Stack decides you are stunned when you cannot turn, or when your Mining ability is not ready. Tick this to drop the 'cannot turn' test, so being unable to turn alone no longer stops casting. | off |
 | **Dynamic ignore stun checks** | While ticked, the Cast Stack skips its stun tests entirely and tries to cast even if you look stunned.<br>*Meant for encounter scripts, for fights where the game falsely reports a stun.* | off (not saved; clears on reload) |
 | **DoV Raid Debuffs** | When chat says the Destiny of Velious (DoV) raid debuff is about to expire on a mob, the bot re-casts your archetype's DoV raid debuff on it. | off |
 | **Allow moving to cast** | Lets the bot move you into range to cast the Destiny of Velious (DoV) raid debuff, when the request to cast it does not say otherwise. | off |
-| **Enable PvP** | **Not active yet.**  | off |
+| **Enable PvP** | Lets the bot fight enemy players: when your target, or your target's target, is a player the game marks as an enemy, they become your kill target, and the Cast Stack, auto-attack and movement act on them as on a mob. Friendly players are never affected. | off |
 
 
 
@@ -1517,7 +1571,7 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Enable Consume Items** | Turns on the Consume Items tab, so the bot automatically uses the items listed there (following that tab's zone and combat rules). When off, the consume-items command also does nothing. | off |
 | **Enable Aliases** | Turns on your custom aliases from the Aliases tab (names starting with *), so commands and Cast Stack targets can use them. When off, custom aliases resolve to nobody. The built-in @ slots such as @Tank are not affected. | off (the Cast Stack target dropdown treats a never-saved box as on) |
 | **Enable Ability Tracker** | Turns on the Ability Tracker tab. About twice a second the bot reads the cooldowns of the abilities listed there and shares them, for example with the OgreMCP cooldown buttons. | off |
-| **Enable Ability Embargo** | Turns on ability embargoes. While it is ticked, casting an ability on the Ability Embargo tab tells your other characters to hold off it, and the Cast Stack skips an ability that a command or another character has embargoed (-AbilityEmbargo) until the time is up. While it is off, nothing is sent, and embargoes are still kept but not followed, so ticking it later honours any that are still running.<br>*The Ability Embargo tab's own list, which tells your other characters to hold off when you cast, is not active yet in the new bot.* | off |
+| **Enable Ability Embargo** | Turns on ability embargoes. While it is ticked, casting an ability on the Ability Embargo tab tells your other characters to hold off it, and the Cast Stack skips an ability that a command or another character has embargoed (-AbilityEmbargo) until the time is up. While it is off, nothing is sent, and embargoes are still kept but not followed, so ticking it later honours any that are still running. | off |
 | **Enable Tag Embargo** | Turns on Embargo tags (see the Tags tab). While it is ticked, the Cast Stack skips an ability whose Embargo tag is on, and casting an ability that carries an Embargo tag turns that tag on. While it is off, this character neither follows Embargo tags nor turns them on. Tags sent by your other characters are still kept, so ticking it later honours any that are still running. | off |
 | **Enable Tag Allow** | Turns on Allow tags (see the Tags tab). While it is ticked, an ability with an Allow tag only fires while that tag is on, and casting an ability that carries an Allow tag turns that tag on. While it is off, an Allow tag does not hold an ability back and casting does not turn one on. Tags sent by your other characters are still kept, so ticking it later honours any that are still running. | off |
 | **Enable Item Embargo** | Turns on item embargoes. While it is ticked, the Cast Stack skips an item that a command or another character has embargoed (-ItemEmbargo, by the item's LinkID) until the time is up, and using an item on the Item Embargo tab's list tells your other characters to hold off it. While it is off, nothing is sent, and embargoes are still kept but not followed, so ticking it later honours any that are still running. | off |
@@ -1529,10 +1583,10 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | Option | What it does | Default |
 |---|---|---|
 | **Accept Loot** | Lets the bot answer loot windows, using the choices on the Loot tab (for example lotto accept or decline, and free-for-all accept). When off, loot windows are left for you. | off |
-| **Loot Corpses/Chests** | While out of combat, the bot loots corpses and chests, and picks up shinies, that are already within reach. It does not walk to them. It also turns on a fix for mobs that get stuck in a 'dead but not lootable' state, by using the Loot action on them.<br>*Shinies can be switched off on the Loot tab.* | off |
+| **Loot Corpses/Chests** | The bot loots corpses and chests, and picks up shinies, that are already within reach, unless you are in combat with something to attack. Shinies wait until you are out of combat. It does not walk to them. It also turns on a fix for mobs that get stuck in a 'dead but not lootable' state, by using the Loot action on them.<br>*Shinies can be switched off on the Loot tab.* | off |
 | **Do not loot Corpses** | When looting is on, corpses are skipped. Chests and shinies are still looted. | off |
 | **Do not loot chests** | When looting is on, chests are skipped. This also applies to the Instance Controller's chest-looting step. | off |
-| **Loot InCombat** | Lets the bot loot corpses, chests and shinies within reach while you are in combat. It is separate from 'Loot Corpses/Chests', which only covers out of combat, so tick both to loot at all times. | off |
+| **Loot InCombat** | Lets the bot loot corpses and chests within reach while you are in combat with something to attack. It is separate from 'Loot Corpses/Chests', which covers every other moment, so tick both to loot at all times. Shinies always wait until you are out of combat. | off |
 | **Move to loot-bugged mobs** | Off unless you tick it. The Instance Controller turns it on for its runs (a Startup Options row). Needs 'Loot Corpses/Chests'. When the mob you have targeted is stuck in the 'dead but not lootable' state and is too far away to loot, but no more than 40 m away, the bot moves you to it so the fix can use the Loot action on it, then moves you back to where you were. Only a character that has that mob targeted moves. The move takes priority over the camp spot: the camp spot does not pull you back until you are back. It gives up after 20 seconds getting there or 20 seconds getting back, and a zone with no navigation mesh is skipped. |  |
 | **Accept Invites** | Accepts group and raid invites from characters on your EQ2Chars list. With the Other tab's option for anyone in range also on, it accepts invites from any nearby player. | off |
 | **Accept No Choice Rewards** | When a reward window appears that offers only one reward and nothing to choose, the bot accepts it. New quest offers and reward windows with choices are left alone. | off |
@@ -1554,7 +1608,6 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Enable OgreMCP** | Opens the OgreMCP panel each time the profile loads. | off |
 | **Do not check Research on load** | By default the bot checks ability research when the profile loads and when a 'Research of ...' finished message appears, claiming finished research and starting the next ability from your Ability Research list. Tick this to stop those automatic checks. | off (so research IS checked) |
 | **Do not check Mount Training** | **Not active yet.** The bot does not check mount training on load; the manual mount-training command still works. | off |
-| **No Revision History** | **Not active yet.**  | off |
 | **Spew BoZ Completed Research** | **Not active yet.** The Ballads of Zimara (BoZ) research readout exists as a manual command only. | off |
 | **Spew Sub Status** | **Not active yet.**  | off |
 
@@ -1565,7 +1618,7 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | Option | What it does | Default |
 |---|---|---|
 | **No Available Setups** | On zone-in the bot normally lists the fights in this zone that have encounter setups. Tick this to hide that automatic message. Asking for the list yourself still shows it. | off |
-| **Auto Share Missions** | Shortly after zoning in, if you are the group leader, the bot shares your quests and missions for this zone with the group. This works even while the bot is paused. | off |
+| **Auto Share Missions** | Shortly after zoning in, if you are the group leader, the bot shares your quests and missions for this zone with the group. A group leader also shares a mission the bot has just accepted. This works even while the bot is paused. | off |
 | **Disable DBC Claim** | **Not active yet.**  | off |
 | **Try to keep Familiar up** | After every zone-in to an instance (not overland, not a guild hall) the bot summons your familiar. If it was already up that dismisses it, and the 'Your Familiar has been dismissed' message makes the bot summon it again - so it is up either way. Any other time that message appears, it is summoned again too, with a message on the console and in OgreConsole. Adventure level 100 and up (read once when OgreBot loads). | off |
 | **Do not summon mount** | When OgreBot loads and after every zone-in, the bot summons your equipped mount if you are not on it - not in combat, not on a griffon (adventure level 100 and up). It says so on the console and in OgreConsole when it does - a mount should never just drop. Tick this to stop it. |  |
@@ -1581,6 +1634,7 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Do not auto-level Mercenary** | **Not active yet.**  | off |
 | **Disable OgreFly** | When following, the bot normally takes off, flies at the leader's height and lands with them. Tick this to keep following on the ground only. Swimming to the leader's depth still works. | off |
 | **Skip cutscenes** | **Not active yet.**  | off |
+| **Close F2P upsell window** | Closes the All-Access upsell window when the game shows it, checking once a second while you are out of combat. For free-to-play accounts. | off |
 | **Enable Pets in Dropdowns** | Adds the pets that are up - yours, your group's and your raid's - to the Cast Stack's Target list, as Pet: and the owner's name (Pet:Bob is Bob's pet). A buff or heal set to a pet is cast on that pet: the bot targets it, casts, and puts your target back. A pet's own ability needs no pet target.<br>*The list is read when OgreBot opens; close and reopen it to see a pet that was summoned since.* | off |
 | **Enable Quest Compare** | Makes this character the group's quest reference. When one of its quests updates, the bot asks the rest of the group whether they are on the same step and reports anyone who differs. Ticking it opens the Quest Compare window and unticks it on the rest of the group, so there is only one reference. | off |
 | **Auto-Handle HQ Earring** | **Not active yet.**  | off |
@@ -1715,11 +1769,15 @@ The game's Knowledge window can research one ability upgrade at a time, and each
 | **Full Research list** | What the game's research window is offering right now. Each row reads like '[097] Kick IV (Adept)': the level, the ability, and the tier researching it would give. Click one to put it in the form on the right, or double-click to add it straight to your list with no tiers ticked.<br>*The label shows '(press Preview)' while empty and '(N available)' once filled.* | empty until Preview, Claim + start next or a profile load fills it |
 | **Research List** | Your research priorities, top first. Each row shows the ability's level, its name and the tiers you want (J, A, E, M, G, Anc). Drag to reorder, click to change, double-click to switch a row off, X to remove.<br>*A switched-off row is skipped.* | empty |
 
+
+
 ## Full Research list (left)
 
 | Control | What it does |
 |---|---|
 | **Search ... abilities** | Type to filter the left list. Display only. |
+
+
 
 ## Research List (right)
 
@@ -1728,6 +1786,8 @@ The game's Knowledge window can research one ability upgrade at a time, and each
 | **Preview** | Opens the Knowledge window, fills the left list with what is on offer, and reports in the console what it would claim and start. It claims and starts nothing, then closes the window. |
 | **Claim + start next** | Does it for real: claims any finished research, then, if nothing is being researched, starts the first enabled row on your list that the game offers at a tier you ticked. Research takes days.<br>*Posts 'Researching ...' (or 'NO RESEARCH STARTED...') to OgreConsole.* |
 | **Clear list** | Removes every row from your Research List after asking you to confirm. Your abilities are not touched. |
+
+
 
 ## Add form (under the list)
 
@@ -1743,11 +1803,14 @@ The game's Knowledge window can research one ability upgrade at a time, and each
 | **Add** | Adds the ability in the form, with the tiers you ticked, to the bottom of your Research List. After you click a row it becomes Update and saves your changes to that row instead (Cancel backs out). |  |
 | **Clear Options** | Unticks all six tiers in the form. Otherwise the ticks carry over to the next Add. |  |
 
+
+
 ## Good to know
 
 - A tier tick means 'research it TO this tier', and only the tiers you tick. Ticking Expert and Ancient researches upgrades to Expert or Ancient but skips Master and Grandmaster, for example because you craft those yourself.
 - A row with no tier ticked is never researched. Double-clicking an ability on the left adds it with no tiers, so click the row afterwards and tick some.
 - Rows match the ability's full name, rank included, so 'Kick IV' is not 'Kick V'. The number in brackets on each row is its level. '[--]' means the ability is not in this character's ability export, usually because it is out of date or from another character. 'Clear list' empties the list so you can start again.
+- A row the game offers that is not in this character's ability export is reported to OgreConsole and passed over, and the next row gets its turn.
 - If nothing on your list can be started, the bot posts 'NO RESEARCH STARTED. Review Ability Research Tab' to OgreConsole.
 - The tier ticks stay ticked after Add, so you can add several abilities with the same tiers. 'Clear Options' unticks them.
 
@@ -1792,6 +1855,8 @@ An alias is a nickname for one character, so your setup can say `*MainTank` inst
 |---|---|---|
 | **Aliases** | Your aliases, in the order they are tried. Drag to reorder, double-click to switch one off, x to delete. The colour shows whether the alias is used on the Cast Stack and whether this row is the one that wins right now. | empty |
 
+
+
 ## Add an alias
 
 | Control | What it does | Default |
@@ -1802,6 +1867,8 @@ An alias is a nickname for one character, so your setup can say `*MainTank` inst
 | **Add Alias** | Adds the alias to the end of the list. The same alias name can be added again with a different For, as a backup.<br>*An exact repeat (same alias, same For) is refused with a console message. Press Save to keep it.* |  |
 | **Display Aliases** | Prints every alias, and the character each one points to right now, in the console. |  |
 | **Team Groups…** | Opens the Team Groups window. A team group is one word (`*Team:Name`) that selects many characters and is shared by every session. |  |
+
+
 
 ## Good to know
 
@@ -1826,13 +1893,17 @@ Announce says something, or runs a command, whenever one of your abilities goes 
 | **Full Ability list** | All of this character's abilities. Click one to choose it for the next announce; its name appears next to the Add button. |  |
 | **Announces** | Your announce rows, shown as ability, destination and text. Every switched-on row whose ability matches goes out, at any rank.<br>*Click a row to edit it, double-click to switch it off.* | empty |
 
+
+
 ## Announce
 
 | Control | What it does | Default |
 |---|---|---|
-| **Announce To** | Where the text goes. Group: group chat. Raid: raid chat. Tell To Target: a tell to whoever the ability was cast on. In-Game Command: runs the text as a game command, so it must start with /. Execute In Console: runs the text as a console command. | Group |
-| **Text to announce** | What to say or run. *Target* becomes the target's name and *Ability* the ability's name.<br>*Case matters: *target* is not replaced, and the row is then skipped.* | empty |
+| **Announce To** | Where the text goes. Group: group chat. Raid: raid chat. Tell To Target: a tell to the player the ability was cast on. In-Game Command: runs the text as a game command, so it must start with /. Execute In Console: runs the text as a console command. | Group |
+| **Text to announce** | What to say or run. *Target* becomes the target's name and *Ability* the ability's name. | empty |
 | **Add** | Adds a row for the ability you clicked, with this destination and text. When you are editing a row it says Update and saves your changes to that row instead. |  |
+
+
 
 ## Good to know
 
@@ -1840,7 +1911,8 @@ Announce says something, or runs a command, whenever one of your abilities goes 
 - Click a saved row to load it back into the form; the button then says Update, and Cancel leaves it unchanged. Double-click a row to switch it off, and the x removes it. The list is shown A to Z.
 - Instant abilities announce when the bot casts them. Abilities with a cast time announce when they appear on your cast bar, which includes casts you make by hand.
 - For a cast you made by hand the bot does not know the target, so a row that uses *Target* or 'Tell To Target' is skipped for it.
-- *Target* and *Ability* must be typed exactly like that, with the capitals. A text that still contains them, or contains NULL or ${, is not sent.
+- *Target* and *Ability* work in capitals or small letters. A text that contains NULL or ${ once they are filled in is not sent.
+- A 'Tell To Target' row only goes out when the target is a player in your zone. A tell to an NPC, a pet or a mercenary is skipped.
 - 'In-Game Command' text must start with / (for example `/shout *Ability* is up!`). 'Execute In Console' text must NOT start with /; it runs as a console command, for example an `oc` line.
 - Group rows only go out while you are grouped, Raid rows only while you are in a raid.
 - Only abilities are listed, not items.
@@ -2040,6 +2112,8 @@ Chat Events watches the game's incoming text for words you choose. When a line c
 |---|---|---|
 | **Configured Events** | Your chat events. Each row shows the text it watches for, its command, and OC or Ding if ticked. Click a row to edit it, double-click to switch it off or on, drag a row to reorder, and click X to delete it.<br>*A switched-off row is kept but never fires. The order does not change anything; every active row is checked.* | empty |
 
+
+
 ## Add an event
 
 | Control | What it does | Default |
@@ -2051,6 +2125,8 @@ Chat Events watches the game's incoming text for words you choose. When a line c
 | **Add** | Adds the event to the list below. Pressing Enter in either text box does the same. While you are editing a row this button reads Update and saves your changes to that row. |  |
 | **Clear Options** | Unticks OC and Ding. Ticks otherwise carry over to the next event you add. |  |
 | **Cancel** | Only shown while editing a row. Stops editing without changing the row. |  |
+
+
 
 ## Good to know
 
@@ -2209,6 +2285,8 @@ Despawn Event is the opposite of Spawn Events: it fires when something whose nam
 |---|---|---|
 | **Configured Events** | Your despawn events. Click a row to edit it, double-click to switch it off or on, drag a row to reorder, and click X to delete it.<br>*A switched-off row is kept but never fires.* | empty |
 
+
+
 ## Add an event
 
 | Control | What it does | Default |
@@ -2220,6 +2298,8 @@ Despawn Event is the opposite of Spawn Events: it fires when something whose nam
 | **Add** | Adds the event to the list below. Pressing Enter in either text box does the same. While you are editing a row this button reads Update and saves your changes to that row. |  |
 | **Clear Options** | Unticks OC and Ding. Ticks otherwise carry over to the next event you add. |  |
 | **Cancel** | Only shown while editing a row. Stops editing without changing the row. |  |
+
+
 
 ## Good to know
 
@@ -2694,9 +2774,9 @@ Other holds options that do not have a tab of their own yet. The left column ask
 | Option | What it does | Default |
 |---|---|---|
 | **Request confront fear via uplink.** | When you get revive sickness, send a request to your other characters over the uplink. A dirge among them, with OgreBot running (not paused) and in your group or raid in the same zone, casts Confront Fear on you. Used only if the raid and group chat requests below did not go out.<br>*Needs no message and no dirge in view; the other sessions decide if they can help. Fighters are cured first, then priests, then everyone else.* | off |
-| **Request confront fear via group chat:** | When you get revive sickness and another dirge is in your group, say the text in the box beside this in group chat.<br>*Nothing is said if the box is empty. If you are a dirge yourself, nothing is asked.* | off |
+| **Request confront fear via group chat:** | When you get revive sickness and another dirge in your group is within 100 m, say the text in the box beside this in group chat.<br>*Nothing is said if the box is empty. If you are a dirge yourself, nothing is asked.* | off |
 | **(group chat message)** | What to say in group chat to ask for Confront Fear.<br>*A message containing the word NULL is not sent.* | empty |
-| **Request confront fear via raid chat:** | When you get revive sickness and another dirge is in your raid, say the text in the box beside this in raid chat. This is tried before group chat.<br>*Nothing is said if the box is empty.* | off |
+| **Request confront fear via raid chat:** | When you get revive sickness and another dirge in your raid is within 100 m, say the text in the box beside this in raid chat. This is tried before group chat.<br>*Nothing is said if the box is empty.* | off |
 | **(raid chat message)** | What to say in raid chat to ask for Confront Fear.<br>*A message containing the word NULL is not sent.* | empty |
 | **[NOT RECOMMENDED] Do not cancel group cures when no one has a detrimental.** | Normally the bot stops a group cure mid-cast when nobody needs it any more. Tick this to let it finish anyway.<br>*Some raid scripts tick this during a fight.* | off |
 | **[NOT RECOMMENDED] Do not cancel cure curse when no one has a curse.** | Normally the bot stops a Cure Curse mid-cast when the target no longer has a curse. Tick this to let it finish anyway. | off |
@@ -2706,6 +2786,8 @@ Other holds options that do not have a tab of their own yet. The left column ask
 | **Delay between casts (seconds)** | How long to wait after one of these abilities fires before the next one may. Decimals work. Blank or not a number means 3 seconds; 0 means no wait. | empty (3 seconds) |
 | **Full Ability list** | All of this character's abilities. Double-click one to add it to the end of the 'Use while disabled' list. |  |
 | **Use while disabled (in order)** | The abilities to use while stunned, stifled or rooted, best first. The bot casts the first one that is ready; one on cooldown just lets the next one try.<br>*Group or raid cures are skipped while 'Disable Group/Raid Cures in CS' is ticked on Settings, and single-target ones while 'Disable Single Target Cures in CS' is ticked.* | empty |
+
+
 
 ## Good to know
 
@@ -2932,6 +3014,8 @@ Spawn Events works like Chat Events, but it watches for things appearing around 
 |---|---|---|
 | **Configured Events** | Your spawn events. Click a row to edit it, double-click to switch it off or on, drag a row to reorder, and click X to delete it.<br>*A switched-off row is kept but never fires. Every active row is checked, so the order does not matter.* | empty |
 
+
+
 ## Add an event
 
 | Control | What it does | Default |
@@ -2943,6 +3027,8 @@ Spawn Events works like Chat Events, but it watches for things appearing around 
 | **Add** | Adds the event to the list below. Pressing Enter in either text box does the same. While you are editing a row this button reads Update and saves your changes to that row. |  |
 | **Clear Options** | Unticks OC and Ding. Ticks otherwise carry over to the next event you add. |  |
 | **Cancel** | Only shown while editing a row. Stops editing without changing the row. |  |
+
+
 
 ## Good to know
 
@@ -3132,7 +3218,7 @@ Debug holds switches that make the bot explain itself. Each box turns on extra l
 | **HeroicOpportunityDebug: logs each HO the bot opens - the actor, the starter ability it chose, whether the starter icon was visible and whether the timer was skipped. The HO engine spans five files and had one log line in all of them, so an HO that never starts was previously silent. (Light - one line per HO)** | Logs each HO the bot starts: the mob, the starter ability it chose, whether the starter icon was showing, and whether the wait timer was skipped. | off |
 | **AssistDebug: logs what assist decided, and names the three outcomes that look identical from outside - claiming a target, 'I am in control' and 'leave me alone'. Only speaks when the answer CHANGES, so it is safe to leave on. (Light)** | Logs who assist wants you to attack and why. It only logs when that answer changes, so it is safe to leave on. | off |
 | **ReapplyValueDebug: for every ward carrying an RW< value, logs its remaining damage against the value you set and whether that counts as depleted. Use it when a ward is not re-cast, or is re-cast constantly - it tells you which of the two numbers is wrong. (Noisy - one line per ward every tick)** | For every ward with a 'Reapply-ward <=' value, logs how much damage it has left, your value, and whether that counts as used up. Use it when a ward is not re-cast, or is re-cast all the time.<br>*Noisy: one line per ward each time the Cast Stack runs.* | off |
-| **AbilityViaDebug: logs each ability query exactly as the bot parsed it - every term, the options in effect, anything it was told to ignore, and which ability won (or that NOTHING matched, which otherwise looks the same as a deliberate hold). (Light - one line per query)** | When a script or command asks the bot to find an ability by description (FindCastableID or FindAndCast), logs how the request was read, what was ruled out, and which ability won, or that nothing matched. | off |
+| **Ability query debug: logs each ability query exactly as the bot parsed it - every term, the options in effect, anything it was told to ignore, and which ability won (or that NOTHING matched, which otherwise looks the same as a deliberate hold). (Light - one line per query)** | When a script or command asks the bot to find an ability by description (FindCastableID or FindAndCast), logs how the request was read, what was ruled out, and which ability won, or that nothing matched. | off |
 | **AliasesDebug: each time the alias list is rebuilt, logs every record and who it currently resolves to, or 'nobody live'. Separates an alias that failed to parse from one that simply has nobody online - downstream both just fail to match. (Light - once per rebuild)** | Each time the Aliases list is rebuilt, logs every alias and who it points to right now, or 'nobody live'. Tells a mistyped alias apart from one whose characters are simply not online. | off |
 | **ProfilePartsDebug: on profile load, logs whether Profile Parts is on and which tab is being read from which shared file, disabled mappings included. Use it when a tab shows settings you do not remember saving. (Light - once per load)** | When a profile loads, logs whether Profile Parts is on and which tab is being read from which shared file, including switched-off ones. Use it when a tab shows settings you do not remember saving. | off |
 | **LoadingProcessDebug: times each step of opening the bot - the ability export, the roster, the cast stack, every tab seed - so a slow or apparently hung load names the step responsible instead of one silent gap. (Light - once per load)** | Times each step of opening the bot (abilities, roster, Cast Stack, each tab), so a slow or stuck load shows which step is to blame. | off |
@@ -3686,12 +3772,13 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - **Type and press Enter** to send to every OgreBot session on this PC. Plain text is chat.
 > - **Start a line with** `!c` to make every session run it as a command, e.g. `!c -pause igw:${Me.Name}`.
 > - **Click a tab** (Chat, Commands, Events...) to see only those lines. A glowing dot means new lines.
+> - **Errors** collects every warning and error from every session on this PC. It turns red and counts them while you are on another tab.
 > - **The gear** opens settings: time stamps, hide on load, line colours, and Clear text.
 >
 > **Good to know**
 >
 > - `ogre` commands go in the InnerSpace console, not here. `oc <text>` there is the same as typing here.
-> - Red = command, green = chat, white = bot message, bold yellow on a red band = error, purple = fleet event. Change any of them in the gear's Colours.
+> - Red = command, green = chat, white = bot message, bold yellow on a red band = error, orange = warning, purple = fleet event. Change any of them in the gear's Colours.
 > - An orange name at the start of a line is who said it on IRC.
 > - **Send typed text to IRC** (gear): what you type here goes to IRC instead, like `irc <text>`, and comes back to your sessions with your IRC name.
 
@@ -3708,18 +3795,23 @@ OgreConsole is where your sessions talk to each other. Anything typed in the box
 | **⚙ (gear)** | Opens and closes the settings drawer at the top of the window.<br>*While the drawer is open it takes the place of the lines; if it does not fit, scroll it (or drag the window's bottom edge to make it taller). Click the gear again to close it.* |
 | **Title bar close (X)** | Closes the window. The console keeps collecting lines in the background, and they are all there when you open it again. |
 
+
+
 ## Tabs
 
-Click a tab to see only its lines. A tab appears the first time a line for it arrives.
+Click a tab to see only its lines. All and Errors are always there; any other tab appears the first time a line for it arrives.
 
 | Control | What it does | Default |
 |---|---|---|
 | **All** | Every line, in the order it arrived. | selected |
+| **Errors** | Every warning and error the bot logs, from every OgreBot session on this PC, with the character that hit it at the start of the line. It turns solid red, pulses and counts them while you are looking at another tab, so you do not miss one. Clicking it clears the count. The same line repeated within 30 seconds is not sent again, and each session sends at most 20 lines a minute; that session's log has them all. |  |
 | **Chat** | Plain text typed by you or another session (and lines relayed from IRC). |  |
 | **Commands** | `!c` commands sent by any session, plus the bot's replies about them (for example an unknown command). |  |
 | **Events** | Fleet requests such as a cure-curse call, one line each, showing who asked, who it was for and what for.<br>*Only appears when the OgreBot Debug option CommsEventsDebug is on.* |  |
 | **Any other tab (e.g. Raid)** | A line sent with `-tab <name>` at the front also shows in a tab of that name. |  |
 | **Glowing dot on a tab** | New lines arrived in that tab while you were looking at another one. Clicking the tab clears it. |  |
+
+
 
 ## The lines
 
@@ -3729,11 +3821,15 @@ Each line's colour tells you what kind of line it is (the colours below are the 
 |---|---|
 | **Line list** | The last 2000 lines. It stays at the bottom as new lines arrive, unless you have scrolled up to read, then it stays where you are.<br>*Right-click to Copy or Select All.* |
 
+
+
 ## Typing and sending
 
 | Control | What it does |
 |---|---|
 | **Input line (message, or !c <cmd> ... (Enter to send))** | Press Enter to send the line to every OgreBot session on this PC, including this one. Plain text is chat. A line starting with `!c` is a command that every session runs. `!ci` runs it too but the line is not shown. Anything like `${Me.Name}` is filled in with this character's value before it is sent.<br>*Put `-tab <name>` right after `!c` to also show the line in that tab, or `-cfw <who>` to have only that character (or group of characters) run it.* |
+
+
 
 ## Settings drawer
 
@@ -3747,7 +3843,9 @@ Open it with the gear. Settings are saved straight away and are shared by every 
 | **Debug: trace verbs to log** | For troubleshooting. Writes one line per command this session receives to the bot's log file, saying whether it ran. Nothing extra shows in the console.<br>*Leave it off in normal play.* | off |
 | **Colour square (Command, Chat, System, Error, Event, Timestamp)** | Click a colour square to open R, G and B sliders for it. The colour changes as you drag and is saved when you let go. |  |
 | **Reset** | Puts that colour back to its default. |  |
-| **Clear text** | Wipes every line from this session's console, removes all tabs except All, and closes the drawer. Only your console is cleared, and the lines cannot be brought back. |  |
+| **Clear text** | Wipes every line from this session's console, removes all tabs except All and Errors, and closes the drawer. Only your console is cleared, and the lines cannot be brought back. |  |
+
+
 
 ## Colours
 
@@ -3755,12 +3853,15 @@ Open it with the gear. Settings are saved straight away and are shared by every 
 |---|---|
 | **R / G / B sliders** | Red, green and blue for the colour you clicked. Only one colour's sliders are open at a time. |
 
+
+
 ## What the window shows
 
 - Red line: a command (`!c ...`) sent by any session.
 - Green line: chat.
 - White line: a message from the bot itself, such as a `[Notify]` alert. Most of these show only on the All tab (a note that a command did nothing here also shows on Commands).
 - Bold yellow line on a dark red band: an error, for example a command nobody knows (`Unknown command entered: -pasue`).
+- Orange line: a warning, on the Errors tab. It is one step below an error.
 - Purple line: a fleet request on the Events tab.
 - Orange name at the start of a chat or command line: who said it, for lines that came in over IRC. Only real IRC lines get it - a line you type that starts with `word: ` does not.
 - `-cfw <who>` at the end of a command line: that command was meant only for those characters.
@@ -3829,6 +3930,8 @@ The buttons in the title bar. The **?**, the lock and the X are on every window.
 | **Title bar close (X)** | Closes the MCP, and with it the For Who, Build command and Assign keys windows.<br>*Key binds still work with the window closed.* |
 | **Alt + backtick key (keyboard)** | Opens the MCP if it is closed, closes it if it is open. |
 
+
+
 ## Pages (left column)
 
 Each page is its own set of buttons for the right-hand block. The static block does not change when you switch pages.
@@ -3844,6 +3947,8 @@ Each page is its own set of buttons for the right-hand block. The static block d
 | **Right-click a page > Set text colour…** | Opens the colour picker for the page name's text. Auto goes back to a colour that reads well on the background. |  |
 | **Right-click a page > Delete page…** | Asks you to type the page's exact name, then removes the page, all its buttons and any keys assigned to them. You stay on the page you were on.<br>*Only shown when 'Allow deleting pages' is ticked and there is more than one page.* |  |
 
+
+
 ## Static buttons
 
 The first block of button columns (3 by default). These buttons are the same whichever page you are on - a good place for Follow, Pause, Resume and Evac.
@@ -3853,6 +3958,8 @@ The first block of button columns (3 by default). These buttons are the same whi
 | **Click a button** | Sends the button's command. It goes to the characters picked in For Who, unless the button names its own target in every step (for example 'fighter' or 'Me'), in which case it goes to that target. A button made in Raw mode runs only on the character that clicked it. The button flashes; an empty button does nothing. |  |
 | **Drag a button** | Drop it on another slot to swap the two (or move it, if the slot is empty). You can drag between the static block and the page block.<br>*Letting go over empty space cancels the move. A key assigned to the button moves with it.* | on (needs Allow moving) |
 
+
+
 ## Page buttons
 
 The block to the right of the dashed line. It shows the buttons of the page you picked. Grow the window wider for more columns, taller for more rows.
@@ -3860,6 +3967,8 @@ The block to the right of the dashed line. It shows the buttons of the page you 
 | Control | What it does |
 |---|---|
 | **Drag a button onto a page** | Moves the button to that page: into the same spot if it is free, otherwise the first free spot. When it lands on a page other than the one you are on, a message names that page.<br>*A key assigned to the button moves with it.* |
+
+
 
 ## Right-click a button
 
@@ -3878,6 +3987,8 @@ Right-click any button slot for this menu. On an empty slot, Assign to key and C
 | **Paste "<name>" from clipboard** | Shown when your Windows clipboard holds a button code (for example one someone sent you). Puts that button into this slot. A code can only make a button; it never runs anything. |
 | **Clear button** | Empties the slot: the command, label, colours and any keys assigned to the button are removed. Asks first. |
 
+
+
 ## Colour picker
 
 Used by every Set colour and Set text colour. The button changes while you drag, and the colour is kept however you close the picker (Done, Escape, or a click on the grid).
@@ -3889,6 +4000,8 @@ Used by every Set colour and Set text colour. The button changes while you drag,
 | **Reset / Auto** | For a background it reads Reset and takes the custom colour off, so the button or page goes back to the theme's colour. For text it reads Auto and goes back to the automatic readable colour. |
 | **Done** | Closes the picker. The colour is already on the button and is saved. |
 
+
+
 ## Rename
 
 | Control | What it does |
@@ -3896,6 +4009,8 @@ Used by every Set colour and Set text colour. The button changes while you drag,
 | **Name box** | The new name. Enter = OK, Escape = Cancel. |
 | **OK** | Saves the name. For a button, an empty name is refused with a note in red - use Clear button to remove a button. |
 | **Cancel** | Closes without changing anything. |
+
+
 
 ## Clear and paste-over warning
 
@@ -3907,6 +4022,8 @@ The same small box asks before Clear button, and before a paste that would repla
 | **Clear / Paste** | Goes ahead. |  |
 | **Cancel** | Leaves the button as it was. |  |
 
+
+
 ## Delete page
 
 | Control | What it does |
@@ -3914,6 +4031,8 @@ The same small box asks before Clear button, and before a paste that would repla
 | **Type the page name** | Delete stays greyed out until this matches the page name exactly (capitals count). |
 | **Delete** | Removes the page, every button on it and any keys assigned to those buttons. |
 | **Cancel** | Keeps the page. |
+
+
 
 ## Find
 
@@ -3925,6 +4044,8 @@ Opened by the magnifier. Searches every button, static ones first, then page by 
 | **Click a result** | Switches to that button's page and rings the button for a couple of seconds. It does not press it. If the button is outside the window, a message says its page, row and column. |  |
 | **▶ Run** | Sends that button's command right away, the same as clicking it, and keeps the Find drawer open. |  |
 | **x (close)** | Closes Find. Clicking anywhere outside it also closes it. |  |
+
+
 
 ## Settings (the gear)
 
@@ -3943,7 +4064,10 @@ The Layout drawer. Changes show at once and are saved. They change the buttons, 
 | **Allow moving (drag to rearrange)** | Lets you drag buttons and pages around. Turn it off to stop accidental moves; clicking still works. | on |
 | **Allow deleting pages** | Adds Delete page… to a page's right-click menu. | off |
 | **Open For Who on load** | Shows the For Who window whenever the MCP opens. | off |
+| **Reset all colours** | Takes the background and text colour off every button and page, static buttons too, the same as Reset in the colour picker on each one. Names and commands are kept. It asks first. |  |
 | **x (close)** | Closes the drawer. The gear does the same. |  |
+
+
 
 ## What the window shows
 
@@ -4274,6 +4398,8 @@ The easy way to find the name of an unusual key, such as a G-key or a side mouse
 |---|---|
 | **Click here, then press your button** | Click it, then press the key within 20 seconds. The box shows the key it caught (for example '✓ G600-G12 — click to assign'). Click the box again to assign that key to this button.<br>*It only catches G-keys (G600/G510), gamepad buttons, mouse buttons 4 and up and F13-F24. For any other key, click it in the list.* |
 
+
+
 ## Key list
 
 | Control | What it does | Default |
@@ -4281,12 +4407,17 @@ The easy way to find the name of an unusual key, such as a G-key or a side mouse
 | **filter keys… (placeholder)** | Shows only keys whose name contains the text. Escape closes the window. | empty |
 | **Click a key** | Assigns that key to this button straight away. It is saved and working at once.<br>*A key that already fires another button (shown on the right) now fires both.* |  |
 
+
+
 ## Assigned to this button
 
 | Control | What it does |
 |---|---|
 | **✕ (on a key tag)** | Removes that key from this button. It stops working at once on every character on this PC. |
 | **Close** | Hides the window (and stops a key detector that is still listening). |
+| **Title bar close (X)** | Closes the window. Your keys stay as they are, and a key detector that is listening stops by itself at the end of its 20 seconds. |
+
+
 
 ## What the window shows
 
@@ -4335,7 +4466,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - Nothing is kept until you press **Save**, which saves every tab. Closing undoes unsaved theme colours.
 > - The UI scale, the InnerSpace console choice and the Session watch take effect when you press Save.
 > - `ogre config` while this window is open does nothing - what you typed stays.
-> - A window you scaled yourself (right-click its title bar) ignores the UI scale until you pick Scale: use default.
+> - A window you scaled yourself (right-click its title bar, then More) ignores the UI scale until you pick Scale: use default.
 
 **Open it:** Type `ogre config` (or `ogre options` / `ogre info`) in the InnerSpace console. If it is already open, that does nothing - what you typed in it stays. It also opens by itself on the Account tab when your Ogre login is missing or wrong.
 
@@ -4349,6 +4480,8 @@ Ogre Options holds the settings that belong to Ogre itself rather than to one ch
 |---|---|---|
 | **Account / Ogre / Theme** | Switches the page. Save saves every tab at once, not just the one you are looking at. | Account |
 
+
+
 ## Account tab
 
 | Control | What it does | Default |
@@ -4357,14 +4490,18 @@ Ogre Options holds the settings that belong to Ogre itself rather than to one ch
 | **Password** | Your Ogre account password. If you are not logged in when you press Save, Ogre tries to log in again straight away ('Saved - logging in...'). If you are already logged in, a new password is used the next time the bot loads.<br>*Saving a blank box does not erase the saved password.* | empty on a first install |
 | **Show password** | Shows the password as text instead of dots so you can check it.<br>*Display only - changes what you see, not what the bot does.* | off |
 
+
+
 ## Ogre tab
 
 | Control | What it does | Default |
 |---|---|---|
-| **UI scale — default for every window (right-click a window to override one)** | How big every Ogre window is drawn: 0.75, 0.9, 1 (100%), 1.1, 1.25 or 1.5. Applies to all windows as soon as you press Save. A window you scaled yourself (right-click its title bar, Scale + / Scale −) keeps its own size until you pick Scale: use default on it.<br>*The list opens inside the window and pushes the setting below it down, so every size is in view.* | 1 (100%) |
-| **When the InnerSpace console covers a window** | What happens to an Ogre window that the InnerSpace console covers when you open it. Slide it below the console, then put it back: it moves down out of the way and returns when the console closes. Hide it until the console closes. Leave it where it is: nothing moves.<br>*Like the UI scale, it takes effect when you press Save. This is the default for every window: a window can have its own, from its title bar's right-click menu, under When Console is open (Slide below, Hide or Leave in place; Use default goes back to this one).* | Slide it below the console, then put it back |
+| **UI scale — default for every window (right-click a window to override one)** | How big every Ogre window is drawn: 0.75, 0.9, 1 (100%), 1.1, 1.25 or 1.5. Applies to all windows as soon as you press Save. A window you scaled yourself (right-click its title bar, then More, Scale + / Scale −) keeps its own size until you pick Scale: use default on it.<br>*The list opens inside the window and pushes the setting below it down, so every size is in view.* | 1 (100%) |
+| **When the InnerSpace console covers a window** | What happens to an Ogre window that the InnerSpace console covers when you open it. Slide it below the console, then put it back: it moves down out of the way and returns when the console closes. Hide it until the console closes. Leave it where it is: nothing moves.<br>*Like the UI scale, it takes effect when you press Save. This is the default for every window: a window can have its own, from its title bar's right-click menu, under More, When Console is open (Slide below, Hide or Leave in place; Use default goes back to this one).* | Slide it below the console, then put it back |
 | **Navmesh downloads** | Navmeshes are the zone maps the bot uses to walk and fly. **All zones, in the background**: every zone's mesh downloads while you play, the zone you are in first. **Only the zones I go to**: a zone's mesh downloads when you enter it or a route heads there. **Off**: nothing downloads, and nav tells you when a zone has no mesh.<br>*Takes effect as soon as you press Save. It is the same setting as `ogre patch mesh all\|ondemand\|off`.* | All zones, in the background |
 | **Announce sessions that freeze, recover or disappear** | Every session tells the uplink it is alive every 5 seconds. With this on, the uplink announces a session that goes silent (30 seconds, 90 while loading), comes back, or closes for any reason, and fires OgreEvent_SessionFrozen, OgreEvent_SessionRecovered and OgreEvent_SessionGone for scripts running in the uplink.<br>*Saved for the whole PC; Save also tells the uplink at once. `ogre sessions on\|off` turns it on or off until the uplink restarts.* | off |
+
+
 
 ## Theme tab - presets
 
@@ -4373,6 +4510,8 @@ The colours of every Ogre window. Changes show at once on every open window; the
 | Control | What it does | Default |
 |---|---|---|
 | **Start from: Toxic, Ogre, Ogre Bold, Forest, Swamp, Stone, Steel Blue, Amethyst, Crimson, Amber, Nightshade, Venom** | Paints every window in that ready-made colour scheme. Any colour you change below is changed on top of the scheme you started from. The lit button is the scheme you are on; none is lit once you have changed a colour. | Toxic |
+
+
 
 ## Theme tab - colours
 
@@ -4404,6 +4543,8 @@ Each row is one colour used across all windows. Click the square to open Hue / S
 | **Colour square (opens H / S / L sliders)** | Opens sliders for that colour right under its row; the colour changes as you drag. Click the square again to close them. |
 | **Colour code box (e.g. #1f9a2a)** | Type a colour code (#rgb or #rrggbb). It applies as soon as it is valid; an invalid code turns the box's border red. |
 
+
+
 ## Theme tab - saving
 
 | Control | What it does |
@@ -4412,13 +4553,17 @@ Each row is one colour used across all windows. Click the square to open Hue / S
 | **Undo changes** | Goes back to the last saved theme. |
 | **saved / unsaved changes** | Tells you whether what you see has been saved. |
 
+
+
 ## Save and Close
 
 | Control | What it does |
 |---|---|
-| **Save** | Saves every tab: your login, UI scale, the console setting, navmesh downloads, and the theme if you changed it. The UI scale and console setting apply right away. The text beside it shows 'Saving…', then 'Saved.', 'Saved - logging in...' or 'Save FAILED'. |
+| **Save** | Saves every tab: your login, UI scale, the console setting, navmesh downloads, the Session watch, and the theme if you changed it. The UI scale and console setting apply right away. The text beside it shows 'Saving…', then 'Saved.', 'Saved - logging in...' or 'Save FAILED'. |
 | **Close** | Closes the window without saving. Unsaved theme changes are undone. |
 | **Title bar close (X)** | Same as Close. |
+
+
 
 ## What the window shows
 
@@ -4428,8 +4573,8 @@ Each row is one colour used across all windows. Click the square to open Hue / S
 ## Good to know
 
 - Nothing is kept until you press Save. Closing the window throws away unsaved changes, including theme colours you were trying out.
-- Save saves all four tabs at once.
-- A window you scaled yourself ignores the UI scale here. Right-click its title bar and pick Scale: use default to make it follow again.
+- Save saves all three tabs at once.
+- A window you scaled yourself ignores the UI scale here. Right-click its title bar and pick More, then Scale: use default, to make it follow again.
 - The InnerSpace console setting is about the InnerSpace console (the one you type `ogre` commands in), not OgreConsole.
 - A new password is only used right away if you were not logged in. Otherwise it takes effect the next time the bot loads.
 
@@ -4468,13 +4613,15 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 
 ## What it is for
 
-Lists every Ogre window that is open in this session and puts any of them back where it started. Use it when a window has ended up off-screen (for example after switching monitors or changing resolution) and you cannot reach its title bar to drag it back. Reset puts a window back at its starting position and size, returns it to the UI scale set in Ogre Options, unlocks it, and forgets any position you saved for it.
+Lists every Ogre window that is open in this session and puts any of them back where it started. Use it when a window has ended up off-screen (for example after switching monitors or changing resolution) and you cannot reach its title bar to drag it back. Reset puts a window back at its starting position and size, returns it to the UI scale set in Ogre Options and unlocks it. A position you saved is kept for the next time the window opens.
 
 ## Header
 
 | Control | What it does |
 |---|---|
 | **↻ Refresh** | Reads the list of open windows again. The list is taken when this window opens and does not update by itself. |
+
+
 
 ## The window list
 
@@ -4484,6 +4631,8 @@ One row per open window (this one is left out).
 |---|---|
 | **Reset** | Moves that window back to where it first opened, at its starting size and at the UI scale set in Ogre Options, unlocks it, and makes sure its title bar is on the current screen. The position you saved with Save Position is kept, so after you close the window or log out it opens at the saved spot again.<br>*A hidden window stays hidden - Reset only moves it.* |
 
+
+
 ## Reset everything
 
 | Control | What it does |
@@ -4491,10 +4640,12 @@ One row per open window (this one is left out).
 | **Reset All Windows** | Does a Reset on every window in the list at once, hidden ones included. Help windows and the OgreHUD are listed but left where they are; use their own Reset button.<br>*No confirmation. Saved positions are kept.* |
 | **Title bar close (X)** | Closes this window, the same as `ogre end windowreset`. Nothing else changes. |
 
+
+
 ## What the window shows
 
-- Each row: the window's title, then its position (x, y), size (width × height, 'auto' when it sizes itself) and its scale if it is not 1.
-- OFF-SCREEN (red): the window is open but its title bar is outside the screen.
+- Each row: the window's title, then the position it asked for (x, y), size (width × height, 'auto' when it sizes itself) and its scale if it is not 1.
+- OFF-SCREEN (red): the window is open but its title bar is outside the screen. You will rarely see it: every window is drawn with its title bar on the screen, so a window saved off-screen (like SmartLoot in the picture) shows up at the edge of the screen, with no badge, and its row still shows the saved spot.
 - HIDDEN (grey): the window exists but is hidden, for example the OgreBot main window after a plain `ogre`.
 - LOCKED: the window was locked from its title-bar right-click menu. Reset unlocks it.
 - 'No other windows are open.' when there is nothing to reset.
@@ -4508,7 +4659,7 @@ One row per open window (this one is left out).
 
 ## After a Reset
 
-The off-screen SmartLoot window is back at its starting spot and the OFF-SCREEN badge is gone.
+SmartLoot, which was saved off-screen, is back at its starting spot.
 
 ![After Reset](../assets/windowreset/after-reset.png)
 
@@ -4582,7 +4733,7 @@ The Instance Controller (IC) runs a list of instanced zones for you, one after a
 | **Up** | Goes up one folder in the browse list and clears the selected file.<br>*Disabled at a root's top level.* |  |
 | **search** | Filters the browse list to files whose zone name or path contains the text. Not case-sensitive. It applies about 0.2 seconds after you stop typing.<br>*Not saved, so it clears when the extension reloads.* | empty |
 | **any variant / [Solo] / [Heroic] / ...** | Two jobs. (1) Hides files that do not have this variant. (2) Every zone you queue is tagged with this variant, which decides which instance the zone-in travels to. 'any variant (browse only)' turns the filter off and tags nothing. The choices are every variant found in the loaded zone files. Saved.<br>*With 'any', queuing a file that has 2+ variants pops up a pick-one menu at the row.* | any variant |
-| **Reload** | Re-reads every zone file from the three roots. Prints 'N zone(s) from M file(s) - X skipped, Y warning(s)'. The selected file is cleared if it no longer exists. A zone file with a problem (for example one that does not say how it leaves the zone) is not valid: it shows in the list in red, and clicking it says why (see Write your own zone files).<br>*A queued row whose file vanished fails with 'press Reload' when the row starts.* |  |
+| **Reload** | Re-reads every zone file from the content roots. Prints 'N zone(s) from M file(s) - X skipped, Y warning(s)'. The selected file is cleared if it no longer exists. A zone file with a problem (for example one that does not say how it leaves the zone) is not valid: it shows in the list in red, and clicking it says why (see Write your own zone files).<br>*A queued row whose file vanished fails with 'press Reload' when the row starts.* |  |
 
 
 
@@ -4958,6 +5109,8 @@ The top line shows the zone and a count. On the Monitor tab the count is how man
 | **Monitor** | Shows the Monitor tab: the log of what mobs cast. Display only - changes what you see, not what the bot does.<br>*The window always opens on this tab.* | shown |
 | **Watch list** | Shows the Watch list tab: the mobs and spells watched in this zone, and what the bot does about them. Display only - changes what you see, not what the bot does. |  |
 
+
+
 ## Monitor: what to log, Start and Stop
 
 Pick whose spells to log, then press Start. One of the three buttons is always lit. Your target and your target's target are logged in every choice.
@@ -4968,6 +5121,8 @@ Pick whose spells to log, then press Start. One of the three buttons is always l
 | **+ named NPCs nearby** | Also logs every named NPC within 100 meters of you. Their spells show the ability id but no name, unless that spell was once named from your cast bars.<br>*Changing this while the Monitor runs takes effect at once.* | off |
 | **+ every NPC nearby** | Also logs every NPC within 100 meters of you, named or not. Their spells show the ability id but no name, unless that spell was once named from your cast bars. | off |
 | **Start / Stop** | Start begins logging and the button turns into a red Stop. It checks four times a second and keeps going while you fight, zone or die, until you press Stop. Stop saves the log and stops; the list stays on screen.<br>*Closing the window stops it too (and saves the log), the same as `ogre end npccast`. It runs while OgreBot is closed or paused, and with NPC Cast Monitoring unticked.* |  |
+
+
 
 ## Monitor: the log
 
@@ -4981,6 +5136,8 @@ Under the log: whether the Monitor is running ('monitoring') or 'stopped', the t
 |---|---|
 | **Copy** | Puts the whole log on your clipboard as text, ready to paste: a line with the zone name, a line naming the columns, then one line per row (mob \| spell \| ability id \| cast time \| seen). The grey bar says how many lines were copied.<br>*Greyed out while the log is empty.* |
 | **Clear** | Empties the log for this zone, and its saved file too. Spell names already learned are kept.<br>*No confirmation and no undo. Greyed out while the log is empty.* |
+
+
 
 ## Watch list tab
 
@@ -5000,6 +5157,8 @@ On this tab the zone name is the name of the zone's list file. The counts on the
 | **label (optional) (box)** | A name you give the spell so you know what it is. Only shown in this window. Cleared after adding. | empty |
 | **Add by hand** | Adds the typed mob and spell number to your list for this zone. Nothing happens if the mob name or the number is empty.<br>*If that mob already has that spell in your list, nothing changes (the label is not updated).* |  |
 
+
+
 ## Watch list: zone settings and files
 
 | Control | What it does | Default |
@@ -5010,6 +5169,8 @@ On this tab the zone name is the name of the zone's list file. The counts on the
 | **Reload** | Reads the lists for the zone you are in again from disk. Use it after you edit a list file by hand. |  |
 | **Import Classic custom** | Copies the converted custom lists from OgreBot Classic into your own list folder. A zone you already have your own list for is skipped, never overwritten. The console says how many files were copied and skipped.<br>*This works even when NPC Cast Monitoring is turned off.* |  |
 | **Reset my edits** | Deletes your own list for this zone, so only the shipped list is left. Everything you added, removed or changed in this zone is gone, including the scan radius and the players setting.<br>*There is no confirmation and no undo.* |  |
+
+
 
 ## Watch list: messages
 
@@ -5027,6 +5188,8 @@ One block per mob. Under each mob is one row per spell. A yellow 'yours' tag mea
 | **label** | Opens a small editor right under this spell's row, with a box holding its current name. Type a new name and press Save. Cancel closes the editor without saving.<br>*Saving an empty box removes the name you gave it. A spell from the shipped list then shows its shipped name again.* |  |
 | **commands** | Opens a small editor right under this spell's row, with the commands the bot runs each time this mob starts this spell, one per line. The row shows how many commands are set and what they are.<br>*Commands only run while OgreBot is open and not paused.* |  |
 
+
+
 ## Watch list: editing a label or commands
 
 Pressing label or commands opens this editor under the spell's row.
@@ -5037,6 +5200,8 @@ Pressing label or commands opens this editor under the spell's row.
 | **Save** | Saves the editor's text into your own list for this zone and closes the editor. For commands, empty lines are skipped, and saving an empty box removes your commands; a spell from the shipped list then uses its shipped commands again. |
 | **Cancel** | Closes the editor. Nothing is saved. |
 | **remove** | Removes this spell from the mob. A spell from your own list is deleted. A shipped spell is switched off in your list.<br>*Removing the last spell of a mob you added removes that mob too. A mob from the shipped list stays watched.* |
+
+
 
 ## Watch list: footer
 
@@ -5396,6 +5561,8 @@ The strip across the top. The zoom, dim and height sliders change only what you 
 | **⚙ (gear, in the title bar)** | The same as the toolbar gear: opens and closes the settings drawer. |  |
 | **Title bar close (X)** | Turns the radar off and closes it and the Radar Types window. Same as `ogre end radar`. |  |
 
+
+
 ## The scope
 
 You are the white dot with the cyan ring in the middle; the cyan wedge shows which way you face. The rings mark a third, two thirds and all of the zoom distance. In the top right of the toolbar is the zone name.
@@ -5403,6 +5570,8 @@ You are the white dot with the cyan ring in the middle; the cyan wedge shows whi
 | Control | What it does |
 |---|---|
 | **Click a dot** | Targets that actor. It works while OgreBot is paused, and it takes priority over the bot's own targeting for that click.<br>*Dots stay clickable even when click-through is on. For 4 seconds the line at the top of the radar says what you targeted (name, level, distance, health, type), whether or not the readout is switched on.* |
+
+
 
 ## Settings - Display
 
@@ -5426,6 +5595,8 @@ Open with either gear. The drawer covers the radar; Close (at the bottom) or the
 | **auto-hide** | Turns clean mode on or off. In clean mode the title bar is removed and the toolbar fades out; hover the top-left corner of the radar to bring the controls back. See Clean mode below. | off |
 | **click-through** | When ON, your mouse clicks go through the radar to the game, except on the dots and the toolbar, which still work.<br>*If you get stuck, `ogre radar click off` gives the mouse back and `ogre radar settings` opens this drawer.* | off |
 
+
+
 ## Settings - Full screen
 
 | Control | What it does | Default |
@@ -5433,6 +5604,8 @@ Open with either gear. The drawer covers the radar; Close (at the bottom) or the
 | **Full screen: on / off** | Stretches the radar over the whole game screen, minus the offsets below. Turning it on also turns click-through on, so you can still play. Turning it off puts the window back where it was. | off |
 | **offsets px: top / right / bottom / left** | Pixels to leave free at each edge of the screen when full screen is on (for example to keep your hot bars clear).<br>*Typing a number does nothing until you press apply.* | 0 |
 | **apply** | Re-fits the full-screen radar using the offsets you typed.<br>*Only does something while full screen is on.* |  |
+
+
 
 ## Settings - Colours
 
@@ -5447,6 +5620,8 @@ One row per kind of thing (by type) and one per con colour. Click a swatch to op
 | **Picker: preset swatches** | Click one to use that colour. |
 | **Picker: done** | Closes the picker. The colour you picked stays. |
 
+
+
 ## Settings - Lists
 
 Each entry is part of a name and is matched without caring about capitals: 'darkpaw' matches 'a Darkpaw brute'. Saved lists are kept when you press Save. Temporary lists are never saved; they last until the game's UI reloads.
@@ -5460,6 +5635,8 @@ Each entry is part of a name and is matched without caring about capitals: 'dark
 | **name fragment, then Enter or Add (placeholder)** | Type part of a name. Enter does the same as Add. | empty |
 | **Add** | Adds the typed text to that list (skipped if it is already there). |  |
 | **✕ (remove entry)** | Removes that entry from the list. |  |
+
+
 
 ## Settings - Debug, Save and Reset
 
@@ -5481,6 +5658,8 @@ The report buttons print to the console, not the radar. They are for tracking do
 | **Reset all** | Puts every setting in the drawer back to the defaults, including zoom, dim, height, colours, the type choices and the saved lists (they are emptied). Nothing is written until you press Save.<br>*Close and reopen the radar without saving to get your saved settings back.* |  |
 | **Close** | Closes the drawer. Unsaved changes stay in effect until the radar closes. |  |
 
+
+
 ## Clean mode (auto-hide)
 
 With auto-hide on, the radar becomes a clean overlay: the title bar is gone (so no X, lock or ?) and the toolbar fades out. The space stays reserved at the top. A faint corner mark in the top-left shows where to point.
@@ -5489,6 +5668,8 @@ With auto-hide on, the radar becomes a clean overlay: the title bar is gone (so 
 |---|---|
 | **Hot corner (top-left)** | Point the mouse at the top-left corner of the radar (about 130 by 24 pixels) and the toolbar comes back. Move away and it fades again after a moment.<br>*The controls stay up while the settings drawer is open.* |
 | **? (beside the gear)** | Opens this help. It only appears in clean mode, because the title bar and its ? are gone. |
+
+
 
 ## What the window shows
 
@@ -5599,6 +5780,8 @@ The coloured dot on each button is the colour that kind is drawn in on the radar
 | **name** | The button turns name cutting on and off; while lit, every name on the radar is cut to the number in the box (5 to start). The number is kept while cutting is off. Saved like a type click. | off, 5 |
 | **Title bar close (X)** | Closes this window only. The radar keeps running. |  |
 
+
+
 ## What the window shows
 
 - A lit button means that kind is drawn on the radar; a dim one means it is hidden.
@@ -5612,7 +5795,7 @@ The coloured dot on each button is the colour that kind is drawn in on the radar
 
 ## Beside the radar
 
-![Radar Types next to the radar, with doors, resources, tradeskill and special turned off](../assets/eq2radarfilters/with-radar.png)
+![Radar Types next to the radar, with doors, resources, craft and special turned off](../assets/eq2radarfilters/with-radar.png)
 
 
 ---
@@ -5933,6 +6116,8 @@ Trains your Safe Fall skill for you. It targets you, mounts up, then repeats: fl
 | **Stop** | Stops training and stops the climb. You stay wherever you are (mounted or not).<br>*Dimmed, and does nothing, when nothing is running.* |  |
 | **Flight time (… ticks)** | How long each climb lasts, in ticks: 1 tick is 0.1 second, so 30 is 3 seconds (shown to the right). Allowed 5 to 600.<br>*A number outside 5 to 600 turns the box red and Start refuses. The box follows the running value until you type in it; empty it to hand it back.* | 30 ticks (3.0 s) |
 
+
+
 ## Status
 
 Read-only. It updates four times a second.
@@ -6004,6 +6189,8 @@ SmartLoot hands out drops from a Leader Only loot window. It decides who gets ea
 | **Revert** | Throws away every unsaved edit and reloads the caps and the character list from disk. Items added this session and empty character columns disappear.<br>*Greyed out when there are no unsaved changes. Also use it after you fix a damaged file (see the red banner).* |
 | **Save** | Saves only what changed: custom caps go to ItemLootCustomData.json, the character list goes to CharacterLootData.json. Your edits are combined with the file as it is now, so have-counts SmartLoot added while the window was open are kept. SmartLoot then starts using the new data right away.<br>*Greyed out when there is nothing to save. If a file cannot be read, it is not saved and the changes stay unsaved.* |
 
+
+
 ## Filters (what you see)
 
 | Control | What it does | Default |
@@ -6012,6 +6199,8 @@ SmartLoot hands out drops from a Leader Only loot window. It decides who gets ea
 | **Filter characters (name, *Team:X)…** | Hides character columns. Separate terms with commas. A term is part of a name, a saved for-who team as *Team:Name, or a bare team name. A column shows if any term matches. Display only.<br>*Typing here cancels the single-column view you get by clicking a name. An unknown team shows 'no team named "X"' in the info text. Teams come from the saved for-who groups.* | empty |
 | **My group only** | Toggle. Shows only the columns of characters in your current group (mercenaries excluded). When you are solo it shows just you. Display only.<br>*Highlighted when on. Info text says 'not grouped - showing you' when solo.* | off |
 | **Show all** | Clears the character filter box, turns off My group only, and clears a clicked-on single column. Display only.<br>*Does not clear the item filter box.* |  |
+
+
 
 ## Adding items
 
@@ -6023,6 +6212,8 @@ SmartLoot hands out drops from a Leader Only loot window. It decides who gets ea
 | **From inventory** | Adds a row for every distinct item in your bags. Items with no existing cap get Limit 1.<br>*Can add a lot of rows at once. Does nothing when you are not in the game world. The console shows 'add from inventory: N new item(s) of M in bags'.* |  |
 | **From examine** | Reads the item name from whichever EQ2 examine window is open and adds it as a row (Limit 1 if it has no cap).<br>*With no examine window open it adds nothing and the console shows 'add from examine: no examine window is open - open one (or type the name).'* |  |
 
+
+
 ## Who a change applies to, and characters
 
 | Control | What it does | Default |
@@ -6030,10 +6221,14 @@ SmartLoot hands out drops from a Leader Only loot window. It decides who gets ea
 | **That character** | A checkbox or have-count edit in a cell changes only that cell's character.<br>*This choice is not saved. It resets to That character every time the window opens.* | selected (on) |
 | **Whole group** | A cell checkbox or have-count edit is applied to every non-mercenary member of your current group, whichever column you clicked.<br>*If you are not in a group, nothing changes and the console says 'You are not in a group - nothing was changed.' Checking a box can add new columns for group members.* | off |
 | **Whole raid** | Same as Whole group, but for every non-mercenary raid member.<br>*If you are not in a raid, nothing changes.* | off |
-| **Everyone in the file** | A cell edit is applied to every character column the window knows. That is you, everyone in the loot file, and columns added this session.<br>*It ignores the column filters, so hidden columns are changed too.* | off |
+| **Everyone in the list** | A cell edit is applied to every character column the window knows. That is you, everyone in the loot file, and columns added this session.<br>*It ignores the column filters, so hidden columns are changed too.* | off |
 | **Add character…** | Text box for a character name. Pressing Enter does the same as + Character. | empty |
 | **+ Character** | Adds an empty column for the typed character. Nothing is marked as unsaved.<br>*An empty column is only saved once it has at least one checked item. Revert or reopen drops it. The same name in any letter case is treated as the same character.* |  |
+| **+ Group** | Adds an empty column for everyone in your group who does not have one yet (mercenaries left out). The number on the button is how many it would add. Nothing is marked as unsaved.<br>*Greyed out when nobody is missing. Solo, your group is just you. Like + Character, a new column is only saved once it has at least one checked item.* |  |
+| **+ Raid** | The same as + Group, for everyone in your raid.<br>*Greyed out when you are not in a raid, or when nobody is missing.* |  |
 | **Sync from inventory** | For your current character only: for every item that has a base or custom cap, if you hold it (bag stacks summed plus equipped copies), your have-count is set to that number and you are marked as collecting it. Items you do not hold are left alone.<br>*This also marks you as collecting every capped item you hold, including base-list items capped at Never, and the tooltip says so. It never lowers a count for an item you no longer hold.* |  |
+
+
 
 ## The grid
 
@@ -6052,6 +6247,8 @@ SmartLoot hands out drops from a Leader Only loot window. It decides who gets ea
 | **Number box (per character)** | How many of this item the character already has. It takes effect as you type. A negative number becomes 0. Follows the scope row.<br>*Hidden while the checkbox is off. It is ignored for characters who do not collect the item. SmartLoot adds 1 each time it gives the character this item.* | 0 |
 | **× (remove item)** | Removes the row. It deletes the custom cap and unmarks every character from collecting the item (their have-counts are lost on Save).<br>*A base cap from the shipped list (ItemLootData.json) stays, because that file is never changed. No confirmation.* |  |
 
+
+
 ## What the window shows
 
 - Title 'SmartLoot — X': X is the character this session is logged into. That column's header is highlighted and is always the first column.
@@ -6068,7 +6265,7 @@ SmartLoot hands out drops from a Leader Only loot window. It decides who gets ea
 
 - The × on a character column deletes that character's whole SmartLoot entry when you Save: every item they collect and every have-count. It is not a hide, and there is no confirmation.
 - The × on an item row unmarks every character from collecting that item. If the item is in the shipped base list, its base cap still applies.
-- The scope row (That character / Whole group / Whole raid / Everyone in the file) changes who every checkbox and have-count edit hits. It resets to 'That character' each time the window opens. 'Everyone in the file' also changes characters hidden by the column filters.
+- The scope row (That character / Whole group / Whole raid / Everyone in the list) changes who every checkbox and have-count edit hits. It resets to 'That character' each time the window opens. 'Everyone in the list' also changes characters hidden by the column filters.
 - A group or raid edit made while you are not grouped or not in a raid changes nothing. The only message is in the console.
 - The per-row Group and Raid buttons always act on your group or raid, whatever the scope row says.
 - Sync from inventory only updates the character this session is logged into. It also marks you as collecting every capped item you hold, and never lowers a count for an item you no longer have.
@@ -6203,6 +6400,8 @@ Merchant and Item are fixed - the tool only works with Barnaby and the Minor Lap
 | **Buy** | How many stones you want to be holding when each visit to Barnaby is done. The bot only buys the difference, so stones left over from the last round are used first. 1 to 800.<br>*Locked while a run is going. It is a total to hold, not an amount added every round.* | 60 |
 | **per visit, at most ... round(s)** | The hard stop: the most rounds one run will make. Each round is one visit to Barnaby. The run also stops earlier if the Transmuting skill is readable and capped. 1 to 500.<br>*If the skill cannot be read, the run cannot tell when you are capped and goes on until this limit.* | 20 |
 
+
+
 ## Start, Stop, Refresh
 
 | Control | What it does |
@@ -6211,6 +6410,8 @@ Merchant and Item are fixed - the tool only works with Barnaby and the Minor Lap
 | **Stop** | Stops the run straight away, even in the middle of buying, travelling or transmuting. It closes the Persona window and resumes OgreBot if it was running before you pressed Start.<br>*Only active while a run is going.* |
 | **Refresh** | Redraws the window with the latest numbers. It does not change anything, and it does not read the skill. |
 | **Title bar close (X)** | Stops a run that is going, then closes the window. The Persona window is closed and OgreBot resumes, as with Stop.<br>*The same as `ogre end leveltransmuting`. Stop stops the run and keeps the window open.* |
+
+
 
 ## When the skill cannot be read
 
@@ -6292,6 +6493,8 @@ One row per group member (not you). A member on a different step shows the first
 | **Compare again** | Asks the group to compare the quest shown at the top again, right now.<br>*Greyed out until something has been compared once, and while a compare is still waiting for answers.* |  |
 | **Legend** | Shows or hides the icon legend over the window. Click anywhere on the legend to close it. |  |
 | **Title bar close (X)** | Closes the window. Auto compare keeps working and will reopen the window if it finds a problem. |  |
+
+
 
 ## Legend - what the icons mean
 
@@ -6736,7 +6939,7 @@ One row per (Master) scroll found: the scroll, the Grandmaster recipe it becomes
 
 ![A fresh window](../assets/craftgm/empty.png)
 
-The Scroll Depot box only appears once the depot switch is on.
+The grey Scroll Depot box only appears once a Scan or Start has run with **Also pull from Scroll Depot** ticked.
 
 
 ---
@@ -6889,12 +7092,16 @@ A team group is a name for a set of characters. Once you make a group called Rai
 | **Print to console** | Prints every group, how many characters it has and their names to the console, plus where the file is.<br>*It prints the SAVED groups. Edits you have not saved yet do not show up.* |
 | **Sync all sessions** | Re-reads the groups file in this session and tells every other session on this PC to re-read it too. The list in this window is reloaded as well. Use it after you edit the file by hand. Saving from this window already does this for you.<br>*With unsaved changes it refuses (red message): Save or Discard them first.* |
 
+
+
 ## Create and rename
 
 | Control | What it does | Default |
 |---|---|---|
 | **new group name** | Type a group name here, then press Enter or Create group. Also where you type the new name before pressing Rename on a group.<br>*Letters, digits, - and _ only. No spaces. Case does not matter: Raid1 and raid1 are the same group.* | empty |
 | **Create group** | Adds a new, empty group with the name in the box. An empty group selects nobody until you add characters.<br>*Refused, with a red message, if the name has a bad character or a group with that name already exists.* |  |
+
+
 
 ## A group
 
@@ -6907,6 +7114,8 @@ Each group has a header row and, when unfolded, its list of characters.
 | **Delete** | Removes the whole group. There is no confirmation, but nothing is final until you press Save; Discard changes brings it back. |  |
 | **Remove** | Takes that character out of the group. |  |
 
+
+
 ## Adding characters
 
 The add row sits at the bottom of each unfolded group.
@@ -6918,6 +7127,8 @@ The add row sits at the bottom of each unfolded group.
 | **Add my Group (n)** | Adds everyone in your current group, including you, to this group. The number is how many are in your group right now. Nobody already in the list is removed, and the message counts only the names that were new.<br>*Shows whenever you are in the world, even on your own: then it reads (1) and adds just you. The number updates by itself as people join or leave.* |  |
 | **Add my Raid (n)** | Adds everyone in your raid, including you, to this group. Nobody already in the list is removed, and the message counts only the names that were new.<br>*Only shows while you are in a raid.* |  |
 
+
+
 ## Save and Discard
 
 Everything you do in this window is only a draft until you press Save. Until then your groups keep working exactly as they were saved.
@@ -6926,6 +7137,8 @@ Everything you do in this window is only a draft until you press Save. Until the
 |---|---|
 | **Save** | Writes your groups to the shared file, and every session on this PC starts using them straight away.<br>*Greyed out when there is nothing to save.* |
 | **Discard changes** | Throws away every unsaved edit and shows the groups as they were last saved.<br>*Greyed out when there is nothing to discard.* |
+
+
 
 ## Closing with unsaved changes
 
@@ -6937,6 +7150,8 @@ If you press the X in the title bar while there are unsaved changes, the window 
 | **Save & close** | Saves your changes, then closes the window.<br>*If the save fails, the window stays open with your changes and a red message saying why.* |
 | **Close without saving** | Throws away your unsaved changes and closes the window. |
 | **Keep editing** | Hides the question and leaves the window open with your changes still there. |
+
+
 
 ## What the window shows
 
@@ -7146,7 +7361,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > **What you can do here**
 >
 > - **Run tab** - Look shows in the console what a mode would do; Run starts it. While something runs, Run becomes Queue.
-> - **Sell list / Destroy list** - double-click a left row to add it; right-click a right row to remove it.
+> - **Sell list / Destroy list** - double-click a left row to add it; click a right row, then right-click it to remove it.
 > - **TSE, Depot, Restock** - saved options for those modes. Depot saves only when you press Save.
 > - **Trade** - queue items for nearby players, then Run the queue.
 > - **Stop** stops the work; **Close** only closes the window. The X (or `ogre end im`) does both.
@@ -7176,6 +7391,8 @@ The tabs only change what you see. The dot and word on the right say whether IM 
 | **Never** | Hides the log strip for good. Saved. Use the Log button to get the setting back. | off |
 | **Clear it** | Empties the activity log. |  |
 
+
+
 ## Run tab - the modes
 
 One row per mode. Look prints what the mode would do in the console and changes nothing. Run starts it. While anything is running, every Run turns into Queue and every Look greys out (see the second picture).
@@ -7195,6 +7412,8 @@ One row per mode. Look prints what the mode would do in the console and changes 
 | **Run (quiver)** | Fills your equipped quiver or pouch with ammo from your bags, then from the Ammo Depot. |
 | **Queue (any mode, while something runs)** | Adds that mode to the waiting line. Queued modes run one after another, in the order you clicked, when the current one finishes. A dot or ×2 beside the mode name shows it is waiting.<br>*Look buttons stay greyed out until everything has finished.* |
 
+
+
 ## Run tab - Right now
 
 Read-only. Window says whether IM counts its window as open. Doing names the running mode (or idle). Detail shows that mode's current step. Queued (only when something is waiting) lists the modes still to come, in order.
@@ -7208,8 +7427,10 @@ Left: what the open merchant would buy from you (green = already on your sell li
 | **type to filter… (left)** | Hides left-hand rows whose name does not contain the text. Not case-sensitive. Display only. | empty |
 | **Double-click a left row** | Adds that item to the sell list (or destroy list on the Destroy tab) and saves it. The row turns green.<br>*Adding an item that is already there does nothing.* |  |
 | **type to filter… (right)** | Hides right-hand rows whose name does not contain the text. Display only. | empty |
-| **Right-click a right row** | Removes that item from the list and saves it. |  |
+| **Click a right row, then right-click it** | Removes that item from the list and saves it.<br>*Right-clicking a row that is not selected only selects it, so a stray right-click never removes anything.* |  |
 | **Re-open merchant** | Reads the merchant again and refills the left list. If no merchant window is open it opens one within reach first (your last one, your target, or the nearest). Either way it then closes the merchant window.<br>*It closes the merchant window even if you opened it yourself. If no merchant is within reach it says so in the console and the list is left as it was.* |  |
+
+
 
 ## Destroy list tab
 
@@ -7222,6 +7443,8 @@ Same two lists as the Sell tab: left is what is in your bags, right is your save
 | **Harvest** | Also use items in your Harvest bag, for the list and the run. Saved. | off |
 | **Shared TS** | Also use items in your Shared Tradeskill bag, for the list and the run. Saved. | off |
 | **Refresh** | Re-reads your bags and rebuilds the left list. |  |
+
+
 
 ## TSE tab
 
@@ -7242,6 +7465,8 @@ Everything here is saved, and a plain `ogre im tse` (or Run tse) uses it. Option
 | **Overseer / Harvest** | Lets TSE also use items in your Overseer bag or your Harvest bag. Each box is for its own bag. | off |
 | **Shared TS** | Lets TSE also look in your Shared Tradeskill bag. That bag holds crafting materials, so it rarely has anything TSE can use. | off |
 
+
+
 ## Depot tab
 
 This builds the depot line a plain `ogre im depot` (and Run depot, and the -depot step of a chain) uses. Nothing is sent until you press Save; the line under 'The line this sends' shows what Save will store.
@@ -7260,6 +7485,8 @@ This builds the depot line a plain `ogre im depot` (and Run depot, and the -depo
 | **Back to saved** | Throws away your unsaved ticks and shows the saved line again. |  |
 | **Save** | Saves the line shown above. From now on Run depot, `ogre im depot` and the -depot chain step use it.<br>*Greyed out when no depot is ticked, no container size is ticked, or a ticked depot has nothing it could take (no tier, no All, and no item box that depot accepts - a red note says which).* |  |
 
+
+
 ## Restock tab
 
 A profile is a list of items with a target amount. Rows that do not apply to this character (by For who) are dimmed. Changes save as you make them.
@@ -7271,10 +7498,16 @@ A profile is a list of items with a target amount. Rows that do not apply to thi
 | **Run this profile** | Pulls items from your depots until you hold each row's target (only the rows meant for this character). Never buys.<br>*Greyed out while IM is running something.* |  |
 | **Target** | How many of that item to hold. Saved when you leave the box or press Enter. 0 removes the row. |  |
 | **For who** | Which characters this row is for: all, a name, @Scout1, a class word such as priests, *Team:Name and so on. Saved when you leave the box or press Enter. Other characters skip the row. | all |
+| **▾ (beside For who)** | Opens a short list to pick from: All, Fighter, Mage, Priest, Scout, G1 to G4. Picking one fills the box and saves it. |  |
 | **× (Drop)** | Removes that row from the profile and saves. |  |
 | **item name…** | The exact name of the item for a new row. | empty |
+| **From examine** | Fills the name in from the item examine window you have open. |  |
 | **Amount (next to item name)** | The target for the new row. | 1 |
-| **Add** | Adds the row (for 'all') to the profile shown and saves. If the item is already there, its target is replaced. |  |
+| **for who: all** | Who the new row is for: all, a name, or a class such as fighter. Empty means all. | empty (all) |
+| **▾ (beside for who: all)** | The same short list. Picking one fills the box; nothing is saved until you press Add. |  |
+| **Add** | Adds the row to the profile shown and saves, for the characters in the for who box. If the item is already there, its target is replaced. |  |
+
+
 
 ## Trade tab
 
@@ -7289,14 +7522,20 @@ A list of hand-overs: which item, how many, to whom. The list lives only until t
 | **player…** | Who gets the item. | empty |
 | **qty or all** | How many to hand over. Empty or 'all' means every one you have. | empty (all) |
 | **item name…** | The item to hand over. | empty |
+| **From examine** | Fills the name in from the item examine window you have open. |  |
 | **Queue it** | Adds the entry to the end of the list. Needs a player and an item. |  |
+
+
 
 ## Quiver tab
 
 | Control | What it does | Default |
 |---|---|---|
 | **Arrows (bow) / Bolts (crossbow) / Throwing (shuriken)** | The ammo name to refill with. Filling the quiver uses the ammo already in your quiver first, then this name, then the built-in name shown in grey. | empty (built-in name) |
+| **Examine** | Sets that kind of ammo to the item in the examine window you have open. |  |
 | **Fill the quiver** | Fills your equipped quiver or pouch with ammo from your bags first, then from the Ammo Depot. The kind of ammo follows your ranged weapon and what is already in the quiver. |  |
+
+
 
 ## Button row and closing
 
@@ -7307,6 +7546,8 @@ A list of hand-overs: which item, how many, to whom. The list lives only until t
 | **Help in console** | Prints the list of `ogre im` commands in the console. |
 | **Close** | Closes the window. A mode that is running keeps running. Cancels a pending -end, and closes a merchant window IM left open.<br>*To stop the work and close, use `ogre end im`.* |
 | **Title bar close (X)** | Stops the work and closes the window, the same as `ogre end im`. Also cancels a pending -end and closes a merchant window IM left open. |
+
+
 
 ## What the window shows
 
@@ -7384,11 +7625,11 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - Closing the window loses unsaved changes without asking.
 > - Closing the window also stops a run in progress, the same as `ogre end taskrunner`. `ogre taskrunner stop` stops it and leaves the window open.
 
-**Open it:** Type `ogre taskrunner panel` (or `ogre tr panel`). `ogretaskrunner panel`, `gui` or `config` also open it.
+**Open it:** Type `ogre taskrunner panel` (or `ogre tr panel`). `ogre taskrunner gui` and `ogre taskrunner config` also open it.
 
 ## What it is for
 
-TaskRunner logs your characters in one after another and does their timed chores, such as the Artisan's Pack Pony and the Goblin House Plant. This window builds the named lists it works through. Pick characters from the ones you have a stored login for, put them in a list, and choose which chores each one does. Then run a list in one session with `ogre taskrunner run <list>`. Nothing is written until you press Save.
+TaskRunner logs your characters in one after another and does their timed chores, such as the Artisan's Pack Pony and the Goblin House Plant. This window builds the named lists it works through. Pick characters from the ones you have a stored login for, put them in a list, and choose which chores each one does. Then press Run, or type `ogre taskrunner run <list>`, to run the list on this session. Nothing is written until you press Save.
 
 ## Header
 
@@ -7396,17 +7637,47 @@ TaskRunner logs your characters in one after another and does their timed chores
 |---|---|
 | **Refresh roster** | Reads your stored logins again, so characters you have added since the window opened show up on the left.<br>*Your unsaved list edits are kept.* |
 
+
+
 ## Lists
 
-Each list name is a button showing how many characters are in it. The highlighted one is the list you are editing.
+The box at the top picks the list you are editing. The buttons beside it act on that list.
 
 | Control | What it does | Default |
 |---|---|---|
-| **<list name> (list button)** | Picks which list you are editing on the right. | the first list |
-| **new list name (placeholder)** | Type a name here for Add list or Rename. Pressing Enter does the same as Add list.<br>*One word, no spaces or quotes, up to 40 characters: you type it after `ogre taskrunner run`.* | empty |
-| **Add list** | Makes a new, empty list with the typed name and selects it.<br>*A name that is already used (in any letter case) is refused with a red message.* |  |
-| **Rename** | Renames the selected list to the name typed in the box.<br>*Does nothing if the box is empty.* |  |
+| **List: (box)** | Click the box and type to find a list. Lists are in alphabetical order, each with how many characters it holds. Pick one to edit it. Type a name that is not a list yet and pick + New list, or press Enter, to make it. | the first list |
+| **New** | Opens a name box under the row. Type the new list's name and press OK. The list starts empty.<br>*One word, no spaces or quotes, up to 40 characters: you type it after `ogre taskrunner run`. A name that is already used (in any letter case) is refused with a red message.* |  |
+| **Duplicate** | Copies the selected list to a new name: its members, their order and its run mode. The name box opens with a free name filled in. The copy becomes the selected list. |  |
+| **Rename** | Opens the name box with the selected list's name, to rename it. |  |
+| **Name box (OK / Cancel)** | Shown by New, Duplicate and Rename. Enter does the same as OK, Escape the same as Cancel. |  |
 | **Delete** | Deletes the selected list. The characters keep their chore choices.<br>*No confirmation, but nothing is written until Save; Discard brings it back.* |  |
+
+
+
+## Run and Stop
+
+At the right of the list row. While a list runs, the status here says which character and which chore it is on, and the footer shows the last result.
+
+| Control | What it does |
+|---|---|
+| **Run <list>** | Starts the selected list on this session, using its When run choice and the Stagger start option.<br>*Run uses the saved lists: with unsaved changes it refuses and tells you to save first.* |
+| **Stop** | Shown while a list runs. Stops the run and leaves the character where it is. |
+
+
+
+## Run options
+
+One row for the whole run, then one row per chore. These are for every list, and Save writes them like everything else.
+
+| Control | What it does | Default |
+|---|---|---|
+| **Stagger start (30s per session)** | Each session waits before its first login: is1 at once, is2 after 30 seconds, is3 after 60, and so on. Leave it on when one command starts lists on every session, or the server turns some logins away.<br>*`nostagger` or `stagger` after `ogre taskrunner run <list>` overrides this for that run.* | on |
+| **Guild hall first** | The chore only runs in a guild hall or a house. A character that logged out anywhere else travels to the guild hall first. | on for Pack Pony, off for the others |
+| **Harvest depot after** | Afterwards, puts all harvests into the nearest harvest depot. Needs a depot near where the chore runs. | on for Pack Pony, off for the others |
+| **Destroy list after depot** | After the harvest depot, destroys the items on your IM destroy list: the excess the depot would not take. It only runs with Harvest depot after on, and only when the depot finished. | off |
+| **Bushels: <choice>** | Only on the Plant row. The harvest gives a bushel: leave it packed, take the latest reward (a new expansion is picked up on its own), or take a chosen reward number.<br>*A bushel is lore, so the plant is never harvested while one is still in the bags. With Do not unpack that character skips the plant until you unpack it.* | latest reward |
+
+
 
 ## Your characters (left side)
 
@@ -7416,18 +7687,23 @@ Every character you have a stored login for, with its account and server. 'in 2'
 |---|---|---|
 | **All toons** | Shows every character in one alphabetical list. Display only. | on |
 | **By account** | Groups the characters under their accounts. Display only. | off |
+| **search characters or accounts...** | Narrows the left side to characters or accounts whose name contains the text. | empty |
 | **Click a character** | Adds that character to the end of the selected list. A character new to TaskRunner starts with every chore turned on.<br>*A character already in the list gets a red 'already in' message. With no list yet you are told to make one first.* |  |
 | **Click an account (By account view)** | Opens the account to show its characters. Click again to close it. Display only. | all closed |
-| **Add all** | Adds every character on that account to the selected list. Characters already in it are skipped.<br>*Only shown on an opened account.* |  |
+| **Add all** | Adds every character on that account to the selected list. Characters already in it are skipped. Right-clicking an account does the same, from any account, open or not.<br>*The button is only shown on an opened account.* |  |
+
+
 
 ## How the list runs, and chores for everyone
 
-| Control | What it does | Default |
-|---|---|---|
-| **Keep looping** | When this list runs, it keeps going: it does everything due, then waits and picks up chores as they come due again. For leaving it on overnight. |  |
-| **One pass** | When this list runs, it does what is due right now for each character, then stops. |  |
-| **Default (loop) / Default (once)** | The list follows the general TaskRunner setting. The word in brackets is what that setting is now.<br>*Typing `ogre taskrunner run <list> once` or `... loop` still overrides this for that run.* | selected (the shipped setting is loop) |
-| **<chore> (Everyone in <list>: row)** | Gives that chore to every character in the list. If everyone already has it (lit up), a click takes it away from everyone instead. 'partial' means only some have it.<br>*The message line says how many characters actually changed.* |  |
+| Control | What it does |
+|---|---|
+| **Keep looping** | When this list runs, it keeps going: it does everything due, then waits and picks up chores as they come due again. For leaving it on overnight.<br>*A list that has never chosen lights what the general TaskRunner setting says (shipped: Keep looping). Typing `ogre taskrunner run <list> once` or `... loop` overrides the choice for that run.* |
+| **One pass** | When this list runs, it does what is due right now for each character, then stops. |
+| **<chore> (Everyone in <list>: row)** | Gives that chore to every character in the list. If everyone already has it (lit up), a click takes it away from everyone instead. 'partial' means only some have it.<br>*The message line says how many characters actually changed.* |
+| **Clear errors (N)** | Shown when characters in this list have chores in error. Clears every error in the list, and those chores run again when next due. |
+
+
 
 ## List members (right side)
 
@@ -7436,10 +7712,12 @@ The characters in the selected list, in the order they are logged in.
 | Control | What it does | Default |
 |---|---|---|
 | **<chore> (on a character row)** | Turns that chore on (lit up) or off for just this character.<br>*A character's chores are the same in every list they are in.* | on for a newly added character |
-| **▲** | Moves the character one place earlier in the login order. |  |
-| **▼** | Moves the character one place later in the login order. |  |
+| **Drag a row** | Moves the character to a new place in the login order. Press on the row itself, not on one of its buttons. |  |
+| **! and ↺ (beside a chore)** | A red ! means that chore failed for this character. Click it to read why. The arrow beside it clears the error, and the chore runs again when next due.<br>*A character that cannot do a chore at all stays in error until you clear it. `ogre taskrunner clear <name>` does the same.* |  |
 | **Remove** | Takes the character out of this list. Their chore choices are kept in case you add them again. |  |
-| **Tidy** | Forgets the chore choices of characters that are no longer in any list.<br>*Nothing is written until Save.* |  |
+| **Tidy** | Forgets the chore choices of characters that are no longer in any list. The button sits at the top right of this side.<br>*Nothing is written until Save.* |  |
+
+
 
 ## Warnings, messages, Save and Discard
 
@@ -7449,15 +7727,19 @@ The characters in the selected list, in the order they are logged in.
 | **Discard** | Throws away every unsaved change and reads the lists again from the files on disk (so a hand edit made while the window was open shows up). |
 | **Title bar close (X)** | Closes the window and stops a run in progress (the same as `ogre end taskrunner`). Unsaved changes are lost: opening it again reads the saved lists.<br>*There is no 'unsaved changes' prompt.* |
 
+
+
 ## What the window shows
 
-- List buttons: the list name and how many characters are in it. The highlighted one is being edited.
+- List box: the selected list, with how many lists you have beside it. In its drop-down, each list shows how many characters it holds.
 - Left side: your characters with account and server. 'in N' = in N lists already (row dimmed). A yellow 'dup' = that name is on more than one account, and TaskRunner cannot tell which one you mean.
 - Right side heading: the list name, how many characters, and 'run order' - characters are logged in top to bottom.
 - Character row badges: yellow 'also in N' = the character is in other lists too (hover to see which). Red 'no login' = there is no stored login for that name, so TaskRunner cannot log it in.
-- Chore buttons: lit up (the theme colour, green by default) = the character does that chore, plain = it does not. Each button shows the chore's name, e.g. Artisan's Pack Pony and Goblin House Plant (the shipped ones).
-- Yellow warnings above the footer: a character in two lists, an empty list, a character with no stored login, or a character with every chore turned off.
+- Chore buttons: lit up (the theme colour, green by default) = the character does that chore, plain = it does not. Each button shows the chore's name; Pack Pony, Overseer and Plant are the shipped ones.
+- Beside a chore that is on: the time until it can run again, or 'due'. Overseer never logs a character in by itself, so it can wait at 'next login' until another chore does.
+- Yellow warnings above the footer: a character in two lists, an empty list, a character with no stored login, or a character with every chore turned off. They fold into one line; click it to open or close them.
 - The message line: green for what your last click did, red when it was refused and why.
+- Minimized: one line with what the run is doing, a Stop or Run button, and Expand.
 
 ## Good to know
 
@@ -7476,7 +7758,7 @@ Click **By account**, then click an account to open it. **Add all** puts every c
 
 ![No lists yet](../assets/trlists/empty.png)
 
-Type a name in the box and press **Add list**, then click characters on the left to fill it.
+Type a name in the List box and press Enter (or use **New**), then click characters on the left to fill it.
 
 
 ---
@@ -7500,21 +7782,21 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > **Good to know**
 >
 > - Names must match exactly: "Wanderer" will not find "The Wanderer". Find is silent in a guild hall.
-> - Closing the window does not stop either tool. Set them back to idle, or type `ogre end find` / `ogre end trackshiny`.
+> - Closing the window stops both tools, the same as `ogre end watcher`. To stop only one, click its pill, or type `ogre end find` / `ogre end trackshiny`.
 > - Open this window with `ogre watcher`.
 
 **Open it:** Type `ogre watcher`. `ogre find -panel` and `ogre trackshiny -panel` open the same window.
 
 ## What it is for
 
-The Watcher has two small tools in one window. **Find** watches for named creatures or NPCs: when one on your list appears in your zone, you get a message, an in-game waypoint on it, and every other session is told. **Track Shiny** looks for a shiny (a harvestable collectible) of one colour within 100 metres of you and does the same when a new one shows up. Both keep working after you close the window.
+The Watcher has two small tools in one window. **Find** watches for named creatures or NPCs: when one on your list appears in your zone, you get a message, an alarm sound, an in-game waypoint on it, and every other session is told. **Track Shiny** looks for a shiny (a harvestable collectible) of one colour anywhere in your zone and does the same when a new one shows up, with a ding on every session instead of the alarm. Neither needs the window to be open, but closing it with the X ends both.
 
 ## Header
 
 | Control | What it does |
 |---|---|
 | **Clear log** | Empties the Hits list below. It does not change the watch list or turn anything off. |
-| **Title bar close (X)** | Ends the Watcher (the same as `ogre end watcher`): Find and Track Shiny both stop, and the window closes.<br>*To keep one watching without the window, end only the other: `ogre end find` or `ogre end trackshiny`.* |
+| **Title bar close (X)** | Ends the Watcher (the same as `ogre end watcher`): Find and Track Shiny both stop, and the window closes.<br>*To stop only one, click its pill, or type `ogre end find` or `ogre end trackshiny`. The window stays open.* |
 
 
 
@@ -7524,7 +7806,7 @@ Names must match the whole name exactly (capital letters do not matter). "Wander
 
 | Control | What it does | Default |
 |---|---|---|
-| **idle / armed (pill next to Find)** | Turns Find on or off. When you turn it on it also checks the zone once for anything already on your list. While on, a listed name that appears gets a message, a waypoint and a note to your other sessions; one that leaves gets a DISAPPEARED line.<br>*With an empty list it stays idle and the console says "nothing to watch - add a name first". The on/off choice is remembered after a restart.* | idle |
+| **idle / armed (pill next to Find)** | Turns Find on or off. When you turn it on it also checks the zone once for anything already on your list. While on, a listed name that appears gets a message, a waypoint, a note to your other sessions and an alarm sound; one that leaves gets a DISAPPEARED line and the same alarm. The alarm plays on the session that saw it.<br>*With an empty list it stays idle and the console says "nothing to watch - add a name first". The on/off choice is remembered after a restart.* | idle |
 | **Actor name (exact)... (placeholder)** | Type a creature or NPC name to watch. Pressing Enter does the same as Add. | empty |
 | **Add** | Adds the typed name to the watch list. It does not turn Find on.<br>*A name already on the list is not added twice.* |  |
 | **+ -rorr preset** | Adds the four Renewal of Ro researchers (the NPCs that upgrade your epic abilities): The Wanderer, Filowen Curetouch, Angrus Silentfang and Balkot Stonefury.<br>*Only names not already on the list are added. It does not turn Find on.* |  |
@@ -7545,7 +7827,7 @@ Names must match the whole name exactly (capital letters do not matter). "Wander
 
 | Control | What it does | Default |
 |---|---|---|
-| **idle / armed (pill next to Track Shiny)** | Turns Track Shiny on or off. While on, it looks around you (100 metres) every half second for a shiny of the chosen colour. When it finds a new one it adds a line to Hits, puts a waypoint on it and tells your other sessions. The same shiny is only reported once. The on/off choice is remembered after a restart. | idle |
+| **idle / armed (pill next to Track Shiny)** | Turns Track Shiny on or off. While on, it looks through the whole zone every half second for a shiny of the chosen colour, nearest first. When it finds a new one it adds a line to Hits, puts a waypoint on it and tells your other sessions, and every session dings. The same shiny is only reported once. The on/off choice is remembered after a restart. | idle |
 | **Colour (White / Green / Purple / Red / BlueShimmer / Blue buttons)** | Which shiny colour to look for. Click a colour; the lit one is in use.<br>*Changing the colour clears Last seen. It does not turn tracking on.* | Purple |
 
 
@@ -7562,10 +7844,9 @@ Names must match the whole name exactly (capital letters do not matter). "Wander
 
 - Find names must match exactly. "Wanderer" does not find "The Wanderer".
 - Find alerts are silenced while you are in a guild hall. Scan now still works there.
-- Closing the window does not stop anything. Set both pills to idle to stop watching, or type `ogre end find` / `ogre end trackshiny`. Opening it again while it is already open does nothing.
+- Closing the window with the X stops Find and Track Shiny, the same as `ogre end watcher`. To stop only one, click its pill, or type `ogre end find` / `ogre end trackshiny`. Opening the window while it is already open does nothing.
 - The watch list, colour and on/off choices are saved and come back after a restart. The Hits list is not saved.
 - Typing `ogre find <name>` in the console REPLACES the whole watch list with that name and turns Find on. Use the Add box to add a name instead.
-- Track Shiny only looks 100 metres around you.
 
 ## First open
 
@@ -7802,8 +8083,10 @@ Next to the tabs: the zone, scan progress while a scan runs, and the number of s
 | Control | What it does | Default |
 |---|---|---|
 | **Monitor / Scan / Events / Sessions** | Switches the page shown.<br>*The window remembers the tab while the game is running.* | Monitor |
-| **filter… (placeholder)** | Narrows what is listed: on Monitor it filters the Members list by name, on Scan the results by name or type, on Events the log lines. Not case-sensitive. Display only.<br>*Does not filter the Actors or Timestamps lists.* | empty |
+| **filter… (placeholder)** | Narrows what is listed: on Monitor it filters the Members list by name, on Scan the results by name or type. Not case-sensitive. Display only.<br>*Does not filter the Actors or Timestamps lists. On the Events tab this box is hidden: Search the log does the same job there.* | empty |
 | **Title bar close (X)** | Closes the window and stops everything it was doing: monitoring and the event logs go off, and a scan in progress, a + Cursor countdown and 'Add new spawns that match' stop. What was recorded is kept.<br>*The same as `ogre end analysis`.* |  |
+
+
 
 ## Monitor - buttons
 
@@ -7818,6 +8101,8 @@ Next to the tabs: the zone, scan progress while a scan runs, and the number of s
 | **x on an actor row** | Stops watching just that actor. What was recorded for it is dropped with it. |  |
 | **Clear all** | Removes every actor from the Actors list, with everything recorded for them.<br>*No confirmation. Export on the Sessions tab first if you want to keep it.* |  |
 
+
+
 ## Monitor - the four lists
 
 Work from left to right: pick an actor, then a detail or a moment.
@@ -7828,6 +8113,8 @@ Work from left to right: pick an actor, then a detail or a moment.
 | **Click a detail (Members list)** | Shows every value that detail has had, with the time, in the History list. |
 | **Click a moment (Timestamps list)** | Fills 'What else changed at that instant' with every detail that changed at that moment. This is the main use of the tool - for example, what the NPC's animation and target were when it started a cast. |
 | **Right-click an actor or any line** | Copy this line; on an actor, Stop watching it. |
+
+
 
 ## Scan
 
@@ -7856,19 +8143,23 @@ Takes a snapshot of every actor that matches your terms - over 80 details each. 
 | **Stop comparing** | Goes back from a comparison to the selected result's details. |  |
 | **Right-click a result or a detail** | Copy this line, Copy all its details (every detail of that result, one per line), Monitor it, or Remove from the results. |  |
 
+
+
 ## Events
 
 Seven logs of game events: announce (big on-screen messages), despawn, spawn, choice (choice-window text), reward (reward-window text), text (incoming text such as combat lines) and chat (chat lines, with speaker and channel). Each keeps its last 2000 lines.
 
 | Control | What it does | Default |
 |---|---|---|
-| **Taps: ON / Taps: off** | Switches the event logs on and off. It reads 'Taps: ON' while they are recording. | off (the button still says ON) |
+| **Taps: ON / Taps: off** | Switches the event logs on and off. It reads 'Taps: ON' while they are recording. | off |
 | **announce / despawn / spawn / choice / reward / text / chat (n)** | Picks which log is shown below. The number is how many lines it holds. | announce |
 | **Search the log** | Shows only the recorded lines that contain what you type (any case), searching everything already recorded in the log shown - use it any time, after the fact. The count beside it says how many lines match.<br>*The same search as the filter box at the top of the other tabs (that box is hidden on this tab).* | empty |
 | **Record only lines containing + Add** | From now on, a NEW line is recorded only if it contains one of these words (any case). It works before the fact: lines already in the log are not touched. Applies to all seven logs.<br>*Lines already recorded are not removed.* | none (everything is recorded) |
 | **× (on a filter)** | Removes that filter. |  |
 | **Clear log** | Empties the log that is shown. The other logs are kept. |  |
 | **Right-click a line** | Copy this line, or Copy all the lines shown (the log shown, with the search applied). |  |
+
+
 
 ## Sessions
 
@@ -7877,6 +8168,8 @@ Seven logs of game events: announce (big on-screen messages), despawn, spawn, ch
 | **name (blank = timestamped) (placeholder)** | The name to save under. Leave blank for a name like session_2026-09-27_201455. | empty |
 | **Export** | Saves the monitored actors (with everything recorded) and the scan results to a file in OgreSave/EQ2/Analysis.<br>*The event logs are not saved. A file with the same name is overwritten.* |  |
 | **Click a saved session** | Loads that file. It REPLACES the monitored actors and scan results you have now, and turns monitoring off.<br>*No confirmation - export first if you want to keep what is on screen.* |  |
+
+
 
 ## What the window shows
 
@@ -7918,7 +8211,7 @@ With no terms the Scan button turns red:
 
 ### Console commands
 
-`ogreanalysis` also takes words for things the window cannot do: `monitor remove <id>`, `monitor list`, `taps on|off`, `rate <ms>`, `status`, `sessions`, `import <name>`.
+`ogre analysis` also takes words for things the window cannot do: `monitor remove <id>`, `monitor list`, `taps on|off`, `rate <ms>`, `status`, `sessions`, `import <name>`.
 
 
 ---
@@ -8035,7 +8328,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 
 ## What it is for
 
-A performance window. The bot does its work in small steps, once every frame the game draws. A few big jobs - scanning a UI window, scanning all the actors for Analysis, walking a recipe book, walking the ability-upgrade list - would freeze the game for a moment if done in one go, so they are spread over several frames. This window shows how much time each of those jobs may take per frame, and how much time each part of the bot is really using. Most players never need to touch it. If the game stutters while one of these jobs runs, lower that job's slice; if a job takes too long and your PC has room to spare, raise it.
+A performance window. The bot does its work in small steps, once every frame the game draws. A few big jobs - planning a route, scanning all the actors for Analysis, walking a recipe book, walking the ability-upgrade list - would freeze the game for a moment if done in one go, so they are spread over several frames. This window shows how much time each of those jobs may take per frame, and how much time each part of the bot is really using. Most players never need to touch it. If the game stutters while one of these jobs runs, lower that job's slice; if a job takes too long and your PC has room to spare, raise it.
 
 ## Top row
 
@@ -8057,7 +8350,7 @@ One row per job that can be spread over frames. A job only appears after it has 
 
 | Control | What it does | Default |
 |---|---|---|
-| **Slice µs/f (the box on each row)** | How long that job may run each frame, in microseconds, before it pauses and carries on in the next frame. 0 = run the whole job in one frame. Saved when you press Enter or click away.<br>*On an '(idle)' row the new slice is saved and handed to that job the first time it runs.* | craft: recipe scan 1500, analysis: actor scan 1000, abilityupgrades: row walk 1000 |
+| **Slice µs/f (the box on each row)** | How long that job may run each frame, in microseconds, before it pauses and carries on in the next frame. 0 = run the whole job in one frame. Saved when you press Enter or click away.<br>*On an '(idle)' row the new slice is saved and handed to that job the first time it runs.* | each job has its own, for example nav ground plan 4000, zonereset: table 3000, craft: recipe scan 1500, analysis: actor scan 1000, abilityupgrades: row walk 1000 |
 
 
 
@@ -8088,7 +8381,7 @@ Straight after loading, before any paced job has run (and with no saved settings
 
 ![Empty](../assets/pulsebudget/empty.png)
 
-Console: `ogrepulsebudget report` prints the same table; `ogrepulsebudget slice <section or number> <µs>` and `ogrepulsebudget ceiling <µs>` set values.
+Console: `ogre pulse report` prints the same table; `ogrepulsebudget slice <section or number> <µs>` and `ogrepulsebudget ceiling <µs>` set values.
 
 
 ---
@@ -8209,13 +8502,14 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 
 > **:bulb: In game - the ? button on this window says**
 >
-> Copies your OgreBot Classic settings into the new bot: logins, Inventory Manager settings and lists, OgreBot profiles, IRC settings and MCP buttons. It also adds an InnerSpace game profile, **Everquest 2 ISXOgreX**, under each InnerSpace game that runs EverQuest2.exe (whatever you named it) - launch a session with it and the new bot loads by itself.
+> Copies your OgreBot Classic settings into the new bot: logins, Inventory Manager settings and lists, OgreBot profiles, IRC settings, MCP buttons and saved AutoTarget lists. It also adds an InnerSpace game profile, **Everquest 2 ISXOgreX**, under each InnerSpace game that runs EverQuest2.exe (whatever you named it) - launch a session with it and the new bot loads by itself.
 >
 > **What you can do here**
 >
 > - **Nothing, usually** - at load, anything not copied yet is copied for you, and this window shows the progress, then closes.
 > - **Check the status** of each item with `ogre migrate`: Migrated, No source found, Nothing to migrate, or Not migrated (a copy that failed - the message says why).
 > - **Re-run (overwrite)** copies an item again from Classic, replacing what the new bot has. It asks first: **Overwrite** or **Cancel**.
+> - **Add what is missing**, on the InnerSpace profile item, adds the profile to any game that lacks it and replaces nothing. It asks first: **Add** or **Cancel**.
 >
 > **Good to know**
 >
@@ -8228,7 +8522,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 
 ## What it is for
 
-The Migration Assistant copies your Classic settings into the new bot: logins, Inventory Manager settings and lists, OgreBot profiles, IRC settings and MCP buttons. You do not have to do anything. When the bot loads, every item that has Classic files but nothing in the new bot yet is copied automatically, and this window pops up to show the progress, then closes itself. Your old Classic files are only read, never changed. Open it yourself with `ogre migrate` to see the status of each item and to copy an item again, replacing what the new bot has.
+The Migration Assistant copies your Classic settings into the new bot: logins, Inventory Manager settings and lists, OgreBot profiles, IRC settings, MCP buttons and saved AutoTarget lists. It also adds an InnerSpace game profile, **Everquest 2 ISXOgreX**, that loads the new bot by itself. You do not have to do anything. When the bot loads, every item that has Classic files but nothing in the new bot yet is copied automatically, and this window pops up to show the progress, then closes itself. Your old Classic files are only read, never changed. Open it yourself with `ogre migrate` to see the status of each item and to copy an item again, replacing what the new bot has.
 
 ## The item boxes
 
@@ -8236,10 +8530,13 @@ Each box shows one thing that can be copied from Classic and where it stands rig
 
 | Control | What it does |
 |---|---|
-| **Re-run (overwrite)** | Asks to copy this item from your Classic files again, replacing what the new bot already has. Nothing is copied yet - the box changes to an Overwrite / Cancel question first.<br>*Only shown when you opened the window with `ogre migrate`, and only for items that have Classic files to copy.* |
+| **Re-run (overwrite)** | Asks to copy this item from your Classic files again, replacing what the new bot already has. Nothing is copied yet - the box changes to an Overwrite / Cancel question first.<br>*Only shown when you opened the window with `ogre migrate`, and only for items that have Classic files to copy. The InnerSpace profile item has Add what is missing here instead.* |
+| **Add what is missing** | Asks to add the InnerSpace profile to any EverQuest 2 game that lacks it. Nothing is replaced: a game that has it is left alone. Nothing is added yet - the box changes to an Add / Cancel question first.<br>*Only shown when you opened the window with `ogre migrate`.* |
 | **Overwrite** | Copies the item again from your Classic files and replaces what the new bot has. For profiles, every copied profile file is rewritten. When it finishes, the box shows what was copied.<br>*Anything you changed in the new bot for that item since the first copy is lost.* |
 | **Cancel** | Backs out of the Overwrite question. Nothing is copied. |
 | **Title bar close (X)** | Closes the window. Copying that is already running keeps going.<br>*The automatic progress view closes by itself about 4 seconds after everything is done.* |
+
+
 
 ## Asking to overwrite
 
@@ -8255,11 +8552,11 @@ When the bot loads and finds Classic files for an item that the new bot does not
 - No source found (grey) - you have no Classic files for this item, so there is nothing to copy.
 - Nothing to migrate (grey) - you have Classic files for this item but the new bot has nothing yet, and no copy was tried this session.
 - Not migrated (red) - this session tried to copy the item and could not. The message above it says why.
-- Running... - the item is being copied right now (profiles only).
+- Running... - the item is being done right now (OgreBot profiles and the InnerSpace profile only).
 - Green message - what was copied, e.g. 'Migrated 6 characters to the new store.'
 - Orange message - a warning or a question, e.g. a few profile files were skipped, or 'overwrite it?'.
 - Red message - the copy failed. The details are in ISXOgreEQ2.log.
-- Grey message - the item is still being copied (profiles, which can take a moment).
+- Grey message - the item is still being copied (OgreBot profiles, which can take a moment).
 
 ## Good to know
 
@@ -8269,6 +8566,7 @@ When the bot loads and finds Classic files for an item that the new bot does not
 - Profiles: files that were missing or could not be read are skipped and counted in the orange message. Running it again copies the same set, so re-running will not fix them - check ISXOgreEQ2.log for which files.
 - Inventory Manager lists (sell, destroy, restock) go into your own custom files. A list you already have is kept, not replaced, unless you use Re-run (overwrite).
 - Saved AutoTarget lists go into one file per zone. A list you already have in the new bot is kept, and any others are added beside it. Re-run (overwrite) replaces only the lists with the same name, and never removes one.
+- The InnerSpace profile is the one thing added outside the bot: a copy of your EverQuest 2 profile, under each InnerSpace game that runs EverQuest2.exe, whose startup loads the new bot. Launch a session with it and the new bot loads by itself. Your other profiles are not touched, and a backup of GameConfiguration.XML is kept next to it. Its Add what is missing button adds the profile to any game that lacks it and changes nothing else.
 - The first time the bot loads, the New User Tour runs first. The automatic copy starts a few seconds after the tour is finished or skipped.
 - Typing `ogre migrate` while the window is open does nothing.
 
@@ -8399,6 +8697,8 @@ This is where you give the bot your eq2codex.com API token. The Codex tabs uploa
 |---|---|---|
 | **Paste your token** | Paste the API token you created on eq2codex.com. Pressing Enter in the box is the same as Save token.<br>*The token leaves the screen with the window when a save works. If a save fails, the token stays in the box so you can try again.* | empty |
 
+
+
 ## Buttons
 
 | Control | What it does |
@@ -8407,6 +8707,8 @@ This is where you give the bot your eq2codex.com API token. The Codex tabs uploa
 | **Get a token at eq2codex.com ↗** | Opens eq2codex.com in your web browser, outside the game. Sign in there and go to Settings → API Tokens. |
 | **Close** | Closes the window without saving. |
 | **Title bar close (X)** | Closes the window without saving, the same as Close. |
+
+
 
 ## When a token is already saved
 
@@ -8464,6 +8766,8 @@ Pushover is a phone app that the bot can use to send you alerts (for example, a 
 | **Application API token** | Paste the API token of the application you created on pushover.net. Pressing Enter is the same as Save.<br>*The grey text in an empty box is only an example of what a key looks like.* | empty |
 | **Your user key** | Paste your user key from your pushover.net dashboard. Pressing Enter is the same as Save. | empty |
 
+
+
 ## Buttons
 
 | Control | What it does |
@@ -8473,6 +8777,8 @@ Pushover is a phone app that the bot can use to send you alerts (for example, a 
 | **Get these at pushover.net ↗** | Opens pushover.net in your web browser, outside the game. |
 | **Close** | Closes the window. Anything typed but not saved is thrown away. |
 | **Title bar close (X)** | Closes the window without saving, the same as Close. |
+
+
 
 ## After saving
 

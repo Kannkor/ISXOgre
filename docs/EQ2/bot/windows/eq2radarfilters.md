@@ -1,8 +1,8 @@
-# Radar Types
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# Radar Types
 
 > **:bulb: In game - the ? button on this window says**
 >
@@ -62,6 +62,8 @@ The coloured dot on each button is the colour that kind is drawn in on the radar
 | **name** | The button turns name cutting on and off; while lit, every name on the radar is cut to the number in the box (5 to start). The number is kept while cutting is off. Saved like a type click. | off, 5 |
 | **Title bar close (X)** | Closes this window only. The radar keeps running. |  |
 
+
+
 ## What the window shows
 
 - A lit button means that kind is drawn on the radar; a dim one means it is hidden.
@@ -75,5 +77,5 @@ The coloured dot on each button is the colour that kind is drawn in on the radar
 
 ## Beside the radar
 
-![Radar Types next to the radar, with doors, resources, tradeskill and special turned off](../assets/eq2radarfilters/with-radar.png)
+![Radar Types next to the radar, with doors, resources, craft and special turned off](../assets/eq2radarfilters/with-radar.png)
 

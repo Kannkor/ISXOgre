@@ -1,18 +1,19 @@
-# Migration Assistant
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
 
+# Migration Assistant
+
 > **:bulb: In game - the ? button on this window says**
 >
-> Copies your OgreBot Classic settings into the new bot: logins, Inventory Manager settings and lists, OgreBot profiles, IRC settings and MCP buttons. It also adds an InnerSpace game profile, **Everquest 2 ISXOgreX**, under each InnerSpace game that runs EverQuest2.exe (whatever you named it) - launch a session with it and the new bot loads by itself.
+> Copies your OgreBot Classic settings into the new bot: logins, Inventory Manager settings and lists, OgreBot profiles, IRC settings, MCP buttons and saved AutoTarget lists. It also adds an InnerSpace game profile, **Everquest 2 ISXOgreX**, under each InnerSpace game that runs EverQuest2.exe (whatever you named it) - launch a session with it and the new bot loads by itself.
 >
 > **What you can do here**
 >
 > - **Nothing, usually** - at load, anything not copied yet is copied for you, and this window shows the progress, then closes.
 > - **Check the status** of each item with `ogre migrate`: Migrated, No source found, Nothing to migrate, or Not migrated (a copy that failed - the message says why).
 > - **Re-run (overwrite)** copies an item again from Classic, replacing what the new bot has. It asks first: **Overwrite** or **Cancel**.
+> - **Add what is missing**, on the InnerSpace profile item, adds the profile to any game that lacks it and replaces nothing. It asks first: **Add** or **Cancel**.
 >
 > **Good to know**
 >
@@ -27,7 +28,7 @@
 
 ## What it is for
 
-The Migration Assistant copies your Classic settings into the new bot: logins, Inventory Manager settings and lists, OgreBot profiles, IRC settings and MCP buttons. You do not have to do anything. When the bot loads, every item that has Classic files but nothing in the new bot yet is copied automatically, and this window pops up to show the progress, then closes itself. Your old Classic files are only read, never changed. Open it yourself with `ogre migrate` to see the status of each item and to copy an item again, replacing what the new bot has.
+The Migration Assistant copies your Classic settings into the new bot: logins, Inventory Manager settings and lists, OgreBot profiles, IRC settings, MCP buttons and saved AutoTarget lists. It also adds an InnerSpace game profile, **Everquest 2 ISXOgreX**, that loads the new bot by itself. You do not have to do anything. When the bot loads, every item that has Classic files but nothing in the new bot yet is copied automatically, and this window pops up to show the progress, then closes itself. Your old Classic files are only read, never changed. Open it yourself with `ogre migrate` to see the status of each item and to copy an item again, replacing what the new bot has.
 
 ## The item boxes
 
@@ -37,10 +38,13 @@ Each box shows one thing that can be copied from Classic and where it stands rig
 
 | Control | What it does |
 |---|---|
-| **Re-run (overwrite)** | Asks to copy this item from your Classic files again, replacing what the new bot already has. Nothing is copied yet - the box changes to an Overwrite / Cancel question first.<br>*Only shown when you opened the window with `ogre migrate`, and only for items that have Classic files to copy.* |
+| **Re-run (overwrite)** | Asks to copy this item from your Classic files again, replacing what the new bot already has. Nothing is copied yet - the box changes to an Overwrite / Cancel question first.<br>*Only shown when you opened the window with `ogre migrate`, and only for items that have Classic files to copy. The InnerSpace profile item has Add what is missing here instead.* |
+| **Add what is missing** | Asks to add the InnerSpace profile to any EverQuest 2 game that lacks it. Nothing is replaced: a game that has it is left alone. Nothing is added yet - the box changes to an Add / Cancel question first.<br>*Only shown when you opened the window with `ogre migrate`.* |
 | **Overwrite** | Copies the item again from your Classic files and replaces what the new bot has. For profiles, every copied profile file is rewritten. When it finishes, the box shows what was copied.<br>*Anything you changed in the new bot for that item since the first copy is lost.* |
 | **Cancel** | Backs out of the Overwrite question. Nothing is copied. |
 | **Title bar close (X)** | Closes the window. Copying that is already running keeps going.<br>*The automatic progress view closes by itself about 4 seconds after everything is done.* |
+
+
 
 ## Asking to overwrite
 
@@ -48,11 +52,13 @@ After Re-run (overwrite), the box asks before it replaces anything. This is the 
 
 [![Asking to overwrite](../assets/migrate/confirm.png)](../assets/migrate/confirm.png "Click for full size")
 
+
 ## The automatic run at load
 
 When the bot loads and finds Classic files for an item that the new bot does not have yet, it copies them without asking and shows this view. There are no buttons here. Profiles can take a moment for a big library and show Running... until they are done. When every item is finished the window closes by itself.
 
 [![The automatic run at load](../assets/migrate/progress.png)](../assets/migrate/progress.png "Click for full size")
+
 
 ## What the window shows
 
@@ -60,11 +66,11 @@ When the bot loads and finds Classic files for an item that the new bot does not
 - No source found (grey) - you have no Classic files for this item, so there is nothing to copy.
 - Nothing to migrate (grey) - you have Classic files for this item but the new bot has nothing yet, and no copy was tried this session.
 - Not migrated (red) - this session tried to copy the item and could not. The message above it says why.
-- Running... - the item is being copied right now (profiles only).
+- Running... - the item is being done right now (OgreBot profiles and the InnerSpace profile only).
 - Green message - what was copied, e.g. 'Migrated 6 characters to the new store.'
 - Orange message - a warning or a question, e.g. a few profile files were skipped, or 'overwrite it?'.
 - Red message - the copy failed. The details are in ISXOgreEQ2.log.
-- Grey message - the item is still being copied (profiles, which can take a moment).
+- Grey message - the item is still being copied (OgreBot profiles, which can take a moment).
 
 ## Good to know
 
@@ -74,6 +80,7 @@ When the bot loads and finds Classic files for an item that the new bot does not
 - Profiles: files that were missing or could not be read are skipped and counted in the orange message. Running it again copies the same set, so re-running will not fix them - check ISXOgreEQ2.log for which files.
 - Inventory Manager lists (sell, destroy, restock) go into your own custom files. A list you already have is kept, not replaced, unless you use Re-run (overwrite).
 - Saved AutoTarget lists go into one file per zone. A list you already have in the new bot is kept, and any others are added beside it. Re-run (overwrite) replaces only the lists with the same name, and never removes one.
+- The InnerSpace profile is the one thing added outside the bot: a copy of your EverQuest 2 profile, under each InnerSpace game that runs EverQuest2.exe, whose startup loads the new bot. Launch a session with it and the new bot loads by itself. Your other profiles are not touched, and a backup of GameConfiguration.XML is kept next to it. Its Add what is missing button adds the profile to any game that lacks it and changes nothing else.
 - The first time the bot loads, the New User Tour runs first. The automatic copy starts a few seconds after the tour is finished or skipped.
 - Typing `ogre migrate` while the window is open does nothing.
 

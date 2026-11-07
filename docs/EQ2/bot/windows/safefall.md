@@ -1,8 +1,8 @@
-# Safe Fall Trainer
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# Safe Fall Trainer
 
 > **:bulb: In game - the ? button on this window says**
 >
@@ -39,11 +39,14 @@ Trains your Safe Fall skill for you. It targets you, mounts up, then repeats: fl
 | **Stop** | Stops training and stops the climb. You stay wherever you are (mounted or not).<br>*Dimmed, and does nothing, when nothing is running.* |  |
 | **Flight time (… ticks)** | How long each climb lasts, in ticks: 1 tick is 0.1 second, so 30 is 3 seconds (shown to the right). Allowed 5 to 600.<br>*A number outside 5 to 600 turns the box red and Start refuses. The box follows the running value until you type in it; empty it to hand it back.* | 30 ticks (3.0 s) |
 
+
+
 ## Status
 
 Read-only. It updates four times a second.
 
 [![Status](../assets/safefall/status.png)](../assets/safefall/status.png "Click for full size")
+
 
 ## What the window shows
 

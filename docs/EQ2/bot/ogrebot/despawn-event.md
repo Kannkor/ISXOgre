@@ -1,16 +1,19 @@
-# Despawn Event
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# Despawn Event
 
 Despawn Event is the opposite of Spawn Events: it fires when something whose name contains your text disappears. The bot can then run a console command, post a line to OgreConsole, play a 'Ding' sound, or any mix of the three. Nothing happens until you tick "Enable Despawn Event" on the Settings tab. Build events with the boxes at the top; they appear in the Configured Events list below.
 
 [![Despawn Event tab](../assets/ogrebot/tab-despawn-event.png)](../assets/ogrebot/tab-despawn-event.png "Click for full size")
 
+
 | Option | What it does | Default |
 |---|---|---|
 | **Configured Events** | Your despawn events. Click a row to edit it, double-click to switch it off or on, drag a row to reorder, and click X to delete it.<br>*A switched-off row is kept but never fires.* | empty |
+
+
 
 ## Add an event
 
@@ -23,6 +26,8 @@ Despawn Event is the opposite of Spawn Events: it fires when something whose nam
 | **Add** | Adds the event to the list below. Pressing Enter in either text box does the same. While you are editing a row this button reads Update and saves your changes to that row. |  |
 | **Clear Options** | Unticks OC and Ding. Ticks otherwise carry over to the next event you add. |  |
 | **Cancel** | Only shown while editing a row. Stops editing without changing the row. |  |
+
+
 
 ## Good to know
 

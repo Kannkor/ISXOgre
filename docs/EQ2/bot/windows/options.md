@@ -1,8 +1,8 @@
-# Ogre Options
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# Ogre Options
 
 > **:bulb: In game - the ? button on this window says**
 >
@@ -19,7 +19,7 @@
 > - Nothing is kept until you press **Save**, which saves every tab. Closing undoes unsaved theme colours.
 > - The UI scale, the InnerSpace console choice and the Session watch take effect when you press Save.
 > - `ogre config` while this window is open does nothing - what you typed stays.
-> - A window you scaled yourself (right-click its title bar) ignores the UI scale until you pick Scale: use default.
+> - A window you scaled yourself (right-click its title bar, then More) ignores the UI scale until you pick Scale: use default.
 
 **Open it:** Type `ogre config` (or `ogre options` / `ogre info`) in the InnerSpace console. If it is already open, that does nothing - what you typed in it stays. It also opens by itself on the Account tab when your Ogre login is missing or wrong.
 
@@ -37,6 +37,8 @@ Ogre Options holds the settings that belong to Ogre itself rather than to one ch
 |---|---|---|
 | **Account / Ogre / Theme** | Switches the page. Save saves every tab at once, not just the one you are looking at. | Account |
 
+
+
 ## Account tab
 
 [![Account tab](../assets/options/account-fields.png)](../assets/options/account-fields.png "Click for full size")
@@ -47,16 +49,20 @@ Ogre Options holds the settings that belong to Ogre itself rather than to one ch
 | **Password** | Your Ogre account password. If you are not logged in when you press Save, Ogre tries to log in again straight away ('Saved - logging in...'). If you are already logged in, a new password is used the next time the bot loads.<br>*Saving a blank box does not erase the saved password.* | empty on a first install |
 | **Show password** | Shows the password as text instead of dots so you can check it.<br>*Display only - changes what you see, not what the bot does.* | off |
 
+
+
 ## Ogre tab
 
 [![Ogre tab](../assets/options/ogre-scale.png)](../assets/options/ogre-scale.png "Click for full size")
 
 | Control | What it does | Default |
 |---|---|---|
-| **UI scale — default for every window (right-click a window to override one)** | How big every Ogre window is drawn: 0.75, 0.9, 1 (100%), 1.1, 1.25 or 1.5. Applies to all windows as soon as you press Save. A window you scaled yourself (right-click its title bar, Scale + / Scale −) keeps its own size until you pick Scale: use default on it.<br>*The list opens inside the window and pushes the setting below it down, so every size is in view.* | 1 (100%) |
-| **When the InnerSpace console covers a window** | What happens to an Ogre window that the InnerSpace console covers when you open it. Slide it below the console, then put it back: it moves down out of the way and returns when the console closes. Hide it until the console closes. Leave it where it is: nothing moves.<br>*Like the UI scale, it takes effect when you press Save. This is the default for every window: a window can have its own, from its title bar's right-click menu, under When Console is open (Slide below, Hide or Leave in place; Use default goes back to this one).* | Slide it below the console, then put it back |
+| **UI scale — default for every window (right-click a window to override one)** | How big every Ogre window is drawn: 0.75, 0.9, 1 (100%), 1.1, 1.25 or 1.5. Applies to all windows as soon as you press Save. A window you scaled yourself (right-click its title bar, then More, Scale + / Scale −) keeps its own size until you pick Scale: use default on it.<br>*The list opens inside the window and pushes the setting below it down, so every size is in view.* | 1 (100%) |
+| **When the InnerSpace console covers a window** | What happens to an Ogre window that the InnerSpace console covers when you open it. Slide it below the console, then put it back: it moves down out of the way and returns when the console closes. Hide it until the console closes. Leave it where it is: nothing moves.<br>*Like the UI scale, it takes effect when you press Save. This is the default for every window: a window can have its own, from its title bar's right-click menu, under More, When Console is open (Slide below, Hide or Leave in place; Use default goes back to this one).* | Slide it below the console, then put it back |
 | **Navmesh downloads** | Navmeshes are the zone maps the bot uses to walk and fly. **All zones, in the background**: every zone's mesh downloads while you play, the zone you are in first. **Only the zones I go to**: a zone's mesh downloads when you enter it or a route heads there. **Off**: nothing downloads, and nav tells you when a zone has no mesh.<br>*Takes effect as soon as you press Save. It is the same setting as `ogre patch mesh all\|ondemand\|off`.* | All zones, in the background |
 | **Announce sessions that freeze, recover or disappear** | Every session tells the uplink it is alive every 5 seconds. With this on, the uplink announces a session that goes silent (30 seconds, 90 while loading), comes back, or closes for any reason, and fires OgreEvent_SessionFrozen, OgreEvent_SessionRecovered and OgreEvent_SessionGone for scripts running in the uplink.<br>*Saved for the whole PC; Save also tells the uplink at once. `ogre sessions on\|off` turns it on or off until the uplink restarts.* | off |
+
+
 
 ## Theme tab - presets
 
@@ -67,6 +73,8 @@ The colours of every Ogre window. Changes show at once on every open window; the
 | Control | What it does | Default |
 |---|---|---|
 | **Start from: Toxic, Ogre, Ogre Bold, Forest, Swamp, Stone, Steel Blue, Amethyst, Crimson, Amber, Nightshade, Venom** | Paints every window in that ready-made colour scheme. Any colour you change below is changed on top of the scheme you started from. The lit button is the scheme you are on; none is lit once you have changed a colour. | Toxic |
+
+
 
 ## Theme tab - colours
 
@@ -100,6 +108,8 @@ Each row is one colour used across all windows. Click the square to open Hue / S
 | **Colour square (opens H / S / L sliders)** | Opens sliders for that colour right under its row; the colour changes as you drag. Click the square again to close them. |
 | **Colour code box (e.g. #1f9a2a)** | Type a colour code (#rgb or #rrggbb). It applies as soon as it is valid; an invalid code turns the box's border red. |
 
+
+
 ## Theme tab - saving
 
 [![Theme tab - saving](../assets/options/theme-actions.png)](../assets/options/theme-actions.png "Click for full size")
@@ -110,15 +120,19 @@ Each row is one colour used across all windows. Click the square to open Hue / S
 | **Undo changes** | Goes back to the last saved theme. |
 | **saved / unsaved changes** | Tells you whether what you see has been saved. |
 
+
+
 ## Save and Close
 
 [![Save and Close](../assets/options/footer.png)](../assets/options/footer.png "Click for full size")
 
 | Control | What it does |
 |---|---|
-| **Save** | Saves every tab: your login, UI scale, the console setting, navmesh downloads, and the theme if you changed it. The UI scale and console setting apply right away. The text beside it shows 'Saving…', then 'Saved.', 'Saved - logging in...' or 'Save FAILED'. |
+| **Save** | Saves every tab: your login, UI scale, the console setting, navmesh downloads, the Session watch, and the theme if you changed it. The UI scale and console setting apply right away. The text beside it shows 'Saving…', then 'Saved.', 'Saved - logging in...' or 'Save FAILED'. |
 | **Close** | Closes the window without saving. Unsaved theme changes are undone. |
 | **Title bar close (X)** | Same as Close. |
+
+
 
 ## What the window shows
 
@@ -128,8 +142,8 @@ Each row is one colour used across all windows. Click the square to open Hue / S
 ## Good to know
 
 - Nothing is kept until you press Save. Closing the window throws away unsaved changes, including theme colours you were trying out.
-- Save saves all four tabs at once.
-- A window you scaled yourself ignores the UI scale here. Right-click its title bar and pick Scale: use default to make it follow again.
+- Save saves all three tabs at once.
+- A window you scaled yourself ignores the UI scale here. Right-click its title bar and pick More, then Scale: use default, to make it follow again.
 - The InnerSpace console setting is about the InnerSpace console (the one you type `ogre` commands in), not OgreConsole.
 - A new password is only used right away if you were not logged in. Otherwise it takes effect the next time the bot loads.
 

@@ -1,8 +1,8 @@
-# ForWho Groups
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# ForWho Groups
 
 > **:bulb: In game - the ? button on this window says**
 >
@@ -39,6 +39,8 @@ A team group is a name for a set of characters. Once you make a group called Rai
 | **Print to console** | Prints every group, how many characters it has and their names to the console, plus where the file is.<br>*It prints the SAVED groups. Edits you have not saved yet do not show up.* |
 | **Sync all sessions** | Re-reads the groups file in this session and tells every other session on this PC to re-read it too. The list in this window is reloaded as well. Use it after you edit the file by hand. Saving from this window already does this for you.<br>*With unsaved changes it refuses (red message): Save or Discard them first.* |
 
+
+
 ## Create and rename
 
 [![Create and rename](../assets/forwhogroups/create.png)](../assets/forwhogroups/create.png "Click for full size")
@@ -47,6 +49,8 @@ A team group is a name for a set of characters. Once you make a group called Rai
 |---|---|---|
 | **new group name** | Type a group name here, then press Enter or Create group. Also where you type the new name before pressing Rename on a group.<br>*Letters, digits, - and _ only. No spaces. Case does not matter: Raid1 and raid1 are the same group.* | empty |
 | **Create group** | Adds a new, empty group with the name in the box. An empty group selects nobody until you add characters.<br>*Refused, with a red message, if the name has a bad character or a group with that name already exists.* |  |
+
+
 
 ## A group
 
@@ -61,6 +65,8 @@ Each group has a header row and, when unfolded, its list of characters.
 | **Delete** | Removes the whole group. There is no confirmation, but nothing is final until you press Save; Discard changes brings it back. |  |
 | **Remove** | Takes that character out of the group. |  |
 
+
+
 ## Adding characters
 
 The add row sits at the bottom of each unfolded group.
@@ -74,6 +80,8 @@ The add row sits at the bottom of each unfolded group.
 | **Add my Group (n)** | Adds everyone in your current group, including you, to this group. The number is how many are in your group right now. Nobody already in the list is removed, and the message counts only the names that were new.<br>*Shows whenever you are in the world, even on your own: then it reads (1) and adds just you. The number updates by itself as people join or leave.* |  |
 | **Add my Raid (n)** | Adds everyone in your raid, including you, to this group. Nobody already in the list is removed, and the message counts only the names that were new.<br>*Only shows while you are in a raid.* |  |
 
+
+
 ## Save and Discard
 
 Everything you do in this window is only a draft until you press Save. Until then your groups keep working exactly as they were saved.
@@ -84,6 +92,8 @@ Everything you do in this window is only a draft until you press Save. Until the
 |---|---|
 | **Save** | Writes your groups to the shared file, and every session on this PC starts using them straight away.<br>*Greyed out when there is nothing to save.* |
 | **Discard changes** | Throws away every unsaved edit and shows the groups as they were last saved.<br>*Greyed out when there is nothing to discard.* |
+
+
 
 ## Closing with unsaved changes
 
@@ -97,6 +107,8 @@ If you press the X in the title bar while there are unsaved changes, the window 
 | **Save & close** | Saves your changes, then closes the window.<br>*If the save fails, the window stays open with your changes and a red message saying why.* |
 | **Close without saving** | Throws away your unsaved changes and closes the window. |
 | **Keep editing** | Hides the question and leaves the window open with your changes still there. |
+
+
 
 ## What the window shows
 

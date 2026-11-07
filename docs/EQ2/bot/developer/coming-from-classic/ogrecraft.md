@@ -98,7 +98,7 @@ while !${ISXOgreEQ2.Craft.IsReady}
 | `OgreCraft:CheckForMissingDevices` | does nothing | — | ⛔ Removed | The Classic call never did anything - delete the line. |
 | `OgreCraft.Crafting` | reads NULL | `ISXOgreEQ2.Craft.Running` | ✏️ Renamed |  |
 | `OgreCraft:DumpMissingResources` | does nothing | — | ⛔ Removed | Read ${ISXOgreEQ2.Craft.Details} - a JSON string; its "short" array has each missing resource's name, need, have and fuel flag.<br>Classic craft1 copied sc_MissingResources into a caller-named global collection; craft2 dropped it and nothing calls it. Read the list from ${ISXOgreEQ2.Craft.Details} "short" instead. |
-| `OgreCraft:DumpRecipeIDList` | does nothing | — | ⛔ Removed | Nothing calls it - delete the line. ${ISXOgreEQ2.Craft.RecipesInQueue} gives the row count. |
+| `OgreCraft:DumpRecipeIDList` | does nothing | — | ⛔ Removed | Delete the line. ${ISXOgreEQ2.Craft.RecipesInQueue} gives the row count.<br>Nothing calls it. |
 | `OgreCraft.iCounter` | reads NULL | — | ⛔ Removed | An object-scope loop counter of the older Object_OgreCraftAPI (used by its own for-loops); never part of the script API, and the documented object has no such member. |
 | `OgreCraft.IsReady` | reads NULL | `ISXOgreEQ2.Craft.IsReady` | ➡️ Moved |  |
 | `OgreCraft.LastScribedRecipeID` | reads NULL | `ISXOgreEQ2.Craft.LastScribedRecipeId` | ✏️ Renamed | ID -&gt; Id (the bot's one spelling). 0 until a scribe is seen this session. |

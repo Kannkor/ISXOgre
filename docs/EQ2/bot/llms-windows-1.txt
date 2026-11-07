@@ -1,7 +1,7 @@
-# OgreBot for EverQuest II - documentation, Windows (part 1 of 4)
+# OgreBot for EverQuest II - documentation, Windows (part 1 of 5)
 
 OgreBot is in beta testing. For OgreBot Classic see https://kannkor.github.io/ISXOgre/EQ2/
-This file is ONE PIECE of the documentation: Windows (part 1 of 4) - Windows - Everyday; Windows - Running content.
+This file is ONE PIECE of the documentation: Windows (part 1 of 5) - Windows - Everyday; Windows - Running content.
 The entire documentation in one document: https://kannkor.github.io/ISXOgre/EQ2/bot/llms-full.txt
 Index of every page and of every file like this one: https://kannkor.github.io/ISXOgre/EQ2/bot/llms.txt
 
@@ -190,12 +190,13 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - **Type and press Enter** to send to every OgreBot session on this PC. Plain text is chat.
 > - **Start a line with** `!c` to make every session run it as a command, e.g. `!c -pause igw:${Me.Name}`.
 > - **Click a tab** (Chat, Commands, Events...) to see only those lines. A glowing dot means new lines.
+> - **Errors** collects every warning and error from every session on this PC. It turns red and counts them while you are on another tab.
 > - **The gear** opens settings: time stamps, hide on load, line colours, and Clear text.
 >
 > **Good to know**
 >
 > - `ogre` commands go in the InnerSpace console, not here. `oc <text>` there is the same as typing here.
-> - Red = command, green = chat, white = bot message, bold yellow on a red band = error, purple = fleet event. Change any of them in the gear's Colours.
+> - Red = command, green = chat, white = bot message, bold yellow on a red band = error, orange = warning, purple = fleet event. Change any of them in the gear's Colours.
 > - An orange name at the start of a line is who said it on IRC.
 > - **Send typed text to IRC** (gear): what you type here goes to IRC instead, like `irc <text>`, and comes back to your sessions with your IRC name.
 
@@ -212,18 +213,23 @@ OgreConsole is where your sessions talk to each other. Anything typed in the box
 | **⚙ (gear)** | Opens and closes the settings drawer at the top of the window.<br>*While the drawer is open it takes the place of the lines; if it does not fit, scroll it (or drag the window's bottom edge to make it taller). Click the gear again to close it.* |
 | **Title bar close (X)** | Closes the window. The console keeps collecting lines in the background, and they are all there when you open it again. |
 
+
+
 ## Tabs
 
-Click a tab to see only its lines. A tab appears the first time a line for it arrives.
+Click a tab to see only its lines. All and Errors are always there; any other tab appears the first time a line for it arrives.
 
 | Control | What it does | Default |
 |---|---|---|
 | **All** | Every line, in the order it arrived. | selected |
+| **Errors** | Every warning and error the bot logs, from every OgreBot session on this PC, with the character that hit it at the start of the line. It turns solid red, pulses and counts them while you are looking at another tab, so you do not miss one. Clicking it clears the count. The same line repeated within 30 seconds is not sent again, and each session sends at most 20 lines a minute; that session's log has them all. |  |
 | **Chat** | Plain text typed by you or another session (and lines relayed from IRC). |  |
 | **Commands** | `!c` commands sent by any session, plus the bot's replies about them (for example an unknown command). |  |
 | **Events** | Fleet requests such as a cure-curse call, one line each, showing who asked, who it was for and what for.<br>*Only appears when the OgreBot Debug option CommsEventsDebug is on.* |  |
 | **Any other tab (e.g. Raid)** | A line sent with `-tab <name>` at the front also shows in a tab of that name. |  |
 | **Glowing dot on a tab** | New lines arrived in that tab while you were looking at another one. Clicking the tab clears it. |  |
+
+
 
 ## The lines
 
@@ -233,11 +239,15 @@ Each line's colour tells you what kind of line it is (the colours below are the 
 |---|---|
 | **Line list** | The last 2000 lines. It stays at the bottom as new lines arrive, unless you have scrolled up to read, then it stays where you are.<br>*Right-click to Copy or Select All.* |
 
+
+
 ## Typing and sending
 
 | Control | What it does |
 |---|---|
 | **Input line (message, or !c <cmd> ... (Enter to send))** | Press Enter to send the line to every OgreBot session on this PC, including this one. Plain text is chat. A line starting with `!c` is a command that every session runs. `!ci` runs it too but the line is not shown. Anything like `${Me.Name}` is filled in with this character's value before it is sent.<br>*Put `-tab <name>` right after `!c` to also show the line in that tab, or `-cfw <who>` to have only that character (or group of characters) run it.* |
+
+
 
 ## Settings drawer
 
@@ -251,7 +261,9 @@ Open it with the gear. Settings are saved straight away and are shared by every 
 | **Debug: trace verbs to log** | For troubleshooting. Writes one line per command this session receives to the bot's log file, saying whether it ran. Nothing extra shows in the console.<br>*Leave it off in normal play.* | off |
 | **Colour square (Command, Chat, System, Error, Event, Timestamp)** | Click a colour square to open R, G and B sliders for it. The colour changes as you drag and is saved when you let go. |  |
 | **Reset** | Puts that colour back to its default. |  |
-| **Clear text** | Wipes every line from this session's console, removes all tabs except All, and closes the drawer. Only your console is cleared, and the lines cannot be brought back. |  |
+| **Clear text** | Wipes every line from this session's console, removes all tabs except All and Errors, and closes the drawer. Only your console is cleared, and the lines cannot be brought back. |  |
+
+
 
 ## Colours
 
@@ -259,12 +271,15 @@ Open it with the gear. Settings are saved straight away and are shared by every 
 |---|---|
 | **R / G / B sliders** | Red, green and blue for the colour you clicked. Only one colour's sliders are open at a time. |
 
+
+
 ## What the window shows
 
 - Red line: a command (`!c ...`) sent by any session.
 - Green line: chat.
 - White line: a message from the bot itself, such as a `[Notify]` alert. Most of these show only on the All tab (a note that a command did nothing here also shows on Commands).
 - Bold yellow line on a dark red band: an error, for example a command nobody knows (`Unknown command entered: -pasue`).
+- Orange line: a warning, on the Errors tab. It is one step below an error.
 - Purple line: a fleet request on the Events tab.
 - Orange name at the start of a chat or command line: who said it, for lines that came in over IRC. Only real IRC lines get it - a line you type that starts with `word: ` does not.
 - `-cfw <who>` at the end of a command line: that command was meant only for those characters.
@@ -333,6 +348,8 @@ The buttons in the title bar. The **?**, the lock and the X are on every window.
 | **Title bar close (X)** | Closes the MCP, and with it the For Who, Build command and Assign keys windows.<br>*Key binds still work with the window closed.* |
 | **Alt + backtick key (keyboard)** | Opens the MCP if it is closed, closes it if it is open. |
 
+
+
 ## Pages (left column)
 
 Each page is its own set of buttons for the right-hand block. The static block does not change when you switch pages.
@@ -348,6 +365,8 @@ Each page is its own set of buttons for the right-hand block. The static block d
 | **Right-click a page > Set text colour…** | Opens the colour picker for the page name's text. Auto goes back to a colour that reads well on the background. |  |
 | **Right-click a page > Delete page…** | Asks you to type the page's exact name, then removes the page, all its buttons and any keys assigned to them. You stay on the page you were on.<br>*Only shown when 'Allow deleting pages' is ticked and there is more than one page.* |  |
 
+
+
 ## Static buttons
 
 The first block of button columns (3 by default). These buttons are the same whichever page you are on - a good place for Follow, Pause, Resume and Evac.
@@ -357,6 +376,8 @@ The first block of button columns (3 by default). These buttons are the same whi
 | **Click a button** | Sends the button's command. It goes to the characters picked in For Who, unless the button names its own target in every step (for example 'fighter' or 'Me'), in which case it goes to that target. A button made in Raw mode runs only on the character that clicked it. The button flashes; an empty button does nothing. |  |
 | **Drag a button** | Drop it on another slot to swap the two (or move it, if the slot is empty). You can drag between the static block and the page block.<br>*Letting go over empty space cancels the move. A key assigned to the button moves with it.* | on (needs Allow moving) |
 
+
+
 ## Page buttons
 
 The block to the right of the dashed line. It shows the buttons of the page you picked. Grow the window wider for more columns, taller for more rows.
@@ -364,6 +385,8 @@ The block to the right of the dashed line. It shows the buttons of the page you 
 | Control | What it does |
 |---|---|
 | **Drag a button onto a page** | Moves the button to that page: into the same spot if it is free, otherwise the first free spot. When it lands on a page other than the one you are on, a message names that page.<br>*A key assigned to the button moves with it.* |
+
+
 
 ## Right-click a button
 
@@ -382,6 +405,8 @@ Right-click any button slot for this menu. On an empty slot, Assign to key and C
 | **Paste "<name>" from clipboard** | Shown when your Windows clipboard holds a button code (for example one someone sent you). Puts that button into this slot. A code can only make a button; it never runs anything. |
 | **Clear button** | Empties the slot: the command, label, colours and any keys assigned to the button are removed. Asks first. |
 
+
+
 ## Colour picker
 
 Used by every Set colour and Set text colour. The button changes while you drag, and the colour is kept however you close the picker (Done, Escape, or a click on the grid).
@@ -393,6 +418,8 @@ Used by every Set colour and Set text colour. The button changes while you drag,
 | **Reset / Auto** | For a background it reads Reset and takes the custom colour off, so the button or page goes back to the theme's colour. For text it reads Auto and goes back to the automatic readable colour. |
 | **Done** | Closes the picker. The colour is already on the button and is saved. |
 
+
+
 ## Rename
 
 | Control | What it does |
@@ -400,6 +427,8 @@ Used by every Set colour and Set text colour. The button changes while you drag,
 | **Name box** | The new name. Enter = OK, Escape = Cancel. |
 | **OK** | Saves the name. For a button, an empty name is refused with a note in red - use Clear button to remove a button. |
 | **Cancel** | Closes without changing anything. |
+
+
 
 ## Clear and paste-over warning
 
@@ -411,6 +440,8 @@ The same small box asks before Clear button, and before a paste that would repla
 | **Clear / Paste** | Goes ahead. |  |
 | **Cancel** | Leaves the button as it was. |  |
 
+
+
 ## Delete page
 
 | Control | What it does |
@@ -418,6 +449,8 @@ The same small box asks before Clear button, and before a paste that would repla
 | **Type the page name** | Delete stays greyed out until this matches the page name exactly (capitals count). |
 | **Delete** | Removes the page, every button on it and any keys assigned to those buttons. |
 | **Cancel** | Keeps the page. |
+
+
 
 ## Find
 
@@ -429,6 +462,8 @@ Opened by the magnifier. Searches every button, static ones first, then page by 
 | **Click a result** | Switches to that button's page and rings the button for a couple of seconds. It does not press it. If the button is outside the window, a message says its page, row and column. |  |
 | **▶ Run** | Sends that button's command right away, the same as clicking it, and keeps the Find drawer open. |  |
 | **x (close)** | Closes Find. Clicking anywhere outside it also closes it. |  |
+
+
 
 ## Settings (the gear)
 
@@ -447,7 +482,10 @@ The Layout drawer. Changes show at once and are saved. They change the buttons, 
 | **Allow moving (drag to rearrange)** | Lets you drag buttons and pages around. Turn it off to stop accidental moves; clicking still works. | on |
 | **Allow deleting pages** | Adds Delete page… to a page's right-click menu. | off |
 | **Open For Who on load** | Shows the For Who window whenever the MCP opens. | off |
+| **Reset all colours** | Takes the background and text colour off every button and page, static buttons too, the same as Reset in the colour picker on each one. Names and commands are kept. It asks first. |  |
 | **x (close)** | Closes the drawer. The gear does the same. |  |
+
+
 
 ## What the window shows
 
@@ -778,6 +816,8 @@ The easy way to find the name of an unusual key, such as a G-key or a side mouse
 |---|---|
 | **Click here, then press your button** | Click it, then press the key within 20 seconds. The box shows the key it caught (for example '✓ G600-G12 — click to assign'). Click the box again to assign that key to this button.<br>*It only catches G-keys (G600/G510), gamepad buttons, mouse buttons 4 and up and F13-F24. For any other key, click it in the list.* |
 
+
+
 ## Key list
 
 | Control | What it does | Default |
@@ -785,12 +825,17 @@ The easy way to find the name of an unusual key, such as a G-key or a side mouse
 | **filter keys… (placeholder)** | Shows only keys whose name contains the text. Escape closes the window. | empty |
 | **Click a key** | Assigns that key to this button straight away. It is saved and working at once.<br>*A key that already fires another button (shown on the right) now fires both.* |  |
 
+
+
 ## Assigned to this button
 
 | Control | What it does |
 |---|---|
 | **✕ (on a key tag)** | Removes that key from this button. It stops working at once on every character on this PC. |
 | **Close** | Hides the window (and stops a key detector that is still listening). |
+| **Title bar close (X)** | Closes the window. Your keys stay as they are, and a key detector that is listening stops by itself at the end of its 20 seconds. |
+
+
 
 ## What the window shows
 
@@ -839,7 +884,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - Nothing is kept until you press **Save**, which saves every tab. Closing undoes unsaved theme colours.
 > - The UI scale, the InnerSpace console choice and the Session watch take effect when you press Save.
 > - `ogre config` while this window is open does nothing - what you typed stays.
-> - A window you scaled yourself (right-click its title bar) ignores the UI scale until you pick Scale: use default.
+> - A window you scaled yourself (right-click its title bar, then More) ignores the UI scale until you pick Scale: use default.
 
 **Open it:** Type `ogre config` (or `ogre options` / `ogre info`) in the InnerSpace console. If it is already open, that does nothing - what you typed in it stays. It also opens by itself on the Account tab when your Ogre login is missing or wrong.
 
@@ -853,6 +898,8 @@ Ogre Options holds the settings that belong to Ogre itself rather than to one ch
 |---|---|---|
 | **Account / Ogre / Theme** | Switches the page. Save saves every tab at once, not just the one you are looking at. | Account |
 
+
+
 ## Account tab
 
 | Control | What it does | Default |
@@ -861,14 +908,18 @@ Ogre Options holds the settings that belong to Ogre itself rather than to one ch
 | **Password** | Your Ogre account password. If you are not logged in when you press Save, Ogre tries to log in again straight away ('Saved - logging in...'). If you are already logged in, a new password is used the next time the bot loads.<br>*Saving a blank box does not erase the saved password.* | empty on a first install |
 | **Show password** | Shows the password as text instead of dots so you can check it.<br>*Display only - changes what you see, not what the bot does.* | off |
 
+
+
 ## Ogre tab
 
 | Control | What it does | Default |
 |---|---|---|
-| **UI scale — default for every window (right-click a window to override one)** | How big every Ogre window is drawn: 0.75, 0.9, 1 (100%), 1.1, 1.25 or 1.5. Applies to all windows as soon as you press Save. A window you scaled yourself (right-click its title bar, Scale + / Scale −) keeps its own size until you pick Scale: use default on it.<br>*The list opens inside the window and pushes the setting below it down, so every size is in view.* | 1 (100%) |
-| **When the InnerSpace console covers a window** | What happens to an Ogre window that the InnerSpace console covers when you open it. Slide it below the console, then put it back: it moves down out of the way and returns when the console closes. Hide it until the console closes. Leave it where it is: nothing moves.<br>*Like the UI scale, it takes effect when you press Save. This is the default for every window: a window can have its own, from its title bar's right-click menu, under When Console is open (Slide below, Hide or Leave in place; Use default goes back to this one).* | Slide it below the console, then put it back |
+| **UI scale — default for every window (right-click a window to override one)** | How big every Ogre window is drawn: 0.75, 0.9, 1 (100%), 1.1, 1.25 or 1.5. Applies to all windows as soon as you press Save. A window you scaled yourself (right-click its title bar, then More, Scale + / Scale −) keeps its own size until you pick Scale: use default on it.<br>*The list opens inside the window and pushes the setting below it down, so every size is in view.* | 1 (100%) |
+| **When the InnerSpace console covers a window** | What happens to an Ogre window that the InnerSpace console covers when you open it. Slide it below the console, then put it back: it moves down out of the way and returns when the console closes. Hide it until the console closes. Leave it where it is: nothing moves.<br>*Like the UI scale, it takes effect when you press Save. This is the default for every window: a window can have its own, from its title bar's right-click menu, under More, When Console is open (Slide below, Hide or Leave in place; Use default goes back to this one).* | Slide it below the console, then put it back |
 | **Navmesh downloads** | Navmeshes are the zone maps the bot uses to walk and fly. **All zones, in the background**: every zone's mesh downloads while you play, the zone you are in first. **Only the zones I go to**: a zone's mesh downloads when you enter it or a route heads there. **Off**: nothing downloads, and nav tells you when a zone has no mesh.<br>*Takes effect as soon as you press Save. It is the same setting as `ogre patch mesh all\|ondemand\|off`.* | All zones, in the background |
 | **Announce sessions that freeze, recover or disappear** | Every session tells the uplink it is alive every 5 seconds. With this on, the uplink announces a session that goes silent (30 seconds, 90 while loading), comes back, or closes for any reason, and fires OgreEvent_SessionFrozen, OgreEvent_SessionRecovered and OgreEvent_SessionGone for scripts running in the uplink.<br>*Saved for the whole PC; Save also tells the uplink at once. `ogre sessions on\|off` turns it on or off until the uplink restarts.* | off |
+
+
 
 ## Theme tab - presets
 
@@ -877,6 +928,8 @@ The colours of every Ogre window. Changes show at once on every open window; the
 | Control | What it does | Default |
 |---|---|---|
 | **Start from: Toxic, Ogre, Ogre Bold, Forest, Swamp, Stone, Steel Blue, Amethyst, Crimson, Amber, Nightshade, Venom** | Paints every window in that ready-made colour scheme. Any colour you change below is changed on top of the scheme you started from. The lit button is the scheme you are on; none is lit once you have changed a colour. | Toxic |
+
+
 
 ## Theme tab - colours
 
@@ -908,6 +961,8 @@ Each row is one colour used across all windows. Click the square to open Hue / S
 | **Colour square (opens H / S / L sliders)** | Opens sliders for that colour right under its row; the colour changes as you drag. Click the square again to close them. |
 | **Colour code box (e.g. #1f9a2a)** | Type a colour code (#rgb or #rrggbb). It applies as soon as it is valid; an invalid code turns the box's border red. |
 
+
+
 ## Theme tab - saving
 
 | Control | What it does |
@@ -916,13 +971,17 @@ Each row is one colour used across all windows. Click the square to open Hue / S
 | **Undo changes** | Goes back to the last saved theme. |
 | **saved / unsaved changes** | Tells you whether what you see has been saved. |
 
+
+
 ## Save and Close
 
 | Control | What it does |
 |---|---|
-| **Save** | Saves every tab: your login, UI scale, the console setting, navmesh downloads, and the theme if you changed it. The UI scale and console setting apply right away. The text beside it shows 'Saving…', then 'Saved.', 'Saved - logging in...' or 'Save FAILED'. |
+| **Save** | Saves every tab: your login, UI scale, the console setting, navmesh downloads, the Session watch, and the theme if you changed it. The UI scale and console setting apply right away. The text beside it shows 'Saving…', then 'Saved.', 'Saved - logging in...' or 'Save FAILED'. |
 | **Close** | Closes the window without saving. Unsaved theme changes are undone. |
 | **Title bar close (X)** | Same as Close. |
+
+
 
 ## What the window shows
 
@@ -932,8 +991,8 @@ Each row is one colour used across all windows. Click the square to open Hue / S
 ## Good to know
 
 - Nothing is kept until you press Save. Closing the window throws away unsaved changes, including theme colours you were trying out.
-- Save saves all four tabs at once.
-- A window you scaled yourself ignores the UI scale here. Right-click its title bar and pick Scale: use default to make it follow again.
+- Save saves all three tabs at once.
+- A window you scaled yourself ignores the UI scale here. Right-click its title bar and pick More, then Scale: use default, to make it follow again.
 - The InnerSpace console setting is about the InnerSpace console (the one you type `ogre` commands in), not OgreConsole.
 - A new password is only used right away if you were not logged in. Otherwise it takes effect the next time the bot loads.
 
@@ -972,13 +1031,15 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 
 ## What it is for
 
-Lists every Ogre window that is open in this session and puts any of them back where it started. Use it when a window has ended up off-screen (for example after switching monitors or changing resolution) and you cannot reach its title bar to drag it back. Reset puts a window back at its starting position and size, returns it to the UI scale set in Ogre Options, unlocks it, and forgets any position you saved for it.
+Lists every Ogre window that is open in this session and puts any of them back where it started. Use it when a window has ended up off-screen (for example after switching monitors or changing resolution) and you cannot reach its title bar to drag it back. Reset puts a window back at its starting position and size, returns it to the UI scale set in Ogre Options and unlocks it. A position you saved is kept for the next time the window opens.
 
 ## Header
 
 | Control | What it does |
 |---|---|
 | **↻ Refresh** | Reads the list of open windows again. The list is taken when this window opens and does not update by itself. |
+
+
 
 ## The window list
 
@@ -988,6 +1049,8 @@ One row per open window (this one is left out).
 |---|---|
 | **Reset** | Moves that window back to where it first opened, at its starting size and at the UI scale set in Ogre Options, unlocks it, and makes sure its title bar is on the current screen. The position you saved with Save Position is kept, so after you close the window or log out it opens at the saved spot again.<br>*A hidden window stays hidden - Reset only moves it.* |
 
+
+
 ## Reset everything
 
 | Control | What it does |
@@ -995,10 +1058,12 @@ One row per open window (this one is left out).
 | **Reset All Windows** | Does a Reset on every window in the list at once, hidden ones included. Help windows and the OgreHUD are listed but left where they are; use their own Reset button.<br>*No confirmation. Saved positions are kept.* |
 | **Title bar close (X)** | Closes this window, the same as `ogre end windowreset`. Nothing else changes. |
 
+
+
 ## What the window shows
 
-- Each row: the window's title, then its position (x, y), size (width × height, 'auto' when it sizes itself) and its scale if it is not 1.
-- OFF-SCREEN (red): the window is open but its title bar is outside the screen.
+- Each row: the window's title, then the position it asked for (x, y), size (width × height, 'auto' when it sizes itself) and its scale if it is not 1.
+- OFF-SCREEN (red): the window is open but its title bar is outside the screen. You will rarely see it: every window is drawn with its title bar on the screen, so a window saved off-screen (like SmartLoot in the picture) shows up at the edge of the screen, with no badge, and its row still shows the saved spot.
 - HIDDEN (grey): the window exists but is hidden, for example the OgreBot main window after a plain `ogre`.
 - LOCKED: the window was locked from its title-bar right-click menu. Reset unlocks it.
 - 'No other windows are open.' when there is nothing to reset.
@@ -1012,7 +1077,7 @@ One row per open window (this one is left out).
 
 ## After a Reset
 
-The off-screen SmartLoot window is back at its starting spot and the OFF-SCREEN badge is gone.
+SmartLoot, which was saved off-screen, is back at its starting spot.
 
 ![After Reset](../assets/windowreset/after-reset.png)
 
@@ -1086,7 +1151,7 @@ The Instance Controller (IC) runs a list of instanced zones for you, one after a
 | **Up** | Goes up one folder in the browse list and clears the selected file.<br>*Disabled at a root's top level.* |  |
 | **search** | Filters the browse list to files whose zone name or path contains the text. Not case-sensitive. It applies about 0.2 seconds after you stop typing.<br>*Not saved, so it clears when the extension reloads.* | empty |
 | **any variant / [Solo] / [Heroic] / ...** | Two jobs. (1) Hides files that do not have this variant. (2) Every zone you queue is tagged with this variant, which decides which instance the zone-in travels to. 'any variant (browse only)' turns the filter off and tags nothing. The choices are every variant found in the loaded zone files. Saved.<br>*With 'any', queuing a file that has 2+ variants pops up a pick-one menu at the row.* | any variant |
-| **Reload** | Re-reads every zone file from the three roots. Prints 'N zone(s) from M file(s) - X skipped, Y warning(s)'. The selected file is cleared if it no longer exists. A zone file with a problem (for example one that does not say how it leaves the zone) is not valid: it shows in the list in red, and clicking it says why (see Write your own zone files).<br>*A queued row whose file vanished fails with 'press Reload' when the row starts.* |  |
+| **Reload** | Re-reads every zone file from the content roots. Prints 'N zone(s) from M file(s) - X skipped, Y warning(s)'. The selected file is cleared if it no longer exists. A zone file with a problem (for example one that does not say how it leaves the zone) is not valid: it shows in the list in red, and clicking it says why (see Write your own zone files).<br>*A queued row whose file vanished fails with 'press Reload' when the row starts.* |  |
 
 
 

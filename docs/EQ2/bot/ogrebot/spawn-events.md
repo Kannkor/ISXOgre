@@ -1,16 +1,19 @@
-# Spawn Events
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# Spawn Events
 
 Spawn Events works like Chat Events, but it watches for things appearing around you instead of chat. When something appears whose name contains your text, the bot can run a console command, post a line to OgreConsole, play a 'Ding' sound, or any mix of the three. Nothing happens until you tick "Enable Spawn Events" on the Settings tab. Build events with the boxes at the top; they appear in the Configured Events list below.
 
 [![Spawn Events tab](../assets/ogrebot/tab-spawn-events.png)](../assets/ogrebot/tab-spawn-events.png "Click for full size")
 
+
 | Option | What it does | Default |
 |---|---|---|
 | **Configured Events** | Your spawn events. Click a row to edit it, double-click to switch it off or on, drag a row to reorder, and click X to delete it.<br>*A switched-off row is kept but never fires. Every active row is checked, so the order does not matter.* | empty |
+
+
 
 ## Add an event
 
@@ -23,6 +26,8 @@ Spawn Events works like Chat Events, but it watches for things appearing around 
 | **Add** | Adds the event to the list below. Pressing Enter in either text box does the same. While you are editing a row this button reads Update and saves your changes to that row. |  |
 | **Clear Options** | Unticks OC and Ding. Ticks otherwise carry over to the next event you add. |  |
 | **Cancel** | Only shown while editing a row. Stops editing without changing the row. |  |
+
+
 
 ## Good to know
 

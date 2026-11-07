@@ -1,8 +1,8 @@
-# Pushover Account
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# Pushover Account
 
 > **:bulb: In game - the ? button on this window says**
 >
@@ -38,6 +38,8 @@ Pushover is a phone app that the bot can use to send you alerts (for example, a 
 | **Application API token** | Paste the API token of the application you created on pushover.net. Pressing Enter is the same as Save.<br>*The grey text in an empty box is only an example of what a key looks like.* | empty |
 | **Your user key** | Paste your user key from your pushover.net dashboard. Pressing Enter is the same as Save. | empty |
 
+
+
 ## Buttons
 
 [![Buttons](../assets/pushovercreds/buttons.png)](../assets/pushovercreds/buttons.png "Click for full size")
@@ -50,11 +52,14 @@ Pushover is a phone app that the bot can use to send you alerts (for example, a 
 | **Close** | Closes the window. Anything typed but not saved is thrown away. |
 | **Title bar close (X)** | Closes the window without saving, the same as Close. |
 
+
+
 ## After saving
 
 The status box shows the first 4 and last 2 characters of each key, their length, and how many alerts are waiting to be sent.
 
 [![After saving](../assets/pushovercreds/configured.png)](../assets/pushovercreds/configured.png "Click for full size")
+
 
 ## What the window shows
 

@@ -19,7 +19,7 @@
 > **Good to know**
 >
 > - Names must match exactly: "Wanderer" will not find "The Wanderer". Find is silent in a guild hall.
-> - Closing the window does not stop either tool. Set them back to idle, or type `ogre end find` / `ogre end trackshiny`.
+> - Closing the window stops both tools, the same as `ogre end watcher`. To stop only one, click its pill, or type `ogre end find` / `ogre end trackshiny`.
 > - Open this window with `ogre watcher`.
 
 **Open it:** Type `ogre watcher`. `ogre find -panel` and `ogre trackshiny -panel` open the same window.
@@ -28,7 +28,7 @@
 
 ## What it is for
 
-The Watcher has two small tools in one window. **Find** watches for named creatures or NPCs: when one on your list appears in your zone, you get a message, an in-game waypoint on it, and every other session is told. **Track Shiny** looks for a shiny (a harvestable collectible) of one colour within 100 metres of you and does the same when a new one shows up. Both keep working after you close the window.
+The Watcher has two small tools in one window. **Find** watches for named creatures or NPCs: when one on your list appears in your zone, you get a message, an alarm sound, an in-game waypoint on it, and every other session is told. **Track Shiny** looks for a shiny (a harvestable collectible) of one colour anywhere in your zone and does the same when a new one shows up, with a ding on every session instead of the alarm. Neither needs the window to be open, but closing it with the X ends both.
 
 ## Header
 
@@ -37,7 +37,7 @@ The Watcher has two small tools in one window. **Find** watches for named creatu
 | Control | What it does |
 |---|---|
 | **Clear log** | Empties the Hits list below. It does not change the watch list or turn anything off. |
-| **Title bar close (X)** | Ends the Watcher (the same as `ogre end watcher`): Find and Track Shiny both stop, and the window closes.<br>*To keep one watching without the window, end only the other: `ogre end find` or `ogre end trackshiny`.* |
+| **Title bar close (X)** | Ends the Watcher (the same as `ogre end watcher`): Find and Track Shiny both stop, and the window closes.<br>*To stop only one, click its pill, or type `ogre end find` or `ogre end trackshiny`. The window stays open.* |
 
 
 
@@ -49,7 +49,7 @@ Names must match the whole name exactly (capital letters do not matter). "Wander
 
 | Control | What it does | Default |
 |---|---|---|
-| **idle / armed (pill next to Find)** | Turns Find on or off. When you turn it on it also checks the zone once for anything already on your list. While on, a listed name that appears gets a message, a waypoint and a note to your other sessions; one that leaves gets a DISAPPEARED line.<br>*With an empty list it stays idle and the console says "nothing to watch - add a name first". The on/off choice is remembered after a restart.* | idle |
+| **idle / armed (pill next to Find)** | Turns Find on or off. When you turn it on it also checks the zone once for anything already on your list. While on, a listed name that appears gets a message, a waypoint, a note to your other sessions and an alarm sound; one that leaves gets a DISAPPEARED line and the same alarm. The alarm plays on the session that saw it.<br>*With an empty list it stays idle and the console says "nothing to watch - add a name first". The on/off choice is remembered after a restart.* | idle |
 | **Actor name (exact)... (placeholder)** | Type a creature or NPC name to watch. Pressing Enter does the same as Add. | empty |
 | **Add** | Adds the typed name to the watch list. It does not turn Find on.<br>*A name already on the list is not added twice.* |  |
 | **+ -rorr preset** | Adds the four Renewal of Ro researchers (the NPCs that upgrade your epic abilities): The Wanderer, Filowen Curetouch, Angrus Silentfang and Balkot Stonefury.<br>*Only names not already on the list are added. It does not turn Find on.* |  |
@@ -74,7 +74,7 @@ Names must match the whole name exactly (capital letters do not matter). "Wander
 
 | Control | What it does | Default |
 |---|---|---|
-| **idle / armed (pill next to Track Shiny)** | Turns Track Shiny on or off. While on, it looks around you (100 metres) every half second for a shiny of the chosen colour. When it finds a new one it adds a line to Hits, puts a waypoint on it and tells your other sessions. The same shiny is only reported once. The on/off choice is remembered after a restart. | idle |
+| **idle / armed (pill next to Track Shiny)** | Turns Track Shiny on or off. While on, it looks through the whole zone every half second for a shiny of the chosen colour, nearest first. When it finds a new one it adds a line to Hits, puts a waypoint on it and tells your other sessions, and every session dings. The same shiny is only reported once. The on/off choice is remembered after a restart. | idle |
 | **Colour (White / Green / Purple / Red / BlueShimmer / Blue buttons)** | Which shiny colour to look for. Click a colour; the lit one is in use.<br>*Changing the colour clears Last seen. It does not turn tracking on.* | Purple |
 
 
@@ -91,10 +91,9 @@ Names must match the whole name exactly (capital letters do not matter). "Wander
 
 - Find names must match exactly. "Wanderer" does not find "The Wanderer".
 - Find alerts are silenced while you are in a guild hall. Scan now still works there.
-- Closing the window does not stop anything. Set both pills to idle to stop watching, or type `ogre end find` / `ogre end trackshiny`. Opening it again while it is already open does nothing.
+- Closing the window with the X stops Find and Track Shiny, the same as `ogre end watcher`. To stop only one, click its pill, or type `ogre end find` / `ogre end trackshiny`. Opening the window while it is already open does nothing.
 - The watch list, colour and on/off choices are saved and come back after a restart. The Hits list is not saved.
 - Typing `ogre find <name>` in the console REPLACES the whole watch list with that name and turns Find on. Use the Add box to add a name instead.
-- Track Shiny only looks 100 metres around you.
 
 ## First open
 

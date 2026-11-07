@@ -62,7 +62,7 @@ return "${OgreBotAPI.Util.MD5["${_Input}"]}"
 | Old call | Today | Write instead | What changed | Notes |
 |---|---|---|---|---|
 | `command:OgreA` | does nothing | — | ⛔ Removed | Old: registered as a command; its handler already returned at once in Classic - "With 64 bit this is retired unless people want it again". Nothing to port. Public doc: NOT in isxogre-api.md. |
-| `command:OgreBotAtom` | does nothing | — | ⛔ Removed | Each atom has its own replacement - usually the matching `oc !c -<Verb>` console row or OgreBotAPI method. |
+| `command:OgreBotAtom` | does nothing | — | ⛔ Removed | Each atom has its own replacement - usually the matching `oc !c -<Verb>` console row or OgreBotAPI method.<br>Classic's ran an atom inside the OgreBot script. |
 | `ISXOgre.Base64Decode` | does nothing | — | ⛔ Not ported yet | Old: returns the decoded text of a jsonvalue's scalar (outer quotes stripped) or of the literal argument. Public doc: YES - the classic docs' ISXOgre API page (Base64Decode - Member). |
 | `ISXOgre.Base64DecodeString` | does nothing | — | ⛔ Not ported yet | Old: returns the base64-decoded argv[0] taken by value. Public doc: NOT in isxogre-api.md. |
 | `ISXOgre.Base64Encode` | does nothing | — | ⛔ Not ported yet | Old: returns base64 of a jsonvalue's JSON (jsonvalue arg) or of the literal argument text. Public doc: YES - the classic docs' ISXOgre API page (Base64Encode - Member). |
@@ -99,8 +99,8 @@ return "${OgreBotAPI.Util.MD5["${_Input}"]}"
 | `ISXOgre:GenerateSessionNames` | does nothing | — | ⛔ Removed | Old: runs an embedded script that fills an LGUI listbox/combobox (argv[0] = its ID) with session names. The new bot has no LGUI (ISUI) layer; its windows are Ultralight HTML through ${ISXOgreX.UI}. Public doc: NOT in isxogre-api.md. |
 | `ISXOgre:GenerateToonNames` | does nothing | — | ⛔ Removed | Old: runs an embedded script that fills an LGUI listbox/combobox (argv[0] = its ID) with toon names. The new bot has no LGUI (ISUI) layer; its windows are Ultralight HTML through ${ISXOgreX.UI}. Public doc: NOT in isxogre-api.md. |
 | `ISXOgre:GenerateUplinkNames` | does nothing | — | ⛔ Removed | Old: runs an embedded script that fills an LGUI listbox/combobox (argv[0] = its ID) with uplink names. The new bot has no LGUI (ISUI) layer; its windows are Ultralight HTML through ${ISXOgreX.UI}. Public doc: NOT in isxogre-api.md. |
-| `ISXOgre:OgreConsole` | does nothing | — | ⛔ Removed | Sending a console line in the new bot is `oc` / ISXOgreX.Console:Send. |
-| `ISXOgre:OgreIRC` | does nothing | — | ⛔ Removed | The new IRC door is `ogre irc`. |
+| `ISXOgre:OgreConsole` | does nothing | — | ⛔ Removed | To send a console line, use `oc` or ISXOgreX.Console:Send.<br>Classic's was already dead: it printed that the call needed changing and did nothing. |
+| `ISXOgre:OgreIRC` | does nothing | — | ⛔ Removed | Use `ogre irc`.<br>Classic's was already dead: it printed that the call needed changing and did nothing. |
 | `ISXOgre:OgreIRCTest` | does nothing | — | ⛔ Removed | Old: is marked "OLD DOES NOT WORK NO LONGER USED" and returns false before executing. Public doc: NOT in isxogre-api.md. |
 | `ISXOgre:Patch` | does nothing | `ogre patch` | ➡️ Lives somewhere else | Inside a script the same run is ISXOgreX.Patch:Update (no human types a bare native command); its other words are methods of their own - ISXOgreX.Patch:Status, RevertExt, Mesh, Class, Ignore. |
 | `ISXOgre:PatchDev` | does nothing | — | ⛔ Removed | Old: already did nothing in Classic - it prints "Development build is no longer being used" and returns before the patch code. Nothing to port. Public doc: NOT in isxogre-api.md. |
@@ -126,7 +126,7 @@ return "${OgreBotAPI.Util.MD5["${_Input}"]}"
 | `OgreOSA.Enabled` | does nothing | `OgreBotAPI.Options.Value` | ➡️ Lives somewhere else | There is no read of the OSA window's own open state; ${OgreBotAPI.Options.Value[checkbox_settings_enableonscreenassistant]} is the setting it follows. A window opened by hand with `ogre osa` while the box is unticked does not show up in it. |
 | `OgreOSA.ScanRadius` | does nothing | `OgreBotAPI.Options.Value` | ➡️ Lives somewhere else | The option is stored as text; the OSA clamps it to 200 and keeps its default of 50 when the option is missing. |
 | `OgreOSA.TargetsOnly` | does nothing | `OgreBotAPI.Options.Value` | ➡️ Lives somewhere else | Read ${OgreBotAPI.Options.Value[checkbox_osa_targetsonly]}. |
-| `OgreOSA:ClickingDone` | does nothing | `ISXOgreEQ2.OSA:Target` | ✏️ Renamed | See OgreOSA:DoTarget for the timing difference. |
+| `OgreOSA:ClickingDone` | does nothing | `ISXOgreEQ2.OSA:Target` | ✏️ Renamed | Not deferred any more: Classic's targeted on the next pulse and the new one targets at once, so do not call it from inside a UI event callback. |
 | `OgreOSA:ClickingStart` | does nothing | — | ⛔ Removed | Old: is the LGUI listbox OnLeftDown hook that holds the scan so the listbox does not rebuild under a click. The new bot has no LGUI (ISUI) layer; the Ultralight OSA window's click calls ISXOgreEQ2.OSA:Target directly, so there is no listbox to hold. Public doc: no. |
 | `OgreOSA:DoTarget` | does nothing | `ISXOgreEQ2.OSA:Target` | ✏️ Renamed | Not deferred any more: do not call it from inside a UI event callback. |
 | `OgreOSA:LoadConfig` | does nothing | — | ⛔ Removed | Old: re-pulls the OSA filters from OgreBot; Classic calls it after every OSA option change. New: nothing to call - the new OgreBot pushes the OSA config every pulse while the OSA is wanted, so a changed option applies on its own. Public doc: no. |

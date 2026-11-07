@@ -1,8 +1,8 @@
-# NPC Cast Monitoring
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# NPC Cast Monitoring
 
 > **:bulb: In game - the ? button on this window says**
 >
@@ -50,6 +50,8 @@ The top line shows the zone and a count. On the Monitor tab the count is how man
 | **Monitor** | Shows the Monitor tab: the log of what mobs cast. Display only - changes what you see, not what the bot does.<br>*The window always opens on this tab.* | shown |
 | **Watch list** | Shows the Watch list tab: the mobs and spells watched in this zone, and what the bot does about them. Display only - changes what you see, not what the bot does. |  |
 
+
+
 ## Monitor: what to log, Start and Stop
 
 Pick whose spells to log, then press Start. One of the three buttons is always lit. Your target and your target's target are logged in every choice.
@@ -63,11 +65,14 @@ Pick whose spells to log, then press Start. One of the three buttons is always l
 | **+ every NPC nearby** | Also logs every NPC within 100 meters of you, named or not. Their spells show the ability id but no name, unless that spell was once named from your cast bars. | off |
 | **Start / Stop** | Start begins logging and the button turns into a red Stop. It checks four times a second and keeps going while you fight, zone or die, until you press Stop. Stop saves the log and stops; the list stays on screen.<br>*Closing the window stops it too (and saves the log), the same as `ogre end npccast`. It runs while OgreBot is closed or paused, and with NPC Cast Monitoring unticked.* |  |
 
+
+
 ## Monitor: the log
 
 One row per mob and spell, in the order they were first seen. A grey bar above the log says what your last button press did. With either of the 'nearby' choices, a second grey bar explains why some spells have no name.
 
 [![Monitor: the log](../assets/npccast/mon-log.png)](../assets/npccast/mon-log.png "Click for full size")
+
 
 ## Monitor: Copy, Clear and the file
 
@@ -80,17 +85,21 @@ Under the log: whether the Monitor is running ('monitoring') or 'stopped', the t
 | **Copy** | Puts the whole log on your clipboard as text, ready to paste: a line with the zone name, a line naming the columns, then one line per row (mob \| spell \| ability id \| cast time \| seen). The grey bar says how many lines were copied.<br>*Greyed out while the log is empty.* |
 | **Clear** | Empties the log for this zone, and its saved file too. Spell names already learned are kept.<br>*No confirmation and no undo. Greyed out while the log is empty.* |
 
+
+
 ## Watch list tab
 
 The Watch list always shows the zone you are in right now. Everything below is on this tab.
 
 [![Watch list tab](../assets/npccast/watch.png)](../assets/npccast/watch.png "Click for full size")
 
+
 ## Watch list: header
 
 On this tab the zone name is the name of the zone's list file. The counts on the right say how many mobs and spells are listed and how many mobs are being watched right now.
 
 [![Watch list: header](../assets/npccast/header.png)](../assets/npccast/header.png "Click for full size")
+
 
 ## Watch list: adding spells
 
@@ -103,6 +112,8 @@ On this tab the zone name is the name of the zone's list file. The counts on the
 | **ability id (box)** | The spell's number (its ability id). Anything that is not a digit is removed. Cleared after adding. | empty |
 | **label (optional) (box)** | A name you give the spell so you know what it is. Only shown in this window. Cleared after adding. | empty |
 | **Add by hand** | Adds the typed mob and spell number to your list for this zone. Nothing happens if the mob name or the number is empty.<br>*If that mob already has that spell in your list, nothing changes (the label is not updated).* |  |
+
+
 
 ## Watch list: zone settings and files
 
@@ -117,11 +128,14 @@ On this tab the zone name is the name of the zone's list file. The counts on the
 | **Import Classic custom** | Copies the converted custom lists from OgreBot Classic into your own list folder. A zone you already have your own list for is skipped, never overwritten. The console says how many files were copied and skipped.<br>*This works even when NPC Cast Monitoring is turned off.* |  |
 | **Reset my edits** | Deletes your own list for this zone, so only the shipped list is left. Everything you added, removed or changed in this zone is gone, including the scan radius and the players setting.<br>*There is no confirmation and no undo.* |  |
 
+
+
 ## Watch list: messages
 
 Bars under the buttons tell you what happened. Green or red is the result of your last capture or edit: when something you pressed could not be done (monitoring is off, no zone is loaded, a scan radius out of range, a list file that cannot be read or written), a red bar says why. Other red bars are problems with a list file. Grey bars are notes.
 
 [![Watch list: messages](../assets/npccast/banners.png)](../assets/npccast/banners.png "Click for full size")
+
 
 ## Watch list: the list
 
@@ -137,6 +151,8 @@ One block per mob. Under each mob is one row per spell. A yellow 'yours' tag mea
 | **label** | Opens a small editor right under this spell's row, with a box holding its current name. Type a new name and press Save. Cancel closes the editor without saving.<br>*Saving an empty box removes the name you gave it. A spell from the shipped list then shows its shipped name again.* |  |
 | **commands** | Opens a small editor right under this spell's row, with the commands the bot runs each time this mob starts this spell, one per line. The row shows how many commands are set and what they are.<br>*Commands only run while OgreBot is open and not paused.* |  |
 
+
+
 ## Watch list: editing a label or commands
 
 Pressing label or commands opens this editor under the spell's row.
@@ -150,11 +166,14 @@ Pressing label or commands opens this editor under the spell's row.
 | **Cancel** | Closes the editor. Nothing is saved. |
 | **remove** | Removes this spell from the mob. A spell from your own list is deleted. A shipped spell is switched off in your list.<br>*Removing the last spell of a mob you added removes that mob too. A mob from the shipped list stays watched.* |
 
+
+
 ## Watch list: footer
 
 Shows how far the bot scans and for what (NPCs or players), and where the shipped list and your own list for this zone are stored on disk.
 
 [![Watch list: footer](../assets/npccast/footer.png)](../assets/npccast/footer.png "Click for full size")
+
 
 ## What the window shows
 

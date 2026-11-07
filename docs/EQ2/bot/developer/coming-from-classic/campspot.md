@@ -79,7 +79,7 @@ Calls written `Ogre_CampSpot:…` (methods) and `${Ogre_CampSpot.…}` (members)
 
 | Old call | Today | Write instead | What changed | Notes |
 |---|---|---|---|---|
-| `Ogre_CampSpot.AbsoluteCampSpotLoc` | reads NULL | `OgreBotAPI.CampSpot.AnchorLoc` | ✏️ Renamed | See `Get_AbsoluteCampSpot`. |
+| `Ogre_CampSpot.AbsoluteCampSpotLoc` | reads NULL | `OgreBotAPI.CampSpot.AnchorLoc` | ✏️ Renamed | `"x,y,z"` string, same shape as `.EffectiveLoc`, so it feeds `Math.Distance` directly; components are `.AnchorX/.AnchorY/.AnchorZ`. Empty string when no spot is set. |
 | `Ogre_CampSpot.AllowCampSpot` | reads NULL | `OgreBotAPI.Movement.AllowMovement` | ✏️ Renamed |  |
 | `Ogre_CampSpot.AllowMovement` | reads NULL | `OgreBotAPI.Movement.AllowMovement` | ➡️ Moved |  |
 | `Ogre_CampSpot.AtCampSpot` | reads NULL | `OgreBotAPI.CampSpot.AtCampSpot` | ➡️ Moved |  |
@@ -95,10 +95,10 @@ Calls written `Ogre_CampSpot:…` (methods) and `${Ogre_CampSpot.…}` (members)
 | `Ogre_CampSpot.DistanceFromCampSpot` | reads NULL | `OgreBotAPI.CampSpot.DistanceTo` | ✏️ Renamed |  |
 | `Ogre_CampSpot:Enable` | does nothing | `OgreBotAPI.Movement:Unblock` `[fw,reason]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. Renamed on purpose: Classic's `Disable` ADDS a block and `Enable` REMOVES one. Next to `CampSpot:Enable` / `:Disable` (which arm and disarm the LEASH) that polarity reads backwards, and it already cost this port a wrong mapping. The verbs now say what they do. `[fw, reason]` releases THAT hold only. |
 | `Ogre_CampSpot.Get_AbsoluteCampSpot` | reads NULL | `OgreBotAPI.CampSpot.AnchorLoc` | ✏️ Renamed | `"x,y,z"` string, same shape as `.EffectiveLoc`, so it feeds `Math.Distance` directly; components are `.AnchorX/.AnchorY/.AnchorZ`. Empty string when no spot is set. |
-| `Ogre_CampSpot.Get_CampSpot` | reads NULL | `OgreBotAPI.CampSpot.EffectiveLoc` | ✏️ Renamed | See `RelativeCampSpotLoc` - same value. |
+| `Ogre_CampSpot.Get_CampSpot` | reads NULL | `OgreBotAPI.CampSpot.EffectiveLoc` | ✏️ Renamed | The effective camp spot: components are `.EffectiveX/.EffectiveY/.EffectiveZ`. The raw anchor is the separate `.AnchorLoc`; the two differ by exactly the sticky offset whenever a relative is in play. |
 | `Ogre_CampSpot.Get_HowClose` | reads NULL | `OgreBotAPI.CampSpot.HowClose` | ✏️ Renamed |  |
 | `Ogre_CampSpot.Get_HowFar` | reads NULL | `OgreBotAPI.CampSpot.HowFar` | ✏️ Renamed |  |
-| `Ogre_CampSpot.Get_RelativeCampSpot` | reads NULL | `OgreBotAPI.CampSpot.EffectiveLoc` | ✏️ Renamed | See `RelativeCampSpotLoc` - same value, third spelling. |
+| `Ogre_CampSpot.Get_RelativeCampSpot` | reads NULL | `OgreBotAPI.CampSpot.EffectiveLoc` | ✏️ Renamed | The effective camp spot: components are `.EffectiveX/.EffectiveY/.EffectiveZ`. The raw anchor is the separate `.AnchorLoc`; the two differ by exactly the sticky offset whenever a relative is in play. |
 | `Ogre_CampSpot.Get_RelativeMods` | reads NULL | `OgreBotAPI.CampSpot.RelativeLoc` | ✏️ Renamed |  |
 | `Ogre_CampSpot.Get_Use3D` | reads NULL | `OgreBotAPI.CampSpot.Use3D` | ✏️ Renamed |  |
 | `Ogre_CampSpot.Get_X` | reads NULL | `OgreBotAPI.CampSpot.EffectiveX` | ✏️ Renamed |  |
@@ -174,7 +174,7 @@ The flat `OgreBotAPI:` camp-spot calls. They moved into `OgreBotAPI.CampSpot`.
 | `OgreBotAPI:SetCS_NPC` | does nothing | `OgreBotAPI.CampSpot:SetLocAtAngleFromActor` `[fw,angle,nameOrId,dist=3,skipIfAggro=FALSE,includeNpcSize=TRUE]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. `:SetLocAtAngleFromActor` is the working port. |
 | `OgreBotAPI:SetCS_NPC_ForWho` | does nothing | `OgreBotAPI.CampSpot:SetLocAtAngleFromActor` `[fw,angle,nameOrId,dist=3,skipIfAggro=FALSE,includeNpcSize=TRUE]` | ✏️ Renamed | Angle 0 = behind the actor, 180 = in front (as Classic). The extra last argument (include the NPC's size in the distance) defaults to TRUE. |
 | `OgreBotAPI:SetCS_PositionNPC` | does nothing | `OgreBotAPI.CampSpot:SetLocByRole` `[fw,nameOrId,dist=3,skipIfAggro=FALSE]` | ✏️ Renamed |  |
-| `OgreBotAPI.ZoneReset_FullZoneInformationAvailable` | reads NULL | — | ⛔ Removed | Classic's said whether its last update could open the Zone Reuse table or only had the zone names; the new bot's zone list changes only when a table read finishes, so `OgreBotAPI.Zone.ResetReady` (read at least once, not being re-read) is the question to ask. |
+| `OgreBotAPI.ZoneReset_FullZoneInformationAvailable` | reads NULL | — | ⛔ Removed | Read `OgreBotAPI.Zone.ResetReady` instead (read at least once, not being re-read).<br>Classic's said whether its last update could open the Zone Reuse table or only had the zone names; the new bot's zone list changes only when a table read finishes. |
 
 ## Camp-spot console commands
 
@@ -187,16 +187,16 @@ What you type after `oc !c` / `oc !ci`.
 | You typed | Today | Type instead | What changed | Notes |
 |---|---|---|---|---|
 | `-campspot` | works | — | ✅ Works as is |  |
-| `-ccs` | runs, arguments mean something else | `-ChangeCampSpot` | ⚠️ Arguments changed | Insert the for-who as the first argument. V1 had NO for-who: every session that heard the line acted. V2 reads argument 1 as the for-who, so an unconverted line's value lands in the for-who slot and the real argument falls back to its default - silently. Write `auto` there; that is what the MCP migration writes.<br>**Old:** `-ccs <x> <y> <z> (or one x,y,z token)`<br>**New:** `-ccs <fw> <x> <y> <z>`<br>… |
+| `-ccs` | runs, arguments mean something else | `-ChangeCampSpot` | ⚠️ Arguments changed | Insert the for-who as the first argument. Classic's took no for-who, so every session that heard the line acted; the new command reads it as the first argument. On a line you have not changed, the first value is read as the for-who and the others move along one place, with no error. Write `auto` there (the For Who window); that is what the MCP migration writes.<br>**Old:** `-ccs <x> <y> <z> (or one x,y,z token)`<br>**New:** `-ccs <fw> <x> <y> <z>`<br>… |
 | `-ccsb` | works | — | ✅ Works as is | Note A |
 | `-ccsbfw` | works | — | ✅ Works as is | Note A |
 | `-ccsbw` | works | — | ✅ Works as is | Note A |
 | `-ccsbyforwho` | works | — | ✅ Works as is | Note A |
 | `-ccsfw` | works | — | ✅ Works as is | Note B |
 | `-ccsw` | works | — | ✅ Works as is | Note B |
-| `-Change_CampSpot` | runs, arguments mean something else | `-ChangeCampSpot` | ⚠️ Arguments changed | Insert the for-who as the first argument. V1 had NO for-who: every session that heard the line acted. V2 reads argument 1 as the for-who, so an unconverted line's value lands in the for-who slot and the real argument falls back to its default - silently. Write `auto` there; that is what the MCP migration writes.<br>**Old:** `-Change_CampSpot <x> <y> <z> (or one x,y,z token)`<br>**New:** `-Change_CampSpot <fw> <x> <y> <z>`<br>… |
+| `-Change_CampSpot` | runs, arguments mean something else | `-ChangeCampSpot` | ⚠️ Arguments changed | Insert the for-who as the first argument. Classic's took no for-who, so every session that heard the line acted; the new command reads it as the first argument. On a line you have not changed, the first value is read as the for-who and the others move along one place, with no error. Write `auto` there (the For Who window); that is what the MCP migration writes.<br>**Old:** `-Change_CampSpot <x> <y> <z> (or one x,y,z token)`<br>**New:** `-Change_CampSpot <fw> <x> <y> <z>`<br>… |
 | `-Change_Campspot_Who` | works | — | ✅ Works as is | Note B |
-| `-ChangeCampSpot` | runs, arguments mean something else | `-ChangeCampSpot` | ⚠️ Arguments changed | Insert the for-who as the first argument. V1 had NO for-who: every session that heard the line acted. V2 reads argument 1 as the for-who, so an unconverted line's value lands in the for-who slot and the real argument falls back to its default - silently. Write `auto` there; that is what the MCP migration writes.<br>**Old:** `-ChangeCampSpot <x> <y> <z> (or one x,y,z token)`<br>**New:** `-ChangeCampSpot <fw> <x> <y> <z>`<br>… |
+| `-ChangeCampSpot` | runs, arguments mean something else | `-ChangeCampSpot` | ⚠️ Arguments changed | Insert the for-who as the first argument. Classic's took no for-who, so every session that heard the line acted; the new command reads it as the first argument. On a line you have not changed, the first value is read as the for-who and the others move along one place, with no error. Write `auto` there (the For Who window); that is what the MCP migration writes.<br>**Old:** `-ChangeCampSpot <x> <y> <z> (or one x,y,z token)`<br>**New:** `-ChangeCampSpot <fw> <x> <y> <z>`<br>… |
 | `-ChangeCampSpotBy` | works | — | ✅ Works as is | Note A |
 | `-ChangeCampSpotWho` | works | — | ✅ Works as is | Note B |
 | `-cs` | works | — | ✅ Works as is | An alias of `-campspot` - it works as typed. |
@@ -235,7 +235,7 @@ Classic's jump-route helper. In the new bot the route runs inside the bot (`Ogre
 | `Obj_CampSpotJump.Active` | reads NULL | `jumpRoute` | 📄 In a data file now | A script that must know when a route ends can attach to CampSpotJump_Completed instead. |
 | `Obj_CampSpotJump.bActive` | reads NULL | `jumpRoute` | 📄 In a data file now | Reading it: `{"jumpRoute":{"is":"running"}}`. Writing FALSE (to stop a route) is OgreBotAPI.Movement:StopJumpRoute[&lt;forwho&gt;]. Scripts can also attach to CampSpotJump_Completed, which now fires when a route ends. |
 | `Obj_CampSpotJump.bDebugMode` | reads NULL | — | ⛔ Removed | Classic - the jump script's own debug-echo switch (object scope). Not an API; the new route runner logs through the bot log. |
-| `Obj_CampSpotJump:CampSpotJump_Completed` | does nothing | — | ⛔ Removed | Nothing to convert: an empty example method in the old jump script. The CampSpotJump_Completed EVENT itself does fire in the new bot - see its own row. |
+| `Obj_CampSpotJump:CampSpotJump_Completed` | does nothing | — | ⛔ Removed | Nothing to convert: an empty example method in the old jump script. The CampSpotJump_Completed EVENT itself does fire in the new bot, with 2 arguments: `method MyHandler(string result, string why)`. |
 | `Obj_CampSpotJump.CompletedPoint` | reads NULL | — | ⛔ Removed | Note A |
 | `Obj_CampSpotJump.EndPoint` | reads NULL | — | ⛔ Removed | Note A |
 | `CampSpotJump_Completed` | never fires | `CampSpotJump_Completed` | ⚠️ Arguments changed | It fires now, with 2 arguments: method MyHandler(string result, string why). A 0-parameter atom still attaches; it just ignores them. |

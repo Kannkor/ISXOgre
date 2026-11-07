@@ -1,8 +1,8 @@
-# Assign keys
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# Assign keys
 
 > **:bulb: In game - the ? button on this window says**
 >
@@ -38,6 +38,8 @@ The easy way to find the name of an unusual key, such as a G-key or a side mouse
 |---|---|
 | **Click here, then press your button** | Click it, then press the key within 20 seconds. The box shows the key it caught (for example '✓ G600-G12 — click to assign'). Click the box again to assign that key to this button.<br>*It only catches G-keys (G600/G510), gamepad buttons, mouse buttons 4 and up and F13-F24. For any other key, click it in the list.* |
 
+
+
 ## Key list
 
 [![Key list](../assets/binds/list.png)](../assets/binds/list.png "Click for full size")
@@ -47,6 +49,8 @@ The easy way to find the name of an unusual key, such as a G-key or a side mouse
 | **filter keys… (placeholder)** | Shows only keys whose name contains the text. Escape closes the window. | empty |
 | **Click a key** | Assigns that key to this button straight away. It is saved and working at once.<br>*A key that already fires another button (shown on the right) now fires both.* |  |
 
+
+
 ## Assigned to this button
 
 [![Assigned to this button](../assets/binds/current.png)](../assets/binds/current.png "Click for full size")
@@ -55,6 +59,9 @@ The easy way to find the name of an unusual key, such as a G-key or a side mouse
 |---|---|
 | **✕ (on a key tag)** | Removes that key from this button. It stops working at once on every character on this PC. |
 | **Close** | Hides the window (and stops a key detector that is still listening). |
+| **Title bar close (X)** | Closes the window. Your keys stay as they are, and a key detector that is listening stops by itself at the end of its 20 seconds. |
+
+
 
 ## What the window shows
 

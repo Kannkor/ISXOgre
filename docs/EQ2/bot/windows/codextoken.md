@@ -1,8 +1,8 @@
-# EQ2Codex API Token
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# EQ2Codex API Token
 
 > **:bulb: In game - the ? button on this window says**
 >
@@ -36,6 +36,8 @@ This is where you give the bot your eq2codex.com API token. The Codex tabs uploa
 |---|---|---|
 | **Paste your token** | Paste the API token you created on eq2codex.com. Pressing Enter in the box is the same as Save token.<br>*The token leaves the screen with the window when a save works. If a save fails, the token stays in the box so you can try again.* | empty |
 
+
+
 ## Buttons
 
 [![Buttons](../assets/codextoken/buttons.png)](../assets/codextoken/buttons.png "Click for full size")
@@ -47,11 +49,14 @@ This is where you give the bot your eq2codex.com API token. The Codex tabs uploa
 | **Close** | Closes the window without saving. |
 | **Title bar close (X)** | Closes the window without saving, the same as Close. |
 
+
+
 ## When a token is already saved
 
 The status box gets a green border and says how many characters the saved token has. Paste a new token and save to replace it.
 
 [![When a token is already saved](../assets/codextoken/configured.png)](../assets/codextoken/configured.png "Click for full size")
+
 
 ## What the window shows
 

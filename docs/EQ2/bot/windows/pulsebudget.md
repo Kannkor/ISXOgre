@@ -26,7 +26,7 @@
 
 ## What it is for
 
-A performance window. The bot does its work in small steps, once every frame the game draws. A few big jobs - scanning a UI window, scanning all the actors for Analysis, walking a recipe book, walking the ability-upgrade list - would freeze the game for a moment if done in one go, so they are spread over several frames. This window shows how much time each of those jobs may take per frame, and how much time each part of the bot is really using. Most players never need to touch it. If the game stutters while one of these jobs runs, lower that job's slice; if a job takes too long and your PC has room to spare, raise it.
+A performance window. The bot does its work in small steps, once every frame the game draws. A few big jobs - planning a route, scanning all the actors for Analysis, walking a recipe book, walking the ability-upgrade list - would freeze the game for a moment if done in one go, so they are spread over several frames. This window shows how much time each of those jobs may take per frame, and how much time each part of the bot is really using. Most players never need to touch it. If the game stutters while one of these jobs runs, lower that job's slice; if a job takes too long and your PC has room to spare, raise it.
 
 ## Top row
 
@@ -52,7 +52,7 @@ One row per job that can be spread over frames. A job only appears after it has 
 
 | Control | What it does | Default |
 |---|---|---|
-| **Slice µs/f (the box on each row)** | How long that job may run each frame, in microseconds, before it pauses and carries on in the next frame. 0 = run the whole job in one frame. Saved when you press Enter or click away.<br>*On an '(idle)' row the new slice is saved and handed to that job the first time it runs.* | craft: recipe scan 1500, analysis: actor scan 1000, abilityupgrades: row walk 1000 |
+| **Slice µs/f (the box on each row)** | How long that job may run each frame, in microseconds, before it pauses and carries on in the next frame. 0 = run the whole job in one frame. Saved when you press Enter or click away.<br>*On an '(idle)' row the new slice is saved and handed to that job the first time it runs.* | each job has its own, for example nav ground plan 4000, zonereset: table 3000, craft: recipe scan 1500, analysis: actor scan 1000, abilityupgrades: row walk 1000 |
 
 
 
@@ -86,4 +86,4 @@ Straight after loading, before any paced job has run (and with no saved settings
 
 ![Empty](../assets/pulsebudget/empty.png)
 
-Console: `ogrepulsebudget report` prints the same table; `ogrepulsebudget slice <section or number> <µs>` and `ogrepulsebudget ceiling <µs>` set values.
+Console: `ogre pulse report` prints the same table; `ogrepulsebudget slice <section or number> <µs>` and `ogrepulsebudget ceiling <µs>` set values.

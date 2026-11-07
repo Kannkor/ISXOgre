@@ -24,7 +24,7 @@
 > - The X stops OgreBot, the same as `ogre end bot`. **Hide Main** on the small OgreBot window just hides this one.
 > - Hover a setting or button to see what it does.
 
-**Open it:** Type `ogre`. OgreBot loads running, with this window hidden: click **Show Main** on the small OgreBot window to see it (if the character's ability export is missing or out of date, the window is shown instead so you see the export prompt). `ogre -p` loads OgreBot paused with this window shown. `ogre end bot` closes OgreBot.
+**Open it:** Type `ogre`. OgreBot loads running, with this window hidden: click **Show Main** on the small OgreBot window to see it (if the character's ability export is missing or out of date, OgreBot loads paused and the window is shown so you see the export prompt; it stays paused after the export, so resume it when you are ready). `ogre -p` loads OgreBot paused with this window shown. `ogre end bot` closes OgreBot.
 
 [![OgreBot Manager](../assets/ogrebot/window.png)](../assets/ogrebot/window.png "Click for full size")
 
@@ -74,7 +74,7 @@ Type part of a setting's name to find it on any tab. The list shows each match w
 
 ## The tab list
 
-The tabs down the left are in three blocks. At the top: Auto Target, Cast Stack, Settings, Setup, then your class tab. In the middle: every other tab, A to Z. At the bottom: Admin, Debug, EQ2Chars, Key Binds, OgreConsole, Profiles, Relay Groups and Uplink Info. Each block is in A to Z order, except that the class tab is always last in the top block.
+The tabs down the left are in three blocks. At the top: Auto Target, Cast Stack, Settings, Setup, Status, then your class tab. In the middle: every other tab, A to Z. At the bottom: Admin, Debug, EQ2Chars, Key Binds, OgreConsole, Profiles, Relay Groups and Uplink Info. Each block is in A to Z order, except that the class tab is always last in the top block.
 
 [![The tab list](../assets/ogrebot/rail.png)](../assets/ogrebot/rail.png "Click for full size")
 

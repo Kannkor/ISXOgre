@@ -21,6 +21,7 @@ These ids did nothing even in Classic (switched off there, or never an option at
 - `checkbox_inquisitor_verdictheroicnamedonly`
 - `checkbox_inquisitor_verdictheroics`
 - `checkbox_other_handlefieldmedic`
+- `checkbox_settings_do_not_show_revision_history`
 - `checkbox_settings_doho`
 - `checkbox_settings_raidoptionslimited`
 - `listbox_autohunt_path_order`

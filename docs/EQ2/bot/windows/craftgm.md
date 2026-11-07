@@ -101,5 +101,5 @@ One row per (Master) scroll found: the scroll, the Grandmaster recipe it becomes
 
 ![A fresh window](../assets/craftgm/empty.png)
 
-The Scroll Depot box only appears once the depot switch is on.
+The grey Scroll Depot box only appears once a Scan or Start has run with **Also pull from Scroll Depot** ticked.
 

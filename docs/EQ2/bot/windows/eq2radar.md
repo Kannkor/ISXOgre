@@ -1,8 +1,8 @@
-# Radar
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# Radar
 
 > **:bulb: In game - the ? button on this window says**
 >
@@ -48,6 +48,8 @@ The strip across the top. The zoom, dim and height sliders change only what you 
 | **⚙ (gear, in the title bar)** | The same as the toolbar gear: opens and closes the settings drawer. |  |
 | **Title bar close (X)** | Turns the radar off and closes it and the Radar Types window. Same as `ogre end radar`. |  |
 
+
+
 ## The scope
 
 You are the white dot with the cyan ring in the middle; the cyan wedge shows which way you face. The rings mark a third, two thirds and all of the zoom distance. In the top right of the toolbar is the zone name.
@@ -57,6 +59,8 @@ You are the white dot with the cyan ring in the middle; the cyan wedge shows whi
 | Control | What it does |
 |---|---|
 | **Click a dot** | Targets that actor. It works while OgreBot is paused, and it takes priority over the bot's own targeting for that click.<br>*Dots stay clickable even when click-through is on. For 4 seconds the line at the top of the radar says what you targeted (name, level, distance, health, type), whether or not the readout is switched on.* |
+
+
 
 ## Settings - Display
 
@@ -82,6 +86,8 @@ Open with either gear. The drawer covers the radar; Close (at the bottom) or the
 | **auto-hide** | Turns clean mode on or off. In clean mode the title bar is removed and the toolbar fades out; hover the top-left corner of the radar to bring the controls back. See Clean mode below. | off |
 | **click-through** | When ON, your mouse clicks go through the radar to the game, except on the dots and the toolbar, which still work.<br>*If you get stuck, `ogre radar click off` gives the mouse back and `ogre radar settings` opens this drawer.* | off |
 
+
+
 ## Settings - Full screen
 
 [![Settings - Full screen](../assets/eq2radar/settings-fullscreen.png)](../assets/eq2radar/settings-fullscreen.png "Click for full size")
@@ -91,6 +97,8 @@ Open with either gear. The drawer covers the radar; Close (at the bottom) or the
 | **Full screen: on / off** | Stretches the radar over the whole game screen, minus the offsets below. Turning it on also turns click-through on, so you can still play. Turning it off puts the window back where it was. | off |
 | **offsets px: top / right / bottom / left** | Pixels to leave free at each edge of the screen when full screen is on (for example to keep your hot bars clear).<br>*Typing a number does nothing until you press apply.* | 0 |
 | **apply** | Re-fits the full-screen radar using the offsets you typed.<br>*Only does something while full screen is on.* |  |
+
+
 
 ## Settings - Colours
 
@@ -107,6 +115,8 @@ One row per kind of thing (by type) and one per con colour. Click a swatch to op
 | **Picker: preset swatches** | Click one to use that colour. |
 | **Picker: done** | Closes the picker. The colour you picked stays. |
 
+
+
 ## Settings - Lists
 
 Each entry is part of a name and is matched without caring about capitals: 'darkpaw' matches 'a Darkpaw brute'. Saved lists are kept when you press Save. Temporary lists are never saved; they last until the game's UI reloads.
@@ -122,6 +132,8 @@ Each entry is part of a name and is matched without caring about capitals: 'dark
 | **name fragment, then Enter or Add (placeholder)** | Type part of a name. Enter does the same as Add. | empty |
 | **Add** | Adds the typed text to that list (skipped if it is already there). |  |
 | **✕ (remove entry)** | Removes that entry from the list. |  |
+
+
 
 ## Settings - Debug, Save and Reset
 
@@ -145,6 +157,8 @@ The report buttons print to the console, not the radar. They are for tracking do
 | **Reset all** | Puts every setting in the drawer back to the defaults, including zoom, dim, height, colours, the type choices and the saved lists (they are emptied). Nothing is written until you press Save.<br>*Close and reopen the radar without saving to get your saved settings back.* |  |
 | **Close** | Closes the drawer. Unsaved changes stay in effect until the radar closes. |  |
 
+
+
 ## Clean mode (auto-hide)
 
 With auto-hide on, the radar becomes a clean overlay: the title bar is gone (so no X, lock or ?) and the toolbar fades out. The space stays reserved at the top. A faint corner mark in the top-left shows where to point.
@@ -155,6 +169,8 @@ With auto-hide on, the radar becomes a clean overlay: the title bar is gone (so 
 |---|---|
 | **Hot corner (top-left)** | Point the mouse at the top-left corner of the radar (about 130 by 24 pixels) and the toolbar comes back. Move away and it fades again after a moment.<br>*The controls stay up while the settings drawer is open.* |
 | **? (beside the gear)** | Opens this help. It only appears in clean mode, because the title bar and its ? are gone. |
+
+
 
 ## What the window shows
 

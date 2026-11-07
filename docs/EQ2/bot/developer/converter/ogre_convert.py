@@ -170,8 +170,8 @@ def console_hits(M, line):
             params = list(M.con_params.get(tl, []))
             row = M.by_verb.get(tl)
             if row and i < n and console_kept_forwho(M, row, t, toks[i][0]) == 'insert':
-                # a kept-name verb still in its V1 shape (no for-who yet, F-377): walk it as V1 - without the for-who -
-                # or its V1 argument count would swallow the next command (`-ZoneDoor 1 -OptNum 3`)
+                # a kept-name verb still in its Classic shape (no for-who yet): walk it as Classic - without the
+                # for-who - or its Classic argument count would swallow the next command (`-ZoneDoor 1 -OptNum 3`)
                 params = [p for k, p in enumerate(params) if k != next((j for j, q in enumerate(params) if q[0] == 'forwho'), -1)]
             for typ, allp in params:
                 if typ == 'rest':
@@ -267,7 +267,7 @@ CLASSIC_TREES = re.compile(r'(?:^|[\\/])(?:EQ2OgreBot|EQ2OgreCommon|OgreCommon|E
 CONSOLE_LINE = re.compile(r'(?:\b(?:oc|irc)\s+|^\s*)!(?:ci?|command)\b\s*(.*)$', re.I)
 CONSOLE_BANG = re.compile(r'^!(?:ci?|command)$', re.I)
 CONSOLE_ROUTE = ('-cfw', '-tab', '-rg')
-WRAP_PLAIN = ('squelch', 'execute')
+WRAP_PLAIN = ('squelch', 'execute', 'run', 'runscript')
 CARRY_OGRE = ('-ogrecommandob_ap',)
 CARRY_RAW = ('-rawcommandob_ap', '-rawcommandrequiresogrebot_allparams', '-rawcommand')
 QUOTED = re.compile(r'"((?:[^"\\]|\\.)*)"')
@@ -339,7 +339,7 @@ def commands_run(line, depth=0):
         out.append(cmd)
         cmd = carried(cmd)
         if cmd is None: break
-    if depth < 3:
+    if depth < 3 and not any(c.split(None, 1)[0].lower() == 'echo' for c in out):      # echo only prints its quotes
         for c in list(out):
             if CONSOLE_LINE.search(c): continue
             for q in QUOTED.finditer(c):
@@ -350,21 +350,31 @@ def commands_run(line, depth=0):
 # `ogre <word>` at the START of a command the line runs (commands_run). The `ogre` keyword is lowercase - `echo "Ogre
 # will ..."` is prose. The WORD (and `end`) is any case, read folded: Classic's `ogre` command lowercased its first two
 # words before matching them (ISXOgre CMD_EQ2OgreLoader), so `ogre TransmuteSalvageExtractIt` ran `transmutesalvageextractit`.
-OGREWORD = re.compile(r'^ogre(?:\s+(?i:end))?\s+([A-Za-z][A-Za-z0-9_]*)')
+OGREWORD = re.compile(r'^ogre(\s+(?i:end))?\s+([A-Za-z][A-Za-z0-9_]*)')
 OLDEXT = re.compile(r'\bext\s+(?:-unload\s+)?isxogre(?![A-Za-z0-9])', re.I)
+
+def same_word_changed(row, args):
+    """Did this line of a word the new bot kept change? `row` is its map row (None: nothing changed), `args` what follows
+    the word. Read case-blind: Classic's `ogre` lowercased the word, and flags are written both ways."""
+    if row is None: return False
+    return not row.get('changedArgs') or bool(re.search(row['changedArgs'], args.strip(), re.I))
 
 def raw_commands(M, line):
     """-> [(text, why)] raw bot commands a button or script types: `ogre <word>` the new bot has no such
-    word for, and loading / unloading the OLD extension. Every command the line runs is read (commands_run), so a
-    word inside `relay all ...`, `timedcommand ...` or `oc !c -RawCommandOB_AP <who> ...` is seen; each word once."""
+    word for, a word the new bot kept whose arguments or job changed, and loading / unloading the OLD extension. Every
+    command the line runs is read (commands_run), so a word inside `relay all ...`, `timedcommand ...` or
+    `oc !c -RawCommandOB_AP <who> ...` is seen; each word once."""
     out, seen = [], set()
     for c in commands_run(line):
         m = OGREWORD.match(c)
         if not m: continue
-        w = m.group(1).lower()
-        if w in seen or not M.new_ogre or w in M.new_ogre: continue
-        seen.add(w)
+        w = m.group(2).lower()
+        if w in seen or not M.new_ogre: continue
         fw = M.by_fw.get('ogre ' + w)
+        # A word the new bot kept is answered only by a row of its own, and `ogre end <word>` still ends it. The row's
+        # `changedArgs`, when it has one, says which lines changed (`ogre craftingmats -sig` is fine, a bare one is not).
+        if w in M.new_ogre and (m.group(1) or not same_word_changed(fw, c[m.end():])): continue
+        seen.add(w)
         if fw:                                   # ruled: answered by its row (OLD), not a question
             out.append(('ogre ' + w, '[%s] -> %s' % (fw['status'], fw.get('howToFix') or ''), fw)); continue
         out.append(('ogre ' + w, 'the new bot has no `ogre %s` command - stop and ask (`ogre ?` lists them)' % w, None))
@@ -567,7 +577,7 @@ def cmd_lookup(M, names):
 FW_DONE = ' with `%s` as the for-who'
 
 def function_form_todo(nf, shape):
-    """The to-do's first words for a FUNCTION-FORM call - `call OgreBotAPI.DestroyItem "Rusty Key" 3` (F-395).
+    """The to-do's first words for a FUNCTION-FORM call - `call OgreBotAPI.DestroyItem "Rusty Key" 3`.
     `fix` never rewrites one: the new bot has no function to `call`, and the arguments after the name are the Classic
     FUNCTION's, space-separated (a Classic function's parameters are not always its method's: DestroyItem's function
     has no for-who, OpenAndBuyFromMerchant's does), so the new form's argument count proves nothing about the call. The
@@ -596,7 +606,7 @@ def with_forwho(fwi, after):
     return '[%s]' % v, 0
 
 def console_forwho(M, row, verb):
-    """The console half: a V1 verb whose only change is the for-who V2 puts first (forWhoInsert, value `auto`) is rewritten
+    """The console half: a Classic verb whose only change is the for-who the new console puts first (forWhoInsert, value `auto`) is rewritten
     to the new spelling with `auto` after it - ONLY when the spelling changes (`-Door 2` -> `-ZoneDoor auto 2`). A verb
     that keeps its name is console_kept_forwho's."""
     fwi = row.get('forWhoInsert') or {}
@@ -637,9 +647,9 @@ def console_first_arg(line, end):
     return m.group(1) if m else ''
 
 def console_kept_forwho(M, row, verb, first):
-    """The console half for a verb that KEPT its name and only gained the for-who V2 puts first (forWhoInsert `auto`,
+    """The console half for a verb that KEPT its name and only gained the for-who the new console puts first (forWhoInsert `auto`,
     always; -ImmRes, -ZoneDoor, -Mentor, -ApplyVerb, -Raid, -EndScript). -> 'insert' (write `auto` before `first`),
-    'converted' (`first` is the `auto` a converter writes - a V1 line never had one there: V1 read `auto` only as a
+    'converted' (`first` is the `auto` a converter writes - a Classic line never had one there: Classic read `auto` only as a
     for-who), or None (a to-do, as before).
     It inserts only when `first` cannot be a for-who (not_a_forwho): `-ZoneDoor 1` -> `-ZoneDoor auto 1`,
     `-ApplyVerb "a worn monument" "Polish Monument"` -> `-ApplyVerb auto "a worn monument" ...`. A word or a ${...}
@@ -716,7 +726,7 @@ def fix_line(M, line, n, todo, own=frozenset()):
         if st in ('moved', 'renamed', 'signature') and m.group(1):
             # a FUNCTION-FORM call (`call OgreBotAPI.DestroyItem "X" 3`): never rewritten (`safe`), and its arguments are
             # the Classic function's - the counts below do not apply (they read "needs 2 argument(s) ... leaves one off"
-            # on every row, F-395)
+            # on every row)
             why = function_form_todo(nf, row.get('newSignature')) + why
         elif st in ('moved', 'renamed', 'signature') and not args_ok:
             why = 'check the arguments first - the map cannot prove they line up. ' + why

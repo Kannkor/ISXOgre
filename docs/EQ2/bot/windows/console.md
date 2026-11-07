@@ -1,8 +1,8 @@
-# OgreConsole
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# OgreConsole
 
 > **:bulb: In game - the ? button on this window says**
 >
@@ -13,12 +13,13 @@
 > - **Type and press Enter** to send to every OgreBot session on this PC. Plain text is chat.
 > - **Start a line with** `!c` to make every session run it as a command, e.g. `!c -pause igw:${Me.Name}`.
 > - **Click a tab** (Chat, Commands, Events...) to see only those lines. A glowing dot means new lines.
+> - **Errors** collects every warning and error from every session on this PC. It turns red and counts them while you are on another tab.
 > - **The gear** opens settings: time stamps, hide on load, line colours, and Clear text.
 >
 > **Good to know**
 >
 > - `ogre` commands go in the InnerSpace console, not here. `oc <text>` there is the same as typing here.
-> - Red = command, green = chat, white = bot message, bold yellow on a red band = error, purple = fleet event. Change any of them in the gear's Colours.
+> - Red = command, green = chat, white = bot message, bold yellow on a red band = error, orange = warning, purple = fleet event. Change any of them in the gear's Colours.
 > - An orange name at the start of a line is who said it on IRC.
 > - **Send typed text to IRC** (gear): what you type here goes to IRC instead, like `irc <text>`, and comes back to your sessions with your IRC name.
 
@@ -39,20 +40,25 @@ OgreConsole is where your sessions talk to each other. Anything typed in the box
 | **⚙ (gear)** | Opens and closes the settings drawer at the top of the window.<br>*While the drawer is open it takes the place of the lines; if it does not fit, scroll it (or drag the window's bottom edge to make it taller). Click the gear again to close it.* |
 | **Title bar close (X)** | Closes the window. The console keeps collecting lines in the background, and they are all there when you open it again. |
 
+
+
 ## Tabs
 
-Click a tab to see only its lines. A tab appears the first time a line for it arrives.
+Click a tab to see only its lines. All and Errors are always there; any other tab appears the first time a line for it arrives.
 
 [![Tabs](../assets/console/tabs.png)](../assets/console/tabs.png "Click for full size")
 
 | Control | What it does | Default |
 |---|---|---|
 | **All** | Every line, in the order it arrived. | selected |
+| **Errors** | Every warning and error the bot logs, from every OgreBot session on this PC, with the character that hit it at the start of the line. It turns solid red, pulses and counts them while you are looking at another tab, so you do not miss one. Clicking it clears the count. The same line repeated within 30 seconds is not sent again, and each session sends at most 20 lines a minute; that session's log has them all. |  |
 | **Chat** | Plain text typed by you or another session (and lines relayed from IRC). |  |
 | **Commands** | `!c` commands sent by any session, plus the bot's replies about them (for example an unknown command). |  |
 | **Events** | Fleet requests such as a cure-curse call, one line each, showing who asked, who it was for and what for.<br>*Only appears when the OgreBot Debug option CommsEventsDebug is on.* |  |
 | **Any other tab (e.g. Raid)** | A line sent with `-tab <name>` at the front also shows in a tab of that name. |  |
 | **Glowing dot on a tab** | New lines arrived in that tab while you were looking at another one. Clicking the tab clears it. |  |
+
+
 
 ## The lines
 
@@ -64,6 +70,8 @@ Each line's colour tells you what kind of line it is (the colours below are the 
 |---|---|
 | **Line list** | The last 2000 lines. It stays at the bottom as new lines arrive, unless you have scrolled up to read, then it stays where you are.<br>*Right-click to Copy or Select All.* |
 
+
+
 ## Typing and sending
 
 [![Typing and sending](../assets/console/input.png)](../assets/console/input.png "Click for full size")
@@ -71,6 +79,8 @@ Each line's colour tells you what kind of line it is (the colours below are the 
 | Control | What it does |
 |---|---|
 | **Input line (message, or !c <cmd> ... (Enter to send))** | Press Enter to send the line to every OgreBot session on this PC, including this one. Plain text is chat. A line starting with `!c` is a command that every session runs. `!ci` runs it too but the line is not shown. Anything like `${Me.Name}` is filled in with this character's value before it is sent.<br>*Put `-tab <name>` right after `!c` to also show the line in that tab, or `-cfw <who>` to have only that character (or group of characters) run it.* |
+
+
 
 ## Settings drawer
 
@@ -86,7 +96,9 @@ Open it with the gear. Settings are saved straight away and are shared by every 
 | **Debug: trace verbs to log** | For troubleshooting. Writes one line per command this session receives to the bot's log file, saying whether it ran. Nothing extra shows in the console.<br>*Leave it off in normal play.* | off |
 | **Colour square (Command, Chat, System, Error, Event, Timestamp)** | Click a colour square to open R, G and B sliders for it. The colour changes as you drag and is saved when you let go. |  |
 | **Reset** | Puts that colour back to its default. |  |
-| **Clear text** | Wipes every line from this session's console, removes all tabs except All, and closes the drawer. Only your console is cleared, and the lines cannot be brought back. |  |
+| **Clear text** | Wipes every line from this session's console, removes all tabs except All and Errors, and closes the drawer. Only your console is cleared, and the lines cannot be brought back. |  |
+
+
 
 ## Colours
 
@@ -96,12 +108,15 @@ Open it with the gear. Settings are saved straight away and are shared by every 
 |---|---|
 | **R / G / B sliders** | Red, green and blue for the colour you clicked. Only one colour's sliders are open at a time. |
 
+
+
 ## What the window shows
 
 - Red line: a command (`!c ...`) sent by any session.
 - Green line: chat.
 - White line: a message from the bot itself, such as a `[Notify]` alert. Most of these show only on the All tab (a note that a command did nothing here also shows on Commands).
 - Bold yellow line on a dark red band: an error, for example a command nobody knows (`Unknown command entered: -pasue`).
+- Orange line: a warning, on the Errors tab. It is one step below an error.
 - Purple line: a fleet request on the Events tab.
 - Orange name at the start of a chat or command line: who said it, for lines that came in over IRC. Only real IRC lines get it - a line you type that starts with `word: ` does not.
 - `-cfw <who>` at the end of a command line: that command was meant only for those characters.

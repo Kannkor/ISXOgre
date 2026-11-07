@@ -1,7 +1,7 @@
-# OgreBot for EverQuest II - documentation, Windows (part 2 of 4)
+# OgreBot for EverQuest II - documentation, Windows (part 2 of 5)
 
 OgreBot is in beta testing. For OgreBot Classic see https://kannkor.github.io/ISXOgre/EQ2/
-This file is ONE PIECE of the documentation: Windows (part 2 of 4) - Windows - Running content; Windows - Loot and items.
+This file is ONE PIECE of the documentation: Windows (part 2 of 5) - Windows - Running content.
 The entire documentation in one document: https://kannkor.github.io/ISXOgre/EQ2/bot/llms-full.txt
 Index of every page and of every file like this one: https://kannkor.github.io/ISXOgre/EQ2/bot/llms.txt
 
@@ -227,6 +227,8 @@ The top line shows the zone and a count. On the Monitor tab the count is how man
 | **Monitor** | Shows the Monitor tab: the log of what mobs cast. Display only - changes what you see, not what the bot does.<br>*The window always opens on this tab.* | shown |
 | **Watch list** | Shows the Watch list tab: the mobs and spells watched in this zone, and what the bot does about them. Display only - changes what you see, not what the bot does. |  |
 
+
+
 ## Monitor: what to log, Start and Stop
 
 Pick whose spells to log, then press Start. One of the three buttons is always lit. Your target and your target's target are logged in every choice.
@@ -237,6 +239,8 @@ Pick whose spells to log, then press Start. One of the three buttons is always l
 | **+ named NPCs nearby** | Also logs every named NPC within 100 meters of you. Their spells show the ability id but no name, unless that spell was once named from your cast bars.<br>*Changing this while the Monitor runs takes effect at once.* | off |
 | **+ every NPC nearby** | Also logs every NPC within 100 meters of you, named or not. Their spells show the ability id but no name, unless that spell was once named from your cast bars. | off |
 | **Start / Stop** | Start begins logging and the button turns into a red Stop. It checks four times a second and keeps going while you fight, zone or die, until you press Stop. Stop saves the log and stops; the list stays on screen.<br>*Closing the window stops it too (and saves the log), the same as `ogre end npccast`. It runs while OgreBot is closed or paused, and with NPC Cast Monitoring unticked.* |  |
+
+
 
 ## Monitor: the log
 
@@ -250,6 +254,8 @@ Under the log: whether the Monitor is running ('monitoring') or 'stopped', the t
 |---|---|
 | **Copy** | Puts the whole log on your clipboard as text, ready to paste: a line with the zone name, a line naming the columns, then one line per row (mob \| spell \| ability id \| cast time \| seen). The grey bar says how many lines were copied.<br>*Greyed out while the log is empty.* |
 | **Clear** | Empties the log for this zone, and its saved file too. Spell names already learned are kept.<br>*No confirmation and no undo. Greyed out while the log is empty.* |
+
+
 
 ## Watch list tab
 
@@ -269,6 +275,8 @@ On this tab the zone name is the name of the zone's list file. The counts on the
 | **label (optional) (box)** | A name you give the spell so you know what it is. Only shown in this window. Cleared after adding. | empty |
 | **Add by hand** | Adds the typed mob and spell number to your list for this zone. Nothing happens if the mob name or the number is empty.<br>*If that mob already has that spell in your list, nothing changes (the label is not updated).* |  |
 
+
+
 ## Watch list: zone settings and files
 
 | Control | What it does | Default |
@@ -279,6 +287,8 @@ On this tab the zone name is the name of the zone's list file. The counts on the
 | **Reload** | Reads the lists for the zone you are in again from disk. Use it after you edit a list file by hand. |  |
 | **Import Classic custom** | Copies the converted custom lists from OgreBot Classic into your own list folder. A zone you already have your own list for is skipped, never overwritten. The console says how many files were copied and skipped.<br>*This works even when NPC Cast Monitoring is turned off.* |  |
 | **Reset my edits** | Deletes your own list for this zone, so only the shipped list is left. Everything you added, removed or changed in this zone is gone, including the scan radius and the players setting.<br>*There is no confirmation and no undo.* |  |
+
+
 
 ## Watch list: messages
 
@@ -296,6 +306,8 @@ One block per mob. Under each mob is one row per spell. A yellow 'yours' tag mea
 | **label** | Opens a small editor right under this spell's row, with a box holding its current name. Type a new name and press Save. Cancel closes the editor without saving.<br>*Saving an empty box removes the name you gave it. A spell from the shipped list then shows its shipped name again.* |  |
 | **commands** | Opens a small editor right under this spell's row, with the commands the bot runs each time this mob starts this spell, one per line. The row shows how many commands are set and what they are.<br>*Commands only run while OgreBot is open and not paused.* |  |
 
+
+
 ## Watch list: editing a label or commands
 
 Pressing label or commands opens this editor under the spell's row.
@@ -306,6 +318,8 @@ Pressing label or commands opens this editor under the spell's row.
 | **Save** | Saves the editor's text into your own list for this zone and closes the editor. For commands, empty lines are skipped, and saving an empty box removes your commands; a spell from the shipped list then uses its shipped commands again. |
 | **Cancel** | Closes the editor. Nothing is saved. |
 | **remove** | Removes this spell from the mob. A spell from your own list is deleted. A shipped spell is switched off in your list.<br>*Removing the last spell of a mob you added removes that mob too. A mob from the shipped list stays watched.* |
+
+
 
 ## Watch list: footer
 
@@ -665,6 +679,8 @@ The strip across the top. The zoom, dim and height sliders change only what you 
 | **⚙ (gear, in the title bar)** | The same as the toolbar gear: opens and closes the settings drawer. |  |
 | **Title bar close (X)** | Turns the radar off and closes it and the Radar Types window. Same as `ogre end radar`. |  |
 
+
+
 ## The scope
 
 You are the white dot with the cyan ring in the middle; the cyan wedge shows which way you face. The rings mark a third, two thirds and all of the zoom distance. In the top right of the toolbar is the zone name.
@@ -672,6 +688,8 @@ You are the white dot with the cyan ring in the middle; the cyan wedge shows whi
 | Control | What it does |
 |---|---|
 | **Click a dot** | Targets that actor. It works while OgreBot is paused, and it takes priority over the bot's own targeting for that click.<br>*Dots stay clickable even when click-through is on. For 4 seconds the line at the top of the radar says what you targeted (name, level, distance, health, type), whether or not the readout is switched on.* |
+
+
 
 ## Settings - Display
 
@@ -695,6 +713,8 @@ Open with either gear. The drawer covers the radar; Close (at the bottom) or the
 | **auto-hide** | Turns clean mode on or off. In clean mode the title bar is removed and the toolbar fades out; hover the top-left corner of the radar to bring the controls back. See Clean mode below. | off |
 | **click-through** | When ON, your mouse clicks go through the radar to the game, except on the dots and the toolbar, which still work.<br>*If you get stuck, `ogre radar click off` gives the mouse back and `ogre radar settings` opens this drawer.* | off |
 
+
+
 ## Settings - Full screen
 
 | Control | What it does | Default |
@@ -702,6 +722,8 @@ Open with either gear. The drawer covers the radar; Close (at the bottom) or the
 | **Full screen: on / off** | Stretches the radar over the whole game screen, minus the offsets below. Turning it on also turns click-through on, so you can still play. Turning it off puts the window back where it was. | off |
 | **offsets px: top / right / bottom / left** | Pixels to leave free at each edge of the screen when full screen is on (for example to keep your hot bars clear).<br>*Typing a number does nothing until you press apply.* | 0 |
 | **apply** | Re-fits the full-screen radar using the offsets you typed.<br>*Only does something while full screen is on.* |  |
+
+
 
 ## Settings - Colours
 
@@ -716,6 +738,8 @@ One row per kind of thing (by type) and one per con colour. Click a swatch to op
 | **Picker: preset swatches** | Click one to use that colour. |
 | **Picker: done** | Closes the picker. The colour you picked stays. |
 
+
+
 ## Settings - Lists
 
 Each entry is part of a name and is matched without caring about capitals: 'darkpaw' matches 'a Darkpaw brute'. Saved lists are kept when you press Save. Temporary lists are never saved; they last until the game's UI reloads.
@@ -729,6 +753,8 @@ Each entry is part of a name and is matched without caring about capitals: 'dark
 | **name fragment, then Enter or Add (placeholder)** | Type part of a name. Enter does the same as Add. | empty |
 | **Add** | Adds the typed text to that list (skipped if it is already there). |  |
 | **✕ (remove entry)** | Removes that entry from the list. |  |
+
+
 
 ## Settings - Debug, Save and Reset
 
@@ -750,6 +776,8 @@ The report buttons print to the console, not the radar. They are for tracking do
 | **Reset all** | Puts every setting in the drawer back to the defaults, including zoom, dim, height, colours, the type choices and the saved lists (they are emptied). Nothing is written until you press Save.<br>*Close and reopen the radar without saving to get your saved settings back.* |  |
 | **Close** | Closes the drawer. Unsaved changes stay in effect until the radar closes. |  |
 
+
+
 ## Clean mode (auto-hide)
 
 With auto-hide on, the radar becomes a clean overlay: the title bar is gone (so no X, lock or ?) and the toolbar fades out. The space stays reserved at the top. A faint corner mark in the top-left shows where to point.
@@ -758,6 +786,8 @@ With auto-hide on, the radar becomes a clean overlay: the title bar is gone (so 
 |---|---|
 | **Hot corner (top-left)** | Point the mouse at the top-left corner of the radar (about 130 by 24 pixels) and the toolbar comes back. Move away and it fades again after a moment.<br>*The controls stay up while the settings drawer is open.* |
 | **? (beside the gear)** | Opens this help. It only appears in clean mode, because the title bar and its ? are gone. |
+
+
 
 ## What the window shows
 
@@ -868,6 +898,8 @@ The coloured dot on each button is the colour that kind is drawn in on the radar
 | **name** | The button turns name cutting on and off; while lit, every name on the radar is cut to the number in the box (5 to start). The number is kept while cutting is off. Saved like a type click. | off, 5 |
 | **Title bar close (X)** | Closes this window only. The radar keeps running. |  |
 
+
+
 ## What the window shows
 
 - A lit button means that kind is drawn on the radar; a dim one means it is hidden.
@@ -881,7 +913,7 @@ The coloured dot on each button is the colour that kind is drawn in on the radar
 
 ## Beside the radar
 
-![Radar Types next to the radar, with doors, resources, tradeskill and special turned off](../assets/eq2radarfilters/with-radar.png)
+![Radar Types next to the radar, with doors, resources, craft and special turned off](../assets/eq2radarfilters/with-radar.png)
 
 
 ---
@@ -1202,6 +1234,8 @@ Trains your Safe Fall skill for you. It targets you, mounts up, then repeats: fl
 | **Stop** | Stops training and stops the climb. You stay wherever you are (mounted or not).<br>*Dimmed, and does nothing, when nothing is running.* |  |
 | **Flight time (… ticks)** | How long each climb lasts, in ticks: 1 tick is 0.1 second, so 30 is 3 seconds (shown to the right). Allowed 5 to 600.<br>*A number outside 5 to 600 turns the box red and Start refuses. The box follows the running value until you type in it; empty it to hand it back.* | 30 ticks (3.0 s) |
 
+
+
 ## Status
 
 Read-only. It updates four times a second.
@@ -1234,121 +1268,3 @@ Read-only. It updates four times a second.
 A flight time outside 5 to 600 ticks turns the box red:
 
 ![A bad flight time](../assets/safefall/badticks.png)
-
-
----
-
-Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/smartloot.md
-
-# SmartLoot
-
-> **:bulb: In game - the ? button on this window says**
->
-> Decides who gets each drop from a Leader Only loot window. You list the items, a cap for each, and which characters collect them.
->
-> **What you can do here**
->
-> - **Add items** by name, or from the loot window, your bags, or an examine window.
-> - **Set a cap** per item: Never, a Limit (up to N each), or unlimited.
-> - **Tick a character** to say they collect an item; the number is how many they already have.
-> - **+ Character** adds one column by name; **+ Group** and **+ Raid** add a column for everyone in your group or raid who does not have one yet (mercenaries left out). The number on the button is how many it would add.
-> - **Save** writes your changes. **Revert** throws them away. Running `ogre smartloot` again while this is open changes nothing.
->
-> **Good to know**
->
-> - A drop goes to the lowest group or raid slot that collects it and is still under the cap.
-> - It only runs on a Leader Only loot window, and only when the OgreBot Loot tab has both **Enable options below** (Leader Only) and **Smart Loot** ticked.
-> - The x on a character column deletes that character's whole entry when you Save.
-
-**Open it:** Type `ogre smartloot` or `ogre sl`. If the window is already open, this does nothing, and your unsaved changes stay. Scripts can use `OgreBotAPI.Loot:Config[all]` to open it and `OgreBotAPI.Loot:Config[all,close]` to close it.
-
-## What it is for
-
-SmartLoot hands out drops from a Leader Only loot window. It decides who gets each item from per-item caps and a per-character list of what each character collects and how many they already have. This window edits that data: the caps and, for each character, a checkbox plus a have-count. When a Leader Only window opens, SmartLoot goes through the raid (or group), lowest slot first. It gives the item to the first character who collects it and is still under the cap, then adds 1 to their have-count.
-
-## Save and Revert
-
-| Control | What it does |
-|---|---|
-| **Revert** | Throws away every unsaved edit and reloads the caps and the character list from disk. Items added this session and empty character columns disappear.<br>*Greyed out when there are no unsaved changes. Also use it after you fix a damaged file (see the red banner).* |
-| **Save** | Saves only what changed: custom caps go to ItemLootCustomData.json, the character list goes to CharacterLootData.json. Your edits are combined with the file as it is now, so have-counts SmartLoot added while the window was open are kept. SmartLoot then starts using the new data right away.<br>*Greyed out when there is nothing to save. If a file cannot be read, it is not saved and the changes stay unsaved.* |
-
-## Filters (what you see)
-
-| Control | What it does | Default |
-|---|---|---|
-| **Filter items…** | Hides item rows whose name does not contain the text. Not case-sensitive. Display only; nothing is sent to the bot.<br>*Resets when the window is reopened.* | empty |
-| **Filter characters (name, *Team:X)…** | Hides character columns. Separate terms with commas. A term is part of a name, a saved for-who team as *Team:Name, or a bare team name. A column shows if any term matches. Display only.<br>*Typing here cancels the single-column view you get by clicking a name. An unknown team shows 'no team named "X"' in the info text. Teams come from the saved for-who groups.* | empty |
-| **My group only** | Toggle. Shows only the columns of characters in your current group (mercenaries excluded). When you are solo it shows just you. Display only.<br>*Highlighted when on. Info text says 'not grouped - showing you' when solo.* | off |
-| **Show all** | Clears the character filter box, turns off My group only, and clears a clicked-on single column. Display only.<br>*Does not clear the item filter box.* |  |
-
-## Adding items
-
-| Control | What it does | Default |
-|---|---|---|
-| **Add item by name…** | Text box for an item name. Pressing Enter does the same as Add. | empty |
-| **Add** | Adds a row for the typed item name. If the item has no base or custom cap yet, it gets a custom cap of Limit 1. Nobody is marked as collecting it.<br>*The name is not checked against the game, so a typo makes a row that never matches loot. Matching is not case-sensitive. The box clears after you add.* |  |
-| **From loot window** | Adds a row for every item in the open loot window, without colour codes in the names. Items with no existing cap get Limit 1.<br>*With no loot window open it adds nothing and the console shows 'add from loot window: 0 item(s)'.* |  |
-| **From inventory** | Adds a row for every distinct item in your bags. Items with no existing cap get Limit 1.<br>*Can add a lot of rows at once. Does nothing when you are not in the game world. The console shows 'add from inventory: N new item(s) of M in bags'.* |  |
-| **From examine** | Reads the item name from whichever EQ2 examine window is open and adds it as a row (Limit 1 if it has no cap).<br>*With no examine window open it adds nothing and the console shows 'add from examine: no examine window is open - open one (or type the name).'* |  |
-
-## Who a change applies to, and characters
-
-| Control | What it does | Default |
-|---|---|---|
-| **That character** | A checkbox or have-count edit in a cell changes only that cell's character.<br>*This choice is not saved. It resets to That character every time the window opens.* | selected (on) |
-| **Whole group** | A cell checkbox or have-count edit is applied to every non-mercenary member of your current group, whichever column you clicked.<br>*If you are not in a group, nothing changes and the console says 'You are not in a group - nothing was changed.' Checking a box can add new columns for group members.* | off |
-| **Whole raid** | Same as Whole group, but for every non-mercenary raid member.<br>*If you are not in a raid, nothing changes.* | off |
-| **Everyone in the file** | A cell edit is applied to every character column the window knows. That is you, everyone in the loot file, and columns added this session.<br>*It ignores the column filters, so hidden columns are changed too.* | off |
-| **Add character…** | Text box for a character name. Pressing Enter does the same as + Character. | empty |
-| **+ Character** | Adds an empty column for the typed character. Nothing is marked as unsaved.<br>*An empty column is only saved once it has at least one checked item. Revert or reopen drops it. The same name in any letter case is treated as the same character.* |  |
-| **Sync from inventory** | For your current character only: for every item that has a base or custom cap, if you hold it (bag stacks summed plus equipped copies), your have-count is set to that number and you are marked as collecting it. Items you do not hold are left alone.<br>*This also marks you as collecting every capped item you hold, including base-list items capped at Never, and the tooltip says so. It never lowers a count for an item you no longer hold.* |  |
-
-## The grid
-
-| Control | What it does | Default |
-|---|---|---|
-| **<character name>** | Click to show only this character's column. Click again to show all. Display only.<br>*Your own name is highlighted.* |  |
-| **× (remove column)** | Removes the character's column. On Save it deletes their whole SmartLoot entry: every item they collect and every have-count.<br>*It is not a hide. There is no confirmation. Your own column comes back empty after reopen.* |  |
-| **Group** | Marks every non-mercenary member of your group as collecting this item. Anyone who was not already collecting it starts with a have-count of 0.<br>*Disabled with the tooltip 'You are not in a group' when you are solo. It ignores the scope row.* |  |
-| **Raid** | Marks every non-mercenary raid member as collecting this item.<br>*Only shown while you are in a raid.* |  |
-| **Never** | Sets the item's cap to 0. SmartLoot will never assign it to anyone.<br>*If the base cap is already 0, the custom override is removed.* | cap comes from the custom file, else the base file, else 0 (Never) |
-| **Limit** | Sets a numeric cap: each character collects up to N. It keeps the current N, or uses 1 when switching from Never or ∞. |  |
-| **∞** | Sets the cap to -1 (unlimited). Every character who collects the item always qualifies.<br>*The footer calls this 'Unlimited'.* |  |
-| **Number box (Limit only)** | The N for Limit. It takes effect as you type. Values below 1 become 1.<br>*A value equal to the base cap removes the custom override. If nobody collects the item and it was not added this session, its row can then disappear from the grid.* | 1 |
-| **reset** | Removes the custom cap, so the shipped base cap applies again.<br>*Only shown (next to an orange 'default N') when a custom cap overrides a known base cap. If no one collects the item and it was not added this session, the row disappears (it only lives in the base list).* |  |
-| **Checkbox (per character)** | Checked means the character collects this item, starting with a have-count of 0. Unchecking removes the item and its have-count for that character. Follows the scope row.<br>*SmartLoot only considers checked characters.* | unchecked unless the ledger has an entry |
-| **Number box (per character)** | How many of this item the character already has. It takes effect as you type. A negative number becomes 0. Follows the scope row.<br>*Hidden while the checkbox is off. It is ignored for characters who do not collect the item. SmartLoot adds 1 each time it gives the character this item.* | 0 |
-| **× (remove item)** | Removes the row. It deletes the custom cap and unmarks every character from collecting the item (their have-counts are lost on Save).<br>*A base cap from the shipped list (ItemLootData.json) stays, because that file is never changed. No confirmation.* |  |
-
-## What the window shows
-
-- Title 'SmartLoot — X': X is the character this session is logged into. That column's header is highlighted and is always the first column.
-- Dot and 'unsaved changes': orange means some edit is not saved yet. Save and Revert are enabled only then.
-- Red banner: appears when a loot file could not be read. It reads '⚠ CharacterLootData.json (ledger) / ItemLootCustomData.json (custom caps) is unreadable — Save is blocked from overwriting it. Fix or remove the file, then Revert.'
-- Info text: 'showing X of Y characters' when any column filter is on, plus notes such as 'only Brutus (click the name again to show all)', 'not grouped - showing you', or 'no team named "X"'.
-- Rows: items with a custom cap, plus every item any character collects, plus items added this session. It never shows the whole base list. Rows are sorted by name, ignoring case.
-- Item column: the item name (hover for the full name), plus the Group and Raid mini buttons.
-- Cap column: the segmented control shows the effective cap (custom, else base, else 0). A grey 'default' means the value comes from the base file. An orange 'default N' plus a 'reset' link means a custom value overrides base N (an unlimited base shows as ∞). Nothing extra appears for a custom-only item.
-- Character cells: the checkbox means 'this character collects this item'. The number is its have-count.
-- How SmartLoot uses it: only on a 'Leader Only' loot window, and only when both OgreBot Loot tab options 'Enable options below' (Leader Only) and 'Smart Loot' are on. It goes through the raid (or group), lowest slot first, checking the item and then its adornments. The first member who collects it, whose cap is not 0, and who is under the cap (or the cap is unlimited) gets it. Their have-count goes up by 1. An item with no cap in either file counts as Never.
-
-## Good to know
-
-- The × on a character column deletes that character's whole SmartLoot entry when you Save: every item they collect and every have-count. It is not a hide, and there is no confirmation.
-- The × on an item row unmarks every character from collecting that item. If the item is in the shipped base list, its base cap still applies.
-- The scope row (That character / Whole group / Whole raid / Everyone in the file) changes who every checkbox and have-count edit hits. It resets to 'That character' each time the window opens. 'Everyone in the file' also changes characters hidden by the column filters.
-- A group or raid edit made while you are not grouped or not in a raid changes nothing. The only message is in the console.
-- The per-row Group and Raid buttons always act on your group or raid, whatever the scope row says.
-- Sync from inventory only updates the character this session is logged into. It also marks you as collecting every capped item you hold, and never lowers a count for an item you no longer have.
-- A newly added character column is not saved until at least one item is checked for it.
-- An item with no cap anywhere counts as Never, so nobody gets it even if their box is checked.
-- Using reset, or typing a Limit equal to the base cap, can make a row disappear if nobody collects the item.
-- Messages from Add, From loot window, From inventory, From examine and group/raid edits go to the console, not the window.
-- SmartLoot only hands out items when the OgreBot Loot tab has both 'Enable options below' (Leader Only) and 'Smart Loot' ticked. If they were never set they count as off; the Instance Controller ticks them for the group when it runs a zone.
-
-## When a loot file cannot be read
-
-![The warning banner](../assets/smartloot/banner.png)
-
-If a SmartLoot file on disk is damaged, a red banner names it and **Save** will not overwrite it. Fix or remove the file, then press **Revert**.

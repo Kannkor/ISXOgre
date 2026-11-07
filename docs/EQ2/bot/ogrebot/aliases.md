@@ -1,16 +1,19 @@
-# Aliases
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# Aliases
 
 An alias is a nickname for one character, so your setup can say `*MainTank` instead of a real name. Type the alias and who it is for, then Add. The bot puts a star in front, so 'MainTank' becomes `*MainTank`, and you use that in a Cast Stack target or in a command's 'for who'. 'For' can be a character name or a class word (a class, subclass or archetype such as Fury or Priest). The bot checks you first, then your group, then your raid, and picks the first character that fits. Aliases only work while 'Enable Aliases' on the Settings tab is ticked.
 
 [![Aliases tab](../assets/ogrebot/tab-aliases.png)](../assets/ogrebot/tab-aliases.png "Click for full size")
 
+
 | Option | What it does | Default |
 |---|---|---|
 | **Aliases** | Your aliases, in the order they are tried. Drag to reorder, double-click to switch one off, x to delete. The colour shows whether the alias is used on the Cast Stack and whether this row is the one that wins right now. | empty |
+
+
 
 ## Add an alias
 
@@ -22,6 +25,8 @@ An alias is a nickname for one character, so your setup can say `*MainTank` inst
 | **Add Alias** | Adds the alias to the end of the list. The same alias name can be added again with a different For, as a backup.<br>*An exact repeat (same alias, same For) is refused with a console message. Press Save to keep it.* |  |
 | **Display Aliases** | Prints every alias, and the character each one points to right now, in the console. |  |
 | **Team Groups…** | Opens the Team Groups window. A team group is one word (`*Team:Name`) that selects many characters and is shared by every session. |  |
+
+
 
 ## Good to know
 
