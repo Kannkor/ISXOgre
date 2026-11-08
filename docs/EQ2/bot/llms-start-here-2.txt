@@ -18,6 +18,16 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.11.08.003 {#r2026-11-08-003}
+
+*Sunday, November 8, 2026 at 5:21 PM EST*
+
+- **Changed** · Bot: **An item row only uses that item's own clicky.** A Cast Stack row that names a worn item with no clicky of its own no longer clicks it, and the console says so once. If an adornment on it is the clicky, use an Equipped or Adornment row, which check the adornment's buff.
+- **Fixed** · Bot: **-UseItemOnPlayer waits its turn.** -UseItemOnPlayer was lost if anything was on the cast bar at that moment. It now joins the queue like -UseItem and goes as soon as the bar is free.
+- **Fixed** · Bot: **CoV waits for the cast bar.** A CoV command given while something was casting skipped the orb and carried on with no porter. It now waits until the cast bar is free, and the rotation holds off until it is done.
+- **Fixed** · Bot: **Item examines get longer to answer, and a failure says why.** An item examine now waits up to 6 seconds for its window instead of 2, so a slow one is read and saved instead of being left open on screen. If it still fails, the log says whether the window never opened or opened without a readable item.
+- **Fixed** · Bot: **Worn items in the Cast Stack are found, and a skipped item says exactly why.** A worn clicky on a Cast Stack row without Require Item Equipped now fires: every item row looks at your gear first, then your bags. The Casting debug log now says exactly why an item was skipped: not found, not equipped, adornment missing, nothing in that slot, or on its reuse timer. It also says where the item was found.
+
 ## 2026.11.08.002 {#r2026-11-08-002}
 
 *Sunday, November 8, 2026 at 5:40 AM EST*
