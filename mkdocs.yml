@@ -127,6 +127,7 @@ nav:
               - "Master Control Panel": EQ2/bot/windows/mcp.md
               - "For Who": EQ2/bot/windows/forwho.md
               - "Build command": EQ2/bot/windows/mcpbuild.md
+              - "Ask": EQ2/bot/windows/mcpask.md
               - "Assign keys": EQ2/bot/windows/binds.md
               - "Ogre Options": EQ2/bot/windows/options.md
               - "Reset UI Windows": EQ2/bot/windows/windowreset.md

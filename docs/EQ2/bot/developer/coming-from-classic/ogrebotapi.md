@@ -87,7 +87,7 @@ Old names whose job is now in `OgreBotAPI.Abilities`.
 | `OgreBotAPI:AbilityEmbargo_ResetAllAbilityEmbargos` | does nothing | `OgreBotAPI.Abilities:ClearAllEmbargos` `[fw]` | ✏️ Renamed |  |
 | `OgreBotAPI.AbilityReady` | reads NULL | `OgreBotAPI.Abilities.Ready` | ✏️ Renamed |  |
 | `OgreBotAPI:AbilityTracker_Add` | does nothing | `OgreBotAPI.Abilities:TrackerAdd` `[fw,ability]` | ✏️ Renamed |  |
-| `OgreBotAPI:CancelCasting` | reads NULL | `OgreBotAPI.Abilities:CancelCasting` `[fw,except...,-HOAbility,-HOAbilityUI,-CastTime s,-CastAbility ability,-CastAbilityOnPlayer ability player,-CastHOAbilityIconID iconId]` | ➡️ Moved |  |
+| `OgreBotAPI:CancelCasting` | reads NULL | `OgreBotAPI.Abilities:CancelCasting` `[fw,except...,-HOAbility,-HOAbilityUI,-CastTime s,-CastAbility ability,-CastAbilityOnPlayer ability player,-CastHOAbilityIconID iconId,-CastAbilityOnNPC ability mob,-UnlessCasting ability]` | ➡️ Moved |  |
 | `OgreBotAPI:CancelCasting_OLD` | does nothing | — | ⛔ Removed | Use `OgreBotAPI.Abilities:CancelCasting`.<br>Classic's cancelled the cast unless the ability it was told to spare was the one casting. |
 | `OgreBotAPI:CancelCurrentCast` | reads NULL | `OgreBotAPI.Abilities:SetCancelCurrentCast` `[fw,on=TRUE]` | ✏️ Renamed |  |
 | `OgreBotAPI:CancelGroupWaterBreathing` | does nothing | `OgreBotAPI.Abilities:CancelGroupWaterBreathing` `[fw]` | ➡️ Moved |  |

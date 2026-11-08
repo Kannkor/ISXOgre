@@ -11,6 +11,7 @@
 > **What you can do here**
 >
 > - **Label** - the text on the button (required).
+> - **Ask when pressed** - pressing the button asks for its values first (the Ask window). **Ready-made** fills in a ready asking button: Assist, Ogre Follow, Travel and more.
 > - **Send via** - OgreConsole (normal), IRC, or Raw (a command run as typed, only on you - unless it starts with oc, irc or !c, which go through OgreConsole / IRC).
 > - **Pick a command** on the left, fill in its settings, then **+ Add to stack**. Stacked commands go out together, in order.
 > - **Click a step** to edit it; the arrows reorder it and x removes it.
@@ -36,6 +37,8 @@ Build command makes or changes what one MCP button does. You name the button, ch
 | Control | What it does | Default |
 |---|---|---|
 | **Label** | The text shown on the button. Required. | the button's current label |
+| **Ask when pressed** | Pressing the button opens the [Ask](mcpask.md) window first, with a field for each of its settings. Blank keeps what the button says; a typed answer changes it for that press only. Greyed out for Raw, which has no settings to ask. |  |
+| **Ready-made** | Fills the builder with a ready-made asking button: Assist, Ogre Follow, OgreFollow Off, CampSpot, Door, Use Item, Auto Target List, Load Profile, the four Travel buttons, Share Quest, Share Mission, Delete Quest, the two Alias changes, Craft Recipe, Craft Last Scribed, CoV, Joust Off and Joust On. Save it as it is, or change it first. |  |
 | **OgreConsole** | The command goes through OgreConsole to your characters (the normal choice). | on |
 | **IRC** | The command is sent over IRC instead of OgreConsole. While IRC is not connected it goes through OgreConsole instead.<br>*If the For Who window is set to OC or IRC (not Auto), that choice wins over this one for OgreConsole and IRC buttons.* |  |
 | **Conn** | IRC only: which IRC connection(s) should act on it. Leave empty for every connection.<br>*Ignored when the command ends up going through OgreConsole.* | empty (all) |

@@ -6,19 +6,19 @@ To convert a Classic script, follow the procedure on the Converting your scripts
 
 ## Read it all
 
-- [Everything in one document](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-full.txt): the entire documentation, 987 KB. If that is too much to read at once, use the smaller pieces below - together they are the same text.
+- [Everything in one document](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-full.txt): the entire documentation, 998 KB. If that is too much to read at once, use the smaller pieces below - together they are the same text.
 - [Start here (part 1 of 2)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-start-here-1.txt): 18 KB - Start here
-- [Start here (part 2 of 2)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-start-here-2.txt): 218 KB - Start here
+- [Start here (part 2 of 2)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-start-here-2.txt): 223 KB - Start here
 - [OgreBot (part 1 of 3)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-ogrebot-1.txt): 99 KB - OgreBot; OgreBot - Tabs
-- [OgreBot (part 2 of 3)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-ogrebot-2.txt): 99 KB - OgreBot - Tabs
-- [OgreBot (part 3 of 3)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-ogrebot-3.txt): 57 KB - OgreBot - Tabs
-- [Windows (part 1 of 5)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-1.txt): 100 KB - Windows - Everyday; Windows - Running content
-- [Windows (part 2 of 5)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-2.txt): 89 KB - Windows - Running content
-- [Windows (part 3 of 5)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-3.txt): 91 KB - Windows - Loot and items; Windows - Crafting; Windows - Groups and accounts
-- [Windows (part 4 of 5)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-4.txt): 100 KB - Windows - Groups and accounts; Windows - Tools
-- [Windows (part 5 of 5)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-5.txt): 8 KB - Windows - Tools
+- [OgreBot (part 2 of 3)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-ogrebot-2.txt): 98 KB - OgreBot - Tabs
+- [OgreBot (part 3 of 3)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-ogrebot-3.txt): 60 KB - OgreBot - Tabs
+- [Windows (part 1 of 5)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-1.txt): 70 KB - Windows - Everyday
+- [Windows (part 2 of 5)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-2.txt): 100 KB - Windows - Running content
+- [Windows (part 3 of 5)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-3.txt): 93 KB - Windows - Running content; Windows - Loot and items; Windows - Crafting
+- [Windows (part 4 of 5)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-4.txt): 99 KB - Windows - Groups and accounts; Windows - Tools
+- [Windows (part 5 of 5)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-5.txt): 29 KB - Windows - Tools
 - [Developers (part 1 of 2)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-1.txt): 74 KB - Developers; Developers - Guides
-- [Developers (part 2 of 2)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-2.txt): 40 KB - Developers - Guides
+- [Developers (part 2 of 2)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-2.txt): 41 KB - Developers - Guides
 
 Each page on its own, as plain Markdown, in menu order:
 
@@ -92,6 +92,7 @@ Each page on its own, as plain Markdown, in menu order:
 - [Master Control Panel](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/mcp.md)
 - [For Who](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/forwho.md)
 - [Build command](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/mcpbuild.md)
+- [Ask](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/mcpask.md)
 - [Assign keys](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/binds.md)
 - [Ogre Options](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/options.md)
 - [Reset UI Windows](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/windowreset.md)

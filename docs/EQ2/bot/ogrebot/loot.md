@@ -48,9 +48,11 @@ Loot decides what the bot does when a loot window opens. Nothing on the left hal
 | **Loot Ancients** | The bot takes items with '(Ancient)' in the name. | off |
 | **Loot Illegible Scrolls** | The bot takes items whose name contains 'Illegible Scroll:'. | off |
 | **Loot Tradables** | The bot takes every item that is neither No-Trade nor Heirloom. A few names are always skipped: 'CD Armor:', 'CD Armor Voucher:' and 'Living Embodiment of Shadow'. | off |
-| **Loot everything** | The bot takes every item in the window. Once it has finished with the window, it closes it, even if something was left behind.<br>*Smart Loot and Loot Distribution still get first pick of each item.* | off |
+| **Loot everything** | The bot takes every item in the window. Anything it cannot take stays in the window for you, unless **Close loot window when done** is ticked.<br>*Smart Loot and Loot Distribution still get first pick of each item. A LORE item you already have is not tried; see **Pass LORE items I already have to the group**.* | off |
 | **Smart Loot** | Before anything else, the bot gives each item to the first member of your group or raid (in slot order) whose Smart Loot quota still wants it, or wants an adornment on it. Quotas are set in the Smart Loot window (`ogre smartloot`). | off |
 | **Loot Distribution (see the Loot Distribution tab)** | Items Smart Loot did not hand out go to a Resolve auction first: the group is asked who gains the most Resolve from the item, and the winner gets it. Items nobody wants, or that do not qualify, fall through to the boxes above.<br>*Group only. In a raid nothing is auctioned. Each auction waits up to about 3 seconds for answers.* | off |
+| **Pass LORE items I already have to the group** | A LORE item the bot would take for you, when you already have one in your bags or bank, goes to a group member who does not have one. The bot asks the group once per chest, and only members whose bot answers can be given one, in group order. If everyone who answered has one, the item stays in the chest and the bot moves on.<br>*Group only: in a raid it does nothing. A hand-out that does not go through counts as that member having one, and the next copy goes to the next member. The instance controller's default setup ticks it.* | off |
+| **Close loot window when done** | Once the bot has nothing left to do in a Leader Only loot window, about a second later it closes it, whatever is left inside. Leave it off when you are there and want the window to wait for you.<br>*The instance controller's default setup ticks it, so a run loots each chest and moves on. Its no-trade steps turn it off while they run.* | off |
 
 ## Misc Options
 
@@ -89,6 +91,6 @@ Loot decides what the bot does when a loot window opens. Nothing on the left hal
 - 'Loot everything' under FFA only works when 'Accept any tradable' is also ticked. That box is what makes the bot handle Free For All windows at all.
 - The Leader Only boxes only work when 'Enable options below' is ticked. With it off, Leader Only windows (including Smart Loot and Loot Distribution) are left alone.
 - A paused bot does not loot Free For All or Leader Only windows. A window that opened while paused is not handled when you resume. Close it and open it again.
-- Starting an Instance Controller run ticks some of these for you: Leader Only 'Enable options below', 'Loot everything' and 'Smart Loot' on all your characters, and 'Auto Confirm No-Trade'. Solo, it also ticks both FFA boxes.
+- Starting an Instance Controller run ticks some of these for you: Leader Only 'Enable options below', 'Loot everything', 'Smart Loot', 'Pass LORE items I already have to the group' and 'Close loot window when done' on all your characters, and 'Auto Confirm No-Trade'. Solo, it also ticks both FFA boxes.
 - Auto-Loot names must match the item name exactly (upper or lower case does not matter). Your list is added to a shipped list (Void Shard, Obol and others). To remove a shipped name, list it as false in your own list file, Scripts\OgreSave\EQ2\Loot\custom\autoloot-names.json (the shipped file explains how). Just leaving a name out of that file does not remove it.
 

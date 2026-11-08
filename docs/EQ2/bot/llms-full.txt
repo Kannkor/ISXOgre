@@ -280,6 +280,23 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.11.08.002 {#r2026-11-08-002}
+
+*Sunday, November 8, 2026 at 5:40 AM EST*
+
+- **New** · Bot: **CancelCasting takes -UnlessCasting and -CastAbilityOnNPC.** CancelCasting now understands -UnlessCasting followed by an ability, the same as naming that ability to spare it, and -CastAbilityOnNPC followed by an ability and a mob, which queues that cast and then cancels. A line using either one used to cancel nothing.
+- **New** · Bot: **Pass LORE items you already have to your group.** A new Leader Only box on the Loot tab, Pass LORE items I already have to the group, hands a LORE item you already have to a group member who does not have one. The bot asks the group once per chest, and only members whose bot answers can be given one. It does nothing in a raid, and the instance controller default setup ticks it.
+- **New** · Windows: **MCP buttons can ask before they send.** Tick Ask when pressed in Build command, and pressing the button opens a small window with a field for each of its values, the cursor already in the first: Tab or Enter moves on, Enter on the last sends, Esc cancels, and blank keeps what the button says. Ready-made in Build command adds the old input buttons back - Assist, Ogre Follow, OgreFollow Off, CampSpot, Door, Use Item, Travel and more - and a new MCP has an Inputs page of them. A key assigned to an asking button opens the window too.
+- **Changed** · Bot: **Close loot window when done is its own box.** Loot everything no longer closes the loot window, so anything the bot cannot take waits for you. The new Close loot window when done box closes a Leader Only window once the bot has finished with it. The instance controller default setup ticks it, so a run loots each chest and moves on.
+- **Changed** · Instance Controller: **Queue a zone by name from one root.** ogre ic queue add custom followed by a zone name now looks for that zone in custom only, the same for test and default, so ogre ic queue add custom ${Zone.Name} works in a script. Before, anything after the root word was read as a file path and refused as no such zone file. A path ending in .json still queues that file.
+- **Fixed** · Bot: **"Trakanon's Lair now follows the Raid Options box".** Trakanon's Lair is a raid, but its name has no [Raid] in it, so its fight was switched on by Enable Heroic Setups. It now follows Raid Options, like every other raid.
+- **Fixed** · Bot: **"Trakanon's Lair: the hourglass goes to the right spot".** On Trakanon in Trakanon's Lair, players with the hourglass now go out to the proper spot and come back to their own spot when it falls off. Fighters and everyone else now have separate spots. Before, the fight used older positions, so the hourglass sent people to the raid's spot and fighters shared a spot with the raid.
+- **Fixed** · Bot: **Cast Stack target lists keep up with your group.** A group member who was still zoning in, or in another zone, was left out of the Cast Stack target list, and stayed out until the group changed again. Every member is listed by name now, wherever they are.
+- **Fixed** · Bot: **CastAbilityOnNPC waits for its target, and stops if the mob is not there.** -CastAbilityOnNPC and OgreBotAPI.Abilities:CastOnNPC now target the mob, wait until it is your target, cast, and put your target back. Before, the cast went out at once and landed on whatever was selected at that moment, and a mob that could not be found still got a cast at your current target. As in the old bot, nothing is cast when the mob is missing or the ability is not ready.
+- **Fixed** · Bot: **Items no longer get Recovering after a spell.** An item was used the moment the previous spell finished, so the game answered Recovering and the item only went off when nothing else was casting. Every item use now waits until 0.8 seconds after the last cast, whether it comes from the Cast Stack, -UseItem, consumables, a fight file or anything else, and nothing else can take the cast bar meanwhile.
+- **Fixed** · Bot: **Leader Only loot no longer loops on an item it cannot take.** A chest with several copies of a LORE key kept the bot trying the same keys again and again until someone closed the window. An item that cannot be looted now gets one try and is then left in the chest, and a LORE item you already have is not tried at all. If a Smart Loot hand-out does not go through, the item goes to the next member who wants it.
+- **Fixed** · Bot: **The quest helper no longer clicks zone doors.** A toon that arrived next to a zone teleporter with the quest helper on clicked it and zoned straight back out. The quest helper now skips any object whose name has the word zone, teleporter or exit, as well as everything on its ignore list. Every hail and click it makes now goes in the log file with the zone.
+
 ## 2026.11.07.001 {#r2026-11-07-001}
 
 *Saturday, November 7, 2026 at 8:06 PM EST*
@@ -2694,9 +2711,11 @@ Loot decides what the bot does when a loot window opens. Nothing on the left hal
 | **Loot Ancients** | The bot takes items with '(Ancient)' in the name. | off |
 | **Loot Illegible Scrolls** | The bot takes items whose name contains 'Illegible Scroll:'. | off |
 | **Loot Tradables** | The bot takes every item that is neither No-Trade nor Heirloom. A few names are always skipped: 'CD Armor:', 'CD Armor Voucher:' and 'Living Embodiment of Shadow'. | off |
-| **Loot everything** | The bot takes every item in the window. Once it has finished with the window, it closes it, even if something was left behind.<br>*Smart Loot and Loot Distribution still get first pick of each item.* | off |
+| **Loot everything** | The bot takes every item in the window. Anything it cannot take stays in the window for you, unless **Close loot window when done** is ticked.<br>*Smart Loot and Loot Distribution still get first pick of each item. A LORE item you already have is not tried; see **Pass LORE items I already have to the group**.* | off |
 | **Smart Loot** | Before anything else, the bot gives each item to the first member of your group or raid (in slot order) whose Smart Loot quota still wants it, or wants an adornment on it. Quotas are set in the Smart Loot window (`ogre smartloot`). | off |
 | **Loot Distribution (see the Loot Distribution tab)** | Items Smart Loot did not hand out go to a Resolve auction first: the group is asked who gains the most Resolve from the item, and the winner gets it. Items nobody wants, or that do not qualify, fall through to the boxes above.<br>*Group only. In a raid nothing is auctioned. Each auction waits up to about 3 seconds for answers.* | off |
+| **Pass LORE items I already have to the group** | A LORE item the bot would take for you, when you already have one in your bags or bank, goes to a group member who does not have one. The bot asks the group once per chest, and only members whose bot answers can be given one, in group order. If everyone who answered has one, the item stays in the chest and the bot moves on.<br>*Group only: in a raid it does nothing. A hand-out that does not go through counts as that member having one, and the next copy goes to the next member. The instance controller's default setup ticks it.* | off |
+| **Close loot window when done** | Once the bot has nothing left to do in a Leader Only loot window, about a second later it closes it, whatever is left inside. Leave it off when you are there and want the window to wait for you.<br>*The instance controller's default setup ticks it, so a run loots each chest and moves on. Its no-trade steps turn it off while they run.* | off |
 
 ## Misc Options
 
@@ -2731,7 +2750,7 @@ Loot decides what the bot does when a loot window opens. Nothing on the left hal
 - 'Loot everything' under FFA only works when 'Accept any tradable' is also ticked. That box is what makes the bot handle Free For All windows at all.
 - The Leader Only boxes only work when 'Enable options below' is ticked. With it off, Leader Only windows (including Smart Loot and Loot Distribution) are left alone.
 - A paused bot does not loot Free For All or Leader Only windows. A window that opened while paused is not handled when you resume. Close it and open it again.
-- Starting an Instance Controller run ticks some of these for you: Leader Only 'Enable options below', 'Loot everything' and 'Smart Loot' on all your characters, and 'Auto Confirm No-Trade'. Solo, it also ticks both FFA boxes.
+- Starting an Instance Controller run ticks some of these for you: Leader Only 'Enable options below', 'Loot everything', 'Smart Loot', 'Pass LORE items I already have to the group' and 'Close loot window when done' on all your characters, and 'Auto Confirm No-Trade'. Solo, it also ticks both FFA boxes.
 - Auto-Loot names must match the item name exactly (upper or lower case does not matter). Your list is added to a shipped list (Void Shard, Obol and others). To remove a shipped name, list it as false in your own list file, Scripts\OgreSave\EQ2\Loot\custom\autoloot-names.json (the shipped file explains how). Just leaving a name out of that file does not remove it.
 
 
@@ -3978,6 +3997,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - A key assigned to a button follows it when you move the button or its page. Clearing the button removes its keys.
 > - A colour is kept however you close the picker; **Reset** takes a custom colour off. The gear's **Reset all colours** takes every page's and button's colours off at once.
 > - A button needs a name - use **Clear button** to remove one.
+> - A button with **Ask when pressed** asks for its values before it sends. A new MCP's **Inputs** page is full of them.
 
 **Open it:** Press **Alt** and the backtick key together to open or close it, or type `ogre mcp` (close with `ogre end mcp`). `ogre mcp` does nothing if the MCP is already open. Tick **Enable OgreMCP** (OgreBot, Settings tab, On Load) to open it every time a profile loads.
 
@@ -4158,6 +4178,7 @@ The Layout drawer. Changes show at once and are saved. They change the buttons, 
 - A key assigned to a button follows the button: move the button, or move its page, and the key still presses it. Clearing the button or deleting its page removes the key.
 - If OgreMCP.json is damaged, the MCP opens with a few sample buttons and leaves the file alone so you can repair it. Fix or restore it before changing anything in the MCP - any change saves over it.
 - Buttons from the old OgreBot MCP can be brought over from the Migration window ('Migrate your MCP buttons').
+- A button with **Ask when pressed** ticked opens the [Ask](mcpask.md) window instead of sending at once, and so does a key assigned to it (the MCP must be open for that). A new MCP has an **Inputs** page of them; an existing one gets them from **Ready-made** in [Build command](mcpbuild.md).
 
 ### Switching pages
 
@@ -4314,6 +4335,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > **What you can do here**
 >
 > - **Label** - the text on the button (required).
+> - **Ask when pressed** - pressing the button asks for its values first (the Ask window). **Ready-made** fills in a ready asking button: Assist, Ogre Follow, Travel and more.
 > - **Send via** - OgreConsole (normal), IRC, or Raw (a command run as typed, only on you - unless it starts with oc, irc or !c, which go through OgreConsole / IRC).
 > - **Pick a command** on the left, fill in its settings, then **+ Add to stack**. Stacked commands go out together, in order.
 > - **Click a step** to edit it; the arrows reorder it and x removes it.
@@ -4335,6 +4357,8 @@ Build command makes or changes what one MCP button does. You name the button, ch
 | Control | What it does | Default |
 |---|---|---|
 | **Label** | The text shown on the button. Required. | the button's current label |
+| **Ask when pressed** | Pressing the button opens the [Ask](mcpask.md) window first, with a field for each of its settings. Blank keeps what the button says; a typed answer changes it for that press only. Greyed out for Raw, which has no settings to ask. |  |
+| **Ready-made** | Fills the builder with a ready-made asking button: Assist, Ogre Follow, OgreFollow Off, CampSpot, Door, Use Item, Auto Target List, Load Profile, the four Travel buttons, Share Quest, Share Mission, Delete Quest, the two Alias changes, Craft Recipe, Craft Last Scribed, CoV, Joust Off and Joust On. Save it as it is, or change it first. |  |
 | **OgreConsole** | The command goes through OgreConsole to your characters (the normal choice). | on |
 | **IRC** | The command is sent over IRC instead of OgreConsole. While IRC is not connected it goes through OgreConsole instead.<br>*If the For Who window is set to OC or IRC (not Auto), that choice wins over this one for OgreConsole and IRC buttons.* |  |
 | **Conn** | IRC only: which IRC connection(s) should act on it. Leave empty for every connection.<br>*Ignored when the command ends up going through OgreConsole.* | empty (all) |
@@ -4427,6 +4451,62 @@ If you picked and filled in a command but never pressed Add to stack, Save asks 
 ### No label
 
 ![Save refused without a label](../assets/mcpbuild/nolabel.png)
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/mcpask.md
+
+# Ask
+
+> **:bulb: In game - the ? button on this window says**
+>
+> Asks for an MCP button's values before it sends. Each field shows the button's own value greyed in it.
+>
+> **What you can do here**
+>
+> - **Type** to change a value for this press only; leave a field **blank** to keep the button's.
+> - **Tab** or **Enter** goes to the next field; **Enter** on the last one sends. **Shift+Tab** goes back. **Esc** cancels.
+> - **me** in a field about a character means the one pressing the button.
+>
+> **Good to know**
+>
+> - The cursor starts in the first field, so you can type straight away; sending gives the keyboard back to the game.
+> - A red line says why a press was refused, and the cursor goes to that field.
+
+**Open it:** Press an MCP button that has **Ask when pressed** ticked (in [Build command](mcpbuild.md)), or a key [assigned](binds.md) to one. The **Inputs** page of a new MCP is full of them.
+
+## What it is for
+
+Asks for a button's values before it sends: who it is for, who to assist or follow, a distance, a zone name. Each field shows the button's own value greyed in it; leave a field blank to keep that value, or type to change it for this press only. The button itself is not changed.
+
+## The fields
+
+One field per setting of each command on the button, in order, under the command's name when the button has more than one. Starred fields need a value.
+
+| Control | What it does |
+|---|---|
+| **For who** | Which characters it is for: all, a name, a class, igw:${Me.Name} for your group, or anything the For Who window takes. Blank keeps the button's, and auto means the For Who window. |
+| **me** | Typed in a field about a character (for who, assist who, follow who), me means the character pressing the button. |
+| **Numbers and TRUE / FALSE** | A number field takes only a number, and a TRUE / FALSE field takes true, false, yes, no, on, off, 1 or 0. |
+| **Send** | Sends the button with your answers and closes the window. |
+| **Cancel** | Closes the window. Nothing is sent. |
+
+## No mouse needed
+
+The cursor starts in the first field, so you can type straight away.
+
+| Control | What it does |
+|---|---|
+| **Tab / Shift+Tab** | The next field, or the one before. From the last field Tab goes back to the first. |
+| **Enter** | The next field. On the last field it sends. |
+| **Esc** | Closes the window without sending. |
+| **The red line** | Says why a press was refused - a number field holding text, or a starred field left empty - and the cursor goes to that field. |
+
+## Good to know
+
+- Sending gives the keyboard back to the game.
+- Typing off in Ogre Follow's For who turns following off, as the OgreFollow Off button does.
 
 
 ---
@@ -10297,6 +10377,29 @@ both in `Scripts\Ogre\EQ2\IC\default\Rage of Cthurath\`.
 - Every root loads. The same file in two roots shows up twice in the IC window: they are separate files, and
   neither replaces the other.
 
+### Your own folders inside custom
+
+`Scripts` is the Scripts folder inside the folder InnerSpace is installed in, so the custom root is
+`OgreSave\EQ2\IC\custom\` inside that Scripts folder.
+
+You can make folders of your own inside `custom`, as deep as you like, and keep zone files in them. For example, one
+folder per person who writes zone files:
+
+```text
+OgreSave\EQ2\IC\custom\kannkor\_01_My_Zone.json
+OgreSave\EQ2\IC\custom\lostone\_02_Another_Zone.json
+```
+
+The IC window shows them as folders under **custom**. A file's path is its folder inside the root plus its name,
+written with `/`, and that is how a script or the console queues it:
+
+```text
+ISXOgreEQ2.IC:Queue[add,custom,"kannkor/_01_My_Zone.json"]
+ogre ic queue add custom kannkor/_01_My_Zone.json
+```
+
+The three roots are fixed: there is no setting that points IC at another folder. Put your files under `custom`.
+
 ### File names
 
 The zone files that ship with Ogre are named after their zone: take the zone's name, turn each space into `_`, and
@@ -10324,8 +10427,10 @@ queues the zone you are standing in. The console says which file it picked, then
 - Case does not matter: `[heroic]` is `[Heroic]`.
 - The cleaned name works too, difficulty included: `ogre ic queue add Oogothl_Sprawl_VerBohten_Atoll_Heroic`.
 - When more than one root has a file of that name, `custom` is used first, then `test`, then `default`.
-- `ogre ic queue add <root> <path>` still queues any file by its root and its path. `ogre ic list` prints every loaded
-  file.
+- `ogre ic queue add <root> <zone name>` looks in that root only: `ogre ic queue add custom ${Zone.Name}` queues your own
+  file for the zone you are standing in, even if Ogre ships one too.
+- `ogre ic queue add <root> <path>` still queues any file by its root and its path (a path ends in `.json`). `ogre ic list`
+  prints every loaded file.
 
 A queued zone whose file is renamed follows its zone: the next time IC loads its list, the row points at the zone's
 new file, and the console says so.

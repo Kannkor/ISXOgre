@@ -47,6 +47,29 @@ both in `Scripts\Ogre\EQ2\IC\default\Rage of Cthurath\`.
 - Every root loads. The same file in two roots shows up twice in the IC window: they are separate files, and
   neither replaces the other.
 
+### Your own folders inside custom
+
+`Scripts` is the Scripts folder inside the folder InnerSpace is installed in, so the custom root is
+`OgreSave\EQ2\IC\custom\` inside that Scripts folder.
+
+You can make folders of your own inside `custom`, as deep as you like, and keep zone files in them. For example, one
+folder per person who writes zone files:
+
+```text
+OgreSave\EQ2\IC\custom\kannkor\_01_My_Zone.json
+OgreSave\EQ2\IC\custom\lostone\_02_Another_Zone.json
+```
+
+The IC window shows them as folders under **custom**. A file's path is its folder inside the root plus its name,
+written with `/`, and that is how a script or the console queues it:
+
+```text
+ISXOgreEQ2.IC:Queue[add,custom,"kannkor/_01_My_Zone.json"]
+ogre ic queue add custom kannkor/_01_My_Zone.json
+```
+
+The three roots are fixed: there is no setting that points IC at another folder. Put your files under `custom`.
+
 ### File names
 
 The zone files that ship with Ogre are named after their zone: take the zone's name, turn each space into `_`, and
@@ -74,8 +97,10 @@ queues the zone you are standing in. The console says which file it picked, then
 - Case does not matter: `[heroic]` is `[Heroic]`.
 - The cleaned name works too, difficulty included: `ogre ic queue add Oogothl_Sprawl_VerBohten_Atoll_Heroic`.
 - When more than one root has a file of that name, `custom` is used first, then `test`, then `default`.
-- `ogre ic queue add <root> <path>` still queues any file by its root and its path. `ogre ic list` prints every loaded
-  file.
+- `ogre ic queue add <root> <zone name>` looks in that root only: `ogre ic queue add custom ${Zone.Name}` queues your own
+  file for the zone you are standing in, even if Ogre ships one too.
+- `ogre ic queue add <root> <path>` still queues any file by its root and its path (a path ends in `.json`). `ogre ic list`
+  prints every loaded file.
 
 A queued zone whose file is renamed follows its zone: the next time IC loads its list, the row points at the zone's
 new file, and the console says so.

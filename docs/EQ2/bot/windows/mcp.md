@@ -23,6 +23,7 @@
 > - A key assigned to a button follows it when you move the button or its page. Clearing the button removes its keys.
 > - A colour is kept however you close the picker; **Reset** takes a custom colour off. The gear's **Reset all colours** takes every page's and button's colours off at once.
 > - A button needs a name - use **Clear button** to remove one.
+> - A button with **Ask when pressed** asks for its values before it sends. A new MCP's **Inputs** page is full of them.
 
 **Open it:** Press **Alt** and the backtick key together to open or close it, or type `ogre mcp` (close with `ogre end mcp`). `ogre mcp` does nothing if the MCP is already open. Tick **Enable OgreMCP** (OgreBot, Settings tab, On Load) to open it every time a profile loads.
 
@@ -227,6 +228,7 @@ The Layout drawer. Changes show at once and are saved. They change the buttons, 
 - A key assigned to a button follows the button: move the button, or move its page, and the key still presses it. Clearing the button or deleting its page removes the key.
 - If OgreMCP.json is damaged, the MCP opens with a few sample buttons and leaves the file alone so you can repair it. Fix or restore it before changing anything in the MCP - any change saves over it.
 - Buttons from the old OgreBot MCP can be brought over from the Migration window ('Migrate your MCP buttons').
+- A button with **Ask when pressed** ticked opens the [Ask](mcpask.md) window instead of sending at once, and so does a key assigned to it (the MCP must be open for that). A new MCP has an **Inputs** page of them; an existing one gets them from **Ready-made** in [Build command](mcpbuild.md).
 
 ### Switching pages
 
