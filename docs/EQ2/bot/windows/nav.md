@@ -67,7 +67,7 @@ The top line is the state (Moving in green, Failed in red, Arrived highlighted, 
 A point of interest is a name you give a spot in a zone. A path is a saved list of spots to walk in order. Both are kept in the [Points of Interest and Paths window](paths.md): type `ogre paths`.
 
 - A point of interest's name works wherever a location does in that zone: `oc !c -NavTo igw:${Me.Name} bell`, `oc !c -ChangeCampSpot igw:${Me.Name} bell`, and `-TravelMesh` to reach it from another zone.
-- `oc !c -Path igw:${Me.Name} <name>` walks a saved path, and `oc !c -PathStop igw:${Me.Name}` stops it. It runs while OgreBot is paused, and zoning ends it.
+- `oc !c -Path igw:${Me.Name} <name>` walks a saved path, and `oc !c -PathStop igw:${Me.Name}` stops it. It runs while OgreBot is paused, waits through a fight or a death, and zoning ends it.
 - The [Auto-Hunt tab](../ogrebot/auto-hunt.md) picks a path to walk between pulls.
 
 ## Other states

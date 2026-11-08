@@ -13,7 +13,8 @@
 > - **Add** - save a point of interest at x, y, z. Leave those blank to use where you stand. **My Loc** fills them in for you.
 > - **Remove / Rename** - change a point of interest of your own.
 > - **New / Delete** - make or drop a path. A zone can hold as many as you like.
-> - **Add / Remove / Clear** under the point list - build the path. A point is a point of interest or x,y,z.
+> - **Add / Insert / Remove / Clear** under the point list - build the path. Add goes on the end, Insert goes above the selected point. A point is a point of interest or x,y,z.
+> - **Drag a point** to move it in the list.
 > - **Nav / Camp spot** - how the toon walks that path. **Loop** starts it over after the last point.
 > - **Start / Stop** - walk the path on this box.
 > - **Import** - bring this zone's old AutoHunt path across from OgreBot Classic.
@@ -24,9 +25,10 @@
 > - A shipped point of interest cannot be removed or renamed. Adding your own of that name overrides it.
 > - Start stops with a line if a point cannot be found, before anything moves. Zoning ends a walk.
 > - The first time you enter a zone with an old AutoHunt path, it comes across by itself as a path called Default. Nothing you already have is overwritten, and what you delete does not come back unless you press **Import**.
-> - The Auto-Hunt tab picks one of these paths to walk between pulls.
+> - The Auto-Hunt tab picks one of these paths to walk between pulls, and its **Edit** button opens that path here. So does `ogre paths <path>`.
+> - A walk under way keeps the points it had when it started. Stop and Start walks the new order.
 
-**Open it:** Type `ogre paths`, or press **Edit paths** on the Auto-Hunt tab of OgreBot. `ogre end paths` or the window's X closes it. A path being walked goes on.
+**Open it:** Type `ogre paths`. To open it on one path, type `ogre paths <path>` or press **Edit** beside the path picker on the Auto-Hunt tab of OgreBot. `ogre end paths` or the window's X closes it. A path being walked goes on.
 
 [![Points of Interest and Paths](../assets/paths/window.png)](../assets/paths/window.png "Click for full size")
 
@@ -76,7 +78,7 @@ Click a path to select it. Its points show in the list under these buttons.
 | **New** | Makes an empty path in this zone. It walks by Nav and does not loop until you change it. A name already here is refused, so a slip cannot empty a path. |  |
 | **Delete** | Deletes the selected path.<br>*No confirmation.* |  |
 | **Walk by Nav / Camp spot** | How the toon walks this path. Nav goes to each point on the navigation map. Camp spot moves the camp spot to each point and lets the leash bring the toon. | Nav |
-| **Loop** | Starts the path over at the first point after the last, until something stops it. | off |
+| **Loop** | Starts the path over at the first point after the last, until something stops it. A path of one point goes there and finishes, and so does a loop whose points are all where you stand. | off |
 | **Start** | Walks the selected path on this box, in place of any walk under way. Every point is checked first: one that cannot be found stops it with a line, before anything moves.<br>*It runs while OgreBot is paused, and OgreBot must be open.* |  |
 | **Stop** | Stops the walk on this box. The toon stands where it is. |  |
 
@@ -84,7 +86,7 @@ Click a path to select it. Its points show in the list under these buttons.
 
 ## Points of the path
 
-The selected path's points, in the order they are walked.
+The selected path's points, in the order they are walked. Drag a row to move that point: a line shows where it lands, the points between shift one place, and a plain click still selects the row.
 
 [![Points of the path](../assets/paths/points.png)](../assets/paths/points.png "Click for full size")
 
@@ -92,6 +94,7 @@ The selected path's points, in the order they are walked.
 |---|---|
 | **Point: a name, or x,y,z (box)** | The point to add: the name of a point of interest, or x,y,z. A name is looked for when the path starts, so its point of interest can come later. |
 | **Add** | Adds the point to the end of the selected path. |
+| **Insert** | Puts the point in above the selected point, which moves down one. The new point is then the selected row.<br>*Greyed out until a point is selected.* |
 | **Remove** | Removes the selected point. A path that passes the same point twice keeps the other one. |
 | **Clear** | Takes every point off the selected path. The path stays, with its Walk by and Loop settings.<br>*No confirmation.* |
 
@@ -101,21 +104,24 @@ The selected path's points, in the order they are walked.
 
 - 'shipped' or 'yours' beside a point of interest: shipped ones come with the bot and cannot be removed or renamed.
 - 'at an actor' in place of a location: a shipped point of interest that names an actor, not a spot. It has no location of its own, so a path or a location verb cannot use it.
-- Green text: the path being walked and the point it is walking to, with a line under the lists saying the same.
+- Green text: the path being walked and the point it is walking to, with a line under the lists saying the same. After an edit the line still reads the walk, and no row is green if the list no longer holds that point at that place.
 - The last line of the window: the last thing the bot said about a point of interest or a path, a refusal included.
 
 ## Good to know
 
 - Everything here is for the zone you are in. Another zone has its own points of interest and paths.
-- Zoning ends a walk, with a line. So does death, a point the toon cannot get to, and closing OgreBot.
-- A camp spot walk needs 'Allow Camp Spot' on for that toon. When it ends, the camp spot is cleared if the walk was stopped, and stays at the last point if the walk finished.
+- Zoning ends a walk, with a line. So does a point the toon cannot get to, and closing OgreBot.
+- A walk waits while something else has the toon and goes on from the same point: a fight, a death until a res or a revive in the same zone, a pull of Auto-Hunt, a movement block, the Pause of the Nav window. The last line of this window says what it is waiting for.
 - The first time you enter a zone that has an old OgreBot Classic route, it comes across by itself as a path called Default, and one line says how many points came and which did not. What you delete afterwards does not come back unless you press Import.
-- The Auto-Hunt tab picks one of these paths to walk between pulls. Start here walks a path with no hunting, and hunting leaves that walk alone.
+- A camp spot walk needs 'Allow Camp Spot' on for that toon. A walk that finishes leaves the camp spot at its last point, and the camp spot you had before does not come back. Stop clears the camp spot, and the toon stands where it is.
+- The Auto-Hunt tab picks one of these paths to walk between pulls, and it only walks: it never flies one. Start here walks a path with no hunting, and that walk may fly. Hunting does not end that walk, and the walk waits while Auto-Hunt works a pull. Auto-Hunt pulls nothing in the air, so a walk that flies is never held for one.
+- A walk under way keeps the points it had when it started. Change the path as you like: Stop and Start walks the new order, and so does the next pick on the Auto-Hunt tab.
+- A move or an insert is refused with a line if another box changed the list since you saw it, so a point never lands in the wrong place.
 - A path or a point of interest saved on one box shows on every other box on this PC within a second or so.
 
 ### For scripts
 
-The same things have commands: `OgreBotAPI.POI` for points of interest and `OgreBotAPI.Paths` for paths. In OgreConsole, `-POI_Add` saves a point of interest, `-Path` walks a path and `-PathStop` stops it.
+The same things have commands: `OgreBotAPI.POI` for points of interest and `OgreBotAPI.Paths` for paths. In OgreConsole, `-POI_Add` saves a point of interest, `-Path` walks a path and `-PathStop` stops it. The verbs that change a path take a for-who first: paths are shared by every box on the PC, so name one box and one line changes the path once. `OgreBotAPI.Paths:InsertPoint` and `MovePoint` take a place counted from 1. `ISXOgreEQ2.Paths:Open` opens this window, on a path if you name one (`ISXOgreEQ2.Paths:Open[North Loop]`): any panel or script that wants a path edited calls that.
 
 ### A zone with no points of interest yet
 

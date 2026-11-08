@@ -1,8 +1,8 @@
-# OgreConsole
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# OgreConsole
 
 OgreConsole is the window where Ogre shows messages from all your characters. The left column decides whether that window opens or closes when this character's profile loads, and whether Ogre may pop it open by itself. The right column sets up OgreIRC, which links your bot fleet to an IRC channel so you can send commands to it from IRC. The IRC settings are one set for the whole PC, not per character.
 
@@ -18,6 +18,8 @@ OgreConsole is the window where Ogre shows messages from all your characters. Th
 | **Hide console on load (and right now)** | Closes OgreConsole each time this profile loads. Ticking it also closes it right now and unticks 'Show console on load'.<br>*If both boxes end up ticked, hide wins.* | off |
 | **Never auto open OgreConsole** | Ogre never pops OgreConsole open by itself for an event, such as a tell passed on from another of your sessions. Your own commands and buttons still open it. | off |
 
+
+
 ## OgreIRC
 
 [![OgreIRC](../assets/ogrebot/tab-ogreconsole-s2.png)](../assets/ogrebot/tab-ogreconsole-s2.png "Click for full size")
@@ -25,7 +27,7 @@ OgreConsole is the window where Ogre shows messages from all your characters. Th
 | Option | What it does | Default |
 |---|---|---|
 | **Connect to IRC** | Connects to IRC each time this profile loads, and when you press 'Save OgreIRC information'. This box is saved per character profile, unlike the IRC details below.<br>*Unticking it never disconnects. By hand: `ogre irc` connects, `ogre end irc` disconnects.* | off |
-| **Uplink name:** | **Not active yet.** It is saved, but the IRC link always runs on this PC's own uplink. | empty |
+| **Uplink name:** | **Not built yet.** It is saved, but the IRC link always runs on this PC's own uplink. | empty |
 | **Server:** | The IRC server address to connect to. Required. | empty |
 | **Server port:** | The server's port. 6667 unless your server says otherwise. | 6667 (used when blank or invalid) |
 | **Server password:** | The server's password, if it has one. Leave blank if not.<br>*Shown as plain text on screen.* | empty |
@@ -34,6 +36,8 @@ OgreConsole is the window where Ogre shows messages from all your characters. Th
 | **Channel password:** | The channel's key (password). Strongly recommended, because anyone in the channel who is on the Auth list can command your fleet.<br>*Shown as plain text on screen.* | empty |
 | **Auth list:** | IRC nicks allowed to send commands to your fleet, separated by commas. Your own nick above is always allowed. Commands from anyone else are ignored.<br>*Anyone in the channel can add a nick from IRC with -auth, so this list is not real protection - the channel password is. Nicks added that way are not written back here.* | empty |
 | **Save OgreIRC information** | Saves the IRC details above for this whole PC. If 'Connect to IRC' is ticked, it also applies them and connects. |  |
+
+
 
 ## Good to know
 

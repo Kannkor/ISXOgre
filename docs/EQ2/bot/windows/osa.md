@@ -1,8 +1,8 @@
-# OSA
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# OSA
 
 > **:bulb: In game - the ? button on this window says**
 >
@@ -39,6 +39,8 @@ The title shows how many NPCs are listed, for example OSA — 9 NPCs.
 | **⚙ (gear)** | Opens and closes the column picker at the top of the window. |
 | **Title bar close (X)** | Closes the window. The OgreBot box stays ticked; type `ogre osa` to bring it back.<br>*To turn OSA off for good, untick the box in OgreBot.* |
 
+
+
 ## The list
 
 [![The list](../assets/osa/rows.png)](../assets/osa/rows.png "Click for full size")
@@ -46,6 +48,8 @@ The title shows how many NPCs are listed, for example OSA — 9 NPCs.
 | Control | What it does |
 |---|---|
 | **Click a row** | Targets that NPC. |
+
+
 
 ## Column picker
 
@@ -60,6 +64,8 @@ Opened with the gear. Name is always shown.
 | **Distance** | Shows the DIST column: how far away the NPC is, in metres. | on |
 | **Target** | Shows the TARGET column: the name of whoever that NPC is targeting. Empty means it is not targeting anyone. | on |
 | **Apply** | Uses the ticked columns, closes the picker, and remembers the choice for next time.<br>*Ticking a box does nothing until you press Apply.* |  |
+
+
 
 ## What the window shows
 

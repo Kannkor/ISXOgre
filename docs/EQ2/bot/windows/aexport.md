@@ -1,8 +1,8 @@
-# Exporting Abilities
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# Exporting Abilities
 
 > **:bulb: In game - the ? button on this window says**
 >
@@ -36,6 +36,8 @@ Top line: the ability being read right now. It says '(cached)' for an ability th
 |---|---|
 | **Stop** | Stops the export. Nothing is written - your old file stays as it was - and OgreBot does not reload its abilities. If the big Ability Export window stepped aside for the export, it comes back. |
 | **Title bar close (X)** | Closing this window stops the export, like Stop, and closes the Ability Export window too (the same as `ogre end export`).<br>*The window closes itself about a second and a half after a finished export - that does not stop anything.* |
+
+
 
 ## What the window shows
 

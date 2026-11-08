@@ -280,6 +280,44 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.11.07.001 {#r2026-11-07-001}
+
+*Saturday, November 7, 2026 at 8:06 PM EST*
+
+- **New** · Navigation: **Put a point in the middle of a path, or drag it to a new place.** The Paths window can now insert a point above the selected one, and you can drag a point to move it, so a change in the middle no longer means rebuilding the path. Scripts have OgreBotAPI.Paths:InsertPoint and MovePoint. The Edit button beside the Auto-Hunt path picker opens the picked path here, and so do `ogre paths` with a path name and ISXOgreEQ2.Paths:Open with the name.
+- **New** · Console: **Chat commands have an ogre command.** `ogre chatcmd` starts the router that runs the commands your own characters send you in chat, and `ogre end chatcmd` stops it. It stays off until you start it. `ogre chatcmd status`, `debug`, `reloadauth` and `test` are the `ISXOgreEQ2.ChatCmd` methods of those names.
+- **New** · Other: **A session can say exactly which build it runs.** `${ISXOgreEQ2.BuildHash}` and `${ISXOgreEQ2.CoreBuildHash}` give a fingerprint of the two files this session loaded, and the session log's first adapter line shows both. Two sessions with the same values run the same build.
+- **Changed** · Bot: **Auto-Hunt brings the group along and camps it at your spot.** Switching Auto-Hunt on now tells the rest of your group (toons on this PC) to follow you. With Campspot or CS-JO-JI ticked, each pull camps the whole group at your spot, not wherever each toon stood, and nothing more is sent until no mob is left; then they are let go and follow you again. Turning Auto-Hunt off or pausing the bot mid-fight lets them go too, and a toon too far for the camp to pull in is named in the console.
+- **Changed** · Bot: **Auto-Hunt holds the whole group for a pull.** The Campspot and CS-JO-JI boxes of Auto-Hunt only moved the toon running it. Now the whole group sets a camp spot for the pull and is let go afterwards, and with CS-JO-JI the casters stay at their camp spot while the rest may go in.
+- **Changed** · Bot: **Auto-Hunt only walks.** Auto-Hunt could fly between points on a flying mount, then stand in the air unable to pull. It now only walks, a toon in the air lands first, and a point no walking route reaches ends the walk with a line naming it. A path you start yourself may still fly.
+- **Changed** · Bot: **Cast, item and SpewStat events reach your other sessions through OC.** `OgreEvent_OthersOnAbilityCast`, `OgreEvent_OthersOnAbilityCastCompleted`, `OgreEvent_OthersOnItemUse` and `OgreEvent_SpewStats` now reach your other sessions through the Ogre console hub instead of a `relay`, and MCP layouts, MCP key binds and movement key binds sync the same way. The same sessions get them, with the same arguments, each one exactly as sent. A session that is zoning or at character select gets them when it reaches the world, in order, instead of at once.
+- **Changed** · Bot: **Classic's Tradeskill Apprentice script is not coming back.** `ogre tsapp` and its manager, `ogre tsam` / `ogre tsappm`, were listed as planned for the Task Runner. They have been dropped instead. Delete those lines from your scripts: nothing replaces them.
+- **Changed** · Bot: **Two old Classic content scripts are retired.** Classic's `ogre boz_dw2_korrosk` and `ogre vov_tstracker` were listed as not ported yet. They have been retired instead. Delete those lines from your scripts: nothing replaces them.
+- **Changed** · Windows: **Settings that do nothing are now greyed.** In the OgreBot window, a setting that does nothing is now greyed, and hovering it says which kind it is: not built yet, or does nothing by design. It still takes a click and still saves. The guide also now says the Auto Hunt box is a real on/off switch, which it has been for a while.
+- **Changed** · Windows: **Temp Adornments always apply.** Applying a temp adornment profile now puts every adornment on, even on a piece that already has it with time left, so you can top up before a long fight. The overwrite tick box and the overwrite argument of `-TempAdorns` and `OgreBotAPI.TempAdorns:Apply` are gone.
+- **Changed** · Navigation: **A walk waits when something else has the toon.** A saved path used to end when the toon died, or when something else was moving it. It now waits and goes on from the same point: through a fight, until a res or a revive in the same zone, through a movement block, and through the Pause of the Nav window. A slow new route no longer reads as stuck.
+- **Changed** · Navigation: **Changing a path from a script takes a for-who.** OgreBotAPI.Paths:AddPoint, RemovePoint, Clear and Delete now take a for-who first, so a line that reaches six boxes can change the path once. Two boxes saving at the same moment no longer lose an edit.
+- **Changed** · Console: **ChatCmd:On no longer warns about classic's router.** `ISXOgreEQ2.ChatCmd:On` and `ogre chatcmd` no longer say that OgreBot Classic's router may still be running: Classic and the new bot refuse each other at load, so the two cannot share a session.
+- **Changed** · Other: **A script's cast monitoring list now ends with the zone.** Mobs added with `SetCastMonitoring[...,-watch,"<mob>"]` or `ogre npccast watch` now last the zone, as they did in classic: they end at the next zone or when NPC Cast Monitoring is unticked, together with a script's radius. Zone and fight-file watches are not touched. `-radius` on its own and `ogre npccast radius` now tick NPC Cast Monitoring too, as `-watch` does, and the box stays ticked after the zone.
+- **Fixed** · Bot: **Auto-Hunt does not pull while you fly.** Auto-Hunt could pick a mob and try to pull it while you were flying, and its pull hold could stop a walk you started yourself in the air, where no pull can be cast. Now it pulls nothing in the air (no pull, target, camp or safety hold), a pull it was working ends, and one console line says so as you take off. Its own walk lands first and then pulls, and a walk you started yourself flies on.
+- **Fixed** · Bot: **Auto-Hunt holds steady on the mob it picks.** Auto-Hunt's line-of-sight check could flip from one frame to the next on a mob standing in plain view, so the hunt kept stopping and starting, and with Campspot on the group was camped and let go many times a second. It now looks from your eye height to the mob's, the same check your pull ability has to pass, and a picked mob stays picked until a different answer holds for 0.3 seconds. An empty Pull Abilities list now says so once in the console.
+- **Fixed** · Bot: **Auto-Hunt stops walking when something attacks it.** Auto-Hunt kept walking its path if an attacker was outside the Scan radius and Check Aggro was off. It now stops, fights and carries on at the same point, by the rule the Travel window uses, and a path you start yourself does the same.
+- **Fixed** · Bot: **Broadcast guild talk works again.** The Broadcast guild talk through OgreConsole box on the Setup tab did nothing, because the code behind it only ran after `ogre chatcmd`. Tick it on one character and guild and officer chat reaches OgreConsole on all your sessions, with no `ogre chatcmd` needed.
+- **Fixed** · Bot: **Examine finds an item with a coloured name.** Examine and Examine All missed an item whose name carries a colour code, because the backslash of the code was lost on the way to the game. They find it now, and Examine finds it whether or not you type the code.
+- **Fixed** · Bot: **LogToonIn reaches a toon a zone dropped to character select.** When a zone drops a toon to character select, `oc !c -LogToonIn MyToon MyToon` now logs it back in: at character select or the login screen a box answers to the toon it last played, as well as to its session name. It is the one command that does - every other command aimed at that toon still does nothing there. LoginAtCharacterSelect is gone, because `all` with a name sent every box on the PC to log in as that toon: use `-LogToonIn <box> <toon>` and name the box.
+- **Fixed** · Bot: **No Invis Casting lets the Cast Stack cast when a mob attacks you or your group.** With No Invis Casting ticked, a mob on you or your group now counts as a fight: once a mob near you has you or someone in your group as its target, outside a city, the Cast Stack casts again, so you help instead of watching. Before, it kept waiting until you hit back, even while the mob was already hitting you.
+- **Fixed** · Bot: **No Invis Casting works.** The No Invis Casting box now works: out of combat, the Cast Stack does not cast while you are invisible, and says so once. In combat the box does nothing, and anything a command, script or fight file asks for still casts.
+- **Fixed** · Bot: **Out-of-combat buffs go up as soon as the fight ends.** NonCombatBuff rows on the Cast Stack no longer wait up to two seconds after a kill: they now read the same in-combat state classic reads. No Invis Casting uses that same state, so it starts holding again as soon as the fight is over.
+- **Fixed** · Bot: **Pick a path again to walk it again.** A path that ended or could not start on Auto-Hunt stayed ended even after picking it again. Picking it in the list now always asks again. A zone still ends the walk, and the next zone does not walk by itself.
+- **Fixed** · Bot: **Trade and Inventory.Count find an item with a coloured name.** `ogre trade` said an examined item with a coloured name was not in your bags, and Inventory.Count counted it as none. Both find it now.
+- **Fixed** · Windows: **A window can always be dragged back, and Reset UI Windows lost its OFF-SCREEN badge.** A window dropped at the far left now keeps the part of its title bar you can drag on the screen; at a UI scale of 1.5 or more only its buttons showed. Resizing, a window getting narrower, a tall InnerSpace console and moving a hidden window can no longer take a title bar off the screen either. So Reset UI Windows drops its OFF-SCREEN badge, and `ogre ui report` says HIDDEN BY CONSOLE for a window the console has hidden.
+- **Fixed** · Windows: **Temp Adornments spot a two-handed weapon.** A profile's Primary (two-handed) adornment is now used when your primary weapon is a two-hander, as in the classic bot. Before, it was used whenever your off-hand was empty, so a one-handed weapon with nothing in the off-hand got the two-handed adornment.
+- **Fixed** · Navigation: **A path of one point goes there and finishes.** A looping path of one point, or one whose points were all where you stood, restarted over and over. It now goes to the point and finishes, loop or not.
+- **Fixed** · Crafting: **Zoning while the craft bot reads your recipe book no longer leaves it short.** If you zoned while the craft bot was reading your recipe book, it could keep a partial list and then say a quest's recipes were not in your book. It now starts the read again after an interruption, and reads the book again if a recipe the game just gave you is missing. It also checks whether the book is really open, so it no longer closes a book you already had open.
+- **Fixed** · Other: **A cast monitoring radius set from a script now holds.** `SetCastMonitoring[...,-radius,80]` and `ogre npccast radius` now keep their radius when that same call turns NPC Cast Monitoring on. Before, the console said 80 and the scan ran at 50. The radius now beats the zone's own radius, lasts through Reload and window edits, and ends at the next zone or when the box is unticked.
+- **Fixed** · Other: **A fight's cast watch keeps working when you reopen OgreBot.** Reopening OgreBot in the middle of a fight no longer leaves its cast watch doing nothing. If the fight turned NPC Cast Monitoring on and that was not saved, the box comes back on when OgreBot opens. If you turned the box off during the fight, it stays off.
+- **Fixed** · Other: **Cast monitoring requests hold before the bot loads and during a zone.** `SetCastMonitoring[...,-watch,"<mob>"]`, `-radius` and `ogre npccast watch` or `radius` given before OgreBot is loaded now tick NPC Cast Monitoring once it loads. Given during a zone change, including from a zone event, they now count for the zone you are arriving in instead of ending when it finishes loading. Unticking the box now always ends a script's mobs and radius.
+
 ## 2026.11.06.002 {#r2026-11-06-002}
 
 *Friday, November 6, 2026 at 8:44 PM EST*
@@ -1059,6 +1097,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogre
 > - A yellow warning under Save means the Instance Controller has run on this character and may have changed settings. Reload your profile before saving; Save still works.
 > - The X stops OgreBot, the same as `ogre end bot`. **Hide Main** on the small OgreBot window just hides this one.
 > - Hover a setting or button to see what it does.
+> - A greyed setting does nothing. Hover it to see which kind it is: not built yet, or does nothing by design. It still takes a click and still saves.
 
 **Open it:** Type `ogre`. OgreBot loads running, with this window hidden: click **Show Main** on the small OgreBot window to see it (if the character's ability export is missing or out of date, OgreBot loads paused and the window is shown so you see the export prompt; it stays paused after the export, so resume it when you are ready). `ogre -p` loads OgreBot paused with this window shown. `ogre end bot` closes OgreBot.
 
@@ -1108,6 +1147,7 @@ The tabs down the left are in three blocks. At the top: Auto Target, Cast Stack,
 |---|---|---|
 | **A tab (click)** | Shows that tab's settings on the right. The tab you are on is outlined. | Settings |
 | **A struck-through tab (for example Auto-Hunt)** | Not finished yet. Some of its settings do nothing yet, even though you can change and save them. That tab's own page says which ones work. The tab itself also says NOT FINISHED at the top. |  |
+| **A greyed setting** | Does nothing. Hover it to see which kind it is: not built yet, or does nothing by design. It still takes a click and still saves. |  |
 
 
 
@@ -1362,9 +1402,9 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogre
 
 Settings holds the master controls for what the bot is allowed to cast. Column 1 switches whole groups of the Cast Stack off (buffs, heals, cures, combat arts, items, and so on), and holds a few overrides: treating every target as named, the line-of-sight check, and item zone limits. Column 2 sets the area-attack rules (the Smart CAs minimum target counts, plus the "Dynamic Ignore" boxes, which are not saved and which scripts tick and untick during fights) and the per-category bans, such as no stuns or no roots. Column 3 controls Heroic Opportunities (HOs): which HO steps this character does, how it aims them, Heroic Surge, and which HO-icon abilities the normal rotation must leave alone. Column 4 limits threat abilities, but only when the bot picks an ability for a script, a command or an HO. The normal Cast Stack ignores column 4.
 
-Settings covers cures and combat behaviour. Column 1 controls cures: switching group or single-target cures off, limiting cures to chosen types (arcane, elemental, noxious, trauma), and drinking cure potions automatically. Columns 2 and 3 cover how the bot fights: camp spot, assisting, facing the mob, melee and ranged auto-attack, moving behind, in front or into melee range, turning attack off, sending the pet and mercenary, Bulwark of Order, NPC cast monitoring, raid and heroic encounter setups, the stun checks and the Destiny of Velious (DoV) raid debuff. Column 4 holds the on/off switches for other OgreBot tabs: Chat Events, Spawn and Despawn Events, Announce, Consume Items, Aliases and Ability Tracker. Several boxes here are saved but have no effect yet; each is marked 'Not active yet'.
+Settings covers cures and combat behaviour. Column 1 controls cures: switching group or single-target cures off, limiting cures to chosen types (arcane, elemental, noxious, trauma), and drinking cure potions automatically. Columns 2 and 3 cover how the bot fights: camp spot, assisting, facing the mob, melee and ranged auto-attack, moving behind, in front or into melee range, turning attack off, sending the pet and mercenary, Bulwark of Order, NPC cast monitoring, raid and heroic encounter setups, the stun checks and the Destiny of Velious (DoV) raid debuff. Column 4 holds the on/off switches for other OgreBot tabs: Chat Events, Spawn and Despawn Events, Announce, Consume Items, Aliases and Ability Tracker. Several boxes here are saved but have no effect yet; each is greyed and marked 'Not built yet'.
 
-Settings covers the bot's everyday conveniences outside combat. 'Pop up windows' decides which game pop-ups it answers for you: loot windows, looting corpses and chests, group invites, rezzes, zone-in lockout prompts, raid ready checks, dungeon finder prompts and quest offers. 'On Load' covers what happens when a profile loads: opening the On Screen Assistant and OgreMCP, and checking ability research. 'On Zone' covers zone-in behaviour, such as the list of available encounter setups and auto-sharing missions. 'Unorganized' holds the rest: native auto-follow, flying with the leader, Quest Compare and the automatic Overseer. About a third of the boxes on this tab are saved but have no effect yet; each is marked 'Not active yet'.
+Settings covers the bot's everyday conveniences outside combat. 'Pop up windows' decides which game pop-ups it answers for you: loot windows, looting corpses and chests, group invites, rezzes, zone-in lockout prompts, raid ready checks, dungeon finder prompts and quest offers. 'On Load' covers what happens when a profile loads: opening the On Screen Assistant and OgreMCP, and checking ability research. 'On Zone' covers zone-in behaviour, such as the list of available encounter setups and auto-sharing missions. 'Unorganized' holds the rest: native auto-follow, flying with the leader, Quest Compare and the automatic Overseer. About a third of the boxes on this tab are saved but have no effect yet; each is greyed and marked 'Not built yet'.
 
 ## Cast Stack (1 of 5)
 
@@ -1401,7 +1441,7 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **AE Smart CAs** | A point-blank or targeted area attack is only used when at least the number of mobs set in 'Targets for Smart AEs' on the Setup tab are in range (2 if blank). Untick it to use them at any count.<br>*A Cast Stack entry can override this with its own ignore-area-effect setting or its own count.* | off |
 | **Dynamic Ignore PBAE CAs** | While ticked, the bot casts no point-blank or targeted area attacks: not from the Cast Stack, not from the Pre/Post-Cast tabs, not when it picks an interrupt, and not when a script asks for an ability.<br>*Meant for scripts. The Disable AEs (area effects) command and encounter files tick and untick it during a fight.* | off (not saved; clears on reload) |
 | **Dynamic Ignore Items** | While ticked, every item entry on the Cast Stack is skipped. It works like Disable CS_Items, but it does not touch your saved setting.<br>*Meant for encounter scripts.* | off (not saved; clears on reload) |
-| **No Invis Casting** | **Not active yet.**  | off |
+| **No Invis Casting** | Out of combat, the Cast Stack does not cast while you are invisible, and says so once. A cast already going finishes. Anything a command, script or fight file asks for still casts. In combat, or outside a city while a mob near you is on you or someone in your group, this box does nothing. | off |
 | **No Stuns** | The bot does not cast abilities the game marks as stuns: not from the Cast Stack, not when a script or command asks for an ability, and not when it picks an HO ability.<br>*The Enable/Disable Stuns commands tick and untick it. Items are never blocked by this.* | off |
 | **No Dazes** | The bot does not cast abilities marked as dazes, from the Cast Stack, script/command requests or HO picks. | off |
 | **No Stifles** | The bot does not cast abilities marked as stifles, from the Cast Stack, script/command requests or HO picks. | off |
@@ -1485,8 +1525,8 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | Option | What it does | Default |
 |---|---|---|
 | **Do not send pet to attack** | The bot stops sending your pet at the mob it is fighting, and stops re-aiming the pet when it drifts onto another mob. Your mercenary is handled separately (see Disable Merc Support).<br>*Encounter files can tick this during a fight.* | off |
-| **Cure Curse in Reverse Order** | **Not active yet.**  | off |
-| **X abilities to group cure** | **Not active yet.**  | off |
+| **Cure Curse in Reverse Order** | **Not built yet.**  | off |
+| **X abilities to group cure** | **Not built yet.**  | off |
 | **Disable Group/Raid Cures in CS** | The bot will not choose a group or raid cure when a script or command asks it for an ability, or when it picks an HO ability. The 'cure while stunned' feature on the Other tab also skips group cures. The normal Cast Stack rotation is NOT affected by this box.<br>*Despite 'in CS' (in Cast Stack) in the label, Cure entries on your Cast Stack still cast.* | off |
 | **Disable Single Target Cures in CS** | The bot will not choose a player cure when a script or command asks it for an ability, or when it picks an HO ability. The 'cure while stunned' feature on the Other tab also skips single-target cures. The normal Cast Stack rotation is NOT affected by this box.<br>*Some encounter setups tick this expecting it to stop Cast Stack cures; it does not.* | off |
 | **Enable Selective Single Target Cures** | Single-target Cure entries on your Cast Stack only cure the types ticked below (Arcane, Elemental, Noxious, Trauma). If none of the ticked types is one that cure removes, or nothing is ticked, that cure is not cast at all. Curse cures are not affected.<br>*While on, the bot also stops choosing player cures for script/command ability requests and HO picks.* | off |
@@ -1515,7 +1555,7 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Allow Camp Spot** | Allows this character to use a camp spot. When on, the bot returns you to your camp spot when you stray from it. When off, a camp spot cannot even be set on this character, it never walks back to one, and it stays put for the Come2Me, Move2Area and Move2AreaNoTarget commands.<br>*Scripts and encounters can tick and untick this during a fight; it takes effect at once.* | off |
 | **Dynamic Camp Spot** | Shows whether a camp spot is set: the bot ticks it when a spot is set and unticks it when the spot is cleared. Untick it yourself to stop the bot returning to the camp spot without deleting the spot.<br>*Setting a new spot ticks it again.* | off (not saved; the bot sets it) |
 | **Auto Assist** | Switches assisting on. While it is ticked, the bot targets for the first available player on the Assist tab, or the player set by an assist command. Unticked, it does not assist at all.<br>*Auto Target, when it is on, takes over from assisting whatever this box says. 'ogre assist' still shows who you would assist while the box is off.* | off |
-| **Dynamic Assist** | **Not active yet.** The assist command remembers who to assist on its own; this box is not used or updated. | off (not saved) |
+| **Dynamic Assist** | **Not built yet.** The assist command remembers who to assist on its own; this box is not used or updated. | off (not saved) |
 | **Direct Assist Targeting** | Instead of targeting the player you assist (and fighting whatever they have targeted), the bot targets that player's target directly. If that player has no live target, your target is left alone. | off |
 | **Face mob in combat** | While the bot is running and you are standing still, it turns you to face the mob you are fighting when you are more than 45 degrees off. It only does this within the 'Melee move when less' distance on the Setup tab (40 if blank). If you are on /follow it drops follow for a moment to turn. | off |
 | **Ranged Attack** | When the mob is outside melee reach (or melee is off) and beyond your ranged minimum, the bot switches on ranged auto-attack.<br>*It never turns auto-attack on while you are invisible, stealthed or casting a stealth opener.* | off |
@@ -1526,11 +1566,11 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Disable LoS on Move behind** | Normally the bot will not move you behind, in front of, or up to the mob if a wall or obstacle is in the way. Tick this to skip that line-of-sight check for all three moves. | off |
 | **Turn Off Attack** | While auto-attack is on but you no longer have a valid mob to attack (it died, is gone, or is above the '% NPC HP to attack' threshold), the bot switches auto-attack off. It checks twice a second. | off |
 | **Ignore NPC HP to move** | The combat moves (behind, in front, into melee range) ignore the '% NPC HP to move into attack range' setting on the Setup tab and start as soon as you have a mob you can attack. | off |
-| **Interrupt Mode** | **Not active yet.**  | off |
+| **Interrupt Mode** | **Not built yet.**  | off |
 | **Disable Bulwark of Order** | Fighters: the bot normally watches chat for a mob announcing a big hit and casts Bulwark of Order timed to meet it. Tick this to stop it answering new warnings. A Bulwark already counting down still goes out. | off |
 | **Disable anti-fear (crouch and walk while feared)** | When you are feared, the bot crouches you and switches you to walking, so you do not run as far; when the fear ends it stands you up and switches you back to running - only what it changed (already walking or crouched stays that way). It works only while OgreBot is loaded; pausing OgreBot freezes it (nothing changes until you resume). Tick this to switch it off - anything it changed is put back at once. |  |
-| **Disable Auto-Defensives** | **Not active yet.**  | off |
-| **Enable CD T4 Weapons** | **Not active yet.**  | off |
+| **Disable Auto-Defensives** | **Not built yet.**  | off |
+| **Enable CD T4 Weapons** | **Not built yet.**  | off |
 
 
 
@@ -1539,9 +1579,9 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | Option | What it does | Default |
 |---|---|---|
 | **NPC Cast Monitoring** | The bot watches nearby mobs for the spells they start casting. Zone data and encounter files use this to react, for example with an interrupt. Off means no scanning and no reactions.<br>*When a zone or encounter asks for a watch, the bot ticks this for you. It never unticks it, so your own untick sticks.* | off |
-| **Auto Complete Ascension Combos** | **Not active yet.**  | off |
-| **Ascension Embargo and Combos** | **Not active yet.**  | off |
-| **Show Surge messages** | **Not active yet.**  | off |
+| **Auto Complete Ascension Combos** | **Not built yet.**  | off |
+| **Ascension Embargo and Combos** | **Not built yet.**  | off |
+| **Show Surge messages** | **Not built yet.**  | off |
 | **Disable Merc Support** | The bot stops sending your mercenary to attack the mob you are fighting (and stops pulling it back off other mobs). | off |
 | **Cancel Invis After Combat** | When you are invisible, out of combat and have no mob left to attack, the bot cancels your invisibility. | off |
 | **Enable Raid Setups** | In raid zones, the bot runs the encounter setups written for that zone's fights (setup, triggers and mechanics). When off, no setup starts, by itself or by hand. Unticking mid-fight stops everything the fight was doing straight away, and ticking it again carries on watching the same fight without running its setup again. If a setup did run, its clean-up still happens when the mob dies, whichever way this box is.<br>*If a setup already ran for a mob, its clean-up still runs when that mob dies, even after you untick this.* | off |
@@ -1607,9 +1647,9 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Use On Screen Assistant (OSA)** | Opens the On Screen Assistant window when the profile loads, and whenever you tick the box. Unticking it closes the window. | off |
 | **Enable OgreMCP** | Opens the OgreMCP panel each time the profile loads. | off |
 | **Do not check Research on load** | By default the bot checks ability research when the profile loads and when a 'Research of ...' finished message appears, claiming finished research and starting the next ability from your Ability Research list. Tick this to stop those automatic checks. | off (so research IS checked) |
-| **Do not check Mount Training** | **Not active yet.** The bot does not check mount training on load; the manual mount-training command still works. | off |
-| **Spew BoZ Completed Research** | **Not active yet.** The Ballads of Zimara (BoZ) research readout exists as a manual command only. | off |
-| **Spew Sub Status** | **Not active yet.**  | off |
+| **Do not check Mount Training** | **Not built yet.** The bot does not check mount training on load; the manual mount-training command still works. | off |
+| **Spew BoZ Completed Research** | **Not built yet.** The Ballads of Zimara (BoZ) research readout exists as a manual command only. | off |
+| **Spew Sub Status** | **Not built yet.**  | off |
 
 
 
@@ -1619,7 +1659,7 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 |---|---|---|
 | **No Available Setups** | On zone-in the bot normally lists the fights in this zone that have encounter setups. Tick this to hide that automatic message. Asking for the list yourself still shows it. | off |
 | **Auto Share Missions** | Shortly after zoning in, if you are the group leader, the bot shares your quests and missions for this zone with the group. A group leader also shares a mission the bot has just accepted. This works even while the bot is paused. | off |
-| **Disable DBC Claim** | **Not active yet.**  | off |
+| **Disable DBC Claim** | **Not built yet.**  | off |
 | **Try to keep Familiar up** | After every zone-in to an instance (not overland, not a guild hall) the bot summons your familiar. If it was already up that dismisses it, and the 'Your Familiar has been dismissed' message makes the bot summon it again - so it is up either way. Any other time that message appears, it is summoned again too, with a message on the console and in OgreConsole. Adventure level 100 and up (read once when OgreBot loads). | off |
 | **Do not summon mount** | When OgreBot loads and after every zone-in, the bot summons your equipped mount if you are not on it - not in combat, not on a griffon (adventure level 100 and up). It says so on the console and in OgreConsole when it does - a mount should never just drop. Tick this to stop it. |  |
 | **Do not check mercenary buff** | When OgreBot loads and after every zone-in, a character with a hired mercenary is checked for the mercenary buff you keep after summoning and dismissing one (for example Mercenary Battalion: Season 8). If it is missing you get a message on the console and in OgreConsole - the mercenary is never summoned. The buff names come with the bot; to add one, put it in OgreSave/EQ2/ZoneSummons/custom/MercenaryBuffs.json as {"mercenaryBuffs": ["Name"]}. Tick this to stop the check. |  |
@@ -1631,17 +1671,17 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | Option | What it does | Default |
 |---|---|---|
 | **Auto Follow Mode** | Turns Auto Follow on: out of combat, with nothing to attack, the bot starts the game's own /follow on the person named in 'Auto Follow:' on the Setup tab, when they are in your group, alive and within 'Auto Follow within'. It also lets the `-forcefollow` command start that follow. When off, neither does anything.<br>*It will not follow a character who is dead or nearly dead.* | off |
-| **Do not auto-level Mercenary** | **Not active yet.**  | off |
+| **Do not auto-level Mercenary** | **Not built yet.**  | off |
 | **Disable OgreFly** | When following, the bot normally takes off, flies at the leader's height and lands with them. Tick this to keep following on the ground only. Swimming to the leader's depth still works. | off |
-| **Skip cutscenes** | **Not active yet.**  | off |
+| **Skip cutscenes** | **Not built yet.**  | off |
 | **Close F2P upsell window** | Closes the All-Access upsell window when the game shows it, checking once a second while you are out of combat. For free-to-play accounts. | off |
 | **Enable Pets in Dropdowns** | Adds the pets that are up - yours, your group's and your raid's - to the Cast Stack's Target list, as Pet: and the owner's name (Pet:Bob is Bob's pet). A buff or heal set to a pet is cast on that pet: the bot targets it, casts, and puts your target back. A pet's own ability needs no pet target.<br>*The list is read when OgreBot opens; close and reopen it to see a pet that was summoned since.* | off |
 | **Enable Quest Compare** | Makes this character the group's quest reference. When one of its quests updates, the bot asks the rest of the group whether they are on the same step and reports anyone who differs. Ticking it opens the Quest Compare window and unticks it on the rest of the group, so there is only one reference. | off |
-| **Auto-Handle HQ Earring** | **Not active yet.**  | off |
+| **Auto-Handle HQ Earring** | **Not built yet.**  | off |
 | **Do not auto Overseer** | Stops the automatic Overseer run from starting on this character. A run already in progress is not interrupted. | off |
-| **Auto Temp Mount Reductions** | **Not active yet.**  | off |
-| **Auto Temp Research Reductions** | **Not active yet.**  | off |
-| **Auto Temp Familiar Experience** | **Not active yet.**  | off |
+| **Auto Temp Mount Reductions** | **Not built yet.**  | off |
+| **Auto Temp Research Reductions** | **Not built yet.**  | off |
+| **Auto Temp Familiar Experience** | **Not built yet.**  | off |
 
 
 ---
@@ -1983,13 +2023,13 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogre
 >
 > OgreBot marks this tab as not finished (its name is struck through). Some options below work and some do not yet - each one says which.
 
-Auto-Hunt is a simple grinding mode. The bot looks for a mob near you, targets it and opens the fight with the first ready ability from your Pull Abilities list; your Cast Stack then fights as usual. Pick a saved path under Path and it walks that path between pulls; with none picked it pulls what comes within the scan radius. This tab is marked not finished. To switch it on, use the OgreConsole command `-autohunt` with hunt or off. It only runs while OgreBot is open with a profile loaded and the bot is not paused.
+Auto-Hunt is a simple grinding mode. The bot looks for a mob near you, targets it and opens the fight with the first ready ability from your Pull Abilities list; your Cast Stack then fights as usual. Pick a saved path under Path and it walks that path between pulls; with none picked it pulls what comes within the scan radius. This tab is marked not finished. To switch it on, tick Auto Hunt or use the OgreConsole command `-autohunt` with hunt or off. It only runs while OgreBot is open with a profile loaded and the bot is not paused.
 
 ## Auto-Hunt
 
 | Option | What it does | Default |
 |---|---|---|
-| **Auto Hunt** | **Not active yet.** Ticked, Auto-Hunt runs on this character: scan, camp, prebuff, pull, and walk the path picked below between pulls. The same switch as the OgreConsole command `-autohunt` (hunt or off). It never loads ticked: a profile always starts with it off. | off |
+| **Auto Hunt** | Ticked, Auto-Hunt runs on this character: scan, camp, prebuff, pull, and walk the path picked below between pulls. Switching it on tells the rest of your group to follow you (OgreFollow, through OgreConsole); switching it off leaves them following. It pulls nothing while you fly, and pulls again once you land. The same switch as the OgreConsole command `-autohunt` (hunt or off). It never loads ticked: a profile always starts with it off. | off |
 
 
 
@@ -2035,12 +2075,12 @@ Auto-Hunt is a simple grinding mode. The bot looks for a mob near you, targets i
 
 | Option | What it does | Default |
 |---|---|---|
-| **Campspot** | When the bot finds a mob to pull, it sets a camp spot where you stand and holds you there for the fight. When no mob is left, it clears that camp spot again.<br>*It only sets and clears this character's own camp spot, not the group's.* | off |
-| **CS-JO-JI** | Right now this does exactly the same as Campspot. | off |
+| **Campspot** | When the bot finds a mob to pull, the whole group camps at your spot and holds there for the fight. A new pull from the same spot sends nothing. When no mob has been in reach for 1.5 seconds, the group is let go and follows you again; turning Auto Hunt off or pausing the bot lets it go too.<br>*It switches 'Allow Camp Spot' on for each toon. The rest of the group is let go with a full LetsGo. A toon more than 125 from your spot is not pulled in: it stands where it is until the group moves on, and one line in the console names it. Only toons on this PC are reached (OgreConsole).* | off |
+| **CS-JO-JI** | Like Campspot, and the casters stay at the camp while the rest of the group may leave it to fight. Campspot wins if both are ticked. | off |
 | **Prebuff** | Before each pull, the bot targets you, turns auto-attack on and waits 3 seconds, so your normal buffs have time to go out. Then it targets the mob.<br>*It does not cast buffs itself; your Cast Stack does that.* | off |
-| **Use IRC** | **Not active yet.**  | off |
-| **Ignore Collision** | Normally the bot skips mobs it cannot see (a wall or hill in the way). Tick this to let it pull those too. | off |
-| **Delay After Combat** | **Not active yet.**  | off |
+| **Use IRC** | **Not built yet.**  | off |
+| **Ignore Collision** | Normally the bot skips mobs it cannot see (a wall or hill in the way). Tick this to let it pull those too.<br>*It looks from your eye height to the mob's, the same check your pull ability must pass to be cast.* | off |
+| **Delay After Combat** | **Not built yet.**  | off |
 | **Pause on Exquisite Chest drop** | While an Exquisite chest is lying within 50 of you, the bot stops pulling and holds still, so you can deal with it.<br>*It carries on by itself once the chest is gone.* | off |
 
 
@@ -2049,20 +2089,23 @@ Auto-Hunt is a simple grinding mode. The bot looks for a mob near you, targets i
 
 | Option | What it does | Default |
 |---|---|---|
-| **Walk this path** | Which of this zone's saved paths Auto-Hunt walks between pulls. It stops for each pull and carries on at the same point. Choose (none) to hunt where you stand. The list is the zone you are in: another zone has its own.<br>*A name saved for another zone gets one line here, and the bot hunts where it stands.* | (none) |
-| **Edit paths** | Opens the window that holds this zone's points of interest and paths: `ogre paths`. |  |
+| **Walk this path** | Which of this zone's saved paths Auto-Hunt walks between pulls. It stops for each pull and carries on at the same point. A walk that ended or could not start stays ended: pick the path again to walk it. Choose (none) to hunt where you stand. The list is the zone you are in: another zone has its own.<br>*A name saved for another zone gets one line here, and the bot hunts where it stands.* | (none) |
+| **Edit** | Opens the picked path in the Paths window, where you add, insert, drag and remove its points: `ogre paths <path>`. With (none) picked, the window opens with no path selected. A picked path this zone does not have gets one line. |  |
 
 
 
 ## Good to know
 
-- Ticking Auto Hunt does not start anything. Use `-autohunt` in OgreConsole (hunt / off). That choice is not saved with your profile, so Auto-Hunt starts off every time the bot is loaded fresh.
+- The Auto Hunt box and `-autohunt` in OgreConsole (hunt / off) are one switch. It is not saved with your profile, so Auto-Hunt starts off every time the bot is loaded fresh.
 - A mob that is already attacking your group is targeted before any new pull, whatever its con. The con, Non-Aggro and Named filters only decide which NEW mob to pull. With 'Check Aggro' ticked the bot instead holds still and leaves that fight to your normal combat settings.
 - 'Check if any group members dead' and 'Check HP @' also count a group member who is not in the zone. The hunt waits until they arrive.
-- Pulls only happen while you are out of combat, and only if at least one entry in the pull list is ready to use. With an empty list the bot targets a mob and just waits.
+- Pulls only happen while you are out of combat, and only if at least one entry in the pull list is ready to use. With an empty list the bot targets a mob and just waits, and one line in the console says so.
 - If the Scan radius box is blank, the bot looks 35 around you.
-- The bot stops walking for each pull and for a tripped safety check, then carries on at the same point. A path that ends, or cannot start because a point cannot be found, is not tried again until you send `-autohunt hunt` or pick another path; the bot hunts where it stands.
-- A walk with no hunting is the Start button of the `ogre paths` window. Hunting leaves a walk you started alone.
+- A mob it picks stays picked until a different answer has held for 0.3 seconds, so a mob that blinks out of sight for a moment does not stop and start the hunt.
+- Auto-Hunt only walks: it never flies a path, whatever the Nav window's fly setting, and a toon in the air lands first. A point no walking route reaches ends the walk with a line naming it. It stops walking for each pull, for a tripped safety check, for anything that attacks it and while it is dead, then carries on at the same point. A path that ends, is ended by a zone, or cannot start is not tried again until you pick it again in the list or send `-autohunt hunt`; the bot hunts where it stands.
+- Auto-Hunt pulls nothing while you fly: no pull, no target, no camp and no safety hold, and a pull it was working ends. One line in the console says so as you take off. Its own walk lands first and then pulls; a walk you started yourself flies on.
+- The group: switching Auto Hunt on makes the rest of your group follow you. With Campspot or CS-JO-JI ticked, each pull camps everyone at your spot (not where each toon happens to stand), nothing more goes out during the fight, and when no mob has been in reach for 1.5 seconds they are let go and follow you again. Only a pull more than 5 from the held spot sends the spot again. Death holds everything as it is; a zone forgets the camp without sending anything.
+- A walk with no hunting is the Start button of the `ogre paths` window. Hunting does not end a walk you started, and that walk waits while the bot works a pull, but never in the air.
 
 
 ---
@@ -2589,7 +2632,9 @@ Load holds things the bot does every time it loads your profile. The left side s
 | **Loot rarity (group leader only)** | The lowest item rarity the group loot rules apply to: All, Treasured+, Legendary+ or Fabled+. Only used by 'Set loot options', and only when you lead the group. | not set (left alone) |
 | **Auto-loot mode (everyone)** | Your own auto-loot choice: None, Auto-Greed or Auto-Decline. Used by 'Set loot options', whether or not you lead the group. | not set (left alone) |
 | **Executes** | Commands the bot runs, top to bottom, every time it loads your profile. Switched-off lines are skipped.<br>*Double-click a line to switch it off or on. Drag to reorder.* | empty |
-| **Button test** | **Not active yet.**  | empty |
+| **Button test** | **Not built yet.**  | empty |
+
+
 
 ## Executes
 
@@ -2597,6 +2642,8 @@ Load holds things the bot does every time it loads your profile. The left side s
 |---|---|---|
 | **Command to run on load** | Type a console command here. Put `eq2execute` in front of an in-game slash command. Press Enter or Add to put it on the list.<br>*Commas and ] are removed when you add the line.* | empty |
 | **Add** | Adds the typed command to the end of the list and runs it once straight away, so you can see it works. |  |
+
+
 
 ## Good to know
 
@@ -3267,7 +3314,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogre
 
 # EQ2Chars
 
-EQ2Chars is your list of characters. It does two jobs. Every character on it is trusted: the bot obeys chat commands from them and, when 'Accept Invites' is ticked, accepts their group and raid invites. A character that also has an account and password can be logged in by the bot, for example with `ogre <name>` (add `-p` to load the bot paused, or `-ph` paused with its main window hidden). The list is one list for the whole PC, not part of any profile. Fill in the form on the left and press Add / Save; the list on the right shows everything stored.
+EQ2Chars is your list of characters. It does two jobs. Every character on it is trusted: the bot obeys chat commands from them once you start `ogre chatcmd` and, when 'Accept Invites' is ticked, accepts their group and raid invites. A character that also has an account and password can be logged in by the bot, for example with `ogre <name>` (add `-p` to load the bot paused, or `-ph` paused with its main window hidden). The list is one list for the whole PC, not part of any profile. Fill in the form on the left and press Add / Save; the list on the right shows everything stored.
 
 | Option | What it does | Default |
 |---|---|---|
@@ -3282,6 +3329,8 @@ EQ2Chars is your list of characters. It does two jobs. Every character on it is 
 | **Add current Group/Raid** | Adds every player in your group or raid who is not already listed, as 'recognised only' (no login details). Mercenaries and pets are skipped. The first click only tells you how many it would add; click again within 15 seconds to confirm.<br>*Everyone added becomes someone whose commands and invites this character accepts.* |  |
 | **Your characters - click one to edit it, X to forget it** | Every stored character with its account and server. 'Recognised only' in the Account column means no login details are stored. | empty |
 
+
+
 ## Your characters
 
 | Control | What it does | Default |
@@ -3290,6 +3339,8 @@ EQ2Chars is your list of characters. It does two jobs. Every character on it is 
 | **Character / Account / Server (column headers)** | Click a heading to sort by it; click it again to reverse the order. | sorted by Character |
 | **Click a row** | Loads that character into the form so you can change it. The password box stays empty; leaving it empty keeps the stored password. |  |
 | **x (forget this character)** | Removes the character from the list straight away. The bot stops trusting it and can no longer log it in.<br>*No confirmation.* |  |
+
+
 
 ## Good to know
 
@@ -3314,6 +3365,8 @@ Key Binds tells the bot which keys your game uses for moving, jumping, flying an
 |---|---|---|
 | **(the key list)** | One row per action: its name, the key it uses, Set and Clear. Click the key or Set, then press a key to change it. | the standard keys |
 
+
+
 ## Key Binds
 
 | Control | What it does | Default |
@@ -3329,10 +3382,12 @@ Key Binds tells the bot which keys your game uses for moving, jumping, flying an
 | **Fly/Swim down** | The key the bot holds to sink while flying or swimming, both when it moves you and for its Fly Down command. It is also used to land a flying mount. | End |
 | **Jump** | The key the bot presses for its Jump command and for jumps along a travel path. | Space |
 | **Crouch** | The key the bot presses for its Crouch command. | Z |
-| **Look up** | **Not active yet.** Stored for later. Nothing in the bot presses this key yet. | Page Up |
-| **Look down** | **Not active yet.** Stored for later. Nothing in the bot presses this key yet. | Page Down |
-| **Zoom in** | **Not active yet.** Stored for later. Nothing in the bot presses this key yet. | Num + |
-| **Zoom out** | **Not active yet.** Stored for later. Nothing in the bot presses this key yet. | Num - |
+| **Look up** | **Not built yet.** Stored for later. Nothing in the bot presses this key yet. | Page Up |
+| **Look down** | **Not built yet.** Stored for later. Nothing in the bot presses this key yet. | Page Down |
+| **Zoom in** | **Not built yet.** Stored for later. Nothing in the bot presses this key yet. | Num + |
+| **Zoom out** | **Not built yet.** Stored for later. Nothing in the bot presses this key yet. | Num - |
+
+
 
 ## Good to know
 
@@ -3360,12 +3415,14 @@ OgreConsole is the window where Ogre shows messages from all your characters. Th
 | **Hide console on load (and right now)** | Closes OgreConsole each time this profile loads. Ticking it also closes it right now and unticks 'Show console on load'.<br>*If both boxes end up ticked, hide wins.* | off |
 | **Never auto open OgreConsole** | Ogre never pops OgreConsole open by itself for an event, such as a tell passed on from another of your sessions. Your own commands and buttons still open it. | off |
 
+
+
 ## OgreIRC
 
 | Option | What it does | Default |
 |---|---|---|
 | **Connect to IRC** | Connects to IRC each time this profile loads, and when you press 'Save OgreIRC information'. This box is saved per character profile, unlike the IRC details below.<br>*Unticking it never disconnects. By hand: `ogre irc` connects, `ogre end irc` disconnects.* | off |
-| **Uplink name:** | **Not active yet.** It is saved, but the IRC link always runs on this PC's own uplink. | empty |
+| **Uplink name:** | **Not built yet.** It is saved, but the IRC link always runs on this PC's own uplink. | empty |
 | **Server:** | The IRC server address to connect to. Required. | empty |
 | **Server port:** | The server's port. 6667 unless your server says otherwise. | 6667 (used when blank or invalid) |
 | **Server password:** | The server's password, if it has one. Leave blank if not.<br>*Shown as plain text on screen.* | empty |
@@ -3374,6 +3431,8 @@ OgreConsole is the window where Ogre shows messages from all your characters. Th
 | **Channel password:** | The channel's key (password). Strongly recommended, because anyone in the channel who is on the Auth list can command your fleet.<br>*Shown as plain text on screen.* | empty |
 | **Auth list:** | IRC nicks allowed to send commands to your fleet, separated by commas. Your own nick above is always allowed. Commands from anyone else are ignored.<br>*Anyone in the channel can add a nick from IRC with -auth, so this list is not real protection - the channel password is. Nicks added that way are not written back here.* | empty |
 | **Save OgreIRC information** | Saves the IRC details above for this whole PC. If 'Connect to IRC' is ticked, it also applies them and connects. |  |
+
+
 
 ## Good to know
 
@@ -3402,6 +3461,8 @@ A relay group is a named channel that InnerSpace sessions use to talk to each ot
 | **Also join these groups (joined on every profile load)** | Relay groups this character joins, on top of 'ogre_everquest2'. List the group it sends to here too if this character should hear it. Each is joined when you add it and again every time the profile loads. | empty |
 | **Leave the groups above when OgreBot closes** | When OgreBot closes, this character leaves every group on the list above. It never leaves 'ogre_everquest2', even if that is on the list. | off |
 
+
+
 ## Extra groups
 
 | Control | What it does | Default |
@@ -3409,6 +3470,8 @@ A relay group is a named channel that InnerSpace sessions use to talk to each ot
 | **Relay group to auto-join** | Type a group name here, then press Add. | empty |
 | **Add** | Adds the typed group to the list and joins it straight away.<br>*Press Save to keep the list for next time.* |  |
 | **x (remove a row)** | Takes the group off the list. This character stays in it until OgreBot closes (and leaves only if the box below is ticked). |  |
+
+
 
 ## Good to know
 
@@ -3432,6 +3495,8 @@ Uplink Info is the list of your other PCs. InnerSpace can link PCs together (eac
 | **Connect to all** | Links this PC to every other PC on the list, one after another. Same as MCP's Connect button.<br>*Does nothing if the list is empty or holds only this PC.* |  |
 | **Disconnect from all** | Drops the link from this PC to every other PC on the list. Same as MCP's Disconnect button. |  |
 
+
+
 ## Uplinks
 
 | Control | What it does | Default |
@@ -3440,6 +3505,8 @@ Uplink Info is the list of your other PCs. InnerSpace can link PCs together (eac
 | **Add** | Adds the typed name to the list and saves it at once. A name already on the list is refused. |  |
 | **Add this PC** | Adds this PC's own uplink name to the list. The button shows the name once it is known. |  |
 | **x (remove this PC from the list)** | Takes that PC off the list and saves at once. It does not disconnect it. |  |
+
+
 
 ## Good to know
 
@@ -3461,7 +3528,7 @@ The class tab is named after your class (Coercer, Dirge, Channeler, and so on) a
 
 | Option | What it does | Default |
 |---|---|---|
-| **Exploit Weakness** | **Not active yet.** It is meant to control how the bot uses the Exploit Weakness ability. | off |
+| **Exploit Weakness** | **Not built yet.** It is meant to control how the bot uses the Exploit Weakness ability. | off |
 
 
 
@@ -3469,7 +3536,7 @@ The class tab is named after your class (Coercer, Dirge, Channeler, and so on) a
 
 | Option | What it does | Default |
 |---|---|---|
-| **While Crimson Swath (Epic 2.0 buff) is up, cast Barrooms in cast stack ignoring # of NPCs.** | **Not active yet.** It is meant to let your Barroom abilities on the Cast Stack fire while Crimson Swath is up, even when too few mobs are in range for the area-attack rules. | off |
+| **While Crimson Swath (Epic 2.0 buff) is up, cast Barrooms in cast stack ignoring # of NPCs.** | **Not built yet.** It is meant to let your Barroom abilities on the Cast Stack fire while Crimson Swath is up, even when too few mobs are in range for the area-attack rules. | off |
 
 
 
@@ -3489,7 +3556,7 @@ The class tab is named after your class (Coercer, Dirge, Channeler, and so on) a
 
 | Option | What it does | Default |
 |---|---|---|
-| **Intellectual Remedy rotation text to listen for: (Use Announce for calling out IR)** | **Not active yet.** In the old bot, several coercers took turns casting Intellectual Remedy (IR) by listening for this chat line.<br>*The hint in brackets means: the call-out itself is set up on the Announce tab.* | empty |
+| **Intellectual Remedy rotation text to listen for: (Use Announce for calling out IR)** | **Not built yet.** In the old bot, several coercers took turns casting Intellectual Remedy (IR) by listening for this chat line.<br>*The hint in brackets means: the call-out itself is set up on the Announce tab.* | empty |
 | **Archetype Preference:** | The archetype (fighter, priest, mage or scout) Possess Essence is cast on: the first of you and your group of that archetype who is alive and in the zone - you first. If your pet came from a different essence and someone of this archetype is here, the bot dismisses the pet so the next Possess Essence goes to them.<br>*Empty means Possess Essence is never cast, as in the old bot. Only your group is searched, not the rest of a raid. The list offers fighter, priest, mage and scout.* | empty |
 | **Do not cast in combat.** | Possess Essence is not cast while you are in combat. | off |
 | **Cast outside of instances - such as overland zones and guild halls.** | Allows Possess Essence outside instances. Unticked, it is only cast inside instances. | off |
@@ -3501,10 +3568,10 @@ The class tab is named after your class (Coercer, Dirge, Channeler, and so on) a
 | Option | What it does | Default |
 |---|---|---|
 | **Cancel Dimensional Storage in combat when you have no pet** | While the bot is running, if you are in combat with no pet out and Dimensional Storage is on you, the bot cancels Dimensional Storage so your stored pet can come back. It never casts Dimensional Storage itself. | off |
-| **Crystal Blast when Crystalline Destruction procs** | **Not active yet.** It is meant to cast Crystal Blast when Crystalline Destruction procs. | off |
-| **Do NOT automatically cast "Shockwave" while casting other abilities.** | **Not active yet.** In the old bot, Shockwave was slipped in automatically alongside your other casts unless this was ticked. The new bot does not do that automatic cast at all. | off |
-| **Do NOT automatically cast "Shadowstep" while casting other abilities.** | **Not active yet.** In the old bot, Shadowstep was slipped in automatically alongside your other casts unless this was ticked. The new bot does not do that automatic cast at all. | off |
-| **Do NOT automatically cast "Magic Leash" while casting other abilities.** | **Not active yet.** In the old bot, Magic Leash was slipped in automatically alongside your other casts unless this was ticked. The new bot does not do that automatic cast at all. | off |
+| **Crystal Blast when Crystalline Destruction procs** | **Not built yet.** It is meant to cast Crystal Blast when Crystalline Destruction procs. | off |
+| **Do NOT automatically cast "Shockwave" while casting other abilities.** | **Not built yet.** In the old bot, Shockwave was slipped in automatically alongside your other casts unless this was ticked. The new bot does not do that automatic cast at all. | off |
+| **Do NOT automatically cast "Shadowstep" while casting other abilities.** | **Not built yet.** In the old bot, Shadowstep was slipped in automatically alongside your other casts unless this was ticked. The new bot does not do that automatic cast at all. | off |
+| **Do NOT automatically cast "Magic Leash" while casting other abilities.** | **Not built yet.** In the old bot, Magic Leash was slipped in automatically alongside your other casts unless this was ticked. The new bot does not do that automatic cast at all. | off |
 
 
 
@@ -3512,7 +3579,7 @@ The class tab is named after your class (Coercer, Dirge, Channeler, and so on) a
 
 | Option | What it does | Default |
 |---|---|---|
-| **Do not use leg bite.** | **Not active yet.** In the old bot, Leg Bite was cast automatically alongside your other abilities unless this was ticked.<br>*One encounter file (the Unseen) ticks it for 20 seconds, but nothing reads it yet.* | off |
+| **Do not use leg bite.** | **Not built yet.** In the old bot, Leg Bite was cast automatically alongside your other abilities unless this was ticked.<br>*One encounter file (the Unseen) ticks it for 20 seconds, but nothing reads it yet.* | off |
 
 
 
@@ -3520,7 +3587,7 @@ The class tab is named after your class (Coercer, Dirge, Channeler, and so on) a
 
 | Option | What it does | Default |
 |---|---|---|
-| **COB rotation text to listen for: (Use Announce for calling out COB)** | **Not active yet.** In the old bot, several dirges took turns on their COB ability by listening for this chat line.<br>*The hint in brackets means: the call-out itself is set up on the Announce tab. For taking turns today, use the Ability Embargo tab.* | empty |
+| **COB rotation text to listen for: (Use Announce for calling out COB)** | **Not built yet.** In the old bot, several dirges took turns on their COB ability by listening for this chat line.<br>*The hint in brackets means: the call-out itself is set up on the Announce tab. For taking turns today, use the Ability Embargo tab.* | empty |
 | **Cast Confront Fear** | Your dirge casts Confront Fear on whoever is waiting for it: fighters first, then priests, then everyone else, oldest request first. Requests come from your other characters, the request text below, and your own revive sickness.<br>*Nothing is cast while it is unticked: requests still queue and are dropped after 2 minutes. Requests are sent by the 'Request confront fear' boxes on the Other tab of the character who died.* | off |
 | **Confront Fear text to listen for:Example: Need a confront fear** | When someone says a line containing this text in group, raid or a tell, your dirge adds them to its Confront Fear list. Capital letters do not matter.<br>*Empty means chat is not listened to. The cure itself still needs 'Cast Confront Fear' ticked.* | empty |
 | **Confront Fear text to listen for from other dirges: Example: Casting confront fear on** | When another player says a line containing this text in group, raid or a tell, your dirge takes the LAST word of that line as a name and removes that player from its Confront Fear list, so two dirges do not cure the same player.<br>*Put the name at the end of the line, for example 'Casting confront fear on Bob'. Your own lines are ignored. The bot does not say this line itself.* | empty |
@@ -3531,7 +3598,7 @@ The class tab is named after your class (Coercer, Dirge, Channeler, and so on) a
 
 | Option | What it does | Default |
 |---|---|---|
-| **Do not use leg bite.** | **Not active yet.** In the old bot, Leg Bite was cast automatically alongside your other abilities unless this was ticked.<br>*One encounter file (the Unseen) ticks it for 20 seconds, but nothing reads it yet.* | off |
+| **Do not use leg bite.** | **Not built yet.** In the old bot, Leg Bite was cast automatically alongside your other abilities unless this was ticked.<br>*One encounter file (the Unseen) ticks it for 20 seconds, but nothing reads it yet.* | off |
 | **Cancel Torpor if its target is out of combat** | At lower levels Torpor slows whoever it is on. While the bot is running, if your Torpor is on someone who is no longer in combat, the bot cancels it so they are not left walking around slowed. It only cancels your own Torpor. | off |
 | **Cancel Torpor if its target is farther away than the range below** | While the bot is running, if your Torpor is on someone farther away from you than the range below, the bot cancels it so they are not slowed while running ahead. It only cancels your own Torpor. | off |
 | **Torpor range in meters (blank = 20)** | How far away, in meters, the target of your Torpor can be before the bot cancels it. Leave it blank for 20, which is also Torpor's own casting range. | blank (20) |
@@ -3543,9 +3610,9 @@ The class tab is named after your class (Coercer, Dirge, Channeler, and so on) a
 | Option | What it does | Default |
 |---|---|---|
 | **Cancel Dimensional Storage in combat when you have no pet** | While the bot is running, if you are in combat with no pet out and Dimensional Storage is on you, the bot cancels Dimensional Storage so your stored pet can come back. It never casts Dimensional Storage itself. | off |
-| **Do NOT automatically cast "Shockwave" while casting other abilities.** | **Not active yet.** In the old bot, Shockwave was slipped in automatically alongside your other casts unless this was ticked. The new bot does not do that automatic cast at all. | off |
-| **Do NOT automatically cast "Shadowstep" while casting other abilities.** | **Not active yet.** In the old bot, Shadowstep was slipped in automatically alongside your other casts unless this was ticked. The new bot does not do that automatic cast at all. | off |
-| **Do NOT automatically cast "Magic Leash" while casting other abilities.** | **Not active yet.** In the old bot, Magic Leash was slipped in automatically alongside your other casts unless this was ticked. The new bot does not do that automatic cast at all. | off |
+| **Do NOT automatically cast "Shockwave" while casting other abilities.** | **Not built yet.** In the old bot, Shockwave was slipped in automatically alongside your other casts unless this was ticked. The new bot does not do that automatic cast at all. | off |
+| **Do NOT automatically cast "Shadowstep" while casting other abilities.** | **Not built yet.** In the old bot, Shadowstep was slipped in automatically alongside your other casts unless this was ticked. The new bot does not do that automatic cast at all. | off |
+| **Do NOT automatically cast "Magic Leash" while casting other abilities.** | **Not built yet.** In the old bot, Magic Leash was slipped in automatically alongside your other casts unless this was ticked. The new bot does not do that automatic cast at all. | off |
 
 
 
@@ -3553,10 +3620,10 @@ The class tab is named after your class (Coercer, Dirge, Channeler, and so on) a
 
 | Option | What it does | Default |
 |---|---|---|
-| **Exploit Weakness** | **Not active yet.** It is meant to control how the bot uses the Exploit Weakness ability. | off |
-| **Cancel Focus Aim** | **Not active yet.** It is meant to let the bot cancel your Focus Aim. | off |
-| **Cancel Wreak Havoc** | **Not active yet.** It is meant to let the bot cancel your Wreak Havoc.<br>*The bot does notice Wreak Havoc on its own (it lets you cast while moving), but this box plays no part in that.* | off |
-| **Cancel Tracing Shot** | **Not active yet.** It is meant to let the bot cancel your Tracing Shot. | off |
+| **Exploit Weakness** | **Not built yet.** It is meant to control how the bot uses the Exploit Weakness ability. | off |
+| **Cancel Focus Aim** | **Not built yet.** It is meant to let the bot cancel your Focus Aim. | off |
+| **Cancel Wreak Havoc** | **Not built yet.** It is meant to let the bot cancel your Wreak Havoc.<br>*The bot does notice Wreak Havoc on its own (it lets you cast while moving), but this box plays no part in that.* | off |
+| **Cancel Tracing Shot** | **Not built yet.** It is meant to let the bot cancel your Tracing Shot. | off |
 
 
 
@@ -3564,7 +3631,7 @@ The class tab is named after your class (Coercer, Dirge, Channeler, and so on) a
 
 | Option | What it does | Default |
 |---|---|---|
-| **POTM rotation text to listen for: (Use Announce for calling out POTM)** | **Not active yet.** In the old bot, several troubadors took turns casting Perfection of the Maestro (POTM) by listening for this chat line.<br>*The hint in brackets means: the call-out itself is set up on the Announce tab. For taking turns today, use the Ability Embargo tab.* | empty |
+| **POTM rotation text to listen for: (Use Announce for calling out POTM)** | **Not built yet.** In the old bot, several troubadors took turns casting Perfection of the Maestro (POTM) by listening for this chat line.<br>*The hint in brackets means: the call-out itself is set up on the Announce tab. For taking turns today, use the Ability Embargo tab.* | empty |
 
 
 
@@ -3572,9 +3639,9 @@ The class tab is named after your class (Coercer, Dirge, Channeler, and so on) a
 
 | Option | What it does | Default |
 |---|---|---|
-| **Toggle Myth Click Automatically** | **Not active yet.** It is meant to let the bot switch your Mythical weapon's click on and off for you. | off |
-| **Do NOT Force Myth OFF for Dark Siphoning** | **Not active yet.** It belongs to 'Toggle Myth Click Automatically' above: it would stop the bot turning the Myth click off for Dark Siphoning. | off |
-| **Debugging for Myth** | **Not active yet.** It would print extra messages about the automatic Myth toggle. | off |
+| **Toggle Myth Click Automatically** | **Not built yet.** It is meant to let the bot switch your Mythical weapon's click on and off for you. | off |
+| **Do NOT Force Myth OFF for Dark Siphoning** | **Not built yet.** It belongs to 'Toggle Myth Click Automatically' above: it would stop the bot turning the Myth click off for Dark Siphoning. | off |
+| **Debugging for Myth** | **Not built yet.** It would print extra messages about the automatic Myth toggle. | off |
 
 
 
@@ -4595,7 +4662,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 
 > **:bulb: In game - the ? button on this window says**
 >
-> Puts Ogre windows back where they started. Use it when a window is off-screen and you cannot reach its title bar. Open it with `ogre windowreset`.
+> Puts Ogre windows back where they started: position, size, scale and lock. Open it with `ogre windowreset`.
 >
 > **What you can do here**
 >
@@ -4613,7 +4680,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 
 ## What it is for
 
-Lists every Ogre window that is open in this session and puts any of them back where it started. Use it when a window has ended up off-screen (for example after switching monitors or changing resolution) and you cannot reach its title bar to drag it back. Reset puts a window back at its starting position and size, returns it to the UI scale set in Ogre Options and unlocks it. A position you saved is kept for the next time the window opens.
+Lists every Ogre window that is open in this session and puts any of them back where it started. Reset puts a window back at its starting position and size, returns it to the UI scale set in Ogre Options and unlocks it. A position you saved is kept for the next time the window opens.
 
 ## Header
 
@@ -4629,7 +4696,7 @@ One row per open window (this one is left out).
 
 | Control | What it does |
 |---|---|
-| **Reset** | Moves that window back to where it first opened, at its starting size and at the UI scale set in Ogre Options, unlocks it, and makes sure its title bar is on the current screen. The position you saved with Save Position is kept, so after you close the window or log out it opens at the saved spot again.<br>*A hidden window stays hidden - Reset only moves it.* |
+| **Reset** | Moves that window back to where it first opened, at its starting size and at the UI scale set in Ogre Options, and unlocks it. The position you saved with Save Position is kept, so after you close the window or log out it opens at the saved spot again.<br>*A hidden window stays hidden - Reset only moves it.* |
 
 
 
@@ -4645,21 +4712,21 @@ One row per open window (this one is left out).
 ## What the window shows
 
 - Each row: the window's title, then the position it asked for (x, y), size (width × height, 'auto' when it sizes itself) and its scale if it is not 1.
-- OFF-SCREEN (red): the window is open but its title bar is outside the screen. You will rarely see it: every window is drawn with its title bar on the screen, so a window saved off-screen (like SmartLoot in the picture) shows up at the edge of the screen, with no badge, and its row still shows the saved spot.
+- A window asked to be somewhere the screen does not reach (like SmartLoot in the picture) is drawn at the edge of the screen with its title bar showing. Its row still shows the spot it asked for.
 - HIDDEN (grey): the window exists but is hidden, for example the OgreBot main window after a plain `ogre`.
 - LOCKED: the window was locked from its title-bar right-click menu. Reset unlocks it.
 - 'No other windows are open.' when there is nothing to reset.
 
 ## Good to know
 
-- Every window also has a Reset on its own title-bar right-click menu. This window is for the ones you cannot reach.
+- Every window also has a Reset on its own title-bar right-click menu. This window does it from one list, or for every window at once.
 - Reset does not save. Reopen the window or log out and back in and it is back at its saved spot. To keep the reset spot, use Save Position.
 - Only windows that are open right now are listed. A closed window is not affected.
 - The list does not update by itself; press Refresh after opening or closing windows.
 
 ## After a Reset
 
-SmartLoot, which was saved off-screen, is back at its starting spot.
+SmartLoot is back at its starting spot.
 
 ![After Reset](../assets/windowreset/after-reset.png)
 
@@ -5023,11 +5090,15 @@ The title shows how many NPCs are listed, for example OSA — 9 NPCs.
 | **⚙ (gear)** | Opens and closes the column picker at the top of the window. |
 | **Title bar close (X)** | Closes the window. The OgreBot box stays ticked; type `ogre osa` to bring it back.<br>*To turn OSA off for good, untick the box in OgreBot.* |
 
+
+
 ## The list
 
 | Control | What it does |
 |---|---|
 | **Click a row** | Targets that NPC. |
+
+
 
 ## Column picker
 
@@ -5040,6 +5111,8 @@ Opened with the gear. Name is always shown.
 | **Distance** | Shows the DIST column: how far away the NPC is, in metres. | on |
 | **Target** | Shows the TARGET column: the name of whoever that NPC is targeting. Empty means it is not targeting anyone. | on |
 | **Apply** | Uses the ticked columns, closes the picker, and remembers the choice for next time.<br>*Ticking a box does nothing until you press Apply.* |  |
+
+
 
 ## What the window shows
 
@@ -5860,7 +5933,7 @@ The top line is the state (Moving in green, Failed in red, Arrived highlighted, 
 A point of interest is a name you give a spot in a zone. A path is a saved list of spots to walk in order. Both are kept in the [Points of Interest and Paths window](paths.md): type `ogre paths`.
 
 - A point of interest's name works wherever a location does in that zone: `oc !c -NavTo igw:${Me.Name} bell`, `oc !c -ChangeCampSpot igw:${Me.Name} bell`, and `-TravelMesh` to reach it from another zone.
-- `oc !c -Path igw:${Me.Name} <name>` walks a saved path, and `oc !c -PathStop igw:${Me.Name}` stops it. It runs while OgreBot is paused, and zoning ends it.
+- `oc !c -Path igw:${Me.Name} <name>` walks a saved path, and `oc !c -PathStop igw:${Me.Name}` stops it. It runs while OgreBot is paused, waits through a fight or a death, and zoning ends it.
 - The [Auto-Hunt tab](../ogrebot/auto-hunt.md) picks a path to walk between pulls.
 
 ## Other states
@@ -5980,7 +6053,8 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - **Add** - save a point of interest at x, y, z. Leave those blank to use where you stand. **My Loc** fills them in for you.
 > - **Remove / Rename** - change a point of interest of your own.
 > - **New / Delete** - make or drop a path. A zone can hold as many as you like.
-> - **Add / Remove / Clear** under the point list - build the path. A point is a point of interest or x,y,z.
+> - **Add / Insert / Remove / Clear** under the point list - build the path. Add goes on the end, Insert goes above the selected point. A point is a point of interest or x,y,z.
+> - **Drag a point** to move it in the list.
 > - **Nav / Camp spot** - how the toon walks that path. **Loop** starts it over after the last point.
 > - **Start / Stop** - walk the path on this box.
 > - **Import** - bring this zone's old AutoHunt path across from OgreBot Classic.
@@ -5991,9 +6065,10 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - A shipped point of interest cannot be removed or renamed. Adding your own of that name overrides it.
 > - Start stops with a line if a point cannot be found, before anything moves. Zoning ends a walk.
 > - The first time you enter a zone with an old AutoHunt path, it comes across by itself as a path called Default. Nothing you already have is overwritten, and what you delete does not come back unless you press **Import**.
-> - The Auto-Hunt tab picks one of these paths to walk between pulls.
+> - The Auto-Hunt tab picks one of these paths to walk between pulls, and its **Edit** button opens that path here. So does `ogre paths <path>`.
+> - A walk under way keeps the points it had when it started. Stop and Start walks the new order.
 
-**Open it:** Type `ogre paths`, or press **Edit paths** on the Auto-Hunt tab of OgreBot. `ogre end paths` or the window's X closes it. A path being walked goes on.
+**Open it:** Type `ogre paths`. To open it on one path, type `ogre paths <path>` or press **Edit** beside the path picker on the Auto-Hunt tab of OgreBot. `ogre end paths` or the window's X closes it. A path being walked goes on.
 
 ## What it is for
 
@@ -6035,7 +6110,7 @@ Click a path to select it. Its points show in the list under these buttons.
 | **New** | Makes an empty path in this zone. It walks by Nav and does not loop until you change it. A name already here is refused, so a slip cannot empty a path. |  |
 | **Delete** | Deletes the selected path.<br>*No confirmation.* |  |
 | **Walk by Nav / Camp spot** | How the toon walks this path. Nav goes to each point on the navigation map. Camp spot moves the camp spot to each point and lets the leash bring the toon. | Nav |
-| **Loop** | Starts the path over at the first point after the last, until something stops it. | off |
+| **Loop** | Starts the path over at the first point after the last, until something stops it. A path of one point goes there and finishes, and so does a loop whose points are all where you stand. | off |
 | **Start** | Walks the selected path on this box, in place of any walk under way. Every point is checked first: one that cannot be found stops it with a line, before anything moves.<br>*It runs while OgreBot is paused, and OgreBot must be open.* |  |
 | **Stop** | Stops the walk on this box. The toon stands where it is. |  |
 
@@ -6043,12 +6118,13 @@ Click a path to select it. Its points show in the list under these buttons.
 
 ## Points of the path
 
-The selected path's points, in the order they are walked.
+The selected path's points, in the order they are walked. Drag a row to move that point: a line shows where it lands, the points between shift one place, and a plain click still selects the row.
 
 | Control | What it does |
 |---|---|
 | **Point: a name, or x,y,z (box)** | The point to add: the name of a point of interest, or x,y,z. A name is looked for when the path starts, so its point of interest can come later. |
 | **Add** | Adds the point to the end of the selected path. |
+| **Insert** | Puts the point in above the selected point, which moves down one. The new point is then the selected row.<br>*Greyed out until a point is selected.* |
 | **Remove** | Removes the selected point. A path that passes the same point twice keeps the other one. |
 | **Clear** | Takes every point off the selected path. The path stays, with its Walk by and Loop settings.<br>*No confirmation.* |
 
@@ -6058,21 +6134,24 @@ The selected path's points, in the order they are walked.
 
 - 'shipped' or 'yours' beside a point of interest: shipped ones come with the bot and cannot be removed or renamed.
 - 'at an actor' in place of a location: a shipped point of interest that names an actor, not a spot. It has no location of its own, so a path or a location verb cannot use it.
-- Green text: the path being walked and the point it is walking to, with a line under the lists saying the same.
+- Green text: the path being walked and the point it is walking to, with a line under the lists saying the same. After an edit the line still reads the walk, and no row is green if the list no longer holds that point at that place.
 - The last line of the window: the last thing the bot said about a point of interest or a path, a refusal included.
 
 ## Good to know
 
 - Everything here is for the zone you are in. Another zone has its own points of interest and paths.
-- Zoning ends a walk, with a line. So does death, a point the toon cannot get to, and closing OgreBot.
-- A camp spot walk needs 'Allow Camp Spot' on for that toon. When it ends, the camp spot is cleared if the walk was stopped, and stays at the last point if the walk finished.
+- Zoning ends a walk, with a line. So does a point the toon cannot get to, and closing OgreBot.
+- A walk waits while something else has the toon and goes on from the same point: a fight, a death until a res or a revive in the same zone, a pull of Auto-Hunt, a movement block, the Pause of the Nav window. The last line of this window says what it is waiting for.
 - The first time you enter a zone that has an old OgreBot Classic route, it comes across by itself as a path called Default, and one line says how many points came and which did not. What you delete afterwards does not come back unless you press Import.
-- The Auto-Hunt tab picks one of these paths to walk between pulls. Start here walks a path with no hunting, and hunting leaves that walk alone.
+- A camp spot walk needs 'Allow Camp Spot' on for that toon. A walk that finishes leaves the camp spot at its last point, and the camp spot you had before does not come back. Stop clears the camp spot, and the toon stands where it is.
+- The Auto-Hunt tab picks one of these paths to walk between pulls, and it only walks: it never flies one. Start here walks a path with no hunting, and that walk may fly. Hunting does not end that walk, and the walk waits while Auto-Hunt works a pull. Auto-Hunt pulls nothing in the air, so a walk that flies is never held for one.
+- A walk under way keeps the points it had when it started. Change the path as you like: Stop and Start walks the new order, and so does the next pick on the Auto-Hunt tab.
+- A move or an insert is refused with a line if another box changed the list since you saw it, so a point never lands in the wrong place.
 - A path or a point of interest saved on one box shows on every other box on this PC within a second or so.
 
 ### For scripts
 
-The same things have commands: `OgreBotAPI.POI` for points of interest and `OgreBotAPI.Paths` for paths. In OgreConsole, `-POI_Add` saves a point of interest, `-Path` walks a path and `-PathStop` stops it.
+The same things have commands: `OgreBotAPI.POI` for points of interest and `OgreBotAPI.Paths` for paths. In OgreConsole, `-POI_Add` saves a point of interest, `-Path` walks a path and `-PathStop` stops it. The verbs that change a path take a for-who first: paths are shared by every box on the PC, so name one box and one line changes the path once. `OgreBotAPI.Paths:InsertPoint` and `MovePoint` take a place counted from 1. `ISXOgreEQ2.Paths:Open` opens this window, on a path if you name one (`ISXOgreEQ2.Paths:Open[North Loop]`): any panel or script that wants a path edited calls that.
 
 ### A zone with no points of interest yet
 
@@ -6540,8 +6619,9 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 >
 > **Good to know**
 >
-> - A piece that still has the same adornment with time left is skipped. Tick **overwrite** to apply it anyway.
-> - **Primary (two-handed)** is used instead of **Primary** when nothing is in your off-hand.
+> - Apply always puts the adornment on, even on a piece that already has it with time left.
+> - **Primary (two-handed)** is used instead of **Primary** when your primary weapon is a two-hander.
+> - Make as many profiles as you like (for example one per fight), each under its own name.
 > - Every toon on this PC shares the same profiles.
 
 **Open it:** Type `ogre tempadorns`. If the window is already open, this does nothing. `ogre end tempadorns` (or the window's X) closes it. `ogre tempadorns <profile>` applies a saved profile without opening the window, and `ogre tempadorns list` prints your profiles.
@@ -6584,10 +6664,9 @@ One row per gear piece. Type the adornment's full name, exactly as the item is c
 Runs the selected saved profile.
 
 
-| Control | What it does | Default |
-|---|---|---|
-| **Apply** | With the 'to' box empty, applies the profile on this toon. With a for-who in it (`igw:Name`, a group, `all`), sends `-TempAdorns <who> <profile>` so those toons apply it.<br>*Save first: Apply runs the profile as it is saved, not what is typed in the table.* |  |
-| **overwrite** | Applies every piece, even one that still has the same adornment with time left. | off |
+| Control | What it does |
+|---|---|
+| **Apply** | With the 'to' box empty, applies the profile on this toon. With a for-who in it (`igw:Name`, a group, `all`), sends `-TempAdorns <who> <profile>` so those toons apply it.<br>*Save first: Apply runs the profile as it is saved, not what is typed in the table.* |
 
 
 
@@ -6599,8 +6678,9 @@ Runs the selected saved profile.
 ## Good to know
 
 - Every toon on this PC shares the same profiles (OgreSave/EQ2/TempAdorns/profiles.json).
-- Applying looks at each gear piece first. A piece that still has the same adornment with more than about 48 minutes left is skipped; tick overwrite to apply it anyway.
-- Primary (two-handed) is used instead of Primary when nothing is in your off-hand slot.
+- Apply always puts the adornment on, even on a gear piece that already has it with time left.
+- Primary (two-handed) is used instead of Primary when your primary weapon is a two-hander. To know that, Apply asks the game for your weapon's details once.
+- Make as many profiles as you like, each under its own name (for example one per fight), and apply whichever one you need.
 - A gear piece with nothing equipped, or an adornment that is not in your bags, is skipped with one line in the console.
 - Applying waits its turn behind other queued bot work (it is one entry in the action queue).
 - The ready-made CBOC, Pot and HP profiles are the old PoP button's lists. You can change or delete them; they are not put back.
@@ -7896,6 +7976,8 @@ The yellow text left of the buttons is the result of the last thing you did (for
 | **Run export / Run (dry run) / Run cache action / Running…** | Starts the export with the options shown. The label tells you what will happen: 'Run (dry run)' when nothing will be written, 'Run cache action' when you picked a cache action that does not export. While the export runs this window steps aside; the small Exporting Abilities window shows the progress and has the Stop button.<br>*Greyed out while the red 'can't run' box is showing, and while an export is already running.* |  |
 | **Title bar close (X)** | Closes this window, and stops an export that is running (the same as `ogre end export`). |  |
 
+
+
 ## What to export
 
 | Control | What it does | Default |
@@ -7905,6 +7987,8 @@ The yellow text left of the buttons is the result of the last thing you did (for
 | **Skip ascension abilities** | Leaves your ascension abilities out of the file.<br>*Cannot be ticked together with 'Ascension abilities ONLY' - the window refuses to run.* | off |
 | **Ascension abilities ONLY** | Exports nothing but your ascension abilities. | off |
 | **Include effect descriptions** | Keeps each ability's effect text in the file. Untick for a smaller file. OgreBot works out what an ability does either way. | on |
+
+
 
 ## Minimum tier
 
@@ -7920,12 +8004,16 @@ Pick one. Only abilities at or above the chosen tier are exported.
 | **Grandmaster+** | Keeps Grandmaster and higher. |  |
 | **Ancient** | Keeps only Ancient abilities.<br>*The old bot never actually filtered on Ancient; this one does.* |  |
 
+
+
 ## Level range
 
 | Control | What it does | Default |
 |---|---|---|
 | **Minimum level** | Skips abilities whose class level is below this number. 0 means no minimum.<br>*AA and ascension abilities count as level 0, so any minimum above 0 drops all of them (the window warns you).* | 0 |
 | **Maximum level** | Skips abilities whose class level is above this number. 999 means no maximum.<br>*Must be a whole number and not below the minimum, or the window refuses to run.* | 999 |
+
+
 
 ## Export file
 
@@ -7936,6 +8024,8 @@ Pick one. Only abilities at or above the chosen tier are exported.
 | **Only abilities I don't have yet** | Merges, but skips every ability already in your file without looking it up again. The quick way to add newly learned abilities.<br>*Abilities already in the file are not refreshed.* |  |
 | **Dry run (do not write)** | Does the whole scan but writes nothing, and OgreBot is not reloaded.<br>*The category cache (below) is still updated.* | off |
 | **Don't reload OgreBot when finished** | Normally, when an export finishes, OgreBot reloads your abilities and cast stack from the new file. Tick this to leave them as they are. | off |
+
+
 
 ## Category cache
 
@@ -7948,11 +8038,15 @@ The cache only makes exports faster: it remembers which abilities an export woul
 | **Consolidate only (no export)** | Folds the other sessions' cache notes into the main cache and stops. No export runs.<br>*Run it after your other characters have exported.* |  |
 | **Clear the cache (no export)** | Empties the cache and stops. No export runs. The next normal export rebuilds it.<br>*Only needed if the cache has gone bad.* |  |
 
+
+
 ## Just these abilities
 
 | Control | What it does | Default |
 |---|---|---|
 | **Ability names or IDs** | Leave blank to export everything. Otherwise type ability names (spelled as in your knowledge book) or ability ID numbers, separated by commas or new lines, and only those are exported. With 'Merge' the rest of your file is kept as it was.<br>*Names that are not found are listed on the console. If none of them is in your knowledge book, nothing is exported and the window's top row says so.* | empty |
+
+
 
 ## What the window shows
 
@@ -8026,6 +8120,8 @@ Top line: the ability being read right now. It says '(cached)' for an ability th
 |---|---|
 | **Stop** | Stops the export. Nothing is written - your old file stays as it was - and OgreBot does not reload its abilities. If the big Ability Export window stepped aside for the export, it comes back. |
 | **Title bar close (X)** | Closing this window stops the export, like Stop, and closes the Ability Export window too (the same as `ogre end export`).<br>*The window closes itself about a second and a half after a finished export - that does not stop anything.* |
+
+
 
 ## What the window shows
 

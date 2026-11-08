@@ -1,12 +1,13 @@
-# Load
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
 
+# Load
+
 Load holds things the bot does every time it loads your profile. The left side sets a few game options: the radar, the game's Player Combat Auto Face option, and your group loot rules. Ticking one of those boxes also applies it right away. The right side is a list of commands the bot runs, in order, each time it loads.
 
 [![Load tab](../assets/ogrebot/tab-load.png)](../assets/ogrebot/tab-load.png "Click for full size")
+
 
 | Option | What it does | Default |
 |---|---|---|
@@ -19,7 +20,9 @@ Load holds things the bot does every time it loads your profile. The left side s
 | **Loot rarity (group leader only)** | The lowest item rarity the group loot rules apply to: All, Treasured+, Legendary+ or Fabled+. Only used by 'Set loot options', and only when you lead the group. | not set (left alone) |
 | **Auto-loot mode (everyone)** | Your own auto-loot choice: None, Auto-Greed or Auto-Decline. Used by 'Set loot options', whether or not you lead the group. | not set (left alone) |
 | **Executes** | Commands the bot runs, top to bottom, every time it loads your profile. Switched-off lines are skipped.<br>*Double-click a line to switch it off or on. Drag to reorder.* | empty |
-| **Button test** | **Not active yet.**  | empty |
+| **Button test** | **Not built yet.**  | empty |
+
+
 
 ## Executes
 
@@ -27,6 +30,8 @@ Load holds things the bot does every time it loads your profile. The left side s
 |---|---|---|
 | **Command to run on load** | Type a console command here. Put `eq2execute` in front of an in-game slash command. Press Enter or Add to put it on the list.<br>*Commas and ] are removed when you add the line.* | empty |
 | **Add** | Adds the typed command to the end of the list and runs it once straight away, so you can see it works. |  |
+
+
 
 ## Good to know
 

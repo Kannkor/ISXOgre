@@ -14,10 +14,10 @@ Every name Classic's *OgreBotAPI Reference* page listed, and what it is in the n
 
 | What happened | Names |
 |---|---|
-| ⚠️ Arguments changed | 81 |
+| ⚠️ Arguments changed | 83 |
 | ⚠️ Argument order changed | 7 |
-| ✏️ Renamed | 331 |
-| ➡️ Moved | 110 |
+| ✏️ Renamed | 330 |
+| ➡️ Moved | 109 |
 | ➡️ Lives somewhere else | 11 |
 | 📄 In a data file now | 4 |
 | ⛔ Exists, does nothing yet | 1 |
@@ -172,7 +172,7 @@ Old names whose job is now in `OgreBotAPI.Actors`.
 | `OgreBotAPI.GetMobID` | reads NULL | `OgreBotAPI.Actors.MobID` `[name]` | ✏️ Renamed |  |
 | `OgreBotAPI:HailNPC` | does nothing | `OgreBotAPI.Actors:Hail` `[fw,nameOrId]` | ✏️ Renamed |  |
 | `OgreBotAPI.IsAPC` | reads NULL | `OgreBotAPI.Actors.IsPC` `[actorType]` | ✏️ Renamed |  |
-| `OgreBotAPI:NPC_CastMonitoring` | does nothing | `OgreBotAPI.Actors:SetCastMonitoring` `[fw, -watch "<mob>" ..., -unwatch "<mob>", -clear, -radius N]` | ⚠️ Arguments changed | **Old:** `OgreBotAPI:NPC_CastMonitoring[all,"Raynax S'Vere",-radius,80]. New: OgreBotAPI.Actors:SetCastMonitoring[all,-watch,"Raynax S'Vere",-radius,80] - every mob needs -watch in front of it. -watch ticks NPC Cast Monitoring as before; -unwatch and -clear drop only what scripts watched (zone and fight-file watches stay); -radius takes 5 to 500 and lasts until the next zone with cast data` |
+| `OgreBotAPI:NPC_CastMonitoring` | does nothing | `OgreBotAPI.Actors:SetCastMonitoring` `[fw, -watch "<mob>" ..., -unwatch "<mob>", -clear, -radius N]` | ⚠️ Arguments changed | **Old:** `OgreBotAPI:NPC_CastMonitoring[all,"Raynax S'Vere",-radius,80]. New: OgreBotAPI.Actors:SetCastMonitoring[all,-watch,"Raynax S'Vere",-radius,80] - every mob needs -watch in front of it. -watch and -radius tick NPC Cast Monitoring as before, and the tick stays; -unwatch and -clear drop only what scripts watched (zone and fight-file watches stay); -radius takes 5 to 500 and beats the zone's own radius. The watches and the radius end at the next zone, as they did in classic` |
 | `OgreBotAPI.NPCsWithinRange` | reads NULL | `OgreBotAPI.Actors.NPCsWithin` `[distance]` | ⚠️ Arguments changed | **Old:** `${OgreBotAPI.NPCsWithinRange[<ability name>]}. New: ${OgreBotAPI.Actors.NPCsWithin[<radius>]} - pass the AE's effect radius instead of the ability name. Counts every live NPC/NamedNPC whose edge is within that radius of your edge (not only aggro)` |
 | `OgreBotAPI:TargetAndDoubleClickActor` | does nothing | `OgreBotAPI.Actors:ClickQueued` `[fw,nameOrId,...]` | ✏️ Renamed | ONE difference to convert deliberately: Classic did `Actor[id,X]:DoTarget` and waited for the target to take BEFORE clicking; `:ClickQueued` clicks without that step. If the caller depends on the target being set afterwards, pair it with `Actors:Target`. `Actors:Click` is the immediate, un-queued form (no cast waits). |
 
@@ -680,10 +680,10 @@ Old names whose job is now in `OgreBotAPI.Paths`.
 
 | Old call | Today | Write instead | What changed | Notes |
 |---|---|---|---|---|
-| `OgreBotAPI:AutoHunt_AddPath` | does nothing | `OgreBotAPI.Paths:AddPoint` `[name,point]` | ⚠️ Arguments changed | **Old:** `OgreBotAPI:AutoHunt_AddPath["Camp North"]`<br>**New:** `OgreBotAPI.Paths:AddPoint[Default,"Camp North"]`<br>Classic's added one point to the end of its one path for the zone. A point is now the name of a point of interest in the zone you are in, or x,y,z, and not a nav map region. Classic refused a name its map did not hold when it was added; the new bot checks every point when the path starts. The first entry to a zone with a saved Classic route brings it across by itself, as a path called Default. |
-| `OgreBotAPI:AutoHunt_AddPoint` | does nothing | `OgreBotAPI.Paths:AddPoint` `[name,point]` | ⚠️ Arguments changed | **Old:** `OgreBotAPI:AutoHunt_AddPoint["Camp North"]`<br>**New:** `OgreBotAPI.Paths:AddPoint[Default,"Camp North"]`<br>Classic's added one point to the end of its one path for the zone. A point is now the name of a point of interest in the zone you are in, or x,y,z, and not a nav map region. Classic refused a name its map did not hold when it was added; the new bot checks every point when the path starts. The first entry to a zone with a saved Classic route brings it across by itself, as a path called Default. |
-| `OgreBotAPI:AutoHunt_ClearPoints` | does nothing | `OgreBotAPI.Paths:Clear` `[name]` | ⚠️ Arguments changed | **Old:** `OgreBotAPI:AutoHunt_ClearPoints`<br>**New:** `OgreBotAPI.Paths:Clear[Default]`<br>Classic's emptied its one path for the zone. The new verb empties the named path, which stays with its mover and its loop setting. |
-| `OgreBotAPI:AutoHunt_RemovePoint` | does nothing | `OgreBotAPI.Paths:RemovePoint` `[name,point]` | ⚠️ Arguments changed | **Old:** `OgreBotAPI:AutoHunt_RemovePoint["Camp North"]`<br>**New:** `OgreBotAPI.Paths:RemovePoint[Default,"Camp North"]`<br>Classic's took one point off its one path for the zone. The new verb takes the first point of that text off the named path, in any case. |
+| `OgreBotAPI:AutoHunt_AddPath` | does nothing | `OgreBotAPI.Paths:AddPoint` `[fw,name,point]` | ⚠️ Arguments changed | **Old:** `OgreBotAPI:AutoHunt_AddPath["Camp North"]`<br>**New:** `OgreBotAPI.Paths:AddPoint[all,Default,"Camp North"]`<br>… |
+| `OgreBotAPI:AutoHunt_AddPoint` | does nothing | `OgreBotAPI.Paths:AddPoint` `[fw,name,point]` | ⚠️ Arguments changed | **Old:** `OgreBotAPI:AutoHunt_AddPoint["Camp North"]`<br>**New:** `OgreBotAPI.Paths:AddPoint[all,Default,"Camp North"]`<br>… |
+| `OgreBotAPI:AutoHunt_ClearPoints` | does nothing | `OgreBotAPI.Paths:Clear` `[fw,name]` | ⚠️ Arguments changed | **Old:** `OgreBotAPI:AutoHunt_ClearPoints`<br>**New:** `OgreBotAPI.Paths:Clear[all,Default]`<br>Classic's emptied its one path for the zone. The new verb empties the named path, which stays with its mover and its loop setting. The for-who comes first. |
+| `OgreBotAPI:AutoHunt_RemovePoint` | does nothing | `OgreBotAPI.Paths:RemovePoint` `[fw,name,point]` | ⚠️ Arguments changed | **Old:** `OgreBotAPI:AutoHunt_RemovePoint["Camp North"]`<br>**New:** `OgreBotAPI.Paths:RemovePoint[all,Default,"Camp North"]`<br>Classic's took one point off its one path for the zone. The new verb takes the first point of that text off the named path, in any case. The new verb takes a for-who first: a script's own call acts where it runs, so a script that runs on every box does it on every box, and paths are shared by the whole PC. Name one box to do it once. |
 
 ## OgreBotAPI.Pet
 
@@ -792,7 +792,7 @@ Old names whose job is now in `OgreBotAPI.Session`.
 | `OgreBotAPI.CurrentCharacter` | reads NULL | `OgreBotAPI.Session.CharacterName` | ✏️ Renamed |  |
 | `OgreBotAPI.Get_ReviveLocation` | reads NULL | `OgreBotAPI.Session.ReviveLocation` | ✏️ Renamed |  |
 | `OgreBotAPI:ImmRes` | does nothing | `OgreBotAPI.Session:ImmRes` `[fw,howManyDead=2]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. |
-| `OgreBotAPI:LoginAtCharacterSelect` | does nothing | `OgreBotAPI.Session:LoginAtCharacterSelect` `[fw,charName]` | ➡️ Moved |  |
+| `OgreBotAPI:LoginAtCharacterSelect` | does nothing | `OgreBotAPI.Session:LogToonIn` `[forToon,toon]` | ⚠️ Arguments changed | **Old:** ``OgreBotAPI:LoginAtCharacterSelect[<fw>,<character>]. New: OgreBotAPI.Session:LogToonIn[<box>,<character>] - the box is its InnerSpace session name or its character's name, and at character select or the login screen the character it last played. `all` is refused: name the box. With no character the old call pressed Play on the character already selected - OgreBotAPI.Session:PlayAtCharacterSelect[<fw>] still does that`` |
 | `OgreBotAPI:LogToonIn` | does nothing | `OgreBotAPI.Session:LogToonIn` `[forToon,toon]` | ➡️ Moved |  |
 | `OgreBotAPI:PlayAtCharacterSelect` | does nothing | `OgreBotAPI.Session:PlayAtCharacterSelect` `[fw]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. Gained a for-who. It runs at character select, where `${Me}` does not exist, so it does not need a character to be logged in. |
 | `OgreBotAPI:Question` | reads NULL | `OgreBotAPI.Session:CollectShiny` `[fw]` | ✏️ Renamed |  |
@@ -809,8 +809,8 @@ Old names whose job is now in `OgreBotAPI.TempAdorns`.
 
 | Old call | Today | Write instead | What changed | Notes |
 |---|---|---|---|---|
-| `OgreBotAPI:ApplyTempAdorn` | does nothing | `OgreBotAPI.TempAdorns:Apply` `[fw,profile,overwrite=FALSE]` | ⚠️ Arguments changed | **Old:** `OgreBotAPI:ApplyTempAdorn[<fw>,<adorn=auto>,<slot=Both>] - the Umbra adornments on the primary and / or the chest`<br>**New:** ``OgreBotAPI.TempAdorns:Apply[<fw>,<profile>,<overwrite=FALSE>] - a saved profile: each gear piece it names gets its adornment. Make the profile in the Temp Adornments window (`ogre tempadorns`) and name it`` |
-| `OgreBotAPI:PoP_TempAdorns` | does nothing | `OgreBotAPI.TempAdorns:Apply` `[fw,profile,overwrite=FALSE]` | ✏️ Renamed | The adorn type is the profile: cboc / pot / hp are the ready-made profiles CBOC / Pot / HP (the old hardcoded lists), matched in any case. Name it - the old default cboc is not assumed. Classic also took the full adornment name (Maintained Machined Injector); write its profile name instead. |
+| `OgreBotAPI:ApplyTempAdorn` | does nothing | `OgreBotAPI.TempAdorns:Apply` `[fw,profile]` | ⚠️ Arguments changed | **Old:** `OgreBotAPI:ApplyTempAdorn[<fw>,<adorn=auto>,<slot=Both>] - the Umbra adornments on the primary and / or the chest`<br>**New:** ``OgreBotAPI.TempAdorns:Apply[<fw>,<profile>] - a saved profile: each gear piece it names gets its adornment. Make the profile in the Temp Adornments window (`ogre tempadorns`) and name it`` |
+| `OgreBotAPI:PoP_TempAdorns` | does nothing | `OgreBotAPI.TempAdorns:Apply` `[fw,profile]` | ⚠️ Arguments changed | The adorn type is the profile: cboc / pot / hp are the ready-made profiles CBOC / Pot / HP (the old hardcoded lists), matched in any case. Name it - the old default cboc is not assumed. Classic also took the full adornment name (Maintained Machined Injector); write its profile name instead. Leave the third argument (overwrite) off: Apply always applies. |
 
 ## OgreBotAPI.Travel
 

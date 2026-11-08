@@ -1,12 +1,13 @@
-# Relay Groups
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
 
+# Relay Groups
+
 A relay group is a named channel that InnerSpace sessions use to talk to each other. Every EQ2 session joins 'ogre_everquest2' by itself, and the bot sends its fleet messages there: cast requests, cure requests, event messages, the MCP and key-bind syncs, and OgreConsole lines such as oc !c that name no -rg. You only need this tab to use a different or extra group, for example to keep two separate fleets apart on one PC. The left side moves this character's fleet messages to another group; the right side joins extra groups each time the profile loads.
 
 [![Relay Groups tab](../assets/ogrebot/tab-relay-groups.png)](../assets/ogrebot/tab-relay-groups.png "Click for full size")
+
 
 | Option | What it does | Default |
 |---|---|---|
@@ -17,6 +18,8 @@ A relay group is a named channel that InnerSpace sessions use to talk to each ot
 | **Also join these groups (joined on every profile load)** | Relay groups this character joins, on top of 'ogre_everquest2'. List the group it sends to here too if this character should hear it. Each is joined when you add it and again every time the profile loads. | empty |
 | **Leave the groups above when OgreBot closes** | When OgreBot closes, this character leaves every group on the list above. It never leaves 'ogre_everquest2', even if that is on the list. | off |
 
+
+
 ## Extra groups
 
 | Control | What it does | Default |
@@ -24,6 +27,8 @@ A relay group is a named channel that InnerSpace sessions use to talk to each ot
 | **Relay group to auto-join** | Type a group name here, then press Add. | empty |
 | **Add** | Adds the typed group to the list and joins it straight away.<br>*Press Save to keep the list for next time.* |  |
 | **x (remove a row)** | Takes the group off the list. This character stays in it until OgreBot closes (and leaves only if the box below is ticked). |  |
+
+
 
 ## Good to know
 

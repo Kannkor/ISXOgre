@@ -31,6 +31,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogre
 > - A yellow warning under Save means the Instance Controller has run on this character and may have changed settings. Reload your profile before saving; Save still works.
 > - The X stops OgreBot, the same as `ogre end bot`. **Hide Main** on the small OgreBot window just hides this one.
 > - Hover a setting or button to see what it does.
+> - A greyed setting does nothing. Hover it to see which kind it is: not built yet, or does nothing by design. It still takes a click and still saves.
 
 **Open it:** Type `ogre`. OgreBot loads running, with this window hidden: click **Show Main** on the small OgreBot window to see it (if the character's ability export is missing or out of date, OgreBot loads paused and the window is shown so you see the export prompt; it stays paused after the export, so resume it when you are ready). `ogre -p` loads OgreBot paused with this window shown. `ogre end bot` closes OgreBot.
 
@@ -80,6 +81,7 @@ The tabs down the left are in three blocks. At the top: Auto Target, Cast Stack,
 |---|---|---|
 | **A tab (click)** | Shows that tab's settings on the right. The tab you are on is outlined. | Settings |
 | **A struck-through tab (for example Auto-Hunt)** | Not finished yet. Some of its settings do nothing yet, even though you can change and save them. That tab's own page says which ones work. The tab itself also says NOT FINISHED at the top. |  |
+| **A greyed setting** | Does nothing. Hover it to see which kind it is: not built yet, or does nothing by design. It still takes a click and still saves. |  |
 
 
 
@@ -334,9 +336,9 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogre
 
 Settings holds the master controls for what the bot is allowed to cast. Column 1 switches whole groups of the Cast Stack off (buffs, heals, cures, combat arts, items, and so on), and holds a few overrides: treating every target as named, the line-of-sight check, and item zone limits. Column 2 sets the area-attack rules (the Smart CAs minimum target counts, plus the "Dynamic Ignore" boxes, which are not saved and which scripts tick and untick during fights) and the per-category bans, such as no stuns or no roots. Column 3 controls Heroic Opportunities (HOs): which HO steps this character does, how it aims them, Heroic Surge, and which HO-icon abilities the normal rotation must leave alone. Column 4 limits threat abilities, but only when the bot picks an ability for a script, a command or an HO. The normal Cast Stack ignores column 4.
 
-Settings covers cures and combat behaviour. Column 1 controls cures: switching group or single-target cures off, limiting cures to chosen types (arcane, elemental, noxious, trauma), and drinking cure potions automatically. Columns 2 and 3 cover how the bot fights: camp spot, assisting, facing the mob, melee and ranged auto-attack, moving behind, in front or into melee range, turning attack off, sending the pet and mercenary, Bulwark of Order, NPC cast monitoring, raid and heroic encounter setups, the stun checks and the Destiny of Velious (DoV) raid debuff. Column 4 holds the on/off switches for other OgreBot tabs: Chat Events, Spawn and Despawn Events, Announce, Consume Items, Aliases and Ability Tracker. Several boxes here are saved but have no effect yet; each is marked 'Not active yet'.
+Settings covers cures and combat behaviour. Column 1 controls cures: switching group or single-target cures off, limiting cures to chosen types (arcane, elemental, noxious, trauma), and drinking cure potions automatically. Columns 2 and 3 cover how the bot fights: camp spot, assisting, facing the mob, melee and ranged auto-attack, moving behind, in front or into melee range, turning attack off, sending the pet and mercenary, Bulwark of Order, NPC cast monitoring, raid and heroic encounter setups, the stun checks and the Destiny of Velious (DoV) raid debuff. Column 4 holds the on/off switches for other OgreBot tabs: Chat Events, Spawn and Despawn Events, Announce, Consume Items, Aliases and Ability Tracker. Several boxes here are saved but have no effect yet; each is greyed and marked 'Not built yet'.
 
-Settings covers the bot's everyday conveniences outside combat. 'Pop up windows' decides which game pop-ups it answers for you: loot windows, looting corpses and chests, group invites, rezzes, zone-in lockout prompts, raid ready checks, dungeon finder prompts and quest offers. 'On Load' covers what happens when a profile loads: opening the On Screen Assistant and OgreMCP, and checking ability research. 'On Zone' covers zone-in behaviour, such as the list of available encounter setups and auto-sharing missions. 'Unorganized' holds the rest: native auto-follow, flying with the leader, Quest Compare and the automatic Overseer. About a third of the boxes on this tab are saved but have no effect yet; each is marked 'Not active yet'.
+Settings covers the bot's everyday conveniences outside combat. 'Pop up windows' decides which game pop-ups it answers for you: loot windows, looting corpses and chests, group invites, rezzes, zone-in lockout prompts, raid ready checks, dungeon finder prompts and quest offers. 'On Load' covers what happens when a profile loads: opening the On Screen Assistant and OgreMCP, and checking ability research. 'On Zone' covers zone-in behaviour, such as the list of available encounter setups and auto-sharing missions. 'Unorganized' holds the rest: native auto-follow, flying with the leader, Quest Compare and the automatic Overseer. About a third of the boxes on this tab are saved but have no effect yet; each is greyed and marked 'Not built yet'.
 
 ## Cast Stack (1 of 5)
 
@@ -373,7 +375,7 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **AE Smart CAs** | A point-blank or targeted area attack is only used when at least the number of mobs set in 'Targets for Smart AEs' on the Setup tab are in range (2 if blank). Untick it to use them at any count.<br>*A Cast Stack entry can override this with its own ignore-area-effect setting or its own count.* | off |
 | **Dynamic Ignore PBAE CAs** | While ticked, the bot casts no point-blank or targeted area attacks: not from the Cast Stack, not from the Pre/Post-Cast tabs, not when it picks an interrupt, and not when a script asks for an ability.<br>*Meant for scripts. The Disable AEs (area effects) command and encounter files tick and untick it during a fight.* | off (not saved; clears on reload) |
 | **Dynamic Ignore Items** | While ticked, every item entry on the Cast Stack is skipped. It works like Disable CS_Items, but it does not touch your saved setting.<br>*Meant for encounter scripts.* | off (not saved; clears on reload) |
-| **No Invis Casting** | **Not active yet.**  | off |
+| **No Invis Casting** | Out of combat, the Cast Stack does not cast while you are invisible, and says so once. A cast already going finishes. Anything a command, script or fight file asks for still casts. In combat, or outside a city while a mob near you is on you or someone in your group, this box does nothing. | off |
 | **No Stuns** | The bot does not cast abilities the game marks as stuns: not from the Cast Stack, not when a script or command asks for an ability, and not when it picks an HO ability.<br>*The Enable/Disable Stuns commands tick and untick it. Items are never blocked by this.* | off |
 | **No Dazes** | The bot does not cast abilities marked as dazes, from the Cast Stack, script/command requests or HO picks. | off |
 | **No Stifles** | The bot does not cast abilities marked as stifles, from the Cast Stack, script/command requests or HO picks. | off |
@@ -457,8 +459,8 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | Option | What it does | Default |
 |---|---|---|
 | **Do not send pet to attack** | The bot stops sending your pet at the mob it is fighting, and stops re-aiming the pet when it drifts onto another mob. Your mercenary is handled separately (see Disable Merc Support).<br>*Encounter files can tick this during a fight.* | off |
-| **Cure Curse in Reverse Order** | **Not active yet.**  | off |
-| **X abilities to group cure** | **Not active yet.**  | off |
+| **Cure Curse in Reverse Order** | **Not built yet.**  | off |
+| **X abilities to group cure** | **Not built yet.**  | off |
 | **Disable Group/Raid Cures in CS** | The bot will not choose a group or raid cure when a script or command asks it for an ability, or when it picks an HO ability. The 'cure while stunned' feature on the Other tab also skips group cures. The normal Cast Stack rotation is NOT affected by this box.<br>*Despite 'in CS' (in Cast Stack) in the label, Cure entries on your Cast Stack still cast.* | off |
 | **Disable Single Target Cures in CS** | The bot will not choose a player cure when a script or command asks it for an ability, or when it picks an HO ability. The 'cure while stunned' feature on the Other tab also skips single-target cures. The normal Cast Stack rotation is NOT affected by this box.<br>*Some encounter setups tick this expecting it to stop Cast Stack cures; it does not.* | off |
 | **Enable Selective Single Target Cures** | Single-target Cure entries on your Cast Stack only cure the types ticked below (Arcane, Elemental, Noxious, Trauma). If none of the ticked types is one that cure removes, or nothing is ticked, that cure is not cast at all. Curse cures are not affected.<br>*While on, the bot also stops choosing player cures for script/command ability requests and HO picks.* | off |
@@ -487,7 +489,7 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Allow Camp Spot** | Allows this character to use a camp spot. When on, the bot returns you to your camp spot when you stray from it. When off, a camp spot cannot even be set on this character, it never walks back to one, and it stays put for the Come2Me, Move2Area and Move2AreaNoTarget commands.<br>*Scripts and encounters can tick and untick this during a fight; it takes effect at once.* | off |
 | **Dynamic Camp Spot** | Shows whether a camp spot is set: the bot ticks it when a spot is set and unticks it when the spot is cleared. Untick it yourself to stop the bot returning to the camp spot without deleting the spot.<br>*Setting a new spot ticks it again.* | off (not saved; the bot sets it) |
 | **Auto Assist** | Switches assisting on. While it is ticked, the bot targets for the first available player on the Assist tab, or the player set by an assist command. Unticked, it does not assist at all.<br>*Auto Target, when it is on, takes over from assisting whatever this box says. 'ogre assist' still shows who you would assist while the box is off.* | off |
-| **Dynamic Assist** | **Not active yet.** The assist command remembers who to assist on its own; this box is not used or updated. | off (not saved) |
+| **Dynamic Assist** | **Not built yet.** The assist command remembers who to assist on its own; this box is not used or updated. | off (not saved) |
 | **Direct Assist Targeting** | Instead of targeting the player you assist (and fighting whatever they have targeted), the bot targets that player's target directly. If that player has no live target, your target is left alone. | off |
 | **Face mob in combat** | While the bot is running and you are standing still, it turns you to face the mob you are fighting when you are more than 45 degrees off. It only does this within the 'Melee move when less' distance on the Setup tab (40 if blank). If you are on /follow it drops follow for a moment to turn. | off |
 | **Ranged Attack** | When the mob is outside melee reach (or melee is off) and beyond your ranged minimum, the bot switches on ranged auto-attack.<br>*It never turns auto-attack on while you are invisible, stealthed or casting a stealth opener.* | off |
@@ -498,11 +500,11 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Disable LoS on Move behind** | Normally the bot will not move you behind, in front of, or up to the mob if a wall or obstacle is in the way. Tick this to skip that line-of-sight check for all three moves. | off |
 | **Turn Off Attack** | While auto-attack is on but you no longer have a valid mob to attack (it died, is gone, or is above the '% NPC HP to attack' threshold), the bot switches auto-attack off. It checks twice a second. | off |
 | **Ignore NPC HP to move** | The combat moves (behind, in front, into melee range) ignore the '% NPC HP to move into attack range' setting on the Setup tab and start as soon as you have a mob you can attack. | off |
-| **Interrupt Mode** | **Not active yet.**  | off |
+| **Interrupt Mode** | **Not built yet.**  | off |
 | **Disable Bulwark of Order** | Fighters: the bot normally watches chat for a mob announcing a big hit and casts Bulwark of Order timed to meet it. Tick this to stop it answering new warnings. A Bulwark already counting down still goes out. | off |
 | **Disable anti-fear (crouch and walk while feared)** | When you are feared, the bot crouches you and switches you to walking, so you do not run as far; when the fear ends it stands you up and switches you back to running - only what it changed (already walking or crouched stays that way). It works only while OgreBot is loaded; pausing OgreBot freezes it (nothing changes until you resume). Tick this to switch it off - anything it changed is put back at once. |  |
-| **Disable Auto-Defensives** | **Not active yet.**  | off |
-| **Enable CD T4 Weapons** | **Not active yet.**  | off |
+| **Disable Auto-Defensives** | **Not built yet.**  | off |
+| **Enable CD T4 Weapons** | **Not built yet.**  | off |
 
 
 
@@ -511,9 +513,9 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | Option | What it does | Default |
 |---|---|---|
 | **NPC Cast Monitoring** | The bot watches nearby mobs for the spells they start casting. Zone data and encounter files use this to react, for example with an interrupt. Off means no scanning and no reactions.<br>*When a zone or encounter asks for a watch, the bot ticks this for you. It never unticks it, so your own untick sticks.* | off |
-| **Auto Complete Ascension Combos** | **Not active yet.**  | off |
-| **Ascension Embargo and Combos** | **Not active yet.**  | off |
-| **Show Surge messages** | **Not active yet.**  | off |
+| **Auto Complete Ascension Combos** | **Not built yet.**  | off |
+| **Ascension Embargo and Combos** | **Not built yet.**  | off |
+| **Show Surge messages** | **Not built yet.**  | off |
 | **Disable Merc Support** | The bot stops sending your mercenary to attack the mob you are fighting (and stops pulling it back off other mobs). | off |
 | **Cancel Invis After Combat** | When you are invisible, out of combat and have no mob left to attack, the bot cancels your invisibility. | off |
 | **Enable Raid Setups** | In raid zones, the bot runs the encounter setups written for that zone's fights (setup, triggers and mechanics). When off, no setup starts, by itself or by hand. Unticking mid-fight stops everything the fight was doing straight away, and ticking it again carries on watching the same fight without running its setup again. If a setup did run, its clean-up still happens when the mob dies, whichever way this box is.<br>*If a setup already ran for a mob, its clean-up still runs when that mob dies, even after you untick this.* | off |
@@ -579,9 +581,9 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Use On Screen Assistant (OSA)** | Opens the On Screen Assistant window when the profile loads, and whenever you tick the box. Unticking it closes the window. | off |
 | **Enable OgreMCP** | Opens the OgreMCP panel each time the profile loads. | off |
 | **Do not check Research on load** | By default the bot checks ability research when the profile loads and when a 'Research of ...' finished message appears, claiming finished research and starting the next ability from your Ability Research list. Tick this to stop those automatic checks. | off (so research IS checked) |
-| **Do not check Mount Training** | **Not active yet.** The bot does not check mount training on load; the manual mount-training command still works. | off |
-| **Spew BoZ Completed Research** | **Not active yet.** The Ballads of Zimara (BoZ) research readout exists as a manual command only. | off |
-| **Spew Sub Status** | **Not active yet.**  | off |
+| **Do not check Mount Training** | **Not built yet.** The bot does not check mount training on load; the manual mount-training command still works. | off |
+| **Spew BoZ Completed Research** | **Not built yet.** The Ballads of Zimara (BoZ) research readout exists as a manual command only. | off |
+| **Spew Sub Status** | **Not built yet.**  | off |
 
 
 
@@ -591,7 +593,7 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 |---|---|---|
 | **No Available Setups** | On zone-in the bot normally lists the fights in this zone that have encounter setups. Tick this to hide that automatic message. Asking for the list yourself still shows it. | off |
 | **Auto Share Missions** | Shortly after zoning in, if you are the group leader, the bot shares your quests and missions for this zone with the group. A group leader also shares a mission the bot has just accepted. This works even while the bot is paused. | off |
-| **Disable DBC Claim** | **Not active yet.**  | off |
+| **Disable DBC Claim** | **Not built yet.**  | off |
 | **Try to keep Familiar up** | After every zone-in to an instance (not overland, not a guild hall) the bot summons your familiar. If it was already up that dismisses it, and the 'Your Familiar has been dismissed' message makes the bot summon it again - so it is up either way. Any other time that message appears, it is summoned again too, with a message on the console and in OgreConsole. Adventure level 100 and up (read once when OgreBot loads). | off |
 | **Do not summon mount** | When OgreBot loads and after every zone-in, the bot summons your equipped mount if you are not on it - not in combat, not on a griffon (adventure level 100 and up). It says so on the console and in OgreConsole when it does - a mount should never just drop. Tick this to stop it. |  |
 | **Do not check mercenary buff** | When OgreBot loads and after every zone-in, a character with a hired mercenary is checked for the mercenary buff you keep after summoning and dismissing one (for example Mercenary Battalion: Season 8). If it is missing you get a message on the console and in OgreConsole - the mercenary is never summoned. The buff names come with the bot; to add one, put it in OgreSave/EQ2/ZoneSummons/custom/MercenaryBuffs.json as {"mercenaryBuffs": ["Name"]}. Tick this to stop the check. |  |
@@ -603,17 +605,17 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | Option | What it does | Default |
 |---|---|---|
 | **Auto Follow Mode** | Turns Auto Follow on: out of combat, with nothing to attack, the bot starts the game's own /follow on the person named in 'Auto Follow:' on the Setup tab, when they are in your group, alive and within 'Auto Follow within'. It also lets the `-forcefollow` command start that follow. When off, neither does anything.<br>*It will not follow a character who is dead or nearly dead.* | off |
-| **Do not auto-level Mercenary** | **Not active yet.**  | off |
+| **Do not auto-level Mercenary** | **Not built yet.**  | off |
 | **Disable OgreFly** | When following, the bot normally takes off, flies at the leader's height and lands with them. Tick this to keep following on the ground only. Swimming to the leader's depth still works. | off |
-| **Skip cutscenes** | **Not active yet.**  | off |
+| **Skip cutscenes** | **Not built yet.**  | off |
 | **Close F2P upsell window** | Closes the All-Access upsell window when the game shows it, checking once a second while you are out of combat. For free-to-play accounts. | off |
 | **Enable Pets in Dropdowns** | Adds the pets that are up - yours, your group's and your raid's - to the Cast Stack's Target list, as Pet: and the owner's name (Pet:Bob is Bob's pet). A buff or heal set to a pet is cast on that pet: the bot targets it, casts, and puts your target back. A pet's own ability needs no pet target.<br>*The list is read when OgreBot opens; close and reopen it to see a pet that was summoned since.* | off |
 | **Enable Quest Compare** | Makes this character the group's quest reference. When one of its quests updates, the bot asks the rest of the group whether they are on the same step and reports anyone who differs. Ticking it opens the Quest Compare window and unticks it on the rest of the group, so there is only one reference. | off |
-| **Auto-Handle HQ Earring** | **Not active yet.**  | off |
+| **Auto-Handle HQ Earring** | **Not built yet.**  | off |
 | **Do not auto Overseer** | Stops the automatic Overseer run from starting on this character. A run already in progress is not interrupted. | off |
-| **Auto Temp Mount Reductions** | **Not active yet.**  | off |
-| **Auto Temp Research Reductions** | **Not active yet.**  | off |
-| **Auto Temp Familiar Experience** | **Not active yet.**  | off |
+| **Auto Temp Mount Reductions** | **Not built yet.**  | off |
+| **Auto Temp Research Reductions** | **Not built yet.**  | off |
+| **Auto Temp Familiar Experience** | **Not built yet.**  | off |
 
 
 ---
@@ -888,21 +890,3 @@ Announce says something, or runs a command, whenever one of your abilities goes 
 - 'In-Game Command' text must start with / (for example `/shout *Ability* is up!`). 'Execute In Console' text must NOT start with /; it runs as a console command, for example an `oc` line.
 - Group rows only go out while you are grouped, Raid rows only while you are in a raid.
 - Only abilities are listed, not items.
-
-
----
-
-Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/ascension.md
-
-# Ascension
-
-The Ascension tab has one option. Etherflash normally teleports you to your target when it lands. With 'Etherflash - Prevent Port' ticked, the bot targets you yourself just before the cast finishes, so the damage still lands but you do not move. About a second after the cast ends it lets go, and your normal target comes back.
-
-| Option | What it does | Default |
-|---|---|---|
-| **Etherflash - Prevent Port** | When the bot casts Etherflash, it switches your target to yourself once the cast is over 90% done, so the teleport takes you nowhere. About a second after the cast ends, your normal target returns.<br>*Only for Etherflash casts made by the bot, any rank.* | off |
-
-## Good to know
-
-- It only works when the bot casts Etherflash (for example from the Cast Stack). If you press Etherflash yourself, nothing changes.
-- If nothing else is choosing your target (no assist, no auto-target), the bot puts back the target you had before the cast.

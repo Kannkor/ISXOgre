@@ -17,8 +17,9 @@
 >
 > **Good to know**
 >
-> - A piece that still has the same adornment with time left is skipped. Tick **overwrite** to apply it anyway.
-> - **Primary (two-handed)** is used instead of **Primary** when nothing is in your off-hand.
+> - Apply always puts the adornment on, even on a piece that already has it with time left.
+> - **Primary (two-handed)** is used instead of **Primary** when your primary weapon is a two-hander.
+> - Make as many profiles as you like (for example one per fight), each under its own name.
 > - Every toon on this PC shares the same profiles.
 
 **Open it:** Type `ogre tempadorns`. If the window is already open, this does nothing. `ogre end tempadorns` (or the window's X) closes it. `ogre tempadorns <profile>` applies a saved profile without opening the window, and `ogre tempadorns list` prints your profiles.
@@ -61,10 +62,9 @@ One row per gear piece. Type the adornment's full name, exactly as the item is c
 Runs the selected saved profile.
 
 
-| Control | What it does | Default |
-|---|---|---|
-| **Apply** | With the 'to' box empty, applies the profile on this toon. With a for-who in it (`igw:Name`, a group, `all`), sends `-TempAdorns <who> <profile>` so those toons apply it.<br>*Save first: Apply runs the profile as it is saved, not what is typed in the table.* |  |
-| **overwrite** | Applies every piece, even one that still has the same adornment with time left. | off |
+| Control | What it does |
+|---|---|
+| **Apply** | With the 'to' box empty, applies the profile on this toon. With a for-who in it (`igw:Name`, a group, `all`), sends `-TempAdorns <who> <profile>` so those toons apply it.<br>*Save first: Apply runs the profile as it is saved, not what is typed in the table.* |
 
 
 
@@ -76,8 +76,9 @@ Runs the selected saved profile.
 ## Good to know
 
 - Every toon on this PC shares the same profiles (OgreSave/EQ2/TempAdorns/profiles.json).
-- Applying looks at each gear piece first. A piece that still has the same adornment with more than about 48 minutes left is skipped; tick overwrite to apply it anyway.
-- Primary (two-handed) is used instead of Primary when nothing is in your off-hand slot.
+- Apply always puts the adornment on, even on a gear piece that already has it with time left.
+- Primary (two-handed) is used instead of Primary when your primary weapon is a two-hander. To know that, Apply asks the game for your weapon's details once.
+- Make as many profiles as you like, each under its own name (for example one per fight), and apply whichever one you need.
 - A gear piece with nothing equipped, or an adornment that is not in your bags, is skipped with one line in the console.
 - Applying waits its turn behind other queued bot work (it is one entry in the action queue).
 - The ready-made CBOC, Pot and HP profiles are the old PoP button's lists. You can change or delete them; they are not put back.

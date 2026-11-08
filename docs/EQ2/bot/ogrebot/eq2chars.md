@@ -1,12 +1,13 @@
-# EQ2Chars
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
 
-EQ2Chars is your list of characters. It does two jobs. Every character on it is trusted: the bot obeys chat commands from them and, when 'Accept Invites' is ticked, accepts their group and raid invites. A character that also has an account and password can be logged in by the bot, for example with `ogre <name>` (add `-p` to load the bot paused, or `-ph` paused with its main window hidden). The list is one list for the whole PC, not part of any profile. Fill in the form on the left and press Add / Save; the list on the right shows everything stored.
+# EQ2Chars
+
+EQ2Chars is your list of characters. It does two jobs. Every character on it is trusted: the bot obeys chat commands from them once you start `ogre chatcmd` and, when 'Accept Invites' is ticked, accepts their group and raid invites. A character that also has an account and password can be logged in by the bot, for example with `ogre <name>` (add `-p` to load the bot paused, or `-ph` paused with its main window hidden). The list is one list for the whole PC, not part of any profile. Fill in the form on the left and press Add / Save; the list on the right shows everything stored.
 
 [![EQ2Chars tab](../assets/ogrebot/tab-eq2chars.png)](../assets/ogrebot/tab-eq2chars.png "Click for full size")
+
 
 | Option | What it does | Default |
 |---|---|---|
@@ -21,6 +22,8 @@ EQ2Chars is your list of characters. It does two jobs. Every character on it is 
 | **Add current Group/Raid** | Adds every player in your group or raid who is not already listed, as 'recognised only' (no login details). Mercenaries and pets are skipped. The first click only tells you how many it would add; click again within 15 seconds to confirm.<br>*Everyone added becomes someone whose commands and invites this character accepts.* |  |
 | **Your characters - click one to edit it, X to forget it** | Every stored character with its account and server. 'Recognised only' in the Account column means no login details are stored. | empty |
 
+
+
 ## Your characters
 
 | Control | What it does | Default |
@@ -29,6 +32,8 @@ EQ2Chars is your list of characters. It does two jobs. Every character on it is 
 | **Character / Account / Server (column headers)** | Click a heading to sort by it; click it again to reverse the order. | sorted by Character |
 | **Click a row** | Loads that character into the form so you can change it. The password box stays empty; leaving it empty keeps the stored password. |  |
 | **x (forget this character)** | Removes the character from the list straight away. The bot stops trusting it and can no longer log it in.<br>*No confirmation.* |  |
+
+
 
 ## Good to know
 

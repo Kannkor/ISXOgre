@@ -1,16 +1,19 @@
-# Key Binds
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# Key Binds
 
 Key Binds tells the bot which keys your game uses for moving, jumping, flying and so on. Whenever the bot has to press one of these keys for you, it presses the key set here, so if your Forward is not W the bot still walks. The tab shows eleven actions in two columns. Each has a box with its key, a Set button and a Clear button. To change one, click the key box or Set, then press the key you want. The change is saved straight away, for every EverQuest 2 character on this PC. The keys are kept in Scripts\OgreSave\EQ2\KeyBinds.json, not in your profile.
 
 [![Key Binds tab](../assets/ogrebot/tab-key-binds.png)](../assets/ogrebot/tab-key-binds.png "Click for full size")
 
+
 | Option | What it does | Default |
 |---|---|---|
 | **(the key list)** | One row per action: its name, the key it uses, Set and Clear. Click the key or Set, then press a key to change it. | the standard keys |
+
+
 
 ## Key Binds
 
@@ -27,10 +30,12 @@ Key Binds tells the bot which keys your game uses for moving, jumping, flying an
 | **Fly/Swim down** | The key the bot holds to sink while flying or swimming, both when it moves you and for its Fly Down command. It is also used to land a flying mount. | End |
 | **Jump** | The key the bot presses for its Jump command and for jumps along a travel path. | Space |
 | **Crouch** | The key the bot presses for its Crouch command. | Z |
-| **Look up** | **Not active yet.** Stored for later. Nothing in the bot presses this key yet. | Page Up |
-| **Look down** | **Not active yet.** Stored for later. Nothing in the bot presses this key yet. | Page Down |
-| **Zoom in** | **Not active yet.** Stored for later. Nothing in the bot presses this key yet. | Num + |
-| **Zoom out** | **Not active yet.** Stored for later. Nothing in the bot presses this key yet. | Num - |
+| **Look up** | **Not built yet.** Stored for later. Nothing in the bot presses this key yet. | Page Up |
+| **Look down** | **Not built yet.** Stored for later. Nothing in the bot presses this key yet. | Page Down |
+| **Zoom in** | **Not built yet.** Stored for later. Nothing in the bot presses this key yet. | Num + |
+| **Zoom out** | **Not built yet.** Stored for later. Nothing in the bot presses this key yet. | Num - |
+
+
 
 ## Good to know
 

@@ -23,6 +23,7 @@
 > - A yellow warning under Save means the Instance Controller has run on this character and may have changed settings. Reload your profile before saving; Save still works.
 > - The X stops OgreBot, the same as `ogre end bot`. **Hide Main** on the small OgreBot window just hides this one.
 > - Hover a setting or button to see what it does.
+> - A greyed setting does nothing. Hover it to see which kind it is: not built yet, or does nothing by design. It still takes a click and still saves.
 
 **Open it:** Type `ogre`. OgreBot loads running, with this window hidden: click **Show Main** on the small OgreBot window to see it (if the character's ability export is missing or out of date, OgreBot loads paused and the window is shown so you see the export prompt; it stays paused after the export, so resume it when you are ready). `ogre -p` loads OgreBot paused with this window shown. `ogre end bot` closes OgreBot.
 
@@ -82,6 +83,7 @@ The tabs down the left are in three blocks. At the top: Auto Target, Cast Stack,
 |---|---|---|
 | **A tab (click)** | Shows that tab's settings on the right. The tab you are on is outlined. | Settings |
 | **A struck-through tab (for example Auto-Hunt)** | Not finished yet. Some of its settings do nothing yet, even though you can change and save them. That tab's own page says which ones work. The tab itself also says NOT FINISHED at the top. |  |
+| **A greyed setting** | Does nothing. Hover it to see which kind it is: not built yet, or does nothing by design. It still takes a click and still saves. |  |
 
 
 

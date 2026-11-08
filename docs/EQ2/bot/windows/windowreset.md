@@ -6,7 +6,7 @@
 
 > **:bulb: In game - the ? button on this window says**
 >
-> Puts Ogre windows back where they started. Use it when a window is off-screen and you cannot reach its title bar. Open it with `ogre windowreset`.
+> Puts Ogre windows back where they started: position, size, scale and lock. Open it with `ogre windowreset`.
 >
 > **What you can do here**
 >
@@ -26,7 +26,7 @@
 
 ## What it is for
 
-Lists every Ogre window that is open in this session and puts any of them back where it started. Use it when a window has ended up off-screen (for example after switching monitors or changing resolution) and you cannot reach its title bar to drag it back. Reset puts a window back at its starting position and size, returns it to the UI scale set in Ogre Options and unlocks it. A position you saved is kept for the next time the window opens.
+Lists every Ogre window that is open in this session and puts any of them back where it started. Reset puts a window back at its starting position and size, returns it to the UI scale set in Ogre Options and unlocks it. A position you saved is kept for the next time the window opens.
 
 ## Header
 
@@ -46,7 +46,7 @@ One row per open window (this one is left out).
 
 | Control | What it does |
 |---|---|
-| **Reset** | Moves that window back to where it first opened, at its starting size and at the UI scale set in Ogre Options, unlocks it, and makes sure its title bar is on the current screen. The position you saved with Save Position is kept, so after you close the window or log out it opens at the saved spot again.<br>*A hidden window stays hidden - Reset only moves it.* |
+| **Reset** | Moves that window back to where it first opened, at its starting size and at the UI scale set in Ogre Options, and unlocks it. The position you saved with Save Position is kept, so after you close the window or log out it opens at the saved spot again.<br>*A hidden window stays hidden - Reset only moves it.* |
 
 
 
@@ -64,21 +64,21 @@ One row per open window (this one is left out).
 ## What the window shows
 
 - Each row: the window's title, then the position it asked for (x, y), size (width × height, 'auto' when it sizes itself) and its scale if it is not 1.
-- OFF-SCREEN (red): the window is open but its title bar is outside the screen. You will rarely see it: every window is drawn with its title bar on the screen, so a window saved off-screen (like SmartLoot in the picture) shows up at the edge of the screen, with no badge, and its row still shows the saved spot.
+- A window asked to be somewhere the screen does not reach (like SmartLoot in the picture) is drawn at the edge of the screen with its title bar showing. Its row still shows the spot it asked for.
 - HIDDEN (grey): the window exists but is hidden, for example the OgreBot main window after a plain `ogre`.
 - LOCKED: the window was locked from its title-bar right-click menu. Reset unlocks it.
 - 'No other windows are open.' when there is nothing to reset.
 
 ## Good to know
 
-- Every window also has a Reset on its own title-bar right-click menu. This window is for the ones you cannot reach.
+- Every window also has a Reset on its own title-bar right-click menu. This window does it from one list, or for every window at once.
 - Reset does not save. Reopen the window or log out and back in and it is back at its saved spot. To keep the reset spot, use Save Position.
 - Only windows that are open right now are listed. A closed window is not affected.
 - The list does not update by itself; press Refresh after opening or closing windows.
 
 ## After a Reset
 
-SmartLoot, which was saved off-screen, is back at its starting spot.
+SmartLoot is back at its starting spot.
 
 ![After Reset](../assets/windowreset/after-reset.png)
 

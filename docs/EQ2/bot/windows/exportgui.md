@@ -1,8 +1,8 @@
-# Ability Export
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# Ability Export
 
 > **:bulb: In game - the ? button on this window says**
 >
@@ -43,6 +43,8 @@ The yellow text left of the buttons is the result of the last thing you did (for
 | **Run export / Run (dry run) / Run cache action / Running…** | Starts the export with the options shown. The label tells you what will happen: 'Run (dry run)' when nothing will be written, 'Run cache action' when you picked a cache action that does not export. While the export runs this window steps aside; the small Exporting Abilities window shows the progress and has the Stop button.<br>*Greyed out while the red 'can't run' box is showing, and while an export is already running.* |  |
 | **Title bar close (X)** | Closes this window, and stops an export that is running (the same as `ogre end export`). |  |
 
+
+
 ## What to export
 
 [![What to export](../assets/exportgui/what.png)](../assets/exportgui/what.png "Click for full size")
@@ -54,6 +56,8 @@ The yellow text left of the buttons is the result of the last thing you did (for
 | **Skip ascension abilities** | Leaves your ascension abilities out of the file.<br>*Cannot be ticked together with 'Ascension abilities ONLY' - the window refuses to run.* | off |
 | **Ascension abilities ONLY** | Exports nothing but your ascension abilities. | off |
 | **Include effect descriptions** | Keeps each ability's effect text in the file. Untick for a smaller file. OgreBot works out what an ability does either way. | on |
+
+
 
 ## Minimum tier
 
@@ -71,6 +75,8 @@ Pick one. Only abilities at or above the chosen tier are exported.
 | **Grandmaster+** | Keeps Grandmaster and higher. |  |
 | **Ancient** | Keeps only Ancient abilities.<br>*The old bot never actually filtered on Ancient; this one does.* |  |
 
+
+
 ## Level range
 
 [![Level range](../assets/exportgui/levels.png)](../assets/exportgui/levels.png "Click for full size")
@@ -79,6 +85,8 @@ Pick one. Only abilities at or above the chosen tier are exported.
 |---|---|---|
 | **Minimum level** | Skips abilities whose class level is below this number. 0 means no minimum.<br>*AA and ascension abilities count as level 0, so any minimum above 0 drops all of them (the window warns you).* | 0 |
 | **Maximum level** | Skips abilities whose class level is above this number. 999 means no maximum.<br>*Must be a whole number and not below the minimum, or the window refuses to run.* | 999 |
+
+
 
 ## Export file
 
@@ -91,6 +99,8 @@ Pick one. Only abilities at or above the chosen tier are exported.
 | **Only abilities I don't have yet** | Merges, but skips every ability already in your file without looking it up again. The quick way to add newly learned abilities.<br>*Abilities already in the file are not refreshed.* |  |
 | **Dry run (do not write)** | Does the whole scan but writes nothing, and OgreBot is not reloaded.<br>*The category cache (below) is still updated.* | off |
 | **Don't reload OgreBot when finished** | Normally, when an export finishes, OgreBot reloads your abilities and cast stack from the new file. Tick this to leave them as they are. | off |
+
+
 
 ## Category cache
 
@@ -105,6 +115,8 @@ The cache only makes exports faster: it remembers which abilities an export woul
 | **Consolidate only (no export)** | Folds the other sessions' cache notes into the main cache and stops. No export runs.<br>*Run it after your other characters have exported.* |  |
 | **Clear the cache (no export)** | Empties the cache and stops. No export runs. The next normal export rebuilds it.<br>*Only needed if the cache has gone bad.* |  |
 
+
+
 ## Just these abilities
 
 [![Just these abilities](../assets/exportgui/only.png)](../assets/exportgui/only.png "Click for full size")
@@ -112,6 +124,8 @@ The cache only makes exports faster: it remembers which abilities an export woul
 | Control | What it does | Default |
 |---|---|---|
 | **Ability names or IDs** | Leave blank to export everything. Otherwise type ability names (spelled as in your knowledge book) or ability ID numbers, separated by commas or new lines, and only those are exported. With 'Merge' the rest of your file is kept as it was.<br>*Names that are not found are listed on the console. If none of them is in your knowledge book, nothing is exported and the window's top row says so.* | empty |
+
+
 
 ## What the window shows
 
