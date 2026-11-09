@@ -14,13 +14,13 @@ EQ2Chars is your list of characters. It does two jobs. Every character on it is 
 | **Character:** | The character's name. Required. | empty |
 | **Account:** | The game account the character is on, used to log it in. Leave blank to only recognise the character (trusted for commands and invites, but no login). | empty |
 | **Password:** | The account's password. It is hidden as you type and goes straight to the private file on this PC, never into your profile. Blank keeps the stored password; a single - clears it.<br>*One password per account, shared by all its characters.* | empty |
-| **Server:** | The server the character plays on. The bot picks this server when logging the character in. Blank keeps the server already stored. | empty |
-| **Add / Save** | Saves the character with the account, password and server typed above. If the character is already listed, its entry is replaced (moved to the new account if you changed it). The password box is emptied afterwards. |  |
+| **Server:** | The server the character plays on. The bot picks this server when logging the character in. A short form works (ior, md). Blank keeps the server already stored; a character on several servers needs it typed. | empty |
+| **Add / Save** | Saves the character with the account, password and server typed above. The same character on the same server is replaced (moved to the new account if you changed it); a new server adds another row, so to fix a mistyped server remove the wrong row. The password box is emptied afterwards. |  |
 | **Clear Fields** | Empties the four boxes on the form. The stored list is not touched. |  |
 | **Clear Character Name after Add** | After Add / Save, the Character box is emptied, ready for the next one. | off |
 | **Clear Account Name after Add** | After Add / Save, the Account box is emptied. Leave it off to add several characters on the same account without retyping it. | off |
 | **Add current Group/Raid** | Adds every player in your group or raid who is not already listed, as 'recognised only' (no login details). Mercenaries and pets are skipped. The first click only tells you how many it would add; click again within 15 seconds to confirm.<br>*Everyone added becomes someone whose commands and invites this character accepts.* |  |
-| **Your characters - click one to edit it, X to forget it** | Every stored character with its account and server. 'Recognised only' in the Account column means no login details are stored. | empty |
+| **Your characters - click one to edit it, X to forget it** | Every stored character with its account and server. 'Recognised only' in the Account column means no login details are stored. A character on several servers has a tick on each row: the bright one is its default, the server used unless you name one. Click another row's tick to move it. | empty |
 
 
 

@@ -10,6 +10,19 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.11.08.004 {#r2026-11-08-004}
+
+*Sunday, November 8, 2026 at 11:17 PM EST*
+
+- **New** · Bot: **Inquisitor Verdict options are back, for epic and non-epic mobs.** The Inquisitor tab has a tick box and health % for Epic mobs and for non-Epic mobs; left blank, the % is 5 and 15. They apply to a Verdict entry in your Cast Stack of type UseInquisitorTab, and the entry's own options, such as Named NPCs Only, still apply. Run your ability export again so the type is offered.
+- **New** · Bot: **One character name on several servers, and -s to choose.** A character is now its name plus its server, so the EQ2Chars tab can hold one name on several servers, with a tick marking the default. `ogre <toon>`, `ogre bot <toon>`, `ogre login <toon>` and -LogToonIn take a server, by name or short form (-s ior; `ogre login -?` lists them). Adding a new server now makes another row, so to fix a mistyped server remove the wrong row first.
+- **Changed** · Bot: **Profiles have Save As, and Create now takes your changes with you.** Create now copies your current settings, unsaved changes included, and switches you to the new profile, so Save goes where you expect. Each profile also has a Save As button, which asks before overwriting any profile other than the loaded one. The profile you were on keeps what it last saved.
+- **Fixed** · Bot: **A toon with Allow Camp Spot off keeps following.** A camp spot sent to the whole group no longer stops OgreFollow on a character with Allow Camp Spot off. Follow only gives way to a camp spot that character can actually use.
+- **Fixed** · Bot: **Auto Target when Hated leaves a dead group or raid member alone.** Targeting a dead group or raid member to res them no longer gets swapped to a mob by Auto Target when Hated. A dead mob still gives way to a mob on your group.
+- **Fixed** · Bot: **Changing class on a character reloads OgreBot for that class.** When the same character comes back as another class, OgreBot now reloads as it does for a character swap, instead of carrying on with the old class's cast stack. Each class and server also loads its own ability export, and one with no export gets the usual prompt to make one.
+- **Fixed** · Windows: **Clicking the game releases an Ogre text box on more PCs.** On some PCs a real click on the game did not take the cursor out of an Ogre text box, so typing stayed in OgreConsole. Those clicks now count.
+- **Fixed** · Windows: **Closing a window with a focused text box gives the keyboard back.** Closing, hiding or minimizing an Ogre window while its text box had the cursor left your keys stuck in that box until you clicked back in and pressed Esc. The keyboard now returns to the game.
+
 ## 2026.11.08.003 {#r2026-11-08-003}
 
 *Sunday, November 8, 2026 at 5:21 PM EST*

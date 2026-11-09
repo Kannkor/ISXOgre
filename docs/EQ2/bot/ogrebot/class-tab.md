@@ -90,6 +90,19 @@ The class tab is named after your class (Coercer, Dirge, Channeler, and so on) a
 
 
 
+## Inquisitor
+
+[![Inquisitor tab](../assets/ogrebot-classes/class-inquisitor.png)](../assets/ogrebot-classes/class-inquisitor.png "Click for full size")
+
+| Option | What it does | Default |
+|---|---|---|
+| **Verdict on Epic mobs at or below this health % (blank = 5%):** | Verdict for Epic mobs: a Verdict entry on your Cast Stack with the type 'UseInquisitorTab' is used on epic mobs only while this is ticked and the mob is at or below the health % beside it. The entry's own options, such as Named NPCs Only, still apply. | off |
+| **(% box beside it)** | The mob health % for Epic mobs. Left blank, it is 5%, shown greyed in the box. | empty (5%) |
+| **Verdict on non-Epic mobs (heroic or solo) at or below this health % (blank = 15%):** | Verdict for non-Epic mobs: a Verdict entry on your Cast Stack with the type 'UseInquisitorTab' is used on heroic and solo mobs only while this is ticked and the mob is at or below the health % beside it. The entry's own options, such as Named NPCs Only, still apply. | off |
+| **(% box beside it)** | The mob health % for non-Epic mobs. Left blank, it is 15%, shown greyed in the box. | empty (15%) |
+
+
+
 ## Mystic
 
 [![Mystic tab](../assets/ogrebot-classes/class-mystic.png)](../assets/ogrebot-classes/class-mystic.png "Click for full size")
@@ -159,4 +172,5 @@ The class tab is named after your class (Coercer, Dirge, Channeler, and so on) a
 - Channeler: the conduit drop-downs hold an ability NAME. A choice carried over from an old profile works; the bot finds that ability in your ability export.
 - Coercer: for the Possess Essence options to count, the Possess Essence entry in your Cast Stack must have the type 'UseCoercerTab' (the ability export sets this for you). With no Archetype Preference chosen, Possess Essence is never cast.
 - Dirge: 'Cast Confront Fear' must be ticked for your dirge to cure anyone - requests from the uplink, from chat, and your own revive sickness. Requests still queue while it is off and are dropped after 2 minutes.
+- Inquisitor: for the Verdict options to count, the Verdict entry in your Cast Stack must have the type 'UseInquisitorTab' (the ability export sets this for you; export again if the type is not offered). Heroic and solo mobs are the same setting: only epic or not epic matters.
 

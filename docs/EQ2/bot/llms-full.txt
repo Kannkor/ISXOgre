@@ -280,6 +280,19 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.11.08.004 {#r2026-11-08-004}
+
+*Sunday, November 8, 2026 at 11:17 PM EST*
+
+- **New** · Bot: **Inquisitor Verdict options are back, for epic and non-epic mobs.** The Inquisitor tab has a tick box and health % for Epic mobs and for non-Epic mobs; left blank, the % is 5 and 15. They apply to a Verdict entry in your Cast Stack of type UseInquisitorTab, and the entry's own options, such as Named NPCs Only, still apply. Run your ability export again so the type is offered.
+- **New** · Bot: **One character name on several servers, and -s to choose.** A character is now its name plus its server, so the EQ2Chars tab can hold one name on several servers, with a tick marking the default. `ogre <toon>`, `ogre bot <toon>`, `ogre login <toon>` and -LogToonIn take a server, by name or short form (-s ior; `ogre login -?` lists them). Adding a new server now makes another row, so to fix a mistyped server remove the wrong row first.
+- **Changed** · Bot: **Profiles have Save As, and Create now takes your changes with you.** Create now copies your current settings, unsaved changes included, and switches you to the new profile, so Save goes where you expect. Each profile also has a Save As button, which asks before overwriting any profile other than the loaded one. The profile you were on keeps what it last saved.
+- **Fixed** · Bot: **A toon with Allow Camp Spot off keeps following.** A camp spot sent to the whole group no longer stops OgreFollow on a character with Allow Camp Spot off. Follow only gives way to a camp spot that character can actually use.
+- **Fixed** · Bot: **Auto Target when Hated leaves a dead group or raid member alone.** Targeting a dead group or raid member to res them no longer gets swapped to a mob by Auto Target when Hated. A dead mob still gives way to a mob on your group.
+- **Fixed** · Bot: **Changing class on a character reloads OgreBot for that class.** When the same character comes back as another class, OgreBot now reloads as it does for a character swap, instead of carrying on with the old class's cast stack. Each class and server also loads its own ability export, and one with no export gets the usual prompt to make one.
+- **Fixed** · Windows: **Clicking the game releases an Ogre text box on more PCs.** On some PCs a real click on the game did not take the cursor out of an Ogre text box, so typing stayed in OgreConsole. Those clicks now count.
+- **Fixed** · Windows: **Closing a window with a focused text box gives the keyboard back.** Closing, hiding or minimizing an Ogre window while its text box had the cursor left your keys stuck in that box until you clicked back in and pressed Esc. The keyboard now returns to the game.
+
 ## 2026.11.08.003 {#r2026-11-08-003}
 
 *Sunday, November 8, 2026 at 5:21 PM EST*
@@ -1217,9 +1230,10 @@ A profile is a complete set of settings. One character can have several, for exa
 | **A profile row** | One row per profile. The loaded one is outlined and tagged LOADED. |  |
 | **Default** | Makes this the profile OgreBot loads when it starts. The current default's button is lit up and does nothing when clicked. | the profile named Default, on a new character |
 | **Load** | Switches to this profile. Every tab and the cast stack change to its settings. If the profile has unsaved changes, it asks first, because they are thrown away.<br>*Greyed out on the profile that is already loaded.* |  |
+| **Save As** | On the loaded profile it saves. On any other profile it asks to overwrite that profile with your current settings, unsaved changes included, then switches to it.<br>*The profile you were on keeps what it last saved. What the overwritten profile held is lost. Settings in shared parts save as a normal Save would, so they still reach every profile using that part.* |  |
 | **Delete** | Asks 'Permanently delete <name>? This cannot be undone.', then removes the profile from disk.<br>*Greyed out on the loaded profile and on the default profile. You also cannot delete a character's last profile.* |  |
 | **New profile name... (box)** | Type a name for a new profile. Press Enter or click Create. | empty |
-| **Create** | Makes a new profile that is a copy of the loaded one as it was last saved, and saves it to disk at once. You stay on the profile you had. Load the new one to use it.<br>*Unsaved changes are not copied: Save first if the copy should include them. Names are not case-sensitive, so 'raid' is refused if 'Raid' exists.* |  |
+| **Create** | Makes a new profile from your current settings, unsaved changes included, saves it to disk at once and switches to it, so Save now goes to the new profile.<br>*The profile you were on keeps what it last saved. Names are not case-sensitive, so 'raid' is refused if 'Raid' exists.* |  |
 | **Confirm box: OK / Cancel** | Save, Reload, Load and Delete ask here first. OK goes ahead (red for Delete). Cancel does nothing. |  |
 
 
@@ -1614,7 +1628,7 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Enable Raid Setups** | In raid zones, the bot runs the encounter setups written for that zone's fights (setup, triggers and mechanics). When off, no setup starts, by itself or by hand. Unticking mid-fight stops everything the fight was doing straight away, and ticking it again carries on watching the same fight without running its setup again. If a setup did run, its clean-up still happens when the mob dies, whichever way this box is.<br>*If a setup already ran for a mob, its clean-up still runs when that mob dies, even after you untick this.* | off |
 | **Enable Heroic Setups** | The same as 'Enable Raid Setups', but for every zone that is not a raid zone (heroic, solo and so on). Turn it off at any point in a fight to take over, and back on to carry on. | off |
 | **Disable Auto Setups** | Stops encounter setups starting on their own, in both raid and heroic zones. A setup you start yourself, or one the Instance Controller asks for, still runs, and a fight already set up carries on. The zone's Enable Raid Setups or Enable Heroic Setups box must still be on for any setup to run. | off |
-| **Auto Target when Hated** | When you have no target, or only something you can't fight (a corpse, chest, shiny or NoKill NPC), the bot looks about once a second for a mob within 30 meters (and roughly your height) that is attacking someone in your group, and targets it. It never does this while you are assisting someone (Auto Assist). | off |
+| **Auto Target when Hated** | When you have no target, or only something you can't fight (a mob's corpse, chest, shiny or NoKill NPC, but not a dead group or raid member, so you can res them), the bot looks about once a second for a mob within 30 meters (and roughly your height) that is attacking someone in your group, and targets it. It never does this while you are assisting someone (Auto Assist). | off |
 | **Disable Mortal Coil Dispel** | Mages: the bot normally dispels the 'Mortal Coil' buff from named mobs in range with your dispel ability. Tick this to stop it.<br>*'No Dispels' on the Settings tab also stops it.* | off |
 | **Wait for Recovery time** | Normally the bot picks the next ability the moment a cast lands, queuing it during the recovery time. Tick this to make it wait out each ability's recovery time (minus 0.2 seconds) first. Items are not affected. | off |
 | **Allow Specials to be Targets** | Lets the bot fight a Special actor (not an NPC and not a player, such as a door or a clickable object): when your target, or your target's target, is one, it becomes your kill target, and the Cast Stack, auto-attack and movement act on it as on a mob. A few zones whose fights need this allow it with the box off. | off |
@@ -3351,13 +3365,13 @@ EQ2Chars is your list of characters. It does two jobs. Every character on it is 
 | **Character:** | The character's name. Required. | empty |
 | **Account:** | The game account the character is on, used to log it in. Leave blank to only recognise the character (trusted for commands and invites, but no login). | empty |
 | **Password:** | The account's password. It is hidden as you type and goes straight to the private file on this PC, never into your profile. Blank keeps the stored password; a single - clears it.<br>*One password per account, shared by all its characters.* | empty |
-| **Server:** | The server the character plays on. The bot picks this server when logging the character in. Blank keeps the server already stored. | empty |
-| **Add / Save** | Saves the character with the account, password and server typed above. If the character is already listed, its entry is replaced (moved to the new account if you changed it). The password box is emptied afterwards. |  |
+| **Server:** | The server the character plays on. The bot picks this server when logging the character in. A short form works (ior, md). Blank keeps the server already stored; a character on several servers needs it typed. | empty |
+| **Add / Save** | Saves the character with the account, password and server typed above. The same character on the same server is replaced (moved to the new account if you changed it); a new server adds another row, so to fix a mistyped server remove the wrong row. The password box is emptied afterwards. |  |
 | **Clear Fields** | Empties the four boxes on the form. The stored list is not touched. |  |
 | **Clear Character Name after Add** | After Add / Save, the Character box is emptied, ready for the next one. | off |
 | **Clear Account Name after Add** | After Add / Save, the Account box is emptied. Leave it off to add several characters on the same account without retyping it. | off |
 | **Add current Group/Raid** | Adds every player in your group or raid who is not already listed, as 'recognised only' (no login details). Mercenaries and pets are skipped. The first click only tells you how many it would add; click again within 15 seconds to confirm.<br>*Everyone added becomes someone whose commands and invites this character accepts.* |  |
-| **Your characters - click one to edit it, X to forget it** | Every stored character with its account and server. 'Recognised only' in the Account column means no login details are stored. | empty |
+| **Your characters - click one to edit it, X to forget it** | Every stored character with its account and server. 'Recognised only' in the Account column means no login details are stored. A character on several servers has a tick on each row: the bright one is its default, the server used unless you name one. Click another row's tick to move it. | empty |
 
 
 
@@ -3624,6 +3638,17 @@ The class tab is named after your class (Coercer, Dirge, Channeler, and so on) a
 
 
 
+## Inquisitor
+
+| Option | What it does | Default |
+|---|---|---|
+| **Verdict on Epic mobs at or below this health % (blank = 5%):** | Verdict for Epic mobs: a Verdict entry on your Cast Stack with the type 'UseInquisitorTab' is used on epic mobs only while this is ticked and the mob is at or below the health % beside it. The entry's own options, such as Named NPCs Only, still apply. | off |
+| **(% box beside it)** | The mob health % for Epic mobs. Left blank, it is 5%, shown greyed in the box. | empty (5%) |
+| **Verdict on non-Epic mobs (heroic or solo) at or below this health % (blank = 15%):** | Verdict for non-Epic mobs: a Verdict entry on your Cast Stack with the type 'UseInquisitorTab' is used on heroic and solo mobs only while this is ticked and the mob is at or below the health % beside it. The entry's own options, such as Named NPCs Only, still apply. | off |
+| **(% box beside it)** | The mob health % for non-Epic mobs. Left blank, it is 15%, shown greyed in the box. | empty (15%) |
+
+
+
 ## Mystic
 
 | Option | What it does | Default |
@@ -3683,6 +3708,7 @@ The class tab is named after your class (Coercer, Dirge, Channeler, and so on) a
 - Channeler: the conduit drop-downs hold an ability NAME. A choice carried over from an old profile works; the bot finds that ability in your ability export.
 - Coercer: for the Possess Essence options to count, the Possess Essence entry in your Cast Stack must have the type 'UseCoercerTab' (the ability export sets this for you). With no Archetype Preference chosen, Possess Essence is never cast.
 - Dirge: 'Cast Confront Fear' must be ticked for your dirge to cure anyone - requests from the uplink, from chat, and your own revive sickness. Requests still queue while it is off and are dropped after 2 minutes.
+- Inquisitor: for the Verdict options to count, the Verdict entry in your Cast Stack must have the type 'UseInquisitorTab' (the ability export sets this for you; export again if the type is not offered). Heroic and solo mobs are the same setting: only epic or not epic matters.
 
 
 ---

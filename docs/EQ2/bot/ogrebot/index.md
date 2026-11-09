@@ -134,9 +134,10 @@ A profile is a complete set of settings. One character can have several, for exa
 | **A profile row** | One row per profile. The loaded one is outlined and tagged LOADED. |  |
 | **Default** | Makes this the profile OgreBot loads when it starts. The current default's button is lit up and does nothing when clicked. | the profile named Default, on a new character |
 | **Load** | Switches to this profile. Every tab and the cast stack change to its settings. If the profile has unsaved changes, it asks first, because they are thrown away.<br>*Greyed out on the profile that is already loaded.* |  |
+| **Save As** | On the loaded profile it saves. On any other profile it asks to overwrite that profile with your current settings, unsaved changes included, then switches to it.<br>*The profile you were on keeps what it last saved. What the overwritten profile held is lost. Settings in shared parts save as a normal Save would, so they still reach every profile using that part.* |  |
 | **Delete** | Asks 'Permanently delete <name>? This cannot be undone.', then removes the profile from disk.<br>*Greyed out on the loaded profile and on the default profile. You also cannot delete a character's last profile.* |  |
 | **New profile name... (box)** | Type a name for a new profile. Press Enter or click Create. | empty |
-| **Create** | Makes a new profile that is a copy of the loaded one as it was last saved, and saves it to disk at once. You stay on the profile you had. Load the new one to use it.<br>*Unsaved changes are not copied: Save first if the copy should include them. Names are not case-sensitive, so 'raid' is refused if 'Raid' exists.* |  |
+| **Create** | Makes a new profile from your current settings, unsaved changes included, saves it to disk at once and switches to it, so Save now goes to the new profile.<br>*The profile you were on keeps what it last saved. Names are not case-sensitive, so 'raid' is refused if 'Raid' exists.* |  |
 | **Confirm box: OK / Cancel** | Save, Reload, Load and Delete ask here first. OK goes ahead (red for Delete). Cancel does nothing. |  |
 
 

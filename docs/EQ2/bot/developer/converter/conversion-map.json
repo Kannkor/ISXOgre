@@ -738,7 +738,7 @@
   "OgreBotAPI.Session:CollectShiny": "[fw]",
   "OgreBotAPI.Session:Harvest": "[fw]",
   "OgreBotAPI.Session:ImmRes": "[fw,howManyDead=2]",
-  "OgreBotAPI.Session:LogToonIn": "[forToon,toon]",
+  "OgreBotAPI.Session:LogToonIn": "[forToon,toon,server=\"\"]",
   "OgreBotAPI.Session:PlayAtCharacterSelect": "[fw]",
   "OgreBotAPI.Session:Res": "[fw]",
   "OgreBotAPI.Session:ResStone": "[fw]",
@@ -4804,6 +4804,10 @@
    [
     "string",
     false
+   ],
+   [
+    "string",
+    false
    ]
   ],
   "-lootall": [
@@ -8137,6 +8141,8 @@
    "checkbox_hud_raid_hide_casting",
    "checkbox_hud_raid_hide_name",
    "checkbox_hud_raid_only",
+   "checkbox_inquisitor_verdict_epic",
+   "checkbox_inquisitor_verdict_nonepic",
    "checkbox_itemrotation_announceviairc",
    "checkbox_itemrotation_grouponly",
    "checkbox_itemrotation_hidefromogreconsole",
@@ -8606,6 +8612,8 @@
    "textentry_hud_raidoptions_xpos",
    "textentry_hud_raidoptions_ypos",
    "textentry_hud_raidoptions_yposinc",
+   "textentry_inquisitor_verdict_epic_hp",
+   "textentry_inquisitor_verdict_nonepic_hp",
    "textentry_irc_authlist",
    "textentry_irc_channel",
    "textentry_irc_channelpassword",
@@ -17282,16 +17290,16 @@
    "surface": "OgreBotAPI"
   },
   {
-   "argsCheck": "same-count",
+   "argsCheck": "compatible",
    "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.Session:LogToonIn[\"${_CommandForWho}\",\"${_Name}\"]",
     "before": "OgreBotAPI:LogToonIn[\"${_CommandForWho}\",\"${_Name}\"]"
    },
-   "howToFix": "Write `OgreBotAPI.Session:LogToonIn` instead of `OgreBotAPI:LogToonIn`. New arguments: `[forToon,toon]`.",
+   "howToFix": "Write `OgreBotAPI.Session:LogToonIn` instead of `OgreBotAPI:LogToonIn`. New arguments: `[forToon,toon,server=\"\"]`.",
    "id": "OgreBotAPI:LogToonIn",
    "newForm": "OgreBotAPI.Session:LogToonIn",
-   "newSignature": "[forToon,toon]",
+   "newSignature": "[forToon,toon,server=\"\"]",
    "oldCall": "OgreBotAPI:LogToonIn",
    "oldKinds": [
     "m"
@@ -17306,7 +17314,7 @@
    "howToFix": "Write `OgreBotAPI.Session:LogToonIn` instead of `OgreBotAPI:LoginAtCharacterSelect`; the arguments changed: Old: OgreBotAPI:LoginAtCharacterSelect[<fw>,<character>]. New: OgreBotAPI.Session:LogToonIn[<box>,<character>] - the box is its InnerSpace session name or its character's name, and at character select or the login screen the character it last played. `all` is refused: name the box. With no character the old call pressed Play on the character already selected - OgreBotAPI.Session:PlayAtCharacterSelect[<fw>] still does that.",
    "id": "OgreBotAPI:LoginAtCharacterSelect",
    "newForm": "OgreBotAPI.Session:LogToonIn",
-   "newSignature": "[forToon,toon]",
+   "newSignature": "[forToon,toon,server=\"\"]",
    "note": "Old: OgreBotAPI:LoginAtCharacterSelect[<fw>,<character>]. New: OgreBotAPI.Session:LogToonIn[<box>,<character>] - the box is its InnerSpace session name or its character's name, and at character select or the login screen the character it last played. `all` is refused: name the box. With no character the old call pressed Play on the character already selected - OgreBotAPI.Session:PlayAtCharacterSelect[<fw>] still does that.",
    "oldCall": "OgreBotAPI:LoginAtCharacterSelect",
    "oldKinds": [
@@ -37782,7 +37790,8 @@
    "surface": "console",
    "v2Params": [
     "who:forwho",
-    "name:string"
+    "name:string",
+    "server:string"
    ],
    "v2Row": "-LogToonIn"
   },
