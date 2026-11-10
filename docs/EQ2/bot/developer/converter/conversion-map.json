@@ -738,7 +738,7 @@
   "OgreBotAPI.Session:CollectShiny": "[fw]",
   "OgreBotAPI.Session:Harvest": "[fw]",
   "OgreBotAPI.Session:ImmRes": "[fw,howManyDead=2]",
-  "OgreBotAPI.Session:LogToonIn": "[forToon,toon,server=\"\"]",
+  "OgreBotAPI.Session:LogToonIn": "[forToon,toon,server=\"\",class=\"\"]",
   "OgreBotAPI.Session:PlayAtCharacterSelect": "[fw]",
   "OgreBotAPI.Session:Res": "[fw]",
   "OgreBotAPI.Session:ResStone": "[fw]",
@@ -4808,6 +4808,10 @@
    [
     "string",
     false
+   ],
+   [
+    "string",
+    false
    ]
   ],
   "-lootall": [
@@ -7202,6 +7206,7 @@
   "patcher",
   "paths",
   "perf",
+  "persona",
   "pony",
   "potcb",
   "pulse",
@@ -8019,6 +8024,10 @@
    "button_overseer_stop",
    "button_overseerbuymissions_buy",
    "button_overseerbuymissions_buy_group",
+   "button_persona_openwindow",
+   "button_persona_restoregear",
+   "button_persona_savegear",
+   "button_persona_setbags",
    "button_profileparts_add",
    "button_profileparts_create",
    "button_pushover_creds_setup",
@@ -8534,6 +8543,7 @@
    "listbox_onzone_execute_order",
    "listbox_other_curabledisable_list",
    "listbox_other_curabledisable_order",
+   "listbox_persona_list",
    "listbox_postcast_afterlist",
    "listbox_postcast_list",
    "listbox_postcast_order",
@@ -8634,6 +8644,7 @@
    "textentry_other_requestconfrontfearviaraid",
    "textentry_overseerbuymissions_amount_of_each_recipe_to_buy",
    "textentry_overseerbuymissions_num_recipes_to_buy",
+   "textentry_persona_gearbags_donotsave",
    "textentry_profileparts_create",
    "textentry_relaygroups_defaultrelaygroup",
    "textentry_relaygroups_resetdefaultrelaygroup",
@@ -17296,10 +17307,10 @@
     "after": "OgreBotAPI.Session:LogToonIn[\"${_CommandForWho}\",\"${_Name}\"]",
     "before": "OgreBotAPI:LogToonIn[\"${_CommandForWho}\",\"${_Name}\"]"
    },
-   "howToFix": "Write `OgreBotAPI.Session:LogToonIn` instead of `OgreBotAPI:LogToonIn`. New arguments: `[forToon,toon,server=\"\"]`.",
+   "howToFix": "Write `OgreBotAPI.Session:LogToonIn` instead of `OgreBotAPI:LogToonIn`. New arguments: `[forToon,toon,server=\"\",class=\"\"]`.",
    "id": "OgreBotAPI:LogToonIn",
    "newForm": "OgreBotAPI.Session:LogToonIn",
-   "newSignature": "[forToon,toon,server=\"\"]",
+   "newSignature": "[forToon,toon,server=\"\",class=\"\"]",
    "oldCall": "OgreBotAPI:LogToonIn",
    "oldKinds": [
     "m"
@@ -17314,7 +17325,7 @@
    "howToFix": "Write `OgreBotAPI.Session:LogToonIn` instead of `OgreBotAPI:LoginAtCharacterSelect`; the arguments changed: Old: OgreBotAPI:LoginAtCharacterSelect[<fw>,<character>]. New: OgreBotAPI.Session:LogToonIn[<box>,<character>] - the box is its InnerSpace session name or its character's name, and at character select or the login screen the character it last played. `all` is refused: name the box. With no character the old call pressed Play on the character already selected - OgreBotAPI.Session:PlayAtCharacterSelect[<fw>] still does that.",
    "id": "OgreBotAPI:LoginAtCharacterSelect",
    "newForm": "OgreBotAPI.Session:LogToonIn",
-   "newSignature": "[forToon,toon,server=\"\"]",
+   "newSignature": "[forToon,toon,server=\"\",class=\"\"]",
    "note": "Old: OgreBotAPI:LoginAtCharacterSelect[<fw>,<character>]. New: OgreBotAPI.Session:LogToonIn[<box>,<character>] - the box is its InnerSpace session name or its character's name, and at character select or the login screen the character it last played. `all` is refused: name the box. With no character the old call pressed Play on the character already selected - OgreBotAPI.Session:PlayAtCharacterSelect[<fw>] still does that.",
    "oldCall": "OgreBotAPI:LoginAtCharacterSelect",
    "oldKinds": [
@@ -37791,7 +37802,8 @@
    "v2Params": [
     "who:forwho",
     "name:string",
-    "server:string"
+    "server:string",
+    "class:string"
    ],
    "v2Row": "-LogToonIn"
   },

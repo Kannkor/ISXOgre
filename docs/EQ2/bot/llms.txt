@@ -6,19 +6,19 @@ To convert a Classic script, follow the procedure on the Converting your scripts
 
 ## Read it all
 
-- [Everything in one document](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-full.txt): the entire documentation, 1005 KB. If that is too much to read at once, use the smaller pieces below - together they are the same text.
+- [Everything in one document](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-full.txt): the entire documentation, 1015 KB. If that is too much to read at once, use the smaller pieces below - together they are the same text.
 - [Start here (part 1 of 2)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-start-here-1.txt): 18 KB - Start here
 - [Start here (part 2 of 2)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-start-here-2.txt): 227 KB - Start here
 - [OgreBot (part 1 of 3)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-ogrebot-1.txt): 100 KB - OgreBot; OgreBot - Tabs
 - [OgreBot (part 2 of 3)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-ogrebot-2.txt): 98 KB - OgreBot - Tabs
-- [OgreBot (part 3 of 3)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-ogrebot-3.txt): 61 KB - OgreBot - Tabs
+- [OgreBot (part 3 of 3)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-ogrebot-3.txt): 63 KB - OgreBot - Tabs
 - [Windows (part 1 of 5)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-1.txt): 70 KB - Windows - Everyday
 - [Windows (part 2 of 5)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-2.txt): 100 KB - Windows - Running content
 - [Windows (part 3 of 5)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-3.txt): 93 KB - Windows - Running content; Windows - Loot and items; Windows - Crafting
-- [Windows (part 4 of 5)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-4.txt): 99 KB - Windows - Groups and accounts; Windows - Tools
-- [Windows (part 5 of 5)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-5.txt): 29 KB - Windows - Tools
-- [Developers (part 1 of 2)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-1.txt): 74 KB - Developers; Developers - Guides
-- [Developers (part 2 of 2)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-2.txt): 41 KB - Developers - Guides
+- [Windows (part 4 of 5)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-4.txt): 97 KB - Windows - Groups and accounts; Windows - Tools
+- [Windows (part 5 of 5)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-5.txt): 35 KB - Windows - Tools
+- [Developers (part 1 of 2)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-1.txt): 98 KB - Developers; Developers - Guides; Developers - Guides - Write your own zone files
+- [Developers (part 2 of 2)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-2.txt): 22 KB - Developers - Guides - Write your own zone files
 
 Each page on its own, as plain Markdown, in menu order:
 
@@ -78,6 +78,7 @@ Each page on its own, as plain Markdown, in menu order:
 - [Admin](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/admin.md)
 - [Debug](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/debug.md)
 - [EQ2Chars](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/eq2chars.md)
+- [Persona](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/persona.md)
 - [Key Binds](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/key-binds.md)
 - [OgreConsole](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/ogreconsole.md)
 - [Relay Groups](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/relay-groups.md)
@@ -131,6 +132,7 @@ Each page on its own, as plain Markdown, in menu order:
 
 - [ForWho Groups](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/forwhogroups.md)
 - [Auto-Login](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/autologin.md)
+- [Persona](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/persona.md)
 - [Inventory Manager](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/im.md)
 - [TaskRunner Lists](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/trlists.md)
 - [Watcher](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/watcher.md)
@@ -158,7 +160,17 @@ Each page on its own, as plain Markdown, in menu order:
 - [Converting your scripts](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/converting.md)
 - [Build your own window](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/build-your-own-window.md)
 - [Add your own commands](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/command-packs.md)
-- [Write your own zone files](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/zone-files.md)
+
+## Developers - Guides - Write your own zone files
+
+- [Write your own zone files](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/zone-files/index.md)
+- [Where zone files go](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/zone-files/where-they-go.md)
+- [A zone file, start to finish](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/zone-files/example.md)
+- [How a zone file runs](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/zone-files/how-it-runs.md)
+- [The steps, one by one](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/zone-files/steps.md)
+- [Other actions](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/zone-files/other-actions.md)
+- [Run your own fight files](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/zone-files/fight-files.md)
+- [Check your file](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/zone-files/checking.md)
 
 ## Developers - Coming from Classic
 

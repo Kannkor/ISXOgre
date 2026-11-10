@@ -114,6 +114,7 @@ nav:
               - "Admin": EQ2/bot/ogrebot/admin.md
               - "Debug": EQ2/bot/ogrebot/debug.md
               - "EQ2Chars": EQ2/bot/ogrebot/eq2chars.md
+              - "Persona": EQ2/bot/ogrebot/persona.md
               - "Key Binds": EQ2/bot/ogrebot/key-binds.md
               - "OgreConsole": EQ2/bot/ogrebot/ogreconsole.md
               - "Relay Groups": EQ2/bot/ogrebot/relay-groups.md
@@ -158,6 +159,7 @@ nav:
           - "Groups and accounts":
               - "ForWho Groups": EQ2/bot/windows/forwhogroups.md
               - "Auto-Login": EQ2/bot/windows/autologin.md
+              - "Persona": EQ2/bot/windows/persona.md
               - "Inventory Manager": EQ2/bot/windows/im.md
               - "TaskRunner Lists": EQ2/bot/windows/trlists.md
               - "Watcher": EQ2/bot/windows/watcher.md
@@ -179,7 +181,15 @@ nav:
               - "Converting your scripts": EQ2/bot/developer/converting.md
               - "Build your own window": EQ2/bot/developer/build-your-own-window.md
               - "Add your own commands": EQ2/bot/developer/command-packs.md
-              - "Write your own zone files": EQ2/bot/developer/zone-files.md
+              - "Write your own zone files":
+                  - EQ2/bot/developer/zone-files/index.md
+                  - "Where zone files go": EQ2/bot/developer/zone-files/where-they-go.md
+                  - "A zone file, start to finish": EQ2/bot/developer/zone-files/example.md
+                  - "How a zone file runs": EQ2/bot/developer/zone-files/how-it-runs.md
+                  - "The steps, one by one": EQ2/bot/developer/zone-files/steps.md
+                  - "Other actions": EQ2/bot/developer/zone-files/other-actions.md
+                  - "Run your own fight files": EQ2/bot/developer/zone-files/fight-files.md
+                  - "Check your file": EQ2/bot/developer/zone-files/checking.md
           - "Coming from Classic":
               - EQ2/bot/developer/coming-from-classic/index.md
               - "Camp spot": EQ2/bot/developer/coming-from-classic/campspot.md

@@ -1,7 +1,7 @@
 # OgreBot for EverQuest II - documentation, Developers (part 1 of 2)
 
 OgreBot is in beta testing. For OgreBot Classic see https://kannkor.github.io/ISXOgre/EQ2/
-This file is ONE PIECE of the documentation: Developers (part 1 of 2) - Developers; Developers - Guides.
+This file is ONE PIECE of the documentation: Developers (part 1 of 2) - Developers; Developers - Guides; Developers - Guides - Write your own zone files.
 The entire documentation in one document: https://kannkor.github.io/ISXOgre/EQ2/bot/llms-full.txt
 Index of every page and of every file like this one: https://kannkor.github.io/ISXOgre/EQ2/bot/llms.txt
 
@@ -22,7 +22,7 @@ with `lstype`. The two you will use most are `ISXOgreEQ2` and `OgreBotAPI`.
 
 - **Moving a Classic script over?** Start with [Converting your scripts](converting.md). It has a tool
   that checks a script and fixes what it safely can, and a step-by-step procedure you can hand to Claude.
-- **Want the Instance Controller to run a zone it does not know?** [Write your own zone files](zone-files.md)
+- **Want the Instance Controller to run a zone it does not know?** [Write your own zone files](zone-files/index.md)
   shows how a zone file is laid out, every step it can use, and how to check it.
 - **Want a window of your own in game?** [Build your own window](build-your-own-window.md) shows how a script
   or an extension opens one, reads and changes what is in it, and reacts to clicks.
@@ -1369,3 +1369,470 @@ For a person or an AI writing a pack:
 - [ ] Each parameter has `name`, a `type` from the table, and a `description`. Each `default` is text.
 - [ ] Every `${name}` in a step matches a parameter's `name`.
 - [ ] `ogre commandpacks` reports your pack with the number of commands you expect, and no problem lines.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/zone-files/index.md
+
+# Write your own zone files
+
+A **zone file** tells the Instance Controller (IC) how to run one instanced zone: where the group walks, which
+nameds it kills, what it loots, and how it leaves. It is a JSON file. IC reads it from the top, one step at a
+time, on the character that runs IC, and that character leads the group through it.
+
+The zone files that ship with Ogre are written the same way, so the best way to learn is to open one beside this
+page. The examples below are cut from `_01_Oogothl_Sprawl_VerBohten_Atoll.json` and `_05_Gerion_Dominion_of_Pain.json`,
+both in `Scripts\Ogre\EQ2\IC\default\Rage of Cthurath\`.
+
+> **No promises.** Use this at your own risk, and expect it to change. That said, Kannkor works hard to keep
+> things backwards compatible.
+
+## Quick start
+
+1. Make the folder `Scripts\OgreSave\EQ2\IC\custom\` if it is not there. Folders inside it are fine; the IC window
+   shows them as folders.
+2. Copy a shipped zone file into it to start from, and give it a name of your own.
+3. Edit it. Every file must say how it leaves the zone, with a `zoneOut` step (see [The way out](how-it-runs.md#the-way-out)). Then
+   press **Reload** in the IC window. It prints `N zone(s) from M file(s) - X skipped, Y warning(s)`.
+4. Pick **custom** in the IC window's root list. A file with a problem shows there in **red**, marked *not valid*:
+   click it, and the bar under the list says what is wrong (see [Checking your file](checking.md#checking-your-file)).
+5. When your zone shows normally, queue it and press **Run**.
+
+## The pages
+
+- [Where zone files go](where-they-go.md): the custom folder, your own folders in it, file names, and queueing a zone by name.
+- [A zone file, start to finish](example.md): a whole file from a shipped zone, read top to bottom.
+- [How a zone file runs](how-it-runs.md): the top of the file, how a run goes, steps, waiting, loops, the values you can use in text, and the way out.
+- [The steps, one by one](steps.md): every step - path, named, loot, zoneOut, teleporter, hunt, the waits, trash, reward, groupQuery, progress and recover.
+- [Other actions](other-actions.md): the actions a step can run besides moving.
+- [Run your own fight files](fight-files.md): where your own fight (encounter) files go, how one is picked, and starting a setup from a button or a zone file.
+- [Check your file](checking.md): how to find what is wrong with a file, and a checklist before you share it.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/zone-files/where-they-go.md
+
+# Where zone files go
+
+| Root | Folder | What it is |
+|---|---|---|
+| default | `Scripts\Ogre\EQ2\IC\default\` | The zone files that ship with Ogre. An update can replace them, so do not keep your changes here. |
+| test | `Scripts\Ogre\EQ2\IC\test\` | Zone files that are still being tested. |
+| custom | `Scripts\OgreSave\EQ2\IC\custom\` | Yours. Ogre's updates never touch this folder. |
+
+- Every file ending in `.json`, in any folder under a root, is read.
+- A number at the start of a file name, like `_01_`, sorts the list: numbered files come first, in number order.
+- Every root loads. The same file in two roots shows up twice in the IC window: they are separate files, and
+  neither replaces the other.
+
+## Your own folders inside custom
+
+`Scripts` is the Scripts folder inside the folder InnerSpace is installed in, so the custom root is
+`OgreSave\EQ2\IC\custom\` inside that Scripts folder.
+
+You can make folders of your own inside `custom`, as deep as you like, and keep zone files in them. For example, one
+folder per person who writes zone files:
+
+```text
+OgreSave\EQ2\IC\custom\kannkor\_01_My_Zone.json
+OgreSave\EQ2\IC\custom\lostone\_02_Another_Zone.json
+```
+
+The IC window shows them as folders under **custom**. A file's path is its folder inside the root plus its name,
+written with `/`, and that is how a script or the console queues it:
+
+```text
+ISXOgreEQ2.IC:Queue[add,custom,"kannkor/_01_My_Zone.json"]
+ogre ic queue add custom kannkor/_01_My_Zone.json
+```
+
+The three roots are fixed: there is no setting that points IC at another folder. Put your files under `custom`.
+
+## File names
+
+The zone files that ship with Ogre are named after their zone: take the zone's name, turn each space into `_`, and
+leave out `:` `'` `,` `[` `]` and the backtick. A file for one difficulty adds that difficulty to its name; a file for
+several difficulties does not. The number in front is kept.
+
+| File | `zone` | `variants` |
+|---|---|---|
+| `_01_Oogothl_Sprawl_VerBohten_Atoll.json` | `Oogothl Sprawl: Ver'Bohten Atoll` | `[Solo]`, `[Heroic]` |
+| `_01_Sodden_Archipelago_The_Forsaken_Isle.json` | `Sodden Archipelago: The Forsaken Isle` | `[Solo]`, `[Heroic I]` |
+| `_01_Sodden_Archipelago_The_Forsaken_Isle_Heroic_II.json` | `Sodden Archipelago: The Forsaken Isle` | `[Heroic II]` |
+
+Your own files in `custom` can have any name. Name them this way and they can be queued by name too.
+
+## Queue a zone by its name
+
+`ogre ic queue add <zone name>` queues the zone file named after that zone. Write the difficulty in the name, the way
+the game writes it: `ogre ic queue add Oogothl Sprawl: Ver'Bohten Atoll [Heroic]`. `ogre ic queue add ${Zone.Name}`
+queues the zone you are standing in. The console says which file it picked, then queues it as **Add** does.
+
+- The name needs the difficulty whenever the zone has one. Without it nothing is queued, and the line lists the
+  difficulties its files cover:
+  `"Oogothl Sprawl: Ver'Bohten Atoll" is in a file for [Solo] and [Heroic] - name one: ogre ic queue add Oogothl Sprawl: Ver'Bohten Atoll [Heroic]`.
+- A difficulty that no file of that zone covers is refused the same way, and the line lists the ones that are covered.
+- Case does not matter: `[heroic]` is `[Heroic]`.
+- The cleaned name works too, difficulty included: `ogre ic queue add Oogothl_Sprawl_VerBohten_Atoll_Heroic`.
+- When more than one root has a file of that name, `custom` is used first, then `test`, then `default`.
+- `ogre ic queue add <root> <zone name>` looks in that root only: `ogre ic queue add custom ${Zone.Name}` queues your own
+  file for the zone you are standing in, even if Ogre ships one too.
+- `ogre ic queue add <root> <path>` still queues any file by its root and its path (a path ends in `.json`). `ogre ic list`
+  prints every loaded file.
+
+A queued zone whose file is renamed follows its zone: the next time IC loads its list, the row points at the zone's
+new file, and the console says so.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/zone-files/example.md
+
+# A zone file, start to finish
+
+The top of the file says which zone it is for:
+
+```json
+{
+  ...
+  "zone": "Oogothl Sprawl: Ver'Bohten Atoll",
+  "variants": [
+    "[Solo]",
+    "[Heroic]"
+  ],
+  "expansion": "Rage of Cthurath",
+  ...
+  "progression": "sequential",
+  "entrance": {
+    "loc": [
+      -859.879944,
+      169.465637,
+      127.360184
+    ],
+    "tolerance": 10
+  },
+  "rerunWholeZoneAfterWipe": true,
+  "steps": [
+```
+
+Then come the **steps**. Each named gets a few: walk to it, kill it, loot its chest and the shinies, and say how it
+went:
+
+```json
+    {
+      "stepId": "named1.walk",
+      "do": "path",
+      "using": "nav",
+      "spots": [
+        [
+          -793.151367,
+          144.102356,
+          353.17868
+        ]
+      ]
+    },
+    {
+      "stepId": "named1",
+      "do": "named",
+      "name": "Glorfab Flit",
+      "spot": [
+        -755.151001,
+        144.302704,
+        340.9729
+      ]
+    },
+    {
+      "stepId": "named1.chest",
+      "do": "loot",
+      "op": "chest"
+    },
+    {
+      "stepId": "named1.shinies",
+      "do": "loot",
+      "op": "shinies"
+    },
+    {
+      "stepId": "named1.said",
+      "do": "announce",
+      "message": "Ver'Bohten Atoll 1/5: Glorfab Flit - {{ic.run.verdicts.named1}}, chest {{ic.run.verdicts.named1.chest}}, shinies {{ic.run.verdicts.named1.shinies}}"
+    },
+```
+
+And the file ends with **the way out**: walk to the exit, then click it. Every zone file must have a way out (see
+[The way out](how-it-runs.md#the-way-out)):
+
+```json
+    {
+      "stepId": "exit.walk",
+      "do": "path",
+      "using": "nav",
+      "spots": [
+        [
+          -772.972534,
+          299.070923,
+          249.26976
+        ]
+      ]
+    },
+    {
+      "stepId": "exit.door",
+      "do": "zoneOut",
+      "op": "door",
+      "name": "Exit"
+    }
+  ]
+}
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/zone-files/how-it-runs.md
+
+# How a zone file runs
+
+## The top of the file
+
+| Key | Needed | What it does |
+|---|---|---|
+| `zone` | yes | The zone's name as the game shows it, without the difficulty: `"Oogothl Sprawl: Ver'Bohten Atoll"`. IC uses it to tell whether you are standing in the zone, and to travel there. |
+| `variants` | yes | Every difficulty this file covers, as the game writes it: `["[Solo]", "[Heroic]"]`. Use `[]` for a zone with no difficulty in its name. The IC window offers these when you queue the file. |
+| `steps` | | The main list of steps. Most files only need this one. |
+| `enter`, `exit` | | Steps to run before `steps`, and after them. See [How a run goes](#how-a-run-goes). |
+| `entrance` | | Where the zone-in puts you: `{ "loc": [x, y, z], "tolerance": 10 }` (tolerance in meters, 30 if left out). Wipe recovery uses it to know the group is back at the zone-in. A file with nameds and no `entrance` loads with a warning. |
+| `progression` | | `"sequential"` (the default) or `"open"`. When a run starts part-way, or after a wipe, IC works out which nameds are already dead. With `sequential`, a named that is still standing means every named before it in the file is dead, and IC skips them. With `open`, nameds can die in any order, so only the ones IC saw die count. **Use `sequential` only when each named appears only after the one before it dies.** If any later named is already up when you zone in, or a named has to be spawned by an event first (a ring event, a script, anything with a `spawnWaitMs`), use `"open"`. Otherwise a run that starts with that named not spawned yet sees the later named standing and skips it. Getting `open` wrong only costs a walk over ground you already cleared; getting `sequential` wrong skips a named. |
+| `enabled` | | `false` hides the file in the IC window, and it will not run. Write `true` or `false`, not `"false"`. |
+| `rerunWholeZoneAfterWipe` | | `true`: after a wipe recovery, run the whole file again from the top. For zones with teleporters inside, where the group cannot walk back to where it died. Starting such a zone part-way is only allowed where the group already stands. |
+| `wipeAttempts` | | How many times wipe recovery may run before IC gives the zone up: `0` to `10`, `2` if left out. |
+| `onWipe` | | Your own wipe recovery steps (see [`recover`](steps.md#recover)). Leave it out for the built-in recovery. `[]` means no recovery: the first wipe gives the zone up. |
+| `afterWipe` | | Your own steps for when the zone is given up. Leave it out for the built-in ones: revive, then whatever the IC window's **After a lost zone** says. |
+| `fileOptions` | | Up to 3 names for the IC window's **IC File Option 1-3** boxes: `["Skip the side named"]`. Your steps read the boxes as `{{ic.options.fileOption1}}` (`TRUE` or `FALSE`), and the **IC File Args** box as `{{ic.options.fileArgs}}`. |
+| `options` | | Your own values for this file. Steps read them as `{{ic.zone.options.<name>}}`. IC itself does nothing with them. |
+| `difficulty` | | A difficulty menu for the IC window: `{ "choices": ["Easy", "Hard"] }` or `{ "minValue": 1, "maxValue": 5 }`. The run does not use it yet. |
+| `run` | | Hands the zone to a script instead of steps: `{ "iss": "<path under Scripts>" }`, or to another zone file in the same root: `{ "json": "<path>" }`. A file has steps or `run`, never both. A script must call `ISXOgreEQ2.IC:Complete` when it is done, or the run counts as failed. |
+| `expansion`, `author` | | Notes for people. IC does not use them. |
+
+**A key IC does not read does nothing, and Reload says so.** It is a warning, so the file still loads. The line
+names the key and the nearest key IC does read (see [Checking your file](checking.md#checking-your-file)). A key starting with
+`_`, like `_comment`, is a note: it is never said, so use it for notes.
+
+## How a run goes
+
+- **Before the first step**, IC applies your Startup Options. After a zone-in, it waits until everyone has
+  arrived, then gives the group a few seconds to rebuff.
+- **The lists run in order: `enter`, then `steps`, then `exit`.** One step at a time, on the character that runs
+  IC. Steps like `path`, `named`, `loot` and `zoneOut` move the whole group; most other actions act on the IC
+  character alone unless they take `sendTo` (see [Other actions](other-actions.md)).
+- **A step that fails** ends its list (see `onFail` below). If `enter` fails, `steps` does not run. `exit` still runs
+  after a failure.
+- **When `steps` finish**, **Halt at end of zone** pauses IC right there, inside the zone. The zone end options
+  (Call to guild hall after each zone, Stay in zone until a zone is ready) run at the `zoneOut` step.
+- **A `zoneOut` that takes the group out ends its list.** Anything after it in that list is skipped.
+- **End**, **Max wait per zone** and closing the IC window stop the run where it stands. `exit` does not run.
+- **Wipes** are watched during `enter` and `steps`. IC runs the wipe recovery, then starts the zone again, leaving
+  out what is already done. The built-in recovery revives everyone at the entrance, evacuates if they are not there,
+  and then rests for a minute so revive sickness wears off and buffs go back up. After `wipeAttempts` recoveries, IC gives the zone up: the `afterWipe` steps run, `exit`
+  does not, and the list moves on to the next zone.
+- **Starting part-way.** The IC window's **named #** starts a zone at a named: IC backs up over the steps that lead
+  to it (its walk, for instance) so they run too. It only works when you are already standing in that zone. A run
+  that zones in always starts from the top.
+
+## Steps
+
+```json
+{ "stepId": "named1.chest", "do": "loot", "op": "chest" }
+```
+
+Every step that does something has a **`do`**: the action. The rest of the keys belong to that action. All the
+actions are listed in [The steps, one by one](steps.md).
+
+| Key | What it does |
+|---|---|
+| `stepId` | The step's name. It shows in the log and the IC window, and the step's result is kept under it. |
+| `onFail` | `"fail"` or `"proceed"`. With `fail`, a step that fails ends its list. With `proceed`, the list goes on. A step in a list starts as `fail`; a step inside a loop starts as `proceed`. |
+| `when` | A condition. The step runs only when it is true; when it is false the step is skipped, and that is not a failure. The conditions are the ones fight files use (an example is in [Loops](#loops)). |
+| `throttleMs` | Skips the step if it ran less than this many milliseconds ago. Handy inside loops. |
+
+**Name your steps the way the shipped files do.** Call each named `named1`, `named2`, ..., and the steps that belong
+to it `named1.walk`, `named1.chest`, `named1.said`. IC relies on this. **Skip the boss** leaves out the boss and
+every step named after it. **named #** and resuming after a stop back up to the steps of the named before.
+A named with no `stepId` cannot be remembered as done.
+
+### Waiting
+
+```json
+{ "stepId": "settle", "wait": "ms", "limitMs": 1500, "onTimeout": "proceed" }
+```
+
+A `wait` step holds the list. `limitMs` and `onTimeout` are always needed: there are no defaults.
+
+- `"wait": "ms"` is a fixed pause of `limitMs` milliseconds. Its `onTimeout` must be `"proceed"`.
+- `"wait": <condition>` holds until the condition is true, for at most `limitMs`. Then `onTimeout` decides:
+  `"proceed"` goes on, `"fail"` ends the list.
+- `"wait": "atCampSpot"` holds until the IC character stands at its camp spot (see the loop below).
+
+### Loops
+
+`repeat` runs its own `steps` again and again. `{ "times": 3 }` runs them 3 times.
+`{ "until": <condition>, "max": 10 }` runs them until the condition is true, but never more than `max` times;
+`max` is required.
+
+`forEach` runs its `steps` once for each actor it finds (`"find"`) or each spot in a list
+(`"spots": [[x, y, z], ...]`). `"as"` names the one being visited. Inside, `{{seq.<as>.x}}`, `.y`, `.z`, `.loc`,
+`.id`, `.name` and `.distance` read it.
+
+Here the group runs to each light the boss calls, while the lights are up and the boss is not on top of them:
+
+```json
+    {
+      "stepId": "named1.lights",
+      "when": [
+        {
+          "count": {
+            "of": "actors",
+            "find": {
+              "query": "Name == \"boss_01_knight_light\" && Distance < 100"
+            },
+            "compare": ">=",
+            "value": 1
+          }
+        },
+        ...
+      ],
+      "repeat": {
+        "until": [
+          ...
+        ],
+        "max": 10
+      },
+      "steps": [
+        {
+          "stepId": "named1.light",
+          "forEach": {
+            "find": {
+              "query": "Name == \"boss_01_knight_light\" && Distance < 100"
+            },
+            "as": "light",
+            "max": 1
+          },
+          "steps": [
+            ...
+            {
+              "stepId": "named1.light.go.group",
+              "do": "campSpot",
+              "op": "setLoc",
+              "x": "{{seq.light.x}}",
+              "y": "{{seq.light.y}}",
+              "z": "{{seq.light.z}}",
+              "sendTo": "igwbn:{{me}}"
+            },
+            {
+              "stepId": "named1.light.there",
+              "wait": "atCampSpot",
+              "limitMs": 15000,
+              "onTimeout": "proceed"
+            },
+            ...
+```
+
+`forEach` can also walk saved values: `"vars": { "prefix": "<start of the name>" }` visits every value whose name
+starts with it, and `{{seq.<as>.name}}` is the rest of the name. Add `"groupMember": true` when that rest is a
+character's name: only members of the group are visited, with their names spelt as the game spells them.
+
+**Example: the first character with Escape ready casts it.** No character name is written into the file. Each member
+answers for itself, and `max: 1` stops after the first yes. If nobody has it ready, nothing is cast and the zone goes on.
+
+```json
+{ "stepId": "escape.ask", "do": "groupQuery", "var": "escapeReady", "question": "abilityReady", "ability": "Escape" },
+{ "stepId": "escape.first",
+  "forEach": { "vars": { "prefix": "escapeReady.yes.", "groupMember": true }, "as": "caster", "max": 1 },
+  "steps": [
+    { "stepId": "escape.cast", "do": "castAbility", "ability": "Escape", "sendTo": "{{seq.caster.name}}" }
+  ] }
+```
+
+"First" means first in alphabetical order among the members who answered yes, not first in the group.
+
+A loop step has no `do` of its own: the work goes in its `steps`. Loops can sit inside loops.
+
+The steps inside a loop are checked when the file loads, the same as every other step.
+
+### Values you can use in text
+
+Anything in `{{ }}` inside a step's text is filled in when the step runs. The `ic` ones:
+
+| Value | What it holds |
+|---|---|
+| `{{ic.zone.name}}`, `{{ic.zone.variant}}`, `{{ic.zone.fullName}}` | The zone, its difficulty (`[Heroic]`), and both together. |
+| `{{ic.zone.tier}}` | Which root the file came from: `default`, `test` or `custom`. |
+| `{{ic.zone.file}}` | The file's path inside its root. |
+| `{{ic.zone.entrance}}` | The file's `entrance`. |
+| `{{ic.zone.options.<name>}}` | The file's own `options`. |
+| `{{ic.options.<name>}}` | The IC window's options, as `TRUE`/`FALSE` (or text): `haltAtEnd`, `loop`, `zoneIn`, `resetZones`, `afterWipe`, `skipBoss`, `skipShinies`, `pauseForNoTradeShinies`, `doNotLootNoTradeBossChest`, `summonMenderToSell`, `callGHAfterEachZone`, `stayInZoneUntilZoneReady`, `skipGroupChecks`, `fileOption1` to `fileOption3`, `fileArgs`. |
+| `{{ic.run.verdicts.<stepId>}}` | How a step ended. `named`, `loot` and `zoneOut` steps record one: `killed`, `looted`, `zonedOut` and so on. |
+| `{{ic.run.id}}`, `{{ic.run.attempts}}` | This run's id, and how many tries it has had (1, then one more after each wipe recovery). |
+| `{{ic.run.completed}}`, `{{ic.run.skipped}}` | The steps (by `stepId`) known to be done or skipped. |
+| `{{ic.list.name}}`, `{{ic.list.entry}}`, `{{ic.list.of}}` | The list this run is part of, which row it is, and how many rows there are. Empty when the zone was run on its own. |
+| `{{ic.group.size}}`, `{{ic.group.mode}}` | How many are in the group, and `group` or `raid`. |
+| `{{me}}` | The IC character's name. |
+| `{{encounter.<name>}}` | A value saved during this run, for example a [`groupQuery`](steps.md#groupquery) answer. |
+
+- A name that does not exist reads as empty text. Only the first word after `ic.` is checked when the file loads,
+  so `{{ic.option.loop}}` is refused, but a misspelling further in (`{{ic.zone.nmae}}`) just reads empty.
+- A LavishScript value is written `LavishScript["${Me.Name}"]`. A bare `${...}` is refused when the file loads.
+- While a zone runs, `ogre ic value` in the console prints all of these, and `ogre ic value run.id` prints one.
+
+## The way out
+
+**Every zone file must say how it leaves the zone.** It needs a `zoneOut` step somewhere in `enter`, `steps` or
+`exit` (inside a loop counts). A file without one is **not valid**: it still shows in the Instance Controller's zone
+list, in red and marked *not valid*, but it cannot be queued or run. Click it and the bar under the list says why:
+
+```
+no way out: every zone file states its exit - add { "stepId": "exit", "do": "zoneOut", "op": "auto" } as its last step ...
+```
+
+Every other reason a file cannot load (a JSON mistake, an unknown step) is shown the same way, all of them at once.
+
+That way a zone never just ends with the group still standing in it, and you can always see from the file how it
+leaves. (Files that hand the zone to a script with `run` are left out of this rule: the script leaves its own way.)
+
+**A zone with no exit of its own** needs nothing made up: end it with `{ "stepId": "exit", "do": "zoneOut", "op": "none" }`.
+`none` still runs the Instance Controller's end of zone first, so with **Call to GH after each zone** ticked the group
+is called to the guild hall; without it, the group stays in the zone.
+
+| `op` | What it does |
+|---|---|
+| `door` | Clicks the exit you name: `{ "do": "zoneOut", "op": "door", "name": "Exit" }`. The name must be exact. |
+| `auto` | The built-in zone out, the same as Classic's: finds the nearest clickable exit named `zone exit`, `exit`, `zone_exit` or `exit_spawned` anywhere in the zone, walks the group there and clicks it. If it finds none, the step fails, and the log lists what is clickable nearby, so you can see the exit's real name and use it with `door`. |
+| `endOfZone` | Like `auto`, but only looks within `searchWithin` meters (100 if left out). For the exit that appears near the last boss once it is dead. If it is not there, that is not a failure, and the next step runs: put a fallback after it. |
+| `none` | Stays in the zone, on purpose. The zone end options still run first. It takes no other keys. |
+
+Keys for `door`, `auto` and `endOfZone`:
+
+| Key | Default | What it does |
+|---|---|---|
+| `name` | `door`: required. `auto`, `endOfZone`: the four names above | The exit to click. `auto` and `endOfZone` also take a list of names. |
+| `destination` | the last row | When the zone list pops up, which row to pick: its text, or its number (1 = the first). |
+| `within` | `30` | How close the group must be to click. |
+| `walk` | `door`: `false`. `auto`, `endOfZone`: `true` | Walk the group to the exit when it is farther than `within`. With `false`, walk there with a `path` step first. |
+| `findLimitMs` | `10000` | How long to look for the exit. |
+| `zoneLimitMs` | `40000` | Zoning must start this soon after the click. IC clicks once more, then gives up. |
+| `groupLimitMs` | `120000` | How long to wait for everyone to arrive in the new zone. |
+
+What happens at a `zoneOut` step, in order:
+
+1. **Halt at end of zone**, if it is ticked: IC halts here, inside the zone, until you press Resume.
+2. The zone end options: **Call to guild hall after each zone** or **Stay in zone until a zone is ready**.
+3. Just before the group moves to the exit, a Paladin's Consecrate and a Berserker's Open Wounds are cancelled, so
+   they do not pull more on the way.
+4. Everyone clicks the exit, and the zone list's row is picked for everyone.
+5. In the new zone, IC waits for the group. Anyone who lands in a different copy of the zone (Phantom Seas 3
+   instead of 2) is asked to come to the leader's copy, up to three times.
+
+A zone out that fails does not fail the zone: the run still counts as done, with a failure noted.
+
+**With Loop on**, a zone never starts again inside the instance it just finished. If a zone's exit did not take the
+group out, the list stops and says so. Stop and Run starts it again where you stand.
