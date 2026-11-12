@@ -17,14 +17,14 @@ What changed between the Classic console and the new console for every command y
 |---|---|
 | ⚠️ Arguments changed | 41 |
 | ⚠️ Argument order changed | 10 |
-| ✏️ Renamed | 12 |
+| ✏️ Renamed | 17 |
 | ➡️ Lives somewhere else | 1 |
 | 📄 In a data file now | 18 |
-| ⛔ Removed | 38 |
-| ✅ Works as is | 434 |
+| ⛔ Removed | 44 |
+| ✅ Works as is | 423 |
 | **Total** | **554** |
 
-434 of the 554 Classic commands are typed exactly as before (126 of those are other names - aliases - for a command, and keep working).
+423 of the 554 Classic commands are typed exactly as before (124 of those are other names - aliases - for a command, and keep working).
 
 ## 1. Commands you must change
 
@@ -56,15 +56,15 @@ oc !c -ZoneDoor auto "${UserInput}"
 | `-Change_CampSpot` | runs, arguments mean something else | `-ChangeCampSpot` | ⚠️ Arguments changed | Insert the for-who as the first argument. Classic's took no for-who, so every session that heard the line acted; the new command reads it as the first argument. On a line you have not changed, the first value is read as the for-who and the others move along one place, with no error. Write `auto` there (the For Who window); that is what the MCP migration writes.<br>**Old:** `-Change_CampSpot <x> <y> <z> (or one x,y,z token)`<br>**New:** `-Change_CampSpot <fw> <x> <y> <z>`<br>… |
 | `-ChangeCampSpot` | runs, arguments mean something else | `-ChangeCampSpot` | ⚠️ Arguments changed | Insert the for-who as the first argument. Classic's took no for-who, so every session that heard the line acted; the new command reads it as the first argument. On a line you have not changed, the first value is read as the for-who and the others move along one place, with no error. Write `auto` there (the For Who window); that is what the MCP migration writes.<br>**Old:** `-ChangeCampSpot <x> <y> <z> (or one x,y,z token)`<br>**New:** `-ChangeCampSpot <fw> <x> <y> <z>`<br>… |
 | `-CheckMemberLevel` | runs, arguments mean something else | `-CheckMemberLevel` | ⚠️ Arguments changed | Insert the for-who as the first argument. Classic's took no for-who, so every session that heard the line acted; the new command reads it as the first argument. On a line you have not changed, the first value is read as the for-who and the others move along one place, with no error. Write `auto` there (the For Who window); that is what the MCP migration writes.<br>**Old:** `-CheckMemberLevel <onlyShowNonMembers>`<br>**New:** `-CheckMemberLevel <fw> <value>`<br>`<value>` defaults to FALSE. |
-| `-CompareQuest` | runs, arguments mean something else | `-CompareQuest` | ⚠️ Arguments changed | Drop the step-line arguments; send it from the box whose step is the reference. The answers come back to the asker.<br>**Old:** `-CompareQuest <fw> <questname> <step lines...>`<br>**New:** `-CompareQuest <fw> <questname>`<br>GROUP-scoped by default (comms is local-box). |
+| `-CompareQuest` | runs, arguments mean something else | `-CompareQuest` | ⚠️ Arguments changed | Drop the step-line arguments; send it from the box whose step is the reference. The for-who names who is asked (all is your group), and the answers come back to the asker.<br>**Old:** `-CompareQuest <fw> <questname> <step lines...>`<br>**New:** `-CompareQuest <fw> <questname>`<br>GROUP-scoped by default (comms is local-box). The box that sends the line asks; the for-who is who is asked. |
 | `-Door` | runs, arguments mean something else | `-ZoneDoor` | ⚠️ Arguments changed | Insert the for-who as the first argument. Classic's took no for-who, so every session that heard the line acted; the new command reads it as the first argument. On a line you have not changed, the first value is read as the for-who and the others move along one place, with no error. Write `auto` there (the For Who window); that is what the MCP migration writes.<br>**Old:** `-Door <dooroption>`<br>**New:** `-Door <fw> <dooroption>`<br>… |
 | `-DoorX` | runs, arguments mean something else | `-ZoneDoor` | ⚠️ Arguments changed | Insert the for-who as the first argument. Classic's took no for-who, so every session that heard the line acted; the new command reads it as the first argument. On a line you have not changed, the first value is read as the for-who and the others move along one place, with no error. Write `auto` there (the For Who window); that is what the MCP migration writes.<br>**Old:** `-DoorX <dooroption>`<br>**New:** `-DoorX <fw> <dooroption>`<br>… |
-| `-EndScript` | runs, arguments mean something else | `-EndScript` | ⚠️ Arguments changed | Insert the for-who as the first argument. Classic's took no for-who, so every session that heard the line acted; the new command reads it as the first argument. On a line you have not changed, the first value is read as the for-who and the others move along one place, with no error. Write `auto` there (the For Who window); that is what the MCP migration writes.<br>**Old:** `-EndScript <scriptname>`<br>**New:** `-EndScript <fw> <scriptname>`<br>It runs `OgreBotAPI.Bot:EndScript`. |
-| `-Group` | runs, arguments mean something else | `-Raid` | ⚠️ Arguments changed | Insert the for-who as the first argument. Classic's took no for-who, so every session that heard the line acted; the new command reads it as the first argument. On a line you have not changed, the first value is read as the for-who and the others move along one place, with no error. Write `auto` there (the For Who window); that is what the MCP migration writes.<br>**Old:** `-Group <chat>`<br>**New:** `-Group <fw> <chat>`<br>Classic's always sent the chat line to every session (its InjectChat_ForAll); the new command takes a for-who first, like every other, and runs `OgreBotAPI.Comms:InjectChat`. |
+| `-EndScript` | runs, arguments mean something else | `-EndScriptOB` | ⚠️ Arguments changed | Write `-EndScriptOB` and put the for-who first: `-EndScript MyScript` becomes `-EndScriptOB auto MyScript`. Insert the for-who as the first argument. Classic's took no for-who, so every session that heard the line acted; the new command reads it as the first argument. On a line you have not changed, the first value is read as the for-who and the others move along one place, with no error. Write `auto` there (the For Who window); that is what the MCP migration writes. Classic's -EndScript ended the script on every session that heard it; write `all` instead of `auto` to keep that.<br>… |
+| `-Group` | runs, arguments mean something else | `-InjectChat` | ⚠️ Arguments changed | Write `-InjectChat` and put the for-who first: `-Group <chat>` becomes `-InjectChat auto <chat>`. Insert the for-who as the first argument. Classic's took no for-who, so every session that heard the line acted; the new command reads it as the first argument. On a line you have not changed, the first value is read as the for-who and the others move along one place, with no error. Write `auto` there (the For Who window); that is what the MCP migration writes. Classic's -Group always reached every session; write `all` instead of `auto` to keep that.<br>**Old:** `-Group <chat>`<br>… |
 | `-ImmRes` | runs, arguments mean something else | `-ImmRes` | ⚠️ Arguments changed | Insert the for-who as the first argument. Classic's took no for-who, so every session that heard the line acted; the new command reads it as the first argument. On a line you have not changed, the first value is read as the for-who and the others move along one place, with no error. Write `auto` there (the For Who window); that is what the MCP migration writes.<br>**Old:** `-ImmRes <howmany>`<br>**New:** `-ImmRes <fw> <howmany>`<br>`<howmany>` defaults to 2. |
 | `-ItemEmbargo` | runs, arguments mean something else | `-ItemEmbargo` | ⚠️ Arguments changed | Insert the for-who as the first argument. Classic's took no for-who, so every session that heard the line acted; the new command reads it as the first argument. On a line you have not changed, the first value is read as the for-who and the others move along one place, with no error. Write `auto` there (the For Who window); that is what the MCP migration writes.<br>**Old:** `-ItemEmbargo <abilityid> <duration> [<args...>]`<br>**New:** `-ItemEmbargo <fw> <abilityid> <duration> [<args...>]`<br>… |
 | `-ItemRotate` | runs, arguments mean something else | `-ItemEmbargo` | ⚠️ Arguments changed | Insert the for-who as the first argument. Classic's took no for-who, so every session that heard the line acted; the new command reads it as the first argument. On a line you have not changed, the first value is read as the for-who and the others move along one place, with no error. Write `auto` there (the For Who window); that is what the MCP migration writes.<br>**Old:** `-ItemRotate <abilityid> <duration> [<args...>]`<br>**New:** `-ItemRotate <fw> <abilityid> <duration> [<args...>]`<br>… |
-| `-LoginAtCharacterSelect` | Unknown command | `-LogToonIn` | ⚠️ Arguments changed | Write `-LogToonIn <box> <character>`. Name the box, not a for-who: its InnerSpace session name, or its character's name - at character select, the character it last played. Give the character to log in; where the old line gave none it pressed Play on the character already selected, so name that character.<br>**Old:** `-LoginAtCharacterSelect <fw> [character] - pressed Play, or picked the character and pressed Play`<br>**New:** ``-LogToonIn <box> <character> - logs that character in on that box; `all` is refused``<br>… |
+| `-LoginAtCharacterSelect` | Unknown command | `-LogToonIn` | ⚠️ Arguments changed | Write `-LogToonIn <box> <character>`. Name the box, not a for-who: its InnerSpace session name, or its character's name - at character select, the character it last played. Give the character to log in; where the old line gave none it pressed Play on the character already selected, so name that character. The converter (`fix`) and the MCP button conversion do this for you: a line that names a character becomes `-LogToonIn <character> <character>`; one that names none stays for you to finish, and such an MCP button keeps its name and loses its command.<br>… |
 | `-Mentor` | runs, arguments mean something else | `-Mentor` | ⚠️ Arguments changed | Insert the for-who as the first argument. Classic's took no for-who, so every session that heard the line acted; the new command reads it as the first argument. On a line you have not changed, the first value is read as the for-who and the others move along one place, with no error. Write `auto` there (the For Who window); that is what the MCP migration writes.<br>**Old:** `-Mentor <mentorwho>`<br>**New:** `-Mentor <fw> <mentorwho>`<br>`<mentorwho>` defaults to `${Me.Name}`. |
 | `-Move2Area` | runs, arguments mean something else | `-Move2Area` | ⚠️ Arguments changed | Move the for-who to the front and give three coordinates (x y z).<br>**Old:** `-Move2Area <X> <Z> <fw> <precision>`<br>**New:** `-Move2Area <fw> <x> <y> <z> <precision>`<br>Classic's two coordinates were X and Z - a ground move. The new command takes x y z so ${Me.Loc} pastes straight in, and IGNORES y: put any number there. |
 | `-Move2AreaNoTarget` | runs, arguments mean something else | `-MoveToAreaNoTarget` | ⚠️ Arguments changed | Move the for-who to the front and give three coordinates (x y z).<br>**Old:** `-Move2AreaNoTarget <X> <Z> <fw> <precision>`<br>**New:** `-Move2AreaNoTarget <fw> <x> <y> <z> <precision>`<br>Classic's two coordinates were X and Z - a ground move. The new command takes x y z so ${Me.Loc} pastes straight in, and IGNORES y: put any number there. It runs OgreBotAPI.Movement:Move2AreaNoTarget: it moves with or without a target, as Classic's did. |
@@ -75,7 +75,7 @@ oc !c -ZoneDoor auto "${UserInput}"
 | `-Poison_AutoConsume` | works | `-Poison_AutoConsume` | ⚠️ Arguments changed | Name the poison as the third argument - Cerebral Caustic Poison, or Cerebral Hemotoxin on an assassin or brigand. The classic row picked it from your class when it was left blank; the new row fills a blank name with your configured stat potion instead.<br>**Old:** `-Poison_AutoConsume <fw> <value> [poison]`<br>**New:** `-Poison_AutoConsume <fw> <value> <poison>`<br>Not carried: the class default name, and the class check (any class acts on the poison it is given). |
 | `-Poison_Replenish` | works | `-Poison_Replenish` | ⚠️ Arguments changed | Name the poison as the second argument - Cerebral Caustic Poison, or Cerebral Hemotoxin on an assassin or brigand. The classic row picked it from your class when it was left blank; the new row pulls your configured stat potion instead.<br>**Old:** `-Poison_Replenish <fw> [poison]`<br>**New:** `-Poison_Replenish <fw> <poison>`<br>Not carried: the class default name, and the class check (any class pulls the poison it is given). |
 | `-PoP_TempAdorns` | runs, arguments mean something else | `-TempAdorns` | ⚠️ Arguments changed | Write `-TempAdorns <fw> cboc` (or pot / hp, or a profile you saved) and leave the overwrite off: it always applies now. Name the profile - the old default cboc is not assumed. An MCP button is converted for you.<br>**Old:** `-PoP_TempAdorns <fw> <cboc\|pot\|hp> <overwrite>`<br>**New:** `-TempAdorns <fw> <profile> - cboc / pot / hp are the ready-made profiles CBOC / Pot / HP (the old hardcoded lists); every piece is applied, even one that still has its adornment` |
-| `-Raid` | runs, arguments mean something else | `-Raid` | ⚠️ Arguments changed | Insert the for-who as the first argument. Classic's took no for-who, so every session that heard the line acted; the new command reads it as the first argument. On a line you have not changed, the first value is read as the for-who and the others move along one place, with no error. Write `auto` there (the For Who window); that is what the MCP migration writes.<br>**Old:** `-Raid <chat>`<br>**New:** `-Raid <fw> <chat>`<br>… |
+| `-Raid` | runs, arguments mean something else | `-InjectChat` | ⚠️ Arguments changed | Write `-InjectChat` and put the for-who first: `-Raid <chat>` becomes `-InjectChat auto <chat>`. Insert the for-who as the first argument. Classic's took no for-who, so every session that heard the line acted; the new command reads it as the first argument. On a line you have not changed, the first value is read as the for-who and the others move along one place, with no error. Write `auto` there (the For Who window); that is what the MCP migration writes. Classic's -Raid always reached every session; write `all` instead of `auto` to keep that.<br>**Old:** `-Raid <chat>`<br>… |
 | `-Run` | runs, arguments mean something else | `-Run` | ⚠️ Arguments changed | Nothing to retype; check the intent - the new command does what its name says.<br>**Old:** `-Run <fw> - flipped the current mode (a -Run sent to a box already running made it walk). New: -Run <fw> - sets run; a box already there is left alone` |
 | `-SetUpFor` | runs, arguments mean something else | `-SetUpFor` | ⚠️ Arguments changed | Pass the named mob's exact name, or nothing to auto-detect. A module phrase that is not the mob's name (e.g. 'Master' for The Djinn Master, 'reset') no longer matches - it logs "no encounter owns mob".<br>**Old:** `-SetUpFor <fw> <words after "Set up for">`<br>**New:** `-SetUpFor <fw> [<named mob name>] [<restart>]`<br>`restart` FALSE leaves a setup that is already running alone. |
 | `-SpewStat` | runs, arguments mean something else | `-SpewStat` | ⚠️ Arguments changed | Write the type as its own flag: `-SpewStat <fw> -item Foo oc` instead of `-SpewStat <fw> item_Foo oc`.<br>**Old:** `-SpewStat <fw> <prefix_value> <where>`<br>**New:** `-SpewStat <fw> <-type> <value> <where>`<br>The old mashed form is still READ: an old type is mapped to its new one and `where` is taken from the old slot, so most old lines still work. deity_* tokens are dropped, and a token it cannot map errors loudly. |
@@ -109,7 +109,7 @@ oc !ci -assist igw:${Me.Name} ${Me.Name}
 | `-Profile` | runs, arguments in the wrong places | `-LoadProfile` | ⚠️ Argument order changed | Move the for-who to the first argument.<br>**Old:** `-Profile <profilename> <fw>`<br>**New:** `-Profile <fw> <profilename>` |
 | `-ProfileForWho` | runs, arguments in the wrong places | `-LoadProfile` | ⚠️ Argument order changed | Move the for-who to the first argument.<br>**Old:** `-ProfileForWho <profilename> <fw>`<br>**New:** `-ProfileForWho <fw> <profilename>` |
 
-### ✏️ Renamed (12)
+### ✏️ Renamed (17)
 
 #### ✏️ Renamed: `-ApplyVerbForWho`
 
@@ -127,9 +127,14 @@ oc !ci -ApplyVerb igw:${Me.Name} "boss_01_knight_light" "Touch"
 | `-ApplyVerbIDForWho` | Unknown command | `-ApplyVerbID` | ✏️ Renamed | The ForWho row is gone; write `-ApplyVerbID` with the same arguments - the for-who stays first. An MCP button is converted for you. |
 | `-ApplyVerbIDQueuedForWho` | Unknown command | `-ApplyVerbIDQueued` | ✏️ Renamed | The ForWho row is gone; write `-ApplyVerbIDQueued` with the same arguments - the for-who stays first. An MCP button is converted for you. |
 | `-ApplyVerbQueuedForWho` | Unknown command | `-ApplyVerbQueued` | ✏️ Renamed | The ForWho row is gone; write `-ApplyVerbQueued` with the same arguments - the for-who stays first. An MCP button is converted for you. |
+| `-Dispell` | Unknown command | `-DispellNPCWithSpell` | ✏️ Renamed | Replace the verb name with `-DispellNPCWithSpell`; the arguments are the same (`<fw> <npc name or id>`).<br>**Old:** `-Dispell <fw> <npc>`<br>**New:** `-DispellNPCWithSpell <fw> <npc>`<br>Your class dispel only; -DispellNPCWithAny also tries the item. |
+| `-ExecuteEvent_JSON_AP` | Unknown command | `-ExecuteEvent_AP` | ✏️ Renamed | Replace the verb name with `-ExecuteEvent_AP`; the arguments are the same (`<fw> <event> <args...>`). It no longer echoes the event line first.<br>**Old:** `-ExecuteEvent_JSON_AP <fw> <event> <args...>`<br>**New:** `-ExecuteEvent_AP <fw> <event> <args...>` |
+| `-OgreConsole_ShowRequiresOgreBot` | Unknown command | `-OgreConsole_Show` | ✏️ Renamed | Replace the verb name with `-OgreConsole_Show`; the arguments are the same (`<fw> <value>`).<br>**Old:** `-OgreConsole_ShowRequiresOgreBot <fw> <value>`<br>**New:** `-OgreConsole_Show <fw> <value>` |
 | `-OgreCraft_AddRecipesFromQuest` | Unknown command | `-OgreCraft_StartQuest` | ✏️ Renamed | Replace the verb name; the arguments are the same (`<fw>`).<br>It does MORE than Classic's: Classic's only QUEUED the quest's recipes (with a 6/3 quantity guess); the new command is a flow that crafts the current quest's pending recipe steps, one of each per pass, until none is pending. The for-who now filters; Classic's ran it on every session that heard the line. |
 | `-Opt_Num` | Unknown command | `-ConversationBubble` | ✏️ Renamed | -Opt_Num was the same reply click as -ConversationBubble and is gone. Write `-ConversationBubble <fw> <num>`; Classic's took no for-who, so put `auto` first (the For Who window).<br>**Old:** `-Opt_Num <num>`<br>**New:** `-ConversationBubble <fw> <num> (row -ConversationBubble)`<br>`<num>` defaults to 1. |
 | `-OptNum` | Unknown command | `-ConversationBubble` | ✏️ Renamed | -Opt_Num was the same reply click as -ConversationBubble and is gone. Write `-ConversationBubble <fw> <num>`; Classic's took no for-who, so put `auto` first (the For Who window).<br>**Old:** `-OptNum <num>`<br>**New:** `-ConversationBubble <fw> <num> (row -ConversationBubble)`<br>`<num>` defaults to 1. |
+| `-resetauth` | Unknown command | `-unauthall` | ✏️ Renamed | Write `-unauthall` - the same clear of the IRC authorized list. |
+| `-RunScriptOB_AP` | Unknown command | `-RunScriptOB` | ✏️ Renamed | Replace the verb name with `-RunScriptOB`; the arguments are the same (`<fw> <script> <args...>`), and it takes every argument left on the line, as -RunScriptOB_AP did.<br>**Old:** `-RunScriptOB_AP <fw> <script> <args...>`<br>**New:** `-RunScriptOB <fw> <script> <args...>` |
 | `-Set_VampiricRequiem_Cancelling_Active` | Unknown command | `-CancelOnCast` | ✏️ Renamed | Write `-CancelOnCast <fw> <ability>` naming the trigger ability (for the old verb: Vampiric Requiem), and configure what it cancels in the Cancel On Cast tab.<br>Classic's wait-N-seconds delay is dropped. |
 | `-Unpack_EmpyralStones` | Unknown command | `-Unpack` | ✏️ Renamed | Use `-Unpack <fw> "Empyral Stones" -all -pick lowest` (or `-pick "<stone name>"` for one kind).<br>**Old:** `-Unpack_EmpyralStones <fw> [Lowest \| <stone name>]`<br>**New:** `-Unpack <fw> "Empyral Stones" -all -pick lowest` |
 | `-Unpack_PlanarStones` | Unknown command | `-Unpack` | ✏️ Renamed | Use `-Unpack <fw> "Planar Stones" -all -pick lowest` (or `-pick "<stone name>"` for one kind).<br>**Old:** `-Unpack_PlanarStones <fw> [Lowest \| <stone name>]`<br>**New:** `-Unpack <fw> "Planar Stones" -all -pick lowest` |
@@ -166,7 +171,7 @@ oc !ci -ApplyVerb igw:${Me.Name} "boss_01_knight_light" "Touch"
 | `-ROSGTFDispell` | Unknown command | `dispel` | 📄 In a data file now | Nothing to type: the dispel is coded in the Siren's Grotto - Dissension [Raid] encounter file for Overlord Talan. |
 | `-ROTOVI` | Unknown command | `broadcast` | 📄 In a data file now | Note A |
 
-### ⛔ Removed (38)
+### ⛔ Removed (44)
 
 | You typed | Today | Type instead | What changed | Notes |
 |---|---|---|---|---|
@@ -174,6 +179,8 @@ oc !ci -ApplyVerb igw:${Me.Name} "boss_01_knight_light" "Touch"
 | `-AscensionEmbargo_Add_DoNotCombo` | Unknown command | — | ⛔ Removed | Classic's added an entry to the ascension do-not-combo list. Ascension combos are not in the new bot; delete the line. |
 | `-AscensionEmbargo_Change_Disable_Status` | Unknown command | — | ⛔ Removed | Classic's changed whether an entry of the ascension do-not-combo list was disabled. Ascension combos are not in the new bot; delete the line. |
 | `-AscensionEmbargo_Remove_DoNotCombo` | Unknown command | — | ⛔ Removed | Classic's removed an entry from the ascension do-not-combo list. Ascension combos are not in the new bot; delete the line. |
+| `-AT_Rescan` | Unknown command | — | ⛔ Removed | Delete the line - Auto Target re-checks every 0.25 seconds, and there is no setting for it.<br>The new bot's Auto Target re-checks every 0.25 seconds whatever that slider says, so nothing reads a rescan time. |
+| `-AutoTarget_SetRescanTime` | Unknown command | — | ⛔ Removed | Delete the line - Auto Target re-checks every 0.25 seconds, and there is no setting for it.<br>The new bot's Auto Target re-checks every 0.25 seconds whatever that slider says, so nothing reads a rescan time. |
 | `-cfw` | as the first thing on a line (`-cfw <who> -Verb ...`): works, for that line only. On a line by itself: does nothing - the lasting default it set is gone | — | ⛔ Removed | As the FIRST thing after `oc !c` / `oc !ci` (`oc !ci -cfw igw:${Me.Name} -letsgo`) it still works: the new console reads it as that one line's for-who, and the verb's empty for-who takes it (the tool skips that form). Only `-cfw <who>` on a line by itself is gone - it set a lasting default for later lines. Put the for-who on each of those later verbs instead (it is argument 1).<br>Classic's `-cfw <who>` on a line by itself set a lasting default: every later `auto` for-who used it. |
 | `-ChangeRadarYAxis` | Unknown command | — | ⛔ Removed | Classic's toggled the radar's Y axis. Delete the line - the new bot has nothing in its place. |
 | `-ConsumeDeityBaubles` | Unknown command | — | ⛔ Removed | Classic's did nothing: its one line, the call to Obj_Deity.ConsumeDeityBaubles, is commented out. Nothing replaces it; delete the line. |
@@ -183,6 +190,7 @@ oc !ci -ApplyVerb igw:${Me.Name} "boss_01_knight_light" "Touch"
 | `-Deity_Spend` | Unknown command | — | ⛔ Removed | Classic's was meant to spend deity points, but its only working line is commented out, so it did nothing on Classic either. Delete the line. |
 | `-DeitySpend` | Unknown command | — | ⛔ Removed | Classic's was meant to spend deity points, but its only working line is commented out, so it did nothing on Classic either. Delete the line. |
 | `-DevBot` | Unknown command | — | ⛔ Removed | Classic's started the developer copy of the bot (`ogre dev`). The new bot has no developer copy; delete the line. |
+| `-endargs` | inside a line it still ends a command's arguments, as before; a line of -endargs alone does nothing, as in Classic | — | ⛔ Removed | Nothing to change inside a line. A line made only of -endargs can be deleted.<br>In the new console -endargs is a reserved word like -tab and -rg: the line walk skips it and an all-params argument stops at it, before any row is looked up, so a row for it could never run. |
 | `-Fix_Broken_Shit` | Unknown command | — | ⛔ Removed | Run the parts it bundled: `ogre end console` / `ogre console` / `ogre end irc` / `ogre irc`.<br>Classic's restarted the console and IRC in one go. |
 | `-GuidedAscension` | Unknown command | — | ⛔ Removed | Classic's used the 'Guided Ascension' item when ascension vitality was below a threshold. Delete the line - the new bot has nothing in its place. |
 | `-HQEar` | Unknown command | — | ⛔ Removed | Classic's cast the HQ ear. The HQ Ear feature is not in the new bot; delete the line. |
@@ -191,6 +199,8 @@ oc !ci -ApplyVerb igw:${Me.Name} "boss_01_knight_light" "Touch"
 | `-HQEar_ReportStuckEar` | Unknown command | — | ⛔ Removed | Classic's reported a stuck HQ ear. The HQ Ear feature is not in the new bot; delete the line. |
 | `-Mount` | Unknown command | — | ⛔ Removed | Use `-Force_MountOn <fw>` or `-Force_MountOff <fw>`.<br>Classic's was a toggle - one `/summon_mount`, so it mounted you or took you off the mount. |
 | `-OgreACommandOB_AP` | Unknown command | — | ⛔ Removed | Not the same verb as -OgreCommandOB_AP (`ogre <cmd>`), which is live. |
+| `-OSExecute` | Unknown command | — | ⛔ Removed | Delete the line - the new bot has no remote OS command.<br>The new bot has no remote shell. |
+| `-Pull` | Unknown command | — | ⛔ Removed | Delete the line - it never pulled. The bot pulls by itself (Auto Hunt, the IC); a stuck console or IRC link is reconnected from its own window.<br>Classic's -Pull (also spelled -Kannkor_TestPull1 and -TestPull1) never pulled: it restarted the console and IRC, then stopped before the pull it once was. The new bot's row did nothing at all, and was retired. |
 | `-Reload_DevBot` | Unknown command | — | ⛔ Removed | Classic's reloaded the developer copy of the bot (`ogre dev`). The new bot has no developer copy; delete the line. |
 | `-ReloadOgreConsole` | Unknown command | — | ⛔ Removed | Close and reopen the panel: `ogre end console`, then `ogre console`.<br>Classic's was meant to close and reopen the console, but a typo stopped the close half from ever running. |
 | `-Report_Back` | Unknown command | — | ⛔ Removed | Ask with groupQuery instead - the IC step `groupQuery`, or from a script ${OgreBotAPI.Comms.GroupQuery[&lt;fw&gt;, -question, ...]}: -item -&gt; question `itemCount`; -ScriptRunning and -CommandForMe -&gt; a LavishScript[...] question; -resolve_of_slot -&gt; loot distribution's own `lootBid`.<br>Classic callers: the instance helpers' EveryoneHaveItem, and the loot resolve auction, now loot distribution's `lootBid`. |
@@ -206,12 +216,13 @@ oc !ci -ApplyVerb igw:${Me.Name} "boss_01_knight_light" "Touch"
 | `-Test` | Unknown command | — | ⛔ Removed | Classic's ran your own test script (`timedcommand 0 run test`). Delete the line - the new bot has nothing in its place. |
 | `-test1` | Unknown command | — | ⛔ Removed | Classic's was a test command: it read a for-who, two arguments and the rest of the line, and only echoed them. Delete the line. |
 | `-test2` | Unknown command | — | ⛔ Removed | Classic's was the twin of -test1 (echo only). Delete the line. |
+| `-TestPull1` | Unknown command | — | ⛔ Removed | Delete the line - it never pulled. The bot pulls by itself (Auto Hunt, the IC); a stuck console or IRC link is reconnected from its own window.<br>Classic's -Pull (also spelled -Kannkor_TestPull1 and -TestPull1) never pulled: it restarted the console and IRC, then stopped before the pull it once was. The new bot's row did nothing at all, and was retired. |
 | `-Update_Turbo` | Unknown command | — | ⛔ Removed | Classic's changed LavishScript's turbo setting. That is a LavishScript setting, not the bot's; delete the line. |
 | `-VampiricRequiem_AbilityCancel` | Unknown command | — | ⛔ Removed | The generic version is the Cancel On Cast tab: it cancels when the configured trigger is cast; to trigger it by hand use `-CancelOnCast <fw> <ability>`.<br>Classic's cancelled Vampiric Requiem by hand, through its own Vampiric Requiem handler. |
 
 ## 2. Every other command, A to Z
 
-These 434 commands are typed exactly as in Classic. An alias is another name for a command; it keeps working.
+These 423 commands are typed exactly as in Classic. An alias is another name for a command; it keeps working.
 
 | You typed | Notes |
 |---|---|
@@ -245,7 +256,6 @@ These 434 commands are typed exactly as in Classic. An alias is another name for
 | `-AT_Disable` | An alias of `-AutoTarget_Disable` - it works as typed. |
 | `-AT_Enable` | An alias of `-AutoTarget_Enable` - it works as typed. |
 | `-AT_Height` | An alias of `-AutoTarget_SetScanHeight` - it works as typed. |
-| `-AT_Rescan` | An alias of `-AutoTarget_SetRescanTime` - it works as typed. |
 | `-AT_Scan` | An alias of `-AutoTarget_SetScanRadius` - it works as typed. |
 | `-ATOCST` | An alias of `-AutoTargetOCSToggle` - it works as typed. |
 | `-ATT` | An alias of `-AutoTargetToggle` - it works as typed. |
@@ -255,16 +265,15 @@ These 434 commands are typed exactly as in Classic. An alias is another name for
 | `-AutoConsumeTemporaryFamiliarExperience` |  |
 | `-AutoConsumeTemporaryMountTrainingReduction` |  |
 | `-AutoConsumeTemporaryResearchReduction` |  |
-| `-AutoCure` |  |
-| `-AutoCurse` |  |
-| `-AutoGroupCure` |  |
+| `-AutoCure` | Nothing to change - unless the line passes Classic's request words after the toon. Classic's request words become the options the row reads now: `AutoRemove 20` -&gt; `-AutoRemove 20`, `AutoRemoveMS 2500` -&gt; `-AutoRemove 3` (whole seconds, rounded up), `CustomFlag fear` -&gt; `-tag fear`; kind words stay (a e n t -&gt; arcane elemental noxious trauma); `aX 3` keeps the kind (a threshold means nothing on one victim); `any` means no kinds; `exclusive`, `only`, `DirectTarget` and a bare `TRUE` are dropped (they did nothing). The converter (`fix`) does this for you, and an MCP button is converted for you. A word it does not understand is left for you.<br>… |
+| `-AutoCurse` | Nothing to change - unless the line passes words after the cursed toon. Classic's request words become the options the row reads now: `AutoRemove 20` -&gt; `-AutoRemove 20`, `AutoRemoveMS 2500` -&gt; `-AutoRemove 3` (whole seconds, rounded up), `CustomFlag fear` -&gt; `-tag fear`; `exclusive`, `only`, `DirectTarget` and a bare `TRUE` are dropped (they did nothing). `-AutoCurse <fw> <toon> AutoRemove 20` becomes `-AutoCurse <fw> <toon> -AutoRemove 20`. The converter (`fix`) does this for you, and an MCP button is converted for you. A word it does not understand is left for you, and the row refuses it by naming it.<br>… |
+| `-AutoGroupCure` | Nothing to change - unless the line passes a toon or request words after the for-who. Classic's request words become the options the row reads now: `AutoRemove 20` -&gt; `-AutoRemove 20`, `AutoRemoveMS 2500` -&gt; `-AutoRemove 3` (whole seconds, rounded up), `CustomFlag fear` -&gt; `-tag fear`; the toon word -&gt; `-tag <word>`; `aX 3 eX 3` -&gt; `arcane elemental -count 3` (when every kind named has the same threshold - otherwise the line is left for you: write one -AutoGroupCure per threshold); `any` -&gt; no kinds; `exclusive`, `only`, `DirectTarget` and a bare `TRUE` are dropped (they did nothing). The converter (`fix`) does this for you, and an MCP button is converted for you.<br>… |
 | `-AutoRun` |  |
 | `-AutoTarget_AddActor` |  |
 | `-AutoTarget_Clear` |  |
 | `-AutoTarget_ClearActors` |  |
 | `-AutoTarget_Disable` |  |
 | `-AutoTarget_Enable` |  |
-| `-AutoTarget_SetRescanTime` |  |
 | `-AutoTarget_SetScanHeight` |  |
 | `-AutoTarget_SetScanRadius` |  |
 | `-AutoTargetOCSToggle` |  |
@@ -334,7 +343,7 @@ These 434 commands are typed exactly as in Classic. An alias is another name for
 | `-CheckGear` |  |
 | `-CheckKunarkAscendingRequirements` |  |
 | `-CheckMercenaryTraining` |  |
-| `-CheckMountTraining` |  |
+| `-CheckMountTraining` | Nothing to change - unless the line passes a second argument (force the check): drop it. Every press checks now, so there is nothing to force. The converter (`fix`) does this for you, and an MCP button is converted for you.<br>**Old:** `-CheckMountTraining <fw> [forcecheck]`<br>**New:** `-CheckMountTraining <fw>` |
 | `-CheckResearch` |  |
 | `-CheckVersion` |  |
 | `-ChoiceWindow` |  |
@@ -387,7 +396,6 @@ These 434 commands are typed exactly as in Classic. An alias is another name for
 | `-Disable_Dispells` |  |
 | `-Disable_Interrupts` |  |
 | `-Disband` |  |
-| `-Dispell` |  |
 | `-DispellNPCWithAny` |  |
 | `-DispellNPCWithItem` |  |
 | `-DispellNPCWithSpell` |  |
@@ -406,7 +414,6 @@ These 434 commands are typed exactly as in Classic. An alias is another name for
 | `-Enable_Dispells` |  |
 | `-Enable_Interrupts` |  |
 | `-End_Bot` |  |
-| `-endargs` |  |
 | `-EndBot` | An alias of `-End_Bot` - it works as typed. |
 | `-EndScriptOB` |  |
 | `-EndScriptRequiresOgreBot` | An alias of `-EndScriptOB` - it works as typed. |
@@ -416,10 +423,9 @@ These 434 commands are typed exactly as in Classic. An alias is another name for
 | `-ExamineAllOfItem` |  |
 | `-ExamineInventoryItem` |  |
 | `-ExecuteEvent_AP` |  |
-| `-ExecuteEvent_JSON_AP` |  |
 | `-ExitClient` |  |
 | `-F2PWindow_Check` |  |
-| `-F2PWindow_SetOptions` |  |
+| `-F2PWindow_SetOptions` | Nothing to change - unless the line passes a second argument (the minutes): drop it. Classic never read it either; the command turns on the watcher that closes the All Access upsell window. The converter (`fix`) does this for you, and an MCP button is converted for you.<br>**Old:** `-F2PWindow_SetOptions <fw> [minutes]`<br>**New:** `-F2PWindow_SetOptions <fw>` |
 | `-FaceActor` |  |
 | `-FaceAngle` |  |
 | `-FaceLoc` |  |
@@ -457,7 +463,7 @@ These 434 commands are typed exactly as in Classic. An alias is another name for
 | `-InputTextWindow_Accept` |  |
 | `-InputTextWindow_AddText` |  |
 | `-InputTextWindow_ClearText` |  |
-| `-Invite` |  |
+| `-Invite` | Nothing to change - unless the line passes a third argument (raid invite): drop it, and for TRUE write `-RaidInvite` instead: `-Invite <fw> <who> TRUE` becomes `-RaidInvite <fw> <who>`. The converter (`fix`) does this for you, and an MCP button is converted for you.<br>**Old:** `-Invite <fw> <who> [raidinvite]`<br>**New:** `-Invite <fw> <who> - a group invite; -RaidInvite <fw> <who> is the raid invite` |
 | `-joust-in` | An alias of `-joustin` - it works as typed. |
 | `-joust-off` | An alias of `-joustoff` - it works as typed. |
 | `-joust-on` | An alias of `-jouston` - it works as typed. |
@@ -480,7 +486,7 @@ These 434 commands are typed exactly as in Classic. An alias is another name for
 | `-List_Sessions` |  |
 | `-LoadBot` |  |
 | `-LoadCharacter` |  |
-| `-LogToonIn` |  |
+| `-LogToonIn` | Nothing to change when the first word names the box: its character's name or its InnerSpace session name (at character select, the character it last played). Classic read `auto` there as the For Who window; it names no box now, so write the character to log in: `-LogToonIn auto MyToon` becomes `-LogToonIn MyToon MyToon`. The converter (`fix`) does this for you, and an MCP button is converted for you.<br>**Old:** `-LogToonIn <box> <character> - the first word went through the For Who rules, so auto read the For Who window`<br>… |
 | `-LootAll` |  |
 | `-Main` | An alias of `-ToggleMainWindow` - it works as typed. |
 | `-MakeLeader` |  |
@@ -498,7 +504,6 @@ These 434 commands are typed exactly as in Classic. An alias is another name for
 | `-ofollow` | An alias of `-ogrefollow` - it works as typed. |
 | `-OgreBotToggleConsoleWindow` |  |
 | `-OgreCommandOB_AP` |  |
-| `-OgreConsole_ShowRequiresOgreBot` |  |
 | `-OgreCraft_AddLastScribedRecipe` |  |
 | `-OgreCraft_AddRecipe` |  |
 | `-OgreCraft_CraftQueue` |  |
@@ -509,7 +514,6 @@ These 434 commands are typed exactly as in Classic. An alias is another name for
 | `-OnScreenTimer` | An alias of `-Timer` - it works as typed. |
 | `-OpenAndBuyFromMerchant` |  |
 | `-OpenAndBuyFromMerchantXTimes` |  |
-| `-OSExecute` |  |
 | `-Overseer_AddAgentsToCollection` |  |
 | `-Overseer_AutoAddOverseerQuests` |  |
 | `-Overseer_CheckQuests` |  |
@@ -529,10 +533,9 @@ These 434 commands are typed exactly as in Classic. An alias is another name for
 | `-PortalToGuildHall` |  |
 | `-ProvingGrounds_Exit` |  |
 | `-ProvingGrounds_Scoreboard_Close` |  |
-| `-Pull` |  |
 | `-Pushover` |  |
 | `-Question` |  |
-| `-RaidInvite` |  |
+| `-RaidInvite` | Nothing to change - unless the line passes a third argument (raid invite): drop it, and for FALSE write `-Invite` instead: `-RaidInvite <fw> <who> FALSE` becomes `-Invite <fw> <who>`. The converter (`fix`) does this for you, and an MCP button is converted for you.<br>**Old:** `-RaidInvite <fw> <who> [raidinvite]`<br>**New:** `-RaidInvite <fw> <who> - a raid invite; -Invite <fw> <who> is the group invite` |
 | `-RawCommandOB_AP` |  |
 | `-RawCommandRequiresOgreBot_AllParams` | An alias of `-RawCommandOB_AP` - it works as typed. |
 | `-Rebuff` |  |
@@ -549,7 +552,6 @@ These 434 commands are typed exactly as in Classic. An alias is another name for
 | `-Res` |  |
 | `-Research_Material_Check` |  |
 | `-ResetActorsLooted` |  |
-| `-resetauth` |  |
 | `-ResetCameraAngle` |  |
 | `-ResetZone` |  |
 | `-resetzoneall` | An alias of `-ZoneResetAll` - it works as typed. |
@@ -559,7 +561,6 @@ These 434 commands are typed exactly as in Classic. An alias is another name for
 | `-Revive` |  |
 | `-rsob` | An alias of `-RunScriptOB` - it works as typed. |
 | `-RunScriptOB` |  |
-| `-RunScriptOB_AP` |  |
 | `-RunScriptRequiresOgreBot` | An alias of `-RunScriptOB` - it works as typed. |
 | `-Scribe_Empyral` |  |
 | `-ScrollOf` |  |
@@ -608,7 +609,6 @@ These 434 commands are typed exactly as in Classic. An alias is another name for
 | `-Summon_Familiar` |  |
 | `-Target` |  |
 | `-Tell` |  |
-| `-TestPull1` | An alias of `-Pull` - it works as typed. |
 | `-ThreatFighterIgnoreList_Add` |  |
 | `-ThreatFighterIgnoreList_Clear` |  |
 | `-ThreatFighterIgnoreList_Remove` |  |

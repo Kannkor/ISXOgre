@@ -228,43 +228,49 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/no-o
 
 # No Ogre windows
 
-OgreBot loads and runs, but no Ogre windows appear in the game. If the InnerSpace console says **Windows is blocking EverQuest2.exe from starting other programs**, this page is the fix.
+OgreBot loads and runs, but no Ogre windows appear in the game. Ogre's windows are drawn inside each game, unless you chose to have one separate program, `OgreUltralight.exe`, draw them for every game to save memory. When they cannot start, the InnerSpace console says why, and a window opens (at most once a day) with two choices: the steps on this page, or the other way of drawing them.
 
-## What is wrong
+## Two ways of drawing Ogre's windows
 
-Ogre's windows run in a small program of their own, `OgreUltralight.exe`, which the game starts. A Windows security setting called Exploit Protection has a rule on `EverQuest2.exe` that stops it starting any other program, so the windows never start.
+- **Inside each game** (the default). Nothing extra runs.
+- **In `OgreUltralight.exe`**, one program for every game on the PC. It uses about 150 MB less memory per game, but with many games running it can become the slow part. Tick **Draw Ogre windows in OgreUltralight.exe** in `ogre config` (Ogre tab), or type `ogre ui exe on` in the InnerSpace console. `ogre ui exe off`, or unticking it, goes back.
 
-You may not have set this rule yourself. Other software can add it.
+Either change takes effect when you restart the game, each box. Find what the console said below.
 
-## Turn the rule off
+## "Windows Exploit Protection does not let EverQuest2.exe start other programs"
 
-Close the game first.
+You chose `OgreUltralight.exe`, and a Windows security setting called Exploit Protection has a rule on `EverQuest2.exe` that stops it starting any other program. You may not have set this rule yourself. Other software can add it.
 
-1. Open **Windows Security**.
-2. Open **App & browser control**, then **Exploit protection settings**.
-3. Open the **Program settings** tab.
-4. Find `EverQuest2.exe`. There can be more than one, one for each copy of the game. Do these steps for each one.
-5. Choose **Edit**, then find **Do not allow child processes**. Turn off **Override system settings** for it, then choose **Apply**.
-6. Start the game and load OgreBot.
+- **Draw the windows inside the game instead:** choose **Draw them in the game** in the window that opened, or type `ogre ui exe off`, then restart the game.
+- **Or change the rule.** Close the game first.
+  1. Open **Windows Security**.
+  2. Open **App & browser control**, then **Exploit protection settings**.
+  3. Open the **Program settings** tab.
+  4. Find `EverQuest2.exe`. There can be more than one, one for each copy of the game. Do these steps for each one.
+  5. Choose **Edit**, then find **Do not allow child processes**. Turn off **Override system settings** for it, then choose **Apply**.
+  6. Start the game and load OgreBot.
 
-Windows may show slightly different names on your version.
+  Windows may show slightly different names on your version.
+- **Or let InnerSpace start it:** `ogre ui uplinkstart on` has the InnerSpace uplink start `OgreUltralight.exe` instead of the game. Restart the game after it; `ogre ui uplinkstart off` goes back.
 
-## If you cannot turn it off
+## "Windows Smart App Control blocked OgreUltralight.exe" or "blocked Ogre's window files"
 
-On a work PC or a shared PC you may not be allowed to change this. Ogre can have the InnerSpace uplink start its windows instead of the game. In the InnerSpace console, type:
+Smart App Control is a Windows 11 security setting that blocks programs and files that are not signed. Ogre's are not signed.
 
-```
-ogre ui uplinkstart on
-```
+- **If it blocked `OgreUltralight.exe`:** draw the windows inside the game instead. Choose **Draw them in the game** in the window that opened, or type `ogre ui exe off`, then restart the game.
+- **If it blocked Ogre's window files:** drawing them in `OgreUltralight.exe` will most likely be blocked too. Turning Smart App Control off is the fix: open **Windows Security**, then **App & browser control**, then **Smart App Control settings**, and choose **Off**. On some versions of Windows, Smart App Control cannot be turned back on without resetting Windows, so read what Windows says before you choose.
 
-Then restart the game. Use this only if you cannot remove the rule. To go back, type `ogre ui uplinkstart off` and restart the game. On its own, `ogre ui uplinkstart` shows whether this is on.
+## "Windows would not load Ogre's window files into the game" or "did not start inside the game"
+
+Try the other way of drawing them: choose **Use OgreUltralight.exe** in the window that opened, or type `ogre ui exe on`, then restart the game. If that does not help either, send the files below.
 
 ## Still no windows?
 
-Send this file to Kannkor, from your InnerSpace folder:
+Send these files to Kannkor, from your InnerSpace folder:
 
 ```
 x64\Extensions\ISXDK35\OgreUIRuntime\ISXOgreUIHost.log
+x64\Extensions\ISXDK35\OgreUIRuntime\OgreUltralight\OgreUltralight.log
 ```
 
 
@@ -279,6 +285,180 @@ What changed in OgreBot, release by release, newest first. Every release listed 
 A release is named by the day it was published and its number that day: **2026.10.16.005** is the fifth release on October 16, 2026. Releases with nothing you would notice are not listed, so the numbers can skip.
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
+
+## 2026.11.12.001 {#r2026-11-12-001}
+
+*Thursday, November 12, 2026 at 2:13 AM EST*
+
+- **New** · Bot: **A class change moves adornments onto bare gear.** After a class change, before your gear goes on, each bare piece of gear gets the adornments from this character's other piece for that slot; one that will not fit goes back. Recheck adornments on the Persona tab does the same for what you wear now, taking each piece off and putting it back on. Each move is written to the log, and Move adornments onto bare gear on the Persona tab turns it off.
+- **New** · Bot: **Each class of a character keeps its own gear.** The bot remembers what each class of a character wears, and after a class change it puts that gear back on from your bags. A piece the game refuses is listed once and kept for later. The Persona tab shows what is saved, has Restore and Save buttons, and can keep persona gear in the bags you choose.
+- **New** · Bot: **Log in as a chosen class, or change class with ogre persona.** `ogre <toon>`, `ogre bot`, `ogre login` and -LogToonIn take a class (-c ranger), and an auto-login row can name a server and a class. `ogre persona <class>` changes the class of the character you are on. No class logs in whatever it was, and a class the character does not have stops with a message.
+- **New** · Bot: **Persona gear follows your upgrades and never leaves a slot empty.** New gear you put on one class also replaces the old piece on every other class that wore it, with the old piece kept as a fallback. After a class change, a slot whose saved piece will not go on gets the piece it replaced or another class's piece for that slot. A slot still empty is an OgreConsole error with a ding.
+- **New** · Bot: **Persona gear never forgets a slot you emptied.** A piece you bank or delete stays in that class's saved gear, so the next restore puts it back, wears a fallback, or warns you with a ding. To leave a slot empty on purpose, press Clear saved gear on the Persona tab: after you confirm, only what the class is wearing now is kept.
+- **New** · Bot: **The Persona window and tab say which profile each class uses.** `ogre persona` opens a window where you can say which profile file each class uses on this PC, for example all rangers use `master_ranger.json`, for every server or one. OgreBot's new Persona tab shows the file this character uses in each class and why, and lets you give it its own. A change applies the next time that class loads.
+- **New** · Windows: **HUDs:SetOption takes the update lock.** HUDs:SetOption takes a fifth argument, minUpdateSecs, so a raid message line ignores further writes for that long. A call without a slot and text now prints a usage line instead of doing nothing.
+- **New** · Crafting: **Stop crafting on other boxes.** OgreBotAPI.Craft:Stop and the -OgreCraft_Stop console command stop crafting on the boxes you name, to match the start commands.
+- **New** · Console: **-AutoCurse, -AutoCure and -AutoGroupCure take options, and -AutoCureRemove cancels them.** -AutoCurse, -AutoCure and -AutoGroupCure now take -AutoRemove (seconds the request lasts) and -tag, and -AutoGroupCure takes kinds (arcane, elemental, noxious, trauma, or a e n t) and -count: it casts only when at least that many of the group carry one kind. -AutoCureRemove cancels the requests for a toon or tag. A word these rows do not know now refuses the request with one console line, not silently ignored.
+- **New** · Other: **ogretimer has MinutesLeft and DeciLeft.** A converted script that read MinutesLeft or DeciLeft from the old timer object now works after changing only its variable line. MinutesLeft is whole minutes left; DeciLeft is the seconds left with one decimal.
+- **Changed** · Bot: **"The accept-quest command accepts even with Do not auto accept quests ticked".** The Do not auto accept quests box now stops only the automatic accept of a quest offer. When you or a script run the accept-quest command, it accepts the offered quest whether or not the box is ticked. Before, the box stopped the command too, and it did nothing without a word.
+- **Changed** · Bot: **A camp spot formation needs its centre.** CampSpot:SetFormation with no centre made each character the centre of its own ring, so no ring formed. The x, y and z are now required: a script that leaves them out gets one line and nothing moves. The console formation commands still send your position as the centre.
+- **Changed** · Bot: **Assist.IsAssisting reads FALSE with Auto Assist off.** With the Auto Assist box off nobody drives your target, so Assist.IsAssisting now reads FALSE and Assist.InControl reads TRUE, whatever the assist list or anchor says.
+- **Changed** · Bot: **Boxes no longer replay a backlog of messages when they reach the world.** A box at the login screen, character select or a loading screen used to keep every message other boxes sent and play the whole pile back when it reached the world. It now reads its messages all the time. Notices, tag changes and group updates are handled at once, a cast or script event that arrives out of the world is thrown away, and a changed MCP file is read once on arrival.
+- **Changed** · Bot: **Cast-on-the-move announcements need their seconds.** Abilities:AnnounceCasted and Abilities:AnnounceCasting with no seconds, 0 seconds or a word sent an announcement that did nothing on any box. They now print one line and send nothing; AnnounceCasted also says so when no caster is given.
+- **Changed** · Bot: **Class:ChangeValue takes auto and says what it refused.** ISXOgreEQ2.Class:ChangeValue and Roster:SetClassValue now take auto, which removes an override so the class check reads what the game says again. A name that is not an archetype, class or subclass, or a value that is not TRUE, FALSE or auto, prints one line and changes nothing, the same line from both.
+- **Changed** · Bot: **Comms:Query no longer asks the bot's own loot and quest questions.** A script could send Comms:Query with lootBid or questSteps, the questions the loot sharing and quest compare use for themselves, and every box answered with the script's values. Those two are now refused for scripts, as an unknown question is.
+- **Changed** · Bot: **Cures.GroupCurses no longer counts a dead member.** Cures.GroupCurses, and RaidCurses outside a raid, counted a dead group member with a curse. They now skip the dead, as RaidCurses always did in a raid, so an encounter that waits on the number of cursed members is not held up by a corpse.
+- **Changed** · Bot: **Evac says why it did not evacuate.** -Evac without totem did nothing, silently, on a character with no class evac or with it not ready. Each such character now prints one line saying which.
+- **Changed** · Bot: **Flags are numbered 1 to 24.** Roster:Flag and Roster:Unflag took any number, so 0, a negative or a word set a flag nobody could use. A number outside 1 to 24 is now refused with one line; 24 is still the mark.
+- **Changed** · Bot: **Removing a mob from the no-offensive list is on Combat now.** OgreBotAPI.Combat:RemoveNoOffensive takes a mob off the no-offensive list, beside Combat:AddNoOffensive and Combat:ClearNoOffensive. The root OgreBotAPI:AddNoOffensiveOn and RemoveNoOffensiveOn were second names and are retired; the -AddNoOffensiveOn and -RemoveNoOffensiveOn commands work as before.
+- **Changed** · Bot: **Roster counts and picks match by class when no mode is given.** The Roster group and raid counts, picks and sorts matched everyone when the mode was left out or mistyped. No mode now means Class, as in OldBot, a mode word the bot does not know matches nobody, and All still matches everyone.
+- **Changed** · Bot: **Roster name picks skip a dead member, like the id picks.** With a dead member in the group, the Roster name picks counted the corpse while the id picks and the counts skipped it, so the same rank could name two different people. Every group pick now skips a corpse, so a name and an id at the same rank are the same member.
+- **Changed** · Bot: **Targeting.SavedList counts from 1.** ISXOgreEQ2.Targeting.SavedList[1] is now the first saved auto-target list, the same as AutoTarget.SavedName. 0 or a word reads empty instead of the first list.
+- **Changed** · Bot: **The queue no longer takes ClickInstant or Loot.** ISXOgreEQ2.Queue:Add and Queue.Enqueue took the kinds ClickInstant and Loot, handed back an id, and then dropped the entry without running it. They are no kinds now, so the queue refuses them as unknown, like any other word.
+- **Changed** · Bot: **Turning cures on or off leaves the stunned option alone.** Cures:SetEnabled also ticked or unticked Use these while stunned, stifled or rooted. It now changes only cures, and that option stays as you set it.
+- **Changed** · Windows: **Ogre windows are drawn inside each game; ogre ui exe saves memory.** Ogre's windows are now drawn inside each game, not by OgreUltralight.exe, which could max out a CPU core with many games running and which Windows sometimes would not start. To save about 150 MB per game, tick Draw Ogre windows in OgreUltralight.exe in ogre config, or type ogre ui exe on, then restart the game. If the windows cannot start, the console says why and a window offers the help page or the other way of drawing them.
+- **Changed** · Windows: **ShowConsole closes the console only for a no.** Windows:ShowConsole closed the console for any word that was not a yes, so show or a typo closed it. Now only FALSE, 0, no or off closes it; anything else opens it.
+- **Changed** · Windows: **The ISXOgre Account login locks once saved.** The Account tab in Ogre Options is now called ISXOgre Account, and a saved username and password come up locked so they are not changed by accident. Edit unlocks them and Save saves what you typed. Saving a new login, from Ogre Options or a script, never logs out a session that is logged in: the new login is used the next time it loads.
+- **Changed** · Navigation: **A script's travel route moves with OgreBot closed.** A route a script starts with ISXOgreEQ2.TravelMesh:Go now moves while OgreBot is closed, as a tool's route already did; TravelMesh:Stop ends it. Before, it planned and then stood still until OgreBot opened or Movement:UseWithoutOgreBot was set. OgreBot's own travel commands still need OgreBot open.
+- **Changed** · Navigation: **Nav.NavWaypoint and NavWaypoints replace NavLeg and NavHop.** The route progress reads are now ISXOgreEQ2.Nav.NavWaypoint (the waypoint being walked to) and ISXOgreEQ2.Nav.NavWaypoints (how many there are). NavLeg, NavLegs, NavHop and NavHops, two names for the same pair, are gone.
+- **Changed** · Navigation: **The travel route preview is a command that prints.** ISXOgreEQ2.TravelMesh:Preview[destination] plans a route and prints it to the console, one hop per line, without moving. It was the TMPreview member, which a script read as text. TMFeatures and TMParty now answer from what the travel engine read in the last second, so reading them can never touch the game.
+- **Changed** · Crafting: **AddRecipeListFromFile adds to your queue.** ISXOgreEQ2.Craft:AddRecipeListFromFile now adds the saved queue's recipes to the setup queue, as its name and the classic verb say, instead of replacing it. The Load Queue button on the craft window still replaces the queue.
+- **Changed** · Crafting: **Crafting mats list warnings come from the commands.** A problem in a crafting mats list file is printed every time ogre craftingmats runs a list, plans, or reloads. Reading ISXOgreEQ2.CraftingMats from a script no longer prints it; the Warnings member still holds it.
+- **Changed** · Console: **-AutoCure and -AutoCurse need a toon name.** With no toon named they did nothing and said nothing. They now print one line saying a toon is needed.
+- **Changed** · Console: **-LogToonIn takes the box's name, not the For Who window.** -LogToonIn's first word names one box, by its session or character, so the For Who window no longer fills it. Left blank, it now says what it needs instead of doing nothing.
+- **Changed** · Console: **CheckMountTraining no longer takes a force argument.** The force argument of -CheckMountTraining and Consumables:CheckMountTraining was never read: every press runs the check. It is gone, and a converted script that passes it has it dropped.
+- **Changed** · Console: **CompareQuest is asked by the box that sends it.** -CompareQuest naming one box made that box the asker and then asked only that same box, which compared nothing. Now the box that sends the line asks, and the for-who names who is asked, with all or blank asking the rest of your group. A missing quest name prints a line instead of comparing a quest called No_such_quest.
+- **Changed** · Console: **F2PWindow_SetOptions no longer takes a number of minutes.** The minutes number did nothing, and the console command passed 15 every time, so every use printed a line saying it was ignored. The number is gone: the command just turns on the upsell window watcher.
+- **Changed** · Console: **IRC commands that are not run here go to the Commands tab.** An IRC command that this PC does not run - one for another connection, or one from a sender who is not authorized here - now shows in the Commands tab instead of Chat, with the reason after it ("not run: for another connection", or "not run: Name is not authorized here (-auth Name to allow it)"). Chat now holds only chat.
+- **Changed** · Console: **IRC-only console commands say they are IRC only.** The auth, session and auto-login commands run only over IRC. Typed with the For Who picker on OgreConsole they now say they are IRC only, and other commands with nothing to run no longer suggest IRC.
+- **Changed** · Console: **ogre end irc says it asked the hub to disconnect.** Comms:IrcDisconnect, and so ogre end irc, used to print that IRC was disconnected even when the hub was not connected. It now says it asked the hub to disconnect, and the hub reports what happened on the uplink.
+- **Changed** · Setup: **ISXOgreX.Login:Submit says when the user or password is missing.** Login:Submit with a missing username or password did nothing and said nothing. It now prints one warning.
+- **Changed** · Other: **ISXOgreX.UI methods say when an argument is missing.** UI:Set, UI:Open, UI:Close, UI:Load, UI:Eval and UI:EvalFile did nothing and said nothing when an argument was missing. Each now prints one warning naming what it needs.
+- **Changed** · Other: **Queue.Entry and EntryJSON count from 1.** ISXOgreEQ2.Queue.Entry[1] and EntryJSON[1] are now the first entry and Entry[Count] the last, so a loop from 1 to Count reads the whole queue. 0 reads empty.
+- **Changed** · Other: **The ogretimer extra-argument warning is said once per script.** An ogretimer set with a name or event after the time warns that only a countdown is kept. It used to warn once per session, so a second converted script never heard; now each script is told once.
+- **Changed** · Other: **Util.RoundToNearest rounds a half up and keeps 0.** Util.RoundToNearest rounded an exact half down, so 45 to the nearest 10 gave 40, and it turned 0 and any negative into 1 first. It now rounds a half up, so 45 gives 50, and rounds 0 and negative values as they are.
+- **Changed** · Other: **Util.SecondsToHMS shows days and seconds.** Util.SecondsToHMS dropped days and seconds, started with a space under an hour, and was empty under a minute. It now gives timer text such as 1d 2h 5m 30s, leaves out a part that is 0, and gives 0s for nothing.
+- **Fixed** · Bot: **Auto Hunt pulls only with an ability that reaches the mob.** Auto Hunt now skips a pull ability that cannot reach the mob and tries the next one in your list. With Scan Radius left blank, it looks only as far as your longest pull reaches, instead of 35.
+- **Fixed** · Bot: **AutoTarget Active reads FALSE when nothing will be picked.** OgreBotAPI.AutoTarget.Active read TRUE out of combat with out-of-combat scanning off, when auto-target would pick nothing. It now also needs scanning to be allowed: out-of-combat scanning on, something hating you, or combat.
+- **Fixed** · Bot: **AutoTarget AddActor keeps the default for a mistyped yes or no.** AutoTarget:AddActor read a mistyped yes or no as FALSE, so a typo turned Aggro On Group Only off. A word that is not a yes or no now keeps that setting's default.
+- **Fixed** · Bot: **AutoTarget list name follows the list.** OgreBotAPI.AutoTarget.ListName was blank after LoadPreset and kept a saved list's name after you added or removed entries. It now names the built-in list after LoadPreset, and goes blank as soon as the list is edited, since it then matches no saved list.
+- **Fixed** · Bot: **AutoTarget saved-list verbs say why they did nothing.** AutoTarget:LoadSaved, AutoTarget:Save and AutoTarget:DeleteSaved did nothing without a word for a blank name, a list the zone does not have, or a save that could not be written. Each now prints one line saying why.
+- **Fixed** · Bot: **Camp spot option checks see a change made during a pause.** CampSpot.ValidOptions and ValidOptionsCommon kept the Allow Camp Spot and Dynamic Camp Spot values from before a pause, a movement block or a death. They now read the two options when asked.
+- **Fixed** · Bot: **CastHOIcon with no icon says so.** Abilities:CastHOIcon with no icon id did nothing without a word. It now prints one line; -2 and an icon no ready ability matches still do nothing quietly.
+- **Fixed** · Bot: **Changing an alias that does not exist says so.** ForWho:ChangeAlias announced a change even when no alias had that name. It now changes nothing and prints one line saying there is no such alias.
+- **Fixed** · Bot: **CollectShiny collects only shinies.** -CollectShiny picked the nearest actor with a question mark anywhere in its name, which could be an NPC. It now uses the same shiny test as the Loot tab.
+- **Fixed** · Bot: **Come2Me with a name that finds nobody says so.** Movement:Come2Me with a name that matches nobody here did nothing, and said so only with a debug option on. It now prints one line on the console and does not move.
+- **Fixed** · Bot: **Countdown keeps its seconds between 1 and 30.** -countdown with a number below 1, such as -5, sent it to the game as it was. A number below 1 now counts down from 1 and one over 30 from 30, with a line saying so.
+- **Fixed** · Bot: **Cure potions only answer to the four cure types.** Cures.PotionAvailable took any word as a cure type and matched it as part of an item name, so a short or mistyped type could find the wrong potion. It now answers only for arcane, elemental, noxious or trauma, and anything else reads FALSE.
+- **Fixed** · Bot: **Cures.RaidCursedIDs lists every cursed group member outside a raid.** Outside a raid, Cures.RaidCursedIDs listed only the group members whose curse cannot be cured. It now lists every cursed group member, curable or not, the same question it answers in a raid.
+- **Fixed** · Bot: **Cures.RaidUncurable counts your group outside a raid.** Outside a raid, Cures.RaidUncurable always read 0, while RaidUncurableIDs and RaidCurses answered for your group. It now counts the group members with an uncurable curse, so the count and the list agree.
+- **Fixed** · Bot: **DoVDebuff knows the debuff range from the first call.** DoVDebuff read the debuff range from the game server, which reads nothing until the game has sent it, and nothing counted as in range. It now uses the ability export, so a mob out of range is walked to (or skipped) every time.
+- **Fixed** · Bot: **DrinkAlcohol says when there is nothing to drink.** Consumables:DrinkAlcohol with no drink named, or a drink not in your bags, did nothing and said nothing. Both now print one line.
+- **Fixed** · Bot: **FaceActor says when there is nobody to face.** Movement:FaceActor and -FaceActor did nothing, silently, when the actor was not here or none was given. Each now prints one line.
+- **Fixed** · Bot: **ForceAliasUpdate refreshes aliases again.** ForWho:ForceUpdate (the -ForceAliasUpdate console command) did nothing. It now drops the cached alias answers, so the next alias is worked out against the group as it is right now.
+- **Fixed** · Bot: **Hail with a name that finds nobody hails nobody.** Actors:Hail with a mistyped name hailed the nearest NPC you can hail instead. It now prints one line and hails nobody, and a blank still hails the nearest.
+- **Fixed** · Bot: **HO icon verbs refuse a word.** HOs:AllowIcon, ClearAllowIcon, DisableIcon and ClearDisableIcon read a word as icon 0 and changed that icon. A word that is not a number is now refused with one line and changes nothing.
+- **Fixed** · Bot: **ItemCure any drinks whatever is needed.** Cures:ItemCure with the type any printed that any is not a cure type and did nothing, while RequestItem took any as whatever is needed. ItemCure now reads any the same way as a blank type.
+- **Fixed** · Bot: **Mercenary training leaves your mercenary out.** CheckMercenaryTraining sent your mercenary away at the end even when you had it out before the check. It now suspends the mercenary only when the check was the one that summoned it.
+- **Fixed** · Bot: **MountDown does nothing on foot.** Consumables:MountDown toggled summon_mount whatever you were doing, so on foot it could call up a mount. It now prints one line and stops when you are not mounted.
+- **Fixed** · Bot: **No "cannot write pulse-budget.json" error when boxes load together.** Boxes that loaded at the same time could show a red "pulsebudget: cannot write pulse-budget.json" line. The bot now writes that file at load only when it has a new section to add. If a write still fails, the line now gives the Windows error number.
+- **Fixed** · Bot: **No false comms warning at login.** A box that sent a message at the login screen could print "comms egress is BLIND" the moment it reached the world, although its messages were coming back fine. A box now reads the messages sent to it all the time, at the login screen and character select too, so it hears its own messages come back. The warning appears only when they really never do.
+- **Fixed** · Bot: **On-screen timers outside slots 1 to 10 use the nearest slot.** Util:OnScreenTimer and OnScreenTimerReset with a slot below 1 or above 10 did nothing, without a word. A slot below 1 now uses slot 1 and one above 10 uses slot 10.
+- **Fixed** · Bot: **One Overseer run completes, adds and starts your missions.** Mission scrolls that arrive from this run's rewards, like Heritage Hunt, are now added and started in the same run, instead of needing a second and third run. After adding a mission, the bot also waits for it to show in the quest list before reading the list again.
+- **Fixed** · Bot: **Quest helper counts start from 0 each run.** The quest helper hail, click and reply counts ran from when the extension loaded while the status said this run. They now start from 0 each time the helper starts.
+- **Fixed** · Bot: **Quest helper reload says when no file was read.** ogre quest reload claimed the rules were loaded even when no reply file could be read. It now says no file was read and that the rules from before are kept.
+- **Fixed** · Bot: **Quest.ActorHas needs an actor id.** Quest.ActorHas with no id asked about actor 0 and answered FALSE, which read as that NPC has no quest. It now prints a line saying an actor id is needed, and still answers FALSE.
+- **Fixed** · Bot: **Research waits for level 20.** Below level 20 the bot no longer tries to open research, which the game refuses with "Access to research is not available until level 20".
+- **Fixed** · Bot: **Reset Camera no longer fights a camera pitch.** Client:ResetCamera, and the -ResetCameraAngle command, used to set the pitch straight away even while a Client:SetCameraPitch was still moving the camera, so the two could fight over the view. In third person it now goes the same way SetCameraPitch does and says so instead of starting while one is running.
+- **Fixed** · Bot: **Revive leaves a living character alone.** -Revive with no revive point clicked the death window's Revive button even on a character that was alive. A living character now clicks nothing.
+- **Fixed** · Bot: **SpewResearchWindow leaves your open research window open.** SpewResearchWindow closed the Knowledge window at the end even when you had it open already. It now closes only a window it opened.
+- **Fixed** · Bot: **The AutoHunt setters say when they set nothing.** AutoHunt:SetScanRadius, SetCheckHP and SetCheckMana did nothing and said nothing with no value or no profile loaded, and stored any text. Both now print one line, and an odd value is stored made safe (a health or power percent between 0 and 100, a radius of 0 or more) with a line saying what is set.
+- **Fixed** · Bot: **The invite auto-accept says whose invites it takes.** ogre afk invites on said it accepts invites from characters on your accounts only. It accepts any name on your characters list, auth-only names included, and the line and the help now say so.
+- **Fixed** · Bot: **The queue names its real kinds when it does not know one.** ISXOgreEQ2.Queue:Add with a kind it does not know printed a hand-typed list of kinds. The line now lists exactly the kinds the queue accepts, spelled as they are written: CastAbility, CastItem, ClickInstant, ClickCastBar, RawCommand, Loot, Movement and Flow.
+- **Fixed** · Bot: **The zone-in mount summon waits for the cast bar.** The mount summon after a zone-in or an OgreBot load now waits its turn for the cast bar, like the familiar summon, so it no longer cuts into another cast or into a persona gear change. If the mount is already up by its turn, nothing is sent.
+- **Fixed** · Windows: **Choice window picks only choice 1 or 2.** Windows:Choice with a number other than 1 or 2 asked the game for a choice that does not exist. A number below 1 now picks 1 and one above 2 picks 2, with a line saying which.
+- **Fixed** · Windows: **Dungeon Maker and Proving Grounds buttons click only when the window is open.** Windows:DungeonMakerCancel, Windows:ProvingGroundsExit and Windows:ProvingGroundsScoreboardClose clicked their button whether or not the window was open, which put an error in the Inner Space console. They now click only when the button is on screen.
+- **Fixed** · Windows: **HUDs:Test shows the demo at once.** HUDs:Test with TRUE did nothing while the HUD overlay was closed. It now opens the overlay and shows the five demo lines at once, and FALSE clears them at once.
+- **Fixed** · Windows: **OSA:Target says when it has no id.** ISXOgreEQ2.OSA:Target with no actor id did nothing and said nothing. It now prints one line.
+- **Fixed** · Windows: **Potency window interval keeps its setting on a typo.** PotCb:Interval with a word set the fastest, most expensive 50 ms interval, and a negative number set the slowest. A word now keeps the interval in force and says so, and a negative number is 50 ms.
+- **Fixed** · Windows: **Reading SelectOption no longer prints a line.** Every read of OgreBotAPI.Windows.SelectOption printed a line to the console, so a script checking it in a loop flooded the console. Reading it now prints nothing; the Select verb still says what it picked.
+- **Fixed** · Windows: **The MCP window says why it did not open.** When the in-game UI host was not running or a window file could not be read, the MCP window opened nothing and said so only in the log file. It now prints one console line naming what is missing, and a missing command catalog says the builder opens empty.
+- **Fixed** · Instance Controller: **IC RunList refuses a row the queue does not have.** IC:RunList with a word, 0, or a row past the end started the whole list from the top without a word. It now prints that there is no such row and how many the queue has, and starts nothing.
+- **Fixed** · Instance Controller: **IC.Value tells an empty value from a missing one.** ISXOgreEQ2.IC.Value read NULL for a value that is there but empty, such as blank IC File Args, the same as for a key that does not exist. An empty value now reads empty, and ogre ic value prints it as empty.
+- **Fixed** · Navigation: **A move to a coordinate that is not a number is refused.** ISXOgreEQ2.Nav:To, Movement:ToLoc and Movement:NavTo read a coordinate that was a word as 0, sending the character toward the middle of the zone. Each coordinate now has to be a number; otherwise the move prints an error and does not start.
+- **Fixed** · Navigation: **A travel bias that is not a number no longer bans that kind of hop.** ISXOgreEQ2.TravelMesh:SetBias with a word, such as low, read as 0, which forbids that kind of hop for the session. A value that is not a number now sets the normal bias of 1 and says so. Only a typed 0 or less forbids.
+- **Fixed** · Navigation: **Nav distance is measured to where you asked to go.** On foot, Nav.NavDistance measured to the end of the planned route, which stops short of the destination when the route is partial. It now measures to the destination, as it already did when flying.
+- **Fixed** · Navigation: **Nav readouts clear when a trip ends.** After a trip arrived or stopped, Nav.NavOnMesh stayed TRUE and NavLeg and NavLegs kept the finished route, and ogre nav status said it was driving the trip. They now read FALSE, 0 and 0 once the trip is over.
+- **Fixed** · Navigation: **Setting a travel account feature checks its name.** TravelMesh:SetFeature and -TravelMeshFeatures saved any feature name, so a typo was stored and did nothing. A name the travel data does not use is now refused with a line naming the ones it does, and any capitalisation of a real name works.
+- **Fixed** · Navigation: **Setting a travel account feature needs its yes or no.** -TravelMeshFeatures and TravelMesh:SetFeature with a feature name and no TRUE or FALSE saved the feature as no, and it was never scanned again. They now print an error and change nothing.
+- **Fixed** · Navigation: **The last waypoint of a trip reads N of N.** ogre nav status and Nav.NavLeg never reached the waypoint count: the last leg read one less, because the count held the start point too. NavLegs now counts the waypoints after the start, so the last leg reads N of N.
+- **Fixed** · Crafting: **Clearing the craft queue tells scripts.** Clearing the setup queue, loading a queue over it, or a run clearing your rows dropped them without the queue-updated event, so a script following it never saw them go. Each dropped row now fires it, as a remove does.
+- **Fixed** · Crafting: **Craft reload keeps a change you just made.** A craft setting changed less than a second before ogre craft reload was lost. Reload now saves it first.
+- **Fixed** · Crafting: **Craft shop errands wait for the world and a quiet crafter.** ogre craft shop started an errand at character select or while a crafting run was going, beside the run's own errands. It now prints one line and starts nothing in both cases.
+- **Fixed** · Crafting: **Craft stop with nothing running says so.** ogre craft stop and the Stop button printed nothing when no run was going, and a pause made while idle stayed on and held a shop errand. Stop now drops the pause and prints one line.
+- **Fixed** · Crafting: **Craft:Set refuses a key that is not a setting.** ogre craft set saved a mistyped key and said it was set, though nothing ever read it. A key that is not a craft setting now prints one line and saves nothing, and any capitalisation of a real key works.
+- **Fixed** · Crafting: **Quiver.Status shows the depot pull.** Quiver.Status read idle while ammo was being pulled from the depot. It now reads pulling ammo from the depot until that half is done.
+- **Fixed** · Crafting: **Saved craft queues stay in their folder.** A craft queue name with a folder or drive in it was saved or loaded outside your queues folder. Only the last part of the name is used now.
+- **Fixed** · Crafting: **ScribeRecipe takes a scroll name with a comma.** Craft:ScribeRecipe from a script cut an unquoted scroll name at its first comma and found nothing to scribe. It now reads the whole name.
+- **Fixed** · Console: **-Tell sends from the For Who window by default.** A bare -Tell used a placeholder word as the sender and matched nobody, so nothing happened. The sender is now a for-who that uses the For Who window, and a missing target or message says so.
+- **Fixed** · Console: **-unauth and -KillSession take the word after them.** The nick after -unauth and the session after -KillSession were left over and reported as unknown commands. They now belong to the command, and the -auth argument is named nick.
+- **Fixed** · Console: **ChangeZoneTo says when the name is not in your group.** -ChangeZoneTo with a name that is not in your group did nothing without a word. It now prints one line saying so.
+- **Fixed** · Console: **Loot mode commands wait for the world.** -SetAutoLootMode and -ChangeLootOptions sent their game commands at character select or while zoning too. They now send nothing until your character is in the world.
+- **Fixed** · Console: **ogre dets help names the flag that skips server reads.** The ogre dets usage line and its row showed -info, as if Name and Description were extra. They are read by default, a server read each, and the help now shows -noinfo, the flag that skips them.
+- **Fixed** · Console: **Saved MCP buttons that used a changed or retired console command work again.** A saved MCP button using a console command changed or retired today printed "Unknown command entered" or named nobody. On the next load each is updated once to the command as it is now: a merged one becomes the one it joined, a value a command no longer takes is dropped (-Invite with TRUE becomes -RaidInvite), and -LogToonIn auto or -LoginAtCharacterSelect logs the character in on its own box. One with no replacement (-Pull, -OSExecute) keeps only its name, and one console line lists those.
+- **Fixed** · Console: **Select_Zone_Version says when the window is not open.** -Select_Zone_Version with the select zone version window closed looked the same as a press that worked. It now prints one line saying the window is not open.
+- **Fixed** · Console: **SetAutoLootMode checks the mode it sends.** -SetAutoLootMode with no mode turned auto-loot off, and any text was sent to the game as typed. A missing mode now prints a line and changes nothing. A mode that is not 0, 1, 2, AN, AG or AD sets 0 (none) with a line saying so.
+- **Fixed** · Setup: **Tour:Done and Tour:Skip do nothing when the tour is closed.** A Tour:Done or Tour:Skip call after the tour had finished started the migration run again each time. It now does nothing unless the tour is open.
+- **Fixed** · Other: **"Coming from Classic: the converter fixes console lines that lost an argument".** -AutoCurse, -AutoGroupCure, -CheckMountTraining, -F2PWindow_SetOptions, -Invite, -RaidInvite and -LogToonIn read fewer arguments now, or read their first word differently. The converter rewrites such a line, and its sweep flags one left as it was: `-Invite all Bob TRUE` becomes `-RaidInvite all Bob`, and `-LogToonIn auto MyToon` becomes `-LogToonIn MyToon MyToon`. The coming-from-classic console page says the same.
+- **Fixed** · Other: **A mistyped export flag stops the export.** Export:Abilities with a mistyped flag such as -pasive looked it up as an ability name on the server and blamed the knowledge book. A word that starts with a dash and is not a flag is now refused with one line and no export starts.
+- **Fixed** · Other: **Actors.MobID answers only for an actor that is here.** Actors.MobID handed a number back as typed, even when no such actor was near. It now reads 0 for an id that is not here.
+- **Fixed** · Other: **DetrimentalInfo_JSON reads its switches anywhere.** Det.DetrimentalInfo_JSON read -actorID, -maxEffects and -ExtraFields only after both icon numbers, so a call with only -actorID asked about the wrong effect on you. The switches now work in any position, and the first two other arguments are the icon pair.
+- **Fixed** · Other: **ISXOgreX.UI:Load closes the windows it replaces.** Loading a different page left its windows listed as open and could run waiting desktop actions on a page that was going. Load now closes every window with reason reload, as UI:Reload does.
+- **Fixed** · Other: **The spawn re-fire delay and cap stay in range.** Spawn:SetOnSpawnDelay holds the delay at 60000 ms at most, so Spawn.OnSpawnDelay reads what is really in force. Spawn:SetOnSpawnCap holds the cap between 1 and 5000: a negative number no longer sets an enormous cap, and a word keeps the cap and says so.
+- **Fixed** · Other: **Util.FileExists is TRUE only for a file.** Util.FileExists was TRUE for a folder of that name, and for a blank path. It now answers TRUE only for a file, as given or with .iss added, and FALSE for a blank path.
+- **Fixed** · Other: **Vars work before your character is in the world.** The Vars methods (Set, Clear and the rest) did nothing at the login screen or character select, though the values read fine. A script can now set its variables before the character is in.
+- **Removed** · Bot: **Bot:Initialize is gone.** OgreBotAPI.Bot:Initialize built tables that build themselves the first time they are read. It is retired; delete the call.
+- **Removed** · Bot: **CampSpot:NudgeRelativeBy is gone, SetRelativeBy stays.** OgreBotAPI.CampSpot:NudgeRelativeBy did exactly what CampSpot:SetRelativeBy does: add to the relative offset. It is retired; use SetRelativeBy. The -CS_Set_ChangeRelativeCampSpotBy command works as before.
+- **Removed** · Bot: **CastStack Enable, Disable, EnableTag and DisableTag are gone.** These four did what CastStack:SetEntry and CastStack:SetEntryByTag do, without their toggle, silent and partial options. They are retired; use SetEntry and SetEntryByTag.
+- **Removed** · Bot: **CastStack Run, Pause and Running are gone.** OgreBotAPI.CastStack:Run, :Pause and .Running were the bot pause under second names. They are retired; use Bot:Resume, Bot:Pause and Bot.Paused. The mini toolbar pause button already uses them and works as before.
+- **Removed** · Bot: **CastStack:CancelCurrentCast is gone.** OgreBotAPI.CastStack:CancelCurrentCast did what Abilities:SetCancelCurrentCast with TRUE does. It is retired; use Abilities:SetCancelCurrentCast.
+- **Removed** · Bot: **CastStack:LoadDemo is gone.** OgreBotAPI.CastStack:LoadDemo replaced the cast stack with one test entry. It was a developer tool and is retired.
+- **Removed** · Bot: **CheckToShare is gone, ShareQuestsForZone does its job.** Quest:CheckToShare was a second name for Zone:ShareQuestsForZone and broke on a quote in the zone name. It is retired, and a converted Classic CheckToShareQuest call now goes to Zone:ShareQuestsForZone.
+- **Removed** · Bot: **Combat.MaybeAnotherTime is gone.** OgreBotAPI.Combat.MaybeAnotherTime was a copy of Combat.NoOffensive that nothing called. It is retired; use Combat.NoOffensive.
+- **Removed** · Bot: **Debug.Version is gone, ISXOgreEQ2.Version is the version.** OgreBotAPI.Debug.Version returned the same text as ISXOgreEQ2.Version under a second name, so it is retired. Read ISXOgreEQ2.Version instead; Debug.CheckVersion still compares versions across your boxes, and a converted Classic Version read now points at ISXOgreEQ2.Version.
+- **Removed** · Bot: **IM.IsActive is gone, IsRunning stays.** OgreBotAPI.IM.IsActive was a second name for IM.IsRunning. It is retired; read IM.IsRunning.
+- **Removed** · Bot: **Loot:Load is gone, Loot:Reload stays.** OgreBotAPI.Loot:Load did exactly what Loot:Reload does. It is retired; use Loot:Reload, which the loot messages now name.
+- **Removed** · Bot: **Movement.PointToward is gone, Position.Toward stays.** OgreBotAPI.Movement.PointToward worked out the same point as Position.Toward. It is retired; use Position.Toward.
+- **Removed** · Bot: **OgreBot:CloseMini and :CloseAll are gone.** ISXOgreEQ2.OgreBot:CloseMini and ISXOgreEQ2.OgreBot:CloseAll both closed OgreBot entirely, the same as :Close. Use ISXOgreEQ2.OgreBot:Close; the two other names are retired.
+- **Removed** · Bot: **OgreBotAPI:LoadAutoTargetList is gone, AutoTarget:LoadSaved stays.** OgreBotAPI:LoadAutoTargetList loaded the same saved Auto Target list as AutoTarget:LoadSaved. It is retired; use AutoTarget:LoadSaved. The -LoadAutoTargetList command now runs LoadSaved, so a list the zone does not have is named on the console.
+- **Removed** · Bot: **Quest.DeityPoints is gone.** OgreBotAPI.Quest.DeityPoints always read 0, as the old bot did. It is retired.
+- **Removed** · Bot: **Quest.SkipShinies is gone.** OgreBotAPI.Quest.SkipShinies read the Loot tab do not loot shinies box. It is retired; read that box with OgreBotAPI.Options.Value[checkbox_loot_donotlootshinies].
+- **Removed** · Bot: **Session:UpdateCharacterDetails is gone.** OgreBotAPI.Session:UpdateCharacterDetails rebuilt a table the bot already keeps up to date by itself, so calling it changed nothing. It is retired; delete any call to it.
+- **Removed** · Bot: **TestAll is gone.** OgreBotAPI:TestAll printed two values that do not exist in this bot, so it only ever printed blanks. It is retired, as Test was.
+- **Removed** · Bot: **The -NotSoloHO option is gone.** HOs:DoSetup and HOs:DoSetEnabled took -NotSoloHO, which only did what -NoModifyOptions does. It is retired and is now ignored like any unknown option; use -NoModifyOptions.
+- **Removed** · Bot: **The Auto Target rescan time is gone.** Auto Target re-checks its list every 0.25 seconds, and the Rescan time slider never changed that. The slider, AutoTarget.RescanTime, AutoTarget:SetRescanTime, the -AutoTarget_SetRescanTime command and the fight file autotarget op setRescanTime are retired. A saved rescan time stays in the profile file and is not read.
+- **Removed** · Bot: **The DebugLoading switch is gone.** OgreBotAPI.Debug.DebugLoading and Debug:SetDebugLoading kept a flag that nothing in the bot looked at, so they are retired. A converted Classic Get_DebugLoading or SetDebugLoading call is marked to delete.
+- **Removed** · Bot: **Zone:ToggleZoneReuse is gone, Zone:ResetUpdateInfo stays.** OgreBotAPI.Zone:ToggleZoneReuse did exactly what Zone:ResetUpdateInfo does: read the Zone Reuse window again. It is retired; use ResetUpdateInfo. The -ToggleZoneReset command works as before.
+- **Removed** · Windows: **ISXOgreX.UI:Show and UI:Hide are gone.** UI:Show and UI:Hide hid or showed the whole page while every window still said it was visible, and nothing used them. They are retired; show and hide one window at a time instead.
+- **Removed** · Instance Controller: **Bot:ListSetups is gone, Encounter:List stays.** OgreBotAPI.Bot:ListSetups printed the same list as Encounter:List. It is retired, and a converted Classic DisplayAvailableSetups call now goes to Encounter:List.
+- **Removed** · Instance Controller: **Encounter:Stop and Encounter:DryRun are gone.** ISXOgreEQ2.Encounter:Stop and ISXOgreEQ2.Encounter:DryRun were accepted and did nothing. They are retired; ogre ic stop stops a run.
+- **Removed** · Navigation: **ogre nav -v is gone.** The -v and -verbose flags of ogre nav only added the word verbose to the heading line. They are retired: ogre nav status shows how far a trip has got.
+- **Removed** · Navigation: **The four movement key commands are gone.** Movement:SetForwardKey, SetBackwardKey, SetFlyUpKey and SetFlyDownKey are retired. A key they set lasted only until your key binds next loaded or changed. Set the keys in the Key Binds tab.
+- **Removed** · Crafting: **ogre craft shop fuel is gone.** The fuel errand only ever found something to buy while a queue was running, and a queue run buys its own fuel. ogre craft shop now takes books, sell or destroy.
+- **Removed** · Console: **-Dispell is gone: use -DispellNPCWithSpell.** -Dispell was the same command as -DispellNPCWithSpell: your class dispel on the NPC you name. Use -DispellNPCWithSpell, beside -DispellNPCWithItem and -DispellNPCWithAny.
+- **Removed** · Console: **-EndScript is gone: use -EndScriptOB.** -EndScript was the same command as -EndScriptOB (also -esob). Use -EndScriptOB with the for-who first, for example -EndScriptOB all MyScript.
+- **Removed** · Console: **-ExecuteEvent_JSON_AP is gone: use -ExecuteEvent_AP.** -ExecuteEvent_JSON_AP and OgreBotAPI.Comms:ExecuteEventJSON did what -ExecuteEvent_AP and Comms:ExecuteEvent do, plus a leftover test line on the console. Use -ExecuteEvent_AP and Comms:ExecuteEvent.
+- **Removed** · Console: **-Message_NT is gone: use -Message.** -Message_NT printed exactly what -Message prints; neither adds a timestamp. Use -Message.
+- **Removed** · Console: **-OgreConsole_ShowRequiresOgreBot is gone: use -OgreConsole_Show.** -OgreConsole_ShowRequiresOgreBot was the same command as -OgreConsole_Show, with the same for-who and value. Use -OgreConsole_Show.
+- **Removed** · Console: **-Raid and -Group are gone: use -InjectChat.** -Raid and -Group were a copy of -InjectChat that read the chat text as the for-who. Use -InjectChat with the for-who first, for example -InjectChat all "set up for x".
+- **Removed** · Console: **-RunScriptOB_AP is gone: use -RunScriptOB.** -RunScriptOB_AP was the same command as -RunScriptOB, which also passes every argument after the script name to the script. Use -RunScriptOB.
+- **Removed** · Console: **The -Pull console command is gone.** -Pull (also -Kannkor_TestPull1 and -TestPull1) never pulled anything, and OgreBotAPI.Movement:Pull did nothing either. Both are retired. An old MCP button that used it comes across with its name and no command, and the conversion lists it.
+- **Removed** · Console: **The IRC -OSExecute command is gone.** -OSExecute never ran anything in this bot: the IRC hub only answered that it was disabled. The command is retired.
+- **Removed** · Console: **The IRC auth commands have one name each.** -resetauth, -resetauthall and -removeauthall were second names for -unauthall, and -removeauth for -unauth. They are retired; use -unauthall and -unauth.
+- **Removed** · Console: **The select window -debug flag is gone.** The -debug flag of Windows:Select and -Select_Window_AP set a switch that nothing read. It is retired, so -debug is now read as the option text like any other word; leave it off.
+- **Removed** · Setup: **ISXOgreX.Options:Ready is gone.** Options:Ready refilled the open Options window and nothing called it. It is retired; Options:Open fills the window.
+- **Removed** · Setup: **ogre patch class is removed.** Only nav meshes could ever be switched off, and ogre patch mesh off already does that. The class switch for the other kinds of files was saved and then ignored, so it is gone.
+- **Removed** · Other: **Queue:Add no longer takes ApplyVerbCastBar or DialogChoices.** Queue:Add and Queue.Enqueue could not give these two kinds their third setting, so they always ran at their defaults. They are no longer kinds there; Actors:ApplyVerbIDQueued queues an apply-verb with its wait.
 
 ## 2026.11.08.004 {#r2026-11-08-004}
 
@@ -1289,7 +1469,6 @@ Auto Target lets the bot pick its own targets from a list, instead of assisting 
 | Option | What it does | Default |
 |---|---|---|
 | **Scan Radius:** | How far Auto Target looks for targets, measured straight-line around you. | 0 (counts as 50) |
-| **Rescan time (MS):** | **Does nothing, by design.** Auto Target re-checks every 0.25 seconds whatever this says - a fixed rate, fast enough for every fight. | 0 |
 | **Scan Height:** | Only mobs whose height differs from yours by less than this are considered, so mobs on a floor above or below are ignored. | 0 (counts as 5) |
 | **Auto-Target List Editor** | The editor below: build rows on the left, the working list and this zone's saved lists on the right, and the Balance generator underneath. | empty |
 
@@ -1370,7 +1549,7 @@ Auto Target lets the bot pick its own targets from a list, instead of assisting 
 - 'NPC' matches only ordinary mobs, not named ones. Use 'Named' for named mobs, or add both rows.
 - Row order is priority. Disabling a row (double-click) keeps its place, so you can switch it back on without rebuilding the order.
 - Auto Target only works while the bot is running, not while paused.
-- Rescan time is not used: the list is always re-checked every 0.25 seconds, which is fast enough for every fight.
+- The list is re-checked every 0.25 seconds, which is fast enough for every fight; there is no setting for it.
 
 
 ---
@@ -2078,7 +2257,7 @@ Auto-Hunt is a simple grinding mode. The bot looks for a mob near you, targets i
 
 | Option | What it does | Default |
 |---|---|---|
-| **Scan radius (box)** | How far around you the bot looks for a mob to pull, and for mobs attacking your group. Leave it blank to use 35. | empty (35 is used) |
+| **Scan radius (box)** | How far around you the bot looks for a mob to pull, and for mobs attacking your group. Leave it blank to use the longest reach among your pull abilities (35 if none has a reach on file). A pull is only used on a mob it can reach. | empty (the longest pull reach) |
 | **Check Aggro** | While anyone in your group (or raid) is in combat, the bot stops pulling and holds still. Your normal combat settings handle the fight. | off |
 | **Check HP @** | While anyone in your group (or raid) has less health than the % in the box beside it, the bot stops pulling and holds still.<br>*A group member who is not in the zone counts as low health. A blank box never stops the hunt.* | off |
 | **Check HP @ (box)** | The health % used by Check HP @. Only used while Check HP @ is ticked. | empty (never stops the hunt) |
@@ -4670,7 +4849,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 >
 > **What you can do here**
 >
-> - **Account** - your Ogre login. Saving it while logged out tries to log in again.
+> - **ISXOgre Account** - your ISXOgre login. Once saved it is locked; **Edit** unlocks it and **Save** saves it. Saving it while logged out tries to log in again; logged in, the new login is used at the next load.
 > - **Ogre** - the size of every window (UI scale); whether windows slide down, hide or stay where they are when the InnerSpace console covers them (the default - a window's right-click menu can give it its own); navmesh downloads (all zones, only the zones you go to, or none); and the **Session watch**: the uplink announces a session that freezes, recovers or disappears, and fires an event for uplink scripts (off by default).
 > - **Theme** - pick a colour scheme, or change any colour. Changes show at once.
 >
@@ -4681,7 +4860,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - `ogre config` while this window is open does nothing - what you typed stays.
 > - A window you scaled yourself (right-click its title bar, then More) ignores the UI scale until you pick Scale: use default.
 
-**Open it:** Type `ogre config` (or `ogre options` / `ogre info`) in the InnerSpace console. If it is already open, that does nothing - what you typed in it stays. It also opens by itself on the Account tab when your Ogre login is missing or wrong.
+**Open it:** Type `ogre config` (or `ogre options` / `ogre info`) in the InnerSpace console. If it is already open, that does nothing - what you typed in it stays. It also opens by itself on the ISXOgre Account tab when your Ogre login is missing or wrong.
 
 ## What it is for
 
@@ -4691,17 +4870,18 @@ Ogre Options holds the settings that belong to Ogre itself rather than to one ch
 
 | Control | What it does | Default |
 |---|---|---|
-| **Account / Ogre / Theme** | Switches the page. Save saves every tab at once, not just the one you are looking at. | Account |
+| **ISXOgre Account / Ogre / Theme** | Switches the page. Save saves every tab at once, not just the one you are looking at. | ISXOgre Account |
 
 
 
-## Account tab
+## ISXOgre Account tab
 
 | Control | What it does | Default |
 |---|---|---|
-| **Username** | Your Ogre account name - the login OgreBot checks when it loads.<br>*Saving a blank box does not erase the saved name.* | empty on a first install |
+| **Username** | Your ISXOgre account name - the login OgreBot checks when it loads. Locked once saved; Edit unlocks it.<br>*Saving a blank box does not erase the saved name.* | empty on a first install |
 | **Password** | Your Ogre account password. If you are not logged in when you press Save, Ogre tries to log in again straight away ('Saved - logging in...'). If you are already logged in, a new password is used the next time the bot loads.<br>*Saving a blank box does not erase the saved password.* | empty on a first install |
 | **Show password** | Shows the password as text instead of dots so you can check it.<br>*Display only - changes what you see, not what the bot does.* | off |
+| **Edit** | A saved login comes up locked so it is not changed by accident. Edit unlocks the username and password; Save saves what you typed and locks them again. | shown only when a login is saved |
 
 
 

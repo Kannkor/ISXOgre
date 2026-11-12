@@ -42,6 +42,10 @@ WHAT `fix` REWRITES - and nothing else:
     the For Who window decides). A verb that kept its name gains `auto` only when its first argument cannot be a
     for-who (a plain number, or quoted text with a space: `-ZoneDoor 1` -> `-ZoneDoor auto 1`); any other first
     argument stays a to-do (it may already be the for-who), and a line it converted is not touched again;
+  * a console row that kept its name but lost arguments off its end: the words it no longer reads are dropped
+    (`-AutoCurse <fw> <toon> AutoRemove 20` -> `-AutoCurse <fw> <toon>`); -Invite with TRUE becomes -RaidInvite and
+    -RaidInvite with FALSE becomes -Invite; `-LogToonIn auto <character>` becomes `-LogToonIn <character> <character>`,
+    and so does `-LoginAtCharacterSelect <fw> <character>`;
   * a Classic framework variable renamed to a plain member: `${OgreRelayGroup}` (and `${OgreRelayGroup.Length}`
     etc.) becomes `${ISXOgreEQ2.Auth.RelayGroup}` - the same text under its new name.
 Everything else - argument reorders, changed arguments, data-file moves, not-ported names - is left in
@@ -688,6 +692,236 @@ def call_args(line, at):
         cur.append(c)
     return None
 
+# Console rows that KEPT their name but lost arguments off their END (2026-11-10): a Classic line that still passes them
+# is rewritten, by the same rules the bot uses when it converts a saved MCP button (test_ogre_convert_rewrites.py holds the
+# two tables together). `kept` = the parameters the row has now, one letter each ('f' a for-who, 'v' a value, 'r' every word up to the next command); `dropped` = the ones it
+# lost. 'b' is -Invite's / -RaidInvite's raid word: TRUE (or 1) picks -RaidInvite, FALSE (or 0) -Invite.
+DROPPED_TAILS = {
+    '-checkmounttraining':   ('f',  'v'),    # forcecheck - the force is retired
+    '-f2pwindow_setoptions': ('f',  'v'),    # option
+    '-invite':               ('fv', 'b'),
+    '-raidinvite':           ('fv', 'b'),
+    '-tempadorns':           ('fv', 'v'),    # overwrite - Apply always applies
+}
+
+def _unq(t):
+    return t[1:-1] if len(t) >= 2 and t[0] == '"' and t[-1] == '"' else t
+
+def _ends_values(t):
+    """A word that ends a row's values: any -word (a row, a reserved word), as the MCP button conversion reads it."""
+    return bool(re.match(r'^-[A-Za-z]', _unq(t)))
+
+def _read_values(toks, i, kinds):
+    """The index past the values `kinds` reads from toks[i] on, the way the console reads them."""
+    for k in kinds:
+        if k == 'f':
+            if i < len(toks) and not _unq(toks[i]).startswith('-'): i += 1
+        elif k == 'r':
+            while i < len(toks) and not _ends_values(toks[i]): i += 1
+            if i < len(toks) and _unq(toks[i]).lower() == '-endargs': i += 1
+        elif i < len(toks) and not _ends_values(toks[i]):
+            i += 1
+    return i
+
+# -AutoCurse / -AutoCure / -AutoGroupCure read Classic's request words again, as new-form options. The bot applies the SAME
+# translation to a saved MCP button (test_ogre_convert_rewrites.py runs both through the same cases). `words` = the words after the for-who (-AutoGroupCure: Classic's toon word first, which was only a tag) or after the
+# victim (-AutoCurse, -AutoCure). -> (new words, notes) or None when a word is not understood: the line is left as it is
+# and the row refuses it by naming the word - never a guess (a wrong cure can kill).
+#   AutoRemove N -> -AutoRemove N      AutoRemoveMS N -> -AutoRemove ceil(N/1000)      CustomFlag X -> -tag X
+#   a e n t / arcane elemental noxious trauma -> the kind (-AutoCure, -AutoGroupCure); curse stays a kind on -AutoCure only
+#   aX 3 / arcaneX 3 ... -> the kind; on -AutoGroupCure the number is -count, when every kind named has the same one
+#   any -> no kinds      exclusive only DirectTarget TRUE (and curse on -AutoCurse / -AutoGroupCure) -> dropped
+CURE_KINDS = ('arcane', 'elemental', 'noxious', 'trauma')
+CURE_KIND_WORDS = {'a': 0, 'arcane': 0, 'e': 1, 'elemental': 1, 'n': 2, 'noxious': 2, 't': 3, 'trauma': 3}
+CURE_VERBS = {'-autocurse': 'curse', '-autocure': 'cure', '-autogroupcure': 'group'}
+
+def _whole(v, lo, hi):
+    return int(v) if re.fullmatch(r'[0-9]{1,9}', v) and lo <= int(v) <= hi else None
+
+def cure_words(verb, words):
+    count = [0, 0, 0, 0]; order = []; anyw = curse = False
+    seconds = ms = 0; toon_tag = flag_tag = ''; notes = []
+    p = 0
+    while p < len(words):
+        raw = words[p]; word = _unq(raw); lw = word.lower()
+        if verb == 'group' and p == 0:
+            if word and lw != 'notsupplied': toon_tag = raw
+            p += 1; continue
+        if lw in ('exclusive', 'only', 'directtarget', 'true'):
+            if lw in ('exclusive', 'only') and verb == 'cure':
+                notes.append('`%s` is gone: it cured that one kind with /cureplayer, which the new -AutoCure never uses - the kind '
+                             'words alone narrow it' % word)
+            p += 1; continue
+        if lw == 'any': anyw = True; p += 1; continue
+        if lw == 'curse':
+            if verb == 'cure': curse = True
+            p += 1; continue
+        if lw in ('autoremove', 'autoremovems'):
+            if p + 1 >= len(words): return None
+            n = _whole(_unq(words[p + 1]), 1 if lw == 'autoremove' else 0, 600 if lw == 'autoremove' else 600000)
+            if n is None: return None
+            if lw == 'autoremove': seconds = n
+            else: ms = n
+            p += 2; continue
+        if lw == 'customflag':
+            if p + 1 >= len(words) or not _unq(words[p + 1]): return None
+            f = words[p + 1]
+            if flag_tag and flag_tag != f: return None
+            flag_tag = f; p += 2; continue
+        base = lw[:-1] if lw.endswith('x') and lw[:-1] in CURE_KIND_WORDS else lw
+        if base not in CURE_KIND_WORDS or verb == 'curse': return None   # a kind means nothing to a curse call: not guessed
+        k = CURE_KIND_WORDS[base]; n = 1
+        if base != lw:
+            if p + 1 >= len(words): return None
+            n = _whole(_unq(words[p + 1]), 1, 6)
+            if n is None: return None
+            p += 1
+        if count[k] == 0: order.append(k)
+        count[k] += n
+        p += 1
+    if anyw and order: return None                                  # `any` beside named kinds: which wins is the writer's call
+    life = (ms + 999) // 1000 if ms > 0 else seconds
+    if ms > 0 and life < 1: life = 1
+    if life > 600: return None
+    tag = toon_tag
+    if flag_tag:
+        if tag and tag != flag_tag: return None
+        tag = flag_tag
+    gcount = 1
+    if verb == 'group' and order:
+        if any(count[k] != count[order[0]] for k in order): return None   # unequal thresholds: the writer's call
+        gcount = count[order[0]]
+    kinds = [CURE_KINDS[k] for k in order] + (['curse'] if curse else [])
+    out = []
+    if verb == 'group':
+        # options first: a first word that is a -word is how the console (and this function) tell the new form from Classic's toon word
+        if tag: out += ['-tag', tag]
+        if life: out += ['-AutoRemove', str(life)]
+        if gcount > 1 or (kinds and not out): out += ['-count', str(gcount)]
+        out += kinds
+    else:
+        out += kinds
+        if life: out += ['-AutoRemove', str(life)]
+        if tag: out += ['-tag', tag]
+    return out, notes
+
+def _cure_span(toks, i, verb):
+    """(from, to) - the Classic words of the cure row at toks[i], read the way the console reads them."""
+    fw = _read_values(toks, i + 1, 'f')
+    start = fw if verb == 'group' else _read_values(toks, fw, 'v')
+    return start, _read_values(toks, start, 'r')
+
+def call_end(line, at):
+    """The index just past the `]` that closes the `[...]` opening at line[at], or None when it does not close on this line
+    (the same nesting call_args reads)."""
+    depth, quoted = 0, False
+    for i in range(at, len(line)):
+        c = line[i]
+        if quoted: quoted = c != '"'
+        elif c == '"': quoted = True
+        elif c in '[{': depth += 1
+        elif c in ']}':
+            depth -= 1
+            if depth == 0: return i + 1
+    return None
+
+# The Classic calls that take the same request words, by map row id -> the verb translation they use.
+CURE_API = {'OgreBotAPI:AutoCurse': 'curse', 'OgreBotAPI:Cursed': 'curse', 'OgreBotAPI:AutoCure': 'cure',
+            'OgreBotAPI:AutoGroupCure': 'group'}
+
+def cure_api_call(row, line, m):
+    """`OgreBotAPI:AutoGroupCure["all","Flora_Oozing"]` -> `OgreBotAPI.Cures:RequestGroupWatch["all","-tag","Flora_Oozing"]`: a call
+    that passes Classic's request words after its victim (a group cure: after its for-who) is written with the words the new
+    method reads (cure_words). -> (new text, span end, notes) | 'asis' (nothing after the victim, or a `${...}` word the tool
+    cannot read: the ordinary rename applies) | None (a literal word it does not understand: the writer's)."""
+    verb = CURE_API.get(row['id'])
+    if not verb or line[m.end():m.end() + 1] != '[': return 'asis'
+    end = call_end(line, m.end())
+    args = call_args(line, m.end())
+    if end is None or args is None: return 'asis'
+    fixed = 1 if verb == 'group' else 2
+    words = args[fixed:]
+    if not words or any('${' in a for a in words): return 'asis'
+    r = cure_words(verb, words)
+    if r is None: return None
+    new, notes = r
+    if verb == 'group' and len(args) <= 1: return 'asis'
+    q = lambda t: t if t.startswith('"') or t in words else '"%s"' % t
+    return '%s[%s]' % (row['newForm'], ','.join(args[:fixed] + [q(t) for t in new])), end, notes
+
+def console_changed_rows(line, n, todo):
+    """A console line's rows whose ARGUMENTS changed (DROPPED_TAILS, -LogToonIn, -LoginAtCharacterSelect), rewritten to
+    what the row reads now. -> the line. Every rewrite is a DONE; a raid word the tool cannot read (a ${...}) is a to-do.
+    A line already in the new shape is left alone, so a second `fix` adds nothing. A command in quotes is not touched
+    (console_hits() reports it)."""
+    m = CONSOLE_LINE.search(line)
+    if not m: return line
+    spans = [[t.group(0), m.start(1) + t.start(), m.start(1) + t.end()] for t in re.finditer(r'"[^"]*"?|\S+', m.group(1))]
+    if any(re.match(r'^"\s*-[A-Za-z]', s[0]) for s in spans): return line
+    toks = [s[0] for s in spans]
+    edits = []                                     # (start, end, text) on the line, applied right to left
+    i = 0
+    while i < len(toks):
+        w = toks[i]; wl = w.lower()
+        if wl in CURE_VERBS:
+            verb = CURE_VERBS[wl]
+            a, b = _cure_span(toks, i, verb)
+            words = toks[a:b]
+            if words and _unq(words[-1]).lower() == '-endargs': words = words[:-1]
+            r = cure_words(verb, words) if words else None
+            if words and r is None:
+                todo.append((n, toks[i], 'signature', 'a word after it is not one the new row reads - nothing was changed, and the row refuses '
+                             'the request naming that word. Classic\'s request words are now: kinds (a e n t, arcane elemental noxious '
+                             'trauma), -AutoRemove <seconds>, -tag <name>, and on -AutoGroupCure -count <n>. exclusive, only, DirectTarget and '
+                             'TRUE are gone. A group cure whose kinds had different thresholds (aX 3 eX 1) needs one -AutoGroupCure each.'))
+            elif r is not None and r[0] != words:
+                if r[0]: edits.append((spans[a][1], spans[b - 1][2], ' '.join(r[0])))
+                else: edits.append((spans[a - 1][2], spans[b - 1][2], ''))
+                todo.append((n, toks[i], 'DONE', '-> %s' % (' '.join([toks[i]] + toks[i + 1:a] + r[0])) + ''.join(' (%s)' % x for x in r[1])))
+            i = max(b, i + 1); continue
+        if wl in DROPPED_TAILS:
+            kept, dropped = DROPPED_TAILS[wl]
+            a = _read_values(toks, i + 1, kept); b = _read_values(toks, a, dropped)
+            if b > a:
+                gone = ' '.join(toks[a:b])
+                if dropped == 'b':
+                    v = _unq(toks[a])
+                    if '${' in v:
+                        todo.append((n, w, 'signature', 'its last word (%s) picks the row now: TRUE is `-RaidInvite`, '
+                                     'FALSE is `-Invite` - write that row and drop the word.' % v))
+                        i = b; continue
+                    if wl == '-invite' and (v.upper() == 'TRUE' or v == '1'):
+                        edits.append((spans[i][1], spans[i][2], '-RaidInvite')); w = '-RaidInvite'
+                    elif wl == '-raidinvite' and (v.upper() == 'FALSE' or v == '0'):
+                        edits.append((spans[i][1], spans[i][2], '-Invite')); w = '-Invite'
+                edits.append((spans[a - 1][2], spans[b - 1][2], ''))
+                todo.append((n, toks[i], 'DONE', '-> %s, without `%s` (the row no longer reads it)' % (w, gone)))
+            i = max(b, i + 1); continue
+        if wl == '-logtoonin':
+            # Its first word names the BOX. `auto` (or "") names none: the character it logs in is the box.
+            if i + 2 < len(toks) and not _ends_values(toks[i + 1]) and not _ends_values(toks[i + 2]):
+                box, toon = _unq(toks[i + 1]), _unq(toks[i + 2]).strip()
+                if (box == '' or box.lower() == 'auto') and toon:
+                    edits.append((spans[i + 1][1], spans[i + 1][2], toks[i + 2]))
+                    todo.append((n, w, 'DONE', '-> -LogToonIn %s %s (`%s` names no box now; the character it logs in '
+                                 'names it)' % (toks[i + 2], toks[i + 2], toks[i + 1])))
+            i += 1; continue
+        if wl == '-loginatcharacterselect':
+            # `<fw> <character>` -> `-LogToonIn <character> <character>`. With no character it pressed
+            # Play on whatever was selected - nothing does that now, so the line stays and its to-do says so.
+            c = _read_values(toks, i + 1, 'f')
+            if c < len(toks) and not _ends_values(toks[c]):
+                toon = _unq(toks[c]).strip()
+                if toon and toon.lower() != 'does_not_exist':
+                    edits.append((spans[i][1], spans[c][2], '-LogToonIn %s %s' % (toks[c], toks[c])))
+                    todo.append((n, w, 'DONE', '-> -LogToonIn %s %s' % (toks[c], toks[c])))
+                    i = c + 1; continue
+            i += 1; continue
+        i += 1
+    for a, b, text in sorted(edits, reverse=True):
+        line = line[:a] + text + line[b:]
+    return line
+
 def fix_line(M, line, n, todo, own=frozenset()):
     if not live(line): return line
     skip = new_spans(M, line)
@@ -718,6 +952,18 @@ def fix_line(M, line, n, todo, own=frozenset()):
         # a moved/renamed call; or a call whose ONLY change is the for-who it never had (forWhoInsert `always`)
         rewrite = (st in ('moved', 'renamed') and args_ok) or \
             (st == 'signature' and fwi.get('when') == 'always' and row.get('argsCheck') == 'same-count')
+        cure = cure_api_call(row, line, m) if (rewrite and safe and not short) else 'asis'
+        if cure is None:
+            todo.append((n, old, st, 'a word it passes is not one the new method reads - nothing was changed, and the method refuses the '
+                         'request naming that word. Kinds (arcane noxious elemental trauma, or a e n t), -AutoRemove <seconds>, -tag <name>, '
+                         'and on RequestGroupWatch -count <n> are the words now (AutoRemoveMS -> seconds, CustomFlag -> -tag, '
+                         'exclusive / only / DirectTarget gone).'))
+            continue
+        if cure != 'asis':
+            text, end, notes = cure
+            out.append(line[pos:m.start()]); out.append(text); pos = end
+            todo.append((n, old, 'DONE', '-> %s' % text + ''.join(' (%s)' % x for x in notes)))
+            continue
         if rewrite and safe and not short and not row.get('argsDropped'):
             ins, used = with_forwho(fwi, line[m.end():])
             out.append(line[pos:m.start()]); out.append(nf + ins); pos = m.end() + used
@@ -789,6 +1035,7 @@ def fix_line(M, line, n, todo, own=frozenset()):
             if fw['status'] != 'unchanged': todo.append((n, u, fw['status'], fw.get('howToFix') or ''))
             continue
         todo.append((n, u, 'UNKNOWN', 'a Classic global the map has no row for (%s) - stop and ask' % M.unmapped[u]))
+    new = console_changed_rows(new, n, todo)
     for verb, quoted, at in reversed(console_hits(M, new)):
         row = M.by_verb.get(verb.lower())
         if quoted: todo.append((n, verb, 'QUOTED', 'remove the quotes around the console command and its arguments'))
@@ -1001,6 +1248,13 @@ def cmd_sweep(M, paths, coverage=False, follow=True):
                     warn += 1; print('%s:%s: WARN    %s - its arguments changed; check them: %s' % (f, i, verb, row.get('note') or row.get('howToFix')))
                 elif row and row['status'] == 'stub':
                     bad += 1; print('%s:%s: OLD     %s - accepted by the new console but does nothing yet' % (f, i, verb))
+            if not coverage:
+                # a row that kept its name but still passes words it no longer reads (`fix` drops them)
+                left = []
+                console_changed_rows(line, i, left)
+                for _, verb, st, why in left:
+                    n_hits += 1; bad += 1
+                    print('%s:%s: OLD     %s - %s' % (f, i, verb, ('run fix: ' + why[3:]) if st == 'DONE' else why))
     if coverage:
         # coverage only asks "does the map know every name?" - never call an unconverted file CLEAN
         # counts Classic spellings only - a converted line drops out; quote the SWEEP's count in the report

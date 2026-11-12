@@ -4,7 +4,7 @@
 
 # OgreBot option ids
 
-Scripts and MCP buttons change OgreBot's options by id: `oc !c -ChangeOgreBotUIOption <who> <id> <value>`, `OgreBotAPI.Options:Set[<who>,<id>,<value>]`, or read one with `${OgreBotAPI.Options.Value[<id>]}`. Most ids are the same in the new bot (702 of them exist there). The ones below are Classic ids the new bot does not have.
+Scripts and MCP buttons change OgreBot's options by id: `oc !c -ChangeOgreBotUIOption <who> <id> <value>`, `OgreBotAPI.Options:Set[<who>,<id>,<value>]`, or read one with `${OgreBotAPI.Options.Value[<id>]}`. Most ids are the same in the new bot (704 of them exist there). The ones below are Classic ids the new bot does not have.
 
 > **:warning: Setting an id the new bot does not have does nothing**
 >
@@ -36,7 +36,7 @@ These ids did nothing even in Classic (switched off there, or never an option at
 |---|---|
 | `checkbox_autohunt_autohunt` | `checkbox_donotsave_autohunt` |
 
-## Not in the new bot (53)
+## Not in the new bot (54)
 
 - `checkbox_ascension_glacialfreeze_announce`
 - `checkbox_ascension_glacialfreeze_announce_onlyifinraid`
@@ -74,6 +74,7 @@ These ids did nothing even in Classic (switched off there, or never an option at
 - `checkbox_vampiricrequiem_enable`
 - `checkbox_vampiricrequiem_waittime`
 - `combobox_autohunt_pullspell`
+- `slider_autotarget_rescantime`
 - `slider_timewarptiming_duration`
 - `slider_timewarptiming_timeout`
 - `textentry_aliases_alias_id`

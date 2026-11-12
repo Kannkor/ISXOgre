@@ -936,7 +936,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 >
 > **What you can do here**
 >
-> - **Account** - your Ogre login. Saving it while logged out tries to log in again.
+> - **ISXOgre Account** - your ISXOgre login. Once saved it is locked; **Edit** unlocks it and **Save** saves it. Saving it while logged out tries to log in again; logged in, the new login is used at the next load.
 > - **Ogre** - the size of every window (UI scale); whether windows slide down, hide or stay where they are when the InnerSpace console covers them (the default - a window's right-click menu can give it its own); navmesh downloads (all zones, only the zones you go to, or none); and the **Session watch**: the uplink announces a session that freezes, recovers or disappears, and fires an event for uplink scripts (off by default).
 > - **Theme** - pick a colour scheme, or change any colour. Changes show at once.
 >
@@ -947,7 +947,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - `ogre config` while this window is open does nothing - what you typed stays.
 > - A window you scaled yourself (right-click its title bar, then More) ignores the UI scale until you pick Scale: use default.
 
-**Open it:** Type `ogre config` (or `ogre options` / `ogre info`) in the InnerSpace console. If it is already open, that does nothing - what you typed in it stays. It also opens by itself on the Account tab when your Ogre login is missing or wrong.
+**Open it:** Type `ogre config` (or `ogre options` / `ogre info`) in the InnerSpace console. If it is already open, that does nothing - what you typed in it stays. It also opens by itself on the ISXOgre Account tab when your Ogre login is missing or wrong.
 
 ## What it is for
 
@@ -957,17 +957,18 @@ Ogre Options holds the settings that belong to Ogre itself rather than to one ch
 
 | Control | What it does | Default |
 |---|---|---|
-| **Account / Ogre / Theme** | Switches the page. Save saves every tab at once, not just the one you are looking at. | Account |
+| **ISXOgre Account / Ogre / Theme** | Switches the page. Save saves every tab at once, not just the one you are looking at. | ISXOgre Account |
 
 
 
-## Account tab
+## ISXOgre Account tab
 
 | Control | What it does | Default |
 |---|---|---|
-| **Username** | Your Ogre account name - the login OgreBot checks when it loads.<br>*Saving a blank box does not erase the saved name.* | empty on a first install |
+| **Username** | Your ISXOgre account name - the login OgreBot checks when it loads. Locked once saved; Edit unlocks it.<br>*Saving a blank box does not erase the saved name.* | empty on a first install |
 | **Password** | Your Ogre account password. If you are not logged in when you press Save, Ogre tries to log in again straight away ('Saved - logging in...'). If you are already logged in, a new password is used the next time the bot loads.<br>*Saving a blank box does not erase the saved password.* | empty on a first install |
 | **Show password** | Shows the password as text instead of dots so you can check it.<br>*Display only - changes what you see, not what the bot does.* | off |
+| **Edit** | A saved login comes up locked so it is not changed by accident. Edit unlocks the username and password; Save saves what you typed and locks them again. | shown only when a login is saved |
 
 
 

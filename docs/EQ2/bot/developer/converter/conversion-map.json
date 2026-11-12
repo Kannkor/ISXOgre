@@ -81,8 +81,8 @@
   "OgreBotAPI.Abilities.ShortName": "[nameOrId]",
   "OgreBotAPI.Abilities:AbilityDetails": "[fw,\"name or id\"]",
   "OgreBotAPI.Abilities:AddEmbargo": "[fw,id,durationSec]",
-  "OgreBotAPI.Abilities:AnnounceCasted": "[fw,caster,seconds=0]",
-  "OgreBotAPI.Abilities:AnnounceCasting": "[fw,seconds=0]",
+  "OgreBotAPI.Abilities:AnnounceCasted": "[fw,caster,seconds]",
+  "OgreBotAPI.Abilities:AnnounceCasting": "[fw,seconds]",
   "OgreBotAPI.Abilities:CancelCasting": "[fw,except...,-HOAbility,-HOAbilityUI,-CastTime s,-CastAbility ability,-CastAbilityOnPlayer ability player,-CastHOAbilityIconID iconId,-CastAbilityOnNPC ability mob,-UnlessCasting ability]",
   "OgreBotAPI.Abilities:CancelGroupWaterBreathing": "[fw]",
   "OgreBotAPI.Abilities:CancelInvis": "[fw]",
@@ -122,7 +122,7 @@
   "OgreBotAPI.Access:SetLevel": "[fw,value,silent=FALSE]",
   "OgreBotAPI.Actors": null,
   "OgreBotAPI.Actors.CountByName": "[name,...]",
-  "OgreBotAPI.Actors.CountByType": "[-distance F,-Type S]",
+  "OgreBotAPI.Actors.CountByType": "[type=Special,-distance=\"\",distance=999]",
   "OgreBotAPI.Actors.IsPC": "[actorType]",
   "OgreBotAPI.Actors.MobID": "[name]",
   "OgreBotAPI.Actors.NPCsWithin": "[distance]",
@@ -163,7 +163,6 @@
   "OgreBotAPI.AutoTarget.OutOfCombatScanning": null,
   "OgreBotAPI.AutoTarget.PresetCount": null,
   "OgreBotAPI.AutoTarget.PresetName": "[n]",
-  "OgreBotAPI.AutoTarget.RescanTime": null,
   "OgreBotAPI.AutoTarget.SavedCount": null,
   "OgreBotAPI.AutoTarget.SavedName": "[n]",
   "OgreBotAPI.AutoTarget.ScanHeight": null,
@@ -180,7 +179,6 @@
   "OgreBotAPI.AutoTarget:Save": "[fw, name]",
   "OgreBotAPI.AutoTarget:SetEnabled": "[fw, bool=TRUE]",
   "OgreBotAPI.AutoTarget:SetOutOfCombatScanning": "[fw, bool=TRUE]",
-  "OgreBotAPI.AutoTarget:SetRescanTime": "[fw, n=50]",
   "OgreBotAPI.AutoTarget:SetScanHeight": "[fw, n=5]",
   "OgreBotAPI.AutoTarget:SetScanRadius": "[fw, n=50]",
   "OgreBotAPI.AutoTarget:SetWhenHated": "[fw, bool=TRUE]",
@@ -192,8 +190,6 @@
   "OgreBotAPI.Bot:End": "[fw]",
   "OgreBotAPI.Bot:EndScript": "[fw,script]",
   "OgreBotAPI.Bot:ExitClient": "[fw,seconds=30]",
-  "OgreBotAPI.Bot:Initialize": "[fw]",
-  "OgreBotAPI.Bot:ListSetups": "[fw]",
   "OgreBotAPI.Bot:Load": "[fw]",
   "OgreBotAPI.Bot:OgreCommand": "[fw,cmd...]",
   "OgreBotAPI.Bot:OnDeactivate": "[fw]",
@@ -201,7 +197,7 @@
   "OgreBotAPI.Bot:RawCommand": "[fw,cmd...]",
   "OgreBotAPI.Bot:Reload": "[fw]",
   "OgreBotAPI.Bot:Resume": "[fw]",
-  "OgreBotAPI.Bot:RunScript": "[fw,script,rest]",
+  "OgreBotAPI.Bot:RunScript": "[fw,script,args...]",
   "OgreBotAPI.Bot:SetUpFor": "[fw,what=\"\",restart=TRUE]",
   "OgreBotAPI.CampSpot": null,
   "OgreBotAPI.CampSpot.Active": null,
@@ -240,15 +236,14 @@
   "OgreBotAPI.CampSpot:Disable": "[fw]",
   "OgreBotAPI.CampSpot:Enable": "[fw]",
   "OgreBotAPI.CampSpot:NudgeBy": "[fw,dx=0,dy=0,dz=0]",
-  "OgreBotAPI.CampSpot:NudgeRelativeBy": "[fw,dx=0,dy=0,dz=0]",
   "OgreBotAPI.CampSpot:Release": "[fw]",
   "OgreBotAPI.CampSpot:ResetAll": "[fw]",
   "OgreBotAPI.CampSpot:SetActive": "[fw,n]",
-  "OgreBotAPI.CampSpot:SetFormation": "[fw,kind=circle,dist=7,x=myX,y=myY,z=myZ,useRelative=FALSE,middle=\"\",circleSpots=0]",
+  "OgreBotAPI.CampSpot:SetFormation": "[fw,kind=circle,dist=7,x,y,z,useRelative=FALSE,middle=\"\",circleSpots=0]",
   "OgreBotAPI.CampSpot:SetHere": "[fw,howClose=2,howFar=200]",
   "OgreBotAPI.CampSpot:SetHowClose": "[fw,v=0]",
   "OgreBotAPI.CampSpot:SetHowFar": "[fw,v=0]",
-  "OgreBotAPI.CampSpot:SetLoc": "[fw,x,y,z]",
+  "OgreBotAPI.CampSpot:SetLoc": "[fw,x|point,y?,z?]",
   "OgreBotAPI.CampSpot:SetLocAtAngleFromActor": "[fw,angle,nameOrId,dist=3,skipIfAggro=FALSE,includeNpcSize=TRUE]",
   "OgreBotAPI.CampSpot:SetLocBehindActor": "[fw,nameOrId,dist=3,skipIfAggro=FALSE]",
   "OgreBotAPI.CampSpot:SetLocByRole": "[fw,nameOrId,dist=3,skipIfAggro=FALSE]",
@@ -258,29 +253,20 @@
   "OgreBotAPI.CampSpot:SetSlotHere": "[fw,n=1,howClose=2,howFar=200]",
   "OgreBotAPI.CampSpot:SetUse3D": "[fw,on=TRUE]",
   "OgreBotAPI.CastStack": null,
-  "OgreBotAPI.CastStack.Running": null,
   "OgreBotAPI.CastStack.TagAllowRemaining": "[tag]",
   "OgreBotAPI.CastStack.TagEmbargoRemaining": "[tag]",
-  "OgreBotAPI.CastStack:CancelCurrentCast": "[fw]",
   "OgreBotAPI.CastStack:ClearAllAllows": "[fw]",
   "OgreBotAPI.CastStack:ClearAllEmbargos": "[fw]",
   "OgreBotAPI.CastStack:ClearAllow": "[fw,tag]",
   "OgreBotAPI.CastStack:ClearEmbargo": "[fw,tag]",
   "OgreBotAPI.CastStack:ClearItemCache": "[fw]",
-  "OgreBotAPI.CastStack:Disable": "[fw,name]",
-  "OgreBotAPI.CastStack:DisableTag": "[fw,tag]",
   "OgreBotAPI.CastStack:Dump": "[fw]",
-  "OgreBotAPI.CastStack:Enable": "[fw,name]",
-  "OgreBotAPI.CastStack:EnableTag": "[fw,tag]",
   "OgreBotAPI.CastStack:ExamineItems": "[fw]",
   "OgreBotAPI.CastStack:HoldTag": "[fw,tag,duration,type,-m]",
   "OgreBotAPI.CastStack:Import": "[fw,path,profile=\"\"]",
   "OgreBotAPI.CastStack:Load": "[fw,path]",
-  "OgreBotAPI.CastStack:LoadDemo": "[fw,ability]",
   "OgreBotAPI.CastStack:LoadFromProfile": "[fw]",
-  "OgreBotAPI.CastStack:Pause": "[fw]",
   "OgreBotAPI.CastStack:ReloadRangeExtenders": "[fw]",
-  "OgreBotAPI.CastStack:Run": "[fw]",
   "OgreBotAPI.CastStack:SetEntry": "[fw,ability,TRUE|FALSE|toggle,silent=FALSE]",
   "OgreBotAPI.CastStack:SetEntryByTag": "[fw,tag,TRUE|FALSE|toggle,partial=FALSE,silent=FALSE]",
   "OgreBotAPI.CastStack:TestCast": "[fw,ability=\"\"]",
@@ -293,18 +279,18 @@
   "OgreBotAPI.Combat": null,
   "OgreBotAPI.Combat.InCombat": null,
   "OgreBotAPI.Combat.IsReady": null,
-  "OgreBotAPI.Combat.MaybeAnotherTime": null,
   "OgreBotAPI.Combat.NoDefensive": null,
   "OgreBotAPI.Combat.NoOffensive": null,
   "OgreBotAPI.Combat.NoReqBowAbilities": null,
   "OgreBotAPI.Combat.Zoning": null,
   "OgreBotAPI.Combat:AddNoOffensive": "[fw,mobName,exactOnly=TRUE]",
   "OgreBotAPI.Combat:ClearNoOffensive": "[fw]",
-  "OgreBotAPI.Combat:Countdown": "[fw,seconds=10,...]",
-  "OgreBotAPI.Combat:SetNoDefensive": "[fw,on,reason]",
-  "OgreBotAPI.Combat:SetNoOffensive": "[fw,on,reason]",
+  "OgreBotAPI.Combat:Countdown": "[fw,seconds=10]",
+  "OgreBotAPI.Combat:RemoveNoOffensive": "[fw,mobName]",
+  "OgreBotAPI.Combat:SetNoDefensive": "[fw,on=TRUE,reason=\"\"]",
+  "OgreBotAPI.Combat:SetNoOffensive": "[fw,on=TRUE,reason=\"\"]",
   "OgreBotAPI.Combat:SetNoReqBowAbilities": "[fw,on=TRUE]",
-  "OgreBotAPI.Combat:ThreatIgnoreAdd": "[fw,name]",
+  "OgreBotAPI.Combat:ThreatIgnoreAdd": "[fw,name...]",
   "OgreBotAPI.Combat:ThreatIgnoreClear": "[fw]",
   "OgreBotAPI.Combat:ThreatIgnoreList": "[fw]",
   "OgreBotAPI.Combat:ThreatIgnoreRemove": "[fw,name...]",
@@ -327,7 +313,6 @@
   "OgreBotAPI.Comms:ConversationBubble": "[fw,num=1]",
   "OgreBotAPI.Comms:Emit": "[fw,name,cfw=\"\",dest=\"\",ev=1,dataJson=\"\"]",
   "OgreBotAPI.Comms:ExecuteEvent": "[fw,name,...]",
-  "OgreBotAPI.Comms:ExecuteEventJSON": "[fw,name,json]",
   "OgreBotAPI.Comms:GroupQuery": "[fw,question...]",
   "OgreBotAPI.Comms:Ingest": "[fw,wire]",
   "OgreBotAPI.Comms:InjectChat": "[fw,chat=Nothing]",
@@ -342,7 +327,7 @@
   "OgreBotAPI.Comms:Message": "[fw,text,-tab name...,-sound ding|alarm]",
   "OgreBotAPI.Comms:Pushover": "[fw,message...,-title t,-priority n]",
   "OgreBotAPI.Comms:Query": "[fw,kind,cfw=\"\",timeoutMs=0,paramsJson=\"\"]",
-  "OgreBotAPI.Comms:Query_Clear": "[fw,id=last]",
+  "OgreBotAPI.Comms:Query_Clear": "[fw,id=\"\"]",
   "OgreBotAPI.Comms:ReportVersion": "[fw,compareTo]",
   "OgreBotAPI.Comms:ResetStats": "[fw]",
   "OgreBotAPI.Comms:SendTell": "[fw,target,message]",
@@ -353,9 +338,9 @@
   "OgreBotAPI.Consumables:AddMercenaries": "[fw]",
   "OgreBotAPI.Consumables:CheckFamiliar": "[fw]",
   "OgreBotAPI.Consumables:CheckMercenaryTraining": "[fw]",
-  "OgreBotAPI.Consumables:CheckMountTraining": "[fw,force=FALSE]",
+  "OgreBotAPI.Consumables:CheckMountTraining": "[fw]",
   "OgreBotAPI.Consumables:CoV": "[fw,travel=Teleport,toon,allowSameZone=FALSE]",
-  "OgreBotAPI.Consumables:DrinkAlcohol": "[fw,item=\"\"]",
+  "OgreBotAPI.Consumables:DrinkAlcohol": "[fw,item]",
   "OgreBotAPI.Consumables:MountDown": "[fw]",
   "OgreBotAPI.Consumables:MountUp": "[fw]",
   "OgreBotAPI.Consumables:RekindleHeartstone": "[fw]",
@@ -369,12 +354,13 @@
   "OgreBotAPI.Craft:BuyAllTinkeringRecipes": "[fw]",
   "OgreBotAPI.Craft:CompleteNavigation": "[fw]",
   "OgreBotAPI.Craft:DeferNavigation": "[fw]",
-  "OgreBotAPI.Craft:ScribeRecipe": "[fw,name|all]",
+  "OgreBotAPI.Craft:ScribeRecipe": "[fw,name|all=all]",
   "OgreBotAPI.Craft:Start": "[fw]",
   "OgreBotAPI.Craft:StartLLL": "[fw]",
   "OgreBotAPI.Craft:StartQuest": "[fw]",
   "OgreBotAPI.Craft:StartTinker": "[fw]",
   "OgreBotAPI.Craft:StartWrits": "[fw]",
+  "OgreBotAPI.Craft:Stop": "[fw]",
   "OgreBotAPI.Cures": null,
   "OgreBotAPI.Cures.CurseCalled": null,
   "OgreBotAPI.Cures.CursedID": "[-archetype X...,-uncurable,-uncurableonly,-GroupOnly]",
@@ -392,23 +378,21 @@
   "OgreBotAPI.Cures.RaidUncurableIDs": null,
   "OgreBotAPI.Cures.Uncurable": "[type=\"Cursed\", -GroupOnly]",
   "OgreBotAPI.Cures:CancelDetrimental": "[fw,mainId,backdropId]",
+  "OgreBotAPI.Cures:CancelRequests": "[fw,victimOrTag]",
   "OgreBotAPI.Cures:ItemCure": "[fw,type]",
   "OgreBotAPI.Cures:ReplenishPotions": "[fw,all|arcane|elemental|noxious|trauma]",
   "OgreBotAPI.Cures:Request": "[fw,victim,kinds...]",
-  "OgreBotAPI.Cures:RequestCurse": "[fw,victim]",
+  "OgreBotAPI.Cures:RequestCurse": "[fw,victim,options...]",
   "OgreBotAPI.Cures:RequestGroup": "[fw]",
-  "OgreBotAPI.Cures:RequestGroupWatch": "[fw]",
+  "OgreBotAPI.Cures:RequestGroupWatch": "[fw,words...]",
   "OgreBotAPI.Cures:RequestItem": "[fw,type]",
   "OgreBotAPI.Cures:SetEnabled": "[fw,on=TRUE]",
   "OgreBotAPI.Debug": null,
   "OgreBotAPI.Debug.CheckVersion": "[fw,compareTo]",
-  "OgreBotAPI.Debug.DebugLoading": null,
   "OgreBotAPI.Debug.DebugPrefix": null,
-  "OgreBotAPI.Debug.Version": null,
   "OgreBotAPI.Debug:BroadcastStat": "[fw,type,value,where=oc]",
   "OgreBotAPI.Debug:DebugEcho": "[fw,a,b]",
   "OgreBotAPI.Debug:Echo": "[fw,text,text2=\"\"]",
-  "OgreBotAPI.Debug:SetDebugLoading": "[fw,on=TRUE]",
   "OgreBotAPI.Debug:SetDebugMode": "[fw,on=TRUE]",
   "OgreBotAPI.Debug:SpewInternalVariables": "[fw]",
   "OgreBotAPI.Debug:SpewResearchWindow": "[fw]",
@@ -465,7 +449,6 @@
   "OgreBotAPI.HOs:Starter": "[fw]",
   "OgreBotAPI.IM": null,
   "OgreBotAPI.IM.EndWhenFinished": null,
-  "OgreBotAPI.IM.IsActive": null,
   "OgreBotAPI.IM.IsOpen": null,
   "OgreBotAPI.IM.IsRunning": null,
   "OgreBotAPI.IM.Mode": null,
@@ -542,13 +525,12 @@
   "OgreBotAPI.Loot:BuildToonItemsToBeZeroed": "[fw,toon,item,...]",
   "OgreBotAPI.Loot:Config": "[fw,mode=open]",
   "OgreBotAPI.Loot:Decide": "[fw,execute=FALSE]",
-  "OgreBotAPI.Loot:Load": "[fw]",
   "OgreBotAPI.Loot:LootAll": "[fw]",
   "OgreBotAPI.Loot:Migrate": "[fw,overwrite=FALSE]",
   "OgreBotAPI.Loot:ProcessToonItemsToBeZeroed": "[fw]",
   "OgreBotAPI.Loot:Reload": "[fw]",
   "OgreBotAPI.Loot:ResetLootedActors": "[fw]",
-  "OgreBotAPI.Loot:SetAutoLootMode": "[fw,n]",
+  "OgreBotAPI.Loot:SetAutoLootMode": "[fw,mode]",
   "OgreBotAPI.Loot:SetOptions": "[fw,token,...]",
   "OgreBotAPI.Loot:UI": "[fw,payload]",
   "OgreBotAPI.Looting": null,
@@ -565,7 +547,7 @@
   "OgreBotAPI.Movement.BehindLoc": "[id,dist=5]",
   "OgreBotAPI.Movement.BlockCount": null,
   "OgreBotAPI.Movement.BlockReasons": null,
-  "OgreBotAPI.Movement.Blocked": "[reason]",
+  "OgreBotAPI.Movement.Blocked": "[reason=\"\"]",
   "OgreBotAPI.Movement.Distance2DTo": "[id]",
   "OgreBotAPI.Movement.DistanceTo": "[id]",
   "OgreBotAPI.Movement.FaceLockActor": null,
@@ -577,7 +559,6 @@
   "OgreBotAPI.Movement.HeadingTo": "[id]",
   "OgreBotAPI.Movement.LeftLoc": "[id,dist=5]",
   "OgreBotAPI.Movement.MyLoc": null,
-  "OgreBotAPI.Movement.PointToward": "[fromX=0,fromY=0,fromZ=0,towardX=0,towardY=0,towardZ=0,dist=15]",
   "OgreBotAPI.Movement.RightLoc": "[id,dist=5]",
   "OgreBotAPI.Movement.UseWithoutOgreBot": null,
   "OgreBotAPI.Movement:AutoRun": "[fw]",
@@ -613,11 +594,6 @@
   "OgreBotAPI.Movement:Move2AreaNoTarget": "[fw,x,y,z,precision=3]",
   "OgreBotAPI.Movement:NavStop": "[fw]",
   "OgreBotAPI.Movement:NavTo": "[fw,x,y,z,mode=walk]",
-  "OgreBotAPI.Movement:Pull": "[fw]",
-  "OgreBotAPI.Movement:SetBackwardKey": "[fw,key=bind]",
-  "OgreBotAPI.Movement:SetFlyDownKey": "[fw,key=bind]",
-  "OgreBotAPI.Movement:SetFlyUpKey": "[fw,key=bind]",
-  "OgreBotAPI.Movement:SetForwardKey": "[fw,key=bind]",
   "OgreBotAPI.Movement:SetRunMode": "[fw,run]",
   "OgreBotAPI.Movement:Stand": "[fw]",
   "OgreBotAPI.Movement:Stop": "[fw]",
@@ -632,12 +608,12 @@
   "OgreBotAPI.Options.Value": "[id]",
   "OgreBotAPI.Options:LoadProfile": "[fw, name]",
   "OgreBotAPI.Options:Revert": "[fw, source]",
-  "OgreBotAPI.Options:Set": "[fw, (id,value)...]",
+  "OgreBotAPI.Options:Set": "[fw,silent|loud|verbose=\"\",(id,value)...,silent=FALSE]",
   "OgreBotAPI.Options:WarnBeforeSave": "[fw]",
   "OgreBotAPI.Overseer": null,
   "OgreBotAPI.Overseer:AddAgents": "[fw,destroy=TRUE]",
   "OgreBotAPI.Overseer:AutoAddQuests": "[fw]",
-  "OgreBotAPI.Overseer:BuyMissions": "[fw,flags=\"\"]",
+  "OgreBotAPI.Overseer:BuyMissions": "[fw,flag...]",
   "OgreBotAPI.Overseer:CheckQuests": "[fw]",
   "OgreBotAPI.POI": null,
   "OgreBotAPI.POI.Count": null,
@@ -671,14 +647,11 @@
   "OgreBotAPI.Position.MyModelSize": null,
   "OgreBotAPI.Position.Toward": "[fx,fy,fz,tx,ty,tz,dist=15]",
   "OgreBotAPI.Quest": null,
-  "OgreBotAPI.Quest.ActorHas": "[actorId=0]",
-  "OgreBotAPI.Quest.DeityPoints": null,
+  "OgreBotAPI.Quest.ActorHas": "[actorId]",
   "OgreBotAPI.Quest.Have": "[name]",
-  "OgreBotAPI.Quest.SkipShinies": null,
   "OgreBotAPI.Quest:Accept": "[fw,questName=\"\"]",
   "OgreBotAPI.Quest:CheckKunarkAscending": "[fw]",
-  "OgreBotAPI.Quest:CheckToShare": "[fw,zoneName]",
-  "OgreBotAPI.Quest:CompareUpdate": "[fw,questName]",
+  "OgreBotAPI.Quest:CompareUpdate": "[fw,questName,sender?]",
   "OgreBotAPI.Quest:Delete": "[fw,questName]",
   "OgreBotAPI.Quest:ShareAllMissions": "[fw]",
   "OgreBotAPI.Quest:ShareMission": "[fw,questName]",
@@ -704,7 +677,7 @@
   "OgreBotAPI.Roster.InZone": "[within=0]",
   "OgreBotAPI.Roster.IsGroupLeader": null,
   "OgreBotAPI.Roster.Marked": null,
-  "OgreBotAPI.Roster.NearestOfClass": null,
+  "OgreBotAPI.Roster.NearestOfClass": "[class,range=50,scope=auto,includeMe=TRUE]",
   "OgreBotAPI.Roster.RaidIDBy": null,
   "OgreBotAPI.Roster.RaidIDPreferred": null,
   "OgreBotAPI.Roster.RaidNameBy": null,
@@ -734,7 +707,7 @@
   "OgreBotAPI.Session": null,
   "OgreBotAPI.Session.AtCharacterSelect": null,
   "OgreBotAPI.Session.CharacterName": null,
-  "OgreBotAPI.Session.ReviveLocation": null,
+  "OgreBotAPI.Session.ReviveLocation": "[option,exact=FALSE]",
   "OgreBotAPI.Session:CollectShiny": "[fw]",
   "OgreBotAPI.Session:Harvest": "[fw]",
   "OgreBotAPI.Session:ImmRes": "[fw,howManyDead=2]",
@@ -744,7 +717,6 @@
   "OgreBotAPI.Session:ResStone": "[fw]",
   "OgreBotAPI.Session:Revive": "[fw,option=0,exact=FALSE]",
   "OgreBotAPI.Session:StopRes": "[fw]",
-  "OgreBotAPI.Session:UpdateCharacterDetails": "[fw]",
   "OgreBotAPI.TempAdorns": null,
   "OgreBotAPI.TempAdorns.IsOpen": null,
   "OgreBotAPI.TempAdorns.Profiles": null,
@@ -759,7 +731,7 @@
   "OgreBotAPI.Travel:Druid": "[fw,toWhere,exact=FALSE,mzo=LAST_ENTRY]",
   "OgreBotAPI.Travel:Fast": "[fw,toWhere,flag...]",
   "OgreBotAPI.Travel:Mesh": "[fw,zone,poi=\"\"]",
-  "OgreBotAPI.Travel:MeshFeatures": "[fw,flag=\"\",on=FALSE]",
+  "OgreBotAPI.Travel:MeshFeatures": "[fw,flag=\"\",on=\"\"]",
   "OgreBotAPI.Travel:MeshGroup": "[fw,zone,poi=\"\"]",
   "OgreBotAPI.Travel:MeshPreview": "[fw,zone]",
   "OgreBotAPI.Travel:MeshStop": "[fw]",
@@ -810,15 +782,15 @@
   "OgreBotAPI.Windows": null,
   "OgreBotAPI.Windows.CastingWindowVisible": null,
   "OgreBotAPI.Windows.ReplyExists": "[text]",
-  "OgreBotAPI.Windows.RewardID": "[num|name,windowId]",
-  "OgreBotAPI.Windows.RewardLinkID": "[num|name,windowId]",
-  "OgreBotAPI.Windows.RewardName": "[num|name,windowId]",
+  "OgreBotAPI.Windows.RewardID": "[num|name,windowId=0]",
+  "OgreBotAPI.Windows.RewardLinkID": "[num|name,windowId=0]",
+  "OgreBotAPI.Windows.RewardName": "[num|name,windowId=0]",
   "OgreBotAPI.Windows.RewardWindowID": null,
-  "OgreBotAPI.Windows.SelectOption": "[n]",
-  "OgreBotAPI.Windows:AcceptNoChoiceReward": "[fw,windowId]",
+  "OgreBotAPI.Windows.SelectOption": "[search...]",
+  "OgreBotAPI.Windows:AcceptNoChoiceReward": "[fw,windowId=0]",
   "OgreBotAPI.Windows:AcceptReward": "[fw,num|name=0,windowId=0]",
   "OgreBotAPI.Windows:Choice": "[fw,option=1]",
-  "OgreBotAPI.Windows:Close": "[fw,name]",
+  "OgreBotAPI.Windows:Close": "[fw]",
   "OgreBotAPI.Windows:CloseExamine": "[fw]",
   "OgreBotAPI.Windows:DungeonMakerCancel": "[fw]",
   "OgreBotAPI.Windows:F2PWindowCheck": "[fw]",
@@ -830,7 +802,7 @@
   "OgreBotAPI.Windows:ProvingGroundsScoreboardClose": "[fw]",
   "OgreBotAPI.Windows:Reply": "[fw,number|text=1]",
   "OgreBotAPI.Windows:ReplyClose": "[fw]",
-  "OgreBotAPI.Windows:Select": "[fw,option]",
+  "OgreBotAPI.Windows:Select": "[fw,search...]",
   "OgreBotAPI.Windows:SelectCancel": "[fw]",
   "OgreBotAPI.Windows:SelectSpew": "[fw]",
   "OgreBotAPI.Windows:ShowConsole": "[fw,on=TRUE]",
@@ -854,21 +826,17 @@
   "OgreBotAPI.Zone:ResetAll": "[fw,allowRaid=FALSE]",
   "OgreBotAPI.Zone:ResetUpdateInfo": "[fw]",
   "OgreBotAPI.Zone:ResetZone": "[fw,zone]",
-  "OgreBotAPI.Zone:SelectVersion": "[fw,version=OK]",
+  "OgreBotAPI.Zone:SelectVersion": "[fw]",
   "OgreBotAPI.Zone:ShareQuestsForZone": "[fw,zone=\"\"]",
   "OgreBotAPI.Zone:SpecialZoneSpecific": "[fw]",
-  "OgreBotAPI.Zone:ToggleZoneReuse": "[fw]",
-  "OgreBotAPI.Zone:Zone": "[fw,zone,...]",
-  "OgreBotAPI:AddNoOffensiveOn": "[fw,mobName,exactOnly=TRUE]",
+  "OgreBotAPI.Zone:Zone": "[fw]",
   "OgreBotAPI:ArcannaseEffigyOfRebirth": "[fw]",
   "OgreBotAPI:DoVDebuff": "[fw,mob,allowMoving=setting]",
   "OgreBotAPI:DoVDebuff_Half": "[fw,mob,archetype=auto,odd=TRUE,allowMoving=setting]",
-  "OgreBotAPI:F2PWindow_SetOptions": "[fw,minutes=\"\"]",
+  "OgreBotAPI:F2PWindow_SetOptions": "[fw]",
   "OgreBotAPI:GetFlag": "[fw]",
-  "OgreBotAPI:LoadAutoTargetList": "[fw,list]",
   "OgreBotAPI:NoTarget": "[fw]",
   "OgreBotAPI:Prepare_TankSwapping": "[fw]",
-  "OgreBotAPI:RemoveNoOffensiveOn": "[fw,mobName]",
   "OgreBotAPI:Remove_Prepare_TankSwapping": "[fw]",
   "OgreBotAPI:ResetFor_Intercept": "[fw]",
   "OgreBotAPI:Scribe_Empyral": "[fw,nameFilter=Empyral]",
@@ -876,7 +844,6 @@
   "OgreBotAPI:Special": "[fw]",
   "OgreBotAPI:Target": "[fw,target]",
   "OgreBotAPI:TargetLock": "[fw,target=clear]",
-  "OgreBotAPI:TestAll": "[fw]",
   "OgreBotAPI:UpdateNPCTarget": "[fw]",
   "OgreBotAPI:UseFlag": "[fw]"
  },
@@ -899,6 +866,7 @@
   "-Actor_Click",
   "-Actor_ClickQueued",
   "-AddNoOffensiveOn",
+  "-AIIR",
   "-Alias_AddEntry",
   "-Alias_ChangeEntry",
   "-Alias_ChangeEntryAlias",
@@ -921,7 +889,6 @@
   "-AT_Enable",
   "-AT_Height",
   "-AT_Remove",
-  "-AT_Rescan",
   "-AT_Scan",
   "-ATOCST",
   "-ATT",
@@ -932,6 +899,7 @@
   "-AutoConsumeTemporaryMountTrainingReduction",
   "-AutoConsumeTemporaryResearchReduction",
   "-AutoCure",
+  "-AutoCureRemove",
   "-AutoCurse",
   "-AutoGroupCure",
   "-autohunt",
@@ -943,7 +911,6 @@
   "-AutoTarget_Disable",
   "-AutoTarget_Enable",
   "-AutoTarget_RemoveActor",
-  "-AutoTarget_SetRescanTime",
   "-AutoTarget_SetScanHeight",
   "-AutoTarget_SetScanRadius",
   "-AutoTargetOCSToggle",
@@ -1077,7 +1044,6 @@
   "-Disable_Dispells",
   "-Disable_Interrupts",
   "-Disband",
-  "-Dispell",
   "-DispellNPCWithAny",
   "-DispellNPCWithItem",
   "-DispellNPCWithSpell",
@@ -1100,9 +1066,7 @@
   "-Enable_Dispells",
   "-Enable_Interrupts",
   "-End_Bot",
-  "-endargs",
   "-EndBot",
-  "-EndScript",
   "-EndScriptOB",
   "-EndScriptRequiresOgreBot",
   "-EquipCharm",
@@ -1111,7 +1075,6 @@
   "-ExamineAllOfItem",
   "-ExamineInventoryItem",
   "-ExecuteEvent_AP",
-  "-ExecuteEvent_JSON_AP",
   "-ExitClient",
   "-F2PWindow_Check",
   "-F2PWindow_SetOptions",
@@ -1138,7 +1101,6 @@
   "-GetFlag",
   "-GetToConcentration",
   "-GetToGH",
-  "-Group",
   "-GroupCure",
   "-Hail",
   "-HailNPC",
@@ -1173,7 +1135,6 @@
   "-jst-on",
   "-jst-out",
   "-Jump",
-  "-Kannkor_TestPull1",
   "-Kick",
   "-KillSession",
   "-Krono",
@@ -1196,7 +1157,6 @@
   "-Mentor",
   "-Mercenary_AddMercenaries",
   "-Message",
-  "-Message_NT",
   "-Message_Relay",
   "-Move2Area",
   "-Move2AreaNoTarget",
@@ -1222,7 +1182,6 @@
   "-OgreBotToggleConsoleWindow",
   "-OgreCommandOB_AP",
   "-OgreConsole_Show",
-  "-OgreConsole_ShowRequiresOgreBot",
   "-OgreCraft_AddLastScribedRecipe",
   "-OgreCraft_AddRecipe",
   "-OgreCraft_CompleteNavigation",
@@ -1233,13 +1192,13 @@
   "-OgreCraft_StartQuest",
   "-OgreCraft_StartTinker",
   "-OgreCraft_StartWrits",
+  "-OgreCraft_Stop",
   "-ogrefollow",
   "-OgreZoneForceReset",
   "-OK_Button",
   "-OnScreenTimer",
   "-OpenAndBuyFromMerchant",
   "-OpenAndBuyFromMerchantXTimes",
-  "-OSExecute",
   "-Overseer_AddAgentsToCollection",
   "-Overseer_AutoAddOverseerQuests",
   "-Overseer_BuyMissions",
@@ -1267,10 +1226,8 @@
   "-ProfileForWho",
   "-ProvingGrounds_Exit",
   "-ProvingGrounds_Scoreboard_Close",
-  "-Pull",
   "-Pushover",
   "-Question",
-  "-Raid",
   "-RaidAuth",
   "-raiddebuff",
   "-RaidInvite",
@@ -1292,7 +1249,6 @@
   "-Res",
   "-Research_Material_Check",
   "-ResetActorsLooted",
-  "-resetauth",
   "-ResetCameraAngle",
   "-ResetZone",
   "-resetzoneall",
@@ -1303,7 +1259,6 @@
   "-rsob",
   "-Run",
   "-RunScriptOB",
-  "-RunScriptOB_AP",
   "-RunScriptRequiresOgreBot",
   "-Scribe",
   "-Scribe_Empyral",
@@ -1361,7 +1316,6 @@
   "-targetlock",
   "-Tell",
   "-TempAdorns",
-  "-TestPull1",
   "-ThreatFighterIgnoreList_Add",
   "-ThreatFighterIgnoreList_Clear",
   "-ThreatFighterIgnoreList_Remove",
@@ -1648,6 +1602,16 @@
    ],
    [
     "bool",
+    false
+   ]
+  ],
+  "-aiir": [
+   [
+    "string",
+    false
+   ],
+   [
+    "string",
     false
    ]
   ],
@@ -1943,16 +1907,6 @@
     false
    ]
   ],
-  "-at_rescan": [
-   [
-    "forwho",
-    false
-   ],
-   [
-    "int64",
-    false
-   ]
-  ],
   "-at_scan": [
    [
     "forwho",
@@ -1999,11 +1953,11 @@
   ],
   "-authifinraid": [
    [
-    "one",
+    "string",
     false
    ],
    [
-    "one",
+    "string",
     false
    ]
   ],
@@ -2040,6 +1994,16 @@
     false
    ]
   ],
+  "-autocureremove": [
+   [
+    "forwho",
+    false
+   ],
+   [
+    "string",
+    false
+   ]
+  ],
   "-autocurse": [
    [
     "forwho",
@@ -2057,10 +2021,6 @@
   "-autogroupcure": [
    [
     "forwho",
-    false
-   ],
-   [
-    "string",
     false
    ],
    [
@@ -2171,16 +2131,6 @@
    ],
    [
     "string",
-    false
-   ]
-  ],
-  "-autotarget_setrescantime": [
-   [
-    "forwho",
-    false
-   ],
-   [
-    "int64",
     false
    ]
   ],
@@ -3214,10 +3164,6 @@
    [
     "forwho",
     false
-   ],
-   [
-    "string",
-    false
    ]
   ],
   "-checkresearch": [
@@ -3383,6 +3329,10 @@
   "-comparequest": [
    [
     "forwho",
+    false
+   ],
+   [
+    "string",
     false
    ],
    [
@@ -3894,16 +3844,6 @@
     false
    ]
   ],
-  "-dispell": [
-   [
-    "forwho",
-    false
-   ],
-   [
-    "string",
-    false
-   ]
-  ],
   "-dispellnpcwithany": [
    [
     "forwho",
@@ -4104,20 +4044,9 @@
     false
    ]
   ],
-  "-endargs": [],
   "-endbot": [
    [
     "forwho",
-    false
-   ]
-  ],
-  "-endscript": [
-   [
-    "forwho",
-    false
-   ],
-   [
-    "string",
     false
    ]
   ],
@@ -4205,20 +4134,6 @@
     true
    ]
   ],
-  "-executeevent_json_ap": [
-   [
-    "forwho",
-    false
-   ],
-   [
-    "string",
-    false
-   ],
-   [
-    "rest",
-    true
-   ]
-  ],
   "-exitclient": [
    [
     "forwho",
@@ -4238,10 +4153,6 @@
   "-f2pwindow_setoptions": [
    [
     "forwho",
-    false
-   ],
-   [
-    "string",
     false
    ]
   ],
@@ -4424,16 +4335,6 @@
   "-gettogh": [
    [
     "forwho",
-    false
-   ]
-  ],
-  "-group": [
-   [
-    "forwho",
-    false
-   ],
-   [
-    "string",
     false
    ]
   ],
@@ -4697,16 +4598,6 @@
     false
    ]
   ],
-  "-kannkor_testpull1": [
-   [
-    "forwho",
-    false
-   ],
-   [
-    "bool",
-    false
-   ]
-  ],
   "-kick": [
    [
     "forwho",
@@ -4717,7 +4608,12 @@
     false
    ]
   ],
-  "-killsession": [],
+  "-killsession": [
+   [
+    "string",
+    false
+   ]
+  ],
   "-krono": [
    [
     "forwho",
@@ -4798,7 +4694,7 @@
   ],
   "-logtoonin": [
    [
-    "forwho",
+    "string",
     false
    ],
    [
@@ -4859,16 +4755,6 @@
    ]
   ],
   "-message": [
-   [
-    "forwho",
-    false
-   ],
-   [
-    "string",
-    false
-   ]
-  ],
-  "-message_nt": [
    [
     "forwho",
     false
@@ -5208,16 +5094,6 @@
     false
    ]
   ],
-  "-ogreconsole_showrequiresogrebot": [
-   [
-    "forwho",
-    false
-   ],
-   [
-    "string",
-    false
-   ]
-  ],
   "-ogrecraft_addlastscribedrecipe": [
    [
     "forwho",
@@ -5289,6 +5165,12 @@
    ]
   ],
   "-ogrecraft_startwrits": [
+   [
+    "forwho",
+    false
+   ]
+  ],
+  "-ogrecraft_stop": [
    [
     "forwho",
     false
@@ -5398,7 +5280,6 @@
     false
    ]
   ],
-  "-osexecute": [],
   "-overseer_addagentstocollection": [
    [
     "forwho",
@@ -5613,16 +5494,6 @@
     false
    ]
   ],
-  "-pull": [
-   [
-    "forwho",
-    false
-   ],
-   [
-    "bool",
-    false
-   ]
-  ],
   "-pushover": [
    [
     "forwho",
@@ -5636,16 +5507,6 @@
   "-question": [
    [
     "forwho",
-    false
-   ]
-  ],
-  "-raid": [
-   [
-    "forwho",
-    false
-   ],
-   [
-    "string",
     false
    ]
   ],
@@ -5815,7 +5676,6 @@
     false
    ]
   ],
-  "-resetauth": [],
   "-resetcameraangle": [
    [
     "forwho",
@@ -5895,20 +5755,6 @@
    ]
   ],
   "-runscriptob": [
-   [
-    "forwho",
-    false
-   ],
-   [
-    "string",
-    false
-   ],
-   [
-    "rest",
-    true
-   ]
-  ],
-  "-runscriptob_ap": [
    [
     "forwho",
     false
@@ -6496,7 +6342,7 @@
   ],
   "-tell": [
    [
-    "string",
+    "forwho",
     false
    ],
    [
@@ -6515,16 +6361,6 @@
    ],
    [
     "string",
-    false
-   ]
-  ],
-  "-testpull1": [
-   [
-    "forwho",
-    false
-   ],
-   [
-    "bool",
     false
    ]
   ],
@@ -6794,7 +6630,12 @@
     false
    ]
   ],
-  "-unauth": [],
+  "-unauth": [
+   [
+    "string",
+    false
+   ]
+  ],
   "-unauthall": [],
   "-unflagall": [
    [
@@ -8024,10 +7865,11 @@
    "button_overseer_stop",
    "button_overseerbuymissions_buy",
    "button_overseerbuymissions_buy_group",
+   "button_persona_cleargear",
    "button_persona_openwindow",
+   "button_persona_recheckadorns",
    "button_persona_restoregear",
    "button_persona_savegear",
-   "button_persona_setbags",
    "button_profileparts_add",
    "button_profileparts_create",
    "button_pushover_creds_setup",
@@ -8263,6 +8105,9 @@
    "checkbox_packpony_enable",
    "checkbox_packpony_ghonly",
    "checkbox_packpony_nodismiss",
+   "checkbox_persona_adornmove_donotsave",
+   "checkbox_persona_gearbags_donotsave",
+   "checkbox_persona_nogearswap_donotsave",
    "checkbox_profileparts_settings_enable",
    "checkbox_pushover_disable_all",
    "checkbox_pushover_disable_non_priority",
@@ -8560,7 +8405,6 @@
    "listbox_uplink_list",
    "oat_listbox_autotarget_order",
    "overseer_status",
-   "slider_autotarget_rescantime",
    "slider_autotarget_scanheight",
    "slider_autotarget_scanradius",
    "slider_caststack_blsavagelevel",
@@ -8644,7 +8488,6 @@
    "textentry_other_requestconfrontfearviaraid",
    "textentry_overseerbuymissions_amount_of_each_recipe_to_buy",
    "textentry_overseerbuymissions_num_recipes_to_buy",
-   "textentry_persona_gearbags_donotsave",
    "textentry_profileparts_create",
    "textentry_relaygroups_defaultrelaygroup",
    "textentry_relaygroups_resetdefaultrelaygroup",
@@ -8702,6 +8545,7 @@
    "checkbox_vampiricrequiem_enable",
    "checkbox_vampiricrequiem_waittime",
    "combobox_autohunt_pullspell",
+   "slider_autotarget_rescantime",
    "slider_timewarptiming_duration",
    "slider_timewarptiming_timeout",
    "textentry_aliases_alias_id",
@@ -9016,7 +8860,6 @@
   },
   {
    "argsCheck": "same-count",
-   "argsNeeded": 1,
    "forWhoInsert": {
     "value": "all",
     "when": "always"
@@ -9024,7 +8867,7 @@
    "howToFix": "Write `OgreBotAPI.Windows:AcceptNoChoiceReward` instead of `OgreBotAPI:AcceptNoChoiceReward`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it.",
    "id": "OgreBotAPI:AcceptNoChoiceReward",
    "newForm": "OgreBotAPI.Windows:AcceptNoChoiceReward",
-   "newSignature": "[fw,windowId]",
+   "newSignature": "[fw,windowId=0]",
    "note": "The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it.",
    "oldCall": "OgreBotAPI:AcceptNoChoiceReward",
    "oldKinds": [
@@ -9087,14 +8930,15 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "example": {
     "after": "if !${This.bNoQuesting} && ${OgreBotAPI.Quest.ActorHas[${QuestNPC.ID}]}",
     "before": "if !${This.bNoQuesting} && ${OgreBotAPI.ActorHasQuest[${QuestNPC.ID}]}"
    },
-   "howToFix": "Write `OgreBotAPI.Quest.ActorHas` instead of `OgreBotAPI.ActorHasQuest`. New arguments: `[actorId=0]`.",
+   "howToFix": "Write `OgreBotAPI.Quest.ActorHas` instead of `OgreBotAPI.ActorHasQuest`. New arguments: `[actorId]`.",
    "id": "OgreBotAPI:ActorHasQuest",
    "newForm": "OgreBotAPI.Quest.ActorHas",
-   "newSignature": "[actorId=0]",
+   "newSignature": "[actorId]",
    "oldCall": "OgreBotAPI.ActorHasQuest",
    "oldKinds": [
     "x"
@@ -10012,12 +9856,16 @@
    "surface": "OgreBotAPI"
   },
   {
-   "argsCheck": "same-count",
+   "argsCheck": "compatible",
    "argsNeeded": 2,
-   "howToFix": "Write `OgreBotAPI.Cures:RequestCurse` instead of `OgreBotAPI:AutoCurse`. New arguments: `[fw,victim]`.",
+   "example": {
+    "after": "OgreBotAPI.Cures:RequestCurse[\"all\",${ActorID}]",
+    "before": "OgreBotAPI:AutoCurse[\"all\",${ActorID}]"
+   },
+   "howToFix": "Write `OgreBotAPI.Cures:RequestCurse` instead of `OgreBotAPI:AutoCurse`. New arguments: `[fw,victim,options...]`.",
    "id": "OgreBotAPI:AutoCurse",
    "newForm": "OgreBotAPI.Cures:RequestCurse",
-   "newSignature": "[fw,victim]",
+   "newSignature": "[fw,victim,options...]",
    "oldCall": "OgreBotAPI:AutoCurse",
    "oldKinds": [
     "m"
@@ -10029,15 +9877,12 @@
    "surface": "OgreBotAPI"
   },
   {
-   "argsCheck": "compatible",
-   "argsDropped": [
-    "_Toon"
-   ],
+   "argsCheck": "same-count",
    "argsNeeded": 1,
-   "howToFix": "Write `OgreBotAPI.Cures:RequestGroupWatch` instead of `OgreBotAPI:AutoGroupCure`. New arguments: `[fw]`.",
+   "howToFix": "Write `OgreBotAPI.Cures:RequestGroupWatch` instead of `OgreBotAPI:AutoGroupCure`. New arguments: `[fw,words...]`.",
    "id": "OgreBotAPI:AutoGroupCure",
    "newForm": "OgreBotAPI.Cures:RequestGroupWatch",
-   "newSignature": "[fw]",
+   "newSignature": "[fw,words...]",
    "oldCall": "OgreBotAPI:AutoGroupCure",
    "oldKinds": [
     "m"
@@ -10421,19 +10266,8 @@
    "surface": "OgreBotAPI"
   },
   {
-   "argsCheck": "same-count",
-   "example": {
-    "after": "OgreBotAPI.AutoTarget:SetRescanTime[all,100]",
-    "before": "OgreBotAPI:AutoTarget_SetRescanTime[all,100]"
-   },
-   "forWhoInsert": {
-    "value": "all",
-    "when": "noArgs"
-   },
-   "howToFix": "Write `OgreBotAPI.AutoTarget:SetRescanTime` instead of `OgreBotAPI:AutoTarget_SetRescanTime`. New arguments: `[fw, n=50]`.",
+   "howToFix": "Removed on purpose - there is no replacement.",
    "id": "OgreBotAPI:AutoTarget_SetRescanTime",
-   "newForm": "OgreBotAPI.AutoTarget:SetRescanTime",
-   "newSignature": "[fw, n=50]",
    "oldCall": "OgreBotAPI:AutoTarget_SetRescanTime",
    "oldKinds": [
     "m"
@@ -10441,7 +10275,7 @@
    "oldName": "AutoTarget_SetRescanTime",
    "oldSignature": "(string _ForWho=All, int _Value=50)",
    "oldSpellingToday": "does nothing - no error in any log (the method no longer exists)",
-   "status": "renamed",
+   "status": "removed",
    "surface": "OgreBotAPI"
   },
   {
@@ -10572,10 +10406,10 @@
     "value": "all",
     "when": "noArgs"
    },
-   "howToFix": "Write `OgreBotAPI.CampSpot:SetLoc` instead of `OgreBotAPI:CCS`. New arguments: `[fw,x,y,z]`.",
+   "howToFix": "Write `OgreBotAPI.CampSpot:SetLoc` instead of `OgreBotAPI:CCS`. New arguments: `[fw,x|point,y?,z?]`.",
    "id": "OgreBotAPI:CCS",
    "newForm": "OgreBotAPI.CampSpot:SetLoc",
-   "newSignature": "[fw,x,y,z]",
+   "newSignature": "[fw,x|point,y?,z?]",
    "oldCall": "OgreBotAPI:CCS",
    "oldKinds": [
     "m"
@@ -10611,9 +10445,9 @@
    "surface": "OgreBotAPI"
   },
   {
-   "howToFix": "Write `OgreBotAPI.CampSpot:NudgeRelativeBy` instead of `OgreBotAPI:CS_Set_ChangeRelativeCampSpotBy`. New arguments: `[fw,dx=0,dy=0,dz=0]`.",
+   "howToFix": "Write `OgreBotAPI.CampSpot:SetRelativeBy` instead of `OgreBotAPI:CS_Set_ChangeRelativeCampSpotBy`. New arguments: `[fw,dx=0,dy=0,dz=0]`.",
    "id": "OgreBotAPI:CS_Set_ChangeRelativeCampSpotBy",
-   "newForm": "OgreBotAPI.CampSpot:NudgeRelativeBy",
+   "newForm": "OgreBotAPI.CampSpot:SetRelativeBy",
    "newSignature": "[fw,dx=0,dy=0,dz=0]",
    "oldCall": "OgreBotAPI:CS_Set_ChangeRelativeCampSpotBy",
    "oldName": "CS_Set_ChangeRelativeCampSpotBy",
@@ -11285,7 +11119,7 @@
   },
   {
    "argsCheck": "same-count",
-   "argsNeeded": 1,
+   "argsNeeded": 2,
    "forWhoInsert": {
     "value": "all",
     "when": "always"
@@ -11293,7 +11127,7 @@
    "howToFix": "Write `OgreBotAPI.Abilities:AnnounceCasted` instead of `OgreBotAPI:CastedCastOnTheMove`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it.",
    "id": "OgreBotAPI:CastedCastOnTheMove",
    "newForm": "OgreBotAPI.Abilities:AnnounceCasted",
-   "newSignature": "[fw,caster,seconds=0]",
+   "newSignature": "[fw,caster,seconds]",
    "note": "The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it.",
    "oldCall": "OgreBotAPI:CastedCastOnTheMove",
    "oldKinds": [
@@ -11307,6 +11141,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 1,
    "forWhoInsert": {
     "value": "all",
     "when": "always"
@@ -11314,7 +11149,7 @@
    "howToFix": "Write `OgreBotAPI.Abilities:AnnounceCasting` instead of `OgreBotAPI:CastingCastOnTheMove`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it.",
    "id": "OgreBotAPI:CastingCastOnTheMove",
    "newForm": "OgreBotAPI.Abilities:AnnounceCasting",
-   "newSignature": "[fw,seconds=0]",
+   "newSignature": "[fw,seconds]",
    "note": "The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it.",
    "oldCall": "OgreBotAPI:CastingCastOnTheMove",
    "oldKinds": [
@@ -11387,7 +11222,7 @@
    "howToFix": "Write `OgreBotAPI.CampSpot:SetLoc` instead of `OgreBotAPI:ChangeCampSpot`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. Took coordinates at arg 0 with **no** for-who. The new form requires one: `OgreBotAPI.CampSpot:SetLoc[\"all\",x,y,z]`.",
    "id": "OgreBotAPI:ChangeCampSpot",
    "newForm": "OgreBotAPI.CampSpot:SetLoc",
-   "newSignature": "[fw,x,y,z]",
+   "newSignature": "[fw,x|point,y?,z?]",
    "note": "The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. Took coordinates at arg 0 with **no** for-who. The new form requires one: `OgreBotAPI.CampSpot:SetLoc[\"all\",x,y,z]`.",
    "oldCall": "OgreBotAPI:ChangeCampSpot",
    "oldKinds": [
@@ -11406,10 +11241,10 @@
     "after": "OgreBotAPI.CampSpot:SetLoc[\"all\",${fX},50,${fZ}]",
     "before": "OgreBotAPI:ChangeCampSpotWho[\"all\",${fX},50,${fZ}]"
    },
-   "howToFix": "Write `OgreBotAPI.CampSpot:SetLoc` instead of `OgreBotAPI:ChangeCampSpotWho`. New arguments: `[fw,x,y,z]`.",
+   "howToFix": "Write `OgreBotAPI.CampSpot:SetLoc` instead of `OgreBotAPI:ChangeCampSpotWho`. New arguments: `[fw,x|point,y?,z?]`.",
    "id": "OgreBotAPI:ChangeCampSpotWho",
    "newForm": "OgreBotAPI.CampSpot:SetLoc",
-   "newSignature": "[fw,x,y,z]",
+   "newSignature": "[fw,x|point,y?,z?]",
    "oldCall": "OgreBotAPI:ChangeCampSpotWho",
    "oldKinds": [
     "m"
@@ -11495,10 +11330,10 @@
     "after": "OgreBotAPI.Options:Set[\"all\",\"checkbox_debug_casting\",TRUE]",
     "before": "OgreBotAPI:ChangeOgreBotUIOption[\"all\",\"checkbox_debug_casting\",TRUE]"
    },
-   "howToFix": "Write `OgreBotAPI.Options:Set` instead of `OgreBotAPI:ChangeOgreBotUIOption`. New arguments: `[fw, (id,value)...]`.",
+   "howToFix": "Write `OgreBotAPI.Options:Set` instead of `OgreBotAPI:ChangeOgreBotUIOption`. New arguments: `[fw,silent|loud|verbose=\"\",(id,value)...,silent=FALSE]`.",
    "id": "OgreBotAPI:ChangeOgreBotUIOption",
    "newForm": "OgreBotAPI.Options:Set",
-   "newSignature": "[fw, (id,value)...]",
+   "newSignature": "[fw,silent|loud|verbose=\"\",(id,value)...,silent=FALSE]",
    "oldCall": "OgreBotAPI:ChangeOgreBotUIOption",
    "oldKinds": [
     "m"
@@ -11752,19 +11587,18 @@
    "surface": "OgreBotAPI"
   },
   {
-   "argsCheck": "same-count",
-   "example": {
-    "after": "OgreBotAPI.Consumables:CheckMountTraining[\"${_CommandForWho}\",${_ForceCheck}]",
-    "before": "OgreBotAPI:CheckMountTraining[\"${_CommandForWho}\",${_ForceCheck}]"
-   },
+   "argsCheck": "compatible",
+   "argsDropped": [
+    "_ForceCheck"
+   ],
    "forWhoInsert": {
     "value": "all",
     "when": "noArgs"
    },
-   "howToFix": "Write `OgreBotAPI.Consumables:CheckMountTraining` instead of `OgreBotAPI:CheckMountTraining`. New arguments: `[fw,force=FALSE]`.",
+   "howToFix": "Write `OgreBotAPI.Consumables:CheckMountTraining` instead of `OgreBotAPI:CheckMountTraining`. New arguments: `[fw]`.",
    "id": "OgreBotAPI:CheckMountTraining",
    "newForm": "OgreBotAPI.Consumables:CheckMountTraining",
-   "newSignature": "[fw,force=FALSE]",
+   "newSignature": "[fw]",
    "oldCall": "OgreBotAPI:CheckMountTraining",
    "oldKinds": [
     "m"
@@ -11871,16 +11705,15 @@
   },
   {
    "argsCheck": "same-count",
-   "argsNeeded": 1,
    "forWhoInsert": {
     "value": "all",
     "when": "always"
    },
-   "howToFix": "Write `OgreBotAPI.Quest:CheckToShare` instead of `OgreBotAPI:CheckToShareQuest`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it.",
+   "howToFix": "Write `OgreBotAPI.Zone:ShareQuestsForZone` instead of `OgreBotAPI:CheckToShareQuest`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. With the for-who all, only the group leader shares (the ShareQuestsForZone gate); Classic's CheckToShareQuest shared from whichever session ran it. Name the toon to share from one that is not the leader. A blank zone is the zone you are in.",
    "id": "OgreBotAPI:CheckToShareQuest",
-   "newForm": "OgreBotAPI.Quest:CheckToShare",
-   "newSignature": "[fw,zoneName]",
-   "note": "The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it.",
+   "newForm": "OgreBotAPI.Zone:ShareQuestsForZone",
+   "newSignature": "[fw,zone=\"\"]",
+   "note": "The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. With the for-who all, only the group leader shares (the ShareQuestsForZone gate); Classic's CheckToShareQuest shared from whichever session ran it. Name the toon to share from one that is not the leader. A blank zone is the zone you are in.",
    "oldCall": "OgreBotAPI:CheckToShareQuest",
    "oldKinds": [
     "m"
@@ -12399,16 +12232,19 @@
    "surface": "OgreBotAPI"
   },
   {
-   "argsCheck": "differs",
+   "argsCheck": "same-count",
+   "example": {
+    "after": "OgreBotAPI.Windows:Close[\"${_CommandForWho}\"]",
+    "before": "OgreBotAPI:CloseWindow[\"${_CommandForWho}\"]"
+   },
    "forWhoInsert": {
     "value": "all",
     "when": "noArgs"
    },
-   "howToFix": "Write `OgreBotAPI.Windows:Close` instead of `OgreBotAPI:CloseWindow`; the arguments changed: The arguments are different: Classic took `(string _ForWho=\"all\")`, the new call takes `[fw,name]`.",
+   "howToFix": "Write `OgreBotAPI.Windows:Close` instead of `OgreBotAPI:CloseWindow`. New arguments: `[fw]`.",
    "id": "OgreBotAPI:CloseWindow",
    "newForm": "OgreBotAPI.Windows:Close",
-   "newSignature": "[fw,name]",
-   "note": "The arguments are different: Classic took `(string _ForWho=\"all\")`, the new call takes `[fw,name]`.",
+   "newSignature": "[fw]",
    "oldCall": "OgreBotAPI:CloseWindow",
    "oldKinds": [
     "m"
@@ -12416,7 +12252,7 @@
    "oldName": "CloseWindow",
    "oldSignature": "(string _ForWho=\"all\")",
    "oldSpellingToday": "does nothing - no error in any log (the method no longer exists)",
-   "status": "signature",
+   "status": "renamed",
    "surface": "OgreBotAPI"
   },
   {
@@ -12478,12 +12314,12 @@
    "surface": "OgreBotAPI"
   },
   {
-   "argsCheck": "same-count",
-   "argsNeeded": 2,
-   "howToFix": "Write `OgreBotAPI.Quest:CompareUpdate` instead of `OgreBotAPI:CompareQuestUpdate`. New arguments: `[fw,questName]`.",
+   "argsCheck": "differs",
+   "howToFix": "Write `OgreBotAPI.Quest:CompareUpdate` instead of `OgreBotAPI:CompareQuestUpdate`; the arguments changed: The arguments are different: Classic took `(string _ForWho, string _QuestName, ... _QuestInfo)`, the new call takes `[fw,questName,sender?]`.",
    "id": "OgreBotAPI:CompareQuestUpdate",
    "newForm": "OgreBotAPI.Quest:CompareUpdate",
-   "newSignature": "[fw,questName]",
+   "newSignature": "[fw,questName,sender?]",
+   "note": "The arguments are different: Classic took `(string _ForWho, string _QuestName, ... _QuestInfo)`, the new call takes `[fw,questName,sender?]`.",
    "oldCall": "OgreBotAPI:CompareQuestUpdate",
    "oldKinds": [
     "m"
@@ -12491,7 +12327,7 @@
    "oldName": "CompareQuestUpdate",
    "oldSignature": "(string _ForWho, string _QuestName, ... _QuestInfo)",
    "oldSpellingToday": "does nothing - no error in any log (the method no longer exists)",
-   "status": "renamed",
+   "status": "signature",
    "surface": "OgreBotAPI"
   },
   {
@@ -12782,7 +12618,7 @@
    "surface": "OgreBotAPI"
   },
   {
-   "argsCheck": "compatible",
+   "argsCheck": "same-count",
    "example": {
     "after": "OgreBotAPI.Combat:Countdown[\"${_CommandForWho}\",${_Time}]",
     "before": "OgreBotAPI:Countdown[\"${_CommandForWho}\",${_Time}]"
@@ -12791,10 +12627,10 @@
     "value": "all",
     "when": "noArgs"
    },
-   "howToFix": "Write `OgreBotAPI.Combat:Countdown` instead of `OgreBotAPI:Countdown`. New arguments: `[fw,seconds=10,...]`.",
+   "howToFix": "Write `OgreBotAPI.Combat:Countdown` instead of `OgreBotAPI:Countdown`. New arguments: `[fw,seconds=10]`.",
    "id": "OgreBotAPI:Countdown",
    "newForm": "OgreBotAPI.Combat:Countdown",
-   "newSignature": "[fw,seconds=10,...]",
+   "newSignature": "[fw,seconds=10]",
    "oldCall": "OgreBotAPI:Countdown",
    "oldKinds": [
     "m"
@@ -12856,12 +12692,16 @@
    "surface": "OgreBotAPI"
   },
   {
-   "argsCheck": "same-count",
+   "argsCheck": "compatible",
    "argsNeeded": 2,
-   "howToFix": "Write `OgreBotAPI.Cures:RequestCurse` instead of `OgreBotAPI:Cursed`. New arguments: `[fw,victim]`.",
+   "example": {
+    "after": "OgreBotAPI.Cures:RequestCurse[\"all\",\"${_OnWho}\"]",
+    "before": "OgreBotAPI:Cursed[\"all\",\"${_OnWho}\"]"
+   },
+   "howToFix": "Write `OgreBotAPI.Cures:RequestCurse` instead of `OgreBotAPI:Cursed`. New arguments: `[fw,victim,options...]`.",
    "id": "OgreBotAPI:Cursed",
    "newForm": "OgreBotAPI.Cures:RequestCurse",
-   "newSignature": "[fw,victim]",
+   "newSignature": "[fw,victim,options...]",
    "oldCall": "OgreBotAPI:Cursed",
    "oldKinds": [
     "m"
@@ -13306,9 +13146,9 @@
     "value": "all",
     "when": "always"
    },
-   "howToFix": "Write `OgreBotAPI.Bot:ListSetups` instead of `OgreBotAPI:DisplayAvailableSetups`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it.",
+   "howToFix": "Write `OgreBotAPI.Encounter:List` instead of `OgreBotAPI:DisplayAvailableSetups`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it.",
    "id": "OgreBotAPI:DisplayAvailableSetups",
-   "newForm": "OgreBotAPI.Bot:ListSetups",
+   "newForm": "OgreBotAPI.Encounter:List",
    "newSignature": "[fw]",
    "note": "The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it.",
    "oldCall": "OgreBotAPI:DisplayAvailableSetups",
@@ -13542,6 +13382,7 @@
   },
   {
    "argsCheck": "same-count",
+   "argsNeeded": 2,
    "example": {
     "after": "OgreBotAPI.Consumables:DrinkAlcohol[\"all\", \"${OgreBotAPI.Get_Variable[\"Biethimut_AlcoholName\"]}\"]",
     "before": "OgreBotAPI:Drink_Alcohol[\"all\", \"${OgreBotAPI.Get_Variable[\"Biethimut_AlcoholName\"]}\"]"
@@ -13550,10 +13391,10 @@
     "value": "all",
     "when": "noArgs"
    },
-   "howToFix": "Write `OgreBotAPI.Consumables:DrinkAlcohol` instead of `OgreBotAPI:Drink_Alcohol`. New arguments: `[fw,item=\"\"]`.",
+   "howToFix": "Write `OgreBotAPI.Consumables:DrinkAlcohol` instead of `OgreBotAPI:Drink_Alcohol`. New arguments: `[fw,item]`.",
    "id": "OgreBotAPI:Drink_Alcohol",
    "newForm": "OgreBotAPI.Consumables:DrinkAlcohol",
-   "newSignature": "[fw,item=\"\"]",
+   "newSignature": "[fw,item]",
    "oldCall": "OgreBotAPI:Drink_Alcohol",
    "oldKinds": [
     "m"
@@ -13885,16 +13726,20 @@
    "surface": "OgreBotAPI"
   },
   {
-   "argsCheck": "differs",
+   "argsCheck": "compatible",
+   "argsNeeded": 2,
+   "example": {
+    "after": "OgreBotAPI.Comms:ExecuteEvent[\"${_CommandForWho}\",\"${_EventName}\",${Args.ExpandComma}]",
+    "before": "OgreBotAPI:ExecuteEvent_JSON[\"${_CommandForWho}\",\"${_EventName}\",${Args.ExpandComma}]"
+   },
    "forWhoInsert": {
     "value": "all",
     "when": "noArgs"
    },
-   "howToFix": "Write `OgreBotAPI.Comms:ExecuteEventJSON` instead of `OgreBotAPI:ExecuteEvent_JSON`; the arguments changed: The arguments are different: Classic took `(string _ForWho=\"all\", string _EventName, ... Args)`, the new call takes `[fw,name,json]`.",
+   "howToFix": "Write `OgreBotAPI.Comms:ExecuteEvent` instead of `OgreBotAPI:ExecuteEvent_JSON`. New arguments: `[fw,name,...]`.",
    "id": "OgreBotAPI:ExecuteEvent_JSON",
-   "newForm": "OgreBotAPI.Comms:ExecuteEventJSON",
-   "newSignature": "[fw,name,json]",
-   "note": "The arguments are different: Classic took `(string _ForWho=\"all\", string _EventName, ... Args)`, the new call takes `[fw,name,json]`.",
+   "newForm": "OgreBotAPI.Comms:ExecuteEvent",
+   "newSignature": "[fw,name,...]",
    "oldCall": "OgreBotAPI:ExecuteEvent_JSON",
    "oldKinds": [
     "m"
@@ -13902,7 +13747,7 @@
    "oldName": "ExecuteEvent_JSON",
    "oldSignature": "(string _ForWho=\"all\", string _EventName, ... Args)",
    "oldSpellingToday": "does nothing - no error in any log (the method no longer exists)",
-   "status": "signature",
+   "status": "renamed",
    "surface": "OgreBotAPI"
   },
   {
@@ -13955,11 +13800,10 @@
    "surface": "OgreBotAPI"
   },
   {
-   "argsCheck": "same-count",
-   "example": {
-    "after": "OgreBotAPI:F2PWindow_SetOptions[\"${_CommandForWho}\",${_Option}]",
-    "before": "OgreBotAPI:F2PWindow_SetOptions[\"${_CommandForWho}\",${_Option}]"
-   },
+   "argsCheck": "compatible",
+   "argsDropped": [
+    "_Minutes"
+   ],
    "forWhoInsert": {
     "value": "all",
     "when": "noArgs"
@@ -13967,7 +13811,7 @@
    "howToFix": "Nothing to change.",
    "id": "OgreBotAPI:F2PWindow_SetOptions",
    "newForm": "OgreBotAPI:F2PWindow_SetOptions",
-   "newSignature": "[fw,minutes=\"\"]",
+   "newSignature": "[fw]",
    "oldCall": "OgreBotAPI:F2PWindow_SetOptions",
    "oldKinds": [
     "m"
@@ -14579,14 +14423,10 @@
   },
   {
    "argsCheck": "compatible",
-   "example": {
-    "after": "if ${OgreBotAPI.Actors.CountByType[\"-Type\",\"PC\",\"-Distance\",3]} == 1",
-    "before": "if ${OgreBotAPI.GetActorCountByType[\"-Type\",\"PC\",\"-Distance\",3]} == 1"
-   },
-   "howToFix": "Write `OgreBotAPI.Actors.CountByType` instead of `OgreBotAPI.GetActorCountByType`. New arguments: `[-distance F,-Type S]`.",
+   "howToFix": "Write `OgreBotAPI.Actors.CountByType` instead of `OgreBotAPI.GetActorCountByType`. New arguments: `[type=Special,-distance=\"\",distance=999]`.",
    "id": "OgreBotAPI:GetActorCountByType",
    "newForm": "OgreBotAPI.Actors.CountByType",
-   "newSignature": "[-distance F,-Type S]",
+   "newSignature": "[type=Special,-distance=\"\",distance=999]",
    "oldCall": "OgreBotAPI.GetActorCountByType",
    "oldKinds": [
     "x"
@@ -14634,17 +14474,16 @@
    "surface": "OgreBotAPI"
   },
   {
-   "howToFix": "The new name `OgreBotAPI.Quest.DeityPoints` exists but does nothing yet - treat it as not ported.",
+   "howToFix": "Removed on purpose - there is no replacement.",
    "id": "OgreBotAPI:GetDeityPoints",
-   "newForm": "OgreBotAPI.Quest.DeityPoints",
    "oldCall": "OgreBotAPI.GetDeityPoints",
    "oldKinds": [
     "x"
    ],
    "oldName": "GetDeityPoints",
    "oldSignature": "(string _Value=0)",
-   "oldSpellingToday": "resolves, but the target is a stub - returns FALSE/empty and does nothing",
-   "status": "stub",
+   "oldSpellingToday": "reads NULL - no error in any log (the member no longer exists)",
+   "status": "removed",
    "surface": "OgreBotAPI"
   },
   {
@@ -15241,10 +15080,8 @@
    "surface": "OgreBotAPI"
   },
   {
-   "argsCheck": "unknown",
-   "howToFix": "Write `OgreBotAPI.Debug.DebugLoading` instead of `OgreBotAPI.Get_DebugLoading`.",
+   "howToFix": "Removed on purpose - there is no replacement.",
    "id": "OgreBotAPI:Get_DebugLoading",
-   "newForm": "OgreBotAPI.Debug.DebugLoading",
    "oldCall": "OgreBotAPI.Get_DebugLoading",
    "oldKinds": [
     "x"
@@ -15252,7 +15089,7 @@
    "oldName": "Get_DebugLoading",
    "oldSignature": "()",
    "oldSpellingToday": "reads NULL - no error in any log (the member no longer exists)",
-   "status": "renamed",
+   "status": "removed",
    "surface": "OgreBotAPI"
   },
   {
@@ -15604,10 +15441,12 @@
    "surface": "OgreBotAPI"
   },
   {
-   "argsCheck": "unknown",
-   "howToFix": "Write `OgreBotAPI.Session.ReviveLocation` instead of `OgreBotAPI.Get_ReviveLocation`.",
+   "argsCheck": "same-count",
+   "argsNeeded": 1,
+   "howToFix": "Write `OgreBotAPI.Session.ReviveLocation` instead of `OgreBotAPI.Get_ReviveLocation`. New arguments: `[option,exact=FALSE]`.",
    "id": "OgreBotAPI:Get_ReviveLocation",
    "newForm": "OgreBotAPI.Session.ReviveLocation",
+   "newSignature": "[option,exact=FALSE]",
    "oldCall": "OgreBotAPI.Get_ReviveLocation",
    "oldKinds": [
     "x"
@@ -15620,11 +15459,11 @@
   },
   {
    "argsCheck": "same-count",
-   "argsNeeded": 2,
-   "howToFix": "Write `OgreBotAPI.Windows.RewardID` instead of `OgreBotAPI.Get_RewardID`. New arguments: `[num|name,windowId]`.",
+   "argsNeeded": 1,
+   "howToFix": "Write `OgreBotAPI.Windows.RewardID` instead of `OgreBotAPI.Get_RewardID`. New arguments: `[num|name,windowId=0]`.",
    "id": "OgreBotAPI:Get_RewardID",
    "newForm": "OgreBotAPI.Windows.RewardID",
-   "newSignature": "[num|name,windowId]",
+   "newSignature": "[num|name,windowId=0]",
    "oldCall": "OgreBotAPI.Get_RewardID",
    "oldKinds": [
     "x"
@@ -15637,11 +15476,11 @@
   },
   {
    "argsCheck": "same-count",
-   "argsNeeded": 2,
-   "howToFix": "Write `OgreBotAPI.Windows.RewardLinkID` instead of `OgreBotAPI.Get_RewardLinkID`. New arguments: `[num|name,windowId]`.",
+   "argsNeeded": 1,
+   "howToFix": "Write `OgreBotAPI.Windows.RewardLinkID` instead of `OgreBotAPI.Get_RewardLinkID`. New arguments: `[num|name,windowId=0]`.",
    "id": "OgreBotAPI:Get_RewardLinkID",
    "newForm": "OgreBotAPI.Windows.RewardLinkID",
-   "newSignature": "[num|name,windowId]",
+   "newSignature": "[num|name,windowId=0]",
    "oldCall": "OgreBotAPI.Get_RewardLinkID",
    "oldKinds": [
     "x"
@@ -15654,11 +15493,11 @@
   },
   {
    "argsCheck": "same-count",
-   "argsNeeded": 2,
-   "howToFix": "Write `OgreBotAPI.Windows.RewardName` instead of `OgreBotAPI.Get_RewardName`. New arguments: `[num|name,windowId]`.",
+   "argsNeeded": 1,
+   "howToFix": "Write `OgreBotAPI.Windows.RewardName` instead of `OgreBotAPI.Get_RewardName`. New arguments: `[num|name,windowId=0]`.",
    "id": "OgreBotAPI:Get_RewardName",
    "newForm": "OgreBotAPI.Windows.RewardName",
-   "newSignature": "[num|name,windowId]",
+   "newSignature": "[num|name,windowId=0]",
    "oldCall": "OgreBotAPI.Get_RewardName",
    "oldKinds": [
     "x"
@@ -16689,17 +16528,15 @@
    "surface": "OgreBotAPI"
   },
   {
-   "howToFix": "Write `OgreBotAPI.Bot:Initialize` instead of `OgreBotAPI:Initialize`. New arguments: `[fw]`.",
+   "howToFix": "Removed on purpose - there is no replacement.",
    "id": "OgreBotAPI:Initialize",
-   "newForm": "OgreBotAPI.Bot:Initialize",
-   "newSignature": "[fw]",
    "oldCall": "OgreBotAPI:Initialize",
    "oldKinds": [
     "m"
    ],
    "oldName": "Initialize",
    "oldSpellingToday": "does nothing - no error in any log (the method no longer exists)",
-   "status": "moved",
+   "status": "removed",
    "surface": "OgreBotAPI"
   },
   {
@@ -17266,14 +17103,14 @@
    "surface": "OgreBotAPI"
   },
   {
-   "howToFix": "Nothing to change.",
+   "howToFix": "Write `OgreBotAPI.AutoTarget:LoadSaved` instead of `OgreBotAPI:LoadAutoTargetList`. New arguments: `[fw, name]`.",
    "id": "OgreBotAPI:LoadAutoTargetList",
-   "newForm": "OgreBotAPI:LoadAutoTargetList",
-   "newSignature": "[fw,list]",
+   "newForm": "OgreBotAPI.AutoTarget:LoadSaved",
+   "newSignature": "[fw, name]",
    "oldCall": "OgreBotAPI:LoadAutoTargetList",
    "oldName": "LoadAutoTargetList",
-   "oldSpellingToday": "works",
-   "status": "unchanged",
+   "oldSpellingToday": "reads NULL - no error in any log (the member no longer exists)",
+   "status": "renamed",
    "surface": "OgreBotAPI"
   },
   {
@@ -17339,16 +17176,16 @@
    "surface": "OgreBotAPI"
   },
   {
-   "howToFix": "Write `OgreBotAPI.Quest.SkipShinies` instead of `OgreBotAPI.LootQuestion`.",
+   "howToFix": "Use `${OgreBotAPI.Options.Value[checkbox_loot_donotlootshinies]}`.",
    "id": "OgreBotAPI:LootQuestion",
-   "newForm": "OgreBotAPI.Quest.SkipShinies",
+   "newForm": "${OgreBotAPI.Options.Value[checkbox_loot_donotlootshinies]}",
    "oldCall": "OgreBotAPI.LootQuestion",
    "oldKinds": [
     "v"
    ],
    "oldName": "LootQuestion",
    "oldSpellingToday": "reads NULL - no error in any log (the member no longer exists)",
-   "status": "renamed",
+   "status": "portedElsewhere",
    "surface": "OgreBotAPI"
   },
   {
@@ -17483,10 +17320,8 @@
    "surface": "OgreBotAPI"
   },
   {
-   "argsCheck": "unknown",
-   "howToFix": "Write `OgreBotAPI.Combat.MaybeAnotherTime` instead of `OgreBotAPI.MaybeAnotherTime_CheckNoOffensive`.",
+   "howToFix": "Removed on purpose - there is no replacement.",
    "id": "OgreBotAPI:MaybeAnotherTime_CheckNoOffensive",
-   "newForm": "OgreBotAPI.Combat.MaybeAnotherTime",
    "oldCall": "OgreBotAPI.MaybeAnotherTime_CheckNoOffensive",
    "oldKinds": [
     "x"
@@ -17494,7 +17329,7 @@
    "oldName": "MaybeAnotherTime_CheckNoOffensive",
    "oldSignature": "(string _MobName)",
    "oldSpellingToday": "reads NULL - no error in any log (the member no longer exists)",
-   "status": "renamed",
+   "status": "removed",
    "surface": "OgreBotAPI"
   },
   {
@@ -18601,15 +18436,8 @@
    "surface": "OgreBotAPI"
   },
   {
-   "argsCheck": "compatible",
-   "argsDropped": [
-    "_Named"
-   ],
-   "argsNeeded": 1,
-   "howToFix": "Write `OgreBotAPI.Movement:Pull` instead of `OgreBotAPI:Pull`. New arguments: `[fw]`.",
+   "howToFix": "Removed on purpose - there is no replacement.",
    "id": "OgreBotAPI:Pull",
-   "newForm": "OgreBotAPI.Movement:Pull",
-   "newSignature": "[fw]",
    "oldCall": "OgreBotAPI:Pull",
    "oldKinds": [
     "m"
@@ -18617,7 +18445,7 @@
    "oldName": "Pull",
    "oldSignature": "(string _ForWho, bool _Named=FALSE)",
    "oldSpellingToday": "does nothing - no error in any log (the method no longer exists)",
-   "status": "moved",
+   "status": "removed",
    "surface": "OgreBotAPI"
   },
   {
@@ -18934,16 +18762,16 @@
    "argsCheck": "same-count",
    "argsNeeded": 2,
    "example": {
-    "after": "OgreBotAPI:RemoveNoOffensiveOn[\"all\",\"Shield of Yothshaval\"]",
+    "after": "OgreBotAPI.Combat:RemoveNoOffensive[\"all\",\"Shield of Yothshaval\"]",
     "before": "OgreBotAPI:RemoveNoOffensiveOn[\"all\",\"Shield of Yothshaval\"]"
    },
    "forWhoInsert": {
     "value": "all",
     "when": "noArgs"
    },
-   "howToFix": "Nothing to change.",
+   "howToFix": "Write `OgreBotAPI.Combat:RemoveNoOffensive` instead of `OgreBotAPI:RemoveNoOffensiveOn`. New arguments: `[fw,mobName]`.",
    "id": "OgreBotAPI:RemoveNoOffensiveOn",
-   "newForm": "OgreBotAPI:RemoveNoOffensiveOn",
+   "newForm": "OgreBotAPI.Combat:RemoveNoOffensive",
    "newSignature": "[fw,mobName]",
    "oldCall": "OgreBotAPI:RemoveNoOffensiveOn",
    "oldKinds": [
@@ -18951,8 +18779,8 @@
    ],
    "oldName": "RemoveNoOffensiveOn",
    "oldSignature": "(string _ForWho=all, string _MobName)",
-   "oldSpellingToday": "works",
-   "status": "unchanged",
+   "oldSpellingToday": "does nothing - no error in any log (the method no longer exists)",
+   "status": "renamed",
    "surface": "OgreBotAPI"
   },
   {
@@ -19731,16 +19559,11 @@
    "surface": "OgreBotAPI"
   },
   {
-   "argsCheck": "differs",
-   "forWhoInsert": {
-    "value": "all",
-    "when": "noArgs"
-   },
-   "howToFix": "Write `OgreBotAPI.Windows:Select` instead of `OgreBotAPI:Select_Window`; the arguments changed: The arguments are different: Classic took `(string _ForWho=all, ... Args)`, the new call takes `[fw,option]`.",
+   "howToFix": "Write `OgreBotAPI.Windows:Select` instead of `OgreBotAPI:Select_Window`; the arguments changed: A NUMBER picks one option lower than it did: Classic's option 2 is the new bot's 1, so subtract 1 from a number. A name, and the -substring / -test / -reportonly / -spew flags, carry over as they are.",
    "id": "OgreBotAPI:Select_Window",
    "newForm": "OgreBotAPI.Windows:Select",
-   "newSignature": "[fw,option]",
-   "note": "The arguments are different: Classic took `(string _ForWho=all, ... Args)`, the new call takes `[fw,option]`.",
+   "newSignature": "[fw,search...]",
+   "note": "A NUMBER picks one option lower than it did: Classic's option 2 is the new bot's 1, so subtract 1 from a number. A name, and the -substring / -test / -reportonly / -spew flags, carry over as they are.",
    "oldCall": "OgreBotAPI:Select_Window",
    "oldKinds": [
     "f",
@@ -19777,12 +19600,11 @@
    "surface": "OgreBotAPI"
   },
   {
-   "argsCheck": "differs",
-   "howToFix": "Write `OgreBotAPI.Windows.SelectOption` instead of `OgreBotAPI.Select_Window_GetOption`; the arguments changed: The arguments are different: Classic took `(... Args)`, the new call takes `[n]`.",
+   "howToFix": "Write `OgreBotAPI.Windows.SelectOption` instead of `OgreBotAPI.Select_Window_GetOption`; the arguments changed: The answer is one lower than Classic's, and so is a number you search for: Classic's `== 2` is the new bot's `== 1`. A name search carries over as it is.",
    "id": "OgreBotAPI:Select_Window_GetOption",
    "newForm": "OgreBotAPI.Windows.SelectOption",
-   "newSignature": "[n]",
-   "note": "The arguments are different: Classic took `(... Args)`, the new call takes `[n]`.",
+   "newSignature": "[search...]",
+   "note": "The answer is one lower than Classic's, and so is a number you search for: Classic's `== 2` is the new bot's `== 1`. A name search carries over as it is.",
    "oldCall": "OgreBotAPI.Select_Window_GetOption",
    "oldKinds": [
     "x"
@@ -19818,19 +19640,18 @@
    "surface": "OgreBotAPI"
   },
   {
-   "argsCheck": "same-count",
-   "example": {
-    "after": "OgreBotAPI.Zone:SelectVersion[\"${_CommandForWho}\"]",
-    "before": "OgreBotAPI:Select_Zone_Version[\"${_CommandForWho}\"]"
-   },
+   "argsCheck": "compatible",
+   "argsDropped": [
+    "_Option"
+   ],
    "forWhoInsert": {
     "value": "all",
     "when": "noArgs"
    },
-   "howToFix": "Write `OgreBotAPI.Zone:SelectVersion` instead of `OgreBotAPI:Select_Zone_Version`. New arguments: `[fw,version=OK]`.",
+   "howToFix": "Write `OgreBotAPI.Zone:SelectVersion` instead of `OgreBotAPI:Select_Zone_Version`. New arguments: `[fw]`.",
    "id": "OgreBotAPI:Select_Zone_Version",
    "newForm": "OgreBotAPI.Zone:SelectVersion",
-   "newSignature": "[fw,version=OK]",
+   "newSignature": "[fw]",
    "oldCall": "OgreBotAPI:Select_Zone_Version",
    "oldKinds": [
     "m"
@@ -19893,10 +19714,10 @@
     "value": "all",
     "when": "noArgs"
    },
-   "howToFix": "Write `OgreBotAPI.Loot:SetAutoLootMode` instead of `OgreBotAPI:SetAutoLootMode`. New arguments: `[fw,n]`.",
+   "howToFix": "Write `OgreBotAPI.Loot:SetAutoLootMode` instead of `OgreBotAPI:SetAutoLootMode`. New arguments: `[fw,mode]`.",
    "id": "OgreBotAPI:SetAutoLootMode",
    "newForm": "OgreBotAPI.Loot:SetAutoLootMode",
-   "newSignature": "[fw,n]",
+   "newSignature": "[fw,mode]",
    "oldCall": "OgreBotAPI:SetAutoLootMode",
    "oldKinds": [
     "m"
@@ -20027,16 +19848,8 @@
    "surface": "OgreBotAPI"
   },
   {
-   "argsCheck": "same-count",
-   "forWhoInsert": {
-    "value": "all",
-    "when": "always"
-   },
-   "howToFix": "Write `OgreBotAPI.Debug:SetDebugLoading` instead of `OgreBotAPI:SetDebugLoading`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. Gained a for-who; argument 0 *was* the bool.",
+   "howToFix": "Removed on purpose - there is no replacement.",
    "id": "OgreBotAPI:SetDebugLoading",
-   "newForm": "OgreBotAPI.Debug:SetDebugLoading",
-   "newSignature": "[fw,on=TRUE]",
-   "note": "The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. Gained a for-who; argument 0 *was* the bool.",
    "oldCall": "OgreBotAPI:SetDebugLoading",
    "oldKinds": [
     "m"
@@ -20044,7 +19857,7 @@
    "oldName": "SetDebugLoading",
    "oldSignature": "(bool _TorF=TRUE)",
    "oldSpellingToday": "does nothing - no error in any log (the method no longer exists)",
-   "status": "signature",
+   "status": "removed",
    "surface": "OgreBotAPI"
   },
   {
@@ -20112,16 +19925,19 @@
    "surface": "OgreBotAPI"
   },
   {
-   "argsCheck": "differs",
+   "argsCheck": "compatible",
+   "example": {
+    "after": "OgreBotAPI.Combat:SetNoDefensive[\"${Me.Name}\",TRUE]",
+    "before": "OgreBotAPI:SetNoDefensive[\"${Me.Name}\",TRUE]"
+   },
    "forWhoInsert": {
     "value": "all",
     "when": "noArgs"
    },
-   "howToFix": "Write `OgreBotAPI.Combat:SetNoDefensive` instead of `OgreBotAPI:SetNoDefensive`; the arguments changed: The arguments are different: Classic took `(string _ForWho=all, bool _Value=TRUE)`, the new call takes `[fw,on,reason]`.",
+   "howToFix": "Write `OgreBotAPI.Combat:SetNoDefensive` instead of `OgreBotAPI:SetNoDefensive`. New arguments: `[fw,on=TRUE,reason=\"\"]`.",
    "id": "OgreBotAPI:SetNoDefensive",
    "newForm": "OgreBotAPI.Combat:SetNoDefensive",
-   "newSignature": "[fw,on,reason]",
-   "note": "The arguments are different: Classic took `(string _ForWho=all, bool _Value=TRUE)`, the new call takes `[fw,on,reason]`.",
+   "newSignature": "[fw,on=TRUE,reason=\"\"]",
    "oldCall": "OgreBotAPI:SetNoDefensive",
    "oldKinds": [
     "m"
@@ -20129,14 +19945,14 @@
    "oldName": "SetNoDefensive",
    "oldSignature": "(string _ForWho=all, bool _Value=TRUE)",
    "oldSpellingToday": "does nothing - no error in any log (the method no longer exists)",
-   "status": "signature",
+   "status": "moved",
    "surface": "OgreBotAPI"
   },
   {
-   "howToFix": "Write `OgreBotAPI.Combat:SetNoOffensive` instead of `OgreBotAPI:SetNoOffensive`. New arguments: `[fw,on,reason]`.",
+   "howToFix": "Write `OgreBotAPI.Combat:SetNoOffensive` instead of `OgreBotAPI:SetNoOffensive`. New arguments: `[fw,on=TRUE,reason=\"\"]`.",
    "id": "OgreBotAPI:SetNoOffensive",
    "newForm": "OgreBotAPI.Combat:SetNoOffensive",
-   "newSignature": "[fw,on,reason]",
+   "newSignature": "[fw,on=TRUE,reason=\"\"]",
    "oldCall": "OgreBotAPI:SetNoOffensive",
    "oldName": "SetNoOffensive",
    "oldSpellingToday": "reads NULL - no error in any log (the member no longer exists)",
@@ -20474,10 +20290,10 @@
    "surface": "OgreBotAPI"
   },
   {
-   "howToFix": "Write `OgreBotAPI.CampSpot:SetFormation` instead of `OgreBotAPI:Set_Formation_Circle`. New arguments: `[fw,kind=circle,dist=7,x=myX,y=myY,z=myZ,useRelative=FALSE,middle=\"\",circleSpots=0]`.",
+   "howToFix": "Write `OgreBotAPI.CampSpot:SetFormation` instead of `OgreBotAPI:Set_Formation_Circle`. New arguments: `[fw,kind=circle,dist=7,x,y,z,useRelative=FALSE,middle=\"\",circleSpots=0]`.",
    "id": "OgreBotAPI:Set_Formation_Circle",
    "newForm": "OgreBotAPI.CampSpot:SetFormation",
-   "newSignature": "[fw,kind=circle,dist=7,x=myX,y=myY,z=myZ,useRelative=FALSE,middle=\"\",circleSpots=0]",
+   "newSignature": "[fw,kind=circle,dist=7,x,y,z,useRelative=FALSE,middle=\"\",circleSpots=0]",
    "oldCall": "OgreBotAPI:Set_Formation_Circle",
    "oldName": "Set_Formation_Circle",
    "oldSpellingToday": "reads NULL - no error in any log (the member no longer exists)",
@@ -20485,10 +20301,10 @@
    "surface": "OgreBotAPI"
   },
   {
-   "howToFix": "Write `OgreBotAPI.CampSpot:SetFormation` instead of `OgreBotAPI:Set_Formation_MonkeyInMiddle`. New arguments: `[fw,kind=circle,dist=7,x=myX,y=myY,z=myZ,useRelative=FALSE,middle=\"\",circleSpots=0]`.",
+   "howToFix": "Write `OgreBotAPI.CampSpot:SetFormation` instead of `OgreBotAPI:Set_Formation_MonkeyInMiddle`. New arguments: `[fw,kind=circle,dist=7,x,y,z,useRelative=FALSE,middle=\"\",circleSpots=0]`.",
    "id": "OgreBotAPI:Set_Formation_MonkeyInMiddle",
    "newForm": "OgreBotAPI.CampSpot:SetFormation",
-   "newSignature": "[fw,kind=circle,dist=7,x=myX,y=myY,z=myZ,useRelative=FALSE,middle=\"\",circleSpots=0]",
+   "newSignature": "[fw,kind=circle,dist=7,x,y,z,useRelative=FALSE,middle=\"\",circleSpots=0]",
    "oldCall": "OgreBotAPI:Set_Formation_MonkeyInMiddle",
    "oldName": "Set_Formation_MonkeyInMiddle",
    "oldSpellingToday": "reads NULL - no error in any log (the member no longer exists)",
@@ -20496,10 +20312,10 @@
    "surface": "OgreBotAPI"
   },
   {
-   "howToFix": "Write `OgreBotAPI.CampSpot:SetFormation` instead of `OgreBotAPI:Set_Formation_MonkeyInMiddleRaid`. New arguments: `[fw,kind=circle,dist=7,x=myX,y=myY,z=myZ,useRelative=FALSE,middle=\"\",circleSpots=0]`.",
+   "howToFix": "Write `OgreBotAPI.CampSpot:SetFormation` instead of `OgreBotAPI:Set_Formation_MonkeyInMiddleRaid`. New arguments: `[fw,kind=circle,dist=7,x,y,z,useRelative=FALSE,middle=\"\",circleSpots=0]`.",
    "id": "OgreBotAPI:Set_Formation_MonkeyInMiddleRaid",
    "newForm": "OgreBotAPI.CampSpot:SetFormation",
-   "newSignature": "[fw,kind=circle,dist=7,x=myX,y=myY,z=myZ,useRelative=FALSE,middle=\"\",circleSpots=0]",
+   "newSignature": "[fw,kind=circle,dist=7,x,y,z,useRelative=FALSE,middle=\"\",circleSpots=0]",
    "oldCall": "OgreBotAPI:Set_Formation_MonkeyInMiddleRaid",
    "oldName": "Set_Formation_MonkeyInMiddleRaid",
    "oldSpellingToday": "reads NULL - no error in any log (the member no longer exists)",
@@ -21504,24 +21320,16 @@
    "surface": "OgreBotAPI"
   },
   {
-   "argsCheck": "same-count",
-   "forWhoInsert": {
-    "value": "all",
-    "when": "always"
-   },
-   "howToFix": "Write `OgreBotAPI:TestAll` instead of `OgreBotAPI:TestAll`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it.",
+   "howToFix": "Removed on purpose - there is no replacement.",
    "id": "OgreBotAPI:TestAll",
-   "newForm": "OgreBotAPI:TestAll",
-   "newSignature": "[fw]",
-   "note": "The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it.",
    "oldCall": "OgreBotAPI:TestAll",
    "oldKinds": [
     "m"
    ],
    "oldName": "TestAll",
    "oldSignature": "()",
-   "oldSpellingToday": "works",
-   "status": "signature",
+   "oldSpellingToday": "does nothing - no error in any log (the method no longer exists)",
+   "status": "removed",
    "surface": "OgreBotAPI"
   },
   {
@@ -21552,16 +21360,19 @@
    "surface": "OgreBotAPI"
   },
   {
-   "argsCheck": "differs",
+   "argsCheck": "compatible",
+   "example": {
+    "after": "OgreBotAPI.Combat:ThreatIgnoreAdd[\"${_CommandForWho}\",${Args}]",
+    "before": "OgreBotAPI:ThreatFighterIgnoreList_Add[\"${_CommandForWho}\",${Args}]"
+   },
    "forWhoInsert": {
     "value": "all",
     "when": "noArgs"
    },
-   "howToFix": "Write `OgreBotAPI.Combat:ThreatIgnoreAdd` instead of `OgreBotAPI:ThreatFighterIgnoreList_Add`; the arguments changed: The arguments are different: Classic took `(string _ForWho=\"all\", ... Args)`, the new call takes `[fw,name]`.",
+   "howToFix": "Write `OgreBotAPI.Combat:ThreatIgnoreAdd` instead of `OgreBotAPI:ThreatFighterIgnoreList_Add`. New arguments: `[fw,name...]`.",
    "id": "OgreBotAPI:ThreatFighterIgnoreList_Add",
    "newForm": "OgreBotAPI.Combat:ThreatIgnoreAdd",
-   "newSignature": "[fw,name]",
-   "note": "The arguments are different: Classic took `(string _ForWho=\"all\", ... Args)`, the new call takes `[fw,name]`.",
+   "newSignature": "[fw,name...]",
    "oldCall": "OgreBotAPI:ThreatFighterIgnoreList_Add",
    "oldKinds": [
     "m"
@@ -21569,7 +21380,7 @@
    "oldName": "ThreatFighterIgnoreList_Add",
    "oldSignature": "(string _ForWho=\"all\", ... Args)",
    "oldSpellingToday": "does nothing - no error in any log (the method no longer exists)",
-   "status": "signature",
+   "status": "renamed",
    "surface": "OgreBotAPI"
   },
   {
@@ -21758,16 +21569,16 @@
   {
    "argsCheck": "same-count",
    "example": {
-    "after": "relay ${ISXOgreEQ2.Auth.RelayGroup} -noredirect OgreBotAPI.Zone:ToggleZoneReuse[\"igw:${Me.Name}\"]",
+    "after": "relay ${ISXOgreEQ2.Auth.RelayGroup} -noredirect OgreBotAPI.Zone:ResetUpdateInfo[\"igw:${Me.Name}\"]",
     "before": "relay ${OgreRelayGroup} -noredirect OgreBotAPI:ToggleZoneReuse[\"igw:${Me.Name}\"]"
    },
    "forWhoInsert": {
     "value": "all",
     "when": "noArgs"
    },
-   "howToFix": "Write `OgreBotAPI.Zone:ToggleZoneReuse` instead of `OgreBotAPI:ToggleZoneReuse`. New arguments: `[fw]`.",
+   "howToFix": "Write `OgreBotAPI.Zone:ResetUpdateInfo` instead of `OgreBotAPI:ToggleZoneReuse`. New arguments: `[fw]`.",
    "id": "OgreBotAPI:ToggleZoneReuse",
-   "newForm": "OgreBotAPI.Zone:ToggleZoneReuse",
+   "newForm": "OgreBotAPI.Zone:ResetUpdateInfo",
    "newSignature": "[fw]",
    "oldCall": "OgreBotAPI:ToggleZoneReuse",
    "oldKinds": [
@@ -21777,7 +21588,7 @@
    "oldName": "ToggleZoneReuse",
    "oldSignature": "(string _ForWho=all)",
    "oldSpellingToday": "does nothing - no error in any log (the method no longer exists)",
-   "status": "moved",
+   "status": "renamed",
    "surface": "OgreBotAPI"
   },
   {
@@ -21936,10 +21747,10 @@
    "surface": "OgreBotAPI"
   },
   {
-   "howToFix": "Write `OgreBotAPI.Travel:MeshFeatures` instead of `OgreBotAPI:TravelMeshFeatures`. New arguments: `[fw,flag=\"\",on=FALSE]`.",
+   "howToFix": "Write `OgreBotAPI.Travel:MeshFeatures` instead of `OgreBotAPI:TravelMeshFeatures`. New arguments: `[fw,flag=\"\",on=\"\"]`.",
    "id": "OgreBotAPI:TravelMeshFeatures",
    "newForm": "OgreBotAPI.Travel:MeshFeatures",
-   "newSignature": "[fw,flag=\"\",on=FALSE]",
+   "newSignature": "[fw,flag=\"\",on=\"\"]",
    "oldCall": "OgreBotAPI:TravelMeshFeatures",
    "oldName": "TravelMeshFeatures",
    "oldSpellingToday": "reads NULL - no error in any log (the member no longer exists)",
@@ -22292,16 +22103,8 @@
    "surface": "OgreBotAPI"
   },
   {
-   "argsCheck": "same-count",
-   "forWhoInsert": {
-    "value": "all",
-    "when": "always"
-   },
-   "howToFix": "Write `OgreBotAPI.Session:UpdateCharacterDetails` instead of `OgreBotAPI:UpdateCharacterDetails`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. Gained a for-who.",
+   "howToFix": "Removed on purpose - there is no replacement.",
    "id": "OgreBotAPI:UpdateCharacterDetails",
-   "newForm": "OgreBotAPI.Session:UpdateCharacterDetails",
-   "newSignature": "[fw]",
-   "note": "The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. Gained a for-who.",
    "oldCall": "OgreBotAPI:UpdateCharacterDetails",
    "oldKinds": [
     "m"
@@ -22309,7 +22112,7 @@
    "oldName": "UpdateCharacterDetails",
    "oldSignature": "()",
    "oldSpellingToday": "does nothing - no error in any log (the method no longer exists)",
-   "status": "signature",
+   "status": "removed",
    "surface": "OgreBotAPI"
   },
   {
@@ -22394,10 +22197,10 @@
     "after": "OgreBotAPI.Options:Set[\"all\",\"checkbox_settings_assist\",TRUE]",
     "before": "OgreBotAPI:UplinkOptionChange[\"all\",\"checkbox_settings_assist\",TRUE]"
    },
-   "howToFix": "Write `OgreBotAPI.Options:Set` instead of `OgreBotAPI:UplinkOptionChange`. New arguments: `[fw, (id,value)...]`.",
+   "howToFix": "Write `OgreBotAPI.Options:Set` instead of `OgreBotAPI:UplinkOptionChange`. New arguments: `[fw,silent|loud|verbose=\"\",(id,value)...,silent=FALSE]`.",
    "id": "OgreBotAPI:UplinkOptionChange",
    "newForm": "OgreBotAPI.Options:Set",
-   "newSignature": "[fw, (id,value)...]",
+   "newSignature": "[fw,silent|loud|verbose=\"\",(id,value)...,silent=FALSE]",
    "oldCall": "OgreBotAPI:UplinkOptionChange",
    "oldKinds": [
     "m"
@@ -22547,10 +22350,9 @@
    "surface": "OgreBotAPI"
   },
   {
-   "argsCheck": "unknown",
-   "howToFix": "Write `OgreBotAPI.Debug.Version` instead of `OgreBotAPI.Version`.",
+   "howToFix": "Use `${ISXOgreEQ2.Version}`.",
    "id": "OgreBotAPI:Version",
-   "newForm": "OgreBotAPI.Debug.Version",
+   "newForm": "${ISXOgreEQ2.Version}",
    "oldCall": "OgreBotAPI.Version",
    "oldKinds": [
     "x"
@@ -22558,7 +22360,7 @@
    "oldName": "Version",
    "oldSignature": "()",
    "oldSpellingToday": "reads NULL - no error in any log (the member no longer exists)",
-   "status": "moved",
+   "status": "portedElsewhere",
    "surface": "OgreBotAPI"
   },
   {
@@ -22613,16 +22415,19 @@
    "surface": "OgreBotAPI"
   },
   {
-   "argsCheck": "compatible",
-   "argsNeeded": 2,
+   "argsCheck": "same-count",
+   "example": {
+    "after": "OgreBotAPI.Zone:Zone[\"${_CommandForWho}\"]",
+    "before": "OgreBotAPI:Zone[\"${_CommandForWho}\"]"
+   },
    "forWhoInsert": {
     "value": "all",
     "when": "noArgs"
    },
-   "howToFix": "Write `OgreBotAPI.Zone:Zone` instead of `OgreBotAPI:Zone`. New arguments: `[fw,zone,...]`.",
+   "howToFix": "Write `OgreBotAPI.Zone:Zone` instead of `OgreBotAPI:Zone`. New arguments: `[fw]`.",
    "id": "OgreBotAPI:Zone",
    "newForm": "OgreBotAPI.Zone:Zone",
-   "newSignature": "[fw,zone,...]",
+   "newSignature": "[fw]",
    "oldCall": "OgreBotAPI:Zone",
    "oldKinds": [
     "m"
@@ -22864,22 +22669,21 @@
    "surface": "OgreBotAPI"
   },
   {
-   "howToFix": "Write `OgreBotAPI.Debug.DebugLoading` instead of `OgreBotAPI.bDebugLoading`.",
+   "howToFix": "Removed on purpose - there is no replacement.",
    "id": "OgreBotAPI:bDebugLoading",
-   "newForm": "OgreBotAPI.Debug.DebugLoading",
    "oldCall": "OgreBotAPI.bDebugLoading",
    "oldKinds": [
     "v"
    ],
    "oldName": "bDebugLoading",
    "oldSpellingToday": "reads NULL - no error in any log (the member no longer exists)",
-   "status": "renamed",
+   "status": "removed",
    "surface": "OgreBotAPI"
   },
   {
-   "howToFix": "Use `${OgreBotAPI.Debug.DebugPrefix}`.",
+   "howToFix": "Use `OgreBotAPI.Debug:SetDebugMode[<forwho>,TRUE|FALSE]`.",
    "id": "OgreBotAPI:bDebugMode",
-   "newForm": "${OgreBotAPI.Debug.DebugPrefix}",
+   "newForm": "OgreBotAPI.Debug:SetDebugMode[<forwho>,TRUE|FALSE]",
    "oldCall": "OgreBotAPI.bDebugMode",
    "oldKinds": [
     "v"
@@ -24017,10 +23821,16 @@
    "surface": "GetInfoOb"
   },
   {
-   "argsCheck": "unknown",
-   "howToFix": "Write `OgreBotAPI.Roster.NearestOfClass` instead of `GetInfoOb.Class`.",
+   "argsCheck": "same-count",
+   "argsNeeded": 1,
+   "example": {
+    "after": "if ${OgreBotAPI.Roster.NearestOfClass[warrior]} != 0",
+    "before": "if ${GetInfoOb.Class[warrior]} != 0"
+   },
+   "howToFix": "Write `OgreBotAPI.Roster.NearestOfClass` instead of `GetInfoOb.Class`. New arguments: `[class,range=50,scope=auto,includeMe=TRUE]`.",
    "id": "GetInfoOb.Class",
    "newForm": "OgreBotAPI.Roster.NearestOfClass",
+   "newSignature": "[class,range=50,scope=auto,includeMe=TRUE]",
    "note": "Faithful: scope auto-detects (raid if in one, else group); a match is the member's SUBCLASS **or its class TIER**, so `\"warrior\"` finds a berserker; self answers first with no distance test; distance must be > 0 (Classic's guard against members reading 0 while zoning) and <= range. **Deliberate superset:** ARCHETYPE also matches, so `\"fighter\"` finds any of them - Classic's hand-written switch only knew subclass|tier.",
    "oldCall": "GetInfoOb.Class",
    "oldKinds": [
@@ -26075,11 +25885,10 @@
   },
   {
    "argsCheck": "same-count",
-   "argsNeeded": 1,
-   "howToFix": "Write `OgreBotAPI.Movement.Blocked` instead of `Obj_CampSpot.Disabled`. New arguments: `[reason]`.",
+   "howToFix": "Write `OgreBotAPI.Movement.Blocked` instead of `Obj_CampSpot.Disabled`. New arguments: `[reason=\"\"]`.",
    "id": "Obj_CampSpot.Disabled",
    "newForm": "OgreBotAPI.Movement.Blocked",
-   "newSignature": "[reason]",
+   "newSignature": "[reason=\"\"]",
    "note": "`[reason]` asks about that hold; no argument asks whether ANY hold is active.",
    "oldCall": "Obj_CampSpot.Disabled",
    "oldKinds": [
@@ -26789,10 +26598,7 @@
    "surface": "Obj_CureCalled"
   },
   {
-   "argsCheck": "compatible",
-   "argsDropped": [
-    "_HardTarget"
-   ],
+   "argsCheck": "same-count",
    "argsNeeded": 1,
    "forWhoInsert": {
     "value": "all",
@@ -26801,7 +26607,7 @@
    "howToFix": "Write `OgreBotAPI.Cures:RequestCurse` instead of `Obj_CureCurseCalled:Add`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. `[fw, victim]`; the engine queues and casts, you no longer add to a list",
    "id": "Obj_CureCurseCalled.Add",
    "newForm": "OgreBotAPI.Cures:RequestCurse",
-   "newSignature": "[fw,victim]",
+   "newSignature": "[fw,victim,options...]",
    "note": "The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. `[fw, victim]`; the engine queues and casts, you no longer add to a list",
    "oldCall": "Obj_CureCurseCalled:Add",
    "oldKinds": [
@@ -26814,10 +26620,7 @@
    "surface": "Obj_CureCurseCalled"
   },
   {
-   "argsCheck": "compatible",
-   "argsDropped": [
-    "_HardTarget"
-   ],
+   "argsCheck": "same-count",
    "argsNeeded": 1,
    "forWhoInsert": {
     "value": "all",
@@ -26826,7 +26629,7 @@
    "howToFix": "Write `OgreBotAPI.Cures:RequestCurse` instead of `Obj_CureCurseCalled:AutoAdd`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it.",
    "id": "Obj_CureCurseCalled.AutoAdd",
    "newForm": "OgreBotAPI.Cures:RequestCurse",
-   "newSignature": "[fw,victim]",
+   "newSignature": "[fw,victim,options...]",
    "note": "The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it.",
    "oldCall": "Obj_CureCurseCalled:AutoAdd",
    "oldKinds": [
@@ -26839,10 +26642,7 @@
    "surface": "Obj_CureCurseCalled"
   },
   {
-   "argsCheck": "compatible",
-   "argsDropped": [
-    "_HardTarget"
-   ],
+   "argsCheck": "same-count",
    "argsNeeded": 1,
    "forWhoInsert": {
     "value": "all",
@@ -26851,7 +26651,7 @@
    "howToFix": "Write `OgreBotAPI.Cures:RequestCurse` instead of `Obj_CureCurseCalled:AutoAddID`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it.",
    "id": "Obj_CureCurseCalled.AutoAddID",
    "newForm": "OgreBotAPI.Cures:RequestCurse",
-   "newSignature": "[fw,victim]",
+   "newSignature": "[fw,victim,options...]",
    "note": "The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it.",
    "oldCall": "Obj_CureCurseCalled:AutoAddID",
    "oldKinds": [
@@ -27279,11 +27079,10 @@
   },
   {
    "argsCheck": "same-count",
-   "argsNeeded": 1,
-   "howToFix": "Write `OgreBotAPI.Movement.Blocked` instead of `Obj_Movement.Disabled`. New arguments: `[reason]`.",
+   "howToFix": "Write `OgreBotAPI.Movement.Blocked` instead of `Obj_Movement.Disabled`. New arguments: `[reason=\"\"]`.",
    "id": "Obj_Movement.Disabled",
    "newForm": "OgreBotAPI.Movement.Blocked",
-   "newSignature": "[reason]",
+   "newSignature": "[reason=\"\"]",
    "note": "`[reason]` asks about that hold; no argument asks whether ANY hold is active.",
    "oldCall": "Obj_Movement.Disabled",
    "oldKinds": [
@@ -27621,11 +27420,10 @@
   },
   {
    "argsCheck": "same-count",
-   "argsNeeded": 1,
-   "howToFix": "Write `OgreBotAPI.Movement.Blocked` instead of `Ogre_CampSpot.Disabled`. New arguments: `[reason]`.",
+   "howToFix": "Write `OgreBotAPI.Movement.Blocked` instead of `Ogre_CampSpot.Disabled`. New arguments: `[reason=\"\"]`.",
    "id": "Ogre_CampSpot.Disabled",
    "newForm": "OgreBotAPI.Movement.Blocked",
-   "newSignature": "[reason]",
+   "newSignature": "[reason=\"\"]",
    "note": "`[reason]` asks about that hold; no argument asks whether ANY hold is active.",
    "oldCall": "Ogre_CampSpot.Disabled",
    "oldKinds": [
@@ -27927,7 +27725,7 @@
    "howToFix": "Write `OgreBotAPI.CampSpot:SetLoc` instead of `Ogre_CampSpot:Set_CCS`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. **Set_CCS took NO for-who** - it was local-only. The new verb takes a for-who first, so you must INSERT one: use `all`. The for-who is a gate on the session running the line, not a broadcast, so `all` acts on this session only - exactly what the old call did. 33 call sites use this form.",
    "id": "Ogre_CampSpot.Set_CCS",
    "newForm": "OgreBotAPI.CampSpot:SetLoc",
-   "newSignature": "[fw,x,y,z]",
+   "newSignature": "[fw,x|point,y?,z?]",
    "note": "The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. **Set_CCS took NO for-who** - it was local-only. The new verb takes a for-who first, so you must INSERT one: use `all`. The for-who is a gate on the session running the line, not a broadcast, so `all` acts on this session only - exactly what the old call did. 33 call sites use this form.",
    "oldCall": "Ogre_CampSpot:Set_CCS",
    "oldKinds": [
@@ -27995,10 +27793,10 @@
     "after": "OgreBotAPI.CampSpot:SetLoc[\"all\",${This.TopSpot}]",
     "before": "Ogre_CampSpot:Set_ChangeCampSpot[\"all\",${This.TopSpot}]"
    },
-   "howToFix": "Write `OgreBotAPI.CampSpot:SetLoc` instead of `Ogre_CampSpot:Set_ChangeCampSpot`. New arguments: `[fw,x,y,z]`.",
+   "howToFix": "Write `OgreBotAPI.CampSpot:SetLoc` instead of `Ogre_CampSpot:Set_ChangeCampSpot`. New arguments: `[fw,x|point,y?,z?]`.",
    "id": "Ogre_CampSpot.Set_ChangeCampSpot",
    "newForm": "OgreBotAPI.CampSpot:SetLoc",
-   "newSignature": "[fw,x,y,z]",
+   "newSignature": "[fw,x|point,y?,z?]",
    "oldCall": "Ogre_CampSpot:Set_ChangeCampSpot",
    "oldKinds": [
     "m"
@@ -28034,12 +27832,12 @@
    "argsCheck": "same-count",
    "argsNeeded": 1,
    "example": {
-    "after": "OgreBotAPI.CampSpot:NudgeRelativeBy[all,30,0,0]",
+    "after": "OgreBotAPI.CampSpot:SetRelativeBy[all,30,0,0]",
     "before": "Ogre_CampSpot:Set_ChangeRelativeCampSpotBy[all,30,0,0]"
    },
-   "howToFix": "Write `OgreBotAPI.CampSpot:NudgeRelativeBy` instead of `Ogre_CampSpot:Set_ChangeRelativeCampSpotBy`. New arguments: `[fw,dx=0,dy=0,dz=0]`.",
+   "howToFix": "Write `OgreBotAPI.CampSpot:SetRelativeBy` instead of `Ogre_CampSpot:Set_ChangeRelativeCampSpotBy`. New arguments: `[fw,dx=0,dy=0,dz=0]`.",
    "id": "Ogre_CampSpot.Set_ChangeRelativeCampSpotBy",
-   "newForm": "OgreBotAPI.CampSpot:NudgeRelativeBy",
+   "newForm": "OgreBotAPI.CampSpot:SetRelativeBy",
    "newSignature": "[fw,dx=0,dy=0,dz=0]",
    "oldCall": "Ogre_CampSpot:Set_ChangeRelativeCampSpotBy",
    "oldKinds": [
@@ -28059,7 +27857,7 @@
    "howToFix": "Write `OgreBotAPI.CampSpot:SetFormation` instead of `Ogre_CampSpot:Set_Formation_Circle`; the arguments changed: SIGNATURE CHANGED - put the kind `circle` after the for-who: Classic (ForWho, Distance, X, Y, Z, UseRelative) -> SetFormation[fw, circle, dist, x, y, z, useRelative]. The arguments keep their order after the kind.",
    "id": "Ogre_CampSpot.Set_Formation_Circle",
    "newForm": "OgreBotAPI.CampSpot:SetFormation",
-   "newSignature": "[fw,kind=circle,dist=7,x=myX,y=myY,z=myZ,useRelative=FALSE,middle=\"\",circleSpots=0]",
+   "newSignature": "[fw,kind=circle,dist=7,x,y,z,useRelative=FALSE,middle=\"\",circleSpots=0]",
    "note": "SIGNATURE CHANGED - put the kind `circle` after the for-who: Classic (ForWho, Distance, X, Y, Z, UseRelative) -> SetFormation[fw, circle, dist, x, y, z, useRelative]. The arguments keep their order after the kind.",
    "oldCall": "Ogre_CampSpot:Set_Formation_Circle",
    "oldKinds": [
@@ -28079,7 +27877,7 @@
    "howToFix": "Write `OgreBotAPI.CampSpot:SetFormation` instead of `Ogre_CampSpot:Set_Formation_MonkeyInMiddle`; the arguments changed: SIGNATURE CHANGED - put the kind `monkey` after the for-who, and the middle AFTER useRelative: Classic (ForWho, Distance, X, Y, Z, Middle, UseRelative) -> SetFormation[fw, monkey, dist, x, y, z, useRelative, middle].",
    "id": "Ogre_CampSpot.Set_Formation_MonkeyInMiddle",
    "newForm": "OgreBotAPI.CampSpot:SetFormation",
-   "newSignature": "[fw,kind=circle,dist=7,x=myX,y=myY,z=myZ,useRelative=FALSE,middle=\"\",circleSpots=0]",
+   "newSignature": "[fw,kind=circle,dist=7,x,y,z,useRelative=FALSE,middle=\"\",circleSpots=0]",
    "note": "SIGNATURE CHANGED - put the kind `monkey` after the for-who, and the middle AFTER useRelative: Classic (ForWho, Distance, X, Y, Z, Middle, UseRelative) -> SetFormation[fw, monkey, dist, x, y, z, useRelative, middle].",
    "oldCall": "Ogre_CampSpot:Set_Formation_MonkeyInMiddle",
    "oldKinds": [
@@ -28099,7 +27897,7 @@
    "howToFix": "Write `OgreBotAPI.CampSpot:SetFormation` instead of `Ogre_CampSpot:Set_Formation_MonkeyInMiddleRaid`; the arguments changed: SIGNATURE CHANGED - put the kind `monkeyraid` after the for-who; the middle for-who and the circle spots move to the end: Classic (ForWho, MiddleForWho, Distance, X, Y, Z, CircleSpots, UseRelative) -> SetFormation[fw, monkeyraid, dist, x, y, z, useRelative, middle, circleSpots].",
    "id": "Ogre_CampSpot.Set_Formation_MonkeyInMiddleRaid",
    "newForm": "OgreBotAPI.CampSpot:SetFormation",
-   "newSignature": "[fw,kind=circle,dist=7,x=myX,y=myY,z=myZ,useRelative=FALSE,middle=\"\",circleSpots=0]",
+   "newSignature": "[fw,kind=circle,dist=7,x,y,z,useRelative=FALSE,middle=\"\",circleSpots=0]",
    "note": "SIGNATURE CHANGED - put the kind `monkeyraid` after the for-who; the middle for-who and the circle spots move to the end: Classic (ForWho, MiddleForWho, Distance, X, Y, Z, CircleSpots, UseRelative) -> SetFormation[fw, monkeyraid, dist, x, y, z, useRelative, middle, circleSpots].",
    "oldCall": "Ogre_CampSpot:Set_Formation_MonkeyInMiddleRaid",
    "oldKinds": [
@@ -30842,10 +30640,10 @@
    "surface": "g_RaidOb"
   },
   {
-   "howToFix": "Drop the step-line arguments; send it from the box whose step is the reference. The answers come back to the asker.",
+   "howToFix": "Drop the step-line arguments; send it from the box whose step is the reference. The for-who names who is asked (all is your group), and the answers come back to the asker.",
    "id": "console:-CompareQuest",
    "newForm": "-CompareQuest",
-   "note": "Old: -CompareQuest <fw> <questname> <step lines...>\nNew: -CompareQuest <fw> <questname>\nGROUP-scoped by default (comms is local-box).",
+   "note": "Old: -CompareQuest <fw> <questname> <step lines...>\nNew: -CompareQuest <fw> <questname>\nGROUP-scoped by default (comms is local-box). The box that sends the line asks; the for-who is who is asked.",
    "oldCall": "-CompareQuest",
    "oldKinds": [
     "verb"
@@ -30856,7 +30654,8 @@
    "surface": "console",
    "v2Params": [
     "who:forwho",
-    "questname:string"
+    "questname:string",
+    "sender:string"
    ],
    "v2Row": "-CompareQuest"
   },
@@ -31733,7 +31532,7 @@
    "v2Row": "-DoNotMove"
   },
   {
-   "howToFix": "Write `-LogToonIn <box> <character>`. Name the box, not a for-who: its InnerSpace session name, or its character's name - at character select, the character it last played. Give the character to log in; where the old line gave none it pressed Play on the character already selected, so name that character.",
+   "howToFix": "Write `-LogToonIn <box> <character>`. Name the box, not a for-who: its InnerSpace session name, or its character's name - at character select, the character it last played. Give the character to log in; where the old line gave none it pressed Play on the character already selected, so name that character. The converter (`fix`) and the MCP button conversion do this for you: a line that names a character becomes `-LogToonIn <character> <character>`; one that names none stays for you to finish, and such an MCP button keeps its name and loses its command.",
    "id": "console:-LoginAtCharacterSelect",
    "newForm": "-LogToonIn",
    "note": "Old: -LoginAtCharacterSelect <fw> [character] - pressed Play, or picked the character and pressed Play\nNew: -LogToonIn <box> <character> - logs that character in on that box; `all` is refused\nAfter a zone drops MyToon to character select, `oc !c -LogToonIn MyToon MyToon` logs it back in.",
@@ -33145,10 +32944,10 @@
     "value": "auto",
     "when": "always"
    },
-   "howToFix": "Insert the for-who as the first argument. Classic's took no for-who, so every session that heard the line acted; the new command reads it as the first argument. On a line you have not changed, the first value is read as the for-who and the others move along one place, with no error. Write `auto` there (the For Who window); that is what the MCP migration writes.",
+   "howToFix": "Write `-InjectChat` and put the for-who first: `-Raid <chat>` becomes `-InjectChat auto <chat>`. Insert the for-who as the first argument. Classic's took no for-who, so every session that heard the line acted; the new command reads it as the first argument. On a line you have not changed, the first value is read as the for-who and the others move along one place, with no error. Write `auto` there (the For Who window); that is what the MCP migration writes. Classic's -Raid always reached every session; write `all` instead of `auto` to keep that.",
    "id": "console:-Raid",
-   "newForm": "-Raid",
-   "note": "Old: -Raid <chat>\nNew: -Raid <fw> <chat>\nClassic's always sent the chat line to every session (its InjectChat_ForAll); the new command takes a for-who first, like every other, and runs `OgreBotAPI.Comms:InjectChat`. Injecting \"set up for <X>\" no longer sets anything up - fights are encounter files now, set up from the named itself. Buttons that only did that can be deleted.",
+   "newForm": "-InjectChat",
+   "note": "Old: -Raid <chat>\nNew: -InjectChat <fw> <chat>\nClassic's sent the chat to every session (its InjectChat_ForAll); the new row takes a for-who first, like every other, and runs `OgreBotAPI.Comms:InjectChat`. A line left as `-Raid hello` prints an unknown-command line.",
    "oldCall": "-Raid",
    "oldKinds": [
     "verb"
@@ -33156,22 +32955,17 @@
    "oldName": "-Raid",
    "oldSpellingToday": "runs, but the arguments no longer mean what they did",
    "status": "signature",
-   "surface": "console",
-   "v2Params": [
-    "who:forwho",
-    "chat:string"
-   ],
-   "v2Row": "-Raid"
+   "surface": "console"
   },
   {
    "forWhoInsert": {
     "value": "auto",
     "when": "always"
    },
-   "howToFix": "Insert the for-who as the first argument. Classic's took no for-who, so every session that heard the line acted; the new command reads it as the first argument. On a line you have not changed, the first value is read as the for-who and the others move along one place, with no error. Write `auto` there (the For Who window); that is what the MCP migration writes.",
+   "howToFix": "Write `-InjectChat` and put the for-who first: `-Group <chat>` becomes `-InjectChat auto <chat>`. Insert the for-who as the first argument. Classic's took no for-who, so every session that heard the line acted; the new command reads it as the first argument. On a line you have not changed, the first value is read as the for-who and the others move along one place, with no error. Write `auto` there (the For Who window); that is what the MCP migration writes. Classic's -Group always reached every session; write `all` instead of `auto` to keep that.",
    "id": "console:-Group",
-   "newForm": "-Raid",
-   "note": "Old: -Group <chat>\nNew: -Group <fw> <chat>\nClassic's always sent the chat line to every session (its InjectChat_ForAll); the new command takes a for-who first, like every other, and runs `OgreBotAPI.Comms:InjectChat`.",
+   "newForm": "-InjectChat",
+   "note": "Old: -Group <chat>\nNew: -InjectChat <fw> <chat>\nIt runs `OgreBotAPI.Comms:InjectChat`.",
    "oldCall": "-Group",
    "oldKinds": [
     "verb"
@@ -33179,12 +32973,7 @@
    "oldName": "-Group",
    "oldSpellingToday": "runs, but the arguments no longer mean what they did",
    "status": "signature",
-   "surface": "console",
-   "v2Params": [
-    "who:forwho",
-    "chat:string"
-   ],
-   "v2Row": "-Raid"
+   "surface": "console"
   },
   {
    "howToFix": "Pass the named mob's exact name, or nothing to auto-detect. A module phrase that is not the mob's name (e.g. 'Master' for The Djinn Master, 'reset') no longer matches - it logs \"no encounter owns mob\".",
@@ -35629,60 +35418,40 @@
    "v2Row": "-Alias_RemoveEntry"
   },
   {
-   "howToFix": "Nothing to change - `-Kannkor_TestPull1` is an alias of `-Pull`.",
+   "howToFix": "Delete the line - it never pulled. The bot pulls by itself (Auto Hunt, the IC); a stuck console or IRC link is reconnected from its own window.",
    "id": "console:-Kannkor_TestPull1",
-   "newForm": "-Pull",
-   "note": "An alias of `-Pull` - it works as typed.",
    "oldCall": "-Kannkor_TestPull1",
    "oldKinds": [
     "verb"
    ],
    "oldName": "-Kannkor_TestPull1",
-   "oldSpellingToday": "works",
-   "status": "unchanged",
-   "surface": "console",
-   "v2Params": [
-    "who:forwho",
-    "value:bool"
-   ],
-   "v2Row": "-Pull"
+   "oldSpellingToday": "prints \"Unknown command entered\" on every session that receives it - nothing runs",
+   "status": "removed",
+   "surface": "console"
   },
   {
-   "howToFix": "Nothing to change - `-TestPull1` is an alias of `-Pull`.",
+   "howToFix": "Delete the line - it never pulled. The bot pulls by itself (Auto Hunt, the IC); a stuck console or IRC link is reconnected from its own window.",
    "id": "console:-TestPull1",
-   "newForm": "-Pull",
-   "note": "An alias of `-Pull` - it works as typed.",
    "oldCall": "-TestPull1",
    "oldKinds": [
     "verb"
    ],
    "oldName": "-TestPull1",
-   "oldSpellingToday": "works",
-   "status": "unchanged",
-   "surface": "console",
-   "v2Params": [
-    "who:forwho",
-    "value:bool"
-   ],
-   "v2Row": "-Pull"
+   "oldSpellingToday": "prints \"Unknown command entered\" on every session that receives it - nothing runs",
+   "status": "removed",
+   "surface": "console"
   },
   {
-   "howToFix": "Nothing to change.",
+   "howToFix": "Delete the line - it never pulled. The bot pulls by itself (Auto Hunt, the IC); a stuck console or IRC link is reconnected from its own window.",
    "id": "console:-Pull",
-   "newForm": "-Pull",
    "oldCall": "-Pull",
    "oldKinds": [
     "verb"
    ],
    "oldName": "-Pull",
-   "oldSpellingToday": "works",
-   "status": "unchanged",
-   "surface": "console",
-   "v2Params": [
-    "who:forwho",
-    "value:bool"
-   ],
-   "v2Row": "-Pull"
+   "oldSpellingToday": "prints \"Unknown command entered\" on every session that receives it - nothing runs",
+   "status": "removed",
+   "surface": "console"
   },
   {
    "howToFix": "Nothing to change.",
@@ -35868,8 +35637,8 @@
    "status": "unchanged",
    "surface": "console",
    "v2Params": [
-    "who:one",
-    "name:one"
+    "nick:string",
+    "value:string"
    ],
    "v2Row": "-AuthIfInRaid"
   },
@@ -35887,8 +35656,8 @@
    "status": "unchanged",
    "surface": "console",
    "v2Params": [
-    "who:one",
-    "name:one"
+    "nick:string",
+    "value:string"
    ],
    "v2Row": "-AuthIfInRaid"
   },
@@ -35974,10 +35743,10 @@
     "value": "auto",
     "when": "always"
    },
-   "howToFix": "Insert the for-who as the first argument. Classic's took no for-who, so every session that heard the line acted; the new command reads it as the first argument. On a line you have not changed, the first value is read as the for-who and the others move along one place, with no error. Write `auto` there (the For Who window); that is what the MCP migration writes.",
+   "howToFix": "Write `-EndScriptOB` and put the for-who first: `-EndScript MyScript` becomes `-EndScriptOB auto MyScript`. Insert the for-who as the first argument. Classic's took no for-who, so every session that heard the line acted; the new command reads it as the first argument. On a line you have not changed, the first value is read as the for-who and the others move along one place, with no error. Write `auto` there (the For Who window); that is what the MCP migration writes. Classic's -EndScript ended the script on every session that heard it; write `all` instead of `auto` to keep that.",
    "id": "console:-EndScript",
-   "newForm": "-EndScript",
-   "note": "Old: -EndScript <scriptname>\nNew: -EndScript <fw> <scriptname>\nIt runs `OgreBotAPI.Bot:EndScript`.",
+   "newForm": "-EndScriptOB",
+   "note": "Old: -EndScript <scriptname>\nNew: -EndScriptOB <fw> <scriptname>\nIt runs `OgreBotAPI.Bot:EndScript`. A line left as `-EndScript MyScript` prints an unknown-command line.",
    "oldCall": "-EndScript",
    "oldKinds": [
     "verb"
@@ -35985,12 +35754,7 @@
    "oldName": "-EndScript",
    "oldSpellingToday": "runs, but the arguments no longer mean what they did",
    "status": "signature",
-   "surface": "console",
-   "v2Params": [
-    "who:forwho",
-    "scriptname:string"
-   ],
-   "v2Row": "-EndScript"
+   "surface": "console"
   },
   {
    "howToFix": "Nothing to change.",
@@ -36005,7 +35769,7 @@
    "status": "unchanged",
    "surface": "console",
    "v2Params": [
-    "who:string",
+    "who:forwho",
     "target:string",
     "message:string"
    ],
@@ -36386,22 +36150,18 @@
    "surface": "console"
   },
   {
-   "howToFix": "Nothing to change.",
+   "howToFix": "Replace the verb name with `-DispellNPCWithSpell`; the arguments are the same (`<fw> <npc name or id>`).",
    "id": "console:-Dispell",
-   "newForm": "-Dispell",
+   "newForm": "-DispellNPCWithSpell",
+   "note": "Old: -Dispell <fw> <npc>\nNew: -DispellNPCWithSpell <fw> <npc>\nYour class dispel only; -DispellNPCWithAny also tries the item.",
    "oldCall": "-Dispell",
    "oldKinds": [
     "verb"
    ],
    "oldName": "-Dispell",
-   "oldSpellingToday": "works",
-   "status": "unchanged",
-   "surface": "console",
-   "v2Params": [
-    "who:forwho",
-    "npcnameorid:string"
-   ],
-   "v2Row": "-Dispell"
+   "oldSpellingToday": "prints \"Unknown command entered\" on every session that receives it - nothing runs",
+   "status": "renamed",
+   "surface": "console"
   },
   {
    "example": {
@@ -36462,15 +36222,16 @@
    "v2Row": "-DispellNPCWithAny"
   },
   {
-   "howToFix": "Nothing to change.",
+   "howToFix": "Nothing to change - unless the line passes a third argument (raid invite): drop it, and for TRUE write `-RaidInvite` instead: `-Invite <fw> <who> TRUE` becomes `-RaidInvite <fw> <who>`. The converter (`fix`) does this for you, and an MCP button is converted for you.",
    "id": "console:-Invite",
    "newForm": "-Invite",
+   "note": "Old: -Invite <fw> <who> [raidinvite]\nNew: -Invite <fw> <who> - a group invite; -RaidInvite <fw> <who> is the raid invite",
    "oldCall": "-Invite",
    "oldKinds": [
     "verb"
    ],
    "oldName": "-Invite",
-   "oldSpellingToday": "works",
+   "oldSpellingToday": "works; a third argument (raid invite) is not read, and the console prints Unknown command entered for it - the invite is a group invite",
    "status": "unchanged",
    "surface": "console",
    "v2Params": [
@@ -36480,15 +36241,16 @@
    "v2Row": "-Invite"
   },
   {
-   "howToFix": "Nothing to change.",
+   "howToFix": "Nothing to change - unless the line passes a third argument (raid invite): drop it, and for FALSE write `-Invite` instead: `-RaidInvite <fw> <who> FALSE` becomes `-Invite <fw> <who>`. The converter (`fix`) does this for you, and an MCP button is converted for you.",
    "id": "console:-RaidInvite",
    "newForm": "-RaidInvite",
+   "note": "Old: -RaidInvite <fw> <who> [raidinvite]\nNew: -RaidInvite <fw> <who> - a raid invite; -Invite <fw> <who> is the group invite",
    "oldCall": "-RaidInvite",
    "oldKinds": [
     "verb"
    ],
    "oldName": "-RaidInvite",
-   "oldSpellingToday": "works",
+   "oldSpellingToday": "works; a third argument (raid invite) is not read, and the console prints Unknown command entered for it - the invite is a raid invite",
    "status": "unchanged",
    "surface": "console",
    "v2Params": [
@@ -36544,15 +36306,16 @@
     "after": "oc !c -AutoCurse all ${Me.Name}",
     "before": "oc !c -AutoCurse all ${Me.Name}"
    },
-   "howToFix": "Nothing to change.",
+   "howToFix": "Nothing to change - unless the line passes words after the cursed toon. Classic's request words become the options the row reads now: `AutoRemove 20` -> `-AutoRemove 20`, `AutoRemoveMS 2500` -> `-AutoRemove 3` (whole seconds, rounded up), `CustomFlag fear` -> `-tag fear`; `exclusive`, `only`, `DirectTarget` and a bare `TRUE` are dropped (they did nothing). `-AutoCurse <fw> <toon> AutoRemove 20` becomes `-AutoCurse <fw> <toon> -AutoRemove 20`. The converter (`fix`) does this for you, and an MCP button is converted for you. A word it does not understand is left for you, and the row refuses it by naming it.",
    "id": "console:-AutoCurse",
    "newForm": "-AutoCurse",
+   "note": "Old: -AutoCurse <fw> <toon> [AutoRemove <s>] [AutoRemoveMS <ms>] [CustomFlag <tag>] [exclusive|only] [DirectTarget] [TRUE]\nNew: -AutoCurse <fw> <toon> [-AutoRemove <seconds>] [-tag <name>]\nNot carried: exclusive, only, DirectTarget and TRUE (they did nothing). AutoRemoveMS is whole seconds now. -AutoCureRemove <fw> <toon or tag> cancels the request.",
    "oldCall": "-AutoCurse",
    "oldKinds": [
     "verb"
    ],
    "oldName": "-AutoCurse",
-   "oldSpellingToday": "works",
+   "oldSpellingToday": "works; the Classic words after the cursed toon (AutoRemove 20, TRUE, ...) are not new-form options, so the row refuses the request with one console line naming the first one",
    "status": "unchanged",
    "surface": "console",
    "v2Params": [
@@ -36567,15 +36330,16 @@
     "after": "oc !c -AutoCure igw:${Me.Name} ${Me.Name}",
     "before": "oc !c -AutoCure igw:${Me.Name} ${Me.Name}"
    },
-   "howToFix": "Nothing to change.",
+   "howToFix": "Nothing to change - unless the line passes Classic's request words after the toon. Classic's request words become the options the row reads now: `AutoRemove 20` -> `-AutoRemove 20`, `AutoRemoveMS 2500` -> `-AutoRemove 3` (whole seconds, rounded up), `CustomFlag fear` -> `-tag fear`; kind words stay (a e n t -> arcane elemental noxious trauma); `aX 3` keeps the kind (a threshold means nothing on one victim); `any` means no kinds; `exclusive`, `only`, `DirectTarget` and a bare `TRUE` are dropped (they did nothing). The converter (`fix`) does this for you, and an MCP button is converted for you. A word it does not understand is left for you.",
    "id": "console:-AutoCure",
    "newForm": "-AutoCure",
+   "note": "Old: -AutoCure <fw> <toon> [<kind> ...] [AutoRemove <s>] [AutoRemoveMS <ms>] [CustomFlag <tag>] [exclusive|only] [DirectTarget]\nNew: -AutoCure <fw> <toon> [<kind> ...] [-AutoRemove <seconds>] [-tag <name>]\nNot carried: exclusive / only (the /cureplayer form), DirectTarget. -AutoCureRemove <fw> <toon or tag> cancels the request.",
    "oldCall": "-AutoCure",
    "oldKinds": [
     "verb"
    ],
    "oldName": "-AutoCure",
-   "oldSpellingToday": "works",
+   "oldSpellingToday": "works; the Classic words after the toon (AutoRemove 20, exclusive, ...) are not new-form options, so the row refuses the request with one console line naming the first one",
    "status": "unchanged",
    "surface": "console",
    "v2Params": [
@@ -36586,20 +36350,20 @@
    "v2Row": "-AutoCure"
   },
   {
-   "howToFix": "Nothing to change.",
+   "howToFix": "Nothing to change - unless the line passes a toon or request words after the for-who. Classic's request words become the options the row reads now: `AutoRemove 20` -> `-AutoRemove 20`, `AutoRemoveMS 2500` -> `-AutoRemove 3` (whole seconds, rounded up), `CustomFlag fear` -> `-tag fear`; the toon word -> `-tag <word>`; `aX 3 eX 3` -> `arcane elemental -count 3` (when every kind named has the same threshold - otherwise the line is left for you: write one -AutoGroupCure per threshold); `any` -> no kinds; `exclusive`, `only`, `DirectTarget` and a bare `TRUE` are dropped (they did nothing). The converter (`fix`) does this for you, and an MCP button is converted for you.",
    "id": "console:-AutoGroupCure",
    "newForm": "-AutoGroupCure",
+   "note": "Old: -AutoGroupCure <fw> [toon] [<kind> | <kind>X <n> ...] [AutoRemove <s>] [AutoRemoveMS <ms>] [CustomFlag <tag>] [exclusive|only] [DirectTarget] [TRUE]\nNew: -AutoGroupCure <fw> [<kind> ...] [-count <n>] [-AutoRemove <seconds>] [-tag <name>]\nNot carried: exclusive, only, DirectTarget, TRUE, curse. Different thresholds per kind (`aX 3 eX 1`) - use one watch per threshold.",
    "oldCall": "-AutoGroupCure",
    "oldKinds": [
     "verb"
    ],
    "oldName": "-AutoGroupCure",
-   "oldSpellingToday": "works",
+   "oldSpellingToday": "works; Classic's toon word and request words after the for-who are not new-form options, so the row refuses the request with one console line naming the first one",
    "status": "unchanged",
    "surface": "console",
    "v2Params": [
     "who:forwho",
-    "toonname:string",
     "args:rest"
    ],
    "v2Row": "-AutoGroupCure"
@@ -37048,27 +36812,18 @@
    "v2Row": "-OgreCommandOB_AP"
   },
   {
-   "example": {
-    "after": "oc !ci -RunScriptOB_AP \"${Me.Name}\" \"EQ2OgreBot/InstanceController/Instance_Files/Lostone/_Exp_21_Scars_of_Destruction/_Ignore_scripts/sod_sovc_ruins\"",
-    "before": "oc !ci -RunScriptOB_AP \"${Me.Name}\" \"EQ2OgreBot/InstanceController/Instance_Files/Lostone/_Exp_21_Scars_of_Destruction/_Ignore_scripts/sod_sovc_ruins\""
-   },
-   "howToFix": "Nothing to change.",
+   "howToFix": "Replace the verb name with `-RunScriptOB`; the arguments are the same (`<fw> <script> <args...>`), and it takes every argument left on the line, as -RunScriptOB_AP did.",
    "id": "console:-RunScriptOB_AP",
-   "newForm": "-RunScriptOB_AP",
+   "newForm": "-RunScriptOB",
+   "note": "Old: -RunScriptOB_AP <fw> <script> <args...>\nNew: -RunScriptOB <fw> <script> <args...>",
    "oldCall": "-RunScriptOB_AP",
    "oldKinds": [
     "verb"
    ],
    "oldName": "-RunScriptOB_AP",
-   "oldSpellingToday": "works",
-   "status": "unchanged",
-   "surface": "console",
-   "v2Params": [
-    "who:forwho",
-    "scriptname:string",
-    "args:rest"
-   ],
-   "v2Row": "-RunScriptOB_AP"
+   "oldSpellingToday": "prints \"Unknown command entered\" on every session that receives it - nothing runs",
+   "status": "renamed",
+   "surface": "console"
   },
   {
    "example": {
@@ -37378,45 +37133,28 @@
    "v2Row": "-AutoTarget_SetScanHeight"
   },
   {
-   "example": {
-    "after": "oc !ci -AutoTarget_SetRescanTime ${Me.Name} 150",
-    "before": "oc !ci -AutoTarget_SetRescanTime ${Me.Name} 150"
-   },
-   "howToFix": "Nothing to change.",
+   "howToFix": "Delete the line - Auto Target re-checks every 0.25 seconds, and there is no setting for it.",
    "id": "console:-AutoTarget_SetRescanTime",
-   "newForm": "-AutoTarget_SetRescanTime",
    "oldCall": "-AutoTarget_SetRescanTime",
    "oldKinds": [
     "verb"
    ],
    "oldName": "-AutoTarget_SetRescanTime",
-   "oldSpellingToday": "works",
-   "status": "unchanged",
-   "surface": "console",
-   "v2Params": [
-    "who:forwho",
-    "value:int64"
-   ],
-   "v2Row": "-AutoTarget_SetRescanTime"
+   "oldSpellingToday": "prints \"Unknown command entered\" on every session that receives it - nothing runs",
+   "status": "removed",
+   "surface": "console"
   },
   {
-   "howToFix": "Nothing to change - `-AT_Rescan` is an alias of `-AutoTarget_SetRescanTime`.",
+   "howToFix": "Delete the line - Auto Target re-checks every 0.25 seconds, and there is no setting for it.",
    "id": "console:-AT_Rescan",
-   "newForm": "-AutoTarget_SetRescanTime",
-   "note": "An alias of `-AutoTarget_SetRescanTime` - it works as typed.",
    "oldCall": "-AT_Rescan",
    "oldKinds": [
     "verb"
    ],
    "oldName": "-AT_Rescan",
-   "oldSpellingToday": "works",
-   "status": "unchanged",
-   "surface": "console",
-   "v2Params": [
-    "who:forwho",
-    "value:int64"
-   ],
-   "v2Row": "-AutoTarget_SetRescanTime"
+   "oldSpellingToday": "prints \"Unknown command entered\" on every session that receives it - nothing runs",
+   "status": "removed",
+   "surface": "console"
   },
   {
    "example": {
@@ -37788,19 +37526,20 @@
    "surface": "console"
   },
   {
-   "howToFix": "Nothing to change.",
+   "howToFix": "Nothing to change when the first word names the box: its character's name or its InnerSpace session name (at character select, the character it last played). Classic read `auto` there as the For Who window; it names no box now, so write the character to log in: `-LogToonIn auto MyToon` becomes `-LogToonIn MyToon MyToon`. The converter (`fix`) does this for you, and an MCP button is converted for you.",
    "id": "console:-LogToonIn",
    "newForm": "-LogToonIn",
+   "note": "Old: -LogToonIn <box> <character> - the first word went through the For Who rules, so auto read the For Who window\nNew: -LogToonIn <box> <character> [server] [class] - auto names no box; all is refused",
    "oldCall": "-LogToonIn",
    "oldKinds": [
     "verb"
    ],
    "oldName": "-LogToonIn",
-   "oldSpellingToday": "works",
+   "oldSpellingToday": "works when the first word names the box (its character or its InnerSpace session), as Classic's did; a first word of auto names no box now, so nothing happens",
    "status": "unchanged",
    "surface": "console",
    "v2Params": [
-    "who:forwho",
+    "who:string",
     "name:string",
     "server:string",
     "class:string"
@@ -38031,22 +37770,18 @@
    "v2Row": "-OgreConsole_Show"
   },
   {
-   "howToFix": "Nothing to change.",
+   "howToFix": "Replace the verb name with `-OgreConsole_Show`; the arguments are the same (`<fw> <value>`).",
    "id": "console:-OgreConsole_ShowRequiresOgreBot",
-   "newForm": "-OgreConsole_ShowRequiresOgreBot",
+   "newForm": "-OgreConsole_Show",
+   "note": "Old: -OgreConsole_ShowRequiresOgreBot <fw> <value>\nNew: -OgreConsole_Show <fw> <value>",
    "oldCall": "-OgreConsole_ShowRequiresOgreBot",
    "oldKinds": [
     "verb"
    ],
    "oldName": "-OgreConsole_ShowRequiresOgreBot",
-   "oldSpellingToday": "works",
-   "status": "unchanged",
-   "surface": "console",
-   "v2Params": [
-    "who:forwho",
-    "value:string"
-   ],
-   "v2Row": "-OgreConsole_ShowRequiresOgreBot"
+   "oldSpellingToday": "prints \"Unknown command entered\" on every session that receives it - nothing runs",
+   "status": "renamed",
+   "surface": "console"
   },
   {
    "howToFix": "Nothing to change.",
@@ -38876,20 +38611,20 @@
    "v2Row": "-F2PWindow_Check"
   },
   {
-   "howToFix": "Nothing to change.",
+   "howToFix": "Nothing to change - unless the line passes a second argument (the minutes): drop it. Classic never read it either; the command turns on the watcher that closes the All Access upsell window. The converter (`fix`) does this for you, and an MCP button is converted for you.",
    "id": "console:-F2PWindow_SetOptions",
    "newForm": "-F2PWindow_SetOptions",
+   "note": "Old: -F2PWindow_SetOptions <fw> [minutes]\nNew: -F2PWindow_SetOptions <fw>",
    "oldCall": "-F2PWindow_SetOptions",
    "oldKinds": [
     "verb"
    ],
    "oldName": "-F2PWindow_SetOptions",
-   "oldSpellingToday": "works",
+   "oldSpellingToday": "works; a second argument (minutes) is not read, and the console prints Unknown command entered for it",
    "status": "unchanged",
    "surface": "console",
    "v2Params": [
-    "who:forwho",
-    "option:string"
+    "who:forwho"
    ],
    "v2Row": "-F2PWindow_SetOptions"
   },
@@ -40581,23 +40316,18 @@
    "v2Row": "-ExecuteEvent_AP"
   },
   {
-   "howToFix": "Nothing to change.",
+   "howToFix": "Replace the verb name with `-ExecuteEvent_AP`; the arguments are the same (`<fw> <event> <args...>`). It no longer echoes the event line first.",
    "id": "console:-ExecuteEvent_JSON_AP",
-   "newForm": "-ExecuteEvent_JSON_AP",
+   "newForm": "-ExecuteEvent_AP",
+   "note": "Old: -ExecuteEvent_JSON_AP <fw> <event> <args...>\nNew: -ExecuteEvent_AP <fw> <event> <args...>",
    "oldCall": "-ExecuteEvent_JSON_AP",
    "oldKinds": [
     "verb"
    ],
    "oldName": "-ExecuteEvent_JSON_AP",
-   "oldSpellingToday": "works",
-   "status": "unchanged",
-   "surface": "console",
-   "v2Params": [
-    "who:forwho",
-    "eventname:string",
-    "args:rest"
-   ],
-   "v2Row": "-ExecuteEvent_JSON_AP"
+   "oldSpellingToday": "prints \"Unknown command entered\" on every session that receives it - nothing runs",
+   "status": "renamed",
+   "surface": "console"
   },
   {
    "howToFix": "Write `-CancelOnCast <fw> <ability>` naming the trigger ability (for the old verb: Vampiric Requiem), and configure what it cancels in the Cancel On Cast tab.",
@@ -40877,20 +40607,20 @@
    "v2Row": "-Disable_Interrupts"
   },
   {
-   "howToFix": "Nothing to change.",
+   "howToFix": "Nothing to change - unless the line passes a second argument (force the check): drop it. Every press checks now, so there is nothing to force. The converter (`fix`) does this for you, and an MCP button is converted for you.",
    "id": "console:-CheckMountTraining",
    "newForm": "-CheckMountTraining",
+   "note": "Old: -CheckMountTraining <fw> [forcecheck]\nNew: -CheckMountTraining <fw>",
    "oldCall": "-CheckMountTraining",
    "oldKinds": [
     "verb"
    ],
    "oldName": "-CheckMountTraining",
-   "oldSpellingToday": "works",
+   "oldSpellingToday": "works; a second argument (force the check) is not read, and the console prints Unknown command entered for it - every press checks",
    "status": "unchanged",
    "surface": "console",
    "v2Params": [
-    "who:forwho",
-    "forcecheck:string"
+    "who:forwho"
    ],
    "v2Row": "-CheckMountTraining"
   },
@@ -41279,7 +41009,7 @@
    "status": "unchanged",
    "surface": "console",
    "v2Params": [
-    "conn:string"
+    "nick:string"
    ],
    "v2Row": "-auth"
   },
@@ -41295,21 +41025,23 @@
    "oldSpellingToday": "works",
    "status": "unchanged",
    "surface": "console",
+   "v2Params": [
+    "nick:string"
+   ],
    "v2Row": "-unauth"
   },
   {
-   "howToFix": "Nothing to change.",
+   "howToFix": "Write `-unauthall` - the same clear of the IRC authorized list.",
    "id": "console:-resetauth",
-   "newForm": "-resetauth",
+   "newForm": "-unauthall",
    "oldCall": "-resetauth",
    "oldKinds": [
     "verb"
    ],
    "oldName": "-resetauth",
-   "oldSpellingToday": "works",
-   "status": "unchanged",
-   "surface": "console",
-   "v2Row": "-resetauth"
+   "oldSpellingToday": "prints \"Unknown command entered\" on every session that receives it - nothing runs",
+   "status": "renamed",
+   "surface": "console"
   },
   {
    "howToFix": "Nothing to change.",
@@ -41326,18 +41058,16 @@
    "v2Row": "-authlist"
   },
   {
-   "howToFix": "Nothing to change.",
+   "howToFix": "Nothing to change inside a line. A line made only of -endargs can be deleted.",
    "id": "console:-endargs",
-   "newForm": "-endargs",
    "oldCall": "-endargs",
    "oldKinds": [
     "verb"
    ],
    "oldName": "-endargs",
-   "oldSpellingToday": "works",
-   "status": "unchanged",
-   "surface": "console",
-   "v2Row": "-endargs"
+   "oldSpellingToday": "inside a line it still ends a command's arguments, as before; a line of -endargs alone does nothing, as in Classic",
+   "status": "removed",
+   "surface": "console"
   },
   {
    "howToFix": "Nothing to change.",
@@ -41371,18 +41101,16 @@
    "v2Row": "-LaunchAutoLogin"
   },
   {
-   "howToFix": "Nothing to change.",
+   "howToFix": "Delete the line - the new bot has no remote OS command.",
    "id": "console:-OSExecute",
-   "newForm": "-OSExecute",
    "oldCall": "-OSExecute",
    "oldKinds": [
     "verb"
    ],
    "oldName": "-OSExecute",
-   "oldSpellingToday": "works",
-   "status": "unchanged",
-   "surface": "console",
-   "v2Row": "-OSExecute"
+   "oldSpellingToday": "prints \"Unknown command entered\" on every session that receives it - nothing runs",
+   "status": "removed",
+   "surface": "console"
   },
   {
    "howToFix": "Nothing to change.",
@@ -41396,6 +41124,9 @@
    "oldSpellingToday": "works",
    "status": "unchanged",
    "surface": "console",
+   "v2Params": [
+    "target:string"
+   ],
    "v2Row": "-KillSession"
   },
   {
@@ -43698,7 +43429,7 @@
    "howToFix": "Write `OgreBotAPI.Craft:ScribeRecipe` instead of `OgreCraftAPI:ScribeRecipe`.",
    "id": "OgreCraftAPI.ScribeRecipe",
    "newForm": "OgreBotAPI.Craft:ScribeRecipe",
-   "note": "Same argument order [forwho, name|all]. The script door without a for-who is ISXOgreEQ2.Craft:ScribeRecipe[name].",
+   "note": "Same argument order [forwho, name|all=all]; blank is all. The script door without a for-who is ISXOgreEQ2.Craft:ScribeRecipe[name|all=all].",
    "oldCall": "OgreCraftAPI:ScribeRecipe",
    "oldKinds": [
     "m"
@@ -44112,7 +43843,7 @@
    "howToFix": "Write `OgreBotAPI.Craft:ScribeRecipe` instead of `OgreCraft:ScribeRecipe`.",
    "id": "OgreCraft.ScribeRecipe",
    "newForm": "OgreBotAPI.Craft:ScribeRecipe",
-   "note": "Same argument order [forwho, name|all]. The script door without a for-who is ISXOgreEQ2.Craft:ScribeRecipe[name].",
+   "note": "Same argument order [forwho, name|all=all]; blank is all. The script door without a for-who is ISXOgreEQ2.Craft:ScribeRecipe[name|all=all].",
    "oldCall": "OgreCraft:ScribeRecipe",
    "oldKinds": [
     "f",

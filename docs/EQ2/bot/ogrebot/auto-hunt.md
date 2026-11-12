@@ -28,7 +28,7 @@ Auto-Hunt is a simple grinding mode. The bot looks for a mob near you, targets i
 
 | Option | What it does | Default |
 |---|---|---|
-| **Scan radius (box)** | How far around you the bot looks for a mob to pull, and for mobs attacking your group. Leave it blank to use 35. | empty (35 is used) |
+| **Scan radius (box)** | How far around you the bot looks for a mob to pull, and for mobs attacking your group. Leave it blank to use the longest reach among your pull abilities (35 if none has a reach on file). A pull is only used on a mob it can reach. | empty (the longest pull reach) |
 | **Check Aggro** | While anyone in your group (or raid) is in combat, the bot stops pulling and holds still. Your normal combat settings handle the fight. | off |
 | **Check HP @** | While anyone in your group (or raid) has less health than the % in the box beside it, the bot stops pulling and holds still.<br>*A group member who is not in the zone counts as low health. A blank box never stops the hunt.* | off |
 | **Check HP @ (box)** | The health % used by Check HP @. Only used while Check HP @ is ticked. | empty (never stops the hunt) |
