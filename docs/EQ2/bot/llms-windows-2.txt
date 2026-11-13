@@ -116,7 +116,8 @@ When the window is too short for every option, the option grid scrolls (the list
 | Control | What it does | Default |
 |---|---|---|
 | **Loop list** | After the last row finishes, the list starts again at row 1. It is read again before each next row, so unticking it during a list ends the list at its last row. When a whole pass only skipped zones (every zone on the list locked), the list waits until the first lockout ends instead of going round again at once. It is turned OFF automatically when a safety check stops the list: fewer than 10 free inventory slots, the group shrank, or a member is dead.<br>*A zone never starts again inside the instance it just finished. If a zone's exit did not take the group out, the list stops and says why; Stop and Run starts it where you stand. Also a console switch: `ogre ic -loop` (`=off` turns it off).* | off |
-| **Ogre IM** | Between zones, at most once every 30 minutes, runs the Inventory Manager (`ogre im -destroy -tse`) and the list waits for it. In a guild hall it also uses the depot and sells (`-depot -sell`), then the group repairs. The first one is due 30 minutes after the list starts. One that comes due while you are flying or dead is skipped until the next 30 minutes.<br>*Only after a zone that ran (not one that was skipped), and not when Stop after this zone ends the list. If the IM is still going after 30 minutes, the list goes on without it. Also a console switch: `ogre ic -im` (`=off` turns it off).* | off |
+| **Ogre IM** | At the end of a zone, at most once every 30 minutes, runs the Inventory Manager (`ogre im -destroy -tse`) and the list waits for it. It runs inside the zone, before the zone-out. With Call to GH after each zone, or when the list ends after this zone with At end of list: call to guild hall, it runs in the guild hall instead, where it also uses the depot and sells (`-depot -sell`), then the group repairs. The first one is due 30 minutes after the list starts. One that comes due while you are flying or dead is skipped until the next 30 minutes. Tick After each zone to run it after every zone instead.<br>*Only for a zone that ran (not one that was skipped), and not when Stop after this zone ends the list. A zone given up after a wipe gets it wherever the group then stands. If the IM is still going after 30 minutes, the list goes on without it; while it runs inside the zone, Max wait per zone does not count. Also a console switch: `ogre ic -im` (`=off` turns it off).* | off |
+| **After each zone** | With Ogre IM: the IM runs after every zone that ran, instead of at most once every 30 minutes. Everything else is as Ogre IM: what it runs, the guild hall's depot and sell, and the list waiting for it. Flying or dead after a zone: that zone is skipped, and the IM runs after the next one.<br>*Does nothing with Ogre IM off. Unticked during a list, the 30 minutes count from the last IM. Also a console switch: `ogre ic -imAfterEachZone` (`=off` turns it off).* | off |
 | **Summon Mender bot to sell** | With Ogre IM, outside a guild hall: the IM also sells to a mender bot (`-sell`). A mender bot already within 10 m is used; otherwise, when a Mechanized Platinum Repository of Reconstruction is in your bags and ready, IC uses it to summon one. The bot is targeted so the sell picks it. The sell waits (up to a minute) for the automatic repair at the bot to end, because that repair closes the bot's window.<br>*No item, item not ready, or no bot 15 seconds after the summon: the IM runs without the sell, and the log says why. Does nothing in a guild hall (it has its own merchant) or with Ogre IM off. Also a console switch: `ogre ic -summonMenderToSell` (`=off` turns it off).* | off |
 | **Zone in first** | When a row starts and you are not standing in its zone, the travel system takes the whole group there (the queued variant picks the instance), and the file starts on arrival. The group's bots are paused for the trip, so buffs that drop at each zone line are not recast out in the world. On arrival IC waits for the group (up to 2 minutes, then it names who is missing and goes on), resumes everyone and gives 8 seconds to rebuff before the file starts. If there is no route, IC warns and runs where you stand. Off = always runs where you stand.<br>*Zoning in always runs the file from the top; a named # or Resume point is dropped. Zone-in gives up after 20 minutes. Also a console switch: `ogre ic -zoneIn` (`=off` turns it off).* | ON |
 | **Summon merc if solo** | Once inside the zone, when nobody else is in your group (your mercenary not out either), IC summons your mercenary (`merc resume`). On a zone-in it happens as the group lands, so the mercenary gets the rebuff time too; when you start already standing in the zone, it happens as the run starts.<br>*A character with no mercenary hired just gets the game's own one-line answer. Also a console switch: `ogre ic -summonMercIfSolo` (`=off` turns it off).* | ON |
@@ -1062,81 +1063,3 @@ Clicking a dot writes what you targeted there for 4 seconds - even with the read
 ## The whole settings drawer
 
 ![All settings](../assets/eq2radar/settings.png)
-
-
----
-
-Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/eq2radarfilters.md
-
-# Radar Types
-
-> **:bulb: In game - the ? button on this window says**
->
-> Picks which kinds of things the Radar draws. A lit button is shown; a dim one is hidden.
->
-> **What you can do here**
->
-> - **The top row**: **[all]**, **quest** (quest only), **qst npc** (quest NPCs) and **no name**. **The grid** under it: one button per type.
-> - **Click a type** (npc, named, pc, pet, corpse, chest, door...) to show or hide it.
-> - **other** covers anything not in the list.
-> - **quest** (quest only) narrows **npc**, **named** and **nokill** to the ones that update one of your quests - a mob to kill or an object to click. Every other type (pc, special, chest...) follows its own button.
-> - **qst npc** always shows NPCs with a feather (or a quest update / complete icon) - the ones the quest helper hails - even with **nokill** off or **quest** on.
-> - **no name** shows or hides actors with no name - mostly junk, sometimes not.
-> - **name** (bottom right) turns name cutting on and off: lit cuts every name on the radar to the number beside it (5 to start). Change the number in the box; it is kept while cutting is off.
-> - **[all]** shows everything; when everything is on it reads **[none]** and hides everything.
->
-> **Good to know**
->
-> - Each click is saved straight away. Only the type choice is saved - other radar changes still wait for **Save**.
-> - The dot on each button is that type's colour on the radar (change it under the radar's gear).
-> - Open and close it with **types** on the radar.
-
-**Open it:** Press **types** on the Radar's toolbar (open the radar first with `ogre radar`). Press types again, or the X, to close it.
-
-## What it is for
-
-Picks which kinds of things the Radar draws: mobs, named, players, pets, corpses, chests, doors and so on. Each button is one kind; lit means shown. Your choices are saved as soon as you click, so they are still there the next time you open the radar. It changes only what the radar shows, never what the bot does.
-
-## Type buttons
-
-The coloured dot on each button is the colour that kind is drawn in on the radar (change it in the radar's settings, Colours - by type).
-
-| Control | What it does | Default |
-|---|---|---|
-| **[all] / [none]** | If anything is hidden, [all] shows every kind again. If everything is already shown, the button reads [none] and hides every kind, so you can then turn on just the ones you want. |  |
-| **npc** | Mobs you can fight. | shown |
-| **named** | Named mobs. | shown |
-| **nokill** | NPCs you cannot attack, such as guards and merchants. | shown |
-| **special** | Objects the game marks as special, usually things you can click. | shown |
-| **pc** | Other players. | shown |
-| **pet** | Pets that are not yours (your own pet is mypet). | shown |
-| **mypet** | Your own pet. | shown |
-| **merc** | Mercenaries. | shown |
-| **corpse** | Corpses. | shown |
-| **craft** | Crafting stations (forges, sewing tables and the like). | shown |
-| **resource** | Harvest nodes. | shown |
-| **chest** | Treasure chests. | shown |
-| **door** | Doors. | shown |
-| **other** | Anything that is none of the kinds above. | shown |
-| **quest** | Narrows npc, named and nokill to the ones that update one of your quests - a mob to kill or an object to click. Every other type follows its own button. Saved like a type click. | off |
-| **qst npc** | Always shows quest NPCs - a feather, or a quest update / complete icon, over a no-kill NPC (the ones the quest helper hails) - even with nokill off or quest on. The radar looks for them every 2 seconds, only while this is on. | off |
-| **no name** | Actors with no name - mostly junk, sometimes not. Lit shows them, dim hides them. Saved like a type click. | shown |
-| **name** | The button turns name cutting on and off; while lit, every name on the radar is cut to the number in the box (5 to start). The number is kept while cutting is off. Saved like a type click. | off, 5 |
-| **Title bar close (X)** | Closes this window only. The radar keeps running. |  |
-
-
-
-## What the window shows
-
-- A lit button means that kind is drawn on the radar; a dim one means it is hidden.
-- The top row holds the four switches ([all], quest, qst npc, no name); the grid under it holds one button per type.
-
-## Good to know
-
-- Every click saves your type choice straight away. Only the type choice: any other change you made on the radar and did not save yet (zoom, dim, colours...) still waits for the radar's Save.
-- You never appear on the radar as a dot you can hide; you are always the marker in the middle.
-- Closing the radar (its X or `ogre end radar`) closes this window too.
-
-## Beside the radar
-
-![Radar Types next to the radar, with doors, resources, craft and special turned off](../assets/eq2radarfilters/with-radar.png)

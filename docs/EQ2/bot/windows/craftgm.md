@@ -13,10 +13,11 @@
 > - **All levels**, or untick it and set a recipe **Level** range.
 > - **Also pull from Scroll Depot** withdraws matching scrolls from the depot first, in batches that fit your bags.
 > - **Scan** shows what would be crafted. **Start** queues it and crafts it. **Stop** ends the run.
+> - **Queue only** puts the recipes in Ogre Craft's queue and stops, so you can save the queue, check the materials or change it. It never uses the Scroll Depot, and the Craft window opens on the queue.
 >
 > **Good to know**
 >
-> - Each batch empties Ogre Craft's setup queue before it adds its recipes, so anything already there is cleared, not crafted.
+> - Each batch, and Queue only, empties Ogre Craft's setup queue before it adds its recipes, so anything already there is cleared, not crafted.
 > - With the depot box ticked, Scan only looks in the depot; Start withdraws. Withdrawn scrolls are never put back.
 > - It never walks - stand at the Scroll Depot for a depot run.
 > - Closing the window (the X) or `ogre end craftgm` stops a run, then closes.
@@ -60,14 +61,15 @@ Once a Scan or Start has run with the box ticked (ticking it alone does not show
 
 
 
-## Scan, Start, Stop, Refresh
+## Scan, Start, Queue only, Stop, Refresh
 
-[![Scan, Start, Stop, Refresh](../assets/craftgm/buttons.png)](../assets/craftgm/buttons.png "Click for full size")
+[![Scan, Start, Queue only, Stop, Refresh](../assets/craftgm/buttons.png)](../assets/craftgm/buttons.png "Click for full size")
 
 | Control | What it does |
 |---|---|
 | **Scan** | Looks through your bags and fills the table with what the range would craft. It queues and crafts nothing.<br>*With Also pull from Scroll Depot ticked, Scan also opens the Scroll Depot and shows what a Start would withdraw - it withdraws nothing.* |
 | **Start** | Scans, adds every admitted Grandmaster recipe to the Ogre Craft setup queue (one craft per scroll held), starts the craft queue and watches it to the end.<br>*Refused if an Ogre Craft run is already going. Each batch empties the setup queue just before it adds its recipes, so anything you queued yourself is not crafted with it. Recipes you have not learned are skipped and marked 'not in your recipe book'.* |
+| **Queue only** | Scans, then replaces the Ogre Craft setup queue with every admitted Grandmaster recipe (one craft per scroll held) and stops. Nothing is crafted, and the Craft window opens on the queue so you can save it, check the materials or change it.<br>*Never uses the Scroll Depot, whatever the depot box says - it builds the list from your bags. Refused if an Ogre Craft run is already going. Recipes you have not learned are skipped and marked 'not in your recipe book'.* |
 | **Stop** | Stops the run. If this window started the craft queue, that is stopped too; a craft run somebody else started is left alone.<br>*Only active while a run is going. The window stays open.* |
 | **Refresh** | Redraws the window. It changes nothing. |
 | **Title bar close (X)** | Stops a run and closes the window, the same as `ogre end craftgm`. |

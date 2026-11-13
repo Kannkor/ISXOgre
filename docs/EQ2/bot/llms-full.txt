@@ -286,6 +286,23 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.11.13.001 {#r2026-11-13-001}
+
+*Friday, November 13, 2026 at 1:17 AM EST*
+
+- **New** · Instance Controller: **Ogre IM can run after each zone.** The IC window has a new box under **Ogre IM**: **After each zone**. With it ticked, the Inventory Manager runs after every zone that ran, instead of at most once every 30 minutes, and the list still waits for it. From the console it is `ogre ic -imAfterEachZone`.
+- **New** · Instance Controller: **The Instance Controller loots corpses after each chest.** After each chest, the group now walks to the corpses within 50 m that have not been looted yet, OgreBot loots them, and the group comes back. Tick **Do not loot Corpses** on OgreBot's Loot tab to leave them, or write `"corpses": false` on a chest step. Zone files also get a new loot step, `"op": "corpses"`, to loot the corpses anywhere, such as after a trash pull.
+- **New** · Crafting: **Craft Grandmasters can fill the Craft queue without crafting.** Queue only (or `ogre craftgm queue`) puts the Grandmaster recipes for your Master scrolls into Ogre Craft's queue, replacing what was there, and stops before crafting. It never uses the Scroll Depot, and the Craft window opens so you can save the queue, check the materials or change it.
+- **Changed** · Bot: **The zone list says when it cannot read a lockout.** When the Zones window gives no Reset Timer text for a zone, its lockout is unknown and IC treats the zone as ready to run, which could send a Loop list into an instance that was still locked. The console now warns when that happens, and the log records what each zone's timer said.
+- **Changed** · Instance Controller: **Ogre IM runs before leaving the zone.** IC's Ogre IM now runs inside the zone, before the group zones out, instead of out in the world after it. When the group is going to the guild hall after the zone (Call to GH after each zone, or the end of the list's call to the guild hall), it waits and runs there instead, with the depot, the sell and the repair. Time spent on it inside the zone does not count towards Max wait per zone.
+- **Changed** · Instance Controller: **Rage of Cthurath zones walk the full trash routes.** Ver'Bohten Atoll, Coral Roost, Zruul's Dominion, Realm of Conquest and Ark of Ascension now walk the full Classic routes through the trash and stop to loot along the way, and Realm of Conquest can also run [Untold Heroic]. Inner Sanctum [Solo] has its own Pov Xin'Kaas fight that kills the shadows in the shadow realm. Dominion of Pain's knight lights now work for every class when solo, and Chimeric Chain, The Oculeum and Thresinet's Den get smaller fixes.
+- **Fixed** · Bot: **Overseer reads its agent filter back again.** On some game builds Overseer said "agent filter never read back" on every run and scanned agents without knowing the filter. Ogre's fast window reader handed back a widget that could not answer the filter's label; it now lets the game answer the first time it meets a new kind of widget, then reads it fast from then on.
+- **Fixed** · Windows: **The mouse wheel no longer skips rows in a small list.** In a list only a few rows high, such as the zone list in a small IC window, one turn of the mouse wheel jumped about five rows, so some were never seen. One turn now moves at most the list's height less one row, so every row comes into view. Taller lists scroll as before, in every Ogre window.
+- **Fixed** · Instance Controller: **A wipe in a zone with no Entrance revive point no longer leaves the group dead.** After a wipe the Instance Controller revives everyone at the Entrance, but some zones, such as The Fabled Ossuary: Resonance of Malice, have no Entrance in the revive window, so nobody revived and the recovery failed. Each character now revives at the last revive point the window lists, says which in the console, and the recovery carries on from there. `-Revive` with a revive point the window does not list does the same.
+- **Fixed** · Instance Controller: **A zone with teleporters starts from anywhere near the zone-in.** Zones with teleporters inside, such as Ver'Bohten Atoll, refused to start unless you stood within 10 m of the exact spot the zone drops you, so standing by the zone's exit was "not where it begins". Anywhere within 30 m of that spot now counts, as long as you are within 5 m of its height, so the level past the first teleporter still does not.
+- **Fixed** · Instance Controller: **IC waits for a chest that appears late.** After a named died, IC looked for its chest once and walked on when none was there yet, so a chest that appeared a few seconds later was left behind. It now waits up to 8 seconds after the kill for a chest to appear before moving on.
+- **Fixed** · Navigation: **Navigation walks over walkways and steps made of objects again.** Navigation no longer treats a walkway, ramp or step built from placed objects as a wall to go round. In Ver'Bohten Atoll this stopped every Instance Controller run at the walk to the teleporter. Crates, depots and other objects you cannot walk over are still walked round.
+
 ## 2026.11.12.001 {#r2026-11-12-001}
 
 *Thursday, November 12, 2026 at 2:13 AM EST*
@@ -1844,7 +1861,7 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 |---|---|---|
 | **Accept Loot** | Lets the bot answer loot windows, using the choices on the Loot tab (for example lotto accept or decline, and free-for-all accept). When off, loot windows are left for you. | off |
 | **Loot Corpses/Chests** | The bot loots corpses and chests, and picks up shinies, that are already within reach, unless you are in combat with something to attack. Shinies wait until you are out of combat. It does not walk to them. It also turns on a fix for mobs that get stuck in a 'dead but not lootable' state, by using the Loot action on them.<br>*Shinies can be switched off on the Loot tab.* | off |
-| **Do not loot Corpses** | When looting is on, corpses are skipped. Chests and shinies are still looted. | off |
+| **Do not loot Corpses** | When looting is on, corpses are skipped. Chests and shinies are still looted. This also applies to the Instance Controller, which otherwise walks the group to the corpses around each named to loot them. | off |
 | **Do not loot chests** | When looting is on, chests are skipped. This also applies to the Instance Controller's chest-looting step. | off |
 | **Loot InCombat** | Lets the bot loot corpses and chests within reach while you are in combat with something to attack. It is separate from 'Loot Corpses/Chests', which covers every other moment, so tick both to loot at all times. Shinies always wait until you are out of combat. | off |
 | **Move to loot-bugged mobs** | Off unless you tick it. The Instance Controller turns it on for its runs (a Startup Options row). Needs 'Loot Corpses/Chests'. When the mob you have targeted is stuck in the 'dead but not lootable' state and is too far away to loot, but no more than 40 m away, the bot moves you to it so the fix can use the Loot action on it, then moves you back to where you were. Only a character that has that mob targeted moves. The move takes priority over the camp spot: the camp spot does not pull you back until you are back. It gives up after 20 seconds getting there or 20 seconds getting back, and a zone with no navigation mesh is skipped. |  |
@@ -5171,7 +5188,8 @@ When the window is too short for every option, the option grid scrolls (the list
 | Control | What it does | Default |
 |---|---|---|
 | **Loop list** | After the last row finishes, the list starts again at row 1. It is read again before each next row, so unticking it during a list ends the list at its last row. When a whole pass only skipped zones (every zone on the list locked), the list waits until the first lockout ends instead of going round again at once. It is turned OFF automatically when a safety check stops the list: fewer than 10 free inventory slots, the group shrank, or a member is dead.<br>*A zone never starts again inside the instance it just finished. If a zone's exit did not take the group out, the list stops and says why; Stop and Run starts it where you stand. Also a console switch: `ogre ic -loop` (`=off` turns it off).* | off |
-| **Ogre IM** | Between zones, at most once every 30 minutes, runs the Inventory Manager (`ogre im -destroy -tse`) and the list waits for it. In a guild hall it also uses the depot and sells (`-depot -sell`), then the group repairs. The first one is due 30 minutes after the list starts. One that comes due while you are flying or dead is skipped until the next 30 minutes.<br>*Only after a zone that ran (not one that was skipped), and not when Stop after this zone ends the list. If the IM is still going after 30 minutes, the list goes on without it. Also a console switch: `ogre ic -im` (`=off` turns it off).* | off |
+| **Ogre IM** | At the end of a zone, at most once every 30 minutes, runs the Inventory Manager (`ogre im -destroy -tse`) and the list waits for it. It runs inside the zone, before the zone-out. With Call to GH after each zone, or when the list ends after this zone with At end of list: call to guild hall, it runs in the guild hall instead, where it also uses the depot and sells (`-depot -sell`), then the group repairs. The first one is due 30 minutes after the list starts. One that comes due while you are flying or dead is skipped until the next 30 minutes. Tick After each zone to run it after every zone instead.<br>*Only for a zone that ran (not one that was skipped), and not when Stop after this zone ends the list. A zone given up after a wipe gets it wherever the group then stands. If the IM is still going after 30 minutes, the list goes on without it; while it runs inside the zone, Max wait per zone does not count. Also a console switch: `ogre ic -im` (`=off` turns it off).* | off |
+| **After each zone** | With Ogre IM: the IM runs after every zone that ran, instead of at most once every 30 minutes. Everything else is as Ogre IM: what it runs, the guild hall's depot and sell, and the list waiting for it. Flying or dead after a zone: that zone is skipped, and the IM runs after the next one.<br>*Does nothing with Ogre IM off. Unticked during a list, the 30 minutes count from the last IM. Also a console switch: `ogre ic -imAfterEachZone` (`=off` turns it off).* | off |
 | **Summon Mender bot to sell** | With Ogre IM, outside a guild hall: the IM also sells to a mender bot (`-sell`). A mender bot already within 10 m is used; otherwise, when a Mechanized Platinum Repository of Reconstruction is in your bags and ready, IC uses it to summon one. The bot is targeted so the sell picks it. The sell waits (up to a minute) for the automatic repair at the bot to end, because that repair closes the bot's window.<br>*No item, item not ready, or no bot 15 seconds after the summon: the IM runs without the sell, and the log says why. Does nothing in a guild hall (it has its own merchant) or with Ogre IM off. Also a console switch: `ogre ic -summonMenderToSell` (`=off` turns it off).* | off |
 | **Zone in first** | When a row starts and you are not standing in its zone, the travel system takes the whole group there (the queued variant picks the instance), and the file starts on arrival. The group's bots are paused for the trip, so buffs that drop at each zone line are not recast out in the world. On arrival IC waits for the group (up to 2 minutes, then it names who is missing and goes on), resumes everyone and gives 8 seconds to rebuff before the file starts. If there is no route, IC warns and runs where you stand. Off = always runs where you stand.<br>*Zoning in always runs the file from the top; a named # or Resume point is dropped. Zone-in gives up after 20 minutes. Also a console switch: `ogre ic -zoneIn` (`=off` turns it off).* | ON |
 | **Summon merc if solo** | Once inside the zone, when nobody else is in your group (your mercenary not out either), IC summons your mercenary (`merc resume`). On a zone-in it happens as the group lands, so the mercenary gets the rebuff time too; when you start already standing in the zone, it happens as the run starts.<br>*A character with no mercenary hired just gets the game's own one-line answer. Also a console switch: `ogre ic -summonMercIfSolo` (`=off` turns it off).* | ON |
@@ -7271,10 +7289,11 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - **All levels**, or untick it and set a recipe **Level** range.
 > - **Also pull from Scroll Depot** withdraws matching scrolls from the depot first, in batches that fit your bags.
 > - **Scan** shows what would be crafted. **Start** queues it and crafts it. **Stop** ends the run.
+> - **Queue only** puts the recipes in Ogre Craft's queue and stops, so you can save the queue, check the materials or change it. It never uses the Scroll Depot, and the Craft window opens on the queue.
 >
 > **Good to know**
 >
-> - Each batch empties Ogre Craft's setup queue before it adds its recipes, so anything already there is cleared, not crafted.
+> - Each batch, and Queue only, empties Ogre Craft's setup queue before it adds its recipes, so anything already there is cleared, not crafted.
 > - With the depot box ticked, Scan only looks in the depot; Start withdraws. Withdrawn scrolls are never put back.
 > - It never walks - stand at the Scroll Depot for a depot run.
 > - Closing the window (the X) or `ogre end craftgm` stops a run, then closes.
@@ -7309,12 +7328,13 @@ Once a Scan or Start has run with the box ticked (ticking it alone does not show
 
 
 
-## Scan, Start, Stop, Refresh
+## Scan, Start, Queue only, Stop, Refresh
 
 | Control | What it does |
 |---|---|
 | **Scan** | Looks through your bags and fills the table with what the range would craft. It queues and crafts nothing.<br>*With Also pull from Scroll Depot ticked, Scan also opens the Scroll Depot and shows what a Start would withdraw - it withdraws nothing.* |
 | **Start** | Scans, adds every admitted Grandmaster recipe to the Ogre Craft setup queue (one craft per scroll held), starts the craft queue and watches it to the end.<br>*Refused if an Ogre Craft run is already going. Each batch empties the setup queue just before it adds its recipes, so anything you queued yourself is not crafted with it. Recipes you have not learned are skipped and marked 'not in your recipe book'.* |
+| **Queue only** | Scans, then replaces the Ogre Craft setup queue with every admitted Grandmaster recipe (one craft per scroll held) and stops. Nothing is crafted, and the Craft window opens on the queue so you can save it, check the materials or change it.<br>*Never uses the Scroll Depot, whatever the depot box says - it builds the list from your bags. Refused if an Ogre Craft run is already going. Recipes you have not learned are skipped and marked 'not in your recipe book'.* |
 | **Stop** | Stops the run. If this window started the craft queue, that is stopped too; a craft run somebody else started is left alone.<br>*Only active while a run is going. The window stays open.* |
 | **Refresh** | Redraws the window. It changes nothing. |
 | **Title bar close (X)** | Stops a run and closes the window, the same as `ogre end craftgm`. |
@@ -10893,7 +10913,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/deve
 | `entrance` | | Where the zone-in puts you: `{ "loc": [x, y, z], "tolerance": 10 }` (tolerance in meters, 30 if left out). Wipe recovery uses it to know the group is back at the zone-in. A file with nameds and no `entrance` loads with a warning. |
 | `progression` | | `"sequential"` (the default) or `"open"`. When a run starts part-way, or after a wipe, IC works out which nameds are already dead. With `sequential`, a named that is still standing means every named before it in the file is dead, and IC skips them. With `open`, nameds can die in any order, so only the ones IC saw die count. **Use `sequential` only when each named appears only after the one before it dies.** If any later named is already up when you zone in, or a named has to be spawned by an event first (a ring event, a script, anything with a `spawnWaitMs`), use `"open"`. Otherwise a run that starts with that named not spawned yet sees the later named standing and skips it. Getting `open` wrong only costs a walk over ground you already cleared; getting `sequential` wrong skips a named. |
 | `enabled` | | `false` hides the file in the IC window, and it will not run. Write `true` or `false`, not `"false"`. |
-| `rerunWholeZoneAfterWipe` | | `true`: after a wipe recovery, run the whole file again from the top. For zones with teleporters inside, where the group cannot walk back to where it died. Starting such a zone part-way is only allowed where the group already stands. |
+| `rerunWholeZoneAfterWipe` | | `true`: after a wipe recovery, run the whole file again from the top. For zones with teleporters inside, where the group cannot walk back to where it died. Such a zone only starts where the group already stands. From the top, that means within 30 m of the `entrance` and no more than 5 m above or below it. Part-way, it means by that part's walk or named. |
 | `wipeAttempts` | | How many times wipe recovery may run before IC gives the zone up: `0` to `10`, `2` if left out. |
 | `onWipe` | | Your own wipe recovery steps (see [`recover`](steps.md#recover)). Leave it out for the built-in recovery. `[]` means no recovery: the first wipe gives the zone up. |
 | `afterWipe` | | Your own steps for when the zone is given up. Leave it out for the built-in ones: revive, then whatever the IC window's **After a lost zone** says. |
@@ -10922,7 +10942,9 @@ names the key and the nearest key IC does read (see [Checking your file](checkin
 - **End**, **Max wait per zone** and closing the IC window stop the run where it stands. `exit` does not run.
 - **Wipes** are watched during `enter` and `steps`. IC runs the wipe recovery, then starts the zone again, leaving
   out what is already done. The built-in recovery revives everyone at the entrance, evacuates if they are not there,
-  and then rests for a minute so revive sickness wears off and buffs go back up. After `wipeAttempts` recoveries, IC gives the zone up: the `afterWipe` steps run, `exit`
+  and then rests for a minute so revive sickness wears off and buffs go back up. In a zone whose revive window has no
+  Entrance, each character revives at the last revive point the window lists, says which, and the recovery goes on
+  from there. After `wipeAttempts` recoveries, IC gives the zone up: the `afterWipe` steps run, `exit`
   does not, and the list moves on to the next zone.
 - **Starting part-way.** The IC window's **named #** starts a zone at a named: IC backs up over the steps that lead
   to it (its walk, for instance) so they run too. It only works when you are already standing in that zone. A run
@@ -11059,7 +11081,7 @@ Anything in `{{ }}` inside a step's text is filled in when the step runs. The `i
 | `{{ic.zone.file}}` | The file's path inside its root. |
 | `{{ic.zone.entrance}}` | The file's `entrance`. |
 | `{{ic.zone.options.<name>}}` | The file's own `options`. |
-| `{{ic.options.<name>}}` | The IC window's options, as `TRUE`/`FALSE` (or text): `haltAtEnd`, `loop`, `zoneIn`, `resetZones`, `afterWipe`, `skipBoss`, `skipShinies`, `pauseForNoTradeShinies`, `doNotLootNoTradeBossChest`, `summonMenderToSell`, `callGHAfterEachZone`, `stayInZoneUntilZoneReady`, `skipGroupChecks`, `fileOption1` to `fileOption3`, `fileArgs`. |
+| `{{ic.options.<name>}}` | The IC window's options, as `TRUE`/`FALSE` (or text): `haltAtEnd`, `loop`, `zoneIn`, `resetZones`, `afterWipe`, `skipBoss`, `skipShinies`, `pauseForNoTradeShinies`, `doNotLootNoTradeBossChest`, `im`, `imAfterEachZone`, `summonMenderToSell`, `callGHAfterEachZone`, `stayInZoneUntilZoneReady`, `skipGroupChecks`, `fileOption1` to `fileOption3`, `fileArgs`. |
 | `{{ic.run.verdicts.<stepId>}}` | How a step ended. `named`, `loot` and `zoneOut` steps record one: `killed`, `looted`, `zonedOut` and so on. |
 | `{{ic.run.id}}`, `{{ic.run.attempts}}` | This run's id, and how many tries it has had (1, then one more after each wipe recovery). |
 | `{{ic.run.completed}}`, `{{ic.run.skipped}}` | The steps (by `stepId`) known to be done or skipped. |
@@ -11114,11 +11136,13 @@ Keys for `door`, `auto` and `endOfZone`:
 What happens at a `zoneOut` step, in order:
 
 1. **Halt at end of zone**, if it is ticked: IC halts here, inside the zone, until you press Resume.
-2. The zone end options: **Call to guild hall after each zone** or **Stay in zone until a zone is ready**.
-3. Just before the group moves to the exit, a Paladin's Consecrate and a Berserker's Open Wounds are cancelled, so
+2. **Ogre IM**, when it is due: here, inside the zone. With **Call to GH after each zone**, or when the list ends
+   after this zone with **At end of list: call to guild hall**, it waits and runs in the guild hall instead.
+3. The zone end options: **Call to guild hall after each zone** or **Stay in zone until a zone is ready**.
+4. Just before the group moves to the exit, a Paladin's Consecrate and a Berserker's Open Wounds are cancelled, so
    they do not pull more on the way.
-4. Everyone clicks the exit, and the zone list's row is picked for everyone.
-5. In the new zone, IC waits for the group. Anyone who lands in a different copy of the zone (Phantom Seas 3
+5. Everyone clicks the exit, and the zone list's row is picked for everyone.
+6. In the new zone, IC waits for the group. Anyone who lands in a different copy of the zone (Phantom Seas 3
    instead of 2) is asked to come to the leader's copy, up to three times.
 
 A zone out that fails does not fail the zone: the run still counts as done, with a failure noted.
@@ -11214,22 +11238,35 @@ spawns does not fail the zone; the run goes on and notes it.
 
 ## loot
 
-Loots the chest, or the shinies. The group goes to them if needed, waits for the looting, then goes back.
+Loots the chest, the shinies or the corpses. The group goes to them if needed, waits for the looting, then goes back.
 
 ```json
 { "stepId": "named1.chest", "do": "loot", "op": "chest" }
 ```
 
+A chest is found by its kind (the game's actor type "Chest"), not by its name. When the named was killed moments ago and
+no chest is there yet, the step waits up to 8 seconds after the kill for one to appear.
+
 | Key | Default | What it does |
 |---|---|---|
-| `op` | required | `"chest"` or `"shinies"`. |
-| `within` | `75` | How far to look. |
+| `op` | required | `"chest"`, `"shinies"` or `"corpses"`. |
+| `within` | `75` (`50` for corpses) | How far to look. For corpses it is measured from where the step started. |
 | `boss` | `false` | `true` on the boss chest: **Skip no-trade boss chest** applies to it. |
 | `back` | `true` | Go back to where the step started afterwards. |
 | `noTrade` | the IC window's options | `"loot"` or `"skip"`: what to do with no-trade items, for this step only. |
+| `corpses` | `true` | Chest only: loot the corpses after the chest. `false` leaves them. |
+| `corpsesWithin` | `50` | Chest only: how far from where the step started to look for corpses. |
 
-It records `looted`, `nothingToLoot`, `left` (something was left, said in the log) or `skipped`. A loot step never
-fails the zone.
+A chest step also loots the corpses around it once the chest is done. The group walks to each corpse that has not
+been looted yet, nearest first, waits for OgreBot to loot it, and goes back once at the end. `op: "corpses"` does
+only that, for use anywhere, such as after a trash pull. The corpses are skipped when **Do not loot Corpses** is
+ticked on OgreBot's Loot tab, or when OgreBot looting is off; the log says so. The corpses stop after two minutes,
+not counting fights. For corpses, `within` and `corpsesWithin` go up to `100`, and a bigger one is used as `100`. A
+`corpses` that is not `true` or `false`, or a `corpsesWithin` that is not a number above 0, is ignored. The load says
+each of these.
+
+It records `looted`, `nothingToLoot`, `left` (something was left, said in the log) or `skipped`. On a chest step it is
+the chest's result; the corpses are added to the same log line. A loot step never fails the zone.
 
 ## zoneOut
 
@@ -11378,7 +11415,8 @@ Marks a step as done (`"op": "complete"`) or skipped (`"op": "skip"`), so a late
 
 The wipe recovery steps, for `onWipe` and `afterWipe`. `op` is `"revive"`, `"evac"` (back to the `entrance`),
 `"callGH"` or `"callHome"`. `limitMs` is how long each may take. A `revive` can take `at`: the row of the revive
-window to use, like `"Entrance"`.
+window to use, like `"Entrance"`. When the window has no such row, each character revives at the last revive point
+the window lists and says which.
 
 ```json
 "onWipe": [

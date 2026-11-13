@@ -15,7 +15,7 @@
 | `entrance` | | Where the zone-in puts you: `{ "loc": [x, y, z], "tolerance": 10 }` (tolerance in meters, 30 if left out). Wipe recovery uses it to know the group is back at the zone-in. A file with nameds and no `entrance` loads with a warning. |
 | `progression` | | `"sequential"` (the default) or `"open"`. When a run starts part-way, or after a wipe, IC works out which nameds are already dead. With `sequential`, a named that is still standing means every named before it in the file is dead, and IC skips them. With `open`, nameds can die in any order, so only the ones IC saw die count. **Use `sequential` only when each named appears only after the one before it dies.** If any later named is already up when you zone in, or a named has to be spawned by an event first (a ring event, a script, anything with a `spawnWaitMs`), use `"open"`. Otherwise a run that starts with that named not spawned yet sees the later named standing and skips it. Getting `open` wrong only costs a walk over ground you already cleared; getting `sequential` wrong skips a named. |
 | `enabled` | | `false` hides the file in the IC window, and it will not run. Write `true` or `false`, not `"false"`. |
-| `rerunWholeZoneAfterWipe` | | `true`: after a wipe recovery, run the whole file again from the top. For zones with teleporters inside, where the group cannot walk back to where it died. Starting such a zone part-way is only allowed where the group already stands. |
+| `rerunWholeZoneAfterWipe` | | `true`: after a wipe recovery, run the whole file again from the top. For zones with teleporters inside, where the group cannot walk back to where it died. Such a zone only starts where the group already stands. From the top, that means within 30 m of the `entrance` and no more than 5 m above or below it. Part-way, it means by that part's walk or named. |
 | `wipeAttempts` | | How many times wipe recovery may run before IC gives the zone up: `0` to `10`, `2` if left out. |
 | `onWipe` | | Your own wipe recovery steps (see [`recover`](steps.md#recover)). Leave it out for the built-in recovery. `[]` means no recovery: the first wipe gives the zone up. |
 | `afterWipe` | | Your own steps for when the zone is given up. Leave it out for the built-in ones: revive, then whatever the IC window's **After a lost zone** says. |
@@ -44,7 +44,9 @@ names the key and the nearest key IC does read (see [Checking your file](checkin
 - **End**, **Max wait per zone** and closing the IC window stop the run where it stands. `exit` does not run.
 - **Wipes** are watched during `enter` and `steps`. IC runs the wipe recovery, then starts the zone again, leaving
   out what is already done. The built-in recovery revives everyone at the entrance, evacuates if they are not there,
-  and then rests for a minute so revive sickness wears off and buffs go back up. After `wipeAttempts` recoveries, IC gives the zone up: the `afterWipe` steps run, `exit`
+  and then rests for a minute so revive sickness wears off and buffs go back up. In a zone whose revive window has no
+  Entrance, each character revives at the last revive point the window lists, says which, and the recovery goes on
+  from there. After `wipeAttempts` recoveries, IC gives the zone up: the `afterWipe` steps run, `exit`
   does not, and the list moves on to the next zone.
 - **Starting part-way.** The IC window's **named #** starts a zone at a named: IC backs up over the steps that lead
   to it (its walk, for instance) so they run too. It only works when you are already standing in that zone. A run
@@ -181,7 +183,7 @@ Anything in `{{ }}` inside a step's text is filled in when the step runs. The `i
 | `{{ic.zone.file}}` | The file's path inside its root. |
 | `{{ic.zone.entrance}}` | The file's `entrance`. |
 | `{{ic.zone.options.<name>}}` | The file's own `options`. |
-| `{{ic.options.<name>}}` | The IC window's options, as `TRUE`/`FALSE` (or text): `haltAtEnd`, `loop`, `zoneIn`, `resetZones`, `afterWipe`, `skipBoss`, `skipShinies`, `pauseForNoTradeShinies`, `doNotLootNoTradeBossChest`, `summonMenderToSell`, `callGHAfterEachZone`, `stayInZoneUntilZoneReady`, `skipGroupChecks`, `fileOption1` to `fileOption3`, `fileArgs`. |
+| `{{ic.options.<name>}}` | The IC window's options, as `TRUE`/`FALSE` (or text): `haltAtEnd`, `loop`, `zoneIn`, `resetZones`, `afterWipe`, `skipBoss`, `skipShinies`, `pauseForNoTradeShinies`, `doNotLootNoTradeBossChest`, `im`, `imAfterEachZone`, `summonMenderToSell`, `callGHAfterEachZone`, `stayInZoneUntilZoneReady`, `skipGroupChecks`, `fileOption1` to `fileOption3`, `fileArgs`. |
 | `{{ic.run.verdicts.<stepId>}}` | How a step ended. `named`, `loot` and `zoneOut` steps record one: `killed`, `looted`, `zonedOut` and so on. |
 | `{{ic.run.id}}`, `{{ic.run.attempts}}` | This run's id, and how many tries it has had (1, then one more after each wipe recovery). |
 | `{{ic.run.completed}}`, `{{ic.run.skipped}}` | The steps (by `stepId`) known to be done or skipped. |
@@ -236,11 +238,13 @@ Keys for `door`, `auto` and `endOfZone`:
 What happens at a `zoneOut` step, in order:
 
 1. **Halt at end of zone**, if it is ticked: IC halts here, inside the zone, until you press Resume.
-2. The zone end options: **Call to guild hall after each zone** or **Stay in zone until a zone is ready**.
-3. Just before the group moves to the exit, a Paladin's Consecrate and a Berserker's Open Wounds are cancelled, so
+2. **Ogre IM**, when it is due: here, inside the zone. With **Call to GH after each zone**, or when the list ends
+   after this zone with **At end of list: call to guild hall**, it waits and runs in the guild hall instead.
+3. The zone end options: **Call to guild hall after each zone** or **Stay in zone until a zone is ready**.
+4. Just before the group moves to the exit, a Paladin's Consecrate and a Berserker's Open Wounds are cancelled, so
    they do not pull more on the way.
-4. Everyone clicks the exit, and the zone list's row is picked for everyone.
-5. In the new zone, IC waits for the group. Anyone who lands in a different copy of the zone (Phantom Seas 3
+5. Everyone clicks the exit, and the zone list's row is picked for everyone.
+6. In the new zone, IC waits for the group. Anyone who lands in a different copy of the zone (Phantom Seas 3
    instead of 2) is asked to come to the leader's copy, up to three times.
 
 A zone out that fails does not fail the zone: the run still counts as done, with a failure noted.
