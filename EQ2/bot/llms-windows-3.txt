@@ -1,0 +1,1350 @@
+# OgreBot for EverQuest II - documentation, Windows (part 3 of 5)
+
+OgreBot is in beta testing. For OgreBot Classic see https://kannkor.github.io/ISXOgre/EQ2/
+This file is ONE PIECE of the documentation: Windows (part 3 of 5) - Windows - Running content; Windows - Loot and items; Windows - Crafting.
+The entire documentation in one document: https://kannkor.github.io/ISXOgre/EQ2/bot/llms-full.txt
+Index of every page and of every file like this one: https://kannkor.github.io/ISXOgre/EQ2/bot/llms.txt
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/eq2radarfilters.md
+
+# Radar Types
+
+> **:bulb: In game - the ? button on this window says**
+>
+> Picks which kinds of things the Radar draws. A lit button is shown; a dim one is hidden.
+>
+> **What you can do here**
+>
+> - **The top row**: **[all]**, **quest** (quest only), **qst npc** (quest NPCs) and **no name**. **The grid** under it: one button per type.
+> - **Click a type** (npc, named, pc, pet, corpse, chest, door...) to show or hide it.
+> - **other** covers anything not in the list.
+> - **quest** (quest only) narrows **npc**, **named** and **nokill** to the ones that update one of your quests - a mob to kill or an object to click. Every other type (pc, special, chest...) follows its own button.
+> - **qst npc** always shows NPCs with a feather (or a quest update / complete icon) - the ones the quest helper hails - even with **nokill** off or **quest** on.
+> - **no name** shows or hides actors with no name - mostly junk, sometimes not.
+> - **name** (bottom right) turns name cutting on and off: lit cuts every name on the radar to the number beside it (5 to start). Change the number in the box; it is kept while cutting is off.
+> - **[all]** shows everything; when everything is on it reads **[none]** and hides everything.
+>
+> **Good to know**
+>
+> - Each click is saved straight away. Only the type choice is saved - other radar changes still wait for **Save**.
+> - The dot on each button is that type's colour on the radar (change it under the radar's gear).
+> - Open and close it with **types** on the radar.
+
+**Open it:** Press **types** on the Radar's toolbar (open the radar first with `ogre radar`). Press types again, or the X, to close it.
+
+## What it is for
+
+Picks which kinds of things the Radar draws: mobs, named, players, pets, corpses, chests, doors and so on. Each button is one kind; lit means shown. Your choices are saved as soon as you click, so they are still there the next time you open the radar. It changes only what the radar shows, never what the bot does.
+
+## Type buttons
+
+The coloured dot on each button is the colour that kind is drawn in on the radar (change it in the radar's settings, Colours - by type).
+
+| Control | What it does | Default |
+|---|---|---|
+| **[all] / [none]** | If anything is hidden, [all] shows every kind again. If everything is already shown, the button reads [none] and hides every kind, so you can then turn on just the ones you want. |  |
+| **npc** | Mobs you can fight. | shown |
+| **named** | Named mobs. | shown |
+| **nokill** | NPCs you cannot attack, such as guards and merchants. | shown |
+| **special** | Objects the game marks as special, usually things you can click. | shown |
+| **pc** | Other players. | shown |
+| **pet** | Pets that are not yours (your own pet is mypet). | shown |
+| **mypet** | Your own pet. | shown |
+| **merc** | Mercenaries. | shown |
+| **corpse** | Corpses. | shown |
+| **craft** | Crafting stations (forges, sewing tables and the like). | shown |
+| **resource** | Harvest nodes. | shown |
+| **chest** | Treasure chests. | shown |
+| **door** | Doors. | shown |
+| **other** | Anything that is none of the kinds above. | shown |
+| **quest** | Narrows npc, named and nokill to the ones that update one of your quests - a mob to kill or an object to click. Every other type follows its own button. Saved like a type click. | off |
+| **qst npc** | Always shows quest NPCs - a feather, or a quest update / complete icon, over a no-kill NPC (the ones the quest helper hails) - even with nokill off or quest on. The radar looks for them every 2 seconds, only while this is on. | off |
+| **no name** | Actors with no name - mostly junk, sometimes not. Lit shows them, dim hides them. Saved like a type click. | shown |
+| **name** | The button turns name cutting on and off; while lit, every name on the radar is cut to the number in the box (5 to start). The number is kept while cutting is off. Saved like a type click. | off, 5 |
+| **Title bar close (X)** | Closes this window only. The radar keeps running. |  |
+
+
+
+## What the window shows
+
+- A lit button means that kind is drawn on the radar; a dim one means it is hidden.
+- The top row holds the four switches ([all], quest, qst npc, no name); the grid under it holds one button per type.
+
+## Good to know
+
+- Every click saves your type choice straight away. Only the type choice: any other change you made on the radar and did not save yet (zoom, dim, colours...) still waits for the radar's Save.
+- You never appear on the radar as a dot you can hide; you are always the marker in the middle.
+- Closing the radar (its X or `ogre end radar`) closes this window too.
+
+## Beside the radar
+
+![Radar Types next to the radar, with doors, resources, craft and special turned off](../assets/eq2radarfilters/with-radar.png)
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/nav.md
+
+# Nav
+
+> **:bulb: In game - the ? button on this window says**
+>
+> The stop button for navigation. It pops up whenever the bot walks or flies your character somewhere, and closes when the trip ends.
+>
+> **What you can do here**
+>
+> - **STOP** - end the trip where you are. Safe to press at any time.
+> - **Pause / Resume** - hold the trip and keep the route; Resume carries on from here.
+> - The X (or `ogre end nav`) stops the trip and closes the window. To keep it out of the way, move or resize it.
+> - Watch the progress bar, waypoint count and distance left. **Waiting for mesh** means the zone's map is still loading; the trip starts by itself when it is ready.
+>
+> **Good to know**
+>
+> - Pausing OgreBot does not stop a trip - use STOP (or `ogre nav stop`).
+> - While nav is paused nothing else will move your character until you Resume or STOP.
+> - `ogre nav -nopanel` stops it popping up; `ogre nav panel` opens it by hand.
+
+**Open it:** It opens by itself whenever your character starts a navigation trip, whoever started it (you, Instance Controller, the travel router...), and closes when the trip ends. To open it by hand type `ogre nav panel`. `ogre nav -nopanel` stops it popping up; `ogre nav -panel` turns that back on and opens it.
+
+## What it is for
+
+The stop button for navigation. While the bot walks or flies your character somewhere along the navigation map, this small window shows how far along it is and gives you a big STOP and a Pause. Navigation keeps going while OgreBot is paused, so this window is how you stop it.
+
+## Status
+
+The top line is the state (Moving in green, Failed in red, Arrived highlighted, Stopped plain) and why. The bar and the line under it show the waypoint you are on out of the whole route, and the distance still to go. The next line names the navigation map loaded for this zone. A red note appears when the trip is paused, nav is switched off, or OgreBot is paused.
+
+## Buttons
+
+| Control | What it does |
+|---|---|
+| **STOP** | Ends the trip right where you are. The route is thrown away. It is safe to press at any time: if something else has since taken over moving your character, STOP leaves that alone.<br>*Greyed out when no trip is running.* |
+| **Pause / Resume** | Pause stops walking but keeps the route, so Resume carries on from where you stopped without planning again. While paused, nav still holds the character: follow or the camp spot will not move it until you Resume or STOP.<br>*Greyed out when no trip is running. Turns yellow and reads Resume while paused.* |
+| **Title bar close (X)** | Stops the trip and closes the window, the same as `ogre end nav`. Nothing hides the window while a trip goes on: move it or size it where you want it. |
+
+
+
+## What the window shows
+
+- State word: Moving, Planning (the route is being worked out, a little at a time so the game never freezes; the character waits until it is ready), Landing (coming down from flight), Waiting for mesh (the navigation map for this zone is still downloading; the trip starts by itself when it is ready), Arrived, Stopped (something ended the trip on purpose: you pressed STOP, or the bot that started the walk ended it), Failed (navigation could not get there, for example stuck or no route), or Idle.
+- Reason, next to the state: why the trip is doing what it does, for example 'navmesh route', 'waiting for the navmesh', 'stuck', or 'OgreBot closed'.
+- Bar and 'waypoint X of Y - N u to go': how far along the route you are, and the distance left in game units. 'waiting for the navmesh to land' while the map is still coming; 'no route' when idle.
+- 'mesh <zone> - N polys': the navigation map in use. 'no mesh loaded yet (loads on the first trip in a zone)' is normal before your first trip in a zone.
+- Red notes: 'Paused here. The route is kept - Resume carries on from this point.' / 'Nav is switched OFF - `ogre nav -on`' / 'OgreBot is paused. This trip keeps going; STOP ends it.'
+
+## Good to know
+
+- Pausing OgreBot does NOT stop a navigation trip. Use STOP here, or type `ogre nav stop`. `ogre end nav` (or the X) stops the trip and closes this window.
+- The window closes itself as soon as a trip ends, so you rarely see Arrived, Stopped or Failed in it. The console says how the trip ended.
+- While nav is paused it keeps control of your character, so nothing else (follow, camp spot) will move it until you Resume or STOP.
+
+## Points of interest and paths
+
+A point of interest is a name you give a spot in a zone. A path is a saved list of spots to walk in order. Both are kept in the [Points of Interest and Paths window](paths.md): type `ogre paths`.
+
+- A point of interest's name works wherever a location does in that zone: `oc !c -NavTo igw:${Me.Name} bell`, `oc !c -ChangeCampSpot igw:${Me.Name} bell`, and `-TravelMesh` to reach it from another zone.
+- `oc !c -Path igw:${Me.Name} <name>` walks a saved path, and `oc !c -PathStop igw:${Me.Name}` stops it. It runs while OgreBot is paused, waits through a fight or a death, and zoning ends it.
+- The [Auto-Hunt tab](../ogrebot/auto-hunt.md) picks a path to walk between pulls.
+
+## Other states
+
+Paused with the Pause button:
+
+![Paused](../assets/nav/paused.png)
+
+OgreBot paused while a trip runs:
+
+![OgreBot paused](../assets/nav/botpaused.png)
+
+Waiting for the zone's navigation map:
+
+![Waiting for the navmesh](../assets/nav/waiting.png)
+
+Opened by hand with no trip running:
+
+![Idle](../assets/nav/idle.png)
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/travel.md
+
+# Travel Helper
+
+> **:bulb: In game - the ? button on this window says**
+>
+> Lists where a travel map can take you, then sends your group to the one you pick.
+>
+> **What you can do here**
+>
+> - **Fast Travel, Wizard Spire, Druid Rings, Bell** - this character opens that map (standing by the spire, ring or bell for those three), reads every destination and lists them. The map closes again.
+> - **Open Travel Map** - lists the travel map you already have open, and leaves it open.
+> - **Double-click a destination**, or select it and press **Travel** - everyone in the Master Control Panel's For Who window travels there. Each opens their own map and clicks that exact destination.
+> - **Filter** - type part of a name to shorten the list.
+> - **Keep list open after travelling** - leave this window up after you pick.
+>
+> **Good to know**
+>
+> - If the For Who window was never set, everyone travels.
+> - Spire, ring and bell travel needs that object within reach of every character you send.
+> - With Open Travel Map, everyone you send must have their own map open too.
+
+**Open it:** Type `ogre travel`. Add a method to open it straight on that list: `ogre travel fast`, `ogre travel spire`, `ogre travel druid`, `ogre travel bell` or `ogre travel map`. A Master Control Panel button migrated from the old bot's Travel Helper opens it too. `ogre end travel` (or the window's X) stops a list that is being read, closes the map it opened, and closes the window.
+
+## What it is for
+
+The Travel Helper sends your group somewhere without anyone typing a zone name. Pick how to travel and this character opens that travel map, reads every destination it offers and lists them here. Double-click one and every character in the For Who window travels there: each opens its own map and clicks that exact destination. It is the old bot's Travel Helper window, rebuilt.
+
+## Choosing how to travel
+
+Each button makes this character open that kind of travel map and list it. The map closes again once it has been read, except for Open Travel Map.
+
+| Control | What it does |
+|---|---|
+| **Fast Travel** | Opens the Fast Travel map and lists its destinations. Works anywhere you can fast travel from. |
+| **Wizard Spire** | Clicks the wizard spire next to you and lists where it goes. You must be standing by a spire.<br>*Nothing is cast: it uses the spire in the world, the same as the old bot.* |
+| **Druid Rings** | Clicks the druid ring next to you, or in a guild hall the portal druid, and lists where it goes. |
+| **Bell** | Clicks the bell or globe next to you and lists where it goes. |
+| **Open Travel Map** | Lists the travel map you already have open, and leaves it open.<br>*Everyone you send to must have their own travel map open too - this one opens nothing for them.* |
+
+## Picking a destination
+
+The list shows every destination the map offers, in the map's order. Type in the filter box to narrow it.
+
+| Control | What it does |
+|---|---|
+| **Filter destinations** | Shows only the destinations whose name contains what you type. |
+| **Destination list** | Click a destination to select it. Double-click it to travel there. |
+| **Travel** | Sends everyone in the For Who window to the selected destination.<br>*Each character opens its own map and clicks exactly that destination - the whole name, not part of it.* |
+| **Keep list open after travelling** | Leaves this window open after you send the group. Off, it closes once you pick. |
+
+## What the window shows
+
+- Sends to: who a pick goes to and how, read from the Master Control Panel's For Who window.
+- Opening the map and reading it...: this character is opening the map. The buttons are greyed out until it finishes.
+- Could not list: why the map could not be read, for example nothing to click is in reach.
+- The line under Sends to: what the last pick sent, and to whom.
+
+## Good to know
+
+- The For Who window decides who travels. If it was never set, everyone travels.
+- Wizard Spire, Druid Rings and Bell need the spire, ring or bell within reach of every character you send. Anyone too far away stays where they are.
+- Picking a destination with several drop-off points or instances uses the same choice as the travel commands: the last one offered.
+
+### Before anything is listed
+
+![Empty](../assets/travel/empty.png)
+
+### Filtering
+
+![Filter](../assets/travel/filter.png)
+
+### While it reads the map
+
+![Listing](../assets/travel/listing.png)
+
+### When nothing can be opened
+
+![Failed](../assets/travel/failed.png)
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/paths.md
+
+# Points of Interest and Paths
+
+> **:bulb: In game - the ? button on this window says**
+>
+> Names spots in the zone you are in, and saves walks through them. They are kept on this PC, for every toon.
+>
+> **What you can do here**
+>
+> - **Add** - save a point of interest at x, y, z. Leave those blank to use where you stand. **My Loc** fills them in for you.
+> - **Remove / Rename** - change a point of interest of your own.
+> - **New / Delete** - make or drop a path. A zone can hold as many as you like.
+> - **Add / Insert / Remove / Clear** under the point list - build the path. Add goes on the end, Insert goes above the selected point. A point is a point of interest or x,y,z.
+> - **Drag a point** to move it in the list.
+> - **Nav / Camp spot** - how the toon walks that path. **Loop** starts it over after the last point.
+> - **Start / Stop** - walk the path on this box.
+> - **Import** - bring this zone's old AutoHunt path across from OgreBot Classic.
+>
+> **Good to know**
+>
+> - A point of interest's name works wherever a location does in this zone: `-ChangeCampSpot`, `-TravelMesh`.
+> - A shipped point of interest cannot be removed or renamed. Adding your own of that name overrides it.
+> - Start stops with a line if a point cannot be found, before anything moves. Zoning ends a walk.
+> - The first time you enter a zone with an old AutoHunt path, it comes across by itself as a path called Default. Nothing you already have is overwritten, and what you delete does not come back unless you press **Import**.
+> - The Auto-Hunt tab picks one of these paths to walk between pulls, and its **Edit** button opens that path here. So does `ogre paths <path>`.
+> - A walk under way keeps the points it had when it started. Stop and Start walks the new order.
+
+**Open it:** Type `ogre paths`. To open it on one path, type `ogre paths <path>` or press **Edit** beside the path picker on the Auto-Hunt tab of OgreBot. `ogre end paths` or the window's X closes it. A path being walked goes on.
+
+## What it is for
+
+This window holds the named spots and the saved walks of the zone you are in. A point of interest is a name for a spot: the name then works wherever a location does in this zone, such as `-ChangeCampSpot`, `-NavTo` and `-TravelMesh`. A path is a list of points that a toon walks in order, and a zone can hold as many paths as you like. Both are kept on this PC, for every toon, and everything here also has a command for scripts.
+
+## Zone and Import
+
+The top line names the zone everything below belongs to. While you are zoning, or while the travel data loads, it says why the lists are empty.
+
+| Control | What it does |
+|---|---|
+| **Import** | Brings this zone's saved Auto-Hunt route across from OgreBot Classic, even if that was done before. A name or path already here is never overwritten.<br>*This also happens by itself, once, the first time you enter a zone that has an old route.* |
+
+
+
+## Points of interest
+
+Click a row to fill in the name, the x, y, z boxes and the path's Point box.
+
+| Control | What it does |
+|---|---|
+| **Name (box)** | The name of the point of interest to add. It cannot be empty, hold a comma or read as a number, because it would then read as a location. |
+| **x / y / z (boxes)** | Where the point of interest is. Leave all three blank to use where you stand. |
+| **My Loc** | Fills x, y and z from where you stand, so you can change them before you add. |
+| **Add** | Saves the point of interest in this zone. A name you already have moves to the new spot. A name the bot ships with is overridden by yours, and it stays yours until you remove it. |
+| **Remove** | Removes the selected point of interest of yours. If it was overriding a shipped one, the shipped one is back.<br>*Greyed out for a shipped point of interest.* |
+| **New name (box)** | The new name for Rename. |
+| **Rename** | Renames the selected point of interest of yours. A name another point of interest here holds is refused, and a path that used the old name does not follow it.<br>*Greyed out for a shipped point of interest.* |
+
+
+
+## Paths
+
+Click a path to select it. Its points show in the list under these buttons.
+
+| Control | What it does | Default |
+|---|---|---|
+| **New path name (box)** | The name of the path to make. |  |
+| **New** | Makes an empty path in this zone. It walks by Nav and does not loop until you change it. A name already here is refused, so a slip cannot empty a path. |  |
+| **Delete** | Deletes the selected path.<br>*No confirmation.* |  |
+| **Walk by Nav / Camp spot** | How the toon walks this path. Nav goes to each point on the navigation map. Camp spot moves the camp spot to each point and lets the leash bring the toon. | Nav |
+| **Loop** | Starts the path over at the first point after the last, until something stops it. A path of one point goes there and finishes, and so does a loop whose points are all where you stand. | off |
+| **Start** | Walks the selected path on this box, in place of any walk under way. Every point is checked first: one that cannot be found stops it with a line, before anything moves.<br>*It runs while OgreBot is paused, and OgreBot must be open.* |  |
+| **Stop** | Stops the walk on this box. The toon stands where it is. |  |
+
+
+
+## Points of the path
+
+The selected path's points, in the order they are walked. Drag a row to move that point: a line shows where it lands, the points between shift one place, and a plain click still selects the row.
+
+| Control | What it does |
+|---|---|
+| **Point: a name, or x,y,z (box)** | The point to add: the name of a point of interest, or x,y,z. A name is looked for when the path starts, so its point of interest can come later. |
+| **Add** | Adds the point to the end of the selected path. |
+| **Insert** | Puts the point in above the selected point, which moves down one. The new point is then the selected row.<br>*Greyed out until a point is selected.* |
+| **Remove** | Removes the selected point. A path that passes the same point twice keeps the other one. |
+| **Clear** | Takes every point off the selected path. The path stays, with its Walk by and Loop settings.<br>*No confirmation.* |
+
+
+
+## What the window shows
+
+- 'shipped' or 'yours' beside a point of interest: shipped ones come with the bot and cannot be removed or renamed.
+- 'at an actor' in place of a location: a shipped point of interest that names an actor, not a spot. It has no location of its own, so a path or a location verb cannot use it.
+- Green text: the path being walked and the point it is walking to, with a line under the lists saying the same. After an edit the line still reads the walk, and no row is green if the list no longer holds that point at that place.
+- The last line of the window: the last thing the bot said about a point of interest or a path, a refusal included.
+
+## Good to know
+
+- Everything here is for the zone you are in. Another zone has its own points of interest and paths.
+- Zoning ends a walk, with a line. So does a point the toon cannot get to, and closing OgreBot.
+- A walk waits while something else has the toon and goes on from the same point: a fight, a death until a res or a revive in the same zone, a pull of Auto-Hunt, a movement block, the Pause of the Nav window. The last line of this window says what it is waiting for.
+- The first time you enter a zone that has an old OgreBot Classic route, it comes across by itself as a path called Default, and one line says how many points came and which did not. What you delete afterwards does not come back unless you press Import.
+- A camp spot walk needs 'Allow Camp Spot' on for that toon. A walk that finishes leaves the camp spot at its last point, and the camp spot you had before does not come back. Stop clears the camp spot, and the toon stands where it is.
+- The Auto-Hunt tab picks one of these paths to walk between pulls, and it only walks: it never flies one. Start here walks a path with no hunting, and that walk may fly. Hunting does not end that walk, and the walk waits while Auto-Hunt works a pull. Auto-Hunt pulls nothing in the air, so a walk that flies is never held for one.
+- A walk under way keeps the points it had when it started. Change the path as you like: Stop and Start walks the new order, and so does the next pick on the Auto-Hunt tab.
+- A move or an insert is refused with a line if another box changed the list since you saw it, so a point never lands in the wrong place.
+- A path or a point of interest saved on one box shows on every other box on this PC within a second or so.
+
+### For scripts
+
+The same things have commands: `OgreBotAPI.POI` for points of interest and `OgreBotAPI.Paths` for paths. In OgreConsole, `-POI_Add` saves a point of interest, `-Path` walks a path and `-PathStop` stops it. The verbs that change a path take a for-who first: paths are shared by every box on the PC, so name one box and one line changes the path once. `OgreBotAPI.Paths:InsertPoint` and `MovePoint` take a place counted from 1. `ISXOgreEQ2.Paths:Open` opens this window, on a path if you name one (`ISXOgreEQ2.Paths:Open[North Loop]`): any panel or script that wants a path edited calls that.
+
+### A zone with no points of interest yet
+
+![Empty](../assets/paths/empty.png)
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/safefall.md
+
+# Safe Fall Trainer
+
+> **:bulb: In game - the ? button on this window says**
+>
+> Trains Safe Fall for you: mount, fly up, dismount, fall, land, remount, repeat. Every landing is a skill-up chance.
+>
+> **What you can do here**
+>
+> - **Flight time** - how long each climb lasts, in ticks (10 ticks = 1 second, 5 to 600).
+> - **Start** - target yourself, mount up and begin. It is dimmed, and does nothing, while a run is going or you are not in the world.
+> - **Stop** - end training where you are.
+> - Watch the phase, rounds, falls trained and ramps as it runs. "started at" is the flight time this run began with.
+>
+> **Good to know**
+>
+> - Clear your target to stop it; any target (even a mob) keeps it going.
+> - Every 100 rounds the flight grows by half a second, up to 25 seconds.
+> - Zoning ends the run. Do not mix it with follow, nav or a camp spot.
+
+**Open it:** Type `ogre safefall panel`. `ogre safefall on` (or `ogre safefall on 45` for a 4.5 second flight) starts training without the window, `ogre safefall off` stops it, `ogre end safefall` (or the window's X) stops it and closes the window, and a bare `ogre safefall` prints its status in the console.
+
+## What it is for
+
+Trains your Safe Fall skill for you. It targets you, mounts up, then repeats: fly straight up for the flight time, dismount so you fall, wait until you land, remount, and go again. Every landing is a Safe Fall skill-up chance. Every 100 rounds the flight gets half a second longer so the falls get higher. It runs until you stop it, untarget yourself, or leave the world.
+
+## Start, Stop and flight time
+
+| Control | What it does | Default |
+|---|---|---|
+| **Start** | Starts training with the flight time in the box: targets you, mounts up, waits 7 seconds, then begins the climb-and-fall loop.<br>*Dimmed, and does nothing, while training runs or while you are not in the world. To change the flight time, press Stop first.* |  |
+| **Stop** | Stops training and stops the climb. You stay wherever you are (mounted or not).<br>*Dimmed, and does nothing, when nothing is running.* |  |
+| **Flight time (… ticks)** | How long each climb lasts, in ticks: 1 tick is 0.1 second, so 30 is 3 seconds (shown to the right). Allowed 5 to 600.<br>*A number outside 5 to 600 turns the box red and Start refuses. The box follows the running value until you type in it; empty it to hand it back.* | 30 ticks (3.0 s) |
+
+
+
+## Status
+
+Read-only. It updates four times a second.
+
+## What the window shows
+
+- Pill next to SAFE FALL: 'running' (green), 'idle', or 'not in world' (red).
+- Phase: what it is doing now - starting, flying up, stopping climb, dismounting, falling (1/2), falling (2/2), landed, remounting, idle.
+- Round: how many rounds since the last flight-time increase, out of 100.
+- Falls trained: completed climb-and-fall rounds since you pressed Start.
+- Ramps taken: how many times the flight time has grown this run.
+- In world / Target / Flying: yes or no. Target means you have something targeted (training stops when you have nothing targeted). Flying means you are flying on your mount.
+- Deadline: the current flight time in milliseconds. It never goes above 25000 (25 seconds), even if the ticks keep growing.
+- The long line: flight ticks and seconds, the flight time this run started at ('not started yet' before the first Start), the ramp rule, ramps so far and falls so far.
+- The note box: the last thing that happened, for example 'dismounted - falling', 'self-target lost', 'left the world'.
+
+## Good to know
+
+- The quickest way to stop is to clear your target: training ends as soon as you have nothing targeted. Clicking a mob does not stop it - any target keeps it going.
+- Zoning, camping or going to character select ends the run; it does not pick up again afterwards.
+- It does not check whether something else is moving your character. Do not run it together with other movement (follow, nav, camp spot).
+- Typing `ogre safefall on` while training is running starts over from round 0 (the Start button is dimmed then, so it cannot do this by accident).
+- `ogre safefall panel` when the window is already open does nothing and prints nothing.
+- Closing the window stops training, the same as `ogre end safefall`. Stop stops it and keeps the window open.
+
+## Before you start
+
+![Idle, before Start](../assets/safefall/idle.png)
+
+A flight time outside 5 to 600 ticks turns the box red:
+
+![A bad flight time](../assets/safefall/badticks.png)
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/smartloot.md
+
+# SmartLoot
+
+> **:bulb: In game - the ? button on this window says**
+>
+> Decides who gets each drop from a Leader Only loot window. You list the items, a cap for each, and which characters collect them.
+>
+> **What you can do here**
+>
+> - **Add items** by name, or from the loot window, your bags, or an examine window.
+> - **Set a cap** per item: Never, a Limit (up to N each), or unlimited.
+> - **Tick a character** to say they collect an item; the number is how many they already have.
+> - **+ Character** adds one column by name; **+ Group** and **+ Raid** add a column for everyone in your group or raid who does not have one yet (mercenaries left out). The number on the button is how many it would add.
+> - **Save** writes your changes. **Revert** throws them away. Running `ogre smartloot` again while this is open changes nothing.
+>
+> **Good to know**
+>
+> - A drop goes to the lowest group or raid slot that collects it and is still under the cap.
+> - It only runs on a Leader Only loot window, and only when the OgreBot Loot tab has both **Enable options below** (Leader Only) and **Smart Loot** ticked.
+> - The x on a character column deletes that character's whole entry when you Save.
+
+**Open it:** Type `ogre smartloot` or `ogre sl`. If the window is already open, this does nothing, and your unsaved changes stay. Scripts can use `OgreBotAPI.Loot:Config[all]` to open it and `OgreBotAPI.Loot:Config[all,close]` to close it.
+
+## What it is for
+
+SmartLoot hands out drops from a Leader Only loot window. It decides who gets each item from per-item caps and a per-character list of what each character collects and how many they already have. This window edits that data: the caps and, for each character, a checkbox plus a have-count. When a Leader Only window opens, SmartLoot goes through the raid (or group), lowest slot first. It gives the item to the first character who collects it and is still under the cap, then adds 1 to their have-count.
+
+## Save and Revert
+
+| Control | What it does |
+|---|---|
+| **Revert** | Throws away every unsaved edit and reloads the caps and the character list from disk. Items added this session and empty character columns disappear.<br>*Greyed out when there are no unsaved changes. Also use it after you fix a damaged file (see the red banner).* |
+| **Save** | Saves only what changed: custom caps go to ItemLootCustomData.json, the character list goes to CharacterLootData.json. Your edits are combined with the file as it is now, so have-counts SmartLoot added while the window was open are kept. SmartLoot then starts using the new data right away.<br>*Greyed out when there is nothing to save. If a file cannot be read, it is not saved and the changes stay unsaved.* |
+
+
+
+## Filters (what you see)
+
+| Control | What it does | Default |
+|---|---|---|
+| **Filter items…** | Hides item rows whose name does not contain the text. Not case-sensitive. Display only; nothing is sent to the bot.<br>*Resets when the window is reopened.* | empty |
+| **Filter characters (name, *Team:X)…** | Hides character columns. Separate terms with commas. A term is part of a name, a saved for-who team as *Team:Name, or a bare team name. A column shows if any term matches. Display only.<br>*Typing here cancels the single-column view you get by clicking a name. An unknown team shows 'no team named "X"' in the info text. Teams come from the saved for-who groups.* | empty |
+| **My group only** | Toggle. Shows only the columns of characters in your current group (mercenaries excluded). When you are solo it shows just you. Display only.<br>*Highlighted when on. Info text says 'not grouped - showing you' when solo.* | off |
+| **Show all** | Clears the character filter box, turns off My group only, and clears a clicked-on single column. Display only.<br>*Does not clear the item filter box.* |  |
+
+
+
+## Adding items
+
+| Control | What it does | Default |
+|---|---|---|
+| **Add item by name…** | Text box for an item name. Pressing Enter does the same as Add. | empty |
+| **Add** | Adds a row for the typed item name. If the item has no base or custom cap yet, it gets a custom cap of Limit 1. Nobody is marked as collecting it.<br>*The name is not checked against the game, so a typo makes a row that never matches loot. Matching is not case-sensitive. The box clears after you add.* |  |
+| **From loot window** | Adds a row for every item in the open loot window, without colour codes in the names. Items with no existing cap get Limit 1.<br>*With no loot window open it adds nothing and the console shows 'add from loot window: 0 item(s)'.* |  |
+| **From inventory** | Adds a row for every distinct item in your bags. Items with no existing cap get Limit 1.<br>*Can add a lot of rows at once. Does nothing when you are not in the game world. The console shows 'add from inventory: N new item(s) of M in bags'.* |  |
+| **From examine** | Reads the item name from whichever EQ2 examine window is open and adds it as a row (Limit 1 if it has no cap).<br>*With no examine window open it adds nothing and the console shows 'add from examine: no examine window is open - open one (or type the name).'* |  |
+
+
+
+## Who a change applies to, and characters
+
+| Control | What it does | Default |
+|---|---|---|
+| **That character** | A checkbox or have-count edit in a cell changes only that cell's character.<br>*This choice is not saved. It resets to That character every time the window opens.* | selected (on) |
+| **Whole group** | A cell checkbox or have-count edit is applied to every non-mercenary member of your current group, whichever column you clicked.<br>*If you are not in a group, nothing changes and the console says 'You are not in a group - nothing was changed.' Checking a box can add new columns for group members.* | off |
+| **Whole raid** | Same as Whole group, but for every non-mercenary raid member.<br>*If you are not in a raid, nothing changes.* | off |
+| **Everyone in the list** | A cell edit is applied to every character column the window knows. That is you, everyone in the loot file, and columns added this session.<br>*It ignores the column filters, so hidden columns are changed too.* | off |
+| **Add character…** | Text box for a character name. Pressing Enter does the same as + Character. | empty |
+| **+ Character** | Adds an empty column for the typed character. Nothing is marked as unsaved.<br>*An empty column is only saved once it has at least one checked item. Revert or reopen drops it. The same name in any letter case is treated as the same character.* |  |
+| **+ Group** | Adds an empty column for everyone in your group who does not have one yet (mercenaries left out). The number on the button is how many it would add. Nothing is marked as unsaved.<br>*Greyed out when nobody is missing. Solo, your group is just you. Like + Character, a new column is only saved once it has at least one checked item.* |  |
+| **+ Raid** | The same as + Group, for everyone in your raid.<br>*Greyed out when you are not in a raid, or when nobody is missing.* |  |
+| **Sync from inventory** | For your current character only: for every item that has a base or custom cap, if you hold it (bag stacks summed plus equipped copies), your have-count is set to that number and you are marked as collecting it. Items you do not hold are left alone.<br>*This also marks you as collecting every capped item you hold, including base-list items capped at Never, and the tooltip says so. It never lowers a count for an item you no longer hold.* |  |
+
+
+
+## The grid
+
+| Control | What it does | Default |
+|---|---|---|
+| **<character name>** | Click to show only this character's column. Click again to show all. Display only.<br>*Your own name is highlighted.* |  |
+| **× (remove column)** | Removes the character's column. On Save it deletes their whole SmartLoot entry: every item they collect and every have-count.<br>*It is not a hide. There is no confirmation. Your own column comes back empty after reopen.* |  |
+| **Group** | Marks every non-mercenary member of your group as collecting this item. Anyone who was not already collecting it starts with a have-count of 0.<br>*Disabled with the tooltip 'You are not in a group' when you are solo. It ignores the scope row.* |  |
+| **Raid** | Marks every non-mercenary raid member as collecting this item.<br>*Only shown while you are in a raid.* |  |
+| **Never** | Sets the item's cap to 0. SmartLoot will never assign it to anyone.<br>*If the base cap is already 0, the custom override is removed.* | cap comes from the custom file, else the base file, else 0 (Never) |
+| **Limit** | Sets a numeric cap: each character collects up to N. It keeps the current N, or uses 1 when switching from Never or ∞. |  |
+| **∞** | Sets the cap to -1 (unlimited). Every character who collects the item always qualifies.<br>*The footer calls this 'Unlimited'.* |  |
+| **Number box (Limit only)** | The N for Limit. It takes effect as you type. Values below 1 become 1.<br>*A value equal to the base cap removes the custom override. If nobody collects the item and it was not added this session, its row can then disappear from the grid.* | 1 |
+| **reset** | Removes the custom cap, so the shipped base cap applies again.<br>*Only shown (next to an orange 'default N') when a custom cap overrides a known base cap. If no one collects the item and it was not added this session, the row disappears (it only lives in the base list).* |  |
+| **Checkbox (per character)** | Checked means the character collects this item, starting with a have-count of 0. Unchecking removes the item and its have-count for that character. Follows the scope row.<br>*SmartLoot only considers checked characters.* | unchecked unless the ledger has an entry |
+| **Number box (per character)** | How many of this item the character already has. It takes effect as you type. A negative number becomes 0. Follows the scope row.<br>*Hidden while the checkbox is off. It is ignored for characters who do not collect the item. SmartLoot adds 1 each time it gives the character this item.* | 0 |
+| **× (remove item)** | Removes the row. It deletes the custom cap and unmarks every character from collecting the item (their have-counts are lost on Save).<br>*A base cap from the shipped list (ItemLootData.json) stays, because that file is never changed. No confirmation.* |  |
+
+
+
+## What the window shows
+
+- Title 'SmartLoot — X': X is the character this session is logged into. That column's header is highlighted and is always the first column.
+- Dot and 'unsaved changes': orange means some edit is not saved yet. Save and Revert are enabled only then.
+- Red banner: appears when a loot file could not be read. It reads '⚠ CharacterLootData.json (ledger) / ItemLootCustomData.json (custom caps) is unreadable — Save is blocked from overwriting it. Fix or remove the file, then Revert.'
+- Info text: 'showing X of Y characters' when any column filter is on, plus notes such as 'only Brutus (click the name again to show all)', 'not grouped - showing you', or 'no team named "X"'.
+- Rows: items with a custom cap, plus every item any character collects, plus items added this session. It never shows the whole base list. Rows are sorted by name, ignoring case.
+- Item column: the item name (hover for the full name), plus the Group and Raid mini buttons.
+- Cap column: the segmented control shows the effective cap (custom, else base, else 0). A grey 'default' means the value comes from the base file. An orange 'default N' plus a 'reset' link means a custom value overrides base N (an unlimited base shows as ∞). Nothing extra appears for a custom-only item.
+- Character cells: the checkbox means 'this character collects this item'. The number is its have-count.
+- How SmartLoot uses it: only on a 'Leader Only' loot window, and only when both OgreBot Loot tab options 'Enable options below' (Leader Only) and 'Smart Loot' are on. It goes through the raid (or group), lowest slot first, checking the item and then its adornments. The first member who collects it, whose cap is not 0, and who is under the cap (or the cap is unlimited) gets it. Their have-count goes up by 1. An item with no cap in either file counts as Never.
+
+## Good to know
+
+- The × on a character column deletes that character's whole SmartLoot entry when you Save: every item they collect and every have-count. It is not a hide, and there is no confirmation.
+- The × on an item row unmarks every character from collecting that item. If the item is in the shipped base list, its base cap still applies.
+- The scope row (That character / Whole group / Whole raid / Everyone in the list) changes who every checkbox and have-count edit hits. It resets to 'That character' each time the window opens. 'Everyone in the list' also changes characters hidden by the column filters.
+- A group or raid edit made while you are not grouped or not in a raid changes nothing. The only message is in the console.
+- The per-row Group and Raid buttons always act on your group or raid, whatever the scope row says.
+- Sync from inventory only updates the character this session is logged into. It also marks you as collecting every capped item you hold, and never lowers a count for an item you no longer have.
+- A newly added character column is not saved until at least one item is checked for it.
+- An item with no cap anywhere counts as Never, so nobody gets it even if their box is checked.
+- Using reset, or typing a Limit equal to the base cap, can make a row disappear if nobody collects the item.
+- Messages from Add, From loot window, From inventory, From examine and group/raid edits go to the console, not the window.
+- SmartLoot only hands out items when the OgreBot Loot tab has both 'Enable options below' (Leader Only) and 'Smart Loot' ticked. If they were never set they count as off; the Instance Controller ticks them for the group when it runs a zone.
+
+## When a loot file cannot be read
+
+![The warning banner](../assets/smartloot/banner.png)
+
+If a SmartLoot file on disk is damaged, a red banner names it and **Save** will not overwrite it. Fix or remove the file, then press **Revert**.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/potcb.md
+
+# Potency / Crit Bonus / Fervor
+
+> **:bulb: In game - the ? button on this window says**
+>
+> Records your Potency, Crit Bonus and Fervor during fights and shows averages, lows, highs and time at cap. It only measures; it changes nothing.
+>
+> **What you can do here**
+>
+> - **Stop / Start** - pause and carry on recording. The numbers are kept.
+> - **Reset** - throw away every number and start the session over.
+> - **Hover** a figure for more detail.
+>
+> **Good to know**
+>
+> - **At cap** is when the game says the stat is capped. **At peak** is time at your best value this session.
+> - Closing the window stops recording, the same as `ogre end potcb`. **Stop** stops recording and keeps the window open.
+
+**Open it:** Type `ogre potcb` (or `ogre cbpot`). This opens the window and starts recording. `ogre end potcb` (or the window's X) stops recording and closes it; `ogre potcb off` does the same while it is recording.
+
+## What it is for
+
+This window records your Potency, Crit Bonus and Fervor several times a second and shows how they behaved during your fights: the average, lowest and highest value in combat, how much of the time the game said the stat was capped, and how much of the time you were at your best value. It is a measuring tool only; it does not change what the bot does. All the averages are weighted by time, so a slow frame does not count more than a smooth one.
+
+## Start, Stop and Reset
+
+The green text on the left says 'sampling every 200 ms' while recording, or 'stopped'.
+
+| Control | What it does | Default |
+|---|---|---|
+| **Start / Stop** | Stop pauses the recording. Start carries on from where it stopped; the numbers so far are kept. The time while stopped is not counted. | Stop (recording starts when the window is opened) |
+| **Reset** | Throws away every number and starts the session over. Recording keeps going if it was on.<br>*No confirmation.* |  |
+
+## The table
+
+One row per stat. Hover most numbers for more detail.
+
+## What the window shows
+
+- Now: the value right now.
+- Combat avg: your average while in combat (hover for how long you have been in combat). Out of combat you are usually unbuffed, so combat is what matters.
+- Min / Max: the lowest and highest value seen in combat.
+- At cap: the share of combat time the game's own tooltip said the stat had reached its cap.
+- At peak: the share of combat time you were at (or within 0.1% of) the highest value seen this session. When a new highest value appears, this starts again from zero, so it is optimistic early on.
+- Spread: a small bar chart of your combat time split into ten steps from 0% to 100% of your peak. The right-most (green) bar is time spent near your peak. Hover a bar for its exact share. Like At peak, it starts again when a new peak appears.
+- Peak: the highest value seen this session, in or out of combat (hover for how long ago it was set).
+- All avg: the average over the whole session, in and out of combat (hover for the overall min and max).
+- 'no combat time yet': recording, but you have not been in combat. 'no samples yet': the stat has not been read yet.
+- Footer: how long the session has been recording and how much of it was in combat.
+
+## Good to know
+
+- Closing the window with the X stops the recording, the same as `ogre end potcb`. Stop stops it and keeps the window open.
+- Opening the window with `ogre potcb` always starts recording.
+- Zoning is not counted as time, so a long zone-in does not inflate 'At peak'.
+- The numbers are lost when the bot is unloaded; nothing is saved to a file.
+
+### Just started, before any combat
+
+![Before combat](../assets/potcb/nocombat.png)
+
+### Stopped
+
+![Stopped](../assets/potcb/stopped.png)
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/transmute.md
+
+# Level Transmuting
+
+> **:bulb: In game - the ? button on this window says**
+>
+> Levels your Transmuting skill: buys cheap transmuter's stones from Barnaby Blunderbuss in Butcherblock and transmutes them, round after round.
+>
+> **What you can do here**
+>
+> - **Buy** sets how many stones to hold after each visit. Leftover stones are used first.
+> - **round(s)** is the most visits one run makes. The run also stops when your skill is capped.
+> - **Start** begins the run. **Stop** ends it. **Refresh** redraws the window.
+> - **Buys** shows the merchant visits and how many stones they really added.
+> - **Transmutes** shows how many stones were tried and how many really got used up. If any failed, it says why: the cast was refused, the ability never became ready, or the stone was still there afterwards.
+>
+> **Good to know**
+>
+> - Start pauses OgreBot for the run. When the run ends it resumes OgreBot, unless OgreBot was already paused.
+> - Start opens the Persona window on Skills > General to read your skill. It closes it again when the run ends, however it ends.
+> - Not next to Barnaby? The window tells you, and Start travels to him first, even with OgreBot closed. Stop ends the trip.
+> - Each stone costs 1 Gnomish Currency Exchange, not coin. Without any, the buy adds nothing and the run stops and says so.
+> - Only items named "Transmuter's Stone" or "Transmutation Stone" are ever transmuted.
+> - A round that buys nothing, or transmutes nothing, stops the run, so a problem never repeats for every round.
+> - Closing this window stops a run, the same as `ogre end leveltransmuting`. Stop stops it and keeps the window open.
+
+**Open it:** Type `ogre leveltransmuting` (or `ogre lt`). Typing it again while the window is open just refreshes it. `ogre lt status` prints the status to the console instead. `ogre end leveltransmuting` (or the window's X) stops a run and closes the window; Stop stops it and leaves the window open.
+
+## What it is for
+
+A skill-up grinder for the Transmuting tradeskill. The bot buys Minor Lapis Lazuli Transmuter's Stones from Barnaby Blunderbuss in Butcherblock Mountains, transmutes them, and repeats until your Transmuting skill is capped or the round limit is reached. You do not have to stand next to him: if you are not within 10 of Barnaby, Start travels to him first, from another zone too. OgreBot is paused for the run, and the Persona window is opened on Skills > General to read your skill; when the run ends, however it ends, the window is closed again and OgreBot resumes if it was running. It only ever transmutes items whose name contains "Transmuter's Stone" or "Transmutation Stone" - nothing else in your bags is touched.
+
+## Header and the stones-only notice
+
+The dot is green while a run is going. Next to it is what the bot is doing right now.
+
+## The readout
+
+Merchant and Item are fixed - the tool only works with Barnaby and the Minor Lapis Lazuli Transmuter's Stone. Transmuting is your skill as last read from the Persona window (Start reads it, then it is read again at the start of each round, so it shows unavailable until a run has read it). Rounds counts the rounds started out of the most you allowed. Buys shows the visits to Barnaby and how many stones your bags really gained. Transmutes shows how many stones were tried and how many really got used up. Last is the latest thing that happened.
+
+## Quantity and round limit
+
+| Control | What it does | Default |
+|---|---|---|
+| **Buy** | How many stones you want to be holding when each visit to Barnaby is done. The bot only buys the difference, so stones left over from the last round are used first. 1 to 800.<br>*Locked while a run is going. It is a total to hold, not an amount added every round.* | 60 |
+| **per visit, at most ... round(s)** | The hard stop: the most rounds one run will make. Each round is one visit to Barnaby. The run also stops earlier if the Transmuting skill is readable and capped. 1 to 500.<br>*If the skill cannot be read, the run cannot tell when you are capped and goes on until this limit.* | 20 |
+
+
+
+## Start, Stop, Refresh
+
+| Control | What it does |
+|---|---|
+| **Start** | Starts a run with the two numbers above. It pauses OgreBot and opens the Persona window on Skills > General to read your Transmuting skill. Then, each round: read the skill and stop if it is capped; travel to Barnaby if he is not within 10; buy up to the Buy amount; then transmute every stone in your bags (at most 200 per round), one at a time, waiting 2 seconds after each.<br>*Greyed out while a run is going. The run can also stop by itself - see Good to know below.* |
+| **Stop** | Stops the run straight away, even in the middle of buying, travelling or transmuting. It closes the Persona window and resumes OgreBot if it was running before you pressed Start.<br>*Only active while a run is going.* |
+| **Refresh** | Redraws the window with the latest numbers. It does not change anything, and it does not read the skill. |
+| **Title bar close (X)** | Stops a run that is going, then closes the window. The Persona window is closed and OgreBot resumes, as with Stop.<br>*The same as `ogre end leveltransmuting`. Stop stops the run and keeps the window open.* |
+
+
+
+## When the skill cannot be read
+
+The bot reads your Transmuting skill from the Persona window, Skills > General, which Start opens itself. It reads it once when the window opens and again at the start of every round. If the window is closed during a run, the next round opens it again. If the Transmuting row still does not read, Transmuting shows 'unavailable' in orange and a note appears; the run then cannot tell when you are capped and goes on until the round limit, unless a trip, a buy or a transmute fails first and stops it. Before your first run the skill has not been read yet, so the window shows 'unavailable' and a note saying it is read when you press Start.
+
+## What the window shows
+
+- Dot and phase text (top right): green dot = running. Phase is one of idle, waiting for the world, opening the Persona window, travelling to the merchant, reading the Transmuting skill, looking for the merchant, buying, transmuting stones, BLOCKED - cannot transmute, stopped.
+- Box at the top: always there. It says the tool transmutes Transmuter's and Transmutation stones only, and that other items are transmuted by the Inventory Manager (`ogre im -tse`).
+- Note about Barnaby (only while stopped): shown when you are not within 10 of him. It says you are not in Butcherblock Mountains, how far you are from him, or that he is not in view - and that Start will travel or walk to him first.
+- Transmuting: 'current / max' in green from the last read of the Persona window's Skills > General page; 'unavailable' in orange when it could not be read, or before any run has read it.
+- Rounds: 'N of M (buy visits finished: B)' - rounds started out of your limit, and how many visits to Barnaby finished their buy.
+- Buys: 'N visits, S stones bought' - S is how many stones your bags really gained. It adds 'X added nothing' and turns orange when a visit added no stones.
+- Transmutes: 'D of T done' - stones tried, and stones that really left your bags. Green once one is done. When any failed it turns orange and says why: cast refused, never ready, or not used up.
+- Last: the latest step or the reason the run stopped, for example 'transmuting 60 stone(s)' or 'Transmuting is at its cap for this level'.
+- Footer: a reminder that Start pauses OgreBot, opens the Persona window (Skills > General) and travels to Barnaby when you are not within 10, and that Stop, or the run ending any other way, closes the Persona window and resumes OgreBot if it was running.
+
+## Good to know
+
+- You do not have to stand next to Barnaby Blunderbuss. Start travels to him in Butcherblock Mountains when you are not within 10, even with OgreBot closed. Stop ends the trip. If two trips still leave him out of reach, or one trip takes over 20 minutes, the run stops.
+- Start opens the Persona window on Skills > General itself and closes it again when the run ends, however it ends. You do not need to open it first.
+- Start pauses OgreBot for the run. When the run ends it resumes OgreBot, unless OgreBot was already paused.
+- Each stone costs 1 Gnomish Currency Exchange, not coin. Without any, the buy adds nothing and the run stops and says so.
+- Before your first run, Transmuting shows unavailable - the skill is first read when you press Start, and Refresh does not read it.
+- Buy is a target to hold, not an amount per round. If stones were left over, the next visit buys fewer (or none).
+- Any item in your bags whose name contains "Transmuter's Stone" or "Transmutation Stone" is transmuted, not just the ones this tool bought.
+- The run stops by itself when a visit's buy adds no stones, when a round uses up none of the stones it tried, when the merchant window fails 3 rounds in a row, or when you do not have the Transmuting ability (the stones it bought stay in your bags).
+- Closing the window stops a run, the same as `ogre end leveltransmuting`. Stop stops it and keeps the window open.
+- `ogre lt` opens the window; `ogre lt status` prints the status to the console instead.
+
+## Before the first run
+
+![Stopped, before the first run](../assets/transmute/idle.png)
+
+Before your first run the skill has not been read, so Transmuting reads **unavailable** and the note says it is read when you press Start: Start opens the Persona window on Skills > General itself. If the Transmuting row still cannot be read during a run, the run cannot tell when you are capped and goes on until the round limit, unless a trip, a buy or a transmute fails first and stops it.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/questcompare.md
+
+# Quest Compare
+
+> **:bulb: In game - the ? button on this window says**
+>
+> Shows whether each member of your group is on the same step of a quest as you.
+>
+> **What you can do here**
+>
+> - **Auto compare**: every time one of your quests updates, the group is asked to compare it. Turn it on for one character per group.
+> - **Compare again** asks about the last quest again, right now.
+> - **Legend** (title bar) shows what each icon means.
+>
+> **Good to know**
+>
+> - Green tick = same step. Red cross = different step (their line is shown). Orange ! = does not have the quest. Grey ? = did not answer.
+> - Ticking Auto compare here unticks it on the rest of your group.
+> - The window pops up by itself when an automatic compare finds someone out of step.
+
+**Open it:** Type `ogre questcompare` (or `ogre qc`). It also opens by itself when you tick Auto compare / Enable Quest Compare, and when an automatic compare finds someone out of step. `ogre end questcompare` closes it.
+
+## What it is for
+
+Checks whether everyone in your group is on the same step of a quest as you. One character is the reference. When its quest updates, it asks the rest of the group to compare their step with its own, and this window shows the answer: one row per group member with an icon. The comparison happens on each member's own session, so the character that is out of step also says so in its own console.
+
+## Quest and summary line
+
+The top line is the quest that was compared last. Under it is a one-line summary, for example 'Everyone is on your step' in green, or '1 not on your step, 1 does not have the quest' in red, followed by 'auto' if the compare was automatic and how long ago it happened.
+
+## The member rows
+
+One row per group member (not you). A member on a different step shows the first line of their quest step that differs from yours. See the Legend section for what each icon means.
+
+## Auto compare and Compare again
+
+| Control | What it does | Default |
+|---|---|---|
+| **Auto compare** | The same setting as OgreBot's Enable Quest Compare. On: every time one of YOUR quests updates (and then stays quiet for 1.5 seconds), the bot asks the group to compare that quest. Ticking it here also unticks it on everyone else in the group, so there is one reference per group.<br>*Solo there is nobody to ask, so nothing happens. An automatic compare stays quiet in the console when everyone is in step, and pops this window up when someone is not.* | off |
+| **Compare again** | Asks the group to compare the quest shown at the top again, right now.<br>*Greyed out until something has been compared once, and while a compare is still waiting for answers.* |  |
+| **Legend** | Shows or hides the icon legend over the window. Click anywhere on the legend to close it. |  |
+| **Title bar close (X)** | Closes the window. Auto compare keeps working and will reopen the window if it finds a problem. |  |
+
+
+
+## Legend - what the icons mean
+
+Press **Legend** in the title bar to see this. Green tick = on the same step as you. Red cross = on a different step (the row shows their line). Orange ! = does not have this quest at all. Grey ? = did not answer in time (zoning, or the bot is not loaded on that character). Three dots = still waiting for an answer. Empty ring = nothing compared yet.
+
+## What the window shows
+
+- Summary line: 'Reading your journal...' and 'Waiting for answers...' while a compare runs; 'Could not compare: <reason>' in orange when your own journal could not be read (for example 'not in your quest journal' or 'no active step to compare'); 'Waiting for your next quest update.' when Auto compare is on and nothing has been compared yet; 'Nothing compared yet.' otherwise; 'Not in a group' when a compare finished and you have no group members (the list then says 'No group members to compare with').
+- Rows: your group members only (up to 5). Raid members outside your group are not asked.
+- A different-step row shows the first line of THEIR step that differs from yours. Hover it to read the whole line.
+
+## Good to know
+
+- Only one character per group should have Auto compare on. Ticking it on one character unticks it on the rest of the group automatically.
+- The first compare has to come from a quest update (Auto compare) or from the `-CompareQuest` console command. Compare again only repeats the last quest.
+- To read its step, each character makes that quest the current one in its quest journal, so the quest selected in your journal changes.
+- A member who is zoning or does not have the bot loaded shows the grey ? - it is not the same as being out of step.
+- Completing a quest also counts as an update; the automatic check stays quiet about a quest that is gone.
+
+## Other states
+
+![Everyone on your step](../assets/questcompare/allgood.png) ![Waiting for answers](../assets/questcompare/waiting.png) ![Nothing compared yet](../assets/questcompare/empty.png)
+
+Left to right: everyone in step, a compare still waiting for answers, and a fresh window before anything was compared.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/tempadorns.md
+
+# Temp Adornments
+
+> **:bulb: In game - the ? button on this window says**
+>
+> Choose which temporary adornment goes on each gear piece and save it as a profile. Apply a profile here, on other toons, or with `ogre tempadorns <profile>`.
+>
+> **What you can do here**
+>
+> - **Pick a profile** on the left to edit it, or **+ New profile** to start an empty one.
+> - **Type an adornment** next to a gear piece, or tick pieces and click an adornment under the table to set it on all of them. A blank piece is skipped.
+> - **Save** stores the profile under its name. **Delete** removes it (click twice).
+> - **Apply** runs the selected profile on this toon. Put `igw:Name`, a group or `all` in **to** to run it on those toons instead.
+>
+> **Good to know**
+>
+> - Apply always puts the adornment on, even on a piece that already has it with time left.
+> - **Primary (two-handed)** is used instead of **Primary** when your primary weapon is a two-hander.
+> - Make as many profiles as you like (for example one per fight), each under its own name.
+> - Every toon on this PC shares the same profiles.
+
+**Open it:** Type `ogre tempadorns`. If the window is already open, this does nothing. `ogre end tempadorns` (or the window's X) closes it. `ogre tempadorns <profile>` applies a saved profile without opening the window, and `ogre tempadorns list` prints your profiles.
+
+
+## What it is for
+
+A temporary adornment is a short-lived rune you put on a piece of gear. This window lets you say which one goes on which gear piece and save that as a profile, the way the classic bot's Temp Adorns window did. Applying a profile puts each listed adornment on its gear piece, one after another. You can apply it on this toon, on other toons (`igw:Name`, a group, `all`), from the console with `ogre tempadorns <profile>`, or from any box with `-TempAdorns <who> <profile>`. Three profiles come ready-made: CBOC, Pot and HP, the lists the old PoP button used. The first time the window opens it also copies in your profiles from the classic bot's Saved_Temp_Adorns.xml.
+
+## Profiles
+
+The list on the left is every profile you have saved. The number beside each name is how many gear pieces it sets.
+
+
+| Control | What it does |
+|---|---|
+| **a profile name** | Opens that profile in the table to edit, and makes it the one Apply runs. |
+| **+ New profile** | Clears the table and the name so you can build a new profile. |
+| **Reload** | Reads the profiles file again, for after you have edited it by hand. |
+
+
+
+## The gear table
+
+One row per gear piece. Type the adornment's full name, exactly as the item is called in your bags. Leave a piece blank to skip it.
+
+
+| Control | What it does |
+|---|---|
+| **Name** | The profile's name. One word: letters, digits, _ . and - (no spaces), up to 32 characters. It cannot be panel, end, list or apply, because `ogre tempadorns` uses those words itself. |
+| **x** | Empties that gear piece (nothing goes on it). |
+| **an adornment under the table** | Sets that adornment on every gear piece whose box is ticked. The list is every adornment your saved profiles use.<br>*Nothing happens if no box is ticked; the footer says so.* |
+| **Save** | Saves the profile under its name. A profile with the same name (any capitals) is replaced. The footer says what was saved, or why it was not. |
+| **Delete** | Deletes the profile. Click it twice: the first click turns it into 'Sure? click again'. |
+
+
+
+## Apply
+
+Runs the selected saved profile.
+
+
+| Control | What it does |
+|---|---|
+| **Apply** | With the 'to' box empty, applies the profile on this toon. With a for-who in it (`igw:Name`, a group, `all`), sends `-TempAdorns <who> <profile>` so those toons apply it.<br>*Save first: Apply runs the profile as it is saved, not what is typed in the table.* |
+
+
+
+## What the window shows
+
+- The header shows your toon's name ('not in world' at character select).
+- The footer shows what the last button did, or where the profiles are saved.
+
+## Good to know
+
+- Every toon on this PC shares the same profiles (OgreSave/EQ2/TempAdorns/profiles.json).
+- Apply always puts the adornment on, even on a gear piece that already has it with time left.
+- Primary (two-handed) is used instead of Primary when your primary weapon is a two-hander. To know that, Apply asks the game for your weapon's details once.
+- Make as many profiles as you like, each under its own name (for example one per fight), and apply whichever one you need.
+- A gear piece with nothing equipped, or an adornment that is not in your bags, is skipped with one line in the console.
+- Applying waits its turn behind other queued bot work (it is one entry in the action queue).
+- The ready-made CBOC, Pot and HP profiles are the old PoP button's lists. You can change or delete them; they are not put back.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/craft.md
+
+# Ogre Craft 3
+
+> **:bulb: In game - the ? button on this window says**
+>
+> The crafting bot. It crafts a queue of recipes, runs writs, levels tinkering or a new crafter, and casts the reaction arts for you.
+>
+> **What you can do here**
+>
+> - **Recipes** tab: filter your recipe book, pick a recipe, set a Quantity and **Add Recipe** (or double-click).
+> - **Start Queue** crafts the setup queue. **Stop** ends any run. **Pause** holds it.
+> - **Queues** tab: change amounts, and save or load named queues.
+> - **Crafting Options** and **Navigation**: quality, power, buying, movement.
+> - **Writs**, **Auto Tinkering** and **Low Level Leveling** tabs each have their own Start button.
+>
+> **Good to know**
+>
+> - Settings save by themselves a second after a change.
+> - Closing this window (the X) or `ogre end craft` stops everything crafting is doing. **Stop** ends only the run.
+> - Minimize (the title-bar button or `ogre craft minimize`) keeps the run controls showing and crafting going; `ogre craft` brings the window back.
+> - The list shows at most 200 recipes - use the filters to narrow it.
+
+**Open it:** Type `ogre craft` (also `ogre craft2`). `ogre end craft` (or the window's X) closes the window AND ends all crafting: the run, craft's own movement, a summoned station and Craft Lite. `ogre craft minimize` (or the title-bar minimize) rolls the window up to its run controls while crafting keeps going; `ogre craft` brings it back.
+
+## What it is for
+
+The crafting bot. Pick recipes from your recipe book into a queue and craft them; or let it run rush-order writs, level tinkering, level a new crafter from 1 to 19, or craft the steps of a crafting quest. It walks to the right station, buys missing fuel, and while crafting it casts the reaction arts for you. Opening the window also turns on Craft Lite (the part that casts the reaction arts); the footer shows whether it is on. Settings save by themselves.
+
+## Run controls (top of the window)
+
+Always visible. The green text next to OGRE CRAFT is what the bot is doing right now. Under it: 'Crafted N of M' for the current (or last) run, plus 'Writ N of M' during a writ run or 'Quest: <name>' during a quest run.
+
+| Control | What it does | Default |
+|---|---|---|
+| **Start Queue** | Crafts everything in the setup queue (Queues tab). The setup queue moves into the Active queue, the bot works out the resources, buys missing fuel, walks to each station and crafts.<br>*Refused if the setup queue is empty. Needs at least 2 free bag slots. The queue you started is also saved as 'LastRecipeQueue' so you can load it again.* |  |
+| **Start Writs** | Runs rush-order writs using the settings on the Writs tab. Same as the Start Writs button on that tab.<br>*Needs tradeskill level 20 or higher.* |  |
+| **Stop** | Stops whatever is running (queue, writs, quest, tinkering or leveling). A walk in progress stops too.<br>*Stop also cancels a Pause. Stop never empties the setup queue: recipes you added while a run was going are still there.* |  |
+| **Pause** | Holds the run where it is without ending it: a craft already begun finishes, nothing new starts and craft's walking stands still. Untick to carry on.<br>*A pause with nothing running is dropped when the next run starts.* | off |
+
+
+
+## Save and Reload (bottom of the window)
+
+The grey text on the right: how many recipes are in your recipe book, how many reaction arts were cast, which server type (live or Origins), and whether Craft Lite is on (green) or off (red).
+
+| Control | What it does |
+|---|---|
+| **Save Settings** | Writes the settings to disk now. You rarely need it: every change saves by itself about a second later.<br>*Settings live in OgreSave/EQ2/Craft/settings.json.* |
+| **Reload** | Re-reads the settings and the craft data files from disk, the same as `ogre craft reload`. A setting change that has not been saved yet is thrown away. |
+| **Tab list (left)** | Switches between the seven tabs. Display only. |
+
+
+
+## Recipes tab - Show, Sort and Filter
+
+These decide which recipes from your book appear in the list below. They are also what Auto Tinkering and Low Level Leveling pick from when their Auto Sort box is off.
+
+| Control | What it does | Default |
+|---|---|---|
+| **Show Standard Recipes** | Lists normal recipes (anything not advanced, imbued, tinkering or adorning). | on |
+| **Show Imbue Recipes** | Lists imbue recipes (the name contains 'imbued' or the technique is imbuing). | off |
+| **Show Advanced Recipes** | Lists recipes from advanced or mastercraft recipe books. | off |
+| **Show Tinker Recipes** | Lists tinkering recipes. | off |
+| **Show Adornment Recipes** | Lists adorning recipes. | off |
+| **Name** | Sorts the list A to Z. Ticking it unticks Level. | off |
+| **Level** | Sorts the list highest level first (ties A to Z). Ticking it unticks Name. | on |
+| **Limit Levels:** | Only lists recipes whose level is between Min and Max (inclusive). | off |
+| **Min** | Lowest recipe level shown when Limit Levels is ticked. 1 to 999.<br>*Min and Max can be typed either way round.* | 1 |
+| **Max** | Highest recipe level shown when Limit Levels is ticked. 1 to 999. | 999 |
+| **Search with:** | Only lists recipes whose name contains the text in the box. Not case-sensitive. | off |
+| **part of a recipe name (search box)** | The text to search for when Search with is ticked. | empty |
+| **C** | Clears the search box. |  |
+
+
+
+## Recipes tab - adding to the setup queue
+
+| Control | What it does | Default |
+|---|---|---|
+| **Quantity:** | How many to craft when you add a recipe. 1 to 9999. | 1 |
+| **Add Recipe** | Adds the highlighted recipe to the setup queue with the Quantity. If it is already queued, the quantity is added on top.<br>*Click a recipe in the list first. Double-clicking a recipe does the same.* |  |
+| **Start quest** | Crafts the quest that is selected in your quest journal: one of each recipe the quest's steps ask for, then re-reads the quest and goes again, until no craft step is left. Each pass empties the setup queue, then adds that pass's recipes and crafts them.<br>*Select the quest in your journal first. Greyed out while anything is running. If a step needs a component you do not have yet (one the quest has you gather), it waits for it, counting again whenever your bags change (at most every 5 seconds); after 60 minutes it stops and says what is still missing.* |  |
+| **Rescan recipe book** | Reads every recipe in your recipe book again. Use it after learning new recipes if they do not show up. |  |
+
+
+
+## Recipes tab - the recipe list
+
+Level, name and technique of each recipe that passes the filters. Click a row to highlight it; double-click to add it with the current Quantity. Hover a row for its tradeskill. The line under the list says 'Showing X of Y recipes'.
+
+| Control | What it does |
+|---|---|
+| **Click / double-click a recipe row** | Click highlights the recipe for Add Recipe. Double-click adds it straight away. |
+
+
+
+## Queues tab - the setup queue
+
+The recipes waiting to be crafted by Start Queue. There is one setup queue, and every button on this tab works on it. Writs, quest crafting, auto tinkering and low level leveling empty it each round, just before they add that round's recipes, and so do merchant craft (`ogre mc`) and Craft Grandmasters. So to craft your own recipes, stop the run first. Stop never empties it.
+
+| Control | What it does |
+|---|---|
+| **− (one fewer)** | Lowers that row's quantity by 1. At 0 the row is removed. |
+| **+ (one more)** | Raises that row's quantity by 1. |
+| **× (remove from the queue)** | Removes the recipe from the setup queue. |
+| **Clear Queue** | Empties the setup queue. No confirmation. |
+
+
+
+## Queues tab - save and load a queue
+
+| Control | What it does | Default |
+|---|---|---|
+| **Queue name** | The name to save the setup queue under, or to load. | empty |
+| **Save Queue** | Saves the setup queue to disk under that name (overwrites a queue with the same name).<br>*Queues live in OgreSave/EQ2/Craft/queues. A failed save shows a red message at the top.* |  |
+| **Load Queue** | Replaces the setup queue with the saved queue of that name. Recipes this character does not know are left out and named in the console. |  |
+| **Saved queue names (buttons)** | One button per saved queue. Click one to put its name in the Queue name box. It does not load it. |  |
+
+
+
+## Queues tab - the active queue
+
+What the running (or last) queue is crafting, with 'done / wanted' per recipe. A recipe the bot had to skip says 'skipped'; hover it to see why.
+
+## Queues tab - resources
+
+Built when a queue starts: every component and fuel the queue needs, how many it needs and how many you have. Red rows are short. Rows marked FUEL are bought from the fuel merchant; missing components are only reported - the bot crafts anyway, except in a quest run, which waits for them.
+
+## Crafting Options tab - craft targets
+
+| Control | What it does | Default |
+|---|---|---|
+| **Quality Level** | The bot clicks Stop on a craft once its quality climbs past this level. At 4 every craft runs to the end. | 4 |
+| **Min. Durability** | When to switch to durability-saving reactions. The value is times 10 on the game's 0-1000 durability scale: at 100 the bot protects durability as soon as it drops below full; at 50 only once it is down to 500. | 100 |
+| **Power to craft** | The bot waits before starting each craft until your power is at least this much. The status shows 'waiting for power'. | 40 |
+| **Power to save** | Reaction arts that cost power are not used while your power is at or below this, so you keep a reserve. | 20 |
+
+
+
+## Crafting Options tab - behaviour
+
+| Control | What it does | Default |
+|---|---|---|
+| **Buy standard recipes prior to crafting** | During writs and Low Level Leveling: once at the start of the run and again each time your tradeskill level goes up, walk to the recipe merchant and buy the standard recipe books for your level range that you do not know or have in your bags.<br>*Not used by a normal Start Queue.* | off |
+| **Buy advanced recipes prior to crafting** | Same as above for the advanced recipe books. | off |
+| **Scribe recipes** | On that same recipe-book trip, scribe the books you bought and any other book of your series and level already in your bags.<br>*Only happens when a recipe-book trip happens (one of the Buy boxes on, or tinkering).* | off |
+| **Use Mass Production** | On a normal queue craft of 5 or more, if you know Mass Production, set the largest batch size that fits what is left.<br>*Not used for writs, quest or leveling runs.* | off |
+| **Use Blueprint** | Ticks the game's Blueprint box on a normal queue craft. Writs and the loops always untick it. | off |
+| **If ADORNING is NOT max level, do quality 1 while adorning** | While your adorning skill is not maxed, adorning crafts are stopped as soon as they reach quality 1 (faster skill-ups). | off |
+| **If TINKERING is NOT max level, do quality 1 while tinkering** | Same for tinkering crafts while your tinkering skill is not maxed. | off |
+| **Do not process resources. Just craft.** | Skips the resource step when a queue starts: no resource tally and no fuel buying. The bot just crafts with what you have. It still looks up which station each recipe needs. | off |
+| **Skip Fuel Merchant** | Never walks to the fuel merchant to buy missing fuel. | off |
+| **Do NOT load recipes on startup** | Opening the window no longer reads your recipe book automatically. It is read when a run or Rescan needs it. | off |
+
+
+
+## Crafting Options tab - commissions and server calls
+
+| Control | What it does | Default |
+|---|---|---|
+| **Accept commissions** | When someone opens a commissioned-work window on you and accepts the terms, the bot accepts too and crafts it.<br>*Only while the craft window is open (`ogre craft` until `ogre end craft`); Craft Lite alone does not accept.* | off |
+| **Only from characters in your account list** | Only accepts commissions from characters in your saved account list (the same list that may send the bot chat commands). Off = anyone who opens a commission on you is accepted. | on |
+| **Allow recipe-info server call (required to craft)** | Lets the bot ask the game server for a recipe's station and component list (the station and list are remembered per recipe; how many you have is read each time a queue is planned). Off: a queue stops because it cannot plan resources. With 'Do not process resources' ticked it still crafts, but skips any recipe whose station it has not remembered yet.<br>*Turning it off shows an orange warning at the top of the window.* | on |
+
+
+
+## Navigation tab
+
+| Control | What it does | Default |
+|---|---|---|
+| **Use OgreNav (Recommended)** | Walk to stations and merchants with OgreNav's navigation mesh.<br>*Both boxes on = OgreNav first, then a straight line if OgreNav cannot get there. Both off = the bot never moves and skips anything out of reach.* | on |
+| **Use direct line (Recommended)** | Walk in a straight line to the station or merchant. | on |
+| **Use the closest station** | On = the nearest station that can make the recipe. Off = the first one in the order the station list gives. | on |
+| **[SCRIPTERS] Use EVENTS to manage movement yourself** | For script writers: before walking, craft fires an event and waits for your script to move the character (or hand the walk back).<br>*Leave off unless you have a script that answers it - otherwise craft waits until you press Stop or untick this box.* | off |
+
+
+
+## Writs tab
+
+| Control | What it does | Default |
+|---|---|---|
+| **Writ Count** | How many rush-order writs to do in one run. 1 to 200. | 10 |
+| **Writ Option** | Which reply to click at the rush order agent, counted from the top (1 to 4). It is a position, not a level - if you get the wrong tier of writ, change it. | 1 |
+| **Camp when finished writs** | Camps to the desktop when a writ run ends by itself (finished or failed).<br>*Never camps after you press Stop, or after a death.* | off |
+| **Start Writs** | Starts the writ run. Each pass empties the setup queue, then adds that pass's recipes and crafts them.<br>*Greyed out while anything is running. Needs tradeskill level 20+.* |  |
+
+
+
+## Auto Tinkering tab
+
+| Control | What it does | Default |
+|---|---|---|
+| **Recipe Count** | How many of the chosen tinkering recipe to craft each round. 1 to 50. | 10 |
+| **Auto Sort Recipe list** | On = each round crafts your highest tinkering recipe. Off = it uses your own Recipes-tab filter and crafts its highest-level recipe (with the Name sort ticked: the name last in the alphabet, which is the bottom of the list, not the top). | on |
+| **Sell to a vendor what is crafted** | Sells the items the run made. | on |
+| **Destroy what is crafted (selling wins if both are set)** | Destroys the items the run made. If Sell is also ticked, they are sold instead. | off |
+| **Sell/Destroy after each round instead of at the end** | On = get rid of the items after every round. Off = keep them until the run ends, then sell/destroy them all in one trip. | on |
+| **Start Auto Tinkering** | Repeats rounds (buy tinkering books, craft, sell/destroy) until tinkering is maxed. Each round empties the setup queue, then adds its recipe and crafts it.<br>*Greyed out while anything is running.* |  |
+
+
+
+## Low Level Leveling tab
+
+| Control | What it does | Default |
+|---|---|---|
+| **Recipe Count** | How many of the chosen recipe to craft each round. 1 to 20. | 5 |
+| **Auto Sort Recipe list** | On = each round crafts your highest standard recipe at or below your level. Off = it uses your own Recipes-tab filter and crafts its highest-level recipe (with the Name sort ticked: the name last in the alphabet). | on |
+| **Sell to a vendor what is crafted** | Sells the items the run made. | on |
+| **Destroy what is crafted (selling wins if both are set)** | Destroys the items the run made. If Sell is also ticked, they are sold instead. | off |
+| **Sell/Destroy after each round instead of at the end** | On = after every round. Off = once at the end of the run. | on |
+| **Start Low Level Leveling** | Levels a crafter from 1 to 9 and from 10 to 19. It stops at level 9 and at 19 - go see a crafting trainer, then start it again. Each round empties the setup queue, then adds its recipe and crafts it.<br>*Greyed out while anything is running.* |  |
+
+
+
+## What the window shows
+
+- Status text (green, top): what the bot is doing, e.g. 'crafting <recipe>', 'waiting for power', 'scanning recipes'; 'idle' when nothing runs.
+- Crafted N of M: the running queue's progress, or the last run's totals once it has ended.
+- Orange banner 'Recipe info is gated off...': you turned off the recipe-info server call on the Crafting Options tab.
+- Red banner 'settings.json is unreadable...': the settings file is damaged; the bot runs on defaults and will not overwrite it.
+- Red banner with any other text: the last error, e.g. 'craft queue: the setup queue is empty - add recipes first.'
+- Recipe list: at most 200 rows are shown; the line under it says how many recipes match in total.
+- Footer: recipes indexed from your book, reaction arts cast, server type (live / Origins), Craft Lite on (green) or off (red).
+
+## Good to know
+
+- Closing the window (the X) or `ogre end craft` is not just 'close the window' - it stops the run, craft's movement, a summoned station and Craft Lite. Stop ends only the run.
+- Start Queue moves the setup queue into the Active queue, so the setup queue looks empty afterwards. Load 'LastRecipeQueue' to get it back.
+- The list shows at most 200 recipes. Narrow it with the filters or the search box if the one you want is missing.
+- Clear Queue has no confirmation.
+- Buy recipes / Scribe recipes only happen during writs and the two leveling loops, not during Start Queue.
+- The [SCRIPTERS] events box makes craft wait for a script before every walk. Without a script, the run just waits until you press Stop or untick the box.
+- Accepting commissions with 'Only from characters in your account list' off accepts a commission from anyone.
+
+## Banners
+
+![Warning banners](../assets/craft/banners.png)
+
+Orange: the recipe-info server call is turned off. Red: the last error the bot hit.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/craftgm.md
+
+# Craft Grandmasters
+
+> **:bulb: In game - the ? button on this window says**
+>
+> Turns the (Master) spell scrolls in your bags into (Grandmaster) crafts, one craft per scroll.
+>
+> **What you can do here**
+>
+> - **All levels**, or untick it and set a recipe **Level** range.
+> - **Also pull from Scroll Depot** withdraws matching scrolls from the depot first, in batches that fit your bags.
+> - **Scan** shows what would be crafted. **Start** queues it and crafts it. **Stop** ends the run.
+> - **Queue only** puts the recipes in Ogre Craft's queue and stops, so you can save the queue, check the materials or change it. It never uses the Scroll Depot, and the Craft window opens on the queue.
+>
+> **Good to know**
+>
+> - Each batch, and Queue only, empties Ogre Craft's setup queue before it adds its recipes, so anything already there is cleared, not crafted.
+> - With the depot box ticked, Scan only looks in the depot; Start withdraws. Withdrawn scrolls are never put back.
+> - It never walks - stand at the Scroll Depot for a depot run.
+> - Closing the window (the X) or `ogre end craftgm` stops a run, then closes.
+
+**Open it:** Type `ogre craftgm`. `ogre craftgm 131-135` opens it with that level range already filled in (it does not scan). `ogre end craftgm` stops a run and closes the window.
+
+## What it is for
+
+Turns (Master) spell scrolls into (Grandmaster) crafts. It looks through your bags for every spell scroll named '... (Master)', works out the matching '... (Grandmaster)' recipe, and queues one craft per scroll you hold. Then it starts the Ogre Craft queue and watches until it is done. You can limit it to a range of recipe levels, and it can first pull (Master) scrolls out of your Scroll Depot.
+
+## Status readout
+
+State is what it is doing (idle, reading your recipe book, opening / withdrawing from the Scroll Depot, scanning your bags, crafting). Level filter is the range in use. Admits shows how many found recipes the range lets through, e.g. '3 of 6 recipe(s) (4 of 9 craft(s)) [2 outside] [1 no level]' - orange when some levels could not be read. Queued, Crafted and Recipe book are the run's progress; Last is the latest message.
+
+## Level range
+
+| Control | What it does | Default |
+|---|---|---|
+| **All levels** | Ticked = craft every Grandmaster found, whatever its level. Untick to use the two level boxes.<br>*Nothing is sent when you tick it; the range is used the next time you press Scan or Start.* | on |
+| **Level** | The lowest RECIPE level to craft (inclusive). 1 to 999.<br>*Only used when All levels is unticked. Locked while a run is going.* | 131 |
+| **to** | The highest recipe level to craft (inclusive). 1 to 999.<br>*A range typed backwards (e.g. 135 to 131) is refused, not swapped.* | 135 |
+
+
+
+## Scroll Depot
+
+Once a Scan or Start has run with the box ticked (ticking it alone does not show it), a grey box shows the depot progress: which batch, how many (Master) scrolls the depot holds and how many your range admits, how many fit in your bags this batch, and how many were withdrawn.
+
+| Control | What it does | Default |
+|---|---|---|
+| **Also pull from Scroll Depot** | Before looking in your bags, withdraw (Master) scrolls that your range admits from the Scroll Depot, as many as fit in your free bag slots. After crafting those it goes back for the next batch, until the depot has none left or nothing more fits.<br>*Stand next to the Scroll Depot - it never walks. Scrolls withdrawn and not crafted stay in your bags; it never puts them back. The setting stays as you left it for the next run.* | off |
+
+
+
+## Scan, Start, Queue only, Stop, Refresh
+
+| Control | What it does |
+|---|---|
+| **Scan** | Looks through your bags and fills the table with what the range would craft. It queues and crafts nothing.<br>*With Also pull from Scroll Depot ticked, Scan also opens the Scroll Depot and shows what a Start would withdraw - it withdraws nothing.* |
+| **Start** | Scans, adds every admitted Grandmaster recipe to the Ogre Craft setup queue (one craft per scroll held), starts the craft queue and watches it to the end.<br>*Refused if an Ogre Craft run is already going. Each batch empties the setup queue just before it adds its recipes, so anything you queued yourself is not crafted with it. Recipes you have not learned are skipped and marked 'not in your recipe book'.* |
+| **Queue only** | Scans, then replaces the Ogre Craft setup queue with every admitted Grandmaster recipe (one craft per scroll held) and stops. Nothing is crafted, and the Craft window opens on the queue so you can save it, check the materials or change it.<br>*Never uses the Scroll Depot, whatever the depot box says - it builds the list from your bags. Refused if an Ogre Craft run is already going. Recipes you have not learned are skipped and marked 'not in your recipe book'.* |
+| **Stop** | Stops the run. If this window started the craft queue, that is stopped too; a craft run somebody else started is left alone.<br>*Only active while a run is going. The window stays open.* |
+| **Refresh** | Redraws the window. It changes nothing. |
+| **Title bar close (X)** | Stops a run and closes the window, the same as `ogre end craftgm`. |
+
+
+
+## The scan table
+
+One row per (Master) scroll found: the scroll, the Grandmaster recipe it becomes, how many you hold (= how many crafts), the recipe's level ('?' if it could not be read from your recipe book), and what happened to it: queued, not in your recipe book, outside the level range, or level could not be read.
+
+## What the window shows
+
+- Dot and phase (top right): green dot = running.
+- Orange 'Recipe levels unavailable' note: shown when no level could be read for any scroll found; with a level range set, none of them will be queued.
+- Rows marked 'outside the level range' or 'level could not be read' are not queued. With All levels ticked every row is admitted, even one with an unknown level.
+- 'Nothing scanned yet - press Scan.' before the first scan; 'No (Master) spell scrolls found in your bags (N carried item(s) scanned).' when there are none.
+
+## Good to know
+
+- Each batch Start crafts empties Ogre Craft's setup queue first, so anything you had waiting there is cleared, not crafted. Stop never empties it.
+- With the Scroll Depot box ticked, Scan only looks in the depot; Start withdraws. Withdrawn scrolls are never put back.
+- Withdrawn scrolls that are not crafted (not learned, out of range) stay in your bags.
+- It never walks: stand at the Scroll Depot for a depot run. If it is not nearby the run stops and does nothing (it does not quietly fall back to bags only).
+- A range typed backwards (e.g. 135 to 131) is refused - the run does not start. A blank or 0 box is filled in for you instead (Level becomes 1, to becomes the Level value).
+- The run has no time limit while crafting; use Stop if it is stuck.
+
+## Before the first scan
+
+![A fresh window](../assets/craftgm/empty.png)
+
+The grey Scroll Depot box only appears once a Scan or Start has run with **Also pull from Scroll Depot** ticked.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/craftingmats.md
+
+# Crafting Mats
+
+> **:bulb: In game - the ? button on this window says**
+>
+> Edits the shopping lists `ogre craftingmats` uses: the mats it pulls from the Harvesting Supply Depot and the fuel it buys.
+>
+> **What you can do here**
+>
+> - **Pick a list** (one per expansion) and a **category**.
+> - **Change an amount** in its box, or remove a row with the x.
+> - **Add an item**: type the name (or use **Item name via examine window**), set how many, then **Add to mats** or **Add to fuel**.
+> - **+ new list** and **+ category** use the name in the item name box.
+> - **Save** writes your changes; **Revert** throws them away (on a new list you never saved, it discards the list).
+>
+> **Good to know**
+>
+> - Amounts are how many to be holding, not how many to add.
+> - Your changes go in your own folder; the shipped lists are never changed.
+> - Removing a row from a shipped list stops that list getting future updates.
+> - Closing the window keeps unsaved changes; switching to another list throws them away.
+> - Closing the window also stops a depot pull that `ogre craftingmats` started, the same as `ogre end craftingmats`.
+
+**Open it:** Type `ogre craftingmats` (or `ogre cmats`) with nothing after it. With options (e.g. `ogre craftingmats -sig -vov`) it RUNS instead: pulls those mats out of the Harvesting Supply Depot and buys the fuel. `ogre end craftingmats` (or the window's X) stops a depot pull that `ogre craftingmats` started and closes the window. From a script: `ISXOgreEQ2.CraftingMats:Open` / `:End`.
+
+## What it is for
+
+Edits the shopping lists that `ogre craftingmats` uses. Each list (one per expansion, e.g. vov = Visions of Vetrovia) has categories such as signature, daily or weekly, and each category has Mats (withdrawn from the Harvesting Supply Depot) and Fuel (bought from the Guild Fuel Merchant), each with the amount you want to be holding. Your edits are saved to your own folder; the shipped lists are never changed, and a Save is used by the very next run.
+
+## Choosing a list
+
+One button per list. A small badge says where it comes from: no badge = the shipped list, 'merged' = the shipped list with your changes on top, 'custom' = a list only you have.
+
+| Control | What it does |
+|---|---|
+| **List buttons (cd, ka, mm, pop, vov, ...)** | Opens that list for editing. Unsaved changes to the list you were on are thrown away. |
+| **+ new list** | Starts a new list of your own. Type its short name in the item name box first - that name is what you will type after `ogre craftingmats` to use it. The new list gets one category, 'all'.<br>*With the name box empty it only shows a message.* |
+
+
+
+## Choosing a category
+
+| Control | What it does |
+|---|---|
+| **Category buttons (signature, daily, weekly, all ...)** | Shows that category's Mats and Fuel below. An 'all' category is always used, whatever categories a run asks for. |
+| **+ category** | Adds a category named whatever is in the item name box to this list.<br>*A run can only ask for signature, daily or weekly (and always uses 'all'), so a category with any other name is never used by `ogre craftingmats`. With the name box empty a message says where to type the name; a name the list already has just selects that category.* |
+
+
+
+## Mats and Fuel
+
+Left: materials withdrawn from the Harvesting Supply Depot. Right: fuel bought from the Guild Fuel Merchant. The number is how many you want to be HOLDING - a total, not an amount added each time.
+
+| Control | What it does |
+|---|---|
+| **Quantity box on a row** | Changes that item's amount. It is applied when you press Enter or click away.<br>*0, blank or text is ignored and the old number comes back.* |
+| **× (remove this row)** | Removes the item from this category.<br>*Removing something from a shipped list turns your saved copy into a full replacement (see below).* |
+
+
+
+## Adding an item
+
+| Control | What it does | Default |
+|---|---|---|
+| **item name** | The item's name, exactly as the game spells it (capitals do not matter). Also used as the name for + new list and + category. | empty |
+| **Item name via examine window** | Copies the item name from the examine window you have open into the name box.<br>*Examine the item in game first; otherwise a red message says no examine window is open.* |  |
+| **Quantity (next to the name)** | How many of the item to hold. | 1 |
+| **Add to mats** | Adds the item to the Mats side of the selected category. If it is already there, its amount is replaced with the new one. |  |
+| **Add to fuel** | Same, on the Fuel side. |  |
+
+
+
+## Save and Revert
+
+The grey text shows the folder your edits are written to.
+
+| Control | What it does |
+|---|---|
+| **Revert** | Throws away unsaved changes and shows the list as it is on disk. On a brand-new list you have not saved yet, there is nothing on disk to go back to: Revert discards the new list and says so.<br>*Only active when there are unsaved changes.* |
+| **Save** | Writes your changes to your own folder (OgreSave/EQ2/CraftingMats/custom) and reloads the lists, so the next `ogre craftingmats` run uses them. Only what you changed is written, so later updates to the shipped list still reach the rest. If your changes match the shipped list exactly, your file is deleted.<br>*Only active when there are unsaved changes.* |
+| **Title bar close (X)** | Closes the window, and stops a depot pull that `ogre craftingmats` started (the same as `ogre end craftingmats`). Unsaved changes are kept: the next time it opens they are still there, with a reminder to Save or Revert. Without unsaved changes the list is read fresh from disk.<br>*`ogre craftingmats` while the window is already open does nothing.* |
+
+
+
+## Removing a row from a shipped list
+
+Your saved file can only ADD to or CHANGE a shipped list. The moment you remove a row (or category) that came with the shipped list, this orange warning appears: Save will then write the whole list as a full replacement ('noMerge'), and that list will no longer pick up future shipped updates.
+
+## What the window shows
+
+- Badges on list buttons: none = shipped, 'merged' = shipped plus your changes, 'custom' = your own list.
+- Green line after Save: 'saved - only your changes were written, so shipped updates still reach the rest.' Red when something went wrong or after a replacement save.
+- Orange warning: you removed a row, so Save will write a full replacement.
+
+## Good to know
+
+- Plain `ogre craftingmats` opens this window. Add options (like `-sig -vov`) to actually pull mats; `ogre craftingmats help` lists them. Each list or category is typed with its dash (`-cd -sig`, not `cd sig`).
+- A list typed without a category pulls its signature line. A list with no signature line pulls its daily and weekly: `ogre craftingmats -ka` is Kunark's Ascending daily + weekly.
+- A word that is not an option is ignored with a warning. A command with nothing but such words (a typo like `-sgi`) pulls nothing, and the warning lists the options.
+- Amounts are totals to hold, not top-ups.
+- Removing any row from a shipped list stops that list getting future shipped updates.
+- Switching to another list throws away unsaved changes without asking. Closing and reopening the window keeps them.
+- + new list and + category take their name from the item name box. A run only ever uses the signature, daily, weekly and all categories, so a category with another name does nothing.
+- A new list is not in the list buttons until you Save it.
+
+## After a Save
+
+![Saved](../assets/craftingmats/saved.png)
