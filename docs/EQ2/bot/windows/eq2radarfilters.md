@@ -21,7 +21,7 @@
 >
 > **Good to know**
 >
-> - Each click is saved straight away. Only the type choice is saved - other radar changes still wait for **Save**.
+> - Each click is saved straight away. Only the type choice is saved (with the radar's zoom and height, which save themselves too) - other radar changes still wait for **Save**.
 > - The dot on each button is that type's colour on the radar (change it under the radar's gear).
 > - Open and close it with **types** on the radar.
 

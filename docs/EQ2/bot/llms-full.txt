@@ -286,6 +286,43 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.11.15.001 {#r2026-11-15-001}
+
+*Sunday, November 15, 2026 at 9:03 PM EST*
+
+- **New** · Instance Controller: **IC brings a revived member back past the zone's teleporters.** A member who was revived after the group had gone through a teleporter woke on the near side with no way to walk back, and the zone failed. If it carries Call of the Tinkerer and it is ready, it now uses it to reach the group; otherwise it is sent back through every teleporter the group used, in order. A member knocked back past more than one teleporter is brought back the same way.
+- **New** · Instance Controller: **IC brings back a member stranded past a teleporter.** When a member ended up back on the near side of a teleporter the group had already gone through (knocked off a ledge, with no way to walk to the group), the steps after it waited for that member and the next teleporter failed the zone. IC now sends that member back to where the group clicked the teleporter and through it again, and the group waits for it. It tries twice, then goes on as before.
+- **Changed** · Windows: **The radar keeps its zoom and height.** The radar's zoom (how far it reaches) and height filter now save themselves when you let go of the slider, the same way the types already did, so they are still set the next time the radar opens. Dim and the gear settings still need Save.
+- **Changed** · Instance Controller: **Loot left on purpose is no longer a warning.** When the Instance Controller's loot step deliberately leaves something, such as a corpse lying in lava or a no-trade item you chose not to take, its end line still says so, but it is no longer reported as a warning. Loot the step tried to take and could not is still a warning.
+- **Changed** · Instance Controller: **Lord Shomp's stormclouds are dispelled from the ground.** In The Chimeric Chain [Heroic], the group no longer runs under Lord Shomp's stormclouds, where it could get stuck on the house walls. While Shomp is in flight, each toon with a dispel, except the first healer, takes its own cloud. It dispels the cloud from a set spot on the ground, then returns.
+- **Fixed** · Bot: **"Fighters cast Bulwark of Order on the Arch Lich's barrage".** In The Fabled Ssraeshza Temple: Inner Sanctum, the Arch Lich Rhag'Zadune warns that it "breaks from the portal to tear apart everyone with a barrage of attacks!" before hitting the whole group. Fighters now cast Bulwark of Order on that warning. Before, the bot did not recognise the line, so the tank had to cast it by hand.
+- **Fixed** · Bot: **A chest is looted even when the game shuts its window on an item you cannot take.** When the game closed a loot window on an item you are not allowed to loot, the rest of the box was left behind and IC walked on. Now the bot says which item shut it, opens the chest again, leaves that item, and takes the rest, and IC waits for it.
+- **Fixed** · Bot: **A revive waits for the Revive button to light up.** The Revive button is greyed out for a few seconds after you die, and a revive pressed in that time did nothing, leaving the toon dead. A revive now waits up to 8 seconds for the button before pressing it.
+- **Fixed** · Bot: **A setting written with the value it already has is not an unsaved change.** A profile's own load commands, such as a Load tab script that sets options by class, left a freshly loaded profile marked as unsaved. The next profile load then warned about losing changes that were never made. Writing a setting with the value it already has no longer counts as a change.
+- **Fixed** · Bot: **Auto Follow no longer fights the bot's own movement.** With Auto Follow Mode ticked, a toon being moved by the bot (an Instance Controller walk, a camp spot, a nav trip) kept starting and stopping /follow. Each new leg of the move broke the follow, and Auto Follow turned it back on at the end of the leg. Auto Follow now waits while anything else is moving the toon, as OgreFollow already does, and for 10 seconds after the bot's own movement ends, so it stays out of the pauses between the legs of a walk.
+- **Fixed** · Bot: **No more "gave up" warnings for a detriment that was cured.** A toon that was busy casting when a cure request ran out could warn that it gave up on someone whose detriment had already been cured. Now a cured or gone detriment is cleared before the time limit is checked, and the warning names the right command for a curse, `-AutoCurse`.
+- **Fixed** · Bot: **Ogre IM skips an item the game will not transmute.** When the game answered "cannot be transmuted", Ogre IM waited, warned that the item "did not go" and said it was retrying when it was not. Now it skips the item at once with a quiet line, and remembers it so later runs this session do not try it again.
+- **Fixed** · Bot: **Ogre IM waits for a free cast bar before transmuting.** If OgreBot was casting a buff when Ogre IM wanted to transmute, the Transmute cast never went out. Ogre IM then clicked the item anyway and reported that it did not go. Now it waits for the cast bar and clicks only once its own Transmute cast has finished.
+- **Fixed** · Bot: **The solo HO puts every box's HO settings back when it ends.** When a solo HO (DoHO) ended, a box whose profile had never saved its HO settings kept the ones the solo HO set: the other boxes were left with HO start and starter off, and the box that ran it with them on. Every box now goes back to what it had before.
+- **Fixed** · Windows: **The padlock on a window's title bar shows whether it is locked.** The title-bar padlock always showed a closed lock and only changed colour, so an unlocked window looked locked. It now shows an open padlock while the window is unlocked, including after Reset.
+- **Fixed** · Instance Controller: **An IC walk waits while OgreBot loots a stuck mob.** When OgreBot walked over to loot a mob stuck at low health, it stopped IC's walk and the zone failed. The walk now waits until OgreBot is done, then carries on to the same spot.
+- **Fixed** · Instance Controller: **Closing the Instance Controller stops all of it.** `ogre end ic`, `ogre ic end` and closing the window did nothing while a list waited between zones, for example a loop list waiting in the guild hall for a lockout. The group then went to the next zone when its timer ran out. Now they stop the list there too, the End button works while the list waits, and closing the window also cancels a call to the guild hall or a camp that the end of the list started.
+- **Fixed** · Instance Controller: **Four Rage of Cthurath heroics walk their trash sweeps by nav.** Ver'Bohten Atoll, Coral Roost, Realm of Conquest and Zruul's Dominion walked their trash sweeps in straight lines, so a group member could get stuck on a wall and the zone failed. Those walks now use the navmesh, like the rest of the Rage of Cthurath zones.
+- **Fixed** · Instance Controller: **IC finishes the trash before buffing up for a named.** When the group was still fighting trash as a named's step began, IC skipped the buff-up, walked to the kill spot with the trash in tow and pulled the named straight out of that fight. It now holds until the fight is over, then buffs up, walks to the kill spot and pulls.
+- **Fixed** · Instance Controller: **IC never sends the group into lava to loot or to res.** After a named, IC went to loot the corpses around it, including corpses lying in lava, and the group died there. Then it kept sending people back to the bodies in the lava to res them. Now a corpse or a shiny lying in lava is left where it is (unless it can be looted from where the group stands), and a member who died in lava revives instead of waiting there for a res.
+- **Fixed** · Instance Controller: **IC no longer walks the group into lava to fight a named.** When a named stood in lava, IC walked the group up to it and fought it there, and the group died in the lava. Now the group stops on the dry ground nearest the named, or pulls it from where it stands if there is none close.
+- **Fixed** · Instance Controller: **IC waits for a member far away before clicking a teleporter.** When two members were stranded below a teleporter, IC brought one back and then clicked the next teleporter before it got to the second one, and the zone failed. Now, before clicking a teleporter, IC waits up to 20 seconds while a member is 30 m or more away, so that member is brought back first.
+- **Fixed** · Instance Controller: **IC walks close enough to open a chest.** Sometimes IC stopped right at the edge of looting range, OgreBot thought the chest was too far to open, and after three tries the chest was left behind. IC now walks well inside the range, goes right up to the chest if it still has not opened, and judges the range the same way OgreBot does. Corpses and shinies are the same.
+- **Fixed** · Instance Controller: **Nobody moves while the group goes through a teleporter.** After a teleporter, members could follow the leader before the leader had come through, and run off the landing. Now nobody's follow or camp spot moves them while the click is out. Once everyone has landed, follow is released and each one gets a camp spot where it stands.
+- **Fixed** · Instance Controller: **Pause for no-trade shinies works for the whole IC run.** With Pause for no-trade shinies ticked, a shiny the bot picked up outside a shinies step was looted, no-trade item and all. Now, for the whole run, a no-trade item from any shiny is left in its open window and IC pauses for you, while corpses and chests loot as your settings say.
+- **Fixed** · Instance Controller: **The chest wait no longer gives up while corpses are being looted.** After a named with a lot of adds, the loot driver can spend half a minute looting corpses before it gets to the chest. The Instance Controller counted that as "nothing happened" and gave up on the chest. Now it waits while the driver keeps looting, and gives up only after 10 seconds with nothing looted.
+- **Fixed** · Instance Controller: **Zone loot waits keep waiting while corpses are still being looted.** A zone file's wait for loot could move the group on part-way through a big pile of corpses, because its time limit counted from the start of the wait. The limit now counts from the last corpse or chest OgreBot opened, so the wait lasts as long as the looting goes on.
+- **Fixed** · Navigation: **A group member no longer waits at a door for a leader who went another way.** At a door that takes the whole group through on the leader's click, a member coming from somewhere else waited for the leader even after the leader had reached a later zone by another way, and the zone-in gave up. The member now goes through by itself when the leader is already further along the route.
+- **Fixed** · Navigation: **Navigation steps down off things it cannot walk on.** A toon knocked up onto machinery or clutter that navigation cannot walk on was stranded there: every walk from it said the destination was unreachable, and an Instance Controller run could fail on it. Now navigation starts the walk on the floor below, up to 35 m down, and the toon steps off the edge and carries on.
+- **Fixed** · Navigation: **One failed take-off no longer stops a toon flying in a zone.** A take-off that gained no height, for example right after a fight, marked the whole zone as no-fly for that toon for 12 hours, so every trip there walked. A zone the toon has already flown in now stays a flying zone, and only that one trip walks.
+- **Fixed** · Navigation: **The bot never picks a spot to stand next to lava.** A named standing in lava sent the group to dry ground only 0.1 m from the lava, so the group stopped on the lava and burned. Spots to stand within range of something now stay at least 4 m from lava. With no such spot, the group pulls from where it is.
+- **Fixed** · Navigation: **Travel goes round a slope it keeps sliding off.** Some slopes look walkable on the map but are too steep to climb. A character walking up one kept sliding off, tried the same way again, and finally gave up. Now, the second time it slides off the same spot, it goes another way if there is one.
+
 ## 2026.11.13.001 {#r2026-11-13-001}
 
 *Friday, November 13, 2026 at 1:17 AM EST*
@@ -5121,7 +5158,7 @@ The Instance Controller (IC) runs a list of instanced zones for you, one after a
 | Control | What it does | Default |
 |---|---|---|
 | **▼ / ▲ (minimize)** | Minimizes the window to its title bar and a one-line strip showing the run status, Pause and Expand. Clicking again restores it. Double-clicking the title bar does the same. Display only - changes what you see, not what the bot does.<br>*The window keeps its width; it always opens at its normal size.* | normal size |
-| **Close (X)** | Closing the window STOPS a running list, exactly like End (the reason shown is 'ended'), and turns IC's pause off. `ogre end ic` does exactly the same.<br>*Closing is not just hiding the window. It does NOT cancel end-of-list actions that are already running (use End for that), so closing the window on the way out never undoes an armed camp.* |  |
+| **Close (X)** | Closing the window STOPS everything the Instance Controller is doing, exactly like End (the reason shown is 'ended'), and turns IC's pause off: a running list, a list waiting for its next zone, and the end-of-list actions. `ogre end ic` does exactly the same.<br>*Closing is not just hiding the window: it stops the whole Instance Controller at once. That includes end-of-list actions already running (a call to the guild hall, a camp), which are cancelled the same way End cancels them.* |  |
 | **Run / Startup Options / Settings** | Switches the page you see. Display only. | Run |
 
 
@@ -5201,7 +5238,7 @@ When the window is too short for every option, the option grid scrolls (the list
 | **After a lost zone: Call to guild hall / Call to home / nothing** | When a zone is given up because all its wipe-recovery tries are used: everyone is revived first (up to 60 seconds), then this runs. 'Call to guild hall' = go to the guild hall (GetToGH), up to 180 seconds. 'Call to home' = cast Call to Home, up to 90 seconds. 'nothing' = revive only. The list then moves on to the next row.<br>*A zone file with its own after-wipe list replaces this completely. Also a console switch: `ogre ic -afterWipe=callgh` (or `callhome`, `none`).* | Call to guild hall (callgh) |
 | **Skip the boss** | A named that the zone file marks as the boss is not fought. It ends as 'skipped - Do NOT Kill Boss is on'.<br>*Only affects nameds the zone file marks as the boss. Also a console switch: `ogre ic -skipBoss` (`=off` turns it off).* | off |
 | **Skip shinies** | No shiny is looted at all: every shinies step of the zone file ends at once as 'skipped - the Skip shinies option is on'.<br>*Wins over whatever the zone file says about no-trade shinies. Also a console switch: `ogre ic -skipShinies` (`=off` turns it off).* | off |
-| **Pause for no-trade shinies** | In a shinies step, a shiny whose loot window holds a no-trade item is NOT looted: its window is left open for you and IC pauses itself (the group keeps playing), with a console message and a '<name> shiny' text-to-speech. Take the item, then press Resume; the step goes on to the next shiny. Loot everything is turned off for the group while the step runs, so the auto-loot leaves the item too.<br>*A zone file that sets its own no-trade rule on the step overrides this option. Also a console switch: `ogre ic -pauseForNoTradeShinies` (`=off` turns it off).* | off |
+| **Pause for no-trade shinies** | For the whole IC run, whenever the auto-loot harvests a shiny whose loot window holds a no-trade item, that item is NOT looted: the rest of the window is taken, the no-trade item is left in it with the window open for you, and IC pauses itself (the group keeps playing), with a console message and a '<name> shiny' text-to-speech. Take the item, then press Resume. Only shinies: corpses and chests loot as your settings say.<br>*A zone file that sets its own no-trade rule on the step overrides this option. Also a console switch: `ogre ic -pauseForNoTradeShinies` (`=off` turns it off).* | off |
 | **Do not loot no-trade boss chest** | When the step for a named the zone file marks as the boss begins (before the kill), your Leader Only loot is set to take tradable items and Smart Loot only (not loot everything, no distribution, not in combat); your loot options are put back after the loot step. A Leader Only loot window that still holds a no-trade item is left open for you, with a console message and a '<name> boss chest' text-to-speech, and IC waits until it is gone.<br>*Free For All windows are not touched - each character's own loot options take them. Non-boss chests loot no-trade items as usual unless the zone file says otherwise. The zone file's own no-trade rule overrides this. Also a console switch: `ogre ic -doNotLootNoTradeBossChest` (`=off` turns it off).* | off |
 
 
@@ -5228,7 +5265,7 @@ When the window is too short for every option, the option grid scrolls (the list
 | **Pause / Resume** | Turns IC's own pause on or off. While paused, IC does nothing: no zone steps advance, the zone-in stops, and the list waits. Actions already started keep going. OgreBot's pause is NOT touched. Also releases a Halt at end of zone hold.<br>*The window keeps updating while IC is paused (for example when OgreBot is paused or resumed). Run also clears the pause.* | running |
 | **Resume** | Only shown when you stand in a queued zone whose last run was stopped mid-zone. That row restarts at the step where it stopped, then Run fires.<br>*The stop point is not saved to disk.* | hidden |
 | **Run** | Starts the list. It starts at the queue row for the zone you are standing in, otherwise row 1, never the highlighted row. It clears IC's pause, checks the row's choices against the zone file again, and runs the safety checks (at least 10 free slots, nobody dead). Each row then runs in turn: zone-in, apply startup options, zone steps, exit.<br>*Greyed out while running, while the end-of-list actions of the last list are still going (press End to cancel them first), with an empty queue, or if OgreBot is not loaded with a profile. Refuses right after a zone-in while the bot is still learning what is around it. A failed zone stops the list and IC stays in the zone.* |  |
-| **End** | Stops the run where it stands and clears IC's pause. The current step is cancelled, exit steps do NOT run, and the list stops. The stop step is remembered for Resume, and the startup options are reverted. During a zone-in, IC's travel route is stopped and the group stays put. End-of-list actions are not triggered. For a zone run by a LavishScript (.iss) file, IC stops following it but the script itself keeps running. While the end-of-list actions are running, End cancels them: nothing that has not started yet runs (no camp, no exit), and an unfinished camp is stopped so the client is not closed. A trip to the guild hall or a Call to Home already under way finishes on its own, and the group stays paused - resume OgreBot when you are ready. The console says what was left behind.<br>*Greyed out only when nothing is running and no end-of-list action is running. If the game had already begun the /camp countdown, the camp can still take the character to the login screen; the client stays open.* |  |
+| **End** | Stops the run where it stands and clears IC's pause. A list waiting for its next zone (a loop list waiting for a lockout, Ogre IM after a zone) is stopped there too. The current step is cancelled, exit steps do NOT run, and the list stops. The stop step is remembered for Resume, and the startup options are reverted. During a zone-in, IC's travel route is stopped and the group stays put. End-of-list actions are not triggered. For a zone run by a LavishScript (.iss) file, IC stops following it but the script itself keeps running. While the end-of-list actions are running, End cancels them: nothing that has not started yet runs (no camp, no exit), and an unfinished camp is stopped so the client is not closed. A trip to the guild hall or a Call to Home already under way finishes on its own, and the group stays paused - resume OgreBot when you are ready. The console says what was left behind.<br>*Greyed out only when nothing is running, no list is waiting for its next zone, and no end-of-list action is running. If the game had already begun the /camp countdown, the camp can still take the character to the login screen; the client stays open.* |  |
 
 
 
@@ -5944,7 +5981,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 >
 > **What you can do here**
 >
-> - **zoom / dim / height** - how far you see, how solid the background is, and hiding other floors.
+> - **zoom / dim / height** - how far you see, how solid the background is, and hiding other floors. Zoom and height are saved as soon as you let go of the slider.
 > - **types** - pick which kinds of things are drawn (saved at once).
 > - **verify** - check the radar's list against the game; the answer is in the console.
 > - **Gear** - colours, rotation, labels, full screen, click-through, name lists, and **Save**.
@@ -5952,7 +5989,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 >
 > **Good to know**
 >
-> - Zoom, dim, height and the gear settings only stick if you press **Save**.
+> - Zoom, height and the types save themselves. Dim and the gear settings only stick if you press **Save**.
 > - Stuck behind click-through? `ogre radar settings` or `ogre radar click off`.
 > - A line under the title tells you when no data has come in for a while, and who a clicked dot targeted.
 > - The X (or `ogre end radar`) turns the radar off. `ogre radar` does nothing if it is already open.
@@ -5969,9 +6006,9 @@ The strip across the top. The zoom, dim and height sliders change only what you 
 
 | Control | What it does | Default |
 |---|---|---|
-| **zoom** | How far the radar reaches, in game units from you to the nearer edge of the window. Drag left to zoom in, right to see further (10 to 400). Display only - changes what you see, not what the bot does.<br>*Only kept for good if you press Save in the settings.* | 100 (the radar radius) |
+| **zoom** | How far the radar reaches, in game units from you to the nearer edge of the window. Drag left to zoom in, right to see further (10 to 400). Display only - changes what you see, not what the bot does.<br>*Saved as soon as you let go of the slider (2026-11-15) - no Save needed.* | 100 (the radar radius) |
 | **dim** | How solid the radar's background is. 100% is a solid panel, 0% is see-through so only the dots are drawn over the game. The same setting as background in the settings.<br>*Only kept for good if you press Save in the settings.* | 94% |
-| **height** | Hides things more than this many units above or below you, so in a tower or a building you see your own floor. Shows ±N when on. Either end of the slider means off.<br>*Only kept for good if you press Save in the settings.* | off |
+| **height** | Hides things more than this many units above or below you, so in a tower or a building you see your own floor. Shows ±N when on. Either end of the slider means off.<br>*Saved as soon as you let go of the slider (2026-11-15) - no Save needed.* | off |
 | **types** | Opens the Radar Types window, where you pick which kinds of things are drawn. Press again to close it. |  |
 | **verify** | Checks the bot's list of nearby things against a fresh read of the game and prints the result in the console. If the list had gone wrong it is rebuilt.<br>*The answer is in the console, not on the radar.* |  |
 | **⚙ (gear, in the toolbar)** | Opens and closes the settings drawer over the radar. |  |
@@ -6160,7 +6197,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 >
 > **Good to know**
 >
-> - Each click is saved straight away. Only the type choice is saved - other radar changes still wait for **Save**.
+> - Each click is saved straight away. Only the type choice is saved (with the radar's zoom and height, which save themselves too) - other radar changes still wait for **Save**.
 > - The dot on each button is that type's colour on the radar (change it under the radar's gear).
 > - Open and close it with **types** on the radar.
 
@@ -11212,7 +11249,7 @@ left behind.
 ## named
 
 Kills a named: buffs up, walks to the kill spot, pulls, fights, waits for it to die, then holds until the fight is
-over.
+over. If the group is still fighting something else when the step begins, it first holds until that fight is over.
 
 ```json
 { "stepId": "named1", "do": "named", "name": "Glorfab Flit", "spot": [-755.151001, 144.302704, 340.9729] }
@@ -11265,6 +11302,9 @@ not counting fights. For corpses, `within` and `corpsesWithin` go up to `100`, a
 `corpses` that is not `true` or `false`, or a `corpsesWithin` that is not a number above 0, is ignored. The load says
 each of these.
 
+A corpse or shiny lying in lava is left where it is, unless it can be looted from where the group already stands. The
+log says which ones were left.
+
 It records `looted`, `nothingToLoot`, `left` (something was left, said in the log) or `skipped`. On a chest step it is
 the chest's result; the corpses are added to the same log line. A loot step never fails the zone.
 
@@ -11274,7 +11314,9 @@ The way out. See [The way out](how-it-runs.md#the-way-out).
 
 ## teleporter
 
-Takes the group through a teleporter inside the zone. Everyone clicks it, then IC waits until everyone has moved.
+Takes the group through a teleporter inside the zone. Everyone clicks it, then IC waits until everyone has gone through and landed.
+
+While the click is out nothing moves a character: IC turns off every camp spot and holds follow (as NoMove does), so nobody runs after a leader who has not come through yet. Once everyone is through and standing still on the far side, follow is released (as LetsGo does) and each character gets a camp spot where it stands.
 
 ```json
 { "stepId": "named2.teleporter", "do": "teleporter", "name": "telelport crystal", "landing": [-870.090027, 200.009995, 278.209991] }
@@ -11286,6 +11328,10 @@ Takes the group through a teleporter inside the zone. Everyone clicks it, then I
 | `landing` | | Where it puts the group. With it, a run that starts part-way can begin on the far side. |
 | `walkOnto` | | For a portal you walk onto instead of clicking: its `[x, y, z]`. Needs `landing`. Use it instead of `name`. |
 | `limitMs` | `20000` | How long everyone has to get through. |
+
+If a member later ends up back on the near side with no way to walk to the group (a knockback off a ledge, say), IC brings it back, and the group waits for it. If that member carries Call of the Tinkerer and it is ready, it uses it on the leader. Otherwise IC sends it back to where the group clicked the teleporter and through it again: through every teleporter the group has used since, in order, if it is behind more than one. It tries each teleporter twice, then goes on as before. A portal you walk onto (`walkOnto`) is not one it does this for, and nobody is walked back past one. Before it clicks a teleporter, IC waits up to 20 seconds while a member is 30 m or more away, so a stranded member can be brought back first.
+
+A member who dies and is revived wakes at the zone's revive point, often on the near side of the teleporters. If it has no way to walk back to the group, the res run hands it over the same way: Call of the Tinkerer first, otherwise back through the teleporters. Then the res run goes on.
 
 ## hunt
 
@@ -11330,7 +11376,7 @@ Waits until OgreBot has looted everything in reach.
 | Key | Default | What it does |
 |---|---|---|
 | `settleMs` | `3000` | Give the loot this long to show up. |
-| `limitMs` | `120000` | The longest it waits. `0` for no limit. |
+| `limitMs` | `120000` | The longest it waits with nothing new looted: while OgreBot keeps opening corpses, it keeps waiting. `0` for no limit. |
 | `onTimeout` | `"proceed"` | At the limit: `"proceed"` or `"fail"`. |
 
 ## trash

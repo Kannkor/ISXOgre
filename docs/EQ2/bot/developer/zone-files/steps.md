@@ -59,7 +59,7 @@ left behind.
 ## named
 
 Kills a named: buffs up, walks to the kill spot, pulls, fights, waits for it to die, then holds until the fight is
-over.
+over. If the group is still fighting something else when the step begins, it first holds until that fight is over.
 
 ```json
 { "stepId": "named1", "do": "named", "name": "Glorfab Flit", "spot": [-755.151001, 144.302704, 340.9729] }
@@ -112,6 +112,9 @@ not counting fights. For corpses, `within` and `corpsesWithin` go up to `100`, a
 `corpses` that is not `true` or `false`, or a `corpsesWithin` that is not a number above 0, is ignored. The load says
 each of these.
 
+A corpse or shiny lying in lava is left where it is, unless it can be looted from where the group already stands. The
+log says which ones were left.
+
 It records `looted`, `nothingToLoot`, `left` (something was left, said in the log) or `skipped`. On a chest step it is
 the chest's result; the corpses are added to the same log line. A loot step never fails the zone.
 
@@ -121,7 +124,9 @@ The way out. See [The way out](how-it-runs.md#the-way-out).
 
 ## teleporter
 
-Takes the group through a teleporter inside the zone. Everyone clicks it, then IC waits until everyone has moved.
+Takes the group through a teleporter inside the zone. Everyone clicks it, then IC waits until everyone has gone through and landed.
+
+While the click is out nothing moves a character: IC turns off every camp spot and holds follow (as NoMove does), so nobody runs after a leader who has not come through yet. Once everyone is through and standing still on the far side, follow is released (as LetsGo does) and each character gets a camp spot where it stands.
 
 ```json
 { "stepId": "named2.teleporter", "do": "teleporter", "name": "telelport crystal", "landing": [-870.090027, 200.009995, 278.209991] }
@@ -133,6 +138,10 @@ Takes the group through a teleporter inside the zone. Everyone clicks it, then I
 | `landing` | | Where it puts the group. With it, a run that starts part-way can begin on the far side. |
 | `walkOnto` | | For a portal you walk onto instead of clicking: its `[x, y, z]`. Needs `landing`. Use it instead of `name`. |
 | `limitMs` | `20000` | How long everyone has to get through. |
+
+If a member later ends up back on the near side with no way to walk to the group (a knockback off a ledge, say), IC brings it back, and the group waits for it. If that member carries Call of the Tinkerer and it is ready, it uses it on the leader. Otherwise IC sends it back to where the group clicked the teleporter and through it again: through every teleporter the group has used since, in order, if it is behind more than one. It tries each teleporter twice, then goes on as before. A portal you walk onto (`walkOnto`) is not one it does this for, and nobody is walked back past one. Before it clicks a teleporter, IC waits up to 20 seconds while a member is 30 m or more away, so a stranded member can be brought back first.
+
+A member who dies and is revived wakes at the zone's revive point, often on the near side of the teleporters. If it has no way to walk back to the group, the res run hands it over the same way: Call of the Tinkerer first, otherwise back through the teleporters. Then the res run goes on.
 
 ## hunt
 
@@ -177,7 +186,7 @@ Waits until OgreBot has looted everything in reach.
 | Key | Default | What it does |
 |---|---|---|
 | `settleMs` | `3000` | Give the loot this long to show up. |
-| `limitMs` | `120000` | The longest it waits. `0` for no limit. |
+| `limitMs` | `120000` | The longest it waits with nothing new looted: while OgreBot keeps opening corpses, it keeps waiting. `0` for no limit. |
 | `onTimeout` | `"proceed"` | At the limit: `"proceed"` or `"fail"`. |
 
 ## trash

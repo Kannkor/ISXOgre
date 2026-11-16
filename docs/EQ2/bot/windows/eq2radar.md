@@ -10,7 +10,7 @@
 >
 > **What you can do here**
 >
-> - **zoom / dim / height** - how far you see, how solid the background is, and hiding other floors.
+> - **zoom / dim / height** - how far you see, how solid the background is, and hiding other floors. Zoom and height are saved as soon as you let go of the slider.
 > - **types** - pick which kinds of things are drawn (saved at once).
 > - **verify** - check the radar's list against the game; the answer is in the console.
 > - **Gear** - colours, rotation, labels, full screen, click-through, name lists, and **Save**.
@@ -18,7 +18,7 @@
 >
 > **Good to know**
 >
-> - Zoom, dim, height and the gear settings only stick if you press **Save**.
+> - Zoom, height and the types save themselves. Dim and the gear settings only stick if you press **Save**.
 > - Stuck behind click-through? `ogre radar settings` or `ogre radar click off`.
 > - A line under the title tells you when no data has come in for a while, and who a clicked dot targeted.
 > - The X (or `ogre end radar`) turns the radar off. `ogre radar` does nothing if it is already open.
@@ -39,9 +39,9 @@ The strip across the top. The zoom, dim and height sliders change only what you 
 
 | Control | What it does | Default |
 |---|---|---|
-| **zoom** | How far the radar reaches, in game units from you to the nearer edge of the window. Drag left to zoom in, right to see further (10 to 400). Display only - changes what you see, not what the bot does.<br>*Only kept for good if you press Save in the settings.* | 100 (the radar radius) |
+| **zoom** | How far the radar reaches, in game units from you to the nearer edge of the window. Drag left to zoom in, right to see further (10 to 400). Display only - changes what you see, not what the bot does.<br>*Saved as soon as you let go of the slider (2026-11-15) - no Save needed.* | 100 (the radar radius) |
 | **dim** | How solid the radar's background is. 100% is a solid panel, 0% is see-through so only the dots are drawn over the game. The same setting as background in the settings.<br>*Only kept for good if you press Save in the settings.* | 94% |
-| **height** | Hides things more than this many units above or below you, so in a tower or a building you see your own floor. Shows ±N when on. Either end of the slider means off.<br>*Only kept for good if you press Save in the settings.* | off |
+| **height** | Hides things more than this many units above or below you, so in a tower or a building you see your own floor. Shows ±N when on. Either end of the slider means off.<br>*Saved as soon as you let go of the slider (2026-11-15) - no Save needed.* | off |
 | **types** | Opens the Radar Types window, where you pick which kinds of things are drawn. Press again to close it. |  |
 | **verify** | Checks the bot's list of nearby things against a fresh read of the game and prints the result in the console. If the list had gone wrong it is rebuilt.<br>*The answer is in the console, not on the radar.* |  |
 | **⚙ (gear, in the toolbar)** | Opens and closes the settings drawer over the radar. |  |
