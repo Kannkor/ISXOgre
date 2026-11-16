@@ -515,6 +515,7 @@
   "OgreBotAPI.Inventory:Unpack": "[fw,item,...]",
   "OgreBotAPI.Inventory:UnpackConsumeFamiliars": "[fw]",
   "OgreBotAPI.Inventory:UnpackFamiliars": "[fw]",
+  "OgreBotAPI.Inventory:UpgradeItem": "[fw]",
   "OgreBotAPI.Inventory:Use": "[fw,item,...]",
   "OgreBotAPI.Inventory:UseOnPlayer": "[fw,item,player=me,...]",
   "OgreBotAPI.Loot": null,
@@ -1348,6 +1349,7 @@
   "-Unpack_Familiars",
   "-UO",
   "-UOS",
+  "-UpgradeItem",
   "-UplinkOption",
   "-Uplinkoption_change",
   "-UplinkOptionChange",
@@ -6719,6 +6721,12 @@
     false
    ]
   ],
+  "-upgradeitem": [
+   [
+    "forwho",
+    false
+   ]
+  ],
   "-uplinkoption": [
    [
     "forwho",
@@ -8132,7 +8140,6 @@
    "checkbox_settings_acceptres",
    "checkbox_settings_aesmartnukes",
    "checkbox_settings_allow_city_casting",
-   "checkbox_settings_allow_specials_to_be_targets",
    "checkbox_settings_ascension_embargo_and_combos",
    "checkbox_settings_assist",
    "checkbox_settings_auto_use_temporary_familiar_experience",
@@ -8584,6 +8591,9 @@
     "status": "removed"
    },
    "checkbox_other_handlefieldmedic": {
+    "status": "removed"
+   },
+   "checkbox_settings_allow_specials_to_be_targets": {
     "status": "removed"
    },
    "checkbox_settings_do_not_show_revision_history": {

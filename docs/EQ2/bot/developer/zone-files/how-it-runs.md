@@ -48,6 +48,10 @@ names the key and the nearest key IC does read (see [Checking your file](checkin
   Entrance, each character revives at the last revive point the window lists, says which, and the recovery goes on
   from there. After `wipeAttempts` recoveries, IC gives the zone up: the `afterWipe` steps run, `exit`
   does not, and the list moves on to the next zone.
+- **A near-wipe counts as a wipe.** In a group of 5 or 6 with 2 or fewer alive, or of 3 or 4 with one alive, and
+  every one of them in combat, IC pauses the survivors' OgreBot so they die and the wipe recovery runs. They get
+  OgreBot back when the recovery starts, when the fight around them ends, after 60 seconds, or when the run ends.
+  A group of 2 is never paused.
 - **Starting part-way.** The IC window's **named #** starts a zone at a named: IC backs up over the steps that lead
   to it (its walk, for instance) so they run too. It only works when you are already standing in that zone. A run
   that zones in always starts from the top.

@@ -232,6 +232,7 @@ When the window is too short for every option, the option grid scrolls (the list
 - When the window is short, the options scroll: scroll them down for At end of list and Zone file.
 - A failed zone stops the list and leaves the group in that zone so it can be looked at. No end-of-list action (guild hall, home, camp) runs.
 - A zone lost to a wipe is different: everyone is revived, the After a lost zone choice runs, and the list moves on.
+- A fight only a few are still standing in counts as a wipe: in a group of 5 or 6 with 2 or fewer alive, or a group of 3 or 4 with one alive, and every one of them in combat, IC pauses their OgreBot so the wipe recovery can start. They get OgreBot back when the recovery starts, when the fight around them ends, after 60 seconds, or when the run ends. A group of 2 is never paused.
 - End-of-list actions run only when the list completes or a safety check stops it (fewer than 10 free bag slots, someone left the group, or someone is dead). Never after End.
 - End cancels the end-of-list actions while they run. Anything not yet started never runs and an unfinished camp is stopped (the client is not closed); a trip to the guild hall or a Call to Home already under way finishes on its own. Closing the window does not cancel them.
 - Camp out camps the whole group, not just the IC character.

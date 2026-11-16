@@ -1,8 +1,8 @@
-# Build command
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# Build command
 
 > **:bulb: In game - the ? button on this window says**
 >
@@ -38,11 +38,13 @@ Build command makes or changes what one MCP button does. You name the button, ch
 |---|---|---|
 | **Label** | The text shown on the button. Required. | the button's current label |
 | **Ask when pressed** | Pressing the button opens the [Ask](mcpask.md) window first, with a field for each of its settings. Blank keeps what the button says; a typed answer changes it for that press only. Greyed out for Raw, which has no settings to ask. |  |
-| **Ready-made** | Fills the builder with a ready-made asking button: Assist, Ogre Follow, OgreFollow Off, CampSpot, Door, Use Item, Auto Target List, Load Profile, the four Travel buttons, Share Quest, Share Mission, Delete Quest, the two Alias changes, Craft Recipe, Craft Last Scribed, CoV, Joust Off and Joust On. Save it as it is, or change it first. |  |
+| **Ready-made** | Fills the builder with a ready-made asking button: Assist, Ogre Follow, OgreFollow Off, CampSpot, Door, Use Item, Auto Target List, Load Profile, the four Travel buttons, Share Quest, Share Mission, Delete Quest, the two Alias changes, Craft Recipe, Craft Last Scribed, CoV, Joust Off, Joust On and Upgrade Item. Save it as it is, or change it first. |  |
 | **OgreConsole** | The command goes through OgreConsole to your characters (the normal choice). | on |
 | **IRC** | The command is sent over IRC instead of OgreConsole. While IRC is not connected it goes through OgreConsole instead.<br>*If the For Who window is set to OC or IRC (not Auto), that choice wins over this one for OgreConsole and IRC buttons.* |  |
 | **Conn** | IRC only: which IRC connection(s) should act on it. Leave empty for every connection.<br>*Ignored when the command ends up going through OgreConsole.* | empty (all) |
 | **Raw** | Swaps the lists for a text box. Whatever you type runs exactly as written, only on the character that clicks the button - for example `ogre perf`. For Who does not apply.<br>*Switching Send via drops a command you picked but did not add yet.* |  |
+
+
 
 ## Commands (the list)
 
@@ -52,6 +54,8 @@ Build command makes or changes what one MCP button does. You name the button, ch
 |---|---|---|
 | **Search…** | Narrows the list to commands whose name, short name, description or alias contains the text. The count shows how many match. | empty |
 | **Click a command** | Picks it and shows its settings below, ready to add. It is not on the button until you add it. |  |
+
+
 
 ## Runs in order (the stack)
 
@@ -64,6 +68,8 @@ The commands the button will send, in order, all on one line.
 | **Click a step** | Shows that step's settings below. Changes apply to the step straight away. |
 | **↑ / ↓** | Moves the step up or down. |
 | **✕** | Removes the step. |
+
+
 
 ## The command's settings
 
@@ -81,6 +87,8 @@ One row per setting of the picked command, with its type and a hint underneath. 
 | **＋ Add to stack** | Adds the picked command, with these settings, to the end of the stack. |  |
 | **✕ Remove step** | Shown instead of Add when you are editing a step: removes that step. |  |
 
+
+
 ## Preview, Cancel and Save
 
 [![Preview, Cancel and Save](../assets/mcpbuild/footer.png)](../assets/mcpbuild/footer.png "Click for full size")
@@ -90,6 +98,8 @@ One row per setting of the picked command, with its type and a hint underneath. 
 | **Sends** | The exact line the button will send. Display only. |
 | **Cancel** | Closes the window. The button is not changed. |
 | **Save to button** | Puts the label and the command on the button and closes the window. The MCP saves it at once.<br>*With no label it refuses: 'A label is required - name the button first.'* |
+
+
 
 ## Save with a command not added
 
@@ -103,6 +113,8 @@ If you picked and filled in a command but never pressed Add to stack, Save asks 
 | **Discard** | Saves without that command. |
 | **Cancel** | Goes back to editing; nothing is saved. |
 
+
+
 ## Raw mode
 
 [![Raw mode](../assets/mcpbuild/raw.png)](../assets/mcpbuild/raw.png "Click for full size")
@@ -110,6 +122,8 @@ If you picked and filled in a command but never pressed Add to stack, Save asks 
 | Control | What it does | Default |
 |---|---|---|
 | **Raw command** | The command to run, exactly as typed, on the character that clicks the button. Useful for local things such as `ogre perf`.<br>*Text that starts with 'oc ', 'irc ' or '!c' is not run locally - it is sent through OgreConsole or IRC.* | empty |
+
+
 
 ## What the window shows
 

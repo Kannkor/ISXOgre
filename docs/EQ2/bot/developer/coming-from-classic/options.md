@@ -4,7 +4,7 @@
 
 # OgreBot option ids
 
-Scripts and MCP buttons change OgreBot's options by id: `oc !c -ChangeOgreBotUIOption <who> <id> <value>`, `OgreBotAPI.Options:Set[<who>,<id>,<value>]`, or read one with `${OgreBotAPI.Options.Value[<id>]}`. Most ids are the same in the new bot (704 of them exist there). The ones below are Classic ids the new bot does not have.
+Scripts and MCP buttons change OgreBot's options by id: `oc !c -ChangeOgreBotUIOption <who> <id> <value>`, `OgreBotAPI.Options:Set[<who>,<id>,<value>]`, or read one with `${OgreBotAPI.Options.Value[<id>]}`. Most ids are the same in the new bot (703 of them exist there). The ones below are Classic ids the new bot does not have.
 
 > **:warning: Setting an id the new bot does not have does nothing**
 >
@@ -21,6 +21,7 @@ These ids did nothing even in Classic (switched off there, or never an option at
 - `checkbox_inquisitor_verdictheroicnamedonly`
 - `checkbox_inquisitor_verdictheroics`
 - `checkbox_other_handlefieldmedic`
+- `checkbox_settings_allow_specials_to_be_targets`
 - `checkbox_settings_do_not_show_revision_history`
 - `checkbox_settings_doho`
 - `checkbox_settings_raidoptionslimited`
