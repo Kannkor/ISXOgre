@@ -1,8 +1,8 @@
-# OgreBotAPI.Quest
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../../index.md).
 </div>
+
+# OgreBotAPI.Quest
 
 ## Members
 
@@ -52,7 +52,7 @@ Clicks Accept on an offered new quest window, never a quest reward window, and d
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `questName` | string | `""` | the quest to share after accepting; blank accepts with no share |
 
 ```text
@@ -69,7 +69,7 @@ Opens and closes the quest journal, then prints which Kunark Ascending prerequis
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Quest:CheckKunarkAscending[${Me.Name}]
@@ -85,7 +85,7 @@ Reads your own steps for a quest and asks other characters to compare theirs; a 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters are asked; all or blank is your group but you |
+| `fw` | for-who |  | [for-who](ForWho.md): which characters are asked; all or blank is your group but you |
 | `questName` | string |  | the quest to compare; a missing one prints a console line |
 | `sender` | character name |  | the character that asks; the -CompareQuest console line fills it. Leave it out in a script: the character running it asks, and any other name makes the call do nothing |
 
@@ -103,7 +103,7 @@ Deletes one quest from your own journal straight away and prints the result. The
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `questName` | string |  | the exact quest name, any case |
 
 ```text
@@ -120,7 +120,7 @@ Shares every active mission in your journal with the group, waiting up to 5 minu
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Quest:ShareAllMissions[all]
@@ -136,7 +136,7 @@ Like :ShareQuest, but the quest must be a mission (its journal category starts w
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `questName` | string |  | the exact mission name, any case |
 
 ```text
@@ -153,7 +153,7 @@ Shares one quest from your journal with the group, after waiting up to 5 minutes
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `questName` | string |  | the exact quest name, any case |
 
 ```text
@@ -170,7 +170,7 @@ Shares one quest once the group has gathered (waiting up to 5 minutes), but only
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `questName` | string |  | the exact quest name, any case |
 | `zoneName` | string |  | the zone the share is for; blank means the zone you are in now |
 
@@ -188,7 +188,7 @@ Prints the hot zone mission rotation for this server to the console: what is cur
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Quest:ShowMissionInfo[${Me.Name}]
@@ -204,7 +204,7 @@ Opens the EverQuest 2 wiki page for a quest in your web browser; a blank name us
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `name` | string | `""` | the quest to look up; blank uses the quest selected in the journal |
 
 ```text
@@ -221,7 +221,7 @@ Opens the quest journal on its Mission Timers tab and sends one oc line per miss
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `...searches` | string |  | one or more words; a mission matches when its name contains any of them, in any case |
 
 ```text

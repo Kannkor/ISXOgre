@@ -1,8 +1,8 @@
-# OgreBotAPI.Actors
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../../index.md).
 </div>
+
+# OgreBotAPI.Actors
 
 ## Members
 
@@ -109,7 +109,7 @@ Applies a verb at once to the nearest actor whose name contains the text, or of 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `actor` | string |  | the actor's name or part of it, any case, or a type word: npc, namednpc, nokillnpc, pc, special, chest, resource, door |
 | `verb` | string |  | the verb as it shows on the actor's right-click menu |
 
@@ -127,7 +127,7 @@ Applies a verb at once to the actor with this id, using the game's apply_verb co
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `actorId` | int64 |  | the actor's id |
 | `verb` | string |  | the verb as it shows on the actor's right-click menu |
 
@@ -145,7 +145,7 @@ Queues a verb on the actor with this id, then waits out the cast it starts: at i
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `actorId` | int64 |  | the actor's id |
 | `verb` | string |  | the verb as it shows on the actor's right-click menu |
 | `waitDs` | int | `40` | the longest wait for the cast to end, in tenths of a second |
@@ -164,7 +164,7 @@ Queues a verb on the nearest actor whose name contains the text, or of that type
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `actor` | string |  | the actor's name or part of it, any case, or a type word: npc, namednpc, nokillnpc, pc, special, chest, resource, door |
 | `verb` | string |  | the verb as it shows on the actor's right-click menu |
 | `waitDs` | int | `40` | the longest wait for the cast to end, in tenths of a second |
@@ -183,7 +183,7 @@ Double-clicks an actor at once: an id as given, or else the nearest interactable
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `nameOrId` | string |  | an actor id, or a name to search for among interactable actors |
 | `...` | bool |  | exact: TRUE matches the whole name (any case) instead of any name containing it; default FALSE |
 
@@ -201,7 +201,7 @@ Queues a double-click on an actor found the same way as Click, then waits out th
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `nameOrId` | string |  | an actor id, or a name to search for among interactable actors |
 | `...` | bool, int |  | exact, then waitDs: exact TRUE matches the whole name instead of any name containing it (default FALSE); waitDs is the longest wait for the cast to end, in tenths of a second (default 40) |
 
@@ -219,7 +219,7 @@ Queues a hail: target the actor, face it, then hail, about 0.3 seconds apart, an
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `nameOrId` | string |  | an actor id, a name (any actor whose name contains it, nearest first), an @ alias or pet:&lt;owner>; blank or 0 uses the nokill NPC fallback |
 
 ```text
@@ -236,7 +236,7 @@ Adds or removes the mob names this script asks NPC cast monitoring to watch, or 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `-watch "&lt;mob>" ...` | string |  | -watch followed by a mob name to watch, matched as a whole name in any case; repeat the pair for more mobs; it ends at the next zone or when NPC Cast Monitoring is unticked, and the tick stays |
 | `-unwatch "&lt;mob>` | string |  | -unwatch followed by a mob name to stop watching (only a watch a script added) |
 | `-clear` | flag |  | drops every watch scripts added |

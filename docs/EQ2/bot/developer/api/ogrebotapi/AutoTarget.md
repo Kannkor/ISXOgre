@@ -1,8 +1,8 @@
-# OgreBotAPI.AutoTarget
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../../index.md).
 </div>
+
+# OgreBotAPI.AutoTarget
 
 ## Members
 
@@ -258,7 +258,7 @@ Adds one entry to the working list (with no name it does nothing, and the same n
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `name` | string |  | What to target: part of an actor name (matches any actor whose name contains it, case not mattering), NPC (any normal NPC), NamedNPC or Named (any named NPC), or a number for an actor ID. |
 | `minHP` | int | `0` | Only pick the actor while its health is at least this percent; 0 = no limit. |
 | `checkCollision` | bool | `FALSE` | TRUE to only pick actors you have a clear line to. |
@@ -282,7 +282,7 @@ Empties the working list and blanks ListName. Saved lists on disk are not touche
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.AutoTarget:Clear[igw:${Me.Name}]
@@ -298,7 +298,7 @@ Deletes a saved list from the current zone's file on disk; a blank name, or one 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `name` | string |  | The saved list to delete, matched whole, case not mattering. |
 
 ```text
@@ -315,7 +315,7 @@ Replaces the working list with a built-in list, reading nothing from disk, and s
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `name` | string |  | The built-in list's name (see PresetName): Named (any named NPC) or AddsThenNamed (normal NPCs first, then the named), matched whole, case not mattering. |
 
 ```text
@@ -330,7 +330,7 @@ Replaces the working list with a saved list for the current zone and sets ListNa
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `name` | string |  | The saved list's name (see SavedName), matched whole, case not mattering. |
 
 ```text
@@ -347,7 +347,7 @@ Releases the pause held under this reason name (case does not matter); a blank r
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `reason` | string |  | The reason name given to Suppress. |
 
 ```text
@@ -364,7 +364,7 @@ Removes every working-list entry whose name is exactly this name, case not matte
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `name` | string |  | The entry name to remove (whole name, case does not matter). |
 
 ```text
@@ -381,7 +381,7 @@ Saves the working list to disk as a named list for the current zone and sets Lis
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `name` | string |  | The name to save the list under, kept as you typed it. |
 
 ```text
@@ -398,7 +398,7 @@ Turns the master auto-target checkbox on or off and prints the change to the Ogr
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `bool` | bool | `TRUE` | TRUE to turn auto-target on, FALSE to turn it off. Blank turns it on; a word that is not yes/no leaves it as it is. |
 
 ```text
@@ -415,7 +415,7 @@ Turns out-of-combat scanning on or off and prints the change to the OgreConsole 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `bool` | bool | `TRUE` | TRUE to let auto-target look for targets out of combat, FALSE to wait for combat or aggro. Blank turns it on; a word that is not yes/no leaves it as it is. |
 
 ```text
@@ -430,7 +430,7 @@ Silently sets the largest height difference an actor may have from you and still
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `n` | int | `5` | The scan height (the actor's height difference must be less than this). 0 or a non-number is treated as 5. |
 
 ```text
@@ -447,7 +447,7 @@ Silently sets how far auto-target looks for targets. The change goes to this pro
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `n` | int | `50` | The scan radius. A non-number stores 0, which auto-target treats as 50. |
 
 ```text
@@ -464,7 +464,7 @@ Turns auto-target-when-hated on or off and prints the change to the OgreConsole 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `bool` | bool | `TRUE` | TRUE to target an NPC attacking the group when you have nothing to fight, FALSE to stop. Blank turns it on; a word that is not yes/no leaves it as it is. |
 
 ```text
@@ -479,7 +479,7 @@ Pauses automatic targeting under a reason name and holds the current target with
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `reason` | string |  | A name for this pause, so it can be released on its own. |
 
 ```text

@@ -1,8 +1,8 @@
-# Developers
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# Developers
 
 This section is for people who write their own scripts for OgreBot: raid modules, instance files, side
 scripts, MCP buttons, and console lines.

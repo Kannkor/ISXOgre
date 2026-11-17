@@ -1,8 +1,8 @@
-# OgreBot - User Guide
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../index.md).
 </div>
+
+# OgreBot - User Guide
 
 This guide explains every window of the new OgreBot: what each one is for, and what every option on it does.
 

@@ -1,8 +1,8 @@
-# ISXOgreEQ2.OgreBot
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../../index.md).
 </div>
+
+# ISXOgreEQ2.OgreBot
 
 ## Members
 
@@ -46,7 +46,7 @@ echo ${ISXOgreEQ2.OgreBot.Dirty}
 
 `${ISXOgreEQ2.OgreBot.IsReady}`
 
-TRUE when OgreBot is up: its main window or mini toolbar is open AND a profile is loaded. This is the check the bot's own features use before they act.
+TRUE when OgreBot is up: its main window or mini toolbar is open AND a profile is loaded - the check the bot's own features use before they act, and what ${OgreBotAPI.Combat.IsReady} reads too.
 
 **Returns:** bool: TRUE when a window is open and a profile is loaded; FALSE otherwise.
 

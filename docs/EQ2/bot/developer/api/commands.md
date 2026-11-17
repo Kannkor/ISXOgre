@@ -1,10 +1,12 @@
-# Commands
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../index.md).
 </div>
 
+# Commands
+
 What a user types: the `ogre` commands (the in-game Commands panel lists them all) and the console commands (`oc !c` / `oc !ci`).
+
+A console command is sent as `oc !c <command> <who> ...` - typed in the console, put on an MCP button or run from a script. It goes to the sessions on this PC, this one included, and the [for-who](ogrebotapi/ForWho.md) in `<who>` picks which of them act: `igw:${Me.Name}` is your whole group, `igwbn:${Me.Name}` your group without you. Left out, or `auto`, it uses the For Who window. `oc !ci` does the same as `oc !c`.
 
 ## Console commands (ISXOgreX)
 

@@ -1,8 +1,8 @@
-# OgreBotAPI.Abilities
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../../index.md).
 </div>
+
+# OgreBotAPI.Abilities
 
 ## Members
 
@@ -207,7 +207,7 @@ Asks whether an ability is ready. Without an actor it checks only that the abili
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `ability` | ability name or id |  | the ability to check |
 | `actor` | actor name or id |  | who you would cast it on; blank = cooldown only |
 
@@ -265,7 +265,7 @@ Opens the Ability Details window, which shows what your export holds for an abil
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `name or id` | ability name or id |  | the ability to select; blank selects nothing |
 
 ```text
@@ -282,7 +282,7 @@ Embargoes an ability: the cast stack skips it for that many seconds while the En
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `id` | ability name or id |  | the ability to embargo |
 | `durationSec` | number |  | embargo length in seconds |
 
@@ -300,7 +300,7 @@ Tells the bot sessions that a caster has put up a cast-while-moving effect: ever
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `caster` | player name |  | who cast the effect (required) |
 | `seconds` | number |  | how long the effect lasts, more than 0 (required) |
 
@@ -318,7 +318,7 @@ Like AnnounceCasted with you as the caster: every session in your group (this on
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `seconds` | number |  | how long the effect lasts, more than 0 (required) |
 
 ```text
@@ -335,7 +335,7 @@ Cancels the spell you are casting, unless it is one of the abilities you name (a
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `except...` | ability name or id |  | abilities never to cancel |
 | `-HOAbility` | flag |  | cancel only an ability that has a heroic opportunity icon |
 | `-HOAbilityUI` | flag |  | cancel a heroic opportunity ability only when your settings disable it |
@@ -360,7 +360,7 @@ Cancels your class's group water-breathing maintained buff. Skipped (noted in th
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Abilities:CancelGroupWaterBreathing[igw:${Me.Name}]
@@ -376,7 +376,7 @@ Breaks invisibility: if you are invisible and Transmute is ready, it casts Trans
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Abilities:CancelInvis[igw:${Me.Name}]
@@ -408,7 +408,7 @@ Cancels each maintained ability you list, on the characters the for-who names. A
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `ability...` | ability name or id |  | maintained abilities to cancel |
 
 ```text
@@ -425,7 +425,7 @@ Runs your Cancel On Cast list as if you had just cast this ability: any row that
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `abilityName` | ability name or id |  | the ability to treat as just cast |
 
 ```text
@@ -440,7 +440,7 @@ Queues a cast of an ability at your current target; it is asynchronous and goes 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `ability` | ability name or id |  | the ability to cast |
 | `calledFrom` | text | `OgreBotAPI` | label shown in the cast debug log |
 
@@ -458,7 +458,7 @@ Casts Bulwark of Order right now: queues it ahead of the rotation, cancels any o
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Abilities:CastBulwark[igw:${Me.Name}]
@@ -474,7 +474,7 @@ Casts your class's group water-breathing ability through :Cast. Skipped (noted i
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Abilities:CastGroupWaterBreathing[igw:${Me.Name}]
@@ -490,7 +490,7 @@ Casts an ability you own that matches a heroic opportunity icon and can be cast 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `iconId` | number |  | the heroic opportunity icon id (required); -2 casts nothing |
 | `calledFrom` | text | `CastHOIcon` | label for the cast log |
 
@@ -508,7 +508,7 @@ Casts an ability after a delay by running :Cast when the time is up, so the read
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `ability` | ability name or id |  | the ability to cast |
 | `delay` | number or duration |  | how long to wait; bare number = seconds |
 | `calledFrom` | text | `OgreBotAPI` | label for the cast log |
@@ -527,7 +527,7 @@ Casts an interrupt at a mob: it picks a non-beneficial interrupt usable on that 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `mobNameOrId` | actor name or id | `""` | the mob to interrupt; blank = current NPC target |
 | `calledFrom` | text | `Cast_Interrupt` | label for the cast log |
 
@@ -545,7 +545,7 @@ Queues a cast of an ability at your current target without checking first that i
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `ability` | ability name or id |  | the ability to cast |
 | `calledFrom` | text | `OgreBotAPI` | label for the cast log |
 
@@ -563,7 +563,7 @@ Queues a cast of an ability at your current target, like :Cast, but checks only 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `ability` | ability name or id |  | the ability to cast |
 | `calledFrom` | text | `CastAbilityNoExport` | label for the cast log |
 
@@ -581,7 +581,7 @@ Targets a mob, waits until it is your target, casts the ability at it and puts y
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `ability` | ability name or id |  | the ability to cast |
 | `mob` | actor name or id |  | the mob to cast on, by name or id; required |
 
@@ -599,7 +599,7 @@ Queues a cast of an ability on a named player without changing your target, afte
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `ability` | ability name or id |  | the ability to cast |
 | `player` | player name or alias | `me` | who to cast it on |
 | `calledFrom` | text | `AbilityExportCastFromUplinkOnPlayer` | label for the cast log |
@@ -618,7 +618,7 @@ Casts an ability on a player after a delay by running :CastOnPlayer when the tim
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `ability` | ability name or id |  | the ability to cast |
 | `player` | player name or alias |  | who to cast it on |
 | `seconds` | number or duration |  | how long to wait; bare number = seconds |
@@ -638,7 +638,7 @@ Queues a cast of an ability on a named player without the checks CastOnPlayer ma
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `ability` | ability name or id |  | the ability to cast |
 | `player` | player name or alias |  | who to cast it on; blank = you |
 | `calledFrom` | text | `OgreBotAPI` | label for the cast log |
@@ -657,7 +657,7 @@ Casts a rescue: an ability that raises your threat position, or, if you have non
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `calledFrom` | text | `CastRescue` | label for the cast log |
 | `...opts` | text |  | -NoForceTargets, -NPCRequired, -TargetID &lt;id> / -ActorID &lt;id>, or extra query terms |
 
@@ -675,7 +675,7 @@ Unloads the ability export. Until you :Load again, Loaded is FALSE and anything 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Abilities:Clear[${Me.Name}]
@@ -689,7 +689,7 @@ Removes every ability embargo. Item embargoes are not touched.
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Abilities:ClearAllEmbargos[igw:${Me.Name}]
@@ -705,7 +705,7 @@ Removes the embargo on one ability. Does nothing when the ability cannot be foun
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `ability` | ability name or id |  | the ability to release |
 
 ```text
@@ -722,7 +722,7 @@ Queues a dispel on a mob that runs as soon as your cast bar is free, and each ca
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `mob` | actor name or id |  | the mob to dispel (required) |
 | `op` | text |  | how to dispel: any (your class dispel, else a dispel item; the default), ability or spell (class dispel only), item (dispel item only) |
 
@@ -738,7 +738,7 @@ Writes the loaded ability list (one usable rank per line) to a file as JSON, rep
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `path` | text |  | file to write the JSON to |
 
 ```text
@@ -753,7 +753,7 @@ Picks an ability by its properties and casts it: the same query as FindCastableI
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `query...` | text |  | query terms (member, comparison, value) and options |
 
 ```text
@@ -770,7 +770,7 @@ Loads a character's ability export and keeps, for each ability line, the highest
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `toon` | text | `me` | character whose export to load; left out = your own name (must be given outside the world) |
 | `level` | number | `myLevel` | highest ability level to keep; left out = your own level (must be given outside the world) |
 
@@ -786,7 +786,7 @@ Cancels every maintained buff from your export that lasts until cancelled (links
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Abilities:Rebuff[igw:${Me.Name}]
@@ -802,7 +802,7 @@ Stops (TRUE) or allows (FALSE) AE casting: it sets the ignore-PBAE, ignore-encou
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `disable` | true/false | `TRUE` | TRUE stops AEs, FALSE allows them |
 | `-verbose` | flag |  | announce the setting changes |
 | `-allowcounters` | flag |  | leave counter abilities and counter buffs alone |
@@ -823,7 +823,7 @@ TRUE asks the bot to abort the cast it has in progress and raises the CancelCurr
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `on` | true/false | `TRUE` | TRUE cancels, FALSE withdraws |
 
 ```text
@@ -840,7 +840,7 @@ Turns the bot's dispel casting on or off through the "no dispels" setting. A val
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `on` | true/false | `TRUE` | TRUE enables dispels, FALSE disables them |
 
 ```text
@@ -857,7 +857,7 @@ Turns the bot's interrupt casting on or off through the "no interrupts" setting;
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `on` | true/false | `TRUE` | TRUE enables interrupts, FALSE disables them |
 
 ```text
@@ -874,7 +874,7 @@ Turns the bot's stun casting on or off through the "no stuns" setting; a value t
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `on` | true/false | `TRUE` | TRUE enables stuns, FALSE disables them |
 
 ```text
@@ -891,7 +891,7 @@ Sets the cast stack up for a dispel fight: TRUE turns the Absorb Magic, Tease an
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `on` | true/false | `TRUE` | TRUE sets up, FALSE resets |
 
 ```text
@@ -908,7 +908,7 @@ Adds an ability to the Ability Tracker watch list in the open profile (an id is 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `ability` | ability name or id |  | the ability to watch |
 
 ```text

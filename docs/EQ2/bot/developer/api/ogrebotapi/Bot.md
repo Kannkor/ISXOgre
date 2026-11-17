@@ -1,8 +1,8 @@
-# OgreBotAPI.Bot
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../../index.md).
 </div>
+
+# OgreBotAPI.Bot
 
 ## Members
 
@@ -49,7 +49,7 @@ Queues a camp out: it stops following, pauses the bot for the camp and camps to 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `loginOnly` | bool | `FALSE` | TRUE stops at the login screen and keeps the session open; FALSE camps out and then closes the session. |
 
 ```text
@@ -66,7 +66,7 @@ Closes OgreBot on the next frame, the same as typing ogre end bot. Closing also 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Bot:End[all]
@@ -82,7 +82,7 @@ Ends a running script on each selected character, matched by its file name with 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `script` | string |  | The script's name or path. Only the file name counts, with .iss removed. |
 
 ```text
@@ -97,7 +97,7 @@ Queues an exit of this game client: a message box warns that the client closes i
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `seconds` | int | `30` | Seconds to wait before the exit. Anything that is not a whole number of at least 1 uses the default. |
 
 ```text
@@ -114,7 +114,7 @@ Starts OgreBot on the next frame, the same as typing ogre: it opens resumed with
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Bot:Load[igw:${Me.Name}]
@@ -128,7 +128,7 @@ Runs an Ogre sub-command (ogre, the name, then each remaining argument quoted) o
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `cmd...` | string |  | The sub-command name, then its arguments. Each argument is passed on as its own quoted argument. |
 
 ```text
@@ -145,7 +145,7 @@ Releases the Alt key, so an Alt held down when the game window lost focus does n
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Bot:OnDeactivate[${Me.Name}]
@@ -161,7 +161,7 @@ Pauses the bot so it stops casting and its other automatic actions until Resume.
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Bot:Pause[igw:${Me.Name}]
@@ -177,7 +177,7 @@ Runs the arguments as one console command line on each selected character, and s
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `cmd...` | string |  | The command and its arguments, joined by single spaces into one line. |
 
 ```text
@@ -194,7 +194,7 @@ Reloads OgreBot on the next frame: it reopens resumed with its main window hidde
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Bot:Reload[igw:${Me.Name}]
@@ -210,7 +210,7 @@ Resumes a paused bot so it acts again. Takes effect at once and also works while
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Bot:Resume[igw:${Me.Name}]
@@ -226,7 +226,7 @@ Runs a script on each selected character, passing each later argument as its own
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `script` | string |  | The script path, relative to the Scripts folder; the .iss ending is optional. A path containing a colon is used as it is. |
 | `args...` | string |  | The script's parameters. Every argument after script is passed on, each as its own quoted parameter. |
 
@@ -242,7 +242,7 @@ Sets up for an encounter on the next pulse: the fight of the named mob given in 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `what` | string | `""` | The named mob whose encounter to set up. Blank picks the nearest or engaged named in this zone. |
 | `restart` | bool | `TRUE` | TRUE re-runs a setup that is already running; FALSE only sets up an encounter that is not running yet. |
 

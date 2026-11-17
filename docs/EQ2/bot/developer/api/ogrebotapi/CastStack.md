@@ -1,8 +1,8 @@
-# OgreBotAPI.CastStack
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../../index.md).
 </div>
+
+# OgreBotAPI.CastStack
 
 ## Members
 
@@ -52,7 +52,7 @@ Removes every allow tag, including ones set by cast stack entries, on this sessi
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.CastStack:ClearAllAllows[igw:${Me.Name}]
@@ -68,7 +68,7 @@ Removes every embargo tag, including ones set by cast stack entries, on this ses
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.CastStack:ClearAllEmbargos[igw:${Me.Name}]
@@ -84,7 +84,7 @@ Removes one allow tag on this session, at once and with or without the console h
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `tag` | string |  | The allow tag to remove, case-insensitive. A blank gets one line - use ClearAllAllows to remove them all. |
 
 ```text
@@ -101,7 +101,7 @@ Removes one embargo tag on this session, at once and with or without the console
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `tag` | string |  | The embargo tag to remove, case-insensitive. A blank gets one line - use ClearAllEmbargos to remove them all. |
 
 ```text
@@ -118,7 +118,7 @@ Empties the shared item effect file on disk at once, for every character on this
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.CastStack:ClearItemCache[${Me.Name}]
@@ -132,7 +132,7 @@ On the next pulse, checks every cast stack entry against the current game state,
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.CastStack:Dump[${Me.Name}]
@@ -146,7 +146,7 @@ From the next pulse, examines the cast stack's item entries that are not in the 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.CastStack:ExamineItems[${Me.Name}]
@@ -160,7 +160,7 @@ Sets an embargo or allow tag for some seconds on this session, at once and with 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `tag` | string |  | The tag name, case-insensitive. A blank gets one line. |
 | `duration` | int |  | How long the tag lasts, in seconds. 0, blank or not a number ends it at once. A new hold never shortens a tag that is already running longer. |
 | `type` | string |  | Allow sets an allow tag. Any other word, blank included, sets an embargo tag. |
@@ -180,7 +180,7 @@ Replaces this session's cast stack with the cast stack from an OgreBot EQ2Save X
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `path` | string |  | Full path of the EQ2Save XML file. A relative path is read from the game's working folder, not from Scripts. |
 | `profile` | string | `""` | The profile inside the file whose cast stack to take. Blank takes the first profile that has a cast stack. |
 
@@ -196,7 +196,7 @@ Replaces this session's cast stack with the entries in a JSON cast stack file, a
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `path` | string |  | Full path of the JSON file, which must hold an "entries" array. A relative path is read from the game's working folder, not from Scripts. An ability entry may give its name alone: names are looked up in this toon's ability export, as a profile load does. |
 
 ```text
@@ -211,7 +211,7 @@ Reloads this session's cast stack from the OgreBot profile already open, includi
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.CastStack:LoadFromProfile[${Me.Name}]
@@ -225,7 +225,7 @@ Re-reads the per-zone range extender file, OgreSave/EQ2/OgreBot/Encounters/Range
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.CastStack:ReloadRangeExtenders[${Me.Name}]
@@ -239,7 +239,7 @@ Enables, disables or flips the cast stack entries that match the name, and print
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `ability` | string |  | The entry: its whole name (case-insensitive), an ability id (finds the entry that holds that ability), or one of IsStun, IsInterrupt, IsDaze, IsFear, IsStifle or Ascension to match every entry of that kind. Blank does nothing. |
 | `TRUE\|FALSE\|toggle` | string |  | TRUE enables (1, yes and on count as TRUE too). toggle, or blank, flips each matching entry. Any other word disables. |
 | `silent` | bool | `FALSE` | TRUE skips the OgreConsole lines. |
@@ -258,7 +258,7 @@ Enables, disables or flips the cast stack entries whose tag matches, and prints 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `tag` | string |  | The entry tag to match, case-insensitive. This is the entry's own tag, not an embargo or allow tag. Blank does nothing. |
 | `TRUE\|FALSE\|toggle` | string |  | TRUE enables (1, yes and on count as TRUE too). toggle, or blank, flips each matching entry. Any other word disables. |
 | `partial` | bool | `FALSE` | TRUE matches every entry whose tag contains the word; FALSE needs the whole tag. |
@@ -278,7 +278,7 @@ Arms one real cast for the next pulse and then stops: the given ability, or with
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `ability` | string | `""` | The ability to cast: a name (short or any rank) or an ability id. It is cast with no target, and skipped with a console line if it is not ready. Blank casts the first eligible cast stack entry instead; a name that cannot be found gets one line and casts nothing. |
 
 ```text
@@ -293,7 +293,7 @@ Runs one evaluation of the cast stack straight away and casts nothing, even whil
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.CastStack:Tick[${Me.Name}]

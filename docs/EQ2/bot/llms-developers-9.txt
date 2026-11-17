@@ -8,6 +8,799 @@ Index of every page and of every file like this one: https://kannkor.github.io/I
 
 ---
 
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Craft.md
+
+# ISXOgreEQ2.Craft
+
+## Members
+
+### `Crafted`
+
+`${ISXOgreEQ2.Craft.Crafted}`
+
+How many crafts the current queue has made: a writ or loop run crafts queue after queue, and this counts the one crafting now. Once nothing is running it reads the count from the last queue that ran, so a finished run does not drop to 0.
+
+**Returns:** int: crafts made so far in the current queue, or in the last queue once idle; 0 before any run.
+
+```text
+echo ${ISXOgreEQ2.Craft.Crafted}
+```
+
+### `CraftTotal`
+
+`${ISXOgreEQ2.Craft.CraftTotal}`
+
+How many crafts the current queue plans to make: a writ or loop run crafts queue after queue, so this is one queue's total, not the whole run's. Once nothing is running it reads the total of the last queue that ran.
+
+**Returns:** int: the planned craft count of the current queue, or of the last queue once idle; 0 before any run.
+
+```text
+echo ${ISXOgreEQ2.Craft.CraftTotal}
+```
+
+### `Details`
+
+`${ISXOgreEQ2.Craft.Details}`
+
+The whole crafting picture as one JSON string: running, paused, flow, stage, status, crafted, craftTotal, recipe, row, rows, lastError, and short (a list of name / need / have / fuel for what the latest resource count came up short on). recipe is "" and row / rows are 0 when no queue row is being crafted.
+
+**Returns:** string: a JSON object with the fields listed above.
+
+```text
+echo ${ISXOgreEQ2.Craft.Details}
+```
+
+### `Flow`
+
+`${ISXOgreEQ2.Craft.Flow}`
+
+Which crafting run is going: idle, queue, writs, autotinkering, lowlevelleveling or quest. It goes back to idle when the run finishes.
+
+**Returns:** string: "idle", "queue", "writs", "autotinkering", "lowlevelleveling" or "quest".
+
+```text
+echo ${ISXOgreEQ2.Craft.Flow}
+```
+
+### `IsReady`
+
+`${ISXOgreEQ2.Craft.IsReady}`
+
+Whether the crafting engine has started up, which happens on its first pulse after the extension loads. It does not mean the recipe book has been read - see ScanActive and QueueUpdated.
+
+**Returns:** bool: TRUE once the crafting engine has started; FALSE before that.
+
+```text
+echo ${ISXOgreEQ2.Craft.IsReady}
+```
+
+### `LastError`
+
+`${ISXOgreEQ2.Craft.LastError}`
+
+The last refusal or failure the crafting engine reported, the same line the panel shows in red. It is cleared only when a run passes its start checks.
+
+**Returns:** string: the last error or refusal text; "" when there has been none since the last good start.
+
+```text
+echo ${ISXOgreEQ2.Craft.LastError}
+```
+
+### `LastScribedRecipeId`
+
+`${ISXOgreEQ2.Craft.LastScribedRecipeId}`
+
+The recipe id of the recipe you scribed most recently, by this engine or by hand, filled in when the recipe book is read again after the game's "put in recipe book" message, so it lags the name briefly. If that name is not found in the re-read book the id keeps the previous recipe's, so it can disagree with LastScribedRecipeName.
+
+**Returns:** int64: the last scribed recipe's id; 0 when none has been seen since the extension loaded.
+
+```text
+echo ${ISXOgreEQ2.Craft.LastScribedRecipeId}
+```
+
+### `LastScribedRecipeName`
+
+`${ISXOgreEQ2.Craft.LastScribedRecipeName}`
+
+The name of the recipe you scribed most recently, by this engine or by hand, taken from the game's "put in recipe book" message.
+
+**Returns:** string: the last scribed recipe's name; "" when none has been seen since the extension loaded.
+
+```text
+echo ${ISXOgreEQ2.Craft.LastScribedRecipeName}
+```
+
+### `Lite`
+
+`${ISXOgreEQ2.Craft.Lite}`
+
+Whether craft lite is on - the reaction engine that casts the crafting reaction arts during a craft, also for crafts you start by hand. Opening the panel or starting any run turns it on.
+
+**Returns:** bool: TRUE when craft lite (crafting reactions) is on; FALSE when it is off.
+
+```text
+echo ${ISXOgreEQ2.Craft.Lite}
+```
+
+### `MissingResources`
+
+`${ISXOgreEQ2.Craft.MissingResources}`
+
+Whether the latest queue's resource count came up short of something it needs. It stays set after the run ends and resets when the next count starts; Details lists what is short.
+
+**Returns:** bool: TRUE when the latest resource count was short; FALSE before any count and when nothing was short.
+
+```text
+echo ${ISXOgreEQ2.Craft.MissingResources}
+```
+
+### `NavigationDetails`
+
+`${ISXOgreEQ2.Craft.NavigationDetails}`
+
+The most recent navigation request as a JSON string, the same payload OgreCraft_NavigationRequired passes: requestID, action, category, key, displayName, customNamedPoint, precision, zone, characterName, targetFound, and targetID / targetName / targetX / targetY / targetZ / targetDistance when the target was found. It keeps the last request after it is answered and is "" before the first one.
+
+**Returns:** string: the last navigation request's JSON; "" when no request has been made since the extension loaded.
+
+```text
+echo ${ISXOgreEQ2.Craft.NavigationDetails}
+```
+
+### `Paused`
+
+`${ISXOgreEQ2.Craft.Paused}`
+
+Whether the crafting pause is on. A pause turned on with no run going still reads TRUE but holds nothing, and the next start clears it.
+
+**Returns:** bool: TRUE when the crafting pause is on; FALSE otherwise.
+
+```text
+echo ${ISXOgreEQ2.Craft.Paused}
+```
+
+### `QueueUpdated`
+
+`${ISXOgreEQ2.Craft.QueueUpdated}`
+
+Whether every recipe add and queue load you asked for has landed in the setup queue. An add or load asked while the recipe book is still being read waits for the read, and this is FALSE until it lands.
+
+**Returns:** bool: TRUE when no add or queue load is waiting for the recipe book; FALSE while one waits.
+
+```text
+echo ${ISXOgreEQ2.Craft.QueueUpdated}
+```
+
+### `Recipes`
+
+`${ISXOgreEQ2.Craft.Recipes}`
+
+How many recipes the engine has indexed from your recipe book. It is 0 until the book has been read; a read starts on its own when the panel opens, craft lite turns on, a run starts or you scribe a recipe, or on Scan.
+
+**Returns:** int: the number of recipes indexed by the last recipe-book read; 0 before the first read.
+
+```text
+echo ${ISXOgreEQ2.Craft.Recipes}
+```
+
+### `RecipesInQueue`
+
+`${ISXOgreEQ2.Craft.RecipesInQueue}`
+
+How many recipe rows are in the setup queue (the queue Start crafts). It counts rows, not the quantity to craft.
+
+**Returns:** int: the number of rows in the setup queue; 0 when it is empty.
+
+```text
+echo ${ISXOgreEQ2.Craft.RecipesInQueue}
+```
+
+### `Running`
+
+`${ISXOgreEQ2.Craft.Running}`
+
+Whether a crafting run is going: a setup-queue run, writs, auto tinkering, low level leveling or quest crafting. A paused run still counts as running.
+
+**Returns:** bool: TRUE while any crafting run is going (paused or not); FALSE when crafting is idle.
+
+```text
+echo ${ISXOgreEQ2.Craft.Running}
+```
+
+### `ScanActive`
+
+`${ISXOgreEQ2.Craft.ScanActive}`
+
+Whether the engine is reading your recipe book right now. Runs wait for the read to finish before they resolve any recipe.
+
+**Returns:** bool: TRUE while the recipe book is being read; FALSE otherwise.
+
+```text
+echo ${ISXOgreEQ2.Craft.ScanActive}
+```
+
+### `Setting`
+
+`${ISXOgreEQ2.Craft.Setting[id]}`
+
+One crafting panel setting, read by its id, as the raw stored text. An id that has never been saved returns "" (the built-in default is not filled in), and a call with no id returns NULL.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `id` | string |  | The panel setting id, such as slider_craft_writcount or checkbox_craft_useevents. |
+
+**Returns:** string: the stored value of that setting; "" when it is not set.
+
+```text
+echo ${ISXOgreEQ2.Craft.Setting[slider_craft_writcount]}
+```
+
+### `Stage`
+
+`${ISXOgreEQ2.Craft.Stage}`
+
+One word for what crafting is doing right now, such as countingResources, findingStation, walking, crafting, findingWrit, turningIn, buyingBooks or disposing. It reads idle when nothing is running.
+
+**Returns:** string: the current stage word; "idle" when no run is going.
+
+```text
+echo ${ISXOgreEQ2.Craft.Stage}
+```
+
+### `Status`
+
+`${ISXOgreEQ2.Craft.Status}`
+
+The crafting engine's status line, the same text the panel shows, such as "idle", "crafting &lt;recipe>", "scanning recipes", "paused" or "waiting for your navigation script (...)". A refused start does not change it - the reason is in LastError.
+
+**Returns:** string: the current status text; "idle" when nothing is running.
+
+```text
+echo ${ISXOgreEQ2.Craft.Status}
+```
+
+### `WaitingForNavigation`
+
+`${ISXOgreEQ2.Craft.WaitingForNavigation}`
+
+Whether the crafting engine is waiting for your script to move the character, after it fired OgreCraft_NavigationRequired. This happens only with the "use events" setting (checkbox_craft_useevents) on; the wait has no time limit and Stop ends it.
+
+**Returns:** bool: TRUE while a navigation request is waiting for CompleteNavigation or DeferNavigation; FALSE otherwise.
+
+```text
+echo ${ISXOgreEQ2.Craft.WaitingForNavigation}
+```
+
+## Methods
+
+### `AddLastScribedRecipe`
+
+`ISXOgreEQ2.Craft:AddLastScribedRecipe[qty]`
+
+Adds the recipe you last scribed this session (by the bot or by hand) to the craft setup queue, waiting for the recipe book to be read first when needed. With nothing scribed yet it prints a warning and adds nothing; it is the same as OgreBotAPI.Craft:AddLastScribedRecipe.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `qty` | int |  | How many to craft; left out, 0 or less it is 1. |
+
+```text
+ISXOgreEQ2.Craft:AddLastScribedRecipe[2]
+```
+
+### `AddRecipe`
+
+`ISXOgreEQ2.Craft:AddRecipe[nameOrID|lastknownrecipe, qty]`
+
+Adds a recipe to the craft setup queue by full name, by part of a name that matches only one recipe (4 letters or more), by recipe ID, or lastknownrecipe for the recipe last scribed this session; a recipe already queued gets the quantity added. A recipe not in your book prints a warning and adds nothing, an add made before the book is read waits for it, and this is OgreBotAPI.Craft:AddRecipe without the for-who.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `nameOrID\|lastknownrecipe` | string |  | The recipe name, its ID (plain digits), or lastknownrecipe. A name may also be passed as several arguments; they are joined with spaces. |
+| `qty` | int |  | How many to craft. Read only when it is the last of two or more arguments and a whole number; left out it is 1, and 0 or less becomes 1. |
+
+```text
+ISXOgreEQ2.Craft:AddRecipe["Tempered Iron",2]
+```
+
+### `AddRecipeListFromFile`
+
+`ISXOgreEQ2.Craft:AddRecipeListFromFile[file]`
+
+Adds the recipes of one of your saved craft queues to the setup queue (the panel's Load Queue replaces it instead), warning about any recipe not in this character's book. The name is a queue in your queues folder, any path is cut off and a .json or .xml ending dropped, a missing name or file prints a warning, and a queue that needs the recipe book waits for the book to be read.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `file` | string |  | The saved queue's name, with or without .json, as saved from the craft panel; a folder in front of it is ignored. |
+
+```text
+ISXOgreEQ2.Craft:AddRecipeListFromFile["MyQueue.json"]
+```
+
+### `BuyAllTinkeringRecipes`
+
+`ISXOgreEQ2.Craft:BuyAllTinkeringRecipes[]`
+
+Buys every tinkering recipe book you do not already know or carry from Fizza Cogsworth, then scribes the ones your skill allows when the Scribe recipes setting is on. It is refused unless you carry at least 3 platinum, are in Steamfont Mountains and are within 10 meters of her, and also while a crafting flow or merchant errand is running (the same as OgreBotAPI.Craft:BuyAllTinkeringRecipes).
+
+```text
+ISXOgreEQ2.Craft:BuyAllTinkeringRecipes
+```
+
+### `Catalog`
+
+`ISXOgreEQ2.Craft:Catalog[]`
+
+Prints how much the craft data files loaded: devices, universal devices, merchant types, recipe book series, conversions and partial conversions. The files are loaded first if they were not yet.
+
+```text
+ISXOgreEQ2.Craft:Catalog
+```
+
+### `Clear`
+
+`ISXOgreEQ2.Craft:Clear[]`
+
+Empties the craft setup queue, whether or not a flow is running, and prints setup queue cleared. Each row it drops fires OgreCraft_RecipeQueueUpdated as a removed row, as a remove does.
+
+```text
+ISXOgreEQ2.Craft:Clear
+```
+
+### `CompleteNavigation`
+
+`ISXOgreEQ2.Craft:CompleteNavigation[]`
+
+Answers craft's OgreCraft_NavigationRequired event (sent only when the craft setting to use events for movement is on) to say your script has moved the character; craft then takes the nearest station or NPC of the same name within 100 m and checks the distance again. If no request is waiting it prints a warning, and it is the same as OgreBotAPI.Craft:CompleteNavigation.
+
+```text
+ISXOgreEQ2.Craft:CompleteNavigation
+```
+
+### `DeferNavigation`
+
+`ISXOgreEQ2.Craft:DeferNavigation[]`
+
+Answers craft's OgreCraft_NavigationRequired event to say your script will not move the character, so craft walks there with its own movement. If no request is waiting it prints a warning, and it is the same as OgreBotAPI.Craft:DeferNavigation.
+
+```text
+ISXOgreEQ2.Craft:DeferNavigation
+```
+
+### `End`
+
+`ISXOgreEQ2.Craft:End[]`
+
+Closes the craft window and ends all of crafting: the running flow, craft's own movement, a merchant errand, a summoned station, and craft lite. It is the same as ogre end craft and the window's X; use Stop to stop a run and keep the window.
+
+```text
+ISXOgreEQ2.Craft:End
+```
+
+### `Help`
+
+`ISXOgreEQ2.Craft:Help[]`
+
+Prints the ogre craft console words and their arguments to the console. It changes nothing.
+
+```text
+ISXOgreEQ2.Craft:Help
+```
+
+### `Lite`
+
+`ISXOgreEQ2.Craft:Lite`
+
+Turns craft lite on, so the crafting reactions are cast for you during crafting rounds, and prints a console line when the state changes; turned on in the world with the recipe book not yet read, it also starts reading the book unless the "Do NOT load recipes on startup" setting is ticked. Opening the panel and starting any crafting flow turn it on as well.
+
+```text
+ISXOgreEQ2.Craft:Lite
+```
+
+### `LiteOff`
+
+`ISXOgreEQ2.Craft:LiteOff`
+
+Turns craft lite off, so no crafting reactions are cast, drops any reaction waiting to be cast, and prints a console line when the state changes. Starting any crafting flow turns it back on.
+
+```text
+ISXOgreEQ2.Craft:LiteOff
+```
+
+### `Minimize`
+
+`ISXOgreEQ2.Craft:Minimize[]`
+
+Rolls the craft window up to its header while crafting carries on; Open brings it back. With the window not open it does nothing.
+
+```text
+ISXOgreEQ2.Craft:Minimize
+```
+
+### `Open`
+
+`ISXOgreEQ2.Craft:Open`
+
+Opens the crafting panel, or brings back a minimized one, and turns craft lite on - the same as a bare `ogre craft`. A panel that cannot open prints why and leaves craft as it was, and with the "Do NOT load recipes on startup" setting ticked an unread recipe book stays unread.
+
+```text
+ISXOgreEQ2.Craft:Open
+```
+
+### `Pause`
+
+`ISXOgreEQ2.Craft:Pause[on|off]`
+
+Pauses or resumes crafting: off resumes, and on, any other word or no argument pauses. A craft already begun finishes and nothing new starts while paused, and a pause made with no flow running is dropped when the next flow starts.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `on\|off` | string | `on` | off resumes; on, any other word, or nothing pauses. |
+
+```text
+ISXOgreEQ2.Craft:Pause[on]
+```
+
+### `Queue`
+
+`ISXOgreEQ2.Craft:Queue[]`
+
+Prints each row of the craft setup queue to the console as quantity, recipe name and recipe ID, or setup queue is empty. It changes nothing.
+
+```text
+ISXOgreEQ2.Craft:Queue
+```
+
+### `Reload`
+
+`ISXOgreEQ2.Craft:Reload`
+
+Writes any setting changed in the last second, then reloads the craft settings from disk and the craft data files (devices, merchants, recipe books and reaction arts), printing what the data files loaded.
+
+```text
+ISXOgreEQ2.Craft:Reload
+```
+
+### `Save`
+
+`ISXOgreEQ2.Craft:Save`
+
+Writes changed craft settings to disk now instead of waiting for the automatic save, and prints settings saved or settings NOT saved (saved also when nothing had changed and nothing was written). It refuses to write over a settings file that could not be read.
+
+```text
+ISXOgreEQ2.Craft:Save
+```
+
+### `Scan`
+
+`ISXOgreEQ2.Craft:Scan`
+
+Re-reads your recipe book from the start, opening the book so the client lists every recipe, and restarts a scan already in progress. Out of the world it does nothing and prints nothing.
+
+```text
+ISXOgreEQ2.Craft:Scan
+```
+
+### `ScribeRecipe`
+
+`ISXOgreEQ2.Craft:ScribeRecipe[name|all=all]`
+
+Scribes recipe scrolls from your bags one at a time, then opens and closes the tradeskill book so the new recipes are listed. A name scribes only scrolls whose full item name matches it in any case (a name with a comma arrives whole), nothing matching prints a line, and a call while scribing adds the new scrolls to the run (the same as OgreBotAPI.Craft:ScribeRecipe).
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `name\|all` | string | `all` | The scroll's full item name in any case, or all for every scribeable scroll in your bags. Left empty it scribes all. |
+
+```text
+ISXOgreEQ2.Craft:ScribeRecipe[all]
+```
+
+### `Set`
+
+`ISXOgreEQ2.Craft:Set[key,value]`
+
+Changes one craft setting by its key and prints the new value; it is saved by itself about a second later. Both arguments are required, and a key that is not a craft setting (any case is accepted) prints a warning and saves nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `key` | string |  | The setting's key, the panel control's id such as checkbox_craft_scriberecipes. |
+| `value` | string |  | The new value, stored as given (TRUE or FALSE for a checkbox). |
+
+```text
+ISXOgreEQ2.Craft:Set[checkbox_craft_scriberecipes,TRUE]
+```
+
+### `Start`
+
+`ISXOgreEQ2.Craft:Start`
+
+Starts crafting the setup queue, the same as `ogre craft start` and OgreBotAPI.Craft:Start (without the for-who). It is refused with a console line and LastError when you are not in the world, a run is already going, or the setup queue is empty, and a refused start changes nothing.
+
+```text
+ISXOgreEQ2.Craft:Start
+```
+
+### `StartLLL`
+
+`ISXOgreEQ2.Craft:StartLLL`
+
+Starts low level leveling, a loop that crafts low-level recipes round after round and stops when your tradeskill level is 9, or 19 or higher - the same as `ogre craft lll` and OgreBotAPI.Craft:StartLLL. It is refused when you are not in the world or a run is already going.
+
+```text
+ISXOgreEQ2.Craft:StartLLL
+```
+
+### `StartQuest`
+
+`ISXOgreEQ2.Craft:StartQuest[]`
+
+Crafts the recipe steps of the quest selected in your journal, one of each per pass, until no craftable step is left; it keeps to that quest even if you select another one mid-run. It is refused when no quest is selected, a crafting flow is already running, or you are not in the world, and is the same as OgreBotAPI.Craft:StartQuest.
+
+```text
+ISXOgreEQ2.Craft:StartQuest
+```
+
+### `StartTinker`
+
+`ISXOgreEQ2.Craft:StartTinker`
+
+Starts auto tinkering, a loop that crafts tinkering recipes round after round and ends when you have no tinkering skill or it is at its maximum - the same as `ogre craft tinker` and OgreBotAPI.Craft:StartTinker. It is refused when you are not in the world or a run is already going.
+
+```text
+ISXOgreEQ2.Craft:StartTinker
+```
+
+### `StartWrits`
+
+`ISXOgreEQ2.Craft:StartWrits`
+
+Starts a writs (rush order) run for as many writs as the writ count setting (default 10), the same as `ogre craft writs` and OgreBotAPI.Craft:StartWrits. It is refused below tradeskill level 20, when you are not in the world, or when a run is already going.
+
+```text
+ISXOgreEQ2.Craft:StartWrits
+```
+
+### `Status`
+
+`ISXOgreEQ2.Craft:Status[]`
+
+Prints the crafting state to the console: craft lite on or off, the flow, the status text, crafted of total, the number of recipes read from your book, and the last error when there is one. It changes nothing.
+
+```text
+ISXOgreEQ2.Craft:Status
+```
+
+### `Stop`
+
+`ISXOgreEQ2.Craft:Stop`
+
+Stops the running crafting run and drops a pause, printing "craft: stopping (Craft:Stop)." to the console, while the panel stays open (End closes it). With no run going it drops a pause and prints that nothing is running, the same as `ogre craft stop`.
+
+```text
+ISXOgreEQ2.Craft:Stop
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/CraftGm.md
+
+# ISXOgreEQ2.CraftGm
+
+## Methods
+
+### `Close`
+
+`ISXOgreEQ2.CraftGm:Close`
+
+The same as :End: closing this window never leaves a run going. It takes no arguments.
+
+```text
+ISXOgreEQ2.CraftGm:Close
+```
+
+### `End`
+
+`ISXOgreEQ2.CraftGm:End`
+
+Stops a run and closes the window, the same as `ogre end craftgm` and the window's X. It takes no arguments.
+
+```text
+ISXOgreEQ2.CraftGm:End
+```
+
+### `Open`
+
+`ISXOgreEQ2.CraftGm:Open[words]`
+
+Opens the Craft Grandmasters window and does nothing else, the same as bare `ogre craftgm`. A word it cannot read prints why and the usage, and nothing changes.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `words` | string |  | A level range such as 131-135 or all, to seed the boxes, and depot or nodepot for the Scroll Depot box, one argument each. Optional. |
+
+```text
+ISXOgreEQ2.CraftGm:Open
+```
+
+### `Queue`
+
+`ISXOgreEQ2.CraftGm:Queue[words]`
+
+Opens the window, seeds it the same way, scans, then replaces the Ogre Craft queue with the Grandmaster recipes and stops - nothing is crafted, the Scroll Depot is never used, and the Craft window opens on the queue.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `words` | string |  | A level range, one argument. Optional. depot is refused: Queue never pulls from the Scroll Depot. |
+
+```text
+ISXOgreEQ2.CraftGm:Queue[131-135]
+```
+
+### `Scan`
+
+`ISXOgreEQ2.CraftGm:Scan[words]`
+
+Opens the window, seeds it the same way, and scans. It queues nothing and crafts nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `words` | string |  | A level range and depot or nodepot, one argument each. Optional. |
+
+```text
+ISXOgreEQ2.CraftGm:Scan[131-135,depot]
+```
+
+### `Start`
+
+`ISXOgreEQ2.CraftGm:Start[words]`
+
+Opens the window, seeds it the same way, then scans, queues and crafts.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `words` | string |  | A level range and depot or nodepot, one argument each. Optional. |
+
+```text
+ISXOgreEQ2.CraftGm:Start[all,nodepot]
+```
+
+### `Status`
+
+`ISXOgreEQ2.CraftGm:Status`
+
+Prints the state, filter, queue and Scroll Depot counters to the console. It takes no arguments.
+
+```text
+ISXOgreEQ2.CraftGm:Status
+```
+
+### `Stop`
+
+`ISXOgreEQ2.CraftGm:Stop`
+
+Stops a run and leaves the window as it is, so you can see what happened. It takes no arguments.
+
+```text
+ISXOgreEQ2.CraftGm:Stop
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/CraftingMats.md
+
+# ISXOgreEQ2.CraftingMats
+
+## Members
+
+### `Keys`
+
+`${ISXOgreEQ2.CraftingMats.Keys}`
+
+The keys of the loaded lists, comma separated - each key is also the flag that picks that list in Get and Plan (the shipped ones are cd, ka, mm, pop and vov). Re-reads the list files first if any changed on disk.
+
+**Returns:** string: the loaded list keys joined with ", "; "" when none loaded
+
+```text
+echo ${ISXOgreEQ2.CraftingMats.Keys}
+```
+
+### `Lists`
+
+`${ISXOgreEQ2.CraftingMats.Lists}`
+
+How many crafting-mats lists are loaded: the shipped ones plus your own from OgreSave/EQ2/CraftingMats/custom. Reading it first re-reads the list files if any changed on disk; any load warnings are in Warnings, and Get, Plan and Reload print them.
+
+**Returns:** int: number of loaded lists; 0 when no list files were found
+
+```text
+echo ${ISXOgreEQ2.CraftingMats.Lists}
+```
+
+### `Warnings`
+
+`${ISXOgreEQ2.CraftingMats.Warnings}`
+
+The warnings the last load of the list files produced, such as an unreadable file; Get, Plan and Reload also print them each time they run. Re-reads the list files first if any changed on disk.
+
+**Returns:** string: the warnings joined with " \| "; "" when the load was clean
+
+```text
+echo ${ISXOgreEQ2.CraftingMats.Warnings}
+```
+
+## Methods
+
+### `End`
+
+`ISXOgreEQ2.CraftingMats:End`
+
+Stops a depot withdraw that a crafting-mats run started (only that one) and closes the editor window; unsaved edits are kept for the next Open. This is what `ogre end craftingmats` and the window's X do.
+
+```text
+ISXOgreEQ2.CraftingMats:End
+```
+
+### `Get`
+
+`ISXOgreEQ2.CraftingMats:Get[flags...]`
+
+Works out the mats for the chosen lists and categories, prints any list-file warnings and the plan, then starts pulling them from the Harvesting Supply Depot and buying any fuel at the Guild Fuel Merchant on the pulse after the call returns (the same as `ogre craftingmats -<flags>`). No flags pulls the Visions of Vetrovia signature line; nothing is pulled when not in world, when another depot errand is running, or when only unknown words were given, and the run stops if no depot is within 11 of you.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `flags...` | string |  | Any mix, dash optional, any case: a list key (-vov, -cd, -mm, -pop, -ka or your own list's key), -sig / -s, -daily / -d, -weekly / -w, -plan to print only, help. A list with no category uses its own signature line (daily + weekly for Kunark's Ascending), a category with no list uses Visions of Vetrovia, and unknown words are ignored with one warning. |
+
+```text
+ISXOgreEQ2.CraftingMats:Get[-vov,-daily,-weekly]
+```
+
+### `Help`
+
+`ISXOgreEQ2.CraftingMats:Help`
+
+Prints the `ogre craftingmats` usage to the console: the list and category flags, the defaults, the script calls and where to put your own lists so updates never overwrite them.
+
+```text
+ISXOgreEQ2.CraftingMats:Help
+```
+
+### `Open`
+
+`ISXOgreEQ2.CraftingMats:Open`
+
+Opens the Crafting Mats list editor window, where you change a list and save it to your own custom file (the same as bare `ogre craftingmats`). Calling it while the window is open changes nothing, and without the Ogre UI desktop it prints a warning instead.
+
+```text
+ISXOgreEQ2.CraftingMats:Open
+```
+
+### `Plan`
+
+`ISXOgreEQ2.CraftingMats:Plan[flags...]`
+
+Prints any list-file warnings and the shopping list Get would use - the mats to pull from the depot and the fuel to buy - and touches neither the depot nor the merchant. Takes the same flags as Get; no flags plans the Visions of Vetrovia signature line.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `flags...` | string |  | Any mix, dash optional, any case: a list key (-vov, -cd, -mm, -pop, -ka or your own list's key), -sig / -s, -daily / -d, -weekly / -w, -plan to print only, help. A list with no category uses its own signature line (daily + weekly for Kunark's Ascending), a category with no list uses Visions of Vetrovia, and unknown words are ignored with one warning. |
+
+```text
+ISXOgreEQ2.CraftingMats:Plan[-ka]
+```
+
+### `Reload`
+
+`ISXOgreEQ2.CraftingMats:Reload`
+
+Re-reads every list file from disk now, prints any warnings the load produced, then "craftingmats: reloaded -" with the list count and keys. Rarely needed: the lists are re-read by themselves whenever a list file changes.
+
+```text
+ISXOgreEQ2.CraftingMats:Reload
+```
+
+
+---
+
 Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/DepotTransfer.md
 
 # ISXOgreEQ2.DepotTransfer
@@ -2149,815 +2942,4 @@ Prints the auto-loot driver to the console: its gates, interval, last scan, what
 
 ```text
 ISXOgreEQ2.LootScan:Status
-```
-
-
----
-
-Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/MCP.md
-
-# ISXOgreEQ2.MCP
-
-## Members
-
-### `ForWho`
-
-`${ISXOgreEQ2.MCP.ForWho}`
-
-The for-who text MCP buttons and bound keys use on this session, from the For Who picker or MCP:SetForWho. A button with its own for-who still uses its own.
-
-**Returns:** string: the for-who text in force on this session; all when nothing has been picked (everyone).
-
-```text
-echo ${ISXOgreEQ2.MCP.ForWho}
-```
-
-### `IrcConnected`
-
-`${ISXOgreEQ2.MCP.IrcConnected}`
-
-Whether this session last heard that the IRC link is up. It starts FALSE on a new session and stays FALSE until the IRC hub reports in; while FALSE, MCP buttons that send over IRC go through OgreConsole instead.
-
-**Returns:** bool: TRUE when the IRC hub last reported the link connected; FALSE when it reported it down or has not reported yet.
-
-```text
-echo ${ISXOgreEQ2.MCP.IrcConnected}
-```
-
-## Methods
-
-### `AddBind`
-
-`ISXOgreEQ2.MCP:AddBind[key,buttonId,name,event]`
-
-Links a keyboard key or mouse button (an InnerSpace key name such as G600-G9) to an MCP button, so pressing it runs MCP:Fire on that button. The bind is saved to Scripts/OgreSave/EQ2/OgreMCPBinds.json, armed at once, and every EQ2 session on this PC picks it up; a bind with the same name is replaced, and a button id that has no command yet only prints a note.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `key` | string |  | The InnerSpace key name to bind, such as G600-G9 or F13. |
-| `buttonId` | string |  | The MCP button to run, as MCP:Buttons lists it. |
-| `name` | string | `MCP_<key>_<buttonId> with every other character turned into _` | A name for the bind, used by MCP:RemoveBind. |
-| `event` | string | `press` | release fires when the key is let go; anything else fires on press. |
-
-```text
-ISXOgreEQ2.MCP:AddBind[G600-G9,static:0_0,G9Heal,press]
-```
-
-### `Buttons`
-
-`ISXOgreEQ2.MCP:Buttons`
-
-Prints every configured MCP button to the console with its id, label, page and command, so you can find the id to give MCP:Fire or MCP:AddBind. With no saved layout it prints a line saying there are no buttons yet.
-
-```text
-ISXOgreEQ2.MCP:Buttons
-```
-
-### `Close`
-
-`ISXOgreEQ2.MCP:Close`
-
-Closes the Master Control Panel together with its For Who, Build command and Assign keys windows. It also cancels a key test that is still waiting for a press.
-
-```text
-ISXOgreEQ2.MCP:Close
-```
-
-### `Fire`
-
-`ISXOgreEQ2.MCP:Fire[buttonId]`
-
-Runs an MCP button by its id, exactly as clicking it would: the button's command is read from the saved layout at that moment and sent with the button's own for-who, or this session's For Who when the button has none. A missing id, no saved layout, or a button with no command prints one console line and sends nothing.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `buttonId` | string |  | The button's id as MCP:Buttons lists it: btn:&lt;id> (follows the button when it moves), static:&lt;row>_&lt;col> or page:&lt;page>:&lt;row>_&lt;col>. |
-
-```text
-ISXOgreEQ2.MCP:Fire[static:0_0]
-```
-
-### `FixHoistOrder`
-
-`ISXOgreEQ2.MCP:FixHoistOrder`
-
-Repairs buttons that an older MCP:Migrate wrote with some arguments in the wrong order, touching only the affected buttons and writing OgreMCP.json.bak first. It runs once per file (a second call prints that it is already done), prints how many buttons were fixed or need checking by hand, and has every EQ2 session on this PC reload when anything changed.
-
-```text
-ISXOgreEQ2.MCP:FixHoistOrder
-```
-
-### `ListBinds`
-
-`ISXOgreEQ2.MCP:ListBinds`
-
-Prints every saved key bind to the console: its name, key, press or release, the button it runs, and whether it is disabled.
-
-```text
-ISXOgreEQ2.MCP:ListBinds
-```
-
-### `Migrate`
-
-`ISXOgreEQ2.MCP:Migrate[overwrite]`
-
-Converts the old OgreBot MCP buttons (Scripts/EQ2OgreBot/MCP/MCPCustomSettings.xml) into the new panel's Scripts/OgreSave/EQ2/OgreMCP.json and prints a summary; button types with no command equivalent come across as label only. It refuses to replace an existing OgreMCP.json unless you pass overwrite, and on success every EQ2 session on this PC reloads the panel.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `overwrite` | string | `off - an existing file is kept` | The word overwrite (or 1, TRUE, yes, on) replaces an existing OgreMCP.json, discarding its current layout. |
-
-```text
-ISXOgreEQ2.MCP:Migrate
-```
-
-### `Open`
-
-`ISXOgreEQ2.MCP:Open`
-
-Opens the Master Control Panel (MCP), the window of buttons that send commands to your characters, with its saved layout; the same as `ogre mcp`, and alt+backtick toggles it. Calling it while the panel is already open does nothing; if the in-game UI host is not running or a panel file cannot be read, nothing opens and one console line says which, and a missing command catalog opens the builder empty with a line.
-
-```text
-ISXOgreEQ2.MCP:Open
-```
-
-### `Reload`
-
-`ISXOgreEQ2.MCP:Reload`
-
-Re-reads Scripts/OgreSave/EQ2/OgreMCP.json and updates an open panel to match, which is how a change saved on one session shows up on the others. It is skipped when the file is exactly what this session just saved, or when the file is not valid JSON.
-
-```text
-ISXOgreEQ2.MCP:Reload
-```
-
-### `ReloadBinds`
-
-`ISXOgreEQ2.MCP:ReloadBinds`
-
-Re-reads Scripts/OgreSave/EQ2/OgreMCPBinds.json, removes this session's live key binds and arms the saved ones again. Adding or removing a bind on any session runs this on every EQ2 session on the PC.
-
-```text
-ISXOgreEQ2.MCP:ReloadBinds
-```
-
-### `RemoveBind`
-
-`ISXOgreEQ2.MCP:RemoveBind[name]`
-
-Removes a saved key bind by name, disarms it and tells every EQ2 session on this PC to drop it. An unknown name prints a console line and changes nothing.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `name` | string |  | The bind's name as MCP:ListBinds shows it. |
-
-```text
-ISXOgreEQ2.MCP:RemoveBind[G9Heal]
-```
-
-### `Send`
-
-`ISXOgreEQ2.MCP:Send[message,-tab,tab,-rg,group,-cfw,who]`
-
-With arguments it sends message exactly as ISXOgreX.Console:Send does (a leading !c or !ci makes it a command, anything else is a chat line). With no arguments it sends the button just clicked on this session, once, through the same route a click uses, and otherwise the console input box line.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `message` | string | `the button just clicked, or the input box line` | The literal line to send; a leading !c or !ci makes it a command. Leave out every argument for the button just clicked, or the console input box line. |
-| `-tab` | switch | `(none)` | Also show the line in the console tab named by the next argument; may be given more than once. |
-| `tab` | string | `(none)` | The console tab name that follows -tab. |
-| `-rg` | switch | `(none)` | Send to the relay group named by the next argument instead of the bot's own relay group. |
-| `group` | string | `the bot's relay group` | The relay group name that follows -rg. |
-| `-cfw` | switch | `(none)` | Give the command a for-who, used by its commands whose own for-who is left as auto. |
-| `who` | for-who | `everyone` | for-who: which characters this runs on - the value that follows -cfw. |
-
-```text
-ISXOgreEQ2.MCP:Send["!c -pause","-cfw","igw:${Me.Name}"]
-```
-
-### `SetForWho`
-
-`ISXOgreEQ2.MCP:SetForWho[value]`
-
-Sets the For Who that MCP buttons and bound keys use on this session only, held in memory (not saved, not shared, back to everyone after a restart). With a value it sets that as a custom For Who and shows it in the picker (spaces are removed; all or an empty value clears it back to everyone); with no value it takes the choice the For Who picker just made.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `value` | string | `(none) - the picker's choice` | The for-who text to use, such as igw:&lt;name> or several names joined with \|. Leave it out to take the For Who picker's current choice. |
-
-```text
-ISXOgreEQ2.MCP:SetForWho[igw:${Me.Name}]
-```
-
-### `Toggle`
-
-`ISXOgreEQ2.MCP:Toggle`
-
-Opens the Master Control Panel when it is closed and closes it when it is open. This is what alt+backtick runs.
-
-```text
-ISXOgreEQ2.MCP:Toggle
-```
-
-
----
-
-Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/MerchantCraft.md
-
-# ISXOgreEQ2.MerchantCraft
-
-## Methods
-
-### `Help`
-
-`ISXOgreEQ2.MerchantCraft:Help`
-
-Prints the `ogre mc` usage lines to the console and does nothing else. It is what `ogre mc help` runs.
-
-```text
-ISXOgreEQ2.MerchantCraft:Help
-```
-
-### `List`
-
-`ISXOgreEQ2.MerchantCraft:List`
-
-Reads the recipes your TARGETED merchant sells and prints them numbered, for use with Start["#n"]. It is refused with a console warning when a run is already going, you are not in the world, the target is not a merchant within 9 m, or you lack the Summon Crafting Stations ability.
-
-```text
-ISXOgreEQ2.MerchantCraft:List
-```
-
-### `Start`
-
-`ISXOgreEQ2.MerchantCraft:Start[words...]`
-
-The engine behind `ogre mc <recipe> [count]`: for each round it buys the recipe from your targeted merchant (only if you do not know it), scribes it, summons the crafting station it needs, empties the craft engine's setup queue and crafts it 3 times. It has the same refusals as List and also refuses with no recipe or while a craft run is going; on a recipe not yet cached it MAKES A SERVER CALL (`.ToRecipeInfo`, to learn the crafting device), and only when the craft panel's "Allow recipe-info server call" option is on, which it is by default.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `words...` | string |  | a partial recipe name (one or more words, first match wins) or "#n" for row n of List's numbering, then an optional trailing whole number = rounds (1 to 999, default 1; each round is 3 crafts) |
-
-```text
-ISXOgreEQ2.MerchantCraft:Start[ferrite,bracelet,4]
-```
-
-### `Status`
-
-`ISXOgreEQ2.MerchantCraft:Status`
-
-Prints the merchant-craft state (running or idle, the current recipe and round, how many recipes the last scan found) and then the usage lines to the console. It is what bare `ogre mc` and `ogre mc status` run.
-
-```text
-ISXOgreEQ2.MerchantCraft:Status
-```
-
-### `Stop`
-
-`ISXOgreEQ2.MerchantCraft:Stop`
-
-Abandons the merchant-craft run and prints "mc: stopped.", or "mc: nothing is running." when idle. It does not stop a craft queue the run already started, and a summoned station stays.
-
-```text
-ISXOgreEQ2.MerchantCraft:Stop
-```
-
-
----
-
-Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/MerchantOps.md
-
-# ISXOgreEQ2.MerchantOps
-
-## Members
-
-### `Running`
-
-`${ISXOgreEQ2.MerchantOps.Running}`
-
-TRUE while a buyfuel or buycrate run is in progress. Only one runs at a time; starting another is refused with a busy warning.
-
-**Returns:** bool: TRUE while a fuel or crate purchase run is going; FALSE when idle.
-
-```text
-echo ${ISXOgreEQ2.MerchantOps.Running}
-```
-
-### `Status`
-
-`${ISXOgreEQ2.MerchantOps.Status}`
-
-One line naming the running merchant run and its progress, or "idle". It is the same text `${ISXOgreEQ2.MerchantOps}` returns.
-
-**Returns:** string: "idle", "buyfuel '&lt;fuel>' (round n)" or "buycrate (done/total)".
-
-```text
-echo ${ISXOgreEQ2.MerchantOps.Status}
-```
-
-## Methods
-
-### `BuyCrate`
-
-`ISXOgreEQ2.MerchantOps:BuyCrate[flags...]`
-
-The engine behind `ogre buycrate`: targets and opens this zone's crate merchant (who must be nearby), buys one of each chosen heroic and raid crate, accepts the purchase prompt and closes the merchant. Only exp17_dun_fordel_midst and exp18_rgn_svarni_expanse have one (Svarni sells no heroic crate), and anywhere else, or when nothing matches the flags, the call is refused with a warning.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `flags...` | string | `-all` | -r/-raid for the raid crate, -h/-heroic for the heroic crate, -all for both; read left to right, so `-raid -all` buys both and `-all -raid` only the raid crate; unknown words are ignored |
-
-```text
-ISXOgreEQ2.MerchantOps:BuyCrate[-h]
-```
-
-### `BuyFuel`
-
-`ISXOgreEQ2.MerchantOps:BuyFuel[amount]`
-
-The engine behind `ogre buyfuel`: at the guild hall Fuel Depot (within 11 m) it counts how much of the fuel you have EXAMINED the depot holds, buys the shortfall from the merchant titled Guild Fuel Merchant and deposits it, repeating for at most 10 rounds. It is refused when nothing is examined, a run is already going or you are not in the world, and stops with a console warning when the depot is missing, too far or does not open.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `amount` | int | `90000` | how much of the fuel the depot should end up holding; missing, not a whole number, or 0 or less uses 90000 |
-
-```text
-ISXOgreEQ2.MerchantOps:BuyFuel[20000]
-```
-
-### `Stop`
-
-`ISXOgreEQ2.MerchantOps:Stop`
-
-Stops a running buyfuel or buycrate and prints "merchant: stopped."; does nothing when idle. Open depot or merchant windows are left as they are.
-
-```text
-ISXOgreEQ2.MerchantOps:Stop
-```
-
-
----
-
-Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Migrate.md
-
-# ISXOgreEQ2.Migrate
-
-## Methods
-
-### `Cancel`
-
-`ISXOgreEQ2.Migrate:Cancel[task]`
-
-Backs out of a pending overwrite confirmation for one task, putting its row back to its normal state. It does nothing when that task is not waiting for a confirmation or the name is unknown.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `task` | string |  | the task whose confirmation to cancel: accounts, imsettings, imlists, profiles, irc, mcp or isprofile |
-
-```text
-ISXOgreEQ2.Migrate:Cancel[profiles]
-```
-
-### `Close`
-
-`ISXOgreEQ2.Migrate:Close`
-
-Closes the Migration Assistant window and cancels its pending auto-close. Nothing that has already run is undone.
-
-```text
-ISXOgreEQ2.Migrate:Close
-```
-
-### `Open`
-
-`ISXOgreEQ2.Migrate:Open`
-
-Opens the Migration Assistant window (the same as `ogre migrate`), listing each migration task with its status and a re-run button. Before it opens it silently runs any task whose old file exists and whose new file does not, and when the window is already up it does nothing.
-
-```text
-ISXOgreEQ2.Migrate:Open
-```
-
-### `RequestRerun`
-
-`ISXOgreEQ2.Migrate:RequestRerun[task]`
-
-Puts one task's row in the Migration Assistant into its overwrite confirmation state, the same as clicking its re-run button; it reads and writes no files. It only does so when that task's old source data exists, otherwise nothing changes.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `task` | string |  | the task to ask about: accounts, imsettings, imlists, profiles, irc, mcp or isprofile |
-
-```text
-ISXOgreEQ2.Migrate:RequestRerun[accounts]
-```
-
-### `Run`
-
-`ISXOgreEQ2.Migrate:Run[task,overwrite]`
-
-Runs one migration task now, copying old OgreBot data into the new store (your old XML files are kept); the isprofile task instead asks InnerSpace to add its game profile and ignores overwrite. Without overwrite a task whose new file already exists is not rewritten and its row asks you to confirm instead, an unknown task name does nothing, and the result shows in the Migration Assistant window and the log.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `task` | string |  | the task to run: accounts, imsettings, imlists, profiles, irc, mcp or isprofile |
-| `overwrite` | string |  | the word overwrite (any case) to replace data that already exists; anything else, or leaving it out, keeps existing data |
-
-```text
-ISXOgreEQ2.Migrate:Run[irc]
-```
-
-
----
-
-Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Nav.md
-
-# ISXOgreEQ2.Nav
-
-## Members
-
-### `NavActive`
-
-`${ISXOgreEQ2.Nav.NavActive}`
-
-TRUE while a nav trip is in progress - planning its route, waiting for this zone's navmesh, or moving. A paused trip still counts as in progress.
-
-**Returns:** bool: TRUE while a trip is planning, waiting for its navmesh or moving; FALSE when idle or once the last trip has ended (Arrived, Stopped, Failed).
-
-```text
-echo ${ISXOgreEQ2.Nav.NavActive}
-```
-
-### `NavDistance`
-
-`${ISXOgreEQ2.Nav.NavDistance}`
-
-Straight-line distance from the character to the trip's destination, refreshed every pulse while it moves, on foot or flying. It is -1 when idle, while a trip is still planning or waiting for its navmesh, and after a trip ends.
-
-**Returns:** float: distance in game units to the destination; -1 when no trip is moving.
-
-```text
-echo ${ISXOgreEQ2.Nav.NavDistance}
-```
-
-### `NavMeshOn`
-
-`${ISXOgreEQ2.Nav.NavMeshOn}`
-
-TRUE unless nav has been switched off with Nav:Set[mesh,off] or `ogre nav -off`. While it is off, new trips are refused; the switch is not saved and starts TRUE each time the extension loads.
-
-**Returns:** bool: TRUE when nav is allowed to move this character; FALSE when it is switched off.
-
-```text
-echo ${ISXOgreEQ2.Nav.NavMeshOn}
-```
-
-### `NavMeshPolys`
-
-`${ISXOgreEQ2.Nav.NavMeshPolys}`
-
-How many walkable polygons the loaded navmesh has. It is 0 when no mesh is loaded in this zone yet.
-
-**Returns:** int: polygon count of the loaded mesh; 0 when none is loaded.
-
-```text
-echo ${ISXOgreEQ2.Nav.NavMeshPolys}
-```
-
-### `NavMeshTiles`
-
-`${ISXOgreEQ2.Nav.NavMeshTiles}`
-
-How many tiles the loaded navmesh has. It is 0 when no mesh is loaded in this zone yet.
-
-**Returns:** int: tile count of the loaded mesh; 0 when none is loaded.
-
-```text
-echo ${ISXOgreEQ2.Nav.NavMeshTiles}
-```
-
-### `NavMeshZone`
-
-`${ISXOgreEQ2.Nav.NavMeshZone}`
-
-Name of the navmesh that is loaded - the zone's short name in lower case, or the base zone's name when this zone is a copy that uses it. It is "" until a mesh is loaded in this zone (see NavOnMap).
-
-**Returns:** string: the loaded mesh's zone name; "" when none is loaded.
-
-```text
-echo ${ISXOgreEQ2.Nav.NavMeshZone}
-```
-
-### `NavOnMap`
-
-`${ISXOgreEQ2.Nav.NavOnMap}`
-
-TRUE when a navmesh is loaded right now, so nav can plan a route without waiting. The mesh loads on the first trip or route request in a zone and is set aside on every zone change, so this reads FALSE after zoning until something asks for a route.
-
-**Returns:** bool: TRUE when a navmesh is loaded; FALSE when none is loaded yet in this zone.
-
-```text
-echo ${ISXOgreEQ2.Nav.NavOnMap}
-```
-
-### `NavOnMesh`
-
-`${ISXOgreEQ2.Nav.NavOnMesh}`
-
-TRUE while the current trip is driven over a navmesh route. It is FALSE when idle, while a trip still waits for its navmesh or plans its first route, and once a trip ends.
-
-**Returns:** bool: TRUE while a trip is driven over a navmesh route; FALSE otherwise.
-
-```text
-echo ${ISXOgreEQ2.Nav.NavOnMesh}
-```
-
-### `NavReason`
-
-`${ISXOgreEQ2.Nav.NavReason}`
-
-Plain words about the trip: while it plans or moves, what the plan is doing; once it has ended or while it waits for a navmesh, why. It is empty before the first trip, and reads "already there" when a trip was asked for the spot the character already stands on.
-
-**Returns:** string: the plan in force, or why the last trip ended; "" before any trip.
-
-```text
-echo ${ISXOgreEQ2.Nav.NavReason}
-```
-
-### `NavState`
-
-`${ISXOgreEQ2.Nav.NavState}`
-
-The trip's state as one word; Arrived, Stopped and Failed stay until the next trip starts, and a paused trip still reads Moving. Stopped means somebody ended the trip on purpose, Failed means nav gave up - NavReason says why.
-
-**Returns:** string: a state word such as Idle, Planning, WaitingForMesh, Moving, Arrived, Stopped or Failed.
-
-```text
-echo ${ISXOgreEQ2.Nav.NavState}
-```
-
-### `NavWaypoint`
-
-`${ISXOgreEQ2.Nav.NavWaypoint}`
-
-The waypoint on the current route the character is heading for, counted from 1 (the first point after the start) up to NavWaypoints on the last leg. It is 0 when no route is being walked, a finished trip included.
-
-**Returns:** int: the waypoint being walked to, 1 to NavWaypoints; 0 when no route is being walked.
-
-```text
-echo ${ISXOgreEQ2.Nav.NavWaypoint}
-```
-
-### `NavWaypoints`
-
-`${ISXOgreEQ2.Nav.NavWaypoints}`
-
-How many waypoints the current route has after its start point, so NavWaypoint reaches it on the last leg. It is 0 when no route is being walked, a finished trip included.
-
-**Returns:** int: number of waypoints after the start; 0 when no route is being walked.
-
-```text
-echo ${ISXOgreEQ2.Nav.NavWaypoints}
-```
-
-## Methods
-
-### `End`
-
-`ISXOgreEQ2.Nav:End`
-
-Ends the trip under way and closes the nav window, the same as `ogre end nav`, `ogre nav end` or the window's X. It prints "nav: stopped (...)" only when a trip was under way.
-
-```text
-ISXOgreEQ2.Nav:End
-```
-
-### `Flags`
-
-`ISXOgreEQ2.Nav:Flags[flag...]`
-
-Runs the `ogre nav -<flag> ...` line: -loc x,y,z (or -to) starts a trip and applies -precision, -nodoors/-doors and -reset with it (it ignores -set, -on/-off and -panel/-nopanel on the same line), while a line without -loc takes -set key value, -reset [key], -on/-off, -panel/-nopanel, -stop, -status or -help. With no flag it prints a warning and a bad or unknown flag prints an error naming it; -precision and -nodoors stay in force after the trip.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `flag...` | string |  | The flags and their values, one per argument; a -loc point may be one "x,y,z" argument or three. |
-
-```text
-ISXOgreEQ2.Nav:Flags[-loc,${Me.X},${Me.Y},${Math.Calc[${Me.Z}+30]},-precision,3]
-```
-
-### `Help`
-
-`ISXOgreEQ2.Nav:Help`
-
-Prints the `ogre nav` command help to the console, one line at a time. This is bare `ogre nav` or `ogre nav help`.
-
-```text
-ISXOgreEQ2.Nav:Help
-```
-
-### `Open`
-
-`ISXOgreEQ2.Nav:Open`
-
-Opens the nav panel (trip state with Stop and Pause buttons) now; if the window cannot open it prints "nav panel: &lt;reason>". This is `ogre nav panel`.
-
-```text
-ISXOgreEQ2.Nav:Open
-```
-
-### `Set`
-
-`ISXOgreEQ2.Nav:Set[key,value]`
-
-Changes one nav setting for this session (not saved) and prints "nav: &lt;key> = &lt;value>"; an unknown key, or a value the setting refuses, prints an error and changes nothing. The key is case-insensitive, and `mesh` (alias `on`) never refuses: a yes word switches nav on and any other value switches it off.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `key` | string |  | The setting's name, such as arrive, finalarrive, doors or avoid. |
-| `value` | string |  | The new value - a number for distances and counts, on or off for switches. |
-
-```text
-ISXOgreEQ2.Nav:Set[arrive,4]
-```
-
-### `Status`
-
-`ISXOgreEQ2.Nav:Status`
-
-Prints what nav is doing to the console - state, reason, paused, waypoint progress, the loaded mesh and every setting changed from its default. This is `ogre nav status`.
-
-```text
-ISXOgreEQ2.Nav:Status
-```
-
-### `Stop`
-
-`ISXOgreEQ2.Nav:Stop`
-
-Ends the trip under way (NavState becomes Stopped) and prints "nav: stopped"; the nav panel stays open. With no trip under way it changes nothing but still prints the line - this is `ogre nav stop`.
-
-```text
-ISXOgreEQ2.Nav:Stop
-```
-
-### `To`
-
-`ISXOgreEQ2.Nav:To[x,y,z]`
-
-Starts a trip that moves the character to the point, replacing any trip already under way; it returns at once and the route is planned over the next frames (watch NavState). A missing value, or one that is not a number, prints an error and starts nothing, and a refusal (not in world, movement held by another system, no navmesh) prints "nav: &lt;reason>".
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `x` | float |  | X of the destination. |
-| `y` | float |  | Y of the destination - Y is up in EQ2. |
-| `z` | float |  | Z of the destination. |
-
-```text
-ISXOgreEQ2.Nav:To[${Me.X},${Me.Y},${Math.Calc[${Me.Z}+30]}]
-```
-
-
----
-
-Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/NpcCast.md
-
-# ISXOgreEQ2.NpcCast
-
-## Methods
-
-### `Capture`
-
-`ISXOgreEQ2.NpcCast:Capture`
-
-Asks for the cast your target is casting right now to be captured, the window's Capture button.
-
-```text
-ISXOgreEQ2.NpcCast:Capture
-```
-
-### `Clear`
-
-`ISXOgreEQ2.NpcCast:Clear`
-
-Empties your script watch list. Watches from zone data and encounters stay.
-
-```text
-ISXOgreEQ2.NpcCast:Clear
-```
-
-### `End`
-
-`ISXOgreEQ2.NpcCast:End`
-
-Stops the Monitor and closes the window, the same as `ogre end npccast` and the window's X. The watch list is left alone.
-
-```text
-ISXOgreEQ2.NpcCast:End
-```
-
-### `Import`
-
-`ISXOgreEQ2.NpcCast:Import`
-
-Copies the shipped OldBot conversions into your own NPC cast data, never overwriting a file you have.
-
-```text
-ISXOgreEQ2.NpcCast:Import
-```
-
-### `Monitor`
-
-`ISXOgreEQ2.NpcCast:Monitor[word]`
-
-The Monitor: starts it on a set of mobs, stops it, or acts on its rows. No word starts it on your target, and any word it does not know prints its status.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `word` | string |  | target, named, all or on start it; off or stop stop it; copy and clear act on its rows; status prints its state. Optional. |
-
-```text
-ISXOgreEQ2.NpcCast:Monitor[named]
-```
-
-### `Open`
-
-`ISXOgreEQ2.NpcCast:Open`
-
-Opens the NPC Cast Monitoring window, the same as bare `ogre npccast`.
-
-```text
-ISXOgreEQ2.NpcCast:Open
-```
-
-### `Radius`
-
-`ISXOgreEQ2.NpcCast:Radius[n]`
-
-Sets the scan radius for the script watch list. With no value it prints one warning and changes nothing.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `n` | int |  | The radius in meters; required. |
-
-```text
-ISXOgreEQ2.NpcCast:Radius[80]
-```
-
-### `Reload`
-
-`ISXOgreEQ2.NpcCast:Reload`
-
-Asks for the zone data to be read from disk again.
-
-```text
-ISXOgreEQ2.NpcCast:Reload
-```
-
-### `Status`
-
-`ISXOgreEQ2.NpcCast:Status`
-
-Prints the Monitor's state, the scan counters and the watch list to the console, with who holds each watch and whether it is casting.
-
-```text
-ISXOgreEQ2.NpcCast:Status
-```
-
-### `Unwatch`
-
-`ISXOgreEQ2.NpcCast:Unwatch[name]`
-
-Takes a mob off your script watch list. With no name it prints one warning and changes nothing.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `name` | string |  | The mob's name; several words are joined into one name; required. |
-
-```text
-ISXOgreEQ2.NpcCast:Unwatch["Ancient Guardian"]
-```
-
-### `Watch`
-
-`ISXOgreEQ2.NpcCast:Watch[name]`
-
-Adds a mob to your script watch list. With no name it prints one warning and changes nothing.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `name` | string |  | The mob's name; several words are joined into one name; required. |
-
-```text
-ISXOgreEQ2.NpcCast:Watch["Ancient Guardian"]
-```
-
-### `Zone`
-
-`ISXOgreEQ2.NpcCast:Zone`
-
-Prints what the zone data says for this zone to the console.
-
-```text
-ISXOgreEQ2.NpcCast:Zone
 ```

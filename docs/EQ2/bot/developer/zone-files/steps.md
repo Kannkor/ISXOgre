@@ -1,8 +1,8 @@
-# The steps, one by one
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../index.md).
 </div>
+
+# The steps, one by one
 
 ## path
 

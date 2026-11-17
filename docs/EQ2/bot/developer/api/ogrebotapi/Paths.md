@@ -1,8 +1,8 @@
-# OgreBotAPI.Paths
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../../index.md).
 </div>
+
+# OgreBotAPI.Paths
 
 ## Members
 
@@ -40,7 +40,7 @@ Adds a point to the end of a saved path of the zone you are in, and a new name m
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on. Paths are shared by every box on the PC, so a line that reaches several boxes names one, or each box it lands on does it. |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names. Paths are shared by every box on the PC, so a line that reaches several boxes names one, or each box it lands on does it. |
 | `name` | string |  | The path's name, in any case. |
 | `point` | string |  | A POI name, or x,y,z. A script that writes x,y,z without quotes gets the same point. |
 
@@ -58,7 +58,7 @@ Takes every point off a saved path of the zone you are in. The path stays, with 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on. Paths are shared by every box on the PC, so a line that reaches several boxes names one, or each box it lands on does it. |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names. Paths are shared by every box on the PC, so a line that reaches several boxes names one, or each box it lands on does it. |
 | `name` | string |  | The path's name, in any case. |
 
 ```text
@@ -75,7 +75,7 @@ Deletes a saved path of the zone you are in. An unknown name prints one line and
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on. Paths are shared by every box on the PC, so a line that reaches several boxes names one, or each box it lands on does it. |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names. Paths are shared by every box on the PC, so a line that reaches several boxes names one, or each box it lands on does it. |
 | `name` | string |  | The path's name, in any case. |
 
 ```text
@@ -90,7 +90,7 @@ Puts a point into a saved path of the zone you are in at a place in the list, an
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on. Paths are shared by every box on the PC, so a line that reaches several boxes names one, or each box it lands on does it. |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names. Paths are shared by every box on the PC, so a line that reaches several boxes names one, or each box it lands on does it. |
 | `name` | string |  | The path's name, in any case. It must exist: a place is a place in a list, so this never makes a path. |
 | `at` | number |  | The place the point takes, counted from 1. One past the last point puts it on the end. |
 | `point` | string |  | A POI name, or x,y,z. A script that writes x,y,z without quotes gets the same point. |
@@ -107,7 +107,7 @@ Moves a point of a saved path of the zone you are in to another place in the lis
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on. Paths are shared by every box on the PC, so a line that reaches several boxes names one, or each box it lands on does it. |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names. Paths are shared by every box on the PC, so a line that reaches several boxes names one, or each box it lands on does it. |
 | `name` | string |  | The path's name, in any case. |
 | `from` | number |  | The place of the point to move, counted from 1. |
 | `to` | number |  | The place it ends at, counted from 1. Moving a point to the place it holds changes nothing. |
@@ -124,7 +124,7 @@ Takes the first point of that text off a saved path of the zone you are in, so a
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on. Paths are shared by every box on the PC, so a line that reaches several boxes names one, or each box it lands on does it. |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names. Paths are shared by every box on the PC, so a line that reaches several boxes names one, or each box it lands on does it. |
 | `name` | string |  | The path's name, in any case. |
 | `point` | string |  | The point as the path holds it, in any case: a POI name, or x,y,z. |
 
@@ -142,7 +142,7 @@ Walks a saved path of the zone you are in, point by point, by the path's own mov
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `name` | string |  | The path's name, in any case. A path of one point goes there and finishes, looping or not. A path walked by camp spot leaves the camp spot at its last point when it finishes, and no earlier camp spot comes back. |
 
 ```text
@@ -157,7 +157,7 @@ Stops the path being walked, a Paths:Start walk or AutoHunt's: the character sta
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Paths:Stop[${Me.Name}]

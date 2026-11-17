@@ -1,8 +1,8 @@
-# OgreBotAPI.Events
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../../index.md).
 </div>
+
+# OgreBotAPI.Events
 
 ## Methods
 
@@ -14,7 +14,7 @@ Adds a row to the Chat Events tab of the loaded profile: when a line in the chat
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `text` | string |  | Text to watch for - matched as a case-insensitive substring of each incoming chat-window line |
 | `oc` | bool |  | TRUE to send `<name> -> <kind> event -> (<text>) found -> <match>` to OgreConsole when it fires |
 | `ding` | bool |  | TRUE to play the ding sound when it fires |
@@ -34,7 +34,7 @@ Adds a row to the Despawn Events tab of the loaded profile: when an actor despaw
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `text` | string |  | Text to watch for - matched as a case-sensitive substring of the despawning actor's name |
 | `oc` | bool |  | TRUE to send `<name> -> <kind> event -> (<text>) found -> <match>` to OgreConsole when it fires |
 | `ding` | bool |  | TRUE to play the ding sound when it fires |
@@ -54,7 +54,7 @@ Adds a row to the Spawn Events tab of the loaded profile: when an actor spawns w
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `text` | string |  | Text to watch for - matched as a case-sensitive substring of the spawning actor's name |
 | `oc` | bool |  | TRUE to send `<name> -> <kind> event -> (<text>) found -> <match>` to OgreConsole when it fires |
 | `ding` | bool |  | TRUE to play the ding sound when it fires |
@@ -74,7 +74,7 @@ Removes every Chat Events row whose text equals text (any case, disabled rows in
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `text` | string | `all` | The watch text of the rows to remove, or all for every row |
 
 ```text
@@ -91,7 +91,7 @@ Removes every Despawn Events row whose text equals text (any case, disabled rows
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `text` | string | `all` | The watch text of the rows to remove, or all for every row |
 
 ```text
@@ -108,7 +108,7 @@ Removes every Spawn Events row whose text equals text (any case, disabled rows i
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `text` | string | `all` | The watch text of the rows to remove, or all for every row |
 
 ```text

@@ -1,8 +1,8 @@
-# Zone Reset
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# Zone Reset
 
 > **:bulb: In game - the ? button on this window says**
 >
@@ -40,6 +40,8 @@ The status text on the right says what the last action did (for example 'scraped
 |---|---|
 | **Refresh** | Reads the zone list and timers again. It briefly opens the game's Zone Reuse window, reads it, and closes it.<br>*Opening this window with no list yet does a Refresh for you. Nothing happens when you are not in the world.* |
 
+
+
 ## Full zone list
 
 Every zone the game has a lockout record for: resettable first, then locked, then no data. Zones with 'Raid' in the name carry a small 'raid' tag. Hover a row to see the game's own tooltip for it.
@@ -52,6 +54,8 @@ Every zone the game has a lockout record for: resettable first, then locked, the
 | **Add resettable** | Adds every green (resettable) zone to the queue. |
 | **Add non-raid** | Adds every resettable zone that does not have 'Raid' in its name. |
 | **Add non-locked** | Adds every zone that is not locked: the resettable ones and the ones with no data. |
+
+
 
 ## Reset queue
 
@@ -68,11 +72,14 @@ The zones you picked. The queue is kept while the bot is loaded, even if you clo
 | **Reset queue for me** | Resets the lockout timer of every queued zone on this character only, one zone every half second.<br>*Greyed out while the window is busy. With an empty queue it just says the queue is empty.* |  |
 | **Reset queue via <oc/irc> for <who>** | Sends a reset for every queued zone to the characters picked in the Master Control Panel's For Who window, over the bot console (or IRC if that is what the For Who window says). Each character that receives it resets its own timer for those zones. The button text shows where it will go.<br>*If the For Who window has never been set, this goes to every character (all).* | oc for all (when the For Who window has never been set) |
 
+
+
 ## Footer
 
 A reminder of how the lists work, and that Force reset spends a limited charge.
 
 [![Footer](../assets/zonereset/footer.png)](../assets/zonereset/footer.png "Click for full size")
+
 
 ## What the window shows
 

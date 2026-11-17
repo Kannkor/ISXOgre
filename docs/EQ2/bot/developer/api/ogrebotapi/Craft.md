@@ -1,8 +1,8 @@
-# OgreBotAPI.Craft
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../../index.md).
 </div>
+
+# OgreBotAPI.Craft
 
 ## Methods
 
@@ -14,7 +14,7 @@ Adds the recipe you last scribed this session (by the bot or by hand) to the cra
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `qty` | int | `1` | How many to craft; 0 or less becomes 1. |
 
 ```text
@@ -31,7 +31,7 @@ Adds a recipe to the craft setup queue by full name, by part of a name that matc
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `nameOrID\|lastknownrecipe` | string |  | The recipe name, its ID (plain digits), or lastknownrecipe. A name may also be passed as several arguments; they are joined with spaces. |
 | `qty` | int | `1` | How many to craft. Read only when it is the last argument and a whole number; 0 or less becomes 1. |
 
@@ -49,7 +49,7 @@ Buys every tinkering recipe book you do not already know or carry from Fizza Cog
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Craft:BuyAllTinkeringRecipes[${Me.Name}]
@@ -63,7 +63,7 @@ Answers craft's OgreCraft_NavigationRequired event (sent only when the craft set
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Craft:CompleteNavigation[${Me.Name}]
@@ -77,7 +77,7 @@ Answers craft's OgreCraft_NavigationRequired event to say your script will not m
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Craft:DeferNavigation[${Me.Name}]
@@ -91,7 +91,7 @@ Scribes recipe scrolls from your bags one at a time, then opens and closes the t
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `name\|all` | string | `all` | The scroll's full item name in any case, or all for every scribeable scroll in your bags. Left empty it scribes all. |
 
 ```text
@@ -108,7 +108,7 @@ Starts crafting the setup queue. It is refused with a console line when you are 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Craft:Start[${Me.Name}]
@@ -124,7 +124,7 @@ Starts low level leveling: rounds of buying recipe books, crafting the highest s
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Craft:StartLLL[${Me.Name}]
@@ -140,7 +140,7 @@ Crafts the recipe steps of the quest selected in your journal, one of each per p
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Craft:StartQuest[${Me.Name}]
@@ -154,7 +154,7 @@ Starts auto tinkering: rounds of buying recipe books, crafting the highest-level
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Craft:StartTinker[${Me.Name}]
@@ -168,7 +168,7 @@ Starts the rush order (writ) run for the number of writs set in the craft settin
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Craft:StartWrits[${Me.Name}]
@@ -184,7 +184,7 @@ Stops the running crafting run (queue, writs, quest, Low Level Leveling or Auto 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Craft:Stop[igw:${Me.Name}]

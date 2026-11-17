@@ -1,8 +1,8 @@
-# What's new
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../index.md).
 </div>
+
+# What's new
 
 What changed in OgreBot, release by release, newest first. Every release listed here was published to the patcher.
 

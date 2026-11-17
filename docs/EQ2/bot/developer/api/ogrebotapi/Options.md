@@ -1,8 +1,8 @@
-# OgreBotAPI.Options
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../../index.md).
 </div>
+
+# OgreBotAPI.Options
 
 ## Members
 
@@ -34,7 +34,7 @@ Loads the named OgreBot profile for this character, opening OgreBot first if it 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `name` | string |  | Profile name, or Use_UI for the current profile. Required. |
 
 ```text
@@ -51,7 +51,7 @@ Puts back every option that scripts, commands or encounters changed since the la
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `source` | string |  | Which writer's changes to put back: an encounter's key, command for typed and script changes, or all / empty for every source |
 
 ```text
@@ -68,7 +68,7 @@ Writes one or more OgreBot options by control id in the loaded profile, prints e
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `silent\|loud\|verbose` | string | `""` | Optional, before an id: silent turns the change lines off, loud or verbose turns them on |
 | `(id,value)...` | string |  | Pairs of control id and new value; a TRUE or FALSE after a value, with more pairs after it, sets silent too |
 | `silent` | bool | `FALSE` | A TRUE or FALSE at the very end: TRUE makes the whole call silent |
@@ -87,7 +87,7 @@ Shows a warning beside Save in this character's OgreBot window saying the Instan
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Options:WarnBeforeSave[igw:${Me.Name}]

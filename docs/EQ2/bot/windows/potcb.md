@@ -1,8 +1,8 @@
-# Potency / Crit Bonus / Fervor
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# Potency / Crit Bonus / Fervor
 
 > **:bulb: In game - the ? button on this window says**
 >
@@ -38,11 +38,14 @@ The green text on the left says 'sampling every 200 ms' while recording, or 'sto
 | **Start / Stop** | Stop pauses the recording. Start carries on from where it stopped; the numbers so far are kept. The time while stopped is not counted. | Stop (recording starts when the window is opened) |
 | **Reset** | Throws away every number and starts the session over. Recording keeps going if it was on.<br>*No confirmation.* |  |
 
+
+
 ## The table
 
 One row per stat. Hover most numbers for more detail.
 
 [![The table](../assets/potcb/table.png)](../assets/potcb/table.png "Click for full size")
+
 
 ## What the window shows
 

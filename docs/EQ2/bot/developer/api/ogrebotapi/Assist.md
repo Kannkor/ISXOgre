@@ -1,8 +1,8 @@
-# OgreBotAPI.Assist
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../../index.md).
 </div>
+
+# OgreBotAPI.Assist
 
 ## Members
 
@@ -58,7 +58,7 @@ Sets who this character takes its kill target from: a group or raid member's nam
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `who` | string | `me` | The player to assist: a name, an alias, an actor ID, or off to clear the anchor; blank anchors on yourself |
 
 ```text

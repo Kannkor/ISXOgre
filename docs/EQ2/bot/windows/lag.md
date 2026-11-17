@@ -1,8 +1,8 @@
-# Lag
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# Lag
 
 > **:bulb: In game - the ? button on this window says**
 >
@@ -47,6 +47,8 @@ Read-only. All of these use the period picked under Stats over (1 minute to star
 | **OgreBot: … ms of each frame** | How much of each frame, on average, was the bot's own work: all parts of the bot, drawing its windows, and any bot commands that ran between frames. Then the period and how many frames it covers. |
 | **Warning line (yellow)** | Shows 'Recording is OFF' when recording is turned off. It can also say the window system loaded in your game is too old to report its time - the UI and GPU numbers then read 0 until you restart the game client. |
 
+
+
 ## Stats over, Recording and Save frames
 
 [![Stats over, Recording and Save frames](../assets/lag/bar.png)](../assets/lag/bar.png "Click for full size")
@@ -57,11 +59,14 @@ Read-only. All of these use the period picked under Stats over (1 minute to star
 | **Recording** | Turns the recorder on or off. Off: nothing new is recorded, but the frames already recorded are kept. The choice is saved and applies to every character on this PC.<br>*While Recording is off the window stops updating, even after you click something. Close and reopen it to see the current state.* | on |
 | **Save frames** | Saves every frame the recorder is holding (the last 5 minutes, unless you changed that) to a file in OgreSave/EQ2/OgreBot/, named lag- plus the session name and the date and time. The console says how many frames were saved and where. Send the file to us when you report lag.<br>*Saving takes a moment, so the frame you saved in shows up as a dip itself. The console line says how long it took.* |  |
 
+
+
 ## The FPS line
 
 Read-only. Your FPS, one point a second, for the last 3 minutes - newest on the right. Grey lines mark every 20 FPS. A red tick along the bottom marks a second that had a frame over 33.3 ms; the taller the tick, the more slow frames in that second. Hover a tick to see how many and the worst one.
 
 [![The FPS line](../assets/lag/chart.png)](../assets/lag/chart.png "Click for full size")
+
 
 ## Dips
 
@@ -73,11 +78,14 @@ Every slow moment of the last 3 minutes, newest first. Slow frames that come wit
 |---|---|
 | **Click a dip** | Opens the frames around that dip (see below). Each entry shows how long ago it was, the cause of its worst frame, the biggest bot call in that frame with its time, the worst frame's time, and 'x2', 'x3' … when more than one frame was slow. |
 
+
+
 ## What adds to the dips
 
 Read-only. The bot's calls over the Stats over period - up to 14 - with the one that adds most to the slow frames first. A call that runs no longer in a slow frame than in a normal one is listed after those, by how long it takes on average. Hover a row for more: how often it ran in slow and in normal frames, its average time per frame, and how long it takes 95 times in 100.
 
 [![What adds to the dips](../assets/lag/sites.png)](../assets/lag/sites.png "Click for full size")
+
 
 ## The frames around a dip
 
@@ -89,6 +97,8 @@ Opens over the two lists when you click a dip. One row per frame, from half a se
 |---|---|
 | **Back** | Closes the frame list and shows the two lists again. |
 | **Title bar close (X)** | Closes the window. The recorder keeps recording. |
+
+
 
 ## What the window shows
 

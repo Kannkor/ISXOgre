@@ -1,8 +1,8 @@
-# OgreBotAPI.AutoHunt
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../../index.md).
 </div>
+
+# OgreBotAPI.AutoHunt
 
 ## Members
 
@@ -100,7 +100,7 @@ Sets the AutoHunt Check HP threshold in the loaded OgreBot profile: with Check H
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `n` | int |  | Health percent; the hunt holds when a member is below it. 0 never trips; outside 0 to 100 it is clamped. |
 
 ```text
@@ -117,7 +117,7 @@ Sets the AutoHunt Check Mana threshold in the loaded OgreBot profile: with Check
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `n` | int |  | Power percent; the hunt holds when a member is below it. 0 never trips; outside 0 to 100 it is clamped. |
 
 ```text
@@ -134,7 +134,7 @@ Sets the AutoHunt mode on each matching character: off stops it, ends its walk, 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `off\|hunt` | string |  | The mode, any case: off or hunt. Blank means off, and any other word, movement, on and grind included, sets Off. Hunt sends the follow once, as an OgreFollow through OgreConsole, so only characters on this PC get it; off leaves them following. With the Campspot or CS-JO-JI option a pull camps the whole group at this character's spot, a new pull from the same spot sends nothing, and the group is let go (a LetsGo, and this character's own camp cleared) once no mob has been in reach for 1.5 seconds, or at once when the bot is paused or the mode goes off. In the air it pulls, targets and holds nothing (a pull it was working ends, and one console line says so as it takes off), and while it is dead it holds everything as it is. |
 
 ```text
@@ -151,7 +151,7 @@ Sets the AutoHunt scan radius in the loaded OgreBot profile, the distance Hunt m
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `n` | int |  | Scan radius in game units; 0 uses the longest reach among your pull abilities. |
 
 ```text

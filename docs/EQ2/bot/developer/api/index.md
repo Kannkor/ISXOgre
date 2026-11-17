@@ -1,8 +1,8 @@
-# API reference
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../index.md).
 </div>
+
+# API reference
 
 Every member, method, command and event a script or a user can reach, one row each: what it is for, its arguments, and an example taken from real code.
 
@@ -10,7 +10,11 @@ Every member, method, command and event a script or a user can reach, one row ea
 - **ISXOgreEQ2** - `${ISXOgreEQ2}`: the windows, tools and engines of the EQ2 adapter.
 - **ISXOgreX** - `${ISXOgreX}`: the core - console, UI, options, patcher.
 
-**Reading a row.** A member is read as `${Object.Member}` and may take `[arguments]`; a method is called as `Object:Method[arguments]`. An argument shown `name=value` is optional and `value` is its default. A first argument `fw` is the *for-who*: which characters act on it.
+**Reading a row.** A member is read as `${Object.Member}` and may take `[arguments]`; a method is a line of its own, `Object:Method[arguments]` - to read a result, use a member. An argument shown `name=value` is optional and `value` is its default.
+
+**The for-who.** A first argument `fw` is the [for-who](ogrebotapi/ForWho.md): the call runs only when this character is one it names. A script's call never reaches another session - to make other characters act, send the console command with `oc !c` (see [Commands](commands.md)).
+
+**What is not here.** `${Me}`, `${Target}`, `${Zone}`, `${Group[1]}` and the like in the examples are ISXEQ2's own objects, not the bot's. The examples are LavishScript, the InnerSpace script language; `wait 10` waits one second.
 
 ## OgreBotAPI
 

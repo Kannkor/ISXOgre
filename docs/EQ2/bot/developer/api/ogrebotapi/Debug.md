@@ -1,8 +1,8 @@
-# OgreBotAPI.Debug
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../../index.md).
 </div>
+
+# OgreBotAPI.Debug
 
 ## Members
 
@@ -14,7 +14,7 @@ Compares this session's version with compareTo and returns a one-line verdict th
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `compareTo` | string |  | the version to compare with, as ${ISXOgreEQ2.Version} gives it; blank just reports this session's version |
 
 **Returns:** string: "SAME: &lt;name> (&lt;version>)" when they match; "DIFFERENT: &lt;name> - Mine: &lt;version> Requested: &lt;compareTo>" when they do not; "VERSION: &lt;name> (&lt;version>)" when compareTo is blank; "" when the for-who does not match or the character is not in the world
@@ -49,7 +49,7 @@ Reads one fact about this character, sends "&lt;name> --> &lt;label> &lt;value>"
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `type` | string |  | what to report: stat, item, missingitem, abilityready, abilityidready, abilityidcd, marked, faction, currency, recipe or ascension (a leading - is allowed); quest and missingquest answer with a not-yet error |
 | `value` | string |  | what to look up for that type: a stat key such as potency or haste, an item name, an ability id, a faction name or all, a currency name (eth and loyalty are short names), or a recipe name; leave blank for marked and ascension. An item you have none of sends nothing |
 | `where` | string | `oc` | where the line goes: oc (the Ogre console on every session), irc, or event (no line, only the event); any other word goes to oc |
@@ -68,7 +68,7 @@ Echoes a and b, joined by a space, to this session's console, but only while deb
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `a` | string |  | the first part of the line |
 | `b` | string |  | the second part, printed after a space |
 
@@ -84,7 +84,7 @@ Echoes text and text2, joined by a space, to this session's console. Only charac
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `text` | string |  | the first part of the line |
 | `text2` | string | `""` | the second part, printed after a space |
 
@@ -102,7 +102,7 @@ Turns debug mode on or off; while it is on, :DebugEcho prints its lines. Debug m
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `on` | bool | `TRUE` | TRUE turns debug mode on, FALSE turns it off |
 
 ```text
@@ -119,7 +119,7 @@ Echoes every internal variable as "name -> value" to this session's console, in 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Debug:SpewInternalVariables[${Me.Name}]
@@ -135,7 +135,7 @@ Queues a job that opens the Knowledge window's research page if it is not up, br
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Debug:SpewResearchWindow[${Me.Name}]
@@ -151,7 +151,7 @@ Reads the game's All Access membership status from the tooltip of the Marketplac
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Debug:SpewSubscriptionStatus[all]
@@ -167,7 +167,7 @@ Echoes every script variable as "name -> value" to this session's console, in na
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Debug:SpewVariables[${Me.Name}]

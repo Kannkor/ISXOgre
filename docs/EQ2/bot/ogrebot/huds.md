@@ -1,8 +1,8 @@
-# HUDs
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# HUDs
 
 HUDs puts live text straight onto your game screen: the nearest mob, the nearest other player, how far each group or raid member is, and timed messages from encounter scripts. The text sits on a see-through layer over the whole game window. It has no title bar, you cannot click or drag it, and your mouse clicks go through it to the game. Each block is placed by its X and Y boxes, counted in screen pixels from the top-left corner. Changes take effect as soon as you make them. The layer appears when you tick any of the Display boxes (or when an encounter puts up a Raid Options message) and closes when OgreBot closes. The last section sets up the OSA (On-Screen Assistant), which is a separate window of its own.
 
@@ -18,6 +18,8 @@ HUDs puts live text straight onto your game screen: the nearest mob, the nearest
 | **X** | How far from the left edge of the screen the Nearest NPC line starts, in pixels. | blank (300) |
 | **Y** | How far down from the top of the screen the Nearest NPC line sits, in pixels. | blank (400) |
 
+
+
 ## Nearest PC
 
 [![Nearest PC](../assets/ogrebot/tab-huds-s2.png)](../assets/ogrebot/tab-huds-s2.png "Click for full size")
@@ -30,6 +32,8 @@ HUDs puts live text straight onto your game screen: the nearest mob, the nearest
 | **Msg alerts to OgreConsole** | When a player comes within 150 metres, and again within 30, a line such as 'Kannkor --> Nearest PC: Serath: 24.1 < 30' is posted to OgreConsole. Each player is reported once per distance band, and alerts are at least 5 seconds apart.<br>*Needs 'Display nearest PC' ticked.* | off |
 | **Ding alerts** | Plays a short ding when a player comes within 30 metres. If 'Msg alerts' is also ticked, it dings at 150 metres too. A ding under 30 metres also posts the OgreConsole line, even without 'Msg alerts'.<br>*Needs 'Display nearest PC' ticked.* | off |
 | **Loud alarm when close** | When a player comes within 30 metres, plays a louder two-tone alarm instead of the short ding.<br>*Does nothing on its own. 'Msg alerts' or 'Ding alerts' must also be ticked.* | off |
+
+
 
 ## Group Information
 
@@ -44,6 +48,8 @@ HUDs puts live text straight onto your game screen: the nearest mob, the nearest
 | **Hide names** | Leaves the slot number and name off each group line, so it shows only the distance, target and cast. Not used while your group follows the raid settings (Display raid information on, Only in a raid off). | off |
 | **Hide casting** | Leaves off the 'what they are casting' part of each group line. Not used while your group follows the raid settings (Display raid information on, Only in a raid off). | off |
 | **Name width** | How many letters of each name and target the group lines show. Longer ones are cut and shorter ones padded, so every line's cast starts in the same place. Not used while your group follows the raid settings (Display raid information on, Only in a raid off). | blank (6) |
+
+
 
 ## Raid Information
 
@@ -62,6 +68,8 @@ HUDs puts live text straight onto your game screen: the nearest mob, the nearest
 | **Hide casting** | Leaves off the 'what they are casting' part of each line. Outside a raid your group's lines use it too, unless Only in a raid is ticked. | off |
 | **Name width** | How many letters of each name and target are shown. Longer ones are cut and shorter ones padded, so every line's cast starts in the same place. Outside a raid your group's lines use it too, unless Only in a raid is ticked. | blank (6) |
 
+
+
 ## Raid Options
 
 [![Raid Options](../assets/ogrebot/tab-huds-s5.png)](../assets/ogrebot/tab-huds-s5.png "Click for full size")
@@ -73,6 +81,8 @@ HUDs puts live text straight onto your game screen: the nearest mob, the nearest
 | **Y** | How far down from the top of the screen the first Raid Options message sits, in pixels. | blank (300) |
 | **Line spacing** | How many pixels apart the Raid Options messages are. | blank (15) |
 
+
+
 ## OSA - NPC On-Screen-Assistant
 
 [![OSA - NPC On-Screen-Assistant](../assets/ogrebot/tab-huds-s6.png)](../assets/ogrebot/tab-huds-s6.png "Click for full size")
@@ -83,6 +93,8 @@ HUDs puts live text straight onto your game screen: the nearest mob, the nearest
 | **Scan Radius (slider)** | The same scan radius as the box beside it, as a slider from 0 to 149. Moving one updates the other. | not set (the OSA uses 50) |
 | **Display NPCs with Targets Only** | The OSA window only lists mobs that have a target, meaning mobs that are fighting someone. Idle mobs are hidden. | off |
 | **Clip Y Axis (only show mobs on the same floor as you)** | The OSA window hides mobs that are 8 or more above or below you, so the floors over and under you drop out of the list.<br>*Only used while the OSA is turned on.* | off |
+
+
 
 ## What you see
 

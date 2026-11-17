@@ -1,8 +1,8 @@
-# OgreBotAPI.Merchant
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../../index.md).
 </div>
+
+# OgreBotAPI.Merchant
 
 ## Methods
 
@@ -14,7 +14,7 @@ With a merchant window already open, buys qty of the named item from the merchan
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `item` | string |  | Name of the item on the merchant's list |
 | `qty` | int | `1` | How many to buy |
 
@@ -32,7 +32,7 @@ Queued: opens the merchant window by double-clicking the nearest actor whose nam
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `merchant` | string |  | Name (or part of the name) of the merchant to open |
 | `item` | string |  | Name of the item on the merchant's list |
 | `qty` | int | `1` | How many to buy |
@@ -51,7 +51,7 @@ Queued: does OpenAndBuy times times in a row - each round opens the merchant if 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `merchant` | string |  | Name (or part of the name) of the merchant to open |
 | `item` | string |  | Name of the item on the merchant's list |
 | `qty` | int |  | How many to buy each round (1 when blank) |
@@ -71,7 +71,7 @@ Queued: unless force is TRUE, checks your primary and chest items and stops with
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `force` | bool | `FALSE` | TRUE to repair even when primary and chest are already at 100% |
 
 ```text
@@ -88,7 +88,7 @@ With a merchant window already open, sells qty of the named item from your bags,
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `item` | string |  | Name of the item in your bags |
 | `qty` | int | `1` | How many to sell |
 

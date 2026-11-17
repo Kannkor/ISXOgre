@@ -1,8 +1,8 @@
-# ISXOgreX
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../index.md).
 </div>
+
+# ISXOgreX
 
 The core extension: `${ISXOgreX}` and the objects under it.
 
@@ -16,6 +16,8 @@ The core extension: `${ISXOgreX}` and the objects under it.
 
 The login status object. Read its members: Authenticated, AccessLevel, Username and Status.
 
+All of it: [ISXOgreX.Auth](#isxogrexauth)
+
 **Returns:** ogrexauth: the login status object; as text it reads ISXOgreX.Auth.
 
 ```text
@@ -27,6 +29,8 @@ echo ${ISXOgreX.Auth.Status}
 `${ISXOgreX.Console}`
 
 The Ogre console object. It has no members of its own; call its methods, such as ISXOgreX.Console:Toggle.
+
+All of it: [ISXOgreX.Console](#isxogrexconsole)
 
 **Returns:** ogrexconsole: the console object (methods only); as text it reads ISXOgreX.Console.
 
@@ -40,6 +44,8 @@ echo ${ISXOgreX.Console}
 
 The login box object. ISXOgreX.Login:Show opens the login box, and ISXOgreX.Login:Submit[username,password] saves a login and logs in again with it.
 
+All of it: [ISXOgreX.Login](#isxogrexlogin)
+
 **Returns:** ogrexlogin: the login box object (methods only); as text it reads ISXOgreX.Login.
 
 ```text
@@ -52,6 +58,8 @@ echo ${ISXOgreX.Login}
 
 The Ogre options window object. Its methods are Open, Save, Close and Ready (fill the open window's fields again).
 
+All of it: [ISXOgreX.Options](#isxogrexoptions)
+
 **Returns:** ogrexoptions: the options window object (methods only); as text it reads ISXOgreX.Options.
 
 ```text
@@ -63,6 +71,8 @@ echo ${ISXOgreX.Options}
 `${ISXOgreX.Patch}`
 
 The patcher object: its members report the patcher's state and its methods run the patcher's commands. See the ISXOgreX.Patch rows.
+
+All of it: [ISXOgreX.Patch](#isxogrexpatch)
 
 **Returns:** ogrexpatch: the patcher object; as text it reads ISXOgreX.Patch.
 
@@ -87,6 +97,8 @@ echo ${ISXOgreX.Release}
 `${ISXOgreX.UI}`
 
 The in-game UI object: windows, their values and the UI store. See the ISXOgreX.UI rows for its members and methods.
+
+All of it: [ISXOgreX.UI](#isxogrexui)
 
 **Returns:** ogrexui: the in-game UI object; as text it reads ISXOgreX.UI.
 
@@ -309,7 +321,7 @@ Sends message through the uplink to every session in the relay group: a message 
 | `-rg` | switch | `(none)` | Send to the relay group named by the next argument instead of the bot's own relay group. |
 | `group` | string | `the bot's relay group` | The relay group name that follows -rg. |
 | `-cfw` | switch | `(none)` | Give a command a for-who, used by its commands whose own for-who is left as auto. |
-| `who` | for-who | `all` | for-who: which characters this runs on, for the commands in the line that leave theirs as auto. |
+| `who` | for-who | `all` | [for-who](ogrebotapi/ForWho.md): this runs only when this character is one it names, for the commands in the line that leave theirs as auto. |
 | `-kind` | switch | `(none)` | Show a chat line as a status line of the kind named by the next argument; ignored for a command. |
 | `kind` | string | `(none)` | error, warn or system; the line then shows only in its -tab tabs and All, in that kind's colour. |
 
@@ -398,6 +410,8 @@ echo ${ISXOgreX.UI.Value[hello,hello-name]}
 `${ISXOgreX.UI.Window[name]}`
 
 Gives the open window `name` - your own, OgreBot's or a help window - as an ogrexuiwindow object (Name, Visible, X, Y, Width, Height) that prints as the window's name. NULL when no window by that name is open, so (exists) answers "is it open"; a window counts as open from the moment OgreUI_Opened fires for it.
+
+All of it: [ISXOgreX.UI.Window](#isxogrexuiwindow)
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|

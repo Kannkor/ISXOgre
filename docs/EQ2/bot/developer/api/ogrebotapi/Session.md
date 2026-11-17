@@ -1,8 +1,8 @@
-# OgreBotAPI.Session
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../../index.md).
 </div>
+
+# OgreBotAPI.Session
 
 ## Members
 
@@ -63,7 +63,7 @@ Targets the nearest collectible shiny, by the Loot tab's own test (an actor name
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Session:CollectShiny[${Me.Name}]
@@ -79,7 +79,7 @@ Targets the nearest harvest node and collects from it, if that node is within 10
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Session:Harvest[${Me.Name}]
@@ -95,7 +95,7 @@ Queues a cast of Immaculate Revival when it is ready and enough of the group is 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `howManyDead` | int | `2` | the count it takes before it casts; below 1 it never casts |
 
 ```text
@@ -131,7 +131,7 @@ Presses the Play button on the character select screen. It does nothing unless t
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Session:PlayAtCharacterSelect[all]
@@ -147,7 +147,7 @@ Lets the cast stack cast res abilities again by unchecking Disable CS_Res. It is
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Session:Res[igw:${Me.Name}]
@@ -163,7 +163,7 @@ Queues this class's res stone spell when it is ready: Divine Awakening for a cle
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Session:ResStone[igw:${Me.Name}]
@@ -179,7 +179,7 @@ With option 0, presses Revive on the death window when you are dead (a living ch
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `option` | string | `0` | 0 for the death window's default revive, or a revive point row number or name, matched as ${OgreBotAPI.Session.ReviveLocation} matches it; when nothing matches, the last revive point the window lists is used (no revive only when it lists none) |
 | `exact` | bool | `FALSE` | TRUE: a name must match in full; FALSE: it may be part of the revive point's name |
 
@@ -197,7 +197,7 @@ Stops the cast stack casting res abilities by checking Disable CS_Res. It is sil
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Session:StopRes[igw:${Me.Name}]

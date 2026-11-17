@@ -1,8 +1,8 @@
-# OgreBotAPI.Roster
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../../index.md).
 </div>
+
+# OgreBotAPI.Roster
 
 ## Members
 
@@ -458,7 +458,7 @@ Each selected character prints "&lt;name> Membership level: &lt;level>" on the I
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `onlyNonMembers` | bool | `FALSE` | TRUE to print only for characters that are not Member. |
 
 ```text
@@ -475,7 +475,7 @@ Each selected character sends the game's /disband, which takes it out of its gro
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Roster:Disband[${Me.Name}]
@@ -491,7 +491,7 @@ Sets flag number n on each selected character. When the flag was not already set
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `n` | int | `1` | The flag number to set, 1 to 24. Flag 24 is the same state as Mark. |
 
 ```text
@@ -508,7 +508,7 @@ Finds the next character after you and tells that character, over IRC and over o
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `mark` | int | `1` | The flag number the next person sets. |
 | `via` | string | `any` | any, archetype or baseclass: who may be next. Any other word means any. |
 | `search...` | string |  | the archetypes or base classes to match; left out, your own |
@@ -528,7 +528,7 @@ Each selected character sends a group invite to who; an alias such as @Healer1 i
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `who` | string |  | The character to invite, by name or alias; me means you, who are always skipped. Required. |
 
 ```text
@@ -545,7 +545,7 @@ Each selected character invites a list of characters in order, about one second 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `toon...` | string |  | The names (or aliases) to invite, in order, each optionally led by -r for a raid invite. Any other word starting with - is skipped. |
 
 ```text
@@ -562,7 +562,7 @@ Each selected character kicks who from its group; an alias is turned into a name
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `who` | string |  | The group member to kick, by name or alias. |
 
 ```text
@@ -577,7 +577,7 @@ Each selected character that leads its group hands leadership to leader; an alia
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `leader` | string |  | The group member to make leader, by name or alias; me means you, which does nothing. Required. |
 
 ```text
@@ -594,7 +594,7 @@ Marks each selected character, which is the same as setting flag 24. A line goes
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Roster:Mark[${Me.Name}]
@@ -610,7 +610,7 @@ Each selected character mentors the group member name, but only when that member
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `name` | string |  | The group member to mentor, by name or alias. Required. |
 
 ```text
@@ -627,7 +627,7 @@ Each selected character sends a raid invite to who; an alias is turned into a na
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `who` | string |  | The character to raid-invite, by name or alias; me means you, who are always skipped. Required. |
 
 ```text
@@ -644,7 +644,7 @@ Forces one of the bot's class checks to TRUE or FALSE for each selected characte
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `member` | string |  | The class check to force: an archetype, class tier or subclass name, with or without Is (IsFighter, Fighter, IsTemplar). |
 | `value` | string |  | TRUE or FALSE (yes/no style words also work), or auto to remove the override. |
 
@@ -662,7 +662,7 @@ Each selected character sends one OgreConsole line per flag it holds, in number 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Roster:SpewFlags[all]
@@ -678,7 +678,7 @@ Each selected character reports whether it is marked, as a line reading "&lt;nam
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `where` | string |  | oc (OgreConsole), irc, or event (no visible line, only the event). Empty or any other word means oc. |
 
 ```text
@@ -695,7 +695,7 @@ Clears flag number n on each selected character. When the flag was set, a line s
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `n` | int | `1` | The flag number to clear, 1 to 24. |
 
 ```text
@@ -712,7 +712,7 @@ Clears every flag on each selected character, the mark (flag 24) included. One O
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Roster:UnflagAll[all]
@@ -728,7 +728,7 @@ Removes the mark (flag 24) from each selected character. A line goes to OgreCons
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Roster:Unmark[all]
@@ -744,7 +744,7 @@ Each selected character stops mentoring, but only when its effective level diffe
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Roster:Unmentor[all]

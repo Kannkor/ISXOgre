@@ -1,12 +1,13 @@
-# Pack Pony
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
 
+# Pack Pony
+
 Pack Pony sends your Artisan's Pack Pony out to gather harvests by itself. With 'Enable Pack Pony' ticked and the bot running, the bot summons the pony, hails it and answers its questions using your choices below. If the pony offers to empty its packs, the bot accepts that first and then hails it again. The bot is paused while it does this and resumed afterwards. After a successful send-out it waits 2 hours 5 minutes before trying again, 10 minutes if the pony is still out or something failed, and 1 minute if you were busy. The three groups of boxes are the answers to the pony's three questions. Tick one box per group; ticking a box unticks the others in that group.
 
 [![Pack Pony tab](../assets/ogrebot/tab-pack-pony.png)](../assets/ogrebot/tab-pack-pony.png "Click for full size")
+
 
 | Option | What it does | Default |
 |---|---|---|
@@ -25,6 +26,8 @@ Pack Pony sends your Artisan's Pack Pony out to gather harvests by itself. With 
 | **Conversation 3 - Option 2 (RoR 125 / EP 110 harvests)** | When the pony asks its third question, the bot picks reply 2. This is also used when no box in this group is ticked. | off (used anyway when none is ticked) |
 | **Conversation 3 - Option 3 (BoZimara 125-130 / Luclin 110-120 harvests)** | When the pony asks its third question, the bot picks reply 3. | off |
 | **Conversation 3 - Option 4 (SoD 130 harvests)** | When the pony asks its third question, the bot picks reply 4. | off |
+
+
 
 ## Good to know
 

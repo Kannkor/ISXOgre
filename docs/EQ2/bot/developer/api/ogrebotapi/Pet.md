@@ -1,8 +1,8 @@
-# OgreBotAPI.Pet
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../../index.md).
 </div>
+
+# OgreBotAPI.Pet
 
 ## Methods
 
@@ -14,7 +14,7 @@ Sends the game command /pet autoassist right away, which toggles your pet assist
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Pet:Assist[igw:${Me.Name}]
@@ -30,7 +30,7 @@ Sends the game command /pet attack right away, so your pet attacks your current 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Pet:Attack[igw:${Me.Name}]
@@ -46,7 +46,7 @@ Sends the game command /pet getlost right away, which dismisses your pet. There 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Pet:GetLost[all]
@@ -62,7 +62,7 @@ Sends the game command /pet backoff right away, so your pet stops attacking. The
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Pet:Off[igw:${Me.Name}]

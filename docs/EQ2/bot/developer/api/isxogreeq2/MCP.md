@@ -1,8 +1,8 @@
-# ISXOgreEQ2.MCP
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../../index.md).
 </div>
+
+# ISXOgreEQ2.MCP
 
 ## Members
 
@@ -175,7 +175,7 @@ With arguments it sends message exactly as ISXOgreX.Console:Send does (a leading
 | `-rg` | switch | `(none)` | Send to the relay group named by the next argument instead of the bot's own relay group. |
 | `group` | string | `the bot's relay group` | The relay group name that follows -rg. |
 | `-cfw` | switch | `(none)` | Give the command a for-who, used by its commands whose own for-who is left as auto. |
-| `who` | for-who | `everyone` | for-who: which characters this runs on - the value that follows -cfw. |
+| `who` | for-who | `everyone` | [for-who](../ogrebotapi/ForWho.md): this runs only when this character is one it names - the value that follows -cfw. |
 
 ```text
 ISXOgreEQ2.MCP:Send["!c -pause","-cfw","igw:${Me.Name}"]

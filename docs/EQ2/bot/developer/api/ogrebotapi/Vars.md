@@ -1,8 +1,8 @@
-# OgreBotAPI.Vars
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../../index.md).
 </div>
+
+# OgreBotAPI.Vars
 
 ## Members
 
@@ -106,7 +106,7 @@ Removes the variable name from the script variable store on each matching charac
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `name` | string |  | The variable name to remove, case-sensitive. |
 
 ```text
@@ -123,7 +123,7 @@ Removes every variable from the script variable store on each matching character
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Vars:ClearAll[igw:${Me.Name}]
@@ -139,7 +139,7 @@ Removes every variable from the internal variable store on each matching charact
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Vars:ClearAllInternal[igw:${Me.Name}]
@@ -155,7 +155,7 @@ Removes the variable name from the internal variable store on each matching char
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `name` | string |  | The internal variable name to remove, case-sensitive. |
 
 ```text
@@ -172,7 +172,7 @@ Stores value under name in the script variable store on each matching character,
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `name` | string |  | The variable name; case does not matter. Blank does nothing. |
 | `value` | string |  | The text to store. Blank stores an empty value. |
 
@@ -190,7 +190,7 @@ Stores value under name in the internal variable store on each matching characte
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `name` | string |  | The internal variable name; case does not matter. Blank does nothing. |
 | `value` | string |  | The text to store. Blank stores an empty value. |
 

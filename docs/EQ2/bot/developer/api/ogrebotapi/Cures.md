@@ -1,8 +1,8 @@
-# OgreBotAPI.Cures
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../../index.md).
 </div>
+
+# OgreBotAPI.Cures
 
 ## Members
 
@@ -256,7 +256,7 @@ Cancels the detrimental with this main and backdrop icon ID on each matching cha
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `mainId` | int |  | the detrimental's main icon ID |
 | `backdropId` | int |  | the detrimental's backdrop icon ID |
 
@@ -274,7 +274,7 @@ Cancels, on each character the for-who matches, every curse, cure and group-cure
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `victimOrTag` | text |  | the toon the requests were for, or the -tag they were given; a blank one is refused with one console line |
 
 ```text
@@ -289,7 +289,7 @@ Drinks a cure potion now on each matching character, if a ready one is in their 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `type` | text |  | arcane, elemental, noxious or trauma; blank or any drinks whatever the cure potion settings need. Any other word prints a console line and does nothing. |
 
 ```text
@@ -306,7 +306,7 @@ Tops up cure potions, up to a full stack, from a Poison, Potion, & Totem Depot w
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `all\|arcane\|elemental\|noxious\|trauma` | word |  | all four cure types, or just one of them, any case |
 
 ```text
@@ -323,7 +323,7 @@ Records a cure request for the victim on each character the for-who matches, and
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `victim` | character name |  | who to cure; a blank one is refused with one console line |
 | `kinds...` | words |  | which cures: arcane (a), noxious (n), elemental (e), trauma (t), curse, confrontfear or sickness, one per argument or comma-separated. None means the four basic kinds (arcane, noxious, elemental, trauma). Then the options -AutoRemove &lt;seconds> (how long the request lasts, 1 to 600, default 8) and -tag &lt;name> (a name Cures:CancelRequests can cancel it by). Any other word refuses the whole request with one console line naming it. confrontfear and sickness are kept only on a dirge. |
 
@@ -341,7 +341,7 @@ Records a cure-curse request for the victim on each character the for-who matche
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `victim` | character name |  | who to cure of the curse; a blank one is refused with one console line |
 | `options...` | words |  | -AutoRemove &lt;seconds> (how long the request lasts, 1 to 600, default 8) and -tag &lt;name> (a name Cures:CancelRequests can cancel it by). Any other word refuses the request with one console line naming it. |
 
@@ -359,7 +359,7 @@ Asks each matching character to cast its class group cure within the next 2 seco
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Cures:RequestGroup[igw:${Me.Name}]
@@ -375,7 +375,7 @@ Watches for a group cure on each matching character: the class group cure goes o
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `words...` | words |  | kinds: arcane (a), noxious (n), elemental (e), trauma (t), one per argument or comma-separated; none means any of the four. Options: -count &lt;n> (at least n of you and the group carry the kind, 1 to 6, default 1), -AutoRemove &lt;seconds> (how long to watch, 1 to 600, default 8), -tag &lt;name> (a name Cures:CancelRequests can cancel it by). Any other word refuses the request with one console line naming it. |
 
 ```text
@@ -392,7 +392,7 @@ Queues a potion cure on each matching character, drunk once the cast bar is free
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `type` | text |  | arcane, elemental, noxious or trauma. Blank or any picks the needed type when the request is served. Any other word prints a console line and queues nothing. |
 
 ```text
@@ -407,7 +407,7 @@ Turns cures on or off on each matching character: the Disable CS_Cure setting an
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `on` | bool | `TRUE` | TRUE turns cures on, FALSE turns them off. Off also unticks Enable Auto Cure Potions and cancels the running class ability (Mana Cure, Tranquility, Ancestral Balm or Will of the Heavens). The 'Use these while stunned / stifled / rooted' option is left as you set it. A word that is not yes or no changes nothing. |
 
 ```text

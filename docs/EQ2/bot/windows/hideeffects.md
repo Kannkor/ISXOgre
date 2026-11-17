@@ -1,8 +1,8 @@
-# Hide Effects
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# Hide Effects
 
 > **:bulb: In game - the ? button on this window says**
 >
@@ -35,6 +35,7 @@ Shows the character, class and archetype the lists are matched against. 'run in 
 
 [![Header](../assets/hideeffects/header.png)](../assets/hideeffects/header.png "Click for full size")
 
+
 ## Buttons
 
 [![Buttons](../assets/hideeffects/tools.png)](../assets/hideeffects/tools.png "Click for full size")
@@ -49,6 +50,8 @@ Shows the character, class and archetype the lists are matched against. 'run in 
 | **Reload list** | Reads all the hide lists from disk again. Use it after editing a list file by hand. |  |
 | **Reset my edits** | Deletes the file that holds your Add and remove changes, so every group loses those changes at once. A list file you put in your own custom folder by hand is not touched.<br>*No confirmation and no undo.* |  |
 
+
+
 ## The lists
 
 One block per group, with the groups that apply to you first. The tag says what kind of group it is (general, ascension, subclass or archetype) and whether it 'applies' to you or is for an 'other class' (greyed out). A yellow 'custom file' tag means the group comes from a file in your own folder. The number on the right is how many names are in it.
@@ -62,11 +65,14 @@ One block per group, with the groups that apply to you first. The tag says what 
 | **add a name to <group> (box)** | Type the name of an effect to add to this group. Capital letters do not matter. | empty |
 | **Add** | Adds the typed name to this group and saves it at once in your own file. Nothing happens if the box is empty.<br>*The name is not checked against the game, so a typo is saved and simply never matches.* |  |
 
+
+
 ## Footer
 
 Left: how many groups and names apply to your character. Right: the last run - how many effects it checked, how many were on your lists, how many it hid, how many effect names it had to look up, and how many it could not read in time ('not ready', in red). The note in brackets says how the run went, for example 'running' while it hides and 'done' when it has finished.
 
 [![Footer](../assets/hideeffects/footer.png)](../assets/hideeffects/footer.png "Click for full size")
+
 
 ## What the window shows
 

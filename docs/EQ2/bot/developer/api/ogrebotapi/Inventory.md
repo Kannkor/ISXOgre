@@ -1,8 +1,8 @@
-# OgreBotAPI.Inventory
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../../index.md).
 </div>
+
+# OgreBotAPI.Inventory
 
 ## Members
 
@@ -228,7 +228,7 @@ Stops the bot's casting from using an item, given by its LinkID, for a number of
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `linkId` | number |  | the item's LinkID, a whole number from -2147483648 to 4294967295 |
 | `durationSec` | number |  | how long, in seconds; 0 expires at once |
 
@@ -246,7 +246,7 @@ Uses "(Temporary 4 hour) Familiar Experience" from your bags up to 10 times, wai
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Inventory:AutoConsumeFamiliarXP[${Me.Name}]
@@ -262,7 +262,7 @@ Turns auto-consume on or off for the food and drink in your equipped provision s
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `value` | true/false or word | `TRUE` | TRUE = on, FALSE = off, toggle = flip, report = change nothing; any other word means TRUE |
 
 ```text
@@ -279,7 +279,7 @@ Checks that mount training is running, then uses "(Temporary 4 hour) Mount Train
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Inventory:AutoConsumeMountTraining[${Me.Name}]
@@ -295,7 +295,7 @@ Uses "(Temporary 4 hour) Research Reduction" from your bags up to 10 times, wait
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Inventory:AutoConsumeResearch[${Me.Name}]
@@ -311,7 +311,7 @@ Turns auto-consume on or off for a stat potion in your bags (exact name); with n
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `value` | true/false or word | `TRUE` | TRUE = on, FALSE = off, toggle = flip, report = change nothing; any other word means TRUE |
 | `potion` | item name | `""` | the potion; blank = the configured stat potion |
 
@@ -329,7 +329,7 @@ Applies an immunity rune from your bags to your belt; it is queued and refuses w
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `adornType` | text |  | Stun, Stifle, Mez, Fear or Medic |
 | `unequip` | true/false | `TRUE` | TRUE takes the belt off, applies the rune and puts the belt back on; FALSE applies the rune to the worn belt |
 
@@ -347,7 +347,7 @@ Checks the condition of the item in your primary slot and prints "&lt;name> gear
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `threshold` | number | `100` | the percent at or below which to print; TRUE means 100 |
 
 ```text
@@ -364,7 +364,7 @@ Runs the Artisan's Pack Pony chore now: summons the pony, works through its conv
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `forceCheck` | true/false | `FALSE` | TRUE = run even within the re-check interval |
 
 ```text
@@ -381,7 +381,7 @@ Removes every item embargo. Ability embargoes are not touched.
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Inventory:ClearAllEmbargos["all"]
@@ -395,7 +395,7 @@ Removes the item embargo on one item, by the same LinkID AddEmbargo took. Does n
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `linkId` | number |  | the item's LinkID |
 
 ```text
@@ -410,7 +410,7 @@ Goes through each familiar already loose in your bags: one not yet in your colle
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Inventory:ConsumeFamiliars[${Me.Name}]
@@ -426,7 +426,7 @@ Runs the bot's Consume Items list once: it uses the first entry that is ready an
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `-fc` | flag |  | force combat: ignore the in-combat-only setting and the in-combat wait between items |
 | `-all` | flag |  | use every eligible entry, not just the first |
 | `-st` | flag |  | skip timers: ignore each item's own timer |
@@ -445,7 +445,7 @@ Targets yourself and consumes status ingots - every bag item whose name contains
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `amount` | number | `99999` | how many to consume; 0 or less means all |
 
 ```text
@@ -462,7 +462,7 @@ Targets yourself and consumes Status Token items, then Status Coin items, by exa
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `amount` | number | `99999` | how many tries to make; 0 or less means all |
 
 ```text
@@ -479,7 +479,7 @@ Destroys an item in your carried bags by name, but only when it has no charges o
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `itemName` | item name |  | the item to destroy |
 | `charges` | number | `0` | the charge count the item must have to be destroyed |
 
@@ -497,7 +497,7 @@ Destroys an item in your carried bags (not the bank) whose name matches exactly,
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `itemName` | item name |  | the item to destroy |
 
 ```text
@@ -514,7 +514,7 @@ Equips the item set as charm option 1 or 2 in the bot's Equipment settings, find
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `slot` | number | `1` | which charm option to equip, 1 or 2 |
 
 ```text
@@ -531,7 +531,7 @@ Opens the examine window for an item in your main bags, matched by exact name. D
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `item` | item name | `DoesNotExist` | the item to examine |
 
 ```text
@@ -548,7 +548,7 @@ Examines every carried item whose name contains any of the given texts (main bag
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `item...` | item names |  | one or more name texts to match (contains, any case) |
 
 ```text
@@ -565,7 +565,7 @@ Fills the adornment icon colour table that AdornmentColour and IsAdornmentColour
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Inventory:InitAdornmentInfo[${Me.Name}]
@@ -581,7 +581,7 @@ Redeems a Krono from the Krono page of your character window and confirms it, th
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Inventory:RedeemKrono[${Me.Name}]
@@ -597,7 +597,7 @@ Prints one console line per gear slot 1 to 22: the slot number, the bot's name f
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Inventory:SpewSlotNames[${Me.Name}]
@@ -613,7 +613,7 @@ Unpacks an item in your bags (exact name), with flags after the item in any orde
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `item` | item name |  | the item to unpack |
 | `...` | flags |  | -qty N or -all, and -pick &lt;number \| name \| lowest> |
 
@@ -631,7 +631,7 @@ Unpacks every Familiar Cage in your bags, then goes through each familiar in you
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Inventory:UnpackConsumeFamiliars[${Me.Name}]
@@ -647,7 +647,7 @@ Unpacks every Familiar Cage in your bags, one at a time (up to 20). It is queued
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Inventory:UnpackFamiliars[${Me.Name}]
@@ -663,7 +663,7 @@ Moves the adornments from the old item in bag 1 slot 1 onto the new item in bag 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Inventory:UpgradeItem[${Me.Name}]
@@ -677,7 +677,7 @@ Uses an item by name: equipped items (gear, food and drink) are checked first, t
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `item` | item name |  | the item to use |
 | `...` | any |  | extra arguments are ignored |
 
@@ -695,7 +695,7 @@ Uses an item on another player: it targets that player, uses the item (equipped 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `item` | item name |  | the item to use |
 | `player` | player name or actor id | `me` | who to use it on |
 | `...` | any |  | extra arguments are ignored |

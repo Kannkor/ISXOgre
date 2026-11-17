@@ -1,8 +1,8 @@
-# Admin
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# Admin
 
 Admin is for sharing profiles and for Profile Parts. The left side saves a shareable copy of your current profile, and imports profiles other people give you. The right side, Profile Parts, lets several characters share one tab's settings: you point a tab (for example the Cast Stack) at a shared file, and every character pointed at that file reads and saves that tab there. The Clear Item Effect Cache button makes the bot look at your usable items again.
 
@@ -18,6 +18,8 @@ Admin is for sharing profiles and for Profile Parts. The left side saves a share
 | **Use profile name** | The profile name stored inside the shareable copy. This is the name the other person sees after importing it. Leave blank to use your class name. | empty |
 | **Save Custom Profile** | Writes a shareable copy of the profile you are running to Scripts\OgreSave\EQ2\OgreBot\Profiles\Samples\<file name>.json. Your Aliases and Relay Groups are left out.<br>*Refuses if that file already exists.* |  |
 
+
+
 ## Importing Profiles
 
 [![Importing Profiles](../assets/ogrebot/tab-admin-s2.png)](../assets/ogrebot/tab-admin-s2.png "Click for full size")
@@ -28,6 +30,8 @@ Admin is for sharing profiles and for Profile Parts. The left side saves a share
 | **Import Profile** | Imports the file selected in the list below: every profile in it is added next to yours (renamed with _1, _2 if the name is taken) and not loaded. With nothing selected it says so and does nothing. |  |
 | **Profiles you can import** | The .json files in Scripts\OgreSave\EQ2\OgreBot\Profiles\Import. Click a name to select it (it is highlighted), then press Import Profile. Click it again to clear the selection. | empty until you press Refresh List |
 | **Clear Item Effect Cache** | Forgets everything the bot learned about what your usable items do, then examines the items on your Cast Stack again right away. Use it when an item's effect changed or was read wrong.<br>*The cache is shared by every character on this PC.* |  |
+
+
 
 ## Profile Parts
 
@@ -43,12 +47,16 @@ Admin is for sharing profiles and for Profile Parts. The left side saves a share
 | **Add AND load tab immediately** | Points the chosen tab at the chosen file and reloads your profile, so that tab now shows and saves the shared settings. Choosing a tab that is already listed moves it to the new file.<br>*Needs Enable Profile Parts ticked to have any effect.* |  |
 | **Profile Parts in use** | Each shared tab and the file it uses ('from <file>.json'). A struck-through row ('would use') is switched off and uses your own profile. | empty |
 
+
+
 ## Profile Parts
 
 | Control | What it does |
 |---|---|
 | **Double-click a row** | Switches that mapping off (the tab goes back to your own profile) or back on. The mapping is kept either way.<br>*Reloads your profile at once.* |
 | **x (stop sharing this tab)** | Removes the mapping. The tab goes back to your own profile's settings, which were never changed while it was shared.<br>*Reloads your profile at once. The shared file itself is not deleted.* |
+
+
 
 ## Good to know
 

@@ -1,8 +1,8 @@
-# OgreBotAPI.Client
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../../index.md).
 </div>
+
+# OgreBotAPI.Client
 
 ## Methods
 
@@ -14,7 +14,7 @@ Recentres the camera: in first person it uses the game's camera recentre, otherw
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Client:ResetCamera[${Me.Name}]
@@ -30,7 +30,7 @@ Queued: switches to third person if needed, sets the camera pitch, and goes back
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `pitch` | int | `0` | Camera pitch from -75 to 75; 0 is level |
 | `endInFirstPerson` | bool | `FALSE` | TRUE to switch to first person after setting the pitch |
 
@@ -48,7 +48,7 @@ Moves the mouse cursor to x,y with Inner Space's Mouse:SetPosition, right away. 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `x` | int |  | Horizontal position in pixels |
 | `y` | int |  | Vertical position in pixels |
 
@@ -66,7 +66,7 @@ Moves the mouse cursor to the centre of the display (half its width and height),
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Client:SetMousePositionMiddle[${Me.Name}]

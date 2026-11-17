@@ -1,8 +1,8 @@
-# ISXOgreEQ2.HUDs
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../../index.md).
 </div>
+
+# ISXOgreEQ2.HUDs
 
 ## Members
 

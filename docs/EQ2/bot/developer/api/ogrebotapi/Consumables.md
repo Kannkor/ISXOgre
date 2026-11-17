@@ -1,8 +1,8 @@
-# OgreBotAPI.Consumables
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../../index.md).
 </div>
+
+# OgreBotAPI.Consumables
 
 ## Methods
 
@@ -14,7 +14,7 @@ Queues, for every item in your bags, Overseer bag and harvest bag whose name con
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Consumables:AddMercenaries[${Me.Name}]
@@ -30,7 +30,7 @@ Summons your familiar at once with summon_familiar, unless your Summon Familiar 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Consumables:CheckFamiliar[all]
@@ -46,7 +46,7 @@ Queues a check that resumes your mercenary if needed, opens Persona on the Merce
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Consumables:CheckMercenaryTraining[${Me.Name}]
@@ -62,7 +62,7 @@ Queues a check that opens Persona on the Mounts tab and starts training your cur
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Consumables:CheckMountTraining[${Me.Name}]
@@ -78,7 +78,7 @@ Uses Call of the Veteran to bring up the veteran reward porter (or uses one alre
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `travel` | string | `Teleport` | the option to pick in the first popup, matched by its label in any case; the default takes you to the member, Summon brings the member to you |
 | `toon` | string |  | the group or raid member to pick in the second popup, by full name; blank echoes that no toon was named and does nothing |
 | `allowSameZone` | bool | `FALSE` | TRUE goes ahead even when the member is already in your zone; FALSE skips that case |
@@ -97,7 +97,7 @@ Drinks the named item from your bags at once, using the game's drink_alcohol com
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `item` | string | `""` | the item's full name (case does not matter); it must be in your bags, not the bank; required |
 
 ```text
@@ -114,7 +114,7 @@ Queues a forced dismount: sit, toggle summon_mount once, then stand, about 3 sec
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Consumables:MountDown[all]
@@ -130,7 +130,7 @@ Queues a forced mount-up: sit, toggle summon_mount, stand, then toggle summon_mo
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Consumables:MountUp[all]
@@ -146,7 +146,7 @@ Applies the Rekindle Bond verb at once to the nearest actor whose name contains 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Consumables:RekindleHeartstone[${Me.Name}]
@@ -162,7 +162,7 @@ Opens the nearest Food & Drink Depot (it must be within 11) and tops your equipp
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Consumables:ReplenishFoodDrink[igw:${Me.Name}]
@@ -178,7 +178,7 @@ Opens the nearest Poison, Potion, & Totem Depot (it must be within 11) and pulls
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `potion` | string | `""` | the potion's name as the depot lists it; blank uses the statPotion name from replenish-names.json (your OgreSave/EQ2/Replenish/custom copy wins over the shipped one) |
 
 ```text
@@ -195,7 +195,7 @@ Keeps one scroll buff up: if a buff of that family is already maintained it does
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `name` | string | `Prowess` | the scroll family, any case: Prowess, forcelink, Pain, painlink, Power or powerlink; anything else is refused with a console warning |
 | `cancelIfDurationLessThan` | int | `0` | minutes; a maintained buff of the family with less time left than this is cancelled and recast, 0 leaves any maintained one alone |
 | `useBest` | bool | `FALSE` | only used when none of the family is in your spellbook yet: TRUE scribes the first bag scroll found from the bottom of the family's scroll list, FALSE from the top |
@@ -214,7 +214,7 @@ Sends summon_familiar at once, with no check of whether a familiar is already ou
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Consumables:SummonFamiliar[${Me.Name}]

@@ -1,8 +1,8 @@
-# OgreBotAPI.Combat
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../../index.md).
 </div>
+
+# OgreBotAPI.Combat
 
 ## Members
 
@@ -24,7 +24,7 @@ echo ${OgreBotAPI.Combat.InCombat}
 
 `${OgreBotAPI.Combat.IsReady}`
 
-TRUE while OgreBot is open and has finished loading. FALSE after it is closed.
+TRUE when OgreBot is up: its main window or mini toolbar is open and a profile is loaded (the same check as ${ISXOgreEQ2.OgreBot.IsReady}); FALSE after it is closed.
 
 **Returns:** bool: TRUE when OgreBot is open and ready; FALSE otherwise.
 
@@ -100,7 +100,7 @@ Adds a mob name to the no-offensive list: while your current NPC target matches 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `mobName` | string |  | The mob name to add. A blank name is ignored. |
 | `exactOnly` | bool | `TRUE` | TRUE matches the whole name only; FALSE matches any target whose name contains mobName. |
 
@@ -118,7 +118,7 @@ Empties the no-offensive list built by AddNoOffensive. Reasons set with SetNoOff
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Combat:ClearNoOffensive[all]
@@ -134,7 +134,7 @@ When this character is grouped and is the group leader, runs the game's countdow
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `seconds` | int | `10` | Seconds to count down, 1 to 30. A word that is not a number reads as 0, so it counts down from 1. The -countdown console row passes 1 when its time is left blank. |
 
 ```text
@@ -151,7 +151,7 @@ Takes a mob name off the no-offensive list that Combat:AddNoOffensive adds to; t
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `mobName` | string |  | The mob name to take off the list. A blank name is ignored. |
 
 ```text
@@ -168,7 +168,7 @@ Turns no-defensive on or off by reason: on adds the reason (manual when blank), 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `on` | bool | `TRUE` | TRUE adds the reason; FALSE removes it, or every reason when reason is blank. A word that is not yes or no changes nothing. |
 | `reason` | string | `""` | A name for why it is on, so several callers can hold it at once. Blank means manual when adding and every reason when removing. |
 
@@ -186,7 +186,7 @@ Turns no-offensive on or off by reason: on adds the reason (manual when blank), 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `on` | bool | `TRUE` | TRUE adds the reason; FALSE removes it, or every reason when reason is blank. A word that is not yes or no changes nothing. |
 | `reason` | string | `""` | A name for why it is on, so several callers can hold it at once. Blank means manual when adding and every reason when removing. |
 
@@ -204,7 +204,7 @@ Sets the flag NoReqBowAbilities reports, and needs the character in the world. W
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `on` | bool | `TRUE` | TRUE turns the flag on; FALSE turns it off. A word that is not yes or no leaves it as it is. |
 
 ```text
@@ -221,7 +221,7 @@ Adds fighter names to the threat ignore list: a fighter on it holding aggro does
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `name...` | string |  | One or more fighters' character names to add. |
 
 ```text
@@ -238,7 +238,7 @@ Empties the threat ignore list. Needs the character in the world.
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Combat:ThreatIgnoreClear[igw:${Me.Name}]
@@ -254,7 +254,7 @@ Prints the threat ignore list to the console: a ThreatFighterIgnoreList -- Start
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Combat:ThreatIgnoreList[${Me.Name}]
@@ -270,7 +270,7 @@ Removes each named fighter from the threat ignore list, in any case. A name that
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `name...` | string |  | One or more character names to remove. |
 
 ```text

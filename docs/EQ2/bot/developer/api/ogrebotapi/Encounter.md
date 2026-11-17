@@ -1,8 +1,8 @@
-# OgreBotAPI.Encounter
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../../index.md).
 </div>
+
+# OgreBotAPI.Encounter
 
 ## Methods
 
@@ -14,7 +14,7 @@ Prints in this character's console the encounter coding for the current zone: on
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Encounter:List[${Me.Name}]

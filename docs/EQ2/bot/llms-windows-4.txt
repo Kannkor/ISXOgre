@@ -195,11 +195,15 @@ Your saved profiles, in name order. The number after a name is how many characte
 | **Import** | Copies your auto-login profiles from the old OgreBot into this window. It reads the old bot's AutoLoginProfiles.xml and AutoLoginSettings.xml (in Scripts\EQ2OgreCommon\OgreAutoLogin) and writes one new profile per old one. The log shows how many were written, skipped or failed.<br>*The old bot's timing settings are copied into every imported profile. Characters not in your saved account list are counted as warnings but still imported.* |  |
 | **Overwrite on import** | When ticked, Import replaces a profile you already have with the same name. When not ticked, those are skipped and your existing profile is kept. | off |
 
+
+
 ## Profile name
 
 | Control | What it does | Default |
 |---|---|---|
 | **Profile name** | The name of the profile. Save uses it. The file on disk is named after it, with anything that is not a letter or number turned into an underscore.<br>*Spaces are fine. Renaming a saved profile and clicking Save moves it to the new name.* | empty |
+
+
 
 ## Character assignments
 
@@ -213,6 +217,8 @@ One row per character. Each field is pick-or-type: click it for a list, or type 
 | **x (remove row)** | Removes that character row. If it was the last row, a fresh empty row takes its place.<br>*Not saved until you click Save.* |  |
 | **+ Add row** | Adds another character row (Uplink ThisUplink, Session any, Character empty). |  |
 
+
+
 ## Other PCs (uplinks)
 
 The other PCs a character row can name, by their InnerSpace uplink name. It is the same list as OgreBot's Uplink Info tab and the MCP's Connect button. When a profile has rows on another PC, Start connects to that PC if it is not connected yet, checks that its uplink answers, then launches, logs in and loads OgreBot on its sessions from this PC. A PC that cannot be reached has its rows skipped and the rest of the profile still runs.
@@ -222,6 +228,8 @@ The other PCs a character row can name, by their InnerSpace uplink name. It is t
 | **Uplink name** | Type the InnerSpace uplink name of another PC (in InnerSpace on that PC: its Remote name). | empty |
 | **+ Add** | Adds the typed name to the list. The log says whether it was added.<br>*The list is saved at once, for every profile on this PC.* |  |
 | **x (remove PC)** | Takes that PC off the list.<br>*Rows that name it keep the name; Start still tries to connect to it.* |  |
+
+
 
 ## Settings
 
@@ -236,6 +244,8 @@ Times are in tenths of a second: 150 means 15 seconds. The editor scrolls; these
 | **Wait between launches** | The pause after each new session is launched, before the next one. | 50 (5 seconds) |
 | **Login stagger - base** | The pause between one character's login and the next, so the server is not hit with every login at once. | 300 (30 seconds) |
 | **Login stagger - random** | A random extra pause, up to this much, added to the base pause for each login. 0 turns the random part off. | 150 (up to 15 seconds) |
+
+
 
 ## Save, Delete, Shortcut and Start
 
@@ -252,11 +262,15 @@ At the opening window size these buttons are below the fold: scroll the right si
 | **Dry run** | When ticked, Start only works out and lists what it would do (who stays, who gets camped, which sessions it would launch, who it would log in). Nothing is actually done.<br>*Off means Start really does it. Tick it the first time you try a new profile.* | off |
 | **Start** | Runs the selected profile, as it is saved, in InnerSpace. Characters already where they belong are left alone; a wrong character in a session is camped first; missing sessions are launched; then each character logs in, with the stagger pause between logins. Each character gets OgreBot loaded as soon as it is in the world. Progress appears in the log below as it happens.<br>*Start runs the profile as last SAVED, not what is on screen. Click Save first if you changed anything, or if the profile is new.* |  |
 
+
+
 ## Window
 
 | Control | What it does |
 |---|---|
 | **Title bar close (X)** | Closes the window. A run that has already started keeps going in InnerSpace.<br>*Unsaved changes are lost.* |
+
+
 
 ## What the window shows
 

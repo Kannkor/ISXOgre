@@ -1,12 +1,13 @@
-# Codex Inspect
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
 
+# Codex Inspect
+
 Codex Inspect uploads the gear of the people in your group or raid to the EQ2Codex.com website, so you can see it there. You need an EQ2Codex API token first: press Setup API Token and paste the one from your eq2codex.com account. Opening the tab fills the left list (Roster) with your raid, or your group, or just you when solo. Each name shows how long until it can be inspected again, or 'ready'. Double-click names to move them into the right list (To Inspect), or press Queue All, then press Inspect Queued Now. The bot inspects each name in turn and uploads it. Names that upload leave the right list; names that fail stay there in red, marked FAIL.
 
 [![Codex Inspect tab](../assets/ogrebot/tab-codex-inspect.png)](../assets/ogrebot/tab-codex-inspect.png "Click for full size")
+
 
 | Option | What it does | Default |
 |---|---|---|
@@ -18,6 +19,8 @@ Codex Inspect uploads the gear of the people in your group or raid to the EQ2Cod
 | **Inspect Queued Now** | Starts a run: the bot inspects each name in the To Inspect list, one about every 3 seconds, and uploads their gear to eq2codex.com.<br>*Greyed out while a run is going. Names inspected in the last 5 minutes are skipped.* |  |
 | **Reset Raid Force** | Clears your active group/raid on the eq2codex.com website, including the gear and adornments uploaded for it. Nothing on your PC changes.<br>*Greyed out while a run is going.* |  |
 
+
+
 ## Top of tab
 
 | Control | What it does |
@@ -26,6 +29,8 @@ Codex Inspect uploads the gear of the people in your group or raid to the EQ2Cod
 | **Wiki** | Opens the EQ2Codex help pages in your web browser. |
 | **Setup API Token** | Opens the EQ2Codex API Token window, where you paste your token from eq2codex.com. The token is kept on this PC, outside your profile, and is never shown back to you.<br>*The same window opens from the Codex Toons tab. One token serves both.* |
 | **View my Group/Raid** | Opens your active group/raid page on eq2codex.com in your web browser. |
+
+
 
 ## Good to know
 

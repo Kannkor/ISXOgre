@@ -1,8 +1,8 @@
-# OgreBotAPI.Windows
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../../index.md).
 </div>
+
+# OgreBotAPI.Windows
 
 ## Members
 
@@ -137,7 +137,7 @@ Presses Receive on a reward window that offers no choice. It refuses, with a con
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `windowId` | int | `0` | The reward window id. Empty or 0 = the active reward window (the oldest one the bot saw open that is still up). |
 
 ```text
@@ -154,7 +154,7 @@ Takes a reward from a reward window: on a choice window it accepts the reward yo
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `num\|name` | number or text | `0` | The reward to take on a choice window: its number (1 = the first) or its item name (any case). Ignored on a single-reward window. |
 | `windowId` | int | `0` | The reward window id. 0 = the active reward window (the oldest one the bot saw open that is still up). |
 
@@ -172,7 +172,7 @@ Clicks one of the choice window's buttons: 1 is the first button, 2 the second. 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `option` | int | `1` | Which button to click: 1 or 2 (below 1 is 1, above 2 is 2). |
 
 ```text
@@ -189,7 +189,7 @@ Closes the top-most game window, exactly as the /close_top_window command does. 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Windows:Close[${Me.Name}]
@@ -205,7 +205,7 @@ Clicks the close button of the item examine window once. It closes one examine w
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Windows:CloseExamine[${Me.Name}]
@@ -221,7 +221,7 @@ Clicks Cancel on the Dungeon Maker save-rating window. It clicks only when that 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Windows:DungeonMakerCancel[${Me.Name}]
@@ -237,7 +237,7 @@ Closes the game's All-Access membership offer window by clicking its Cancel butt
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Windows:F2PWindowCheck[${Me.Name}]
@@ -253,7 +253,7 @@ Clicks the first button of the choice window when that window is showing a text 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Windows:InputTextAccept[${Me.Name}]
@@ -269,7 +269,7 @@ Adds text to the end of the choice window's text box, after whatever is already 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `text` | string |  | The text to add to the box. Quote it if it contains a comma. |
 
 ```text
@@ -286,7 +286,7 @@ Empties the choice window's text box. Does nothing when the text box is not visi
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Windows:InputTextClear[${Me.Name}]
@@ -302,7 +302,7 @@ Clicks the first button of the game's choice window (the pop-up with two buttons
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Windows:OK[${Me.Name}]
@@ -318,7 +318,7 @@ Clicks Exit on the Proving Grounds score window. It clicks only when that button
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Windows:ProvingGroundsExit[${Me.Name}]
@@ -334,7 +334,7 @@ Clicks the close button of the Proving Grounds leaderboard window. It clicks onl
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Windows:ProvingGroundsScoreboardClose[${Me.Name}]
@@ -350,7 +350,7 @@ Picks a reply in the open reply dialog (the window a clicked item or object open
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `number\|text` | number or text | `1` | A reply number (1 = the first), or text to find inside a reply (any case). |
 
 ```text
@@ -367,7 +367,7 @@ Closes the open reply dialog. Does nothing, silently, when no reply dialog is op
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Windows:ReplyClose[${Me.Name}]
@@ -383,7 +383,7 @@ Picks an option in the open select window and then presses its OK. The match hap
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `search...` | number or text |  | The option to pick: a number is its position (1 = the first real option); text must match the option name exactly, any case. Flags may come before or after it as their own arguments: -substring (match text anywhere in the name), -test (click the option but not OK), -reportonly (say which option matches, click nothing) and -spew (list the options). |
 
 ```text
@@ -400,7 +400,7 @@ Clicks Cancel on the open select window. Does nothing, silently, when the Cancel
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Windows:SelectCancel[${Me.Name}]
@@ -416,7 +416,7 @@ Prints every option of the open select window to the console, numbered from 1, w
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Windows:SelectSpew[${Me.Name}]
@@ -432,7 +432,7 @@ Opens the OgreConsole window, or closes it for a no word (FALSE, 0, no or off). 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `on` | bool | `TRUE` | FALSE, 0, no or off closes the console; anything else, empty included, opens it. |
 
 ```text
@@ -449,7 +449,7 @@ Prints every reward window id the bot has seen open, oldest first, and whether e
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Windows:SpewRewardWindowIDs[${Me.Name}]
@@ -465,7 +465,7 @@ Flips the OgreConsole window between open and closed. A yes word (TRUE, 1, yes, 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `value` | string | `toggle` | TRUE opens, FALSE closes, anything else (or nothing) flips. |
 
 ```text
@@ -482,7 +482,7 @@ Hides the main OgreBot window if it is shown, or shows it if it is hidden. It do
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Windows:ToggleMain[${Me.Name}]

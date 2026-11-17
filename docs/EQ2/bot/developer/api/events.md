@@ -1,8 +1,8 @@
-# Events
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../index.md).
 </div>
+
+# Events
 
 The events the bot fires. Attach an atom to one in your script to react to it.
 

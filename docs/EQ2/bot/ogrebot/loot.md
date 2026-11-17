@@ -1,8 +1,8 @@
-# Loot
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# Loot
 
 Loot decides what the bot does when a loot window opens. Nothing on the left half works unless 'Accept Loot' is ticked on the Settings tab. Each window type has its own block: Free For All (solo boxes and FFA groups), Lottery, Need Before Greed, and Leader Only (you are the loot master). Leader Only is where Smart Loot and Loot Distribution hand items to group members; anything they do not claim goes to the plain 'loot this kind of item' boxes. The right half holds options that apply on their own, plus the Auto-Loot list: type an exact item name in the box under it and press Add (or Enter), and the item is always taken from Free For All and Leader Only windows. Each row has an x to remove it.
 
@@ -17,6 +17,8 @@ Loot decides what the bot does when a loot window opens. Nothing on the left hal
 | **Accept any tradable** | The bot handles Free For All loot windows. It takes every tradable item, plus anything on the Auto-Loot list. No-Trade and Heirloom items are left behind unless 'Loot everything' is ticked.<br>*With this off, Free For All windows are ignored completely.* | off |
 | **Loot everything** | In Free For All windows the bot takes every item, No-Trade and Heirloom included.<br>*Needs 'Accept any tradable' ticked too.* | off |
 
+
+
 ## Lotto Loot Options
 
 [![Lotto Loot Options](../assets/ogrebot/tab-loot-s2.png)](../assets/ogrebot/tab-loot-s2.png "Click for full size")
@@ -25,6 +27,8 @@ Loot decides what the bot does when a loot window opens. Nothing on the left hal
 |---|---|---|
 | **Accept All (including No-Trade)** | When a Lottery loot window opens, the bot enters the roll for everything in it.<br>*If both Lotto boxes are ticked, this one wins.* | off |
 | **Decline all** | When a Lottery loot window opens, the bot declines the roll. | off |
+
+
 
 ## NBG Loot Options
 
@@ -35,6 +39,8 @@ Loot decides what the bot does when a loot window opens. Nothing on the left hal
 | **Need All (including No-Trade)** | When a Need Before Greed window opens, the bot picks Need.<br>*If several NBG boxes are ticked, Need wins, then Greed, then Decline.* | off |
 | **Greed All (including No-Trade)** | When a Need Before Greed window opens, the bot picks Greed. | off |
 | **Decline all** | When a Need Before Greed window opens, the bot declines it. | off |
+
+
 
 ## Leader Only Loot Options
 
@@ -54,6 +60,8 @@ Loot decides what the bot does when a loot window opens. Nothing on the left hal
 | **Pass LORE items I already have to the group** | A LORE item the bot would take for you, when you already have one in your bags or bank, goes to a group member who does not have one. The bot asks the group once per chest, and only members whose bot answers can be given one, in group order. If everyone who answered has one, the item stays in the chest and the bot moves on.<br>*Group only: in a raid it does nothing. A hand-out that does not go through counts as that member having one, and the next copy goes to the next member. The instance controller's default setup ticks it.* | off |
 | **Close loot window when done** | Once the bot has nothing left to do in a Leader Only loot window, about a second later it closes it, whatever is left inside. Leave it off when you are there and want the window to wait for you.<br>*The instance controller's default setup ticks it, so a run loots each chest and moves on. Its no-trade steps turn it off while they run.* | off |
 
+
+
 ## Misc Options
 
 [![Misc Options](../assets/ogrebot/tab-loot-s5.png)](../assets/ogrebot/tab-loot-s5.png "Click for full size")
@@ -68,6 +76,8 @@ Loot decides what the bot does when a loot window opens. Nothing on the left hal
 | **Enable coin splitting with the group/raid after looting.** | Each time you loot coin, the bot splits that amount with your group or raid. | off |
 | **Only split if the coin includes 1 platinum or more.** | Coin is only split when the looted amount has at least 1 platinum in it. Gold, silver and copper alone are kept.<br>*Does nothing unless the box above is ticked. 99 gold does not count as 1 platinum.* | off |
 
+
+
 ## Auto-Loot item names
 
 [![Auto-Loot item names](../assets/ogrebot/tab-loot-s6.png)](../assets/ogrebot/tab-loot-s6.png "Click for full size")
@@ -75,6 +85,8 @@ Loot decides what the bot does when a loot window opens. Nothing on the left hal
 | Option | What it does | Default |
 |---|---|---|
 | **Always loot these exact item names (Free-For-All and Leader Only). Adds to the built-in list (Void Shard, Obol, ...).** | Items named here are always taken from Free For All and Leader Only windows, even No-Trade ones. Your names are added to the shipped list.<br>*The name must match exactly (case does not matter). The FFA or Leader Only master box must be ticked for its window type.* | empty |
+
+
 
 ## Auto-Loot item names
 
@@ -84,6 +96,8 @@ Loot decides what the bot does when a loot window opens. Nothing on the left hal
 | **From examine** | Fills the name box with the item in the examine window you have open (examine the item in game first). Press Add to put it on the list.<br>*It only fills the box - nothing is added until you press Add. With no item examine window open, the box is left as it was and the window says 'Examine the item first, then press From examine'.* |  |
 | **Add** | Adds the typed name to the Auto-Loot list. It takes effect on the next loot window. |  |
 | **x (remove row)** | Removes that name from your list. |  |
+
+
 
 ## Good to know
 

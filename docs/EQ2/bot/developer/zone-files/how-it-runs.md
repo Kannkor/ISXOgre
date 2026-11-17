@@ -1,8 +1,8 @@
-# How a zone file runs
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../index.md).
 </div>
+
+# How a zone file runs
 
 ## The top of the file
 
@@ -101,6 +101,7 @@ A `wait` step holds the list. `limitMs` and `onTimeout` are always needed: there
 `.id`, `.name` and `.distance` read it.
 
 Here the group runs to each light the boss calls, while the lights are up and the boss is not on top of them:
+
 
 ```json
     {

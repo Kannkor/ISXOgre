@@ -1,8 +1,8 @@
-# Run your own fight files
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../index.md).
 </div>
+
+# Run your own fight files
 
 A **fight file** (an encounter file) tells the bot what to do in one named fight: where to stand, what to cast,
 and what to do when the mob does something. A zone file walks the group through the zone; the fight files do the

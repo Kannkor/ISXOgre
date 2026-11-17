@@ -1,8 +1,8 @@
-# OgreBotAPI.Travel
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../../index.md).
 </div>
+
+# OgreBotAPI.Travel
 
 ## Members
 
@@ -34,7 +34,7 @@ Double-clicks a bell within reach (15 units unless the travel data says otherwis
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `toWhere` | string |  | The destination button to pick, matched case-insensitively against the map's button labels as part of a label; the first match wins. When it is not found the console line lists every destination the bell offers. |
 | `exact` | bool | `FALSE` | TRUE to match the whole label (still any case) instead of part of it. |
 | `mzo` | string | `LAST_ENTRY` | When a zone-door destination window follows the zone button, the row to pick there: a row number, a destination name, or LAST_ENTRY for the last row. When a zone's sub-map follows instead, the last location on it is picked. |
@@ -53,7 +53,7 @@ Double-clicks a druid ring within reach, or in a guild hall talks to the guild h
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `toWhere` | string |  | The destination button to pick, matched case-insensitively against the map's button labels as part of a label; the first match wins. When it is not found the console line lists every destination the ring offers. |
 | `exact` | bool | `FALSE` | TRUE to match the whole label (still any case) instead of part of it. |
 | `mzo` | string | `LAST_ENTRY` | When a zone-door destination window follows the zone button, the row to pick there: a row number, a destination name, or LAST_ENTRY for the last row. When a zone's sub-map follows instead, the last location on it is picked. |
@@ -72,7 +72,7 @@ Opens the game's fast travel map, picks toWhere, clicks the zone button, answers
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `toWhere` | string |  | The destination button to pick, matched case-insensitively as part of a label unless -em is given; the first match wins. When it is not found the console line lists every destination the map offers. |
 | `flag...` | string |  | Optional switches in any order. -em (or -exactmatch) matches the whole label. -mto &lt;option> picks that number of sub-map location, counting from 1, the one whose description contains that text, Random, or Last; without it the last location is picked. -loc &lt;x,y,z> (or -mtl) picks the sub-map location nearest that point. -mzo &lt;option> picks the zone-door row: a number, a name, or LAST_ENTRY (the default). -report echoes the sub-map's locations instead of picking one. Unknown words are ignored. |
 
@@ -90,7 +90,7 @@ Plans a route from this zone to zone across the travel network (zone doors, bell
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `zone` | string |  | The destination zone: its display name in any case, or its travel-data id. An empty zone echoes "no destination zone given", and an unknown one echoes a "did you mean" list. |
 | `poi` | string | `""` | A named point inside the destination zone to walk to at the end. A point the zone does not declare gets a console line and the route still goes to the zone. |
 
@@ -108,7 +108,7 @@ With no flag, echoes the account travel features the route planner knows for thi
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `flag` | string | `""` | The feature id to set: sod_friends_and_family or roc_friends_and_family, in any case. Empty lists every feature instead of setting one; an id that is not one of those prints a line naming them and saves nothing. |
 | `on` | bool |  | TRUE when the character holds the feature, FALSE when it does not. Needed with a flag; a word that is not a yes or no word leaves the feature as it is. |
 
@@ -126,7 +126,7 @@ Starts the same route as Mesh on this character, then sends it to the rest of th
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `zone` | string |  | The destination zone: its display name in any case, or its travel-data id. An empty zone echoes "no destination zone given", and an unknown one echoes a "did you mean" list. |
 | `poi` | string | `""` | A named point inside the destination zone to walk to at the end, sent to every member. A point the zone does not declare gets a console line and the route still goes to the zone. |
 
@@ -144,7 +144,7 @@ Plans the route from here to zone and echoes it, a summary line with the hop cou
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `zone` | string |  | The destination zone: its display name in any case, or its travel-data id. An unknown one echoes a "did you mean" list. |
 
 ```text
@@ -161,7 +161,7 @@ Stops the route in progress, and a trip still waiting for its zone to settle, wh
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Travel:MeshStop[all]
@@ -177,7 +177,7 @@ Echoes every destination in the open zone-door destination window as "[#n] name"
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Travel:SpewZoneDoorOptions[${Me.Name}]
@@ -193,7 +193,7 @@ Double-clicks a wizard spire within reach, picks toWhere on its map, clicks the 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `toWhere` | string |  | The destination button to pick, matched case-insensitively against the map's button labels as part of a label; the first match wins. When it is not found the console line lists every destination the spire offers. |
 | `exact` | bool | `FALSE` | TRUE to match the whole label (still any case) instead of part of it. |
 | `mzo` | string | `LAST_ENTRY` | When a zone-door destination window follows the zone button, the row to pick there: a row number, a destination name, or LAST_ENTRY for the last row. When a zone's sub-map follows instead, the last location on it is picked. |
@@ -212,7 +212,7 @@ Double-clicks the nearest actor within 15 units whose name contains "Magic Door 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Travel:ToGuildHall[${Me.Name}]
@@ -228,7 +228,7 @@ Picks toWhere on a travel map that is already open, clicks the zone button, answ
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `toWhere` | string |  | The destination button to pick, matched case-insensitively against the map's button labels as part of a label; the first match wins. When it is not found the console line lists every destination the map offers. |
 | `exact` | bool | `FALSE` | TRUE to match the whole label (still any case) instead of part of it. |
 | `mzo` | string | `LAST_ENTRY` | When a zone-door destination window follows the zone button, the row to pick there: a row number, a destination name, or LAST_ENTRY for the last row. When a zone's sub-map follows instead, the last location on it is picked. |
@@ -263,7 +263,7 @@ The for-who form of ZoneDoor: picks door in the zone-door destination window tha
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `door` | string | `1` | A row number, a destination name (the whole name in any case, with or without its instance number), or LAST_ENTRY for the last row. SpewZoneDoorOptions shows the rows. |
 
 ```text

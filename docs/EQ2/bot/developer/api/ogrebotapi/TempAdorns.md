@@ -1,8 +1,8 @@
-# OgreBotAPI.TempAdorns
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../../index.md).
 </div>
+
+# OgreBotAPI.TempAdorns
 
 ## Members
 
@@ -40,7 +40,7 @@ Queues putting a profile's temporary adornments on your gear: each listed piece 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `profile` | string |  | the saved profile to apply, any case (CBOC, Pot and HP exist by default); a two-handed primary row in it is used for Primary when your primary weapon is a two-hander |
 
 ```text
@@ -57,7 +57,7 @@ Closes the Temp Adornments window. Nothing happens when it is not open.
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.TempAdorns:Close[${Me.Name}]
@@ -71,7 +71,7 @@ Prints every saved temporary-adornment profile to the console, one line each wit
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.TempAdorns:List[${Me.Name}]
@@ -85,7 +85,7 @@ Opens the Temp Adornments window, where profiles are built, saved, deleted and a
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.TempAdorns:Open[${Me.Name}]

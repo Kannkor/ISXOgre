@@ -1,8 +1,8 @@
-# OgreBotAPI.IM
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../../index.md).
 </div>
+
+# OgreBotAPI.IM
 
 ## Members
 
@@ -76,7 +76,7 @@ Prints what each -&lt;mode> flag expands to. `reload` reads the chain defaults f
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `words...` | string |  | reload. Optional. |
 
 ```text
@@ -91,7 +91,7 @@ Closes the Inventory Manager window, clears a pending -end, and closes the merch
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.IM:Close[${Me.Name}]
@@ -105,7 +105,7 @@ The window's activity log: always, running or never sets when the strip shows, a
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `word` | string |  | always, running, never or clear. Optional. |
 
 ```text
@@ -120,7 +120,7 @@ Runs the depot mode, deposits into the nearest house or guild hall depots, and b
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `words...` | string |  | The depot flags, one argument each, such as -harvest all -nearestdepot. `ogre im help` lists them. Optional. |
 
 ```text
@@ -135,7 +135,7 @@ The destroy mode: with no words, or flags first, it brings the window up and des
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `words...` | string |  | stop, status, reload, preview (or plan), list [all], add &lt;name> or remove &lt;name>; or flags; or an item. One argument each. Optional. |
 
 ```text
@@ -150,7 +150,7 @@ Stops whatever the Inventory Manager is running and closes the window, the same 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.IM:End[all]
@@ -164,7 +164,7 @@ Fills the named box of the window with the item in the open item examine window;
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `box` | string |  | restock or trade: the tab whose box it fills. |
 
 ```text
@@ -179,7 +179,7 @@ Takes the words no other method spells: a line wholly of mode flags is a chain, 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `words...` | string |  | The line, one argument each. |
 
 ```text
@@ -194,7 +194,7 @@ Prints the `ogre im` usage to the console: the depot flags, every other mode, ch
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.IM:Help[all]
@@ -208,7 +208,7 @@ Opens the Inventory Manager window on the characters named; calling it while the
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.IM:Open[${Me.Name}]
@@ -222,7 +222,7 @@ Builds the editor list for a tab and prints how many rows it holds: sell or dest
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `words...` | string |  | The tab name, then reopen for sell. Optional. |
 
 ```text
@@ -237,7 +237,7 @@ Prints what the open depot's tier dropdown holds, for checking a depot window ag
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.IM:Probe[all]
@@ -251,7 +251,7 @@ Adds a mode to the run queue and brings the window up: it runs when the current 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `mode` | string |  | depot, sell, destroy, tse, restock, trade or quiver. Optional. |
 
 ```text
@@ -266,7 +266,7 @@ Reloads the depot tables from disk: the depot kinds, the ammo rows and the share
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.IM:Reload[all]
@@ -280,7 +280,7 @@ The restock mode: with no words, or a profile name, it brings the window up and 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `words...` | string |  | A profile, or one of stop, status, reload, list (or profiles), show &lt;profile>, preview (or plan) [profile], set &lt;profile> &lt;qty> &lt;item>, forwho &lt;profile> &lt;who> &lt;item>, drop &lt;profile> &lt;item>. Optional. |
 
 ```text
@@ -295,7 +295,7 @@ The sell mode: with no words it brings the window up and sells what is on the se
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `words...` | string |  | stop, status, reload, preview (or plan), list [all], add &lt;name> or remove &lt;name>, then its arguments. Optional. |
 
 ```text
@@ -310,7 +310,7 @@ With no words, prints the saved settings; too few words prints the usage and cha
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `words...` | string |  | One of: bag &lt;tse\|destroy> &lt;1-6\|overseer\|harvest\|sharedtradeskill> &lt;on\|off>; tse &lt;option> &lt;on\|off\|number>; quiver &lt;arrow\|bolt\|throwing> &lt;name\|clear\|examine>; depot &lt;flags>; reload. One argument each. Optional. |
 
 ```text
@@ -325,7 +325,7 @@ Prints the session line to the console, then the chain if one runs and one summa
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.IM:Status[all]
@@ -339,7 +339,7 @@ Stops whatever the Inventory Manager is running (the chain, every busy mode, or 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.IM:Stop[igw:${Me.Name}]
@@ -353,7 +353,7 @@ The trade mode: with no words it brings the window up and runs the queue. The ot
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `words...` | string |  | add &lt;player> &lt;qty\|all> &lt;item>, remove &lt;n> (or delete), list, clear, preview (or plan), status or stop, then its arguments. Optional. |
 
 ```text
@@ -368,7 +368,7 @@ Brings the window up and transmutes one named item, or an item by id.
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `words...` | string |  | The item name or id. A name may be several arguments; they are joined with spaces. |
 
 ```text
@@ -383,7 +383,7 @@ The transmute, salvage and extract mode: `stop` stops it, and anything else brin
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `words...` | string |  | stop, or the run's flags, one argument each. Optional. |
 
 ```text

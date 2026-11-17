@@ -1,8 +1,8 @@
-# OgreBotAPI.HOs
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../../index.md).
 </div>
+
+# OgreBotAPI.HOs
 
 ## Members
 
@@ -220,7 +220,7 @@ Takes one turn on an open wheel, casting each of this character's abilities once
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.HOs:Advance[igw:${Me.Name}]
@@ -236,7 +236,7 @@ Adds an HO icon ID to the allow list; while the list has any icon, cast stack ab
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `icon` | int |  | HO icon ID: fighter 0-5, priest 12-17, mage 24-29, scout 36-41. Required; an icon already in the list does nothing. A missing icon, or a word that is not a whole number, is refused with a console line and changes nothing. |
 
 ```text
@@ -253,7 +253,7 @@ Cancels the HO starter window right away by sending the game's cancel HO starter
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.HOs:CancelStarter[${Me.Name}]
@@ -269,7 +269,7 @@ Removes one HO icon ID from the allow list (session only). When the list becomes
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `icon` | int |  | HO icon ID to remove from the allow list. Required; an icon not in the list does nothing. A missing icon, or a word that is not a whole number, is refused with a console line and changes nothing. |
 
 ```text
@@ -286,7 +286,7 @@ Empties the HO icon allow list (session only), so the cast stack no longer skips
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.HOs:ClearAllowIcons[igw:${Me.Name}]
@@ -302,7 +302,7 @@ Removes one HO icon ID from the disable list, so abilities with that icon can be
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `icon` | int |  | HO icon ID to remove from the disable list. Required. A missing icon, or a word that is not a whole number, is refused with a console line and changes nothing. |
 
 ```text
@@ -319,7 +319,7 @@ Empties the HO icon disable list (session only). The allow list is not touched, 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.HOs:ClearDisableIcons[igw:${Me.Name}]
@@ -335,7 +335,7 @@ Adds an HO icon ID to the disable list, so cast stack abilities that carry that 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `icon` | int |  | HO icon ID: fighter 0-5, priest 12-17, mage 24-29, scout 36-41. Required. A missing icon, or a word that is not a whole number, is refused with a console line and changes nothing. |
 
 ```text
@@ -352,7 +352,7 @@ Clears this character's solo HO record (session only): target, HO count and comp
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.HOs:DoReset[${Me.Name}]
@@ -368,7 +368,7 @@ Turns OgreBot's solo HO on or off on this character without clearing its record 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `on` | bool | `TRUE` | TRUE to run the solo HO here: makes this character the HO'er, tells the rest of the group to stand down, cancels another archetype's starter if one is up, writes the group's HO settings, cancels group casts with more than 0.5 seconds left, holds the first start for -DelayStart seconds (default 1) and extends the timeout to at least 25 seconds (or sets it to -TimeOut n). FALSE to stop it: puts back this character's HO settings and asks the group to put back theirs. |
 | `option...` | flags |  | Any of -Force (run even if already in that state), -NoEnable / -PrimeOnly / -NoStart (set the group up but leave this character's HO settings off), -NoHoAbilities (on FALSE, keep HO abilities disabled on the rest of the group), -TimeOut n, -DelayStart n. Unknown words are ignored. |
 
@@ -386,7 +386,7 @@ Starts OgreBot's solo HO with this character as the one who starts it (no HO nee
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `option...` | flags |  | Any of -TargetID id, -NumHOsToComplete n, -TimeOut n (instead of 25 seconds), -LeaveStartOpen, -LeaveWheelOpen, -AllowCastStack (keep this character's cast stack on), -NoModifyOptions (change no settings), -Force (when the solo HO is already running, apply the settings again instead of only recording the new options), -NoEnable, -DelayStart n, -NoHoAbilities, in any order; the DoSetEnabled options work here too. Unknown words are ignored. |
 
 ```text
@@ -403,7 +403,7 @@ Puts "Heroic Surge (ROC Adorn)" back to the value SetUpFor remembered, quietly, 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.HOs:RestoreSetUpFor[igw:${Me.Name}]
@@ -419,7 +419,7 @@ Readies a fight that needs HOs controlled, with or without an HO up: remembers t
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.HOs:SetUpFor[igw:${Me.Name}]
@@ -435,7 +435,7 @@ Casts this character's archetype HO starter ability (Fighting Chance, Lucky Brea
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `-ActorID id` | flag + number |  | Start the HO on this actor ID instead of the current target; -TargetID id is the same flag. Without it the cast goes at the current target and does nothing while any heroic opportunity is already up. With it, nothing happens if that actor is gone or a wheel is already running, and if another archetype's starter is up it is cancelled and the cast goes on the actor once the starter closes and the ability is ready (giving up after about 8 seconds). |
 | `-SkipTimer` | flag |  | Ignore the 1 second wait after the last start. |
 
@@ -453,7 +453,7 @@ Takes one turn on an open starter chain, casting this character's abilities for 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.HOs:Starter[igw:${Me.Name}]

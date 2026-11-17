@@ -1,8 +1,8 @@
-# OgreBotAPI.Access
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../../index.md).
 </div>
+
+# OgreBotAPI.Access
 
 ## Members
 
@@ -34,7 +34,7 @@ Sets this session's access level to value at once, clamped between 0 and the hig
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `value` | int |  | the level to set; below 0 becomes 0, above your highest level becomes your highest level, and a value that is not a number counts as 0 |
 | `silent` | bool | `FALSE` | TRUE hides the over-the-maximum warning and the level-changed announcement |
 

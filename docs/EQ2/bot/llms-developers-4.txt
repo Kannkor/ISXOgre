@@ -422,7 +422,7 @@ Clears the spot and zone in all 8 slots and clears the relative layer, and also 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.CampSpot:ClearAll[igw:${Me.Name}]
@@ -438,7 +438,7 @@ Clears the spot in the active slot, so the leash stops. The slot keeps its zone 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.CampSpot:ClearCampSpot[igw:${Me.Name}]
@@ -454,7 +454,7 @@ Clears the relative layer back to a 0,0,0 offset, so the leash goes to the activ
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.CampSpot:ClearRelative[igw:${Me.Name}]
@@ -470,7 +470,7 @@ Turns the leash off, for every slot. The spots are kept, so Enable picks up wher
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.CampSpot:Disable[igw:${Me.Name}]
@@ -484,7 +484,7 @@ Turns the leash on, for every slot. The leash is on by default; it still needs a
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.CampSpot:Enable[igw:${Me.Name}]
@@ -498,7 +498,7 @@ Adds dx, dy and dz to the active slot's camp spot, keeping its zone and radii; a
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `dx` | float | `0` | Amount added to X. |
 | `dy` | float | `0` | Amount added to Y. |
 | `dz` | float | `0` | Amount added to Z. |
@@ -517,7 +517,7 @@ Lets the character go: clears every camp spot (as ClearAll), stops a running jum
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.CampSpot:Release[igw:${Me.Name}]
@@ -533,7 +533,7 @@ Puts all 8 slots back to new: no spot, no zone, radii 1 and 125, 3D off; clears 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.CampSpot:ResetAll[igw:${Me.Name}]
@@ -547,7 +547,7 @@ Makes slot n the one the leash uses, so the character heads for that slot's spot
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `n` | int |  | The slot to use, 1 to 8. |
 
 ```text
@@ -562,7 +562,7 @@ Places each character on a ring of radius dist around x,y,z and makes that the a
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `kind` | string | `circle` | circle, monkey or monkeyraid. |
 | `dist` | float | `7` | Ring radius; 0 or less means 7. |
 | `x` | float or name |  | X of the centre, or the whole centre as one word: the name of a point of interest in this zone, or x,y,z. An unknown name prints one line and does nothing. |
@@ -586,7 +586,7 @@ Sets the active slot's camp spot to where this character stands now, in the curr
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `howClose` | float | `2` | Arrival radius: inside this distance the character counts as at the spot. |
 | `howFar` | float | `200` | Leash radius: the leash walks back only from within this distance. |
 
@@ -604,7 +604,7 @@ Sets the active slot's arrival radius: inside this distance the character counts
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `v` | float | `0` | The arrival radius; 0 or less means 1. |
 
 ```text
@@ -621,7 +621,7 @@ Sets the active slot's leash radius: the leash walks back only from within this 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `v` | float | `0` | The leash radius; 0 or less means 125. |
 
 ```text
@@ -638,7 +638,7 @@ Moves the active slot's camp spot to x,y,z (three values, one "x,y,z" text, or t
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `x\|point` | float or name |  | X coordinate of the new spot, or the whole spot as one word: "x,y,z" or the name of a point of interest in this zone. |
 | `y` | float |  | Y coordinate of the new spot. Not read when x holds the whole location. |
 | `z` | float |  | Z coordinate of the new spot. Not read when x holds the whole location. |
@@ -657,7 +657,7 @@ Moves the active slot's camp spot to dist from the actor at angle degrees from t
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `angle` | float |  | Degrees from the actor's facing; 0 is behind, 180 is in front. |
 | `nameOrId` | string |  | The actor: an ID, a name, an @role, pet:&lt;owner> or a class word. Blank uses this character's NPC target (its target, or its target's target). |
 | `dist` | float | `3` | Distance from the actor; this character's own size is added. |
@@ -678,7 +678,7 @@ Moves the active slot's camp spot to dist behind the actor, from the way it face
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `nameOrId` | string |  | The actor: an ID, a name, an @role, pet:&lt;owner> or a class word. Blank uses this character's NPC target (its target, or its target's target). |
 | `dist` | float | `3` | Distance from the actor; this character's own size is added. |
 | `skipIfAggro` | bool | `FALSE` | TRUE to do nothing while the actor's threat on this character is at 100. |
@@ -697,7 +697,7 @@ Each character picks its own side - fighters take the spot in front of the actor
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `nameOrId` | string |  | The actor: an ID, a name, an @role, pet:&lt;owner> or a class word. Blank uses this character's NPC target (its target, or its target's target). |
 | `dist` | float | `3` | Distance from the actor; this character's own size is added. |
 | `skipIfAggro` | bool | `FALSE` | TRUE to do nothing while the actor's threat on this character is at 100. |
@@ -716,7 +716,7 @@ Moves the active slot's camp spot to dist in front of the actor, from the way it
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `nameOrId` | string |  | The actor: an ID, a name, an @role, pet:&lt;owner> or a class word. Blank uses this character's NPC target (its target, or its target's target). |
 | `dist` | float | `3` | Distance from the actor; this character's own size is added. |
 | `skipIfAggro` | bool | `FALSE` | TRUE to do nothing while the actor's threat on this character is at 100. |
@@ -735,7 +735,7 @@ Adds dx, dy and dz to the relative offset (it does not replace it) and puts the 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `dx` | float | `0` | Amount added to the X offset. |
 | `dy` | float | `0` | Amount added to the Y offset. |
 | `dz` | float | `0` | Amount added to the Z offset. |
@@ -754,7 +754,7 @@ Makes x,y,z the fixed destination of the relative layer, so the leash takes this
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `x` | float |  | X of the destination. |
 | `y` | float |  | Y of the destination. |
 | `z` | float |  | Z of the destination. |
@@ -773,7 +773,7 @@ Sets slot n (1 to 8; anything else does nothing) to where this character stands 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `n` | int | `1` | The slot to set, 1 to 8. |
 | `howClose` | float | `2` | Arrival radius for that slot (0 or less falls back to 1). |
 | `howFar` | float | `200` | Leash radius for that slot (0 or less falls back to 125). |
@@ -790,7 +790,7 @@ Turns 3D distance on or off for the active slot; off measures on the ground plan
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `on` | bool | `TRUE` | TRUE for 3D distances, FALSE for ground-plane distances. |
 
 ```text
@@ -854,7 +854,7 @@ Removes every allow tag, including ones set by cast stack entries, on this sessi
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.CastStack:ClearAllAllows[igw:${Me.Name}]
@@ -870,7 +870,7 @@ Removes every embargo tag, including ones set by cast stack entries, on this ses
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.CastStack:ClearAllEmbargos[igw:${Me.Name}]
@@ -886,7 +886,7 @@ Removes one allow tag on this session, at once and with or without the console h
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `tag` | string |  | The allow tag to remove, case-insensitive. A blank gets one line - use ClearAllAllows to remove them all. |
 
 ```text
@@ -903,7 +903,7 @@ Removes one embargo tag on this session, at once and with or without the console
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `tag` | string |  | The embargo tag to remove, case-insensitive. A blank gets one line - use ClearAllEmbargos to remove them all. |
 
 ```text
@@ -920,7 +920,7 @@ Empties the shared item effect file on disk at once, for every character on this
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.CastStack:ClearItemCache[${Me.Name}]
@@ -934,7 +934,7 @@ On the next pulse, checks every cast stack entry against the current game state,
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.CastStack:Dump[${Me.Name}]
@@ -948,7 +948,7 @@ From the next pulse, examines the cast stack's item entries that are not in the 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.CastStack:ExamineItems[${Me.Name}]
@@ -962,7 +962,7 @@ Sets an embargo or allow tag for some seconds on this session, at once and with 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `tag` | string |  | The tag name, case-insensitive. A blank gets one line. |
 | `duration` | int |  | How long the tag lasts, in seconds. 0, blank or not a number ends it at once. A new hold never shortens a tag that is already running longer. |
 | `type` | string |  | Allow sets an allow tag. Any other word, blank included, sets an embargo tag. |
@@ -982,7 +982,7 @@ Replaces this session's cast stack with the cast stack from an OgreBot EQ2Save X
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `path` | string |  | Full path of the EQ2Save XML file. A relative path is read from the game's working folder, not from Scripts. |
 | `profile` | string | `""` | The profile inside the file whose cast stack to take. Blank takes the first profile that has a cast stack. |
 
@@ -998,7 +998,7 @@ Replaces this session's cast stack with the entries in a JSON cast stack file, a
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `path` | string |  | Full path of the JSON file, which must hold an "entries" array. A relative path is read from the game's working folder, not from Scripts. An ability entry may give its name alone: names are looked up in this toon's ability export, as a profile load does. |
 
 ```text
@@ -1013,7 +1013,7 @@ Reloads this session's cast stack from the OgreBot profile already open, includi
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.CastStack:LoadFromProfile[${Me.Name}]
@@ -1027,7 +1027,7 @@ Re-reads the per-zone range extender file, OgreSave/EQ2/OgreBot/Encounters/Range
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.CastStack:ReloadRangeExtenders[${Me.Name}]
@@ -1041,7 +1041,7 @@ Enables, disables or flips the cast stack entries that match the name, and print
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `ability` | string |  | The entry: its whole name (case-insensitive), an ability id (finds the entry that holds that ability), or one of IsStun, IsInterrupt, IsDaze, IsFear, IsStifle or Ascension to match every entry of that kind. Blank does nothing. |
 | `TRUE\|FALSE\|toggle` | string |  | TRUE enables (1, yes and on count as TRUE too). toggle, or blank, flips each matching entry. Any other word disables. |
 | `silent` | bool | `FALSE` | TRUE skips the OgreConsole lines. |
@@ -1060,7 +1060,7 @@ Enables, disables or flips the cast stack entries whose tag matches, and prints 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `tag` | string |  | The entry tag to match, case-insensitive. This is the entry's own tag, not an embargo or allow tag. Blank does nothing. |
 | `TRUE\|FALSE\|toggle` | string |  | TRUE enables (1, yes and on count as TRUE too). toggle, or blank, flips each matching entry. Any other word disables. |
 | `partial` | bool | `FALSE` | TRUE matches every entry whose tag contains the word; FALSE needs the whole tag. |
@@ -1080,7 +1080,7 @@ Arms one real cast for the next pulse and then stops: the given ability, or with
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `ability` | string | `""` | The ability to cast: a name (short or any rank) or an ability id. It is cast with no target, and skipped with a console line if it is not ready. Blank casts the first eligible cast stack entry instead; a name that cannot be found gets one line and casts nothing. |
 
 ```text
@@ -1095,7 +1095,7 @@ Runs one evaluation of the cast stack straight away and casts nothing, even whil
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.CastStack:Tick[${Me.Name}]
@@ -1118,7 +1118,7 @@ Recentres the camera: in first person it uses the game's camera recentre, otherw
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Client:ResetCamera[${Me.Name}]
@@ -1134,7 +1134,7 @@ Queued: switches to third person if needed, sets the camera pitch, and goes back
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `pitch` | int | `0` | Camera pitch from -75 to 75; 0 is level |
 | `endInFirstPerson` | bool | `FALSE` | TRUE to switch to first person after setting the pitch |
 
@@ -1152,7 +1152,7 @@ Moves the mouse cursor to x,y with Inner Space's Mouse:SetPosition, right away. 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `x` | int |  | Horizontal position in pixels |
 | `y` | int |  | Vertical position in pixels |
 
@@ -1170,7 +1170,7 @@ Moves the mouse cursor to the centre of the display (half its width and height),
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Client:SetMousePositionMiddle[${Me.Name}]
@@ -1205,7 +1205,7 @@ echo ${OgreBotAPI.Combat.InCombat}
 
 `${OgreBotAPI.Combat.IsReady}`
 
-TRUE while OgreBot is open and has finished loading. FALSE after it is closed.
+TRUE when OgreBot is up: its main window or mini toolbar is open and a profile is loaded (the same check as ${ISXOgreEQ2.OgreBot.IsReady}); FALSE after it is closed.
 
 **Returns:** bool: TRUE when OgreBot is open and ready; FALSE otherwise.
 
@@ -1281,7 +1281,7 @@ Adds a mob name to the no-offensive list: while your current NPC target matches 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `mobName` | string |  | The mob name to add. A blank name is ignored. |
 | `exactOnly` | bool | `TRUE` | TRUE matches the whole name only; FALSE matches any target whose name contains mobName. |
 
@@ -1299,7 +1299,7 @@ Empties the no-offensive list built by AddNoOffensive. Reasons set with SetNoOff
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Combat:ClearNoOffensive[all]
@@ -1315,7 +1315,7 @@ When this character is grouped and is the group leader, runs the game's countdow
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `seconds` | int | `10` | Seconds to count down, 1 to 30. A word that is not a number reads as 0, so it counts down from 1. The -countdown console row passes 1 when its time is left blank. |
 
 ```text
@@ -1332,7 +1332,7 @@ Takes a mob name off the no-offensive list that Combat:AddNoOffensive adds to; t
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `mobName` | string |  | The mob name to take off the list. A blank name is ignored. |
 
 ```text
@@ -1349,7 +1349,7 @@ Turns no-defensive on or off by reason: on adds the reason (manual when blank), 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `on` | bool | `TRUE` | TRUE adds the reason; FALSE removes it, or every reason when reason is blank. A word that is not yes or no changes nothing. |
 | `reason` | string | `""` | A name for why it is on, so several callers can hold it at once. Blank means manual when adding and every reason when removing. |
 
@@ -1367,7 +1367,7 @@ Turns no-offensive on or off by reason: on adds the reason (manual when blank), 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `on` | bool | `TRUE` | TRUE adds the reason; FALSE removes it, or every reason when reason is blank. A word that is not yes or no changes nothing. |
 | `reason` | string | `""` | A name for why it is on, so several callers can hold it at once. Blank means manual when adding and every reason when removing. |
 
@@ -1385,7 +1385,7 @@ Sets the flag NoReqBowAbilities reports, and needs the character in the world. W
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `on` | bool | `TRUE` | TRUE turns the flag on; FALSE turns it off. A word that is not yes or no leaves it as it is. |
 
 ```text
@@ -1402,7 +1402,7 @@ Adds fighter names to the threat ignore list: a fighter on it holding aggro does
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `name...` | string |  | One or more fighters' character names to add. |
 
 ```text
@@ -1419,7 +1419,7 @@ Empties the threat ignore list. Needs the character in the world.
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Combat:ThreatIgnoreClear[igw:${Me.Name}]
@@ -1435,7 +1435,7 @@ Prints the threat ignore list to the console: a ThreatFighterIgnoreList -- Start
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Combat:ThreatIgnoreList[${Me.Name}]
@@ -1451,7 +1451,7 @@ Removes each named fighter from the threat ignore list, in any case. A name that
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `name...` | string |  | One or more character names to remove. |
 
 ```text
@@ -1499,9 +1499,11 @@ echo ${OgreBotAPI.Comms.Errors}
 
 With arguments, starts a groupQuery on this session and returns it - every read of this form asks again; with no arguments it is the handle whose .Last, .Done[id] and .Result[id] read queries. Answers come over this PC's relay group only, so group or raid members on other PCs show as missing, and a bad question prints a groupQuery error.
 
+All of it: [OgreBotAPI.Comms.GroupQuery](Comms.GroupQuery.md)
+
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `question...` | string |  | one JSON object, or -key,value pairs: -question (itemCount, abilityReady, slotResolve or LavishScript["${...}"]), -item, -ability or -slot, -compare with -value, -sendTo (default igw:&lt;me>), -limitMs (default 3000), -askAgainIfBlank |
 
 **Returns:** groupquery object: its text is the new query id (read .Done and .Result on it); NULL when the for-who does not name this character or the question is refused. With no arguments: the handle with .Last, .Done[id], .Result[id]
@@ -1664,7 +1666,7 @@ Adds a row to this character's Announce tab and saves it in the loaded profile l
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `ability` | string |  | the ability's name (any rank) or id, from this character's ability export |
 | `to` | string |  | where to announce: Group, Raid, Tell To Target, In-Game Command or Execute In Console (any case) |
 | `text` | string |  | the announce text; everything after to is joined back with commas, so it need not be quoted |
@@ -1683,7 +1685,7 @@ Sends the text to every session in this PC's relay group, this one included; eac
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `text` | string |  | the line to show; commas in it are kept |
 | `-tab name...` | string |  | followed by an OgreConsole tab name - each receiver also puts the line in that tab; may be repeated |
 | `-sound ding\|alarm` | string |  | followed by ding or alarm - each receiver plays that sound; a bare -sound is ding |
@@ -1702,7 +1704,7 @@ Clicks reply number num in the NPC conversation window open on this session; nee
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `num` | int | `1` | which reply to click, counting from 1 as SpewConversationBubbles numbers them |
 
 ```text
@@ -1719,7 +1721,7 @@ Sends a named event to every session in this session's relay group on this PC, t
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `name` | string |  | the event name (required); letters, digits and _ up to 64 characters, or no OgreComms_ script event fires |
 | `cfw` | string | `""` | for-who checked by each receiving session; empty = every session. A session not in the world (login screen, character select, zoning) takes in only what needs no game - messages, tag changes, group and key-bind updates - and throws momentary requests (casts, script events) away; a changed MCP file is kept once and read when it reaches the world; the OgreComms_ script event fires only in the world |
 | `dest` | string | `""` | the relay group to deliver to; empty = this session's relay group (Relay Groups tab) |
@@ -1738,7 +1740,7 @@ Runs Event["name"]:Execute[...] on this session with the remaining arguments joi
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `name` | string |  | the LavishScript event to fire |
 | `...` | string |  | arguments passed to the event, in order |
 
@@ -1756,7 +1758,7 @@ Starts a groupQuery: asks group or raid members a question and judges the answer
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `question...` | string |  | one JSON object, or -key,value pairs: -question (itemCount, abilityReady, slotResolve or LavishScript["${...}"]), -item, -ability or -slot, -compare with -value, -sendTo (default igw:&lt;me>), -limitMs (default 3000), -askAgainIfBlank |
 
 ```text
@@ -1771,7 +1773,7 @@ Hands a base64 event envelope to this session's comms receiver as if it had arri
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `wire` | string |  | the base64-encoded event envelope JSON |
 
 ```text
@@ -1786,7 +1788,7 @@ Feeds the text into this session's own chat handling as a raid-chat line from th
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `chat` | string | `Nothing` | the chat text to inject |
 
 ```text
@@ -1820,7 +1822,7 @@ Loads the IRC bridge (OgreIRCHub) in this PC's uplink if it is not loaded and co
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Comms:IrcConnect[${Me.Name}]
@@ -1834,7 +1836,7 @@ Asks this PC's IRC bridge to disconnect from IRC; the bridge stays loaded and id
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Comms:IrcDisconnect[${Me.Name}]
@@ -1848,7 +1850,7 @@ Asks, over IRC, every IRC bridge whose PC has a character in this raid to accept
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Comms:IrcRaidAuth[${Me.Name}]
@@ -1862,7 +1864,7 @@ Answers this PC's IRC bridge: if toon is in this character's raid, it reports th
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `ask` | int |  | the bridge's question number (digits only) |
 | `toon` | string |  | the character that asked; must be a plain name |
 
@@ -1878,7 +1880,7 @@ Asks, over IRC, every IRC bridge in this raid to drop the nicks it accepted thro
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Comms:IrcRaidUnauth[${Me.Name}]
@@ -1892,7 +1894,7 @@ Makes this PC's IRC bridge re-read its settings and reconnect with them, but onl
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Comms:IrcReload[${Me.Name}]
@@ -1906,7 +1908,7 @@ Prints the Stats counter line to this session's console and writes it to the log
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Comms:LogStats[all]
@@ -1920,7 +1922,7 @@ Prints "[Message] &lt;text>" in this session's OgreConsole (the Inner Space cons
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `text` | string |  | the line to show; commas in it are kept |
 | `-tab name...` | string |  | followed by an OgreConsole tab name - the line also lands in that tab; may be repeated |
 | `-sound ding\|alarm` | string |  | followed by ding or alarm - plays that sound with the line; a bare -sound is ding |
@@ -1939,7 +1941,7 @@ Sends a push notification through the Pushover service from this session; every 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `message...` | string |  | the notification text; unflagged words are joined with spaces |
 | `-title t` | string |  | followed by the notification title |
 | `-priority n` | int | `0` | followed by a Pushover priority, -2 to 2 |
@@ -1958,7 +1960,7 @@ Asks every in-world session in this PC's relay group a typed question and tallie
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `kind` | string |  | the question: itemCount, abilityReady, slotResolve or eval (required) |
 | `cfw` | string | `""` | for-who checked by each session before it answers; empty = every session |
 | `timeoutMs` | int | `0` | how long to collect replies in milliseconds; 0 or less = 3000, capped at 60000 |
@@ -1976,7 +1978,7 @@ Forgets a query and its tally on this session; its Query_* reads go back to FALS
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `id` | string | `""` | the query id to forget; empty = the last query (the word last itself is not recognised) |
 
 ```text
@@ -1991,7 +1993,7 @@ Says this character's bot version in IRC: "VERSION: &lt;name> (&lt;version>)" wh
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `compareTo` | string |  | the version to compare against; empty = just report the version |
 
 ```text
@@ -2006,7 +2008,7 @@ Zeroes this session's comms counters (Stats, Received, Dispatched, Errors) and r
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Comms:ResetStats[all]
@@ -2020,7 +2022,7 @@ Sends an in-game /tell from this character to target, in game chat; needs a char
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `target` | string |  | the character to send the tell to |
 | `message` | string |  | the tell's text; commas in it are kept |
 
@@ -2038,7 +2040,7 @@ Prints the replies the open NPC conversation window offers to this session's con
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Comms:SpewConversationBubbles[${Me.Name}]
@@ -2054,7 +2056,7 @@ Sends "&lt;name>: OgreRelayGroup: &lt;group>" to every session in this PC's rela
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Comms:SpewRelayGroup[all]
@@ -2070,7 +2072,7 @@ Speaks the text aloud on this PC through Inner Space (uplink speak). An empty fo
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `text` | string |  | the words to speak |
 
 ```text
@@ -2149,7 +2151,7 @@ Queues, for every item in your bags, Overseer bag and harvest bag whose name con
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Consumables:AddMercenaries[${Me.Name}]
@@ -2165,7 +2167,7 @@ Summons your familiar at once with summon_familiar, unless your Summon Familiar 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Consumables:CheckFamiliar[all]
@@ -2181,7 +2183,7 @@ Queues a check that resumes your mercenary if needed, opens Persona on the Merce
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Consumables:CheckMercenaryTraining[${Me.Name}]
@@ -2197,7 +2199,7 @@ Queues a check that opens Persona on the Mounts tab and starts training your cur
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Consumables:CheckMountTraining[${Me.Name}]
@@ -2213,7 +2215,7 @@ Uses Call of the Veteran to bring up the veteran reward porter (or uses one alre
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `travel` | string | `Teleport` | the option to pick in the first popup, matched by its label in any case; the default takes you to the member, Summon brings the member to you |
 | `toon` | string |  | the group or raid member to pick in the second popup, by full name; blank echoes that no toon was named and does nothing |
 | `allowSameZone` | bool | `FALSE` | TRUE goes ahead even when the member is already in your zone; FALSE skips that case |
@@ -2232,7 +2234,7 @@ Drinks the named item from your bags at once, using the game's drink_alcohol com
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `item` | string | `""` | the item's full name (case does not matter); it must be in your bags, not the bank; required |
 
 ```text
@@ -2249,7 +2251,7 @@ Queues a forced dismount: sit, toggle summon_mount once, then stand, about 3 sec
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Consumables:MountDown[all]
@@ -2265,7 +2267,7 @@ Queues a forced mount-up: sit, toggle summon_mount, stand, then toggle summon_mo
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Consumables:MountUp[all]
@@ -2281,7 +2283,7 @@ Applies the Rekindle Bond verb at once to the nearest actor whose name contains 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Consumables:RekindleHeartstone[${Me.Name}]
@@ -2297,7 +2299,7 @@ Opens the nearest Food & Drink Depot (it must be within 11) and tops your equipp
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Consumables:ReplenishFoodDrink[igw:${Me.Name}]
@@ -2313,7 +2315,7 @@ Opens the nearest Poison, Potion, & Totem Depot (it must be within 11) and pulls
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `potion` | string | `""` | the potion's name as the depot lists it; blank uses the statPotion name from replenish-names.json (your OgreSave/EQ2/Replenish/custom copy wins over the shipped one) |
 
 ```text
@@ -2330,7 +2332,7 @@ Keeps one scroll buff up: if a buff of that family is already maintained it does
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `name` | string | `Prowess` | the scroll family, any case: Prowess, forcelink, Pain, painlink, Power or powerlink; anything else is refused with a console warning |
 | `cancelIfDurationLessThan` | int | `0` | minutes; a maintained buff of the family with less time left than this is cancelled and recast, 0 leaves any maintained one alone |
 | `useBest` | bool | `FALSE` | only used when none of the family is in your spellbook yet: TRUE scribes the first bag scroll found from the bottom of the family's scroll list, FALSE from the top |
@@ -2349,203 +2351,10 @@ Sends summon_familiar at once, with no check of whether a familiar is already ou
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Consumables:SummonFamiliar[${Me.Name}]
 ```
 
 *Was (OldBot):* `OgreBotAPI:Summon_Familiar`
-
-
----
-
-Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Craft.md
-
-# OgreBotAPI.Craft
-
-## Methods
-
-### `AddLastScribedRecipe`
-
-`OgreBotAPI.Craft:AddLastScribedRecipe[fw, qty=1]`
-
-Adds the recipe you last scribed this session (by the bot or by hand) to the craft setup queue. With nothing scribed yet it prints a warning and adds nothing.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
-| `qty` | int | `1` | How many to craft; 0 or less becomes 1. |
-
-```text
-OgreBotAPI.Craft:AddLastScribedRecipe[${Me.Name},5]
-```
-
-*Was (OldBot):* `OgreCraft:AddLastScribedRecipe`, `OgreCraftAPI:AddLastScribedRecipe`
-
-### `AddRecipe`
-
-`OgreBotAPI.Craft:AddRecipe[fw, nameOrID|lastknownrecipe, qty=1]`
-
-Adds a recipe to the craft setup queue by full name, by part of a name that matches only one recipe (4 letters or more), by recipe ID, or lastknownrecipe for the recipe last scribed this session. A recipe not in your recipe book prints a warning and adds nothing; if the book has not been read yet the add waits and runs once it has.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
-| `nameOrID\|lastknownrecipe` | string |  | The recipe name, its ID (plain digits), or lastknownrecipe. A name may also be passed as several arguments; they are joined with spaces. |
-| `qty` | int | `1` | How many to craft. Read only when it is the last argument and a whole number; 0 or less becomes 1. |
-
-```text
-OgreBotAPI.Craft:AddRecipe[${Me.Name},"Tempered Iron",2]
-```
-
-*Was (OldBot):* `OgreCraft:AddRecipeNameForWho`, `OgreCraftAPI:AddRecipeNameForWho`
-
-### `BuyAllTinkeringRecipes`
-
-`OgreBotAPI.Craft:BuyAllTinkeringRecipes[fw]`
-
-Buys every tinkering recipe book you do not already know or carry from Fizza Cogsworth. It is refused unless you carry at least 3 platinum, are in Steamfont Mountains and are within 10 meters of her, and also while a crafting flow or merchant errand is running.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
-
-```text
-OgreBotAPI.Craft:BuyAllTinkeringRecipes[${Me.Name}]
-```
-
-### `CompleteNavigation`
-
-`OgreBotAPI.Craft:CompleteNavigation[fw]`
-
-Answers craft's OgreCraft_NavigationRequired event (sent only when the craft setting to use events for movement is on) to say your script has moved the character; craft then checks the distance again and carries on. If no request is waiting it prints a warning.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
-
-```text
-OgreBotAPI.Craft:CompleteNavigation[${Me.Name}]
-```
-
-### `DeferNavigation`
-
-`OgreBotAPI.Craft:DeferNavigation[fw]`
-
-Answers craft's OgreCraft_NavigationRequired event to say your script will not move the character, so craft uses its own movement. If no request is waiting it prints a warning.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
-
-```text
-OgreBotAPI.Craft:DeferNavigation[${Me.Name}]
-```
-
-### `ScribeRecipe`
-
-`OgreBotAPI.Craft:ScribeRecipe[fw, name|all=all]`
-
-Scribes recipe scrolls from your bags one at a time, then opens and closes the tradeskill book. A name scribes only scrolls whose full item name matches it in any case (a name with a comma arrives whole), nothing matching prints a line and does nothing, and a call while scribing adds the new scrolls to the run.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
-| `name\|all` | string | `all` | The scroll's full item name in any case, or all for every scribeable scroll in your bags. Left empty it scribes all. |
-
-```text
-OgreBotAPI.Craft:ScribeRecipe[${Me.Name},all]
-```
-
-*Was (OldBot):* `OgreCraft:ScribeRecipe`, `OgreCraftAPI:ScribeRecipe`
-
-### `Start`
-
-`OgreBotAPI.Craft:Start[fw]`
-
-Starts crafting the setup queue. It is refused with a console line when you are not in the world, a crafting flow is already running, or the setup queue is empty, and a refused start changes nothing.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
-
-```text
-OgreBotAPI.Craft:Start[${Me.Name}]
-```
-
-*Was (OldBot):* `OgreCraft:Start`, `OgreCraftAPI:Start`
-
-### `StartLLL`
-
-`OgreBotAPI.Craft:StartLLL[fw]`
-
-Starts low level leveling: rounds of buying recipe books, crafting the highest standard recipe at or below your tradeskill level, and selling or destroying what was made when the panel's settings say so. It stops at tradeskill level 9 or 19, and is refused when a crafting flow is already running or you are not in the world.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
-
-```text
-OgreBotAPI.Craft:StartLLL[${Me.Name}]
-```
-
-*Was (OldBot):* `OgreCraftAPI:StartLLL`
-
-### `StartQuest`
-
-`OgreBotAPI.Craft:StartQuest[fw]`
-
-Crafts the recipe steps of the quest selected in your journal, one of each per pass, until no craftable step is left. It is refused when no quest is selected, a crafting flow is already running, or you are not in the world, and a refused start changes nothing.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
-
-```text
-OgreBotAPI.Craft:StartQuest[${Me.Name}]
-```
-
-### `StartTinker`
-
-`OgreBotAPI.Craft:StartTinker[fw]`
-
-Starts auto tinkering: rounds of buying recipe books, crafting the highest-level tinkering recipe you know, and selling or destroying what was made when the panel's settings say so, until tinkering is maxed. It stops if the character has no tinkering skill, and is refused when a crafting flow is already running or you are not in the world.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
-
-```text
-OgreBotAPI.Craft:StartTinker[${Me.Name}]
-```
-
-### `StartWrits`
-
-`OgreBotAPI.Craft:StartWrits[fw]`
-
-Starts the rush order (writ) run for the number of writs set in the craft settings. It is refused below tradeskill level 20, when a crafting flow is already running, or when you are not in the world, and a refused start changes nothing.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
-
-```text
-OgreBotAPI.Craft:StartWrits[${Me.Name}]
-```
-
-*Was (OldBot):* `OgreCraftAPI:StartWrits`
-
-### `Stop`
-
-`OgreBotAPI.Craft:Stop[fw]`
-
-Stops the running crafting run (queue, writs, quest, Low Level Leveling or Auto Tinkering) on the characters the for-who names, the same as ISXOgreEQ2.Craft:Stop. With nothing running it drops a pause and prints that nothing was running.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
-
-```text
-OgreBotAPI.Craft:Stop[igw:${Me.Name}]
-```

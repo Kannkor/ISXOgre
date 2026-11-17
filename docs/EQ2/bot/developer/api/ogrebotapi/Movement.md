@@ -1,8 +1,8 @@
-# OgreBotAPI.Movement
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../../index.md).
 </div>
+
+# OgreBotAPI.Movement
 
 ## Members
 
@@ -306,7 +306,7 @@ Presses your autorun key once (Num Lock unless you have bound another), which to
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Movement:AutoRun[${Me.Name}]
@@ -322,7 +322,7 @@ Adds a named movement block and stops the move in progress. While any block is h
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `reason` | string |  | A name for this block, so Movement:Unblock can release exactly this one. Case-sensitive. |
 
 ```text
@@ -339,7 +339,7 @@ Queues a cast of Call to Guild Hall after a short random wait (0.5 to 3.4 second
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Movement:CallGH[${Me.Name}]
@@ -355,7 +355,7 @@ Releases every movement block at once, including blocks the bot's own movers hol
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Movement:ClearBlocks[${Me.Name}]
@@ -371,7 +371,7 @@ Runs to where the named character is standing at the moment of the call, stoppin
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `toWho` | string | `me` | Who to run to: a name (part of a name works), an actor ID or an @ alias. Blank means yourself. |
 | `precision` | float | `3` | How close counts as arrived, in meters. |
 
@@ -389,7 +389,7 @@ Presses your crouch key once (Z unless you have bound another).
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Movement:Crouch[${Me.Name}]
@@ -405,7 +405,7 @@ Queues your class evacuation spell when you have one and it is ready (Escape for
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `mode` | string | `""` | Blank for the class evac only; totem to fall back to a Totem of Escape. |
 
 ```text
@@ -422,7 +422,7 @@ Turns you to face the actor, found by exact name, actor ID or @ alias. No actor 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `nameOrId` | string |  | The actor's exact name, its actor ID, or an @ alias. |
 
 ```text
@@ -439,7 +439,7 @@ Turns you to the heading in degrees (0 is north). A missing angle prints an erro
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `angle` | float |  | The heading to face, in degrees. |
 
 ```text
@@ -456,7 +456,7 @@ Turns you to face the location using X and Z; the height is not used. A missing 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `x` | float or name |  | X of the location, or the whole location as one word: the name of a point of interest in this zone, or x,y,z. An unknown name prints one line and does nothing. |
 | `y` | float |  | Y (height). Ignored - a heading is flat - and kept so a location pastes in as x,y,z (${Me.Loc} as is). |
 | `z` | float |  | Z of the location. Not read when x holds the whole location. |
@@ -475,7 +475,7 @@ Turns you to the actor and holds that heading, turning again when you drift more
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `nameOrId` | string |  | The actor's exact name, its actor ID, or an @ alias. |
 | `ttlSeconds` | int | `0` | How long the lock lasts, in seconds. 0 or blank means 15; the most is 120. |
 
@@ -491,7 +491,7 @@ Turns you toward the location and holds that heading, the same way Movement:Face
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `x` | float or name |  | X of the location to face, or the whole location as one word: the name of a point of interest in this zone, or x,y,z. An unknown name prints one line and does nothing. |
 | `z` | float |  | Z of the location to face. Not read when x holds the whole location. |
 | `ttlSeconds` | int | `0` | How long the lock lasts, in seconds. 0 or blank means 15; the most is 120. |
@@ -508,7 +508,7 @@ Releases the face lock, so other turns and movement carry on. Does nothing when 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Movement:FaceUnlock[${Me.Name}]
@@ -522,7 +522,7 @@ Holds your fly down key (End unless you have bound another) and keeps holding it
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Movement:FlyDown[${Me.Name}]
@@ -538,7 +538,7 @@ Lets go of both the fly up and fly down keys, whichever one was held.
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Movement:FlyStop[${Me.Name}]
@@ -554,7 +554,7 @@ Holds your fly up key (Home unless you have bound another) and keeps holding it 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Movement:FlyUp[${Me.Name}]
@@ -570,7 +570,7 @@ Follows the leader with the bot's own follow, moving up when farther than minDis
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `leader` | string | `off` | Who to follow: a character name, an actor ID, or off to stop following. |
 | `minDistance` | float | `8` | Follow moves up when the leader is farther than this, in meters. Must be above 0. |
 | `maxDistance` | float | `200` | Follow stops chasing when the leader is this far or farther. Must be above minDistance. |
@@ -591,7 +591,7 @@ Takes 2 meters off the follow distances: minDistance never goes below 1, and max
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Movement:FollowDistanceDown[${Me.Name}]
@@ -607,7 +607,7 @@ Adds 2 meters to both follow distances (and to the back-off distance when one is
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Movement:FollowDistanceUp[${Me.Name}]
@@ -623,7 +623,7 @@ Starts the game's /follow on the character named in the OgreBot panel's auto fol
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Movement:ForceFollow[${Me.Name}]
@@ -639,7 +639,7 @@ Cancels your maintained buffs that use concentration, last one first, only until
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `concentration` | int | `4` | The used concentration to get down to. |
 
 ```text
@@ -656,7 +656,7 @@ Queues a trip to the guild hall: Call to Guild Hall when it is ready, otherwise 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Movement:GetToGH[${Me.Name}]
@@ -672,7 +672,7 @@ Holds the character where it is instead of going back to its camp spot, unless i
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Movement:JoustIn[${Me.Name}]
@@ -688,7 +688,7 @@ Makes the character ignore later JoustIn calls, so it does not hold where it is.
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Movement:JoustOff[${Me.Name}]
@@ -704,7 +704,7 @@ Makes the character obey JoustIn again. Left blank the for-who is Melee, not all
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Movement:JoustOn[${Me.Name}]
@@ -720,7 +720,7 @@ Releases the JoustIn hold, and the hold left by Come2Me or Move2Area, so the cha
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Movement:JoustOut[${Me.Name}]
@@ -736,7 +736,7 @@ Presses your jump key once (Space unless you have bound another).
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Movement:Jump[${Me.Name}]
@@ -752,7 +752,7 @@ Walks to start, then on to end, pressing jump once when passing within 2 meters 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `start` | string |  | The first point to walk to, as "x,y,z". |
 | `jump` | string |  | Where to jump on the way to end, as "x,y,z". |
 | `end` | string |  | Where the route ends, as "x,y,z". |
@@ -773,7 +773,7 @@ Queues a landing: holds your fly down key until you are no longer flying, for up
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Movement:LandFlyingMount[${Me.Name}]
@@ -789,7 +789,7 @@ Runs to the location (X and Z, height ignored) and then stays there instead of g
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `x` | float or name |  | X of the location, or the whole location as one word: the name of a point of interest in this zone, or x,y,z. An unknown name prints one line and does nothing. |
 | `y` | float |  | Y (height). Not used: this is a ground move, so you can paste ${Me.Loc} as is. |
 | `z` | float |  | Z of the location. Not read when x holds the whole location. |
@@ -809,7 +809,7 @@ The same as Move2Area, but the character moves whether or not it has a target. I
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `x` | float or name |  | X of the location, or the whole location as one word: the name of a point of interest in this zone, or x,y,z. An unknown name prints one line and does nothing. |
 | `y` | float |  | Y (height). Not used: this is a ground move, so you can paste ${Me.Loc} as is. |
 | `z` | float |  | Z of the location. Not read when x holds the whole location. |
@@ -829,7 +829,7 @@ Stops the nav trip under way, unless that trip belongs to an encounter. Does not
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Movement:NavStop[${Me.Name}]
@@ -843,7 +843,7 @@ Starts a nav trip over the navmesh to the location, replacing any trip under way
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `x` | float or name |  | X of the location, or the whole location as one word: the name of a point of interest in this zone, or x,y,z. An unknown name prints one line and does nothing. |
 | `y` | float |  | Y (height) of the location. Not read when x holds the whole location. |
 | `z` | float |  | Z of the location. Not read when x holds the whole location. |
@@ -863,7 +863,7 @@ Sets running (TRUE) or walking (FALSE), pressing the game's run toggle only when
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `run` | bool |  | TRUE to run, FALSE to walk. Required. |
 
 ```text
@@ -880,7 +880,7 @@ Stands you up when you are feigning death. Does nothing otherwise.
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Movement:Stand[${Me.Name}]
@@ -896,7 +896,7 @@ Stops the move in progress right away and lets go of the movement keys. Follow, 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Movement:Stop[${Me.Name}]
@@ -910,7 +910,7 @@ Pauses follow (the leader is kept), stops the game's /follow and stops the move 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Movement:StopFollow[${Me.Name}]
@@ -926,7 +926,7 @@ Stops the jump route that is running. Does nothing when none is running.
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Movement:StopJumpRoute[${Me.Name}]
@@ -942,7 +942,7 @@ Runs straight to the location and stops once within the precision, measured flat
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `x` | float or name |  | X of the location, or the whole location as one word: the name of a point of interest in this zone, or x,y,z. An unknown name prints one line and does nothing. |
 | `y` | float |  | Y (height) of the location. Not read when x holds the whole location. |
 | `z` | float |  | Z of the location. Not read when x holds the whole location. |
@@ -960,7 +960,7 @@ Releases the named movement block and leaves any others in place. A reason that 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `reason` | string |  | The block name given to Movement:Block. Case-sensitive. |
 
 ```text
@@ -977,7 +977,7 @@ Lets Come2Me, Move2Area, follow and the camp spot move the character while OgreB
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `1\|0` | bool | `0` | 1 or TRUE to allow movement without OgreBot open; 0 or FALSE to require OgreBot. |
 
 ```text
@@ -992,7 +992,7 @@ Sends the game's /waypoint command for the location, which shows the in-game way
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `x` | float or name |  | X of the location, or the whole location as one word: the name of a point of interest in this zone, or x,y,z. An unknown name prints one line and does nothing. |
 | `y` | float |  | Y (height) of the location. Not read when x holds the whole location. |
 | `z` | float |  | Z of the location. Not read when x holds the whole location. |

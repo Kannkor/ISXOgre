@@ -1,8 +1,8 @@
-# OgreBotAPI.Loot
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../../index.md).
 </div>
+
+# OgreBotAPI.Loot
 
 ## Members
 
@@ -68,7 +68,7 @@ Adds character and item pairs to a list of SmartLoot counts to reset to 0, ready
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `toon` | string |  | the character whose count for the item is reset |
 | `item` | string |  | the item name for that character; colour codes are removed |
 | `...` | string |  | more character and item pairs, in the same order |
@@ -87,7 +87,7 @@ Opens the SmartLoot config panel, or closes it when mode is close. Opening a pan
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `mode` | string | `open` | close closes the panel; any other value opens it |
 
 ```text
@@ -102,7 +102,7 @@ Works out what SmartLoot would do with every open loot window in turn and prints
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `execute` | bool | `FALSE` | execute, force or a true word (TRUE, 1, yes, on) performs the plan; anything else, or nothing, is a dry run |
 
 ```text
@@ -117,7 +117,7 @@ Clicks Loot All on the open loot window. Does nothing when no loot window is ope
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Loot:LootAll[${Me.Name}]
@@ -133,7 +133,7 @@ Converts the older XML loot files into the JSON loot store and prints how many f
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `overwrite` | bool | `FALSE` | overwrite, force or a true word (TRUE, 1, yes, on) replaces JSON files that already exist; anything else leaves them alone |
 
 ```text
@@ -148,7 +148,7 @@ Sets every collected character and item count to 0, which makes those characters
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Loot:ProcessToonItemsToBeZeroed[${Me.Name}]
@@ -164,7 +164,7 @@ Reads the SmartLoot item caps and per-character loot counts from the saved loot 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Loot:Reload[${Me.Name}]
@@ -180,7 +180,7 @@ Forgets which actors auto-loot has already looted or opened, so the next scan ca
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Loot:ResetLootedActors[${Me.Name}]
@@ -196,7 +196,7 @@ Sets this character's own auto-loot mode in the game, 0 none, 1 auto-greed or 2 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `mode` | text |  | 0, 1 or 2, or the words AN, AG or AD that Loot:SetOptions takes |
 
 ```text
@@ -213,7 +213,7 @@ Sets the group loot method, rarity and auto-loot mode from short loot words, one
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `token` | string |  | one loot word: method LO, FFA, Lotto, NBG or RR (the long names such as Leader Only or Round Robin work too); rarity All, T, L or F (with or without +); auto-loot AN, AG or AD. An unknown word is ignored with a console warning |
 | `...` | string |  | more loot words of the same kinds |
 

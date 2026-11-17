@@ -1,8 +1,8 @@
-# OgreBotAPI.ForWho
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../../index.md).
 </div>
+
+# OgreBotAPI.ForWho
 
 ## Members
 
@@ -83,7 +83,7 @@ Adds a row to the loaded OgreBot profile's alias list, so *&lt;alias> names the 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `alias` | string |  | the alias name; a leading * is added when you leave it off |
 | `value` | string |  | what the alias points to: a character name or a class word (archetype, class or subclass) |
 | `noRaid` | bool | `FALSE` | TRUE = only you and your group count, raid members are not matched |
@@ -102,7 +102,7 @@ Points the first alias row named from at to instead (a blank to clears it, so th
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `from` | string |  | the alias to change (with or without its *) |
 | `to` | string |  | the new character name or class word it points to |
 | `silent` | bool | `FALSE` | TRUE = make the change without the Ogre console announce |
@@ -121,7 +121,7 @@ Drops the cached alias answers, so the next *alias is worked out against the gro
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.ForWho:ForceUpdate[all]
@@ -137,7 +137,7 @@ Removes the first alias row with that name from the loaded OgreBot profile, or e
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `name\|all` | string |  | the alias to remove (with or without its *), or all to clear the whole list |
 
 ```text
@@ -154,7 +154,7 @@ Renames the first alias row named from to to (stars added when missing), keeping
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `from` | string |  | the alias to rename (with or without its *) |
 | `to` | string |  | the new alias name (with or without its *) |
 | `silent` | bool | `FALSE` | TRUE = rename without the Ogre console announce |

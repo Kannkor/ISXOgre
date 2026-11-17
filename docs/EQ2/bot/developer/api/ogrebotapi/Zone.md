@@ -1,8 +1,8 @@
-# OgreBotAPI.Zone
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../../index.md).
 </div>
+
+# OgreBotAPI.Zone
 
 ## Members
 
@@ -169,7 +169,7 @@ Resets one zone with your Champion's Zone Lockout Reset item: examines it, then 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `zone` | text |  | the zone name as the item's window lists it |
 
 ```text
@@ -186,7 +186,7 @@ When the group member is in another instance of your zone, sends the game's /zon
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `toWho` | character name |  | the group member whose instance to join |
 
 ```text
@@ -203,7 +203,7 @@ Presses Force Reset in the Zone Reuse window for one named zone, which uses up o
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `zone` | text |  | the zone name as the Zone Reuse window shows it |
 
 ```text
@@ -218,7 +218,7 @@ Runs the game's reset_all_zone_timers command on each matching character. In a r
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `allowRaid` | bool | `FALSE` | TRUE to reset even while in a raid |
 
 ```text
@@ -235,7 +235,7 @@ Asks the bot to re-read the Zone Reuse window, which it opens and closes to do s
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Zone:ResetUpdateInfo[${Me.Name}]
@@ -251,7 +251,7 @@ Resets the lockout timer for one zone on each matching character, opening the Zo
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `zone` | text |  | the zone name as the Zone Reuse window shows it |
 
 ```text
@@ -268,7 +268,7 @@ Clicks the OK button of the game's select zone version window on each matching c
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Zone:SelectVersion[igw:${Me.Name}]
@@ -284,7 +284,7 @@ Shares, one at a time after the group has gathered, the Hot Zones missions in yo
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `zone` | text | `""` | the zone the missions are for; blank means the zone you are in. Another zone prints a console line and shares nothing. |
 
 ```text
@@ -301,7 +301,7 @@ The Special button: in zones with a known puzzle it clicks the puzzle object in 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Zone:SpecialZoneSpecific[igw:${Me.Name}]
@@ -317,7 +317,7 @@ Double-clicks the nearest zone exit on each matching character: an object named 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Zone:Zone[igw:${Me.Name}]

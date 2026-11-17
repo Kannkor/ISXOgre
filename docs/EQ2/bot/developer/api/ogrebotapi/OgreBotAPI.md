@@ -1,8 +1,8 @@
-# OgreBotAPI
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../../index.md).
 </div>
+
+# OgreBotAPI
 
 ## Members
 
@@ -11,6 +11,8 @@
 `${OgreBotAPI.Abilities}`
 
 The Abilities sub-object: the in-memory ability catalog loaded from this character's ability export, the ability reads built on it, and the cast and cancel verbs. Opening OgreBot loads the catalog; without OgreBot open, load it with its :Load before reading abilities from it.
+
+All of it: [OgreBotAPI.Abilities](Abilities.md)
 
 **Returns:** object: the Abilities sub-object; it always exists, and as text it reads OgreBotAPI.Abilities.
 
@@ -24,6 +26,8 @@ echo ${OgreBotAPI.Abilities}
 
 The Access sub-object: this session's access level (SetLevel) and UnauthPCsNearMe, which reports another player nearby who is not one of your own characters.
 
+All of it: [OgreBotAPI.Access](Access.md)
+
 **Returns:** object: the Access sub-object; it always exists, and as text it reads Access[level/highest], this session's level and the account's highest level.
 
 ```text
@@ -35,6 +39,8 @@ echo ${OgreBotAPI.Access}
 `${OgreBotAPI.Actors}`
 
 Opens the Actors sub-object: counting and finding actors near you (by name, by type, NPCs within a range, mob ID, is-a-player), and clicking, hailing or applying a verb to an actor, now or queued. It always resolves and takes no arguments; the work is in its own members and methods.
+
+All of it: [OgreBotAPI.Actors](Actors.md)
 
 **Returns:** OgreBotAPI.Actors object: never NULL; as text it reads OgreBotAPI.Actors.
 
@@ -48,6 +54,8 @@ echo ${OgreBotAPI.Actors}
 
 The Assist sub-object: who this character takes its kill target from. Its members (TargetID, InControl, IsAssisting) read that choice, and :Anchor sets it.
 
+All of it: [OgreBotAPI.Assist](Assist.md)
+
 **Returns:** object: the Assist sub-object; it always exists, and as text it reads OgreBotAPI.Assist.
 
 ```text
@@ -60,6 +68,8 @@ echo ${OgreBotAPI.Assist}
 
 The AutoHunt sub-object: the AutoHunt driver's state (Mode, Active, AllowMovement, SafetyTripped, PullTargetID, LastAction, FreezeReason) and its setters (:SetMode, :SetScanRadius, :SetCheckHP, :SetCheckMana).
 
+All of it: [OgreBotAPI.AutoHunt](AutoHunt.md)
+
 **Returns:** object: the AutoHunt sub-object; it always exists, and as text it reads OgreBotAPI.AutoHunt.
 
 ```text
@@ -71,6 +81,8 @@ echo ${OgreBotAPI.AutoHunt}
 `${OgreBotAPI.AutoTarget}`
 
 The AutoTarget sub-object: the auto-target list and its settings - enable, scan radius and height, add or remove actors, presets and saved lists. As text it reports how many entries the current working list holds.
+
+All of it: [OgreBotAPI.AutoTarget](AutoTarget.md)
 
 **Returns:** object: the AutoTarget sub-object; it always exists, and as text it reads AutoTarget[N entries], N being the number of entries in the current working list.
 
@@ -86,6 +98,8 @@ echo ${OgreBotAPI.AutoTarget}
 
 The Bot sub-object: the running bot's own lifecycle - pause, resume, reload, end, camp to desktop, exit the client, run OgreBot commands and scripts. It is the running bot, not the saved profile options.
 
+All of it: [OgreBotAPI.Bot](Bot.md)
+
 **Returns:** object: the Bot sub-object; it always exists, and as text it reads OgreBotAPI.Bot.
 
 ```text
@@ -97,6 +111,8 @@ echo ${OgreBotAPI.Bot}
 `${OgreBotAPI.CampSpot}`
 
 The CampSpot sub-object: the camp spot this character holds to - set, nudge, clear and enable it, relative spots, spots behind or in front of an actor, and formations. Its members read the active slot, the effective spot and whether you are at it.
+
+All of it: [OgreBotAPI.CampSpot](CampSpot.md)
 
 **Returns:** object: the CampSpot sub-object; it always exists, and as text it reads OgreBotAPI.CampSpot.
 
@@ -110,6 +126,8 @@ echo ${OgreBotAPI.CampSpot}
 
 The CastStack sub-object: the cast stack - load or import it, turn entries and tags on or off, hold and clear tag embargos and allows, and inspect it. Bot:Pause and Bot:Resume pause and run it.
 
+All of it: [OgreBotAPI.CastStack](CastStack.md)
+
 **Returns:** object: the CastStack sub-object; it always exists, and as text it reads OgreBotAPI.CastStack.
 
 ```text
@@ -121,6 +139,8 @@ echo ${OgreBotAPI.CastStack}
 `${OgreBotAPI.Client}`
 
 The Client sub-object: things done to the EQ2 client rather than the character - reset the camera, set the camera pitch, and move the mouse. It holds methods only.
+
+All of it: [OgreBotAPI.Client](Client.md)
 
 **Returns:** object: the Client sub-object; it always exists, and as text it reads OgreBotAPI.Client.
 
@@ -134,6 +154,8 @@ echo ${OgreBotAPI.Client}
 
 The Combat sub-object: whether you are fighting and what the bot may do while you are - InCombat, the no-offensive and no-defensive switches, the threat ignore list and the countdown.
 
+All of it: [OgreBotAPI.Combat](Combat.md)
+
 **Returns:** object: the Combat sub-object; it always exists, and as text it reads OgreBotAPI.Combat.
 
 ```text
@@ -145,6 +167,8 @@ echo ${OgreBotAPI.Combat}
 `${OgreBotAPI.Comms}`
 
 The Comms sub-object: messaging between your characters - events, messages, broadcasts, tells, group queries and IRC. As text it is a one-line summary of its send and receive counters, prefixed "Comms ".
+
+All of it: [OgreBotAPI.Comms](Comms.md)
 
 **Returns:** object: the Comms sub-object; it always exists, and as text it reads "Comms " followed by the one-line counter summary (the same text as ${OgreBotAPI.Comms.Stats}).
 
@@ -158,6 +182,8 @@ echo ${OgreBotAPI.Comms}
 
 The Consumables sub-object: things you eat, drink, click, mount or summon - replenish food, drink and stat potions, mount up and down, summon a familiar, rekindle the heartstone, and the mount, mercenary and familiar training checks. It holds methods only.
 
+All of it: [OgreBotAPI.Consumables](Consumables.md)
+
 **Returns:** object: the Consumables sub-object; it always exists, and as text it reads OgreBotAPI.Consumables.
 
 ```text
@@ -169,6 +195,8 @@ echo ${OgreBotAPI.Consumables}
 `${OgreBotAPI.Craft}`
 
 Opens the Craft sub-object: the crafting calls of ${ISXOgreEQ2.Craft} with a for-who in front, so each runs only on the characters it names (add a recipe, start, writs, scribe, tinkering). It has methods only and takes no arguments.
+
+All of it: [OgreBotAPI.Craft](Craft.md)
 
 **Returns:** OgreBotAPI.Craft object: never NULL; as text it reads OgreBotAPI.Craft.
 
@@ -182,6 +210,8 @@ echo ${OgreBotAPI.Craft}
 
 The Cures sub-object: cures, curses and dispels - the group curse counts, uncurable and detrimental reads, cure requests, item cures, cancelling a detrimental and replenishing cure potions.
 
+All of it: [OgreBotAPI.Cures](Cures.md)
+
 **Returns:** object: the Cures sub-object; it always exists, and as text it reads OgreBotAPI.Cures.
 
 ```text
@@ -193,6 +223,8 @@ echo ${OgreBotAPI.Cures}
 `${OgreBotAPI.Debug}`
 
 The Debug sub-object: the version, the debug output switches, debug echoes and the variable and stat spews.
+
+All of it: [OgreBotAPI.Debug](Debug.md)
 
 **Returns:** object: the Debug sub-object; it always exists, and as text it reads OgreBotAPI.Debug.
 
@@ -206,6 +238,8 @@ echo ${OgreBotAPI.Debug}
 
 Opens the Encounter sub-object: one method, List, which lists the available encounter setups on the characters a for-who names. The encounter engine itself is ${ISXOgreEQ2.Encounter}, a different object.
 
+All of it: [OgreBotAPI.Encounter](Encounter.md)
+
 **Returns:** OgreBotAPI.Encounter object: never NULL; as text it reads OgreBotAPI.Encounter.
 
 ```text
@@ -217,6 +251,8 @@ echo ${OgreBotAPI.Encounter}
 `${OgreBotAPI.Events}`
 
 The Events sub-object: add and remove rows of the Chat, Spawn and Despawn event tabs, the same rows the panel edits. It holds methods only.
+
+All of it: [OgreBotAPI.Events](Events.md)
 
 **Returns:** object: the Events sub-object; it always exists, and as text it reads OgreBotAPI.Events.
 
@@ -230,6 +266,8 @@ echo ${OgreBotAPI.Events}
 
 Opens the ForWho sub-object: ask whether a for-who expression selects this character or a named group member, and manage for-who aliases (add, remove, change, rename, list). It always resolves and takes no arguments.
 
+All of it: [OgreBotAPI.ForWho](ForWho.md)
+
 **Returns:** OgreBotAPI.ForWho object: never NULL; as text it reads OgreBotAPI.ForWho.
 
 ```text
@@ -241,6 +279,8 @@ echo ${OgreBotAPI.ForWho}
 `${OgreBotAPI.HOs}`
 
 Opens the HOs sub-object: heroic opportunity reads (is the starter or wheel up, which wheel, who can start or advance it, time left) and the verbs that start, advance or cancel one and set which icons may be used. It always resolves and takes no arguments.
+
+All of it: [OgreBotAPI.HOs](HOs.md)
 
 **Returns:** OgreBotAPI.HOs object: never NULL; as text it reads OgreBotAPI.HOs.
 
@@ -254,6 +294,8 @@ echo ${OgreBotAPI.HOs}
 
 The IM sub-object: the Inventory Manager session - IsOpen, IsRunning, Status and one method per `ogre im` word. As text it is the session's status line, not the object's name.
 
+All of it: [OgreBotAPI.IM](IM.md)
+
 **Returns:** object: the IM sub-object; it always exists, and as text it reads the status line - "closed", or "open" (or "closed (running headless)") followed by ", idle" or ", running &lt;mode>", plus "; will close when finished (-end)" when that is pending.
 
 ```text
@@ -266,6 +308,8 @@ echo ${OgreBotAPI.IM}
 
 Opens the Inventory sub-object: item counts, free bag slots, equipment slot names, adornments, and the verbs that use, examine, equip, unpack, consume or destroy items plus the item rotation embargo list. It always resolves and takes no arguments.
 
+All of it: [OgreBotAPI.Inventory](Inventory.md)
+
 **Returns:** OgreBotAPI.Inventory object: never NULL; as text it reads OgreBotAPI.Inventory.
 
 ```text
@@ -277,6 +321,8 @@ echo ${OgreBotAPI.Inventory}
 `${OgreBotAPI.Loot}`
 
 Opens the Loot sub-object: loading the loot rule files, deciding what to do with each item in a loot window, loot-all, auto-loot mode and the loot options. It always resolves and takes no arguments.
+
+All of it: [OgreBotAPI.Loot](Loot.md)
 
 **Returns:** OgreBotAPI.Loot object: never NULL; as text it reads OgreBotAPI.Loot.
 
@@ -304,6 +350,8 @@ echo ${OgreBotAPI.Looting}
 
 Opens the Merchant sub-object: buying from, selling to and repairing at an NPC merchant (not the broker and not the depot). It has methods only and takes no arguments.
 
+All of it: [OgreBotAPI.Merchant](Merchant.md)
+
 **Returns:** OgreBotAPI.Merchant object: never NULL; as text it reads OgreBotAPI.Merchant.
 
 ```text
@@ -315,6 +363,8 @@ echo ${OgreBotAPI.Merchant}
 `${OgreBotAPI.Movement}`
 
 Opens the Movement sub-object: distance, heading and facing reads, points around an actor, and the walking verbs - move to a loc, navigate, follow, joust, face, fly, jump, crouch, evac and movement blocks. It always resolves and takes no arguments.
+
+All of it: [OgreBotAPI.Movement](Movement.md)
 
 **Returns:** OgreBotAPI.Movement object: never NULL; as text it reads OgreBotAPI.Movement.
 
@@ -342,6 +392,8 @@ echo ${OgreBotAPI.NPCUnkillableBug}
 
 Opens the Options sub-object: read an OgreBot option value, set options, load a profile, revert, and warn before saving. As text it shows the loaded profile name, or "no profile" when none is loaded.
 
+All of it: [OgreBotAPI.Options](Options.md)
+
 **Returns:** OgreBotAPI.Options object: never NULL; as text it reads Options[&lt;profile name>], or Options[no profile].
 
 ```text
@@ -353,6 +405,8 @@ echo ${OgreBotAPI.Options}
 `${OgreBotAPI.Overseer}`
 
 Opens the Overseer sub-object: four Overseer verbs (add agents, check quests, auto-add quests, buy missions). The Overseer engine itself is run from ${ISXOgreEQ2.Overseer}, a different object.
+
+All of it: [OgreBotAPI.Overseer](Overseer.md)
 
 **Returns:** OgreBotAPI.Overseer object: never NULL; as text it reads OgreBotAPI.Overseer.
 
@@ -366,6 +420,8 @@ echo ${OgreBotAPI.Overseer}
 
 Opens the Paths sub-object: saved walks through the zone you are in, each a list of points of interest or locations. It always resolves and takes no arguments.
 
+All of it: [OgreBotAPI.Paths](Paths.md)
+
 **Returns:** OgreBotAPI.Paths object: never NULL; as text it reads OgreBotAPI.Paths.
 
 ```text
@@ -377,6 +433,8 @@ echo ${OgreBotAPI.Paths}
 `${OgreBotAPI.Pet}`
 
 Opens the Pet sub-object: four pet commands - attack, back off, assist and get lost. It has methods only and takes no arguments.
+
+All of it: [OgreBotAPI.Pet](Pet.md)
 
 **Returns:** OgreBotAPI.Pet object: never NULL; as text it reads OgreBotAPI.Pet.
 
@@ -390,6 +448,8 @@ echo ${OgreBotAPI.Pet}
 
 Opens the POI sub-object: named spots in the zone you are in, which -TravelMesh and every verb that takes a location can use by name. It always resolves and takes no arguments.
 
+All of it: [OgreBotAPI.POI](POI.md)
+
 **Returns:** OgreBotAPI.POI object: never NULL; as text it reads OgreBotAPI.POI.
 
 ```text
@@ -401,6 +461,8 @@ echo ${OgreBotAPI.POI}
 `${OgreBotAPI.Position}`
 
 Opens the Position sub-object: geometry reads - a point at an angle from an actor, a point toward another, distance to an actor, the farthest group member or actor, and model sizes. It has members only and takes no arguments.
+
+All of it: [OgreBotAPI.Position](Position.md)
 
 **Returns:** OgreBotAPI.Position object: never NULL; as text it reads OgreBotAPI.Position.
 
@@ -414,6 +476,8 @@ echo ${OgreBotAPI.Position}
 
 Opens the Quest sub-object: whether you or an actor has a quest, and the quest and mission verbs - share, accept, delete, show info and mission timers. It always resolves and takes no arguments.
 
+All of it: [OgreBotAPI.Quest](Quest.md)
+
 **Returns:** OgreBotAPI.Quest object: never NULL; as text it reads OgreBotAPI.Quest.
 
 ```text
@@ -425,6 +489,8 @@ echo ${OgreBotAPI.Quest}
 `${OgreBotAPI.Roster}`
 
 Opens the Roster sub-object: group and raid reads (sizes, counts and members picked by class, archetype or role, leader, in zone) and the group verbs - flag, mark, invite, disband, make leader, mentor, kick. It always resolves and takes no arguments.
+
+All of it: [OgreBotAPI.Roster](Roster.md)
 
 **Returns:** OgreBotAPI.Roster object: never NULL; as text it reads OgreBotAPI.Roster.
 
@@ -438,6 +504,8 @@ echo ${OgreBotAPI.Roster}
 
 Opens the Session sub-object: whether this client is at character select, the character name, revive and res verbs, harvesting a node, collecting a shiny, and logging a character in. As text it shows your character name, which is empty while you are not in the world.
 
+All of it: [OgreBotAPI.Session](Session.md)
+
 **Returns:** OgreBotAPI.Session object: never NULL; as text it reads Session[&lt;your character name>], or Session[] out of the world.
 
 ```text
@@ -449,6 +517,8 @@ echo ${OgreBotAPI.Session}
 `${OgreBotAPI.TempAdorns}`
 
 The TempAdorns sub-object: the temporary-adornment profiles - IsOpen, Profiles, the window (:Open, :Close, :UI), :Apply and :List.
+
+All of it: [OgreBotAPI.TempAdorns](TempAdorns.md)
 
 **Returns:** object: the TempAdorns sub-object; it always exists, and as text it reads OgreBotAPI.TempAdorns.
 
@@ -462,6 +532,8 @@ echo ${OgreBotAPI.TempAdorns}
 
 Opens the Travel sub-object: ordinary travel - bells, druid rings, spires, the guild hall, zone doors and the travel mesh. It always resolves and takes no arguments.
 
+All of it: [OgreBotAPI.Travel](Travel.md)
+
 **Returns:** OgreBotAPI.Travel object: never NULL; as text it reads OgreBotAPI.Travel.
 
 ```text
@@ -473,6 +545,8 @@ echo ${OgreBotAPI.Travel}
 `${OgreBotAPI.Util}`
 
 The Util sub-object: helpers LavishScript does not have - number and text conversions, rounding, range checks, colour-code and zone-number stripping, time formatting, MD5, file-exists, plus on-screen timers and delayed actions.
+
+All of it: [OgreBotAPI.Util](Util.md)
 
 **Returns:** object: the Util sub-object; it always exists, and as text it reads OgreBotAPI.Util.
 
@@ -500,6 +574,8 @@ echo ${OgreBotAPI.ValidKillTarget}
 
 Opens the Vars sub-object: two named-value stores - a plain one for your scripts (Get, Set, Clear) and the bot's own internal one (GetInternal, SetInternal, ClearInternal). It always resolves and takes no arguments.
 
+All of it: [OgreBotAPI.Vars](Vars.md)
+
 **Returns:** OgreBotAPI.Vars object: never NULL; as text it reads OgreBotAPI.Vars.
 
 ```text
@@ -512,6 +588,8 @@ echo ${OgreBotAPI.Vars}
 
 Opens the Windows sub-object: game dialogs and windows - NPC reply choices, reward windows, the examine window, text-input windows, the OK button, and showing or toggling the OgreBot console and main window. It always resolves and takes no arguments.
 
+All of it: [OgreBotAPI.Windows](Windows.md)
+
 **Returns:** OgreBotAPI.Windows object: never NULL; as text it reads OgreBotAPI.Windows.
 
 ```text
@@ -523,6 +601,8 @@ echo ${OgreBotAPI.Windows}
 `${OgreBotAPI.Zone}`
 
 Opens the Zone sub-object: the zone name and what kind of place it is (instance, guild hall, house), plus zoning and the zone reset verbs. It always resolves and takes no arguments.
+
+All of it: [OgreBotAPI.Zone](Zone.md)
 
 **Returns:** OgreBotAPI.Zone object: never NULL; as text it reads OgreBotAPI.Zone.
 
@@ -540,7 +620,7 @@ Double-clicks the nearest Arcanna'se Effigy Of Rebirth, at once. Nothing happens
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI:ArcannaseEffigyOfRebirth[all]
@@ -556,7 +636,7 @@ Queues your archetype's raid debuff on the mob: Demoralizing Swipe (fighter), Sl
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `mob` | string |  | The mob: an actor ID, or a name (the nearest actor whose name contains it). |
 | `allowMoving` | bool | `setting` | TRUE walks into range first when the mob is too far away (the range is the ability export's); FALSE skips the cast instead. Left out, the DoV raid debuff "allow moving" setting decides. |
 
@@ -574,7 +654,7 @@ Like DoVDebuff, but only characters of one archetype cast, and only half of them
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `mob` | string |  | The mob: an actor ID, or a name (the nearest actor whose name contains it). |
 | `archetype` | string | `auto` | fighter, scout, mage or priest - the archetype that casts. auto reads the mob's effects for a DoV raid debuff icon and uses that archetype. |
 | `odd` | bool | `TRUE` | TRUE: the odd ranks (1st, 3rd, ...) cast; FALSE: the even ranks. |
@@ -594,7 +674,7 @@ Ticks the Settings tab option that closes the All-Access upsell window, which th
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI:F2PWindow_SetOptions[${Me.Name}]
@@ -610,7 +690,7 @@ Queues a job that talks to the guild strategist and takes a tactical rally banne
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI:GetFlag[${Me.Name}]
@@ -626,7 +706,7 @@ Clears your target at once (the game's /target_none).
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI:NoTarget[${Me.Name}]
@@ -642,7 +722,7 @@ Gets the group ready for tank swapping: Guardians turn off Recapture, Bruisers t
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI:Prepare_TankSwapping[igw:${Me.Name}]
@@ -658,7 +738,7 @@ Undoes Prepare_TankSwapping: Guardians turn Recapture back on, Bruisers turn Hos
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI:Remove_Prepare_TankSwapping[igw:${Me.Name}]
@@ -674,7 +754,7 @@ Turns back on exactly the cast stack entries SetUpFor_Intercept turned off on th
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI:ResetFor_Intercept[igw:${Me.Name}]
@@ -690,7 +770,7 @@ Queues a job that scribes every scribeable item in your bags whose name contains
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `nameFilter` | string | `Empyral` | Text the item name must contain (case-insensitive), or * for every scribeable item. |
 
 ```text
@@ -707,7 +787,7 @@ Turns the Intercept ability off in the cast stack on every class, and on a Guard
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI:SetUpFor_Intercept[igw:${Me.Name}]
@@ -723,7 +803,7 @@ Double-clicks the nearest interactable actor whose type contains "special" (a cl
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI:Special[${Me.Name}]
@@ -739,7 +819,7 @@ Targets an actor once, at top priority, on the bot's next pulse (even while paus
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `target` | string |  | Who to target: an actor ID, me, an @role, pet:&lt;owner>, or a name (the nearest actor whose name contains it). |
 
 ```text
@@ -756,7 +836,7 @@ Locks your target onto one actor and keeps it there, above auto-target and assis
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `target` | string | `clear` | The actor to lock onto: an actor ID, an @role, pet:&lt;owner>, or a name (the nearest actor whose name contains it); clear, off or 0 releases the lock. |
 
 ```text
@@ -773,7 +853,7 @@ Re-reads your NPC target right now: your target if it is a live NPC, otherwise y
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI:UpdateNPCTarget[${Me.Name}]
@@ -789,7 +869,7 @@ Queues a job that talks to the guild strategist and picks reply 2, which sends y
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI:UseFlag[igw:${Me.Name}]

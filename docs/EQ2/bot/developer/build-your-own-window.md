@@ -1,8 +1,8 @@
-# Build your own window
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# Build your own window
 
 Ogre's in-game windows are HTML pages drawn over the game. Your own script, or your own extension, can put a
 window of its own up there, read and change what is in it, react when the player clicks a button, and hear
@@ -37,6 +37,7 @@ To start your own window, copy that folder next to your script and rename things
 
 ### The window: `hello.html`
 
+
 ```html
 
 <script type="ogre/window">{"title":"Hello","w":280,"h":0}</script>
@@ -64,6 +65,7 @@ To start your own window, copy that folder next to your script and rename things
 ```
 
 ### The script: `hello.iss`
+
 
 ```
 ; hello.iss - opens hello.html, reacts to its button, follows its checkbox, re-opens it after a UI reload, and
@@ -499,6 +501,7 @@ say), reads `""` rather than `NULL`. The ids are listed on
 An extension uses the same names through InnerSpace. For a window that changes many times a second there are
 also [direct calls](#without-lavishscript-the-ui-hosts-own-functions) into the UI host.
 
+
 ```cpp
 // open, change, read  (myDir = the folder your files are in, with forward slashes)
 std::string open = "ISXOgreX.UI:Open[mytool,\"" + myDir + "/mytool.html\"]";
@@ -652,6 +655,8 @@ which replaces Ogre's entire UI and does not bring it back.
 
 ## Reference
 
+
+
 | Name | Kind | Arguments | Returns / does |
 |---|---|---|---|
 | `ISXOgreX.UI:Open` | method | `name`, `path`, optional `helpPath` | Opens window `name` from the file at `path`; nothing if it is already open. |
@@ -683,6 +688,8 @@ which replaces Ogre's entire UI and does not bring it back.
 | `data-ogmini` | attribute in your markup | - | The element stays shown while the window is minimized (it shows as usual too). See [Minimizing](#minimizing). |
 | `data-ogmini="only"` | attribute in your markup | - | The element shows ONLY while the window is minimized. |
 | `ogreminimize` | event on your window's body | `detail.minimized` | Fired when the window is minimized (`true`) or restored (`false`). |
+
+
 
 ### In the EverQuest 2 bot
 

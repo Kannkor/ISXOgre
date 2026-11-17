@@ -1,8 +1,8 @@
-# Where zone files go
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../index.md).
 </div>
+
+# Where zone files go
 
 | Root | Folder | What it is |
 |---|---|---|

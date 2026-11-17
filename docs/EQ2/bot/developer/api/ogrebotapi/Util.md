@@ -1,8 +1,8 @@
-# OgreBotAPI.Util
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../../index.md).
 </div>
+
+# OgreBotAPI.Util
 
 ## Members
 
@@ -365,7 +365,7 @@ Queues a look at the research (Knowledge) window, opening it first when it is no
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `forceReport` | bool | `FALSE` | TRUE echoes the progress whatever it says; FALSE echoes only when it is Complete. |
 
 ```text
@@ -382,7 +382,7 @@ Queues a pass over every Advancement, Companion, Mount, Tradeskill, Upgrade and 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Util:CheckResearchMaterials[${Me.Name}]
@@ -398,7 +398,7 @@ Runs a console command after a delay on each character the for-who picks at the 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `delay` | string |  | How long to wait: a bare whole number is milliseconds, or add a unit - 500ms, 10s, 1.5s, 2m, 1h. Anything else (30x, "30 s", -5) echoes an error and nothing is armed. |
 | `command...` | string |  | The command to run, quoted as one argument, for example "eq2execute sit". If it arrives in several pieces they are joined back with commas and a warning is echoed; an empty command echoes an error and nothing is armed. |
 
@@ -414,7 +414,7 @@ Shows a message with a live countdown in one of the ten on-screen timer slots, o
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `time` | float | `30` | Seconds to count down from. Decimals are cut off. |
 | `slot` | int | `1` | Which timer line to use, 1 to 10. A number outside is moved to the nearest of them. |
 | `message` | string | `"Timer:"` | The text shown before the countdown. Empty uses "Timer:". |
@@ -434,7 +434,7 @@ Clears one on-screen timer slot; the line disappears within a second. It does no
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `slot` | int | `1` | Which timer line to clear, 1 to 10. A number outside is moved to the nearest of them. |
 
 ```text

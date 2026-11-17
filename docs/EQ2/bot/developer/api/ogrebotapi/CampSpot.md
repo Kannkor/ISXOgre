@@ -1,8 +1,8 @@
-# OgreBotAPI.CampSpot
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../../index.md).
 </div>
+
+# OgreBotAPI.CampSpot
 
 ## Members
 
@@ -414,7 +414,7 @@ Clears the spot and zone in all 8 slots and clears the relative layer, and also 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.CampSpot:ClearAll[igw:${Me.Name}]
@@ -430,7 +430,7 @@ Clears the spot in the active slot, so the leash stops. The slot keeps its zone 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.CampSpot:ClearCampSpot[igw:${Me.Name}]
@@ -446,7 +446,7 @@ Clears the relative layer back to a 0,0,0 offset, so the leash goes to the activ
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.CampSpot:ClearRelative[igw:${Me.Name}]
@@ -462,7 +462,7 @@ Turns the leash off, for every slot. The spots are kept, so Enable picks up wher
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.CampSpot:Disable[igw:${Me.Name}]
@@ -476,7 +476,7 @@ Turns the leash on, for every slot. The leash is on by default; it still needs a
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.CampSpot:Enable[igw:${Me.Name}]
@@ -490,7 +490,7 @@ Adds dx, dy and dz to the active slot's camp spot, keeping its zone and radii; a
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `dx` | float | `0` | Amount added to X. |
 | `dy` | float | `0` | Amount added to Y. |
 | `dz` | float | `0` | Amount added to Z. |
@@ -509,7 +509,7 @@ Lets the character go: clears every camp spot (as ClearAll), stops a running jum
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.CampSpot:Release[igw:${Me.Name}]
@@ -525,7 +525,7 @@ Puts all 8 slots back to new: no spot, no zone, radii 1 and 125, 3D off; clears 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.CampSpot:ResetAll[igw:${Me.Name}]
@@ -539,7 +539,7 @@ Makes slot n the one the leash uses, so the character heads for that slot's spot
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `n` | int |  | The slot to use, 1 to 8. |
 
 ```text
@@ -554,7 +554,7 @@ Places each character on a ring of radius dist around x,y,z and makes that the a
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `kind` | string | `circle` | circle, monkey or monkeyraid. |
 | `dist` | float | `7` | Ring radius; 0 or less means 7. |
 | `x` | float or name |  | X of the centre, or the whole centre as one word: the name of a point of interest in this zone, or x,y,z. An unknown name prints one line and does nothing. |
@@ -578,7 +578,7 @@ Sets the active slot's camp spot to where this character stands now, in the curr
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `howClose` | float | `2` | Arrival radius: inside this distance the character counts as at the spot. |
 | `howFar` | float | `200` | Leash radius: the leash walks back only from within this distance. |
 
@@ -596,7 +596,7 @@ Sets the active slot's arrival radius: inside this distance the character counts
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `v` | float | `0` | The arrival radius; 0 or less means 1. |
 
 ```text
@@ -613,7 +613,7 @@ Sets the active slot's leash radius: the leash walks back only from within this 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `v` | float | `0` | The leash radius; 0 or less means 125. |
 
 ```text
@@ -630,7 +630,7 @@ Moves the active slot's camp spot to x,y,z (three values, one "x,y,z" text, or t
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `x\|point` | float or name |  | X coordinate of the new spot, or the whole spot as one word: "x,y,z" or the name of a point of interest in this zone. |
 | `y` | float |  | Y coordinate of the new spot. Not read when x holds the whole location. |
 | `z` | float |  | Z coordinate of the new spot. Not read when x holds the whole location. |
@@ -649,7 +649,7 @@ Moves the active slot's camp spot to dist from the actor at angle degrees from t
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `angle` | float |  | Degrees from the actor's facing; 0 is behind, 180 is in front. |
 | `nameOrId` | string |  | The actor: an ID, a name, an @role, pet:&lt;owner> or a class word. Blank uses this character's NPC target (its target, or its target's target). |
 | `dist` | float | `3` | Distance from the actor; this character's own size is added. |
@@ -670,7 +670,7 @@ Moves the active slot's camp spot to dist behind the actor, from the way it face
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `nameOrId` | string |  | The actor: an ID, a name, an @role, pet:&lt;owner> or a class word. Blank uses this character's NPC target (its target, or its target's target). |
 | `dist` | float | `3` | Distance from the actor; this character's own size is added. |
 | `skipIfAggro` | bool | `FALSE` | TRUE to do nothing while the actor's threat on this character is at 100. |
@@ -689,7 +689,7 @@ Each character picks its own side - fighters take the spot in front of the actor
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `nameOrId` | string |  | The actor: an ID, a name, an @role, pet:&lt;owner> or a class word. Blank uses this character's NPC target (its target, or its target's target). |
 | `dist` | float | `3` | Distance from the actor; this character's own size is added. |
 | `skipIfAggro` | bool | `FALSE` | TRUE to do nothing while the actor's threat on this character is at 100. |
@@ -708,7 +708,7 @@ Moves the active slot's camp spot to dist in front of the actor, from the way it
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `nameOrId` | string |  | The actor: an ID, a name, an @role, pet:&lt;owner> or a class word. Blank uses this character's NPC target (its target, or its target's target). |
 | `dist` | float | `3` | Distance from the actor; this character's own size is added. |
 | `skipIfAggro` | bool | `FALSE` | TRUE to do nothing while the actor's threat on this character is at 100. |
@@ -727,7 +727,7 @@ Adds dx, dy and dz to the relative offset (it does not replace it) and puts the 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `dx` | float | `0` | Amount added to the X offset. |
 | `dy` | float | `0` | Amount added to the Y offset. |
 | `dz` | float | `0` | Amount added to the Z offset. |
@@ -746,7 +746,7 @@ Makes x,y,z the fixed destination of the relative layer, so the leash takes this
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `x` | float |  | X of the destination. |
 | `y` | float |  | Y of the destination. |
 | `z` | float |  | Z of the destination. |
@@ -765,7 +765,7 @@ Sets slot n (1 to 8; anything else does nothing) to where this character stands 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `n` | int | `1` | The slot to set, 1 to 8. |
 | `howClose` | float | `2` | Arrival radius for that slot (0 or less falls back to 1). |
 | `howFar` | float | `200` | Leash radius for that slot (0 or less falls back to 125). |
@@ -782,7 +782,7 @@ Turns 3D distance on or off for the active slot; off measures on the ground plan
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `on` | bool | `TRUE` | TRUE for 3D distances, FALSE for ground-plane distances. |
 
 ```text

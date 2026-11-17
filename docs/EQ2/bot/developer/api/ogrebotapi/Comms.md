@@ -1,8 +1,8 @@
-# OgreBotAPI.Comms
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../../index.md).
 </div>
+
+# OgreBotAPI.Comms
 
 ## Members
 
@@ -36,9 +36,11 @@ echo ${OgreBotAPI.Comms.Errors}
 
 With arguments, starts a groupQuery on this session and returns it - every read of this form asks again; with no arguments it is the handle whose .Last, .Done[id] and .Result[id] read queries. Answers come over this PC's relay group only, so group or raid members on other PCs show as missing, and a bad question prints a groupQuery error.
 
+All of it: [OgreBotAPI.Comms.GroupQuery](Comms.GroupQuery.md)
+
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `question...` | string |  | one JSON object, or -key,value pairs: -question (itemCount, abilityReady, slotResolve or LavishScript["${...}"]), -item, -ability or -slot, -compare with -value, -sendTo (default igw:&lt;me>), -limitMs (default 3000), -askAgainIfBlank |
 
 **Returns:** groupquery object: its text is the new query id (read .Done and .Result on it); NULL when the for-who does not name this character or the question is refused. With no arguments: the handle with .Last, .Done[id], .Result[id]
@@ -201,7 +203,7 @@ Adds a row to this character's Announce tab and saves it in the loaded profile l
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `ability` | string |  | the ability's name (any rank) or id, from this character's ability export |
 | `to` | string |  | where to announce: Group, Raid, Tell To Target, In-Game Command or Execute In Console (any case) |
 | `text` | string |  | the announce text; everything after to is joined back with commas, so it need not be quoted |
@@ -220,7 +222,7 @@ Sends the text to every session in this PC's relay group, this one included; eac
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `text` | string |  | the line to show; commas in it are kept |
 | `-tab name...` | string |  | followed by an OgreConsole tab name - each receiver also puts the line in that tab; may be repeated |
 | `-sound ding\|alarm` | string |  | followed by ding or alarm - each receiver plays that sound; a bare -sound is ding |
@@ -239,7 +241,7 @@ Clicks reply number num in the NPC conversation window open on this session; nee
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `num` | int | `1` | which reply to click, counting from 1 as SpewConversationBubbles numbers them |
 
 ```text
@@ -256,7 +258,7 @@ Sends a named event to every session in this session's relay group on this PC, t
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `name` | string |  | the event name (required); letters, digits and _ up to 64 characters, or no OgreComms_ script event fires |
 | `cfw` | string | `""` | for-who checked by each receiving session; empty = every session. A session not in the world (login screen, character select, zoning) takes in only what needs no game - messages, tag changes, group and key-bind updates - and throws momentary requests (casts, script events) away; a changed MCP file is kept once and read when it reaches the world; the OgreComms_ script event fires only in the world |
 | `dest` | string | `""` | the relay group to deliver to; empty = this session's relay group (Relay Groups tab) |
@@ -275,7 +277,7 @@ Runs Event["name"]:Execute[...] on this session with the remaining arguments joi
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `name` | string |  | the LavishScript event to fire |
 | `...` | string |  | arguments passed to the event, in order |
 
@@ -293,7 +295,7 @@ Starts a groupQuery: asks group or raid members a question and judges the answer
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `question...` | string |  | one JSON object, or -key,value pairs: -question (itemCount, abilityReady, slotResolve or LavishScript["${...}"]), -item, -ability or -slot, -compare with -value, -sendTo (default igw:&lt;me>), -limitMs (default 3000), -askAgainIfBlank |
 
 ```text
@@ -308,7 +310,7 @@ Hands a base64 event envelope to this session's comms receiver as if it had arri
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `wire` | string |  | the base64-encoded event envelope JSON |
 
 ```text
@@ -323,7 +325,7 @@ Feeds the text into this session's own chat handling as a raid-chat line from th
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `chat` | string | `Nothing` | the chat text to inject |
 
 ```text
@@ -357,7 +359,7 @@ Loads the IRC bridge (OgreIRCHub) in this PC's uplink if it is not loaded and co
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Comms:IrcConnect[${Me.Name}]
@@ -371,7 +373,7 @@ Asks this PC's IRC bridge to disconnect from IRC; the bridge stays loaded and id
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Comms:IrcDisconnect[${Me.Name}]
@@ -385,7 +387,7 @@ Asks, over IRC, every IRC bridge whose PC has a character in this raid to accept
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Comms:IrcRaidAuth[${Me.Name}]
@@ -399,7 +401,7 @@ Answers this PC's IRC bridge: if toon is in this character's raid, it reports th
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `ask` | int |  | the bridge's question number (digits only) |
 | `toon` | string |  | the character that asked; must be a plain name |
 
@@ -415,7 +417,7 @@ Asks, over IRC, every IRC bridge in this raid to drop the nicks it accepted thro
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Comms:IrcRaidUnauth[${Me.Name}]
@@ -429,7 +431,7 @@ Makes this PC's IRC bridge re-read its settings and reconnect with them, but onl
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Comms:IrcReload[${Me.Name}]
@@ -443,7 +445,7 @@ Prints the Stats counter line to this session's console and writes it to the log
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Comms:LogStats[all]
@@ -457,7 +459,7 @@ Prints "[Message] &lt;text>" in this session's OgreConsole (the Inner Space cons
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `text` | string |  | the line to show; commas in it are kept |
 | `-tab name...` | string |  | followed by an OgreConsole tab name - the line also lands in that tab; may be repeated |
 | `-sound ding\|alarm` | string |  | followed by ding or alarm - plays that sound with the line; a bare -sound is ding |
@@ -476,7 +478,7 @@ Sends a push notification through the Pushover service from this session; every 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `message...` | string |  | the notification text; unflagged words are joined with spaces |
 | `-title t` | string |  | followed by the notification title |
 | `-priority n` | int | `0` | followed by a Pushover priority, -2 to 2 |
@@ -495,7 +497,7 @@ Asks every in-world session in this PC's relay group a typed question and tallie
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `kind` | string |  | the question: itemCount, abilityReady, slotResolve or eval (required) |
 | `cfw` | string | `""` | for-who checked by each session before it answers; empty = every session |
 | `timeoutMs` | int | `0` | how long to collect replies in milliseconds; 0 or less = 3000, capped at 60000 |
@@ -513,7 +515,7 @@ Forgets a query and its tally on this session; its Query_* reads go back to FALS
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `id` | string | `""` | the query id to forget; empty = the last query (the word last itself is not recognised) |
 
 ```text
@@ -528,7 +530,7 @@ Says this character's bot version in IRC: "VERSION: &lt;name> (&lt;version>)" wh
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `compareTo` | string |  | the version to compare against; empty = just report the version |
 
 ```text
@@ -543,7 +545,7 @@ Zeroes this session's comms counters (Stats, Received, Dispatched, Errors) and r
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Comms:ResetStats[all]
@@ -557,7 +559,7 @@ Sends an in-game /tell from this character to target, in game chat; needs a char
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `target` | string |  | the character to send the tell to |
 | `message` | string |  | the tell's text; commas in it are kept |
 
@@ -575,7 +577,7 @@ Prints the replies the open NPC conversation window offers to this session's con
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Comms:SpewConversationBubbles[${Me.Name}]
@@ -591,7 +593,7 @@ Sends "&lt;name>: OgreRelayGroup: &lt;group>" to every session in this PC's rela
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Comms:SpewRelayGroup[all]
@@ -607,7 +609,7 @@ Speaks the text aloud on this PC through Inner Space (uplink speak). An empty fo
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `text` | string |  | the words to speak |
 
 ```text

@@ -1,8 +1,8 @@
-# Travel Helper
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# Travel Helper
 
 > **:bulb: In game - the ? button on this window says**
 >
@@ -44,6 +44,8 @@ Each button makes this character open that kind of travel map and list it. The m
 | **Bell** | Clicks the bell or globe next to you and lists where it goes. |
 | **Open Travel Map** | Lists the travel map you already have open, and leaves it open.<br>*Everyone you send to must have their own travel map open too - this one opens nothing for them.* |
 
+
+
 ## Picking a destination
 
 The list shows every destination the map offers, in the map's order. Type in the filter box to narrow it.
@@ -56,6 +58,8 @@ The list shows every destination the map offers, in the map's order. Type in the
 | **Destination list** | Click a destination to select it. Double-click it to travel there. |
 | **Travel** | Sends everyone in the For Who window to the selected destination.<br>*Each character opens its own map and clicks exactly that destination - the whole name, not part of it.* |
 | **Keep list open after travelling** | Leaves this window open after you send the group. Off, it closes once you pick. |
+
+
 
 ## What the window shows
 

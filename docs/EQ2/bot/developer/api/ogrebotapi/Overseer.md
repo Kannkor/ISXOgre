@@ -1,8 +1,8 @@
-# OgreBotAPI.Overseer
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../../index.md).
 </div>
+
+# OgreBotAPI.Overseer
 
 ## Methods
 
@@ -14,7 +14,7 @@ Adds every Overseer agent card in your bags and Overseer bag to your agent colle
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `destroy` | bool | `TRUE` | TRUE converts or destroys duplicate cards; FALSE keeps them (any word that is not a yes word counts as FALSE) |
 
 ```text
@@ -31,7 +31,7 @@ Uses every Overseer mission scroll in your bags and Overseer bag - the same add 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Overseer:AutoAddQuests[igw:${Me.Name}]
@@ -47,7 +47,7 @@ Queues an Overseer mission buy run at the merchant, started on the next pulse; w
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 | `flag...` | string |  | Option flags for the run, one per argument, with a flag's value as the next argument (-season, 3); none uses this character's Overseer Buy tab |
 
 ```text
@@ -62,7 +62,7 @@ Starts the daily Overseer run now instead of waiting for the bot to start it; th
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `fw` | for-who |  | for-who: which characters this runs on |
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
 
 ```text
 OgreBotAPI.Overseer:CheckQuests[igw:${Me.Name}]

@@ -1,8 +1,8 @@
-# New User Tour
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# New User Tour
 
 > **:bulb: In game - the ? button on this window says**
 >
@@ -40,11 +40,14 @@ Drag the right edge, the bottom edge or the bottom-right corner of the tour wind
 | **Skip** | Ends the tour now. It counts as seen, so it will not open by itself again. Your hidden windows come back.<br>*Every step has Skip. `ogre tour` brings the tour back later.* |
 | **Title bar close (X)** | Closing the tour window is the same as Skip: the tour counts as seen and your hidden windows come back. |
 
+
+
 ## Step 2 - Right-click my title bar
 
 Right-click the title bar (the bar with the window's name). Its menu opens and the tour moves to step 3. Every Ogre window with a title bar has this menu.
 
 [![Step 2 - Right-click my title bar](../assets/tour/step2.png)](../assets/tour/step2.png "Click for full size")
+
 
 ## Step 3 - Save this window's spot
 
@@ -55,6 +58,8 @@ In the title-bar menu, choose Save Position (it pulses). That makes the window o
 | Control | What it does |
 |---|---|
 | **Save Position (title-bar menu)** | Saves where this window is and how big it is, so it opens there next time. On the tour this also finishes step 3.<br>*If the menu closes without saving, right-click the title bar again.* |
+
+
 
 ## Step 4 - Open the settings
 
@@ -68,6 +73,8 @@ Click the gear (⚙) in the top-right corner. Many windows keep their settings b
 | **x (close settings)** | Closes the example settings panel, the same as clicking the gear again. |
 | **A toggle option / A slider / A colour** | Examples only, to show what a settings panel looks like. Nothing here saves or changes anything. |
 
+
+
 ## All set
 
 The last page reminds you that most commands work like before (`ogre` still loads OgreBot), and that right-clicking windows and lists often shows extra options.
@@ -77,6 +84,8 @@ The last page reminds you that most commands work like before (`ogre` still load
 | Control | What it does |
 |---|---|
 | **Got it** | Closes the tour. It counts as seen and will not open by itself again. Your hidden windows come back. |
+
+
 
 ## What the window shows
 
