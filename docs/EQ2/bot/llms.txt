@@ -6,7 +6,7 @@ To convert a Classic script, follow the procedure on the Converting your scripts
 
 ## Read it all
 
-- [Everything in one document](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-full.txt): the entire documentation, 2150 KB. If that is too much to read at once, use the smaller pieces below - together they are the same text.
+- [Everything in one document](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-full.txt): the entire documentation, 2218 KB. If that is too much to read at once, use the smaller pieces below - together they are the same text.
 - [Start here (part 1 of 2)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-start-here-1.txt): 20 KB - Start here
 - [Start here (part 2 of 2)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-start-here-2.txt): 296 KB - Start here
 - [OgreBot (part 1 of 3)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-ogrebot-1.txt): 100 KB - OgreBot; OgreBot - Tabs
@@ -17,19 +17,20 @@ To convert a Classic script, follow the procedure on the Converting your scripts
 - [Windows (part 3 of 5)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-3.txt): 99 KB - Windows - Running content; Windows - Loot and items; Windows - Crafting
 - [Windows (part 4 of 5)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-4.txt): 97 KB - Windows - Groups and accounts; Windows - Tools
 - [Windows (part 5 of 5)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-5.txt): 35 KB - Windows - Tools
-- [Developers (part 1 of 13)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-1.txt): 85 KB - Developers; Developers - Guides; Developers - Guides - Write your own zone files
-- [Developers (part 2 of 13)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-2.txt): 80 KB - Developers - Guides - Write your own zone files; Developers - API reference; Developers - API reference - OgreBotAPI
-- [Developers (part 3 of 13)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-3.txt): 89 KB - Developers - API reference - OgreBotAPI
-- [Developers (part 4 of 13)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-4.txt): 95 KB - Developers - API reference - OgreBotAPI
-- [Developers (part 5 of 13)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-5.txt): 82 KB - Developers - API reference - OgreBotAPI
-- [Developers (part 6 of 13)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-6.txt): 97 KB - Developers - API reference - OgreBotAPI
-- [Developers (part 7 of 13)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-7.txt): 94 KB - Developers - API reference - OgreBotAPI
-- [Developers (part 8 of 13)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-8.txt): 95 KB - Developers - API reference - OgreBotAPI; Developers - API reference - ISXOgreEQ2
-- [Developers (part 9 of 13)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-9.txt): 97 KB - Developers - API reference - ISXOgreEQ2
-- [Developers (part 10 of 13)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-10.txt): 100 KB - Developers - API reference - ISXOgreEQ2
-- [Developers (part 11 of 13)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-11.txt): 63 KB - Developers - API reference - ISXOgreEQ2; Developers - API reference
-- [Developers (part 12 of 13)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-12.txt): 194 KB - Developers - API reference
-- [Developers (part 13 of 13)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-13.txt): 14 KB - Developers - API reference
+- [Developers (part 1 of 14)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-1.txt): 91 KB - Developers; Developers - Guides; Developers - Guides - Write your own zone files
+- [Developers (part 2 of 14)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-2.txt): 91 KB - Developers - Guides - Write your own zone files; Developers - API reference; Developers - API reference - OgreBotAPI
+- [Developers (part 3 of 14)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-3.txt): 89 KB - Developers - API reference - OgreBotAPI
+- [Developers (part 4 of 14)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-4.txt): 95 KB - Developers - API reference - OgreBotAPI
+- [Developers (part 5 of 14)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-5.txt): 82 KB - Developers - API reference - OgreBotAPI
+- [Developers (part 6 of 14)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-6.txt): 97 KB - Developers - API reference - OgreBotAPI
+- [Developers (part 7 of 14)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-7.txt): 95 KB - Developers - API reference - OgreBotAPI
+- [Developers (part 8 of 14)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-8.txt): 100 KB - Developers - API reference - OgreBotAPI; Developers - API reference - ISXOgreEQ2
+- [Developers (part 9 of 14)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-9.txt): 100 KB - Developers - API reference - ISXOgreEQ2
+- [Developers (part 10 of 14)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-10.txt): 96 KB - Developers - API reference - ISXOgreEQ2
+- [Developers (part 11 of 14)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-11.txt): 69 KB - Developers - API reference - ISXOgreEQ2; Developers - API reference; Developers - API reference - Commands
+- [Developers (part 12 of 14)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-12.txt): 86 KB - Developers - API reference - Commands
+- [Developers (part 13 of 14)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-13.txt): 76 KB - Developers - API reference - Commands
+- [Developers (part 14 of 14)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-14.txt): 84 KB - Developers - API reference - Commands; Developers - API reference
 
 Each page on its own, as plain Markdown, in menu order:
 
@@ -168,6 +169,7 @@ Each page on its own, as plain Markdown, in menu order:
 
 ## Developers - Guides
 
+- [Your first script](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/script-basics.md)
 - [Converting your scripts](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/converting.md)
 - [Build your own window](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/build-your-own-window.md)
 - [Add your own commands](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/command-packs.md)
@@ -182,6 +184,7 @@ Each page on its own, as plain Markdown, in menu order:
 - [Other actions](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/zone-files/other-actions.md)
 - [Run your own fight files](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/zone-files/fight-files.md)
 - [Check your file](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/zone-files/checking.md)
+- [Build one in the Content Builder](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/zone-files/builder.md)
 
 ## Developers - API reference
 
@@ -242,12 +245,14 @@ Each page on its own, as plain Markdown, in menu order:
 - [AntiAfk](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/AntiAfk.md)
 - [Auth](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Auth.md)
 - [AutoLogin](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/AutoLogin.md)
+- [BgRender](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/BgRender.md)
 - [Chat](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Chat.md)
 - [ChatCmd](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/ChatCmd.md)
 - [Class](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Class.md)
 - [Codex](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Codex.md)
 - [Collection](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Collection.md)
 - [Commands](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Commands.md)
+- [ContentBuilder](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/ContentBuilder.md)
 - [Craft](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Craft.md)
 - [CraftGm](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/CraftGm.md)
 - [CraftingMats](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/CraftingMats.md)
@@ -310,7 +315,20 @@ Each page on its own, as plain Markdown, in menu order:
 ## Developers - API reference
 
 - [ISXOgreX](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogrex.md)
-- [Commands](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/commands.md)
+
+## Developers - API reference - Commands
+
+- [Commands](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/commands/index.md)
+- [ogre commands](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/commands/ogre.md)
+- [Console: ISXOgreX](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/commands/console-isxogrex.md)
+- [Console: A-B](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/commands/console-a-b.md)
+- [Console: C](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/commands/console-c.md)
+- [Console: D-N](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/commands/console-d-n.md)
+- [Console: O-R](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/commands/console-o-r.md)
+- [Console: S-Z](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/commands/console-s-z.md)
+
+## Developers - API reference
+
 - [Events](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/events.md)
 
 ## Developers - Coming from Classic

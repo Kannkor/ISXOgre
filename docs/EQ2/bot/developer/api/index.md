@@ -12,9 +12,9 @@ Every member, method, command and event a script or a user can reach, one row ea
 
 **Reading a row.** A member is read as `${Object.Member}` and may take `[arguments]`; a method is a line of its own, `Object:Method[arguments]` - to read a result, use a member. An argument shown `name=value` is optional and `value` is its default.
 
-**The for-who.** A first argument `fw` is the [for-who](ogrebotapi/ForWho.md): the call runs only when this character is one it names. A script's call never reaches another session - to make other characters act, send the console command with `oc !c` (see [Commands](commands.md)).
+**The for-who.** A first argument `fw` is the [for-who](ogrebotapi/ForWho.md): the call runs only when this character is one it names. A script's call never reaches another session - to make other characters act, send the console command with `oc !c` (see [Commands](commands/index.md)).
 
-**What is not here.** `${Me}`, `${Target}`, `${Zone}`, `${Group[1]}` and the like in the examples are ISXEQ2's own objects, not the bot's. The examples are LavishScript, the InnerSpace script language; `wait 10` waits one second.
+**What is not here.** `${Me}`, `${Target}`, `${Zone}`, `${Group[1]}` and the like in the examples are ISXEQ2's own objects, not the bot's. The examples are LavishScript, the InnerSpace script language; `wait 10` waits one second. New to it? Start with [Your first script](../script-basics.md).
 
 ## OgreBotAPI
 
@@ -75,12 +75,14 @@ Every member, method, command and event a script or a user can reach, one row ea
 - [ISXOgreEQ2.AntiAfk](isxogreeq2/AntiAfk.md)
 - [ISXOgreEQ2.Auth](isxogreeq2/Auth.md)
 - [ISXOgreEQ2.AutoLogin](isxogreeq2/AutoLogin.md)
+- [ISXOgreEQ2.BgRender](isxogreeq2/BgRender.md)
 - [ISXOgreEQ2.Chat](isxogreeq2/Chat.md)
 - [ISXOgreEQ2.ChatCmd](isxogreeq2/ChatCmd.md)
 - [ISXOgreEQ2.Class](isxogreeq2/Class.md)
 - [ISXOgreEQ2.Codex](isxogreeq2/Codex.md)
 - [ISXOgreEQ2.Collection](isxogreeq2/Collection.md)
 - [ISXOgreEQ2.Commands](isxogreeq2/Commands.md)
+- [ISXOgreEQ2.ContentBuilder](isxogreeq2/ContentBuilder.md)
 - [ISXOgreEQ2.Craft](isxogreeq2/Craft.md)
 - [ISXOgreEQ2.CraftGm](isxogreeq2/CraftGm.md)
 - [ISXOgreEQ2.CraftingMats](isxogreeq2/CraftingMats.md)
@@ -142,5 +144,5 @@ Every member, method, command and event a script or a user can reach, one row ea
 
 ## Commands and events
 
-- [Commands](commands.md)
+- [Commands](commands/index.md)
 - [Events](events.md)

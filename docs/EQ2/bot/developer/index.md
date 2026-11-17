@@ -1,8 +1,8 @@
+# Developers
+
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
-
-# Developers
 
 This section is for people who write their own scripts for OgreBot: raid modules, instance files, side
 scripts, MCP buttons, and console lines.
@@ -12,6 +12,8 @@ with `lstype`. The two you will use most are `ISXOgreEQ2` and `OgreBotAPI`.
 
 ## Where to start
 
+- **Never written a script?** [Your first script](script-basics.md) shows a whole small one and explains
+  each piece: where the file goes, variables, `if`, loops, `wait`, and how to make your group act.
 - **Moving a Classic script over?** Start with [Converting your scripts](converting.md). It has a tool
   that checks a script and fixes what it safely can, and a step-by-step procedure you can hand to Claude.
 - **Want the Instance Controller to run a zone it does not know?** [Write your own zone files](zone-files/index.md)

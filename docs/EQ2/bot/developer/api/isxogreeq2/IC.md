@@ -146,6 +146,20 @@ IC's whole state as JSON text: zone files loaded and skipped, its folders, both 
 echo ${ISXOgreEQ2.IC.State}
 ```
 
+### `Validation`
+
+`${ISXOgreEQ2.IC.Validation}`
+
+The answer of the last IC:Validate, as JSON: ok (true when the file would load), errors and warnings (how many), and issues - one for each line it printed, with the list and the step it belongs to (counted from 1), the message, and whether it is only a warning. Empty until IC:Validate has run.
+
+**Returns:** string: JSON, for example {"ok":true,"errors":0,"warnings":0,"issues":[]}; "" before the first IC:Validate.
+
+```text
+echo ${ISXOgreEQ2.IC.Validation}
+```
+
+More: [developer/zone-files/builder.md](../../zone-files/builder.md)
+
 ### `Value`
 
 `${ISXOgreEQ2.IC.Value[key]}`
@@ -436,6 +450,23 @@ Stops the run and the list where they stand and clears IC's pause: a zone script
 ```text
 ISXOgreEQ2.IC:Stop
 ```
+
+### `Validate`
+
+`ISXOgreEQ2.IC:Validate[tier,path]`
+
+Checks one zone file by the same rules the Instance Controller uses when it loads zone files, and changes nothing: a file on disk by its tier and path (the same as `ogre ic validate`), or the base64 text of a zone file's JSON. It prints whether the file would load and each problem, and keeps the answer for IC.Validation.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `tier` | string |  | The root the zone file is in: default or custom. With no path, this one argument is read as the base64 text of a zone file's JSON. |
+| `path` | string | `none` | The zone file's path inside that root, ending in .json. |
+
+```text
+ISXOgreEQ2.IC:Validate[custom,"My_Zone.json"]
+```
+
+More: [developer/zone-files/builder.md](../../zone-files/builder.md)
 
 ### `Value`
 

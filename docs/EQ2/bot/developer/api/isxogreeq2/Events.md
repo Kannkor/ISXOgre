@@ -26,7 +26,7 @@ How many arrivals of this game event have been handed out to the extension's fea
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `&lt;event>` | string |  | The event's 0-based number or its name, such as ActorSpawned; leave it out for the total across all events |
+| `<event>` | string |  | The event's 0-based number or its name, such as ActorSpawned; leave it out for the total across all events |
 
 **Returns:** int64: arrivals handed out for that event since load (or for all events); NULL for an unknown event
 
@@ -54,7 +54,7 @@ The extension's name for a game event, such as IncomingChatText, looked up by it
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `&lt;event>` | string |  | The event's 0-based number (0 to Count minus 1) or its name |
+| `<event>` | string |  | The event's 0-based number (0 to Count minus 1) or its name |
 
 **Returns:** string: the event's name; NULL for a missing or unknown event
 
@@ -70,7 +70,7 @@ The ISXEQ2 event a game event is read from, such as EQ2_onIncomingChatText, whic
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `&lt;event>` | string |  | The event's 0-based number (0 to Count minus 1) or its name, such as IncomingChatText |
+| `<event>` | string |  | The event's 0-based number (0 to Count minus 1) or its name, such as IncomingChatText |
 
 **Returns:** string: the ISXEQ2 event name; NULL for a missing or unknown event
 
@@ -98,7 +98,7 @@ How many times this game event has arrived since the extension loaded, or the to
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `&lt;event>` | string |  | The event's 0-based number or its name, such as IncomingChatText; leave it out for the total across all events |
+| `<event>` | string |  | The event's 0-based number or its name, such as IncomingChatText; leave it out for the total across all events |
 
 **Returns:** int64: arrivals of that event since load (or of all events); NULL for an unknown event
 
@@ -138,7 +138,7 @@ How many of the extension's own features are listening to this game event (such 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `&lt;event>` | string |  | The event's 0-based number or its name, such as FinishedZoning; leave it out for the total across all events |
+| `<event>` | string |  | The event's 0-based number or its name, such as FinishedZoning; leave it out for the total across all events |
 
 **Returns:** int: listeners on that event (or on all events); NULL for an unknown event
 

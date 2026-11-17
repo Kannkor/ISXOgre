@@ -104,6 +104,20 @@ All of it: [ISXOgreEQ2.AutoLogin](AutoLogin.md)
 echo ${ISXOgreEQ2.AutoLogin}
 ```
 
+### `BgRender`
+
+`${ISXOgreEQ2.BgRender}`
+
+The BgRender sub-object behind ogre bgrender: while this client is not the foreground window it skips the game's drawing except once a second and caps the background loop, so a background session uses much less CPU and GPU while the bot, the network and scripts keep running. It is off when the extension loads and never skips while you are logging in, zoning, camping or at character select.
+
+All of it: [ISXOgreEQ2.BgRender](BgRender.md)
+
+**Returns:** object: the BgRender sub-object; it always exists, and as text it reads ISXOgreEQ2.BgRender.
+
+```text
+echo ${ISXOgreEQ2.BgRender}
+```
+
 ### `BuildHash`
 
 `${ISXOgreEQ2.BuildHash}`
@@ -199,6 +213,22 @@ All of it: [ISXOgreEQ2.Commands](Commands.md)
 ```text
 echo ${ISXOgreEQ2.Commands}
 ```
+
+### `ContentBuilder`
+
+`${ISXOgreEQ2.ContentBuilder}`
+
+The Content Builder window: it draws a zone file or a fight file as boxes and edits it. Its methods open and close the window.
+
+All of it: [ISXOgreEQ2.ContentBuilder](ContentBuilder.md)
+
+**Returns:** The Content Builder object. As text it reads "ISXOgreEQ2.ContentBuilder".
+
+```text
+ISXOgreEQ2.ContentBuilder:Open
+```
+
+More: [developer/zone-files/builder.md](../../zone-files/builder.md)
 
 ### `CoreBuildHash`
 

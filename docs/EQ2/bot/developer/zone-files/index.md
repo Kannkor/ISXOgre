@@ -36,3 +36,4 @@ both in `Scripts\Ogre\EQ2\IC\default\Rage of Cthurath\`.
 - [Other actions](other-actions.md): the actions a step can run besides moving.
 - [Run your own fight files](fight-files.md): where your own fight (encounter) files go, how one is picked, and starting a setup from a button or a zone file.
 - [Check your file](checking.md): how to find what is wrong with a file, and a checklist before you share it.
+- [Build one in the Content Builder](builder.md): the window that draws a zone file or a fight file as boxes, so you can build and change one without writing JSON.

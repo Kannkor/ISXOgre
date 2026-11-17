@@ -70,6 +70,20 @@ Every live encounter sequence as a JSON array, so you can see which step a fight
 echo ${ISXOgreEQ2.Encounter.Sequences}
 ```
 
+### `Validation`
+
+`${ISXOgreEQ2.Encounter.Validation}`
+
+The answer of the last Encounter:Validate, as JSON: ok (true when the file would load), errors and warnings (how many), fileErrors and ruleErrors (the errors split: a file error stops the file from loading, a rule error does not), and issues - one for each line it printed, with the list, the rule and the step it belongs to (counted from 1), the message, and whether it is only a warning. Empty until Encounter:Validate has run.
+
+**Returns:** string: JSON, for example {"ok":true,"errors":0,"warnings":0,"fileErrors":0,"ruleErrors":0,"issues":[]}; "" before the first Encounter:Validate.
+
+```text
+echo ${ISXOgreEQ2.Encounter.Validation}
+```
+
+More: [developer/zone-files/builder.md](../../zone-files/builder.md)
+
 ## Methods
 
 ### `Debug`
@@ -140,3 +154,20 @@ Prints the Sequences JSON to the console, or "(none live)" when nothing is runni
 ```text
 ISXOgreEQ2.Encounter:Sequences
 ```
+
+### `Validate`
+
+`ISXOgreEQ2.Encounter:Validate[root,path]`
+
+Checks one fight file by the same rules the game uses when it loads fight files, and changes nothing: a file on disk by its root and path (the same as `ogre encounter validate`), or the base64 text of a fight file's JSON. It prints whether the file would load and each problem, and keeps the answer for Encounter.Validation.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `root` | string |  | The root the fight file is in: default or custom. With no path, this one argument is read as the base64 text of a fight file's JSON, checked as a new file of your own. |
+| `path` | string | `none` | The fight file's path inside that root, ending in .json. A path with spaces may be quoted or written as several words. |
+
+```text
+ISXOgreEQ2.Encounter:Validate[custom,"My Zone/My Mob.json"]
+```
+
+More: [developer/zone-files/builder.md](../../zone-files/builder.md)

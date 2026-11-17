@@ -178,6 +178,7 @@ nav:
       - "Developers":
           - EQ2/bot/developer/index.md
           - "Guides":
+              - "Your first script": EQ2/bot/developer/script-basics.md
               - "Converting your scripts": EQ2/bot/developer/converting.md
               - "Build your own window": EQ2/bot/developer/build-your-own-window.md
               - "Add your own commands": EQ2/bot/developer/command-packs.md
@@ -190,6 +191,7 @@ nav:
                   - "Other actions": EQ2/bot/developer/zone-files/other-actions.md
                   - "Run your own fight files": EQ2/bot/developer/zone-files/fight-files.md
                   - "Check your file": EQ2/bot/developer/zone-files/checking.md
+                  - "Build one in the Content Builder": EQ2/bot/developer/zone-files/builder.md
           - "API reference":
               - EQ2/bot/developer/api/index.md
               - "OgreBotAPI":
@@ -244,12 +246,14 @@ nav:
                   - "AntiAfk": EQ2/bot/developer/api/isxogreeq2/AntiAfk.md
                   - "Auth": EQ2/bot/developer/api/isxogreeq2/Auth.md
                   - "AutoLogin": EQ2/bot/developer/api/isxogreeq2/AutoLogin.md
+                  - "BgRender": EQ2/bot/developer/api/isxogreeq2/BgRender.md
                   - "Chat": EQ2/bot/developer/api/isxogreeq2/Chat.md
                   - "ChatCmd": EQ2/bot/developer/api/isxogreeq2/ChatCmd.md
                   - "Class": EQ2/bot/developer/api/isxogreeq2/Class.md
                   - "Codex": EQ2/bot/developer/api/isxogreeq2/Codex.md
                   - "Collection": EQ2/bot/developer/api/isxogreeq2/Collection.md
                   - "Commands": EQ2/bot/developer/api/isxogreeq2/Commands.md
+                  - "ContentBuilder": EQ2/bot/developer/api/isxogreeq2/ContentBuilder.md
                   - "Craft": EQ2/bot/developer/api/isxogreeq2/Craft.md
                   - "CraftGm": EQ2/bot/developer/api/isxogreeq2/CraftGm.md
                   - "CraftingMats": EQ2/bot/developer/api/isxogreeq2/CraftingMats.md
@@ -309,7 +313,15 @@ nav:
                   - "WindowReactions": EQ2/bot/developer/api/isxogreeq2/WindowReactions.md
                   - "ZoneReset": EQ2/bot/developer/api/isxogreeq2/ZoneReset.md
               - "ISXOgreX": EQ2/bot/developer/api/isxogrex.md
-              - "Commands": EQ2/bot/developer/api/commands.md
+              - "Commands":
+                  - EQ2/bot/developer/api/commands/index.md
+                  - "ogre commands": EQ2/bot/developer/api/commands/ogre.md
+                  - "Console: ISXOgreX": EQ2/bot/developer/api/commands/console-isxogrex.md
+                  - "Console: A-B": EQ2/bot/developer/api/commands/console-a-b.md
+                  - "Console: C": EQ2/bot/developer/api/commands/console-c.md
+                  - "Console: D-N": EQ2/bot/developer/api/commands/console-d-n.md
+                  - "Console: O-R": EQ2/bot/developer/api/commands/console-o-r.md
+                  - "Console: S-Z": EQ2/bot/developer/api/commands/console-s-z.md
               - "Events": EQ2/bot/developer/api/events.md
           - "Coming from Classic":
               - EQ2/bot/developer/coming-from-classic/index.md

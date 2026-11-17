@@ -1,9 +1,45 @@
-# OgreBot for EverQuest II - documentation, Developers (part 9 of 13)
+# OgreBot for EverQuest II - documentation, Developers (part 9 of 14)
 
 OgreBot is in beta testing. For OgreBot Classic see https://kannkor.github.io/ISXOgre/EQ2/
-This file is ONE PIECE of the documentation: Developers (part 9 of 13) - Developers - API reference - ISXOgreEQ2.
+This file is ONE PIECE of the documentation: Developers (part 9 of 14) - Developers - API reference - ISXOgreEQ2.
 The entire documentation in one document: https://kannkor.github.io/ISXOgre/EQ2/bot/llms-full.txt
 Index of every page and of every file like this one: https://kannkor.github.io/ISXOgre/EQ2/bot/llms.txt
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/ContentBuilder.md
+
+# ISXOgreEQ2.ContentBuilder
+
+## Methods
+
+### `End`
+
+`ISXOgreEQ2.ContentBuilder:End`
+
+Closes the Content Builder window (the same as `ogre end contentbuilder` and the window's X). Changes that were not saved are kept and offered back the next time the window opens, and a run it started goes on.
+
+```text
+ISXOgreEQ2.ContentBuilder:End
+```
+
+### `Open`
+
+`ISXOgreEQ2.ContentBuilder:Open[tier,path]`
+
+Opens the Content Builder window (the same as `ogre contentbuilder`), on a zone file when you name one. A window that is already open comes to the front, and asks before it opens that file over unsaved changes; without the Ogre UI desktop it prints a warning.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `tier` | string | `none` | The root the zone file is in: default or custom. Leave both out to open the window as it was. |
+| `path` | string | `none` | The zone file's path inside that root, ending in .json. A path with spaces may be quoted or written as several words. |
+
+```text
+ISXOgreEQ2.ContentBuilder:Open[custom,"My_Zone.json"]
+```
+
+More: [developer/zone-files/builder.md](../../zone-files/builder.md)
 
 
 ---
@@ -1252,6 +1288,20 @@ Every live encounter sequence as a JSON array, so you can see which step a fight
 echo ${ISXOgreEQ2.Encounter.Sequences}
 ```
 
+### `Validation`
+
+`${ISXOgreEQ2.Encounter.Validation}`
+
+The answer of the last Encounter:Validate, as JSON: ok (true when the file would load), errors and warnings (how many), fileErrors and ruleErrors (the errors split: a file error stops the file from loading, a rule error does not), and issues - one for each line it printed, with the list, the rule and the step it belongs to (counted from 1), the message, and whether it is only a warning. Empty until Encounter:Validate has run.
+
+**Returns:** string: JSON, for example {"ok":true,"errors":0,"warnings":0,"fileErrors":0,"ruleErrors":0,"issues":[]}; "" before the first Encounter:Validate.
+
+```text
+echo ${ISXOgreEQ2.Encounter.Validation}
+```
+
+More: [developer/zone-files/builder.md](../../zone-files/builder.md)
+
 ## Methods
 
 ### `Debug`
@@ -1323,6 +1373,23 @@ Prints the Sequences JSON to the console, or "(none live)" when nothing is runni
 ISXOgreEQ2.Encounter:Sequences
 ```
 
+### `Validate`
+
+`ISXOgreEQ2.Encounter:Validate[root,path]`
+
+Checks one fight file by the same rules the game uses when it loads fight files, and changes nothing: a file on disk by its root and path (the same as `ogre encounter validate`), or the base64 text of a fight file's JSON. It prints whether the file would load and each problem, and keeps the answer for Encounter.Validation.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `root` | string |  | The root the fight file is in: default or custom. With no path, this one argument is read as the base64 text of a fight file's JSON, checked as a new file of your own. |
+| `path` | string | `none` | The fight file's path inside that root, ending in .json. A path with spaces may be quoted or written as several words. |
+
+```text
+ISXOgreEQ2.Encounter:Validate[custom,"My Zone/My Mob.json"]
+```
+
+More: [developer/zone-files/builder.md](../../zone-files/builder.md)
+
 
 ---
 
@@ -1352,7 +1419,7 @@ How many arrivals of this game event have been handed out to the extension's fea
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `&lt;event>` | string |  | The event's 0-based number or its name, such as ActorSpawned; leave it out for the total across all events |
+| `<event>` | string |  | The event's 0-based number or its name, such as ActorSpawned; leave it out for the total across all events |
 
 **Returns:** int64: arrivals handed out for that event since load (or for all events); NULL for an unknown event
 
@@ -1380,7 +1447,7 @@ The extension's name for a game event, such as IncomingChatText, looked up by it
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `&lt;event>` | string |  | The event's 0-based number (0 to Count minus 1) or its name |
+| `<event>` | string |  | The event's 0-based number (0 to Count minus 1) or its name |
 
 **Returns:** string: the event's name; NULL for a missing or unknown event
 
@@ -1396,7 +1463,7 @@ The ISXEQ2 event a game event is read from, such as EQ2_onIncomingChatText, whic
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `&lt;event>` | string |  | The event's 0-based number (0 to Count minus 1) or its name, such as IncomingChatText |
+| `<event>` | string |  | The event's 0-based number (0 to Count minus 1) or its name, such as IncomingChatText |
 
 **Returns:** string: the ISXEQ2 event name; NULL for a missing or unknown event
 
@@ -1424,7 +1491,7 @@ How many times this game event has arrived since the extension loaded, or the to
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `&lt;event>` | string |  | The event's 0-based number or its name, such as IncomingChatText; leave it out for the total across all events |
+| `<event>` | string |  | The event's 0-based number or its name, such as IncomingChatText; leave it out for the total across all events |
 
 **Returns:** int64: arrivals of that event since load (or of all events); NULL for an unknown event
 
@@ -1464,7 +1531,7 @@ How many of the extension's own features are listening to this game event (such 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `&lt;event>` | string |  | The event's 0-based number or its name, such as FinishedZoning; leave it out for the total across all events |
+| `<event>` | string |  | The event's 0-based number or its name, such as FinishedZoning; leave it out for the total across all events |
 
 **Returns:** int: listeners on that event (or on all events); NULL for an unknown event
 
@@ -2292,6 +2359,20 @@ IC's whole state as JSON text: zone files loaded and skipped, its folders, both 
 echo ${ISXOgreEQ2.IC.State}
 ```
 
+### `Validation`
+
+`${ISXOgreEQ2.IC.Validation}`
+
+The answer of the last IC:Validate, as JSON: ok (true when the file would load), errors and warnings (how many), and issues - one for each line it printed, with the list and the step it belongs to (counted from 1), the message, and whether it is only a warning. Empty until IC:Validate has run.
+
+**Returns:** string: JSON, for example {"ok":true,"errors":0,"warnings":0,"issues":[]}; "" before the first IC:Validate.
+
+```text
+echo ${ISXOgreEQ2.IC.Validation}
+```
+
+More: [developer/zone-files/builder.md](../../zone-files/builder.md)
+
 ### `Value`
 
 `${ISXOgreEQ2.IC.Value[key]}`
@@ -2582,6 +2663,23 @@ Stops the run and the list where they stand and clears IC's pause: a zone script
 ```text
 ISXOgreEQ2.IC:Stop
 ```
+
+### `Validate`
+
+`ISXOgreEQ2.IC:Validate[tier,path]`
+
+Checks one zone file by the same rules the Instance Controller uses when it loads zone files, and changes nothing: a file on disk by its tier and path (the same as `ogre ic validate`), or the base64 text of a zone file's JSON. It prints whether the file would load and each problem, and keeps the answer for IC.Validation.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `tier` | string |  | The root the zone file is in: default or custom. With no path, this one argument is read as the base64 text of a zone file's JSON. |
+| `path` | string | `none` | The zone file's path inside that root, ending in .json. |
+
+```text
+ISXOgreEQ2.IC:Validate[custom,"My_Zone.json"]
+```
+
+More: [developer/zone-files/builder.md](../../zone-files/builder.md)
 
 ### `Value`
 
@@ -2899,47 +2997,4 @@ Prints the run's state and usage to the console. It takes no arguments.
 
 ```text
 ISXOgreEQ2.LevelTransmuting:Status
-```
-
-
----
-
-Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/LootScan.md
-
-# ISXOgreEQ2.LootScan
-
-## Methods
-
-### `Interval`
-
-`ISXOgreEQ2.LootScan:Interval[ms]`
-
-Sets how often the driver scans, for this session only. A value out of range prints the range and changes nothing; with no value it prints one warning.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `ms` | int |  | The scan interval in milliseconds, 500 to 30000. |
-
-```text
-ISXOgreEQ2.LootScan:Interval[2000]
-```
-
-### `Reset`
-
-`ISXOgreEQ2.LootScan:Reset`
-
-Forgets which actors were looted, so they are looked at again.
-
-```text
-ISXOgreEQ2.LootScan:Reset
-```
-
-### `Status`
-
-`ISXOgreEQ2.LootScan:Status`
-
-Prints the auto-loot driver to the console: its gates, interval, last scan, what it opened and what it remembers.
-
-```text
-ISXOgreEQ2.LootScan:Status
 ```

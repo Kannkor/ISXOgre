@@ -102,7 +102,7 @@ Replaces the working auto-target list with the saved list of that name for the c
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `&lt;name>` | string |  | The saved list's name. |
+| `<name>` | string |  | The saved list's name. |
 
 ```text
 ISXOgreEQ2.Targeting:LoadList[Trash]

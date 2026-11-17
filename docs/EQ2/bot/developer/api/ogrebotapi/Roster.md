@@ -202,6 +202,20 @@ echo ${OgreBotAPI.Roster.GuildFlagLocation}
 
 *Was (OldBot):* `OgreBotAPI.GuildFlagLocation`
 
+### `InCombat`
+
+`${OgreBotAPI.Roster.InCombat}`
+
+TRUE when anyone in your group is in combat mode, you included, so a solo character reads its own; it checks your group only, never the rest of a raid, and a member in another zone counts as out of combat. Reads NULL when you are not in the world; for your character alone, hated included, use ${OgreBotAPI.Combat.InCombat}.
+
+**Returns:** bool - TRUE when any member of your group, you included, is in combat mode; FALSE when nobody is.
+
+```text
+echo ${OgreBotAPI.Roster.InCombat}
+```
+
+*Was (OldBot):* `Obj_OgreUtilities.GroupInCombat`
+
 ### `InEQ2Chars`
 
 `${OgreBotAPI.Roster.InEQ2Chars[speaker,fullAccountOnly=FALSE]}`

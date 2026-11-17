@@ -1,7 +1,7 @@
-# OgreBot for EverQuest II - documentation, Developers (part 4 of 13)
+# OgreBot for EverQuest II - documentation, Developers (part 4 of 14)
 
 OgreBot is in beta testing. For OgreBot Classic see https://kannkor.github.io/ISXOgre/EQ2/
-This file is ONE PIECE of the documentation: Developers (part 4 of 13) - Developers - API reference - OgreBotAPI.
+This file is ONE PIECE of the documentation: Developers (part 4 of 14) - Developers - API reference - OgreBotAPI.
 The entire documentation in one document: https://kannkor.github.io/ISXOgre/EQ2/bot/llms-full.txt
 Index of every page and of every file like this one: https://kannkor.github.io/ISXOgre/EQ2/bot/llms.txt
 
@@ -1191,7 +1191,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/deve
 
 `${OgreBotAPI.Combat.InCombat}`
 
-TRUE when your character is in combat or something hates it. Always FALSE while you are not in the world, such as at character select.
+TRUE when your character is in combat or something hates it; for your whole group, use ${OgreBotAPI.Roster.InCombat}. Always FALSE while you are not in the world, such as at character select.
 
 **Returns:** bool: TRUE when Me.InCombat or Me.IsHated is TRUE; FALSE otherwise or out of the world.
 

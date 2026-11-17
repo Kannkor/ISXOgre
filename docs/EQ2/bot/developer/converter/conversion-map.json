@@ -673,6 +673,7 @@
   "OgreBotAPI.Roster.GroupNamePreferred": null,
   "OgreBotAPI.Roster.GroupSize": null,
   "OgreBotAPI.Roster.GuildFlagLocation": null,
+  "OgreBotAPI.Roster.InCombat": null,
   "OgreBotAPI.Roster.InEQ2Chars": "[speaker,fullAccountOnly=FALSE]",
   "OgreBotAPI.Roster.InRaid": null,
   "OgreBotAPI.Roster.InZone": "[within=0]",
@@ -6961,6 +6962,7 @@
   "atb",
   "autologin",
   "autotargetbalance",
+  "bgrender",
   "bom",
   "bot",
   "buycrate",
@@ -6981,6 +6983,7 @@
   "compare",
   "config",
   "console",
+  "contentbuilder",
   "craft",
   "craft2",
   "craftgm",
@@ -7008,6 +7011,7 @@
   "housetogh",
   "hs",
   "ic",
+  "icbuilder",
   "icx",
   "im",
   "info",
@@ -41659,8 +41663,10 @@
    "surface": "Obj_OgreUtilities"
   },
   {
-   "howToFix": "Not ported - there is no replacement yet.",
+   "howToFix": "Write `OgreBotAPI.Roster.InCombat` instead of `Obj_OgreUtilities.GroupInCombat`.",
    "id": "Obj_OgreUtilities.GroupInCombat",
+   "newForm": "OgreBotAPI.Roster.InCombat",
+   "note": "It counts you too, so a solo character reads its own combat mode (Classic's skipped you and read FALSE solo). Your group only, never the rest of a raid.",
    "oldCall": "Obj_OgreUtilities.GroupInCombat",
    "oldKinds": [
     "x"
@@ -41668,7 +41674,7 @@
    "oldName": "GroupInCombat",
    "oldSignature": "()",
    "oldSpellingToday": "reads NULL - no error in any log (the member no longer exists)",
-   "status": "notPorted",
+   "status": "renamed",
    "surface": "Obj_OgreUtilities"
   },
   {

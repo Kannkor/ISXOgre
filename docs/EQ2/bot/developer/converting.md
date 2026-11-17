@@ -319,7 +319,8 @@ of the expression, and any `[arguments]` the new member takes. If the new member
 **Commented-out code in the original stays commented**, and is not converted.
 
 **`call` and functions.** A Classic `call OgreBotAPI.X` or `call <Object>.X` is a function call. If the
-row's `newForm` is a method (it has a `:`), write a method call, `OgreBotAPI.Group:Name[...]`. If the row
+row's `newForm` is a method (it has a `:`), write a method call in the form `OgreBotAPI.<Object>:<Method>[...]`, for example
+`OgreBotAPI.Combat:Countdown[igw:${Me.Name},5]`. If the row
 is `unchanged`, keep the `call`.
 
 **Events.** `lookup event:<Name>` says whether a Classic event still fires. An atom attached to an event

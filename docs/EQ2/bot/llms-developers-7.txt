@@ -1,7 +1,7 @@
-# OgreBot for EverQuest II - documentation, Developers (part 7 of 13)
+# OgreBot for EverQuest II - documentation, Developers (part 7 of 14)
 
 OgreBot is in beta testing. For OgreBot Classic see https://kannkor.github.io/ISXOgre/EQ2/
-This file is ONE PIECE of the documentation: Developers (part 7 of 13) - Developers - API reference - OgreBotAPI.
+This file is ONE PIECE of the documentation: Developers (part 7 of 14) - Developers - API reference - OgreBotAPI.
 The entire documentation in one document: https://kannkor.github.io/ISXOgre/EQ2/bot/llms-full.txt
 Index of every page and of every file like this one: https://kannkor.github.io/ISXOgre/EQ2/bot/llms.txt
 
@@ -599,6 +599,20 @@ echo ${OgreBotAPI.Roster.GuildFlagLocation}
 ```
 
 *Was (OldBot):* `OgreBotAPI.GuildFlagLocation`
+
+### `InCombat`
+
+`${OgreBotAPI.Roster.InCombat}`
+
+TRUE when anyone in your group is in combat mode, you included, so a solo character reads its own; it checks your group only, never the rest of a raid, and a member in another zone counts as out of combat. Reads NULL when you are not in the world; for your character alone, hated included, use ${OgreBotAPI.Combat.InCombat}.
+
+**Returns:** bool - TRUE when any member of your group, you included, is in combat mode; FALSE when nobody is.
+
+```text
+echo ${OgreBotAPI.Roster.InCombat}
+```
+
+*Was (OldBot):* `Obj_OgreUtilities.GroupInCombat`
 
 ### `InEQ2Chars`
 

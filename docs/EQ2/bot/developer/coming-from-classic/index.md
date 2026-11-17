@@ -73,12 +73,12 @@ Every Classic name these pages cover so far, by what happened to it:
 |---|---|
 | ⚠️ Arguments changed | 280 |
 | ⚠️ Argument order changed | 31 |
-| ✏️ Renamed | 549 |
+| ✏️ Renamed | 550 |
 | ➡️ Moved | 168 |
 | ➡️ Lives somewhere else | 301 |
 | 📄 In a data file now | 216 |
 | ⛔ Exists, does nothing yet | 8 |
-| ⛔ Not ported yet | 310 |
+| ⛔ Not ported yet | 309 |
 | ⛔ Removed | 337 |
 | ✅ Works as is | 458 |
 | **Total** | **2658** |

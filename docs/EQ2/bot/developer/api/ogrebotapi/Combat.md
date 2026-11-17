@@ -10,7 +10,7 @@
 
 `${OgreBotAPI.Combat.InCombat}`
 
-TRUE when your character is in combat or something hates it. Always FALSE while you are not in the world, such as at character select.
+TRUE when your character is in combat or something hates it; for your whole group, use ${OgreBotAPI.Roster.InCombat}. Always FALSE while you are not in the world, such as at character select.
 
 **Returns:** bool: TRUE when Me.InCombat or Me.IsHated is TRUE; FALSE otherwise or out of the world.
 

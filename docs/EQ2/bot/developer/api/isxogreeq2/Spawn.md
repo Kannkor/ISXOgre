@@ -62,7 +62,7 @@ Whether the actor ID is in the live set: seen spawning (or present when the zone
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `&lt;id>` | int64 |  | The actor ID to test. |
+| `<id>` | int64 |  | The actor ID to test. |
 
 **Returns:** bool: TRUE when that actor is live; FALSE when it is not, or when no ID is given.
 
@@ -160,7 +160,7 @@ Sets how many due spawns one drain may emit, for this session only, held between
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `&lt;k>` | int |  | The per-drain cap, 1 to 5000. |
+| `<k>` | int |  | The per-drain cap, 1 to 5000. |
 
 ```text
 ISXOgreEQ2.Spawn:SetOnSpawnCap[25]
@@ -174,7 +174,7 @@ Sets the delay before EQ2_ActorSpawned_Delayed fires, for this session only (it 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `&lt;ms>` | int |  | The delay in milliseconds, 0 to 60000. |
+| `<ms>` | int |  | The delay in milliseconds, 0 to 60000. |
 
 ```text
 ISXOgreEQ2.Spawn:SetOnSpawnDelay[1500]

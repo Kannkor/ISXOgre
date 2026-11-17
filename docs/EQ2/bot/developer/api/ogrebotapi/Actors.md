@@ -237,8 +237,8 @@ Adds or removes the mob names this script asks NPC cast monitoring to watch, or 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
 | `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
-| `-watch "&lt;mob>" ...` | string |  | -watch followed by a mob name to watch, matched as a whole name in any case; repeat the pair for more mobs; it ends at the next zone or when NPC Cast Monitoring is unticked, and the tick stays |
-| `-unwatch "&lt;mob>` | string |  | -unwatch followed by a mob name to stop watching (only a watch a script added) |
+| `-watch "<mob>" ...` | string |  | -watch followed by a mob name to watch, matched as a whole name in any case; repeat the pair for more mobs; it ends at the next zone or when NPC Cast Monitoring is unticked, and the tick stays |
+| `-unwatch "<mob>` | string |  | -unwatch followed by a mob name to stop watching (only a watch a script added) |
 | `-clear` | flag |  | drops every watch scripts added |
 | `-radius N` | int |  | -radius followed by the scan radius, a whole number from 5 to 500 (default 50); it beats the zone's own radius and ends at the next zone or when NPC Cast Monitoring is unticked |
 

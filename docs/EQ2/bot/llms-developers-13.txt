@@ -1,235 +1,2843 @@
-# OgreBot for EverQuest II - documentation, Developers (part 13 of 13)
+# OgreBot for EverQuest II - documentation, Developers (part 13 of 14)
 
 OgreBot is in beta testing. For OgreBot Classic see https://kannkor.github.io/ISXOgre/EQ2/
-This file is ONE PIECE of the documentation: Developers (part 13 of 13) - Developers - API reference.
+This file is ONE PIECE of the documentation: Developers (part 13 of 14) - Developers - API reference - Commands.
 The entire documentation in one document: https://kannkor.github.io/ISXOgre/EQ2/bot/llms-full.txt
 Index of every page and of every file like this one: https://kannkor.github.io/ISXOgre/EQ2/bot/llms.txt
 
 
 ---
 
-Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/events.md
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/commands/console-c.md
 
-# Events
+# Console commands: C
 
-The events the bot fires. Attach an atom to one in your script to react to it.
+## `-CallGH`
 
-## ISXOgreX events
+`-CallGH <who>`
 
-### `OgreUI_Closed`
+Also: `-CallToGH`
 
-Fires when a window on the Ogre HTML desktop goes away, passing two arguments: the window name, then the reason - "closed" (title-bar X or ISXOgreX.UI:Close) or "reload" (the desktop was reloaded and took the window with it). On a reload every open window fires it, so a script that wants its window back re-opens it from this event.
+Calls to guild hall if not already in one.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.Movement:CallGH`
 
 ```text
-Event[OgreUI_Closed]:AttachAtom[MyHandler]
+oc !c -CallGH igw:${Me.Name}
 ```
 
-### `OgreUI_Hidden`
+## `-campspot`
 
-Fires when an open window on the Ogre HTML desktop changes from visible to hidden, passing one argument, the window name. It fires only on a change, and not when the window is closed (that is OgreUI_Closed).
+`-campspot <who> <mindistance> <maxdistance>`
+
+Also: `-cs-set-cs`, `-cs`
+
+Sets campspot.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `mindistance` | float | `2` | Min. Distance |
+| `maxdistance` | float | `200` | Max. Distance |
+
+Runs: `OgreBotAPI.CampSpot:SetHere`
 
 ```text
-Event[OgreUI_Hidden]:AttachAtom[MyHandler]
+oc !c -campspot igw:${Me.Name} 2 200
 ```
 
-### `OgreUI_Opened`
+## `-CampToDesktop`
 
-Fires when a window is created on the Ogre HTML desktop - any window, a script's own (ISXOgreX.UI:Open), OgreBot's or a help window. It passes one argument, the window name.
+`-CampToDesktop <who> <loginonly>`
+
+Also: `-Camp`
+
+Camps to the login screen, then closes the session unless loginonly is TRUE. Refused while in combat.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `loginonly` | string | `FALSE` |  |
+
+Runs: `OgreBotAPI.Bot:CampToDesktop`
 
 ```text
-Event[OgreUI_Opened]:AttachAtom[MyHandler]
+oc !c -CampToDesktop igw:${Me.Name} FALSE
 ```
 
-### `OgreUI_Shown`
+## `-CancelCasting`
 
-Fires when an open window on the Ogre HTML desktop changes from hidden to visible, passing one argument, the window name. It fires only on a change and not for a window that opens already visible (that is OgreUI_Opened), but a window opened hidden fires it the first time it is shown.
+`-CancelCasting <who> <args>`
+
+Also: `-Cancel_Casting`
+
+Cancels the ability you are casting unless it is one of the ability names you list. -HOAbility, -HOAbilityUI and -CastTime &lt;seconds> narrow when it cancels, -CastAbility, -CastAbilityOnPlayer and -CastHOAbilityIconID queue a cast first, and any other -word cancels nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `args` | rest |  |  |
+
+Runs: `OgreBotAPI.Abilities:CancelCasting`
 
 ```text
-Event[OgreUI_Shown]:AttachAtom[MyHandler]
+oc !c -CancelCasting igw:${Me.Name} "Bulwark of Order"
 ```
 
-## ISXOgreEQ2 events
+## `-cancelcastnoexport`
 
-### `BalancedSynergy_QueueCasting`
+`-cancelcastnoexport <who> <abilityname>`
 
-Fires on every box of the group that runs on this PC (the asking box included) when a box's cast stack reaches its Balanced Synergy entry: instead of casting it, that box sends this event to its group with one argument, the delay in seconds (always 10). On each box that receives it the bot itself casts Balanced Synergy after that delay unless "Ignore Balanced Synergy" is ticked or DoHO is running on that box when the delay ends, and a script atom attached here sees the same delay argument.
+Also: `-ccstnoexport`, `-castnoexport`, `-CastAbilitynoexport`, `-cast_abilitynoexport`
+
+Queues the named ability (a name or an id) only if the toon knows it and it is off cooldown, and silently does nothing otherwise. Despite the name it does not cancel the current cast.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `abilityname` | string | `Nothing` |  |
+
+Runs: `OgreBotAPI.Abilities:CastNoExport`
 
 ```text
-Event[BalancedSynergy_QueueCasting]:AttachAtom[MyHandler]
+oc !c -cancelcastnoexport igw:${Me.Name} Kick
 ```
 
-### `CampSpotJump_Completed`
+## `-CancelDetrimental`
 
-Fires on this session when a jump route (OgreBotAPI.Movement:JumpRoute, or one an encounter starts) reaches its end, with two arguments: the result ("succeeded" or "failed") and why ("arrived", "already there", "timed out", "dead", "zoning", "cancelled" or "not above the check height"). A stopped route fires it as failed / cancelled, and a route that is refused at start never fires it.
+`-CancelDetrimental <who> <mainid> <backdropid>`
+
+Cancels the detrimental effect on you whose main icon id and backdrop icon id match the two values. Both 0 does nothing, and no match prints a console line.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `mainid` | string | `0` |  |
+| `backdropid` | string | `0` |  |
+
+Runs: `OgreBotAPI.Cures:CancelDetrimental`
 
 ```text
-Event[CampSpotJump_Completed]:AttachAtom[MyHandler]
+oc !c -CancelDetrimental igw:${Me.Name} 612 317
 ```
 
-### `OgreCraft_CraftingStatusUpdate`
+## `-CancelGroupWaterBreathing`
 
-Fires on this session as the craft engine starts and ends its work, with one argument: a JSON object holding EventName, CharacterName, Time (unix seconds), Status, the flow flags (Writs / AutoTinkering / LLL / Quest), noMassProduction, craftingType, CraftedCount and CraftCount, plus Index, Error and the active recipe's _recipeName / _recipeID / _quantityToCraft / _quantityCrafted when they apply. Status is one of CraftQueue_Start, CraftQueue_CraftRecipe_Start, CraftQueue_CraftRecipe_End, CraftQueue_Finished, CraftQueue_End (bags full), Writs_Start, Writ_Start (with Writ and TotalWritsToDo), Writ_End, Writs_End, Quest_Start, Quest_End, AutoTinkering_Start, AutoTinkering_End, LLL_Start or LLL_End.
+`-CancelGroupWaterBreathing <who>`
+
+Cancels this class's group water-breathing effect if it is running. A class without one does nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.Abilities:CancelGroupWaterBreathing`
 
 ```text
-Event[OgreCraft_CraftingStatusUpdate]:AttachAtom[MyHandler]
+oc !c -CancelGroupWaterBreathing igw:${Me.Name}
 ```
 
-### `OgreCraft_NavigationRequired`
+## `-CancelMaintained`
 
-Fires on this session only when the craft option to manage movement with events (checkbox_craft_useevents) is ticked and craft needs to walk to an out-of-range station, merchant or other craft target, or cannot find it at all; it passes one JSON argument with requestID, action ("move"), category, key, displayName, customNamedPoint, precision, zone, characterName and targetFound, plus targetID, targetName, targetX/Y/Z and targetDistance when the target was found. Craft then waits with no time limit until your script calls ISXOgreEQ2.Craft:CompleteNavigation (you moved it) or ISXOgreEQ2.Craft:DeferNavigation (craft walks itself), and the same JSON stays readable as ${ISXOgreEQ2.Craft.NavigationDetails}.
+`-CancelMaintained <who> <abilityname> <args>`
+
+Also: `-Cancel_Maintained`, `-CancelMaintainedForWho`, `-Cancel_MaintainedForWho`
+
+Cancel Maintained ability
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who acts - leave blank to use the For Who window. |
+| `abilityname` | string | `DefaultAbilityHere` | Ability to cancel |
+| `args` | rest |  |  |
+
+Runs: `OgreBotAPI.Abilities:CancelMaintainedFor`, `OgreBotAPI.Abilities:CancelMaintainedFor`
 
 ```text
-Event[OgreCraft_NavigationRequired]:AttachAtom[MyHandler]
+oc !c -CancelMaintained igw:${Me.Name} "Spirit of the Wolf"
 ```
 
-### `OgreCraft_RecipeQueueUpdated`
+## `-CancelOnCast`
 
-Fires on this session when a recipe is added to the craft setup queue, its quantity changes, or it is removed, with one JSON argument holding EventName, CharacterName, Time (unix seconds), changeInRecipeQuantity, _recipeName, _recipeID, _quantityToCraft and _quantityCrafted. A removal (including a quantity change that reaches zero) also carries RemoveRecipe with the text "TRUE".
+`-CancelOnCast <who> <abilityname>`
+
+Fires the Cancel On Cast rows as if you had just cast this ability. Example: -CancelOnCast igw:${Me.Name} "Kick"
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `abilityname` | string |  | The ability name to trigger on. |
+
+Runs: `OgreBotAPI.Abilities:CancelOnCast`
 
 ```text
-Event[OgreCraft_RecipeQueueUpdated]:AttachAtom[MyHandler]
+oc !c -CancelOnCast igw:${Me.Name} Kick
 ```
 
-### `OgreEvent_CastMonitoring_CastingEnded`
+## `-Cast_Interrupt`
 
-Fires on this session when a watched NPC that was casting stops casting that ability, switches to another ability, or leaves the scan, with two arguments: the actor ID and the ability ID that ended. It is part of NPC cast monitoring (watched mobs come from zone data or `ogre npccast watch`, checked every 250 ms within 50 m by default while "NPC Cast Monitoring" is ticked and you are alive), and a cast cut off by zoning or by unticking the box ends silently with no event.
+`-Cast_Interrupt <who> <mobnameid> <calledfrom>`
+
+Also: `-CastInterrupt`
+
+Casts an interrupt the toon has ready at the given mob (an exact name or an actor id), first cancelling its current cast unless that is already an interrupt. It echoes when the mob is not found or no interrupt is ready.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `mobnameid` | string |  |  |
+| `calledfrom` | string | `OgreConsole_Cast_Interrupt` |  |
+
+Runs: `OgreBotAPI.Abilities:CastInterrupt`
 
 ```text
-Event[OgreEvent_CastMonitoring_CastingEnded]:AttachAtom[MyHandler]
+oc !c -Cast_Interrupt igw:${Me.Name} ${Target.ID} MyScript
 ```
 
-### `OgreEvent_CastMonitoring_CastingStarted`
+## `-CastAbility`
 
-Fires on this session when a watched NPC begins casting, with three arguments: the actor ID, the ability ID it is casting, and the cast time the game reports for it (AbilityCastingTime, as a decimal). Only mobs on the NPC cast monitoring watch list (zone data or `ogre npccast watch`) are checked, every 250 ms within 50 m by default, and only while "NPC Cast Monitoring" is ticked, you are alive and not zoning.
+`-CastAbility <who> <abilityname>`
+
+Also: `-cancelcast`, `-ccst`, `-cast`, `-cast_ability`
+
+Casts an ability at your current target, by name or id.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `abilityname` | string | `Nothing` | Spell to be cast |
+
+Runs: `OgreBotAPI.Abilities:Cast`
 
 ```text
-Event[OgreEvent_CastMonitoring_CastingStarted]:AttachAtom[MyHandler]
+oc !c -CastAbility igw:${Me.Name} Kick
 ```
 
-### `OgreEvent_DoHODisabled`
+## `-CastAbilityInSeconds`
 
-Fires on this session, with no arguments, every time DoHO is turned off here: OgreBotAPI.HOs:DoSetEnabled with FALSE, the target number of completed HOs reached, the DoHO timeout running out, or the DoHO target dying or going away. Turning off a DoHO that is already off does nothing and fires nothing unless -Force is passed.
+`-CastAbilityInSeconds <who> <abilityname> <seconds>`
+
+Casts the named ability after a delay, through the same checks as -CastAbility when the time is up. A bare number is seconds, a suffix such as 500ms is honoured, and a blank ability name only echoes an error.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `abilityname` | string | `Nothing` |  |
+| `seconds` | string | `1` |  |
+
+Runs: `OgreBotAPI.Abilities:CastInSeconds`
 
 ```text
-Event[OgreEvent_DoHODisabled]:AttachAtom[MyHandler]
+oc !c -CastAbilityInSeconds igw:${Me.Name} Kick 5
 ```
 
-### `OgreEvent_DoHOEnabled`
+## `-CastAbilityNoChecks`
 
-Fires on this session, with no arguments, when OgreBotAPI.HOs:DoSetup or :DoSetEnabled with TRUE primes this box as the HO starter for the first time and it takes over the group's HO options. A re-enable of a box that is already primed, an enable that is already on, or a setup with -NoModifyOptions does not fire it.
+`-CastAbilityNoChecks <who> <abilityname>`
+
+Tells [Bots] to cast a specific [ability]. Note - Abilities must be base names. Kick will work. Kick III will not. Note - This does NO checks about the ability. It just clicks it.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `abilityname` | string | `Nothing` | Spell to be cast |
+
+Runs: `OgreBotAPI.Abilities:CastNoChecks`
 
 ```text
-Event[OgreEvent_DoHOEnabled]:AttachAtom[MyHandler]
+oc !c -CastAbilityNoChecks igw:${Me.Name} Kick
 ```
 
-### `OgreEvent_GearConditionReport`
+## `-CastAbilityOnNPC`
 
-Fires on this session after every gear check, with two arguments: the character's name and the condition of the item in the primary slot as a whole percent. A gear check runs from OgreBotAPI.Inventory:CheckGear and automatically once each time the character dies while OgreBot is loaded; if the item details are not available within 5 seconds the check fails and nothing fires.
+`-CastAbilityOnNPC <who> <abilityname> <mobnameid>`
+
+Also: `-castonnpc`, `-castonmob`
+
+Tells [Bots] to cast a specific [ability] on an [NPC]. Note - Abilities must be base names. Kick will work. Kick III will not.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `abilityname` | string | `Nothing` | Spell to be cast |
+| `mobnameid` | string | `0` | NPC ID or NPC Name. \${Target.ID} will work fine |
+
+Runs: `OgreBotAPI.Abilities:CastOnNPC`
 
 ```text
-Event[OgreEvent_GearConditionReport]:AttachAtom[MyHandler]
+oc !c -CastAbilityOnNPC igw:${Me.Name} Kick ${Target.ID}
 ```
 
-### `OgreEvent_GroupQueryDone`
+## `-CastAbilityOnPlayer`
 
-Fires on the session that started a group query (${OgreBotAPI.Comms.GroupQuery[...]} or OgreBotAPI.Comms:GroupQuery) when that query finishes or fails, with two arguments: the query id ("gq:&lt;session>:&lt;n>") and the result as JSON. The same result stays readable with ${OgreBotAPI.Comms.GroupQuery.Result[id]} for 60 seconds after it finishes.
+`-CastAbilityOnPlayer <who> <abilityname> <onplayer>`
+
+Also: `-cancelcaston`, `-ccaston`, `-caston`, `-cast_ability_on_player`
+
+Tells [Bots] to cast a specific [ability]. Note - Abilities must be base names. Kick will work. Kick III will not.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `abilityname` | string | `Nothing` | Spell to be cast |
+| `onplayer` | string | `${Me.Name}` | Cast spell on this player |
+
+Runs: `OgreBotAPI.Abilities:CastOnPlayer`
 
 ```text
-Event[OgreEvent_GroupQueryDone]:AttachAtom[MyHandler]
+oc !c -CastAbilityOnPlayer igw:${Me.Name} "Spirit of the Wolf" ${Me.Name}
 ```
 
-### `OgreEvent_InGameTell`
+## `-CastAbilityOnPlayerInSeconds`
 
-Fires on this session each time this character receives an in-game tell, with three arguments in this order: the speaker, the chat target (this character) and the message. It fires only on the receiving session and is not sent to other sessions.
+`-CastAbilityOnPlayerInSeconds <who> <abilityname> <onplayer> <seconds>`
+
+Casts the ability on the named player after a delay, through the same checks as -CastAbilityOnPlayer when the time is up. A bare number is seconds, and a blank player (or DoesNotExist) means the toon that sent the command.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `abilityname` | string | `Nothing` |  |
+| `onplayer` | string | `${Me.Name}` |  |
+| `seconds` | string | `1` |  |
+
+Runs: `OgreBotAPI.Abilities:CastOnPlayerInSeconds`
 
 ```text
-Event[OgreEvent_InGameTell]:AttachAtom[MyHandler]
+oc !c -CastAbilityOnPlayerInSeconds igw:${Me.Name} "Spirit of the Wolf" ${Group[1].Name} 10
 ```
 
-### `OgreEvent_InGameTellSent`
+## `-CastAbilityOnPlayerNoChecks`
 
-Fires on this session each time this character sends an in-game tell, with three arguments in this order: the speaker (this character), the chat target (who the tell went to) and the message. It fires only on the sending session and is not sent to other sessions.
+`-CastAbilityOnPlayerNoChecks <who> <abilityname> <onplayer> <calledfrom>`
+
+Queues the ability on the named player without the readiness checks -CastAbilityOnPlayer makes, though the player must still be present. A blank player (or DoesNotExist) means yourself, and an ability the toon does not know does nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `abilityname` | string | `Nothing` |  |
+| `onplayer` | string | `DoesNotExist` |  |
+| `calledfrom` | string | `OgreBotAPI` |  |
+
+Runs: `OgreBotAPI.Abilities:CastOnPlayerNoChecks`
 
 ```text
-Event[OgreEvent_InGameTellSent]:AttachAtom[MyHandler]
+oc !c -CastAbilityOnPlayerNoChecks igw:${Me.Name} "Spirit of the Wolf" ${Group[1].Name} MyScript
 ```
 
-### `OgreEvent_KronoRedemption`
+## `-CastBulwarkImmediately`
 
-Fires on this session when a Krono redemption started by OgreBotAPI.Inventory:RedeemKrono reports its result, with two arguments: the character's name and TRUE (redeemed) or FALSE (the game said it failed). Nothing fires when there is no Krono to redeem, when no result shows up after 100 checks about a second apart, or when the character dies or leaves the world first.
+`-CastBulwarkImmediately <who>`
+
+Casts Bulwark of Order right now: it queues the cast at high priority, cancels any other cast in the way and tries once more a second later if it has not gone off. If the ability is not in the toon's export or not ready, it casts nothing and warns everyone, at most once every 30 seconds.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.Abilities:CastBulwark`
 
 ```text
-Event[OgreEvent_KronoRedemption]:AttachAtom[MyHandler]
+oc !c -CastBulwarkImmediately igw:${Me.Name}
 ```
 
-### `OgreEvent_OnAbilityCast`
+## `-CastGroupWaterBreathing`
 
-Fires on this session the moment the bot sends an ability cast (not when the cast lands), with five arguments: the caster (this character), the ability ID, the ability name, the target's actor ID (0 for none) and the target's name (empty for none); the other sessions in this session's relay group get the same arguments as OgreEvent_OthersOnAbilityCast. A handler that casts from inside this event can nest it at most 8 deep, after which the fire is skipped with a console line.
+`-CastGroupWaterBreathing <who>`
+
+Casts this class's group water-breathing ability through the normal cast path. A class without one, or a character whose ability export does not list it, does nothing (the reason goes to the log file).
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.Abilities:CastGroupWaterBreathing`
 
 ```text
-Event[OgreEvent_OnAbilityCast]:AttachAtom[MyHandler]
+oc !c -CastGroupWaterBreathing igw:${Me.Name}
 ```
 
-### `OgreEvent_OnAbilityCastCompleted`
+## `-CastHOIconID`
 
-Fires on this session when an ability the cast stack cast finishes, meaning its cast bar ended or an instant ability went on cooldown, with three arguments: the character's name, the ability ID and the ability name; the other sessions in this session's relay group get the same arguments as OgreEvent_OthersOnAbilityCastCompleted. Items never fire it, and neither does a cast the bot cancelled or saw fail to start, but a cast bar that drops for any other reason (an interrupt, say) counts as finished.
+`-CastHOIconID <who> <iconid> <calledfrom>`
+
+Casts the toon's own ability that matches the given heroic opportunity icon id, through the same checks as -CastAbility. An icon id of -2 or blank does nothing, and so does an icon no owned ability matches right now.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `iconid` | string | `-2` | The HO icon id to cast an ability for (a number, not an ability name); -2 casts nothing. |
+| `calledfrom` | string | `CastHOIconID` |  |
+
+Runs: `OgreBotAPI.Abilities:CastHOIcon`
 
 ```text
-Event[OgreEvent_OnAbilityCastCompleted]:AttachAtom[MyHandler]
+oc !c -CastHOIconID igw:${Me.Name} 3 MyScript
 ```
 
-### `OgreEvent_OnAbilityReadyTimersUpdate`
+## `-CastRescue_AP`
 
-Fires on this session about every 500 ms for each enabled ability on the OgreBot Ability Tracker list, whether or not anything changed, with four arguments: the character's name, the ability ID, the ability's short name and its time until ready in seconds (as a decimal). It fires only while the Ability Tracker option is ticked, the list has entries, and the character is in the world; an entry that does not match one of your abilities is skipped.
+`-CastRescue_AP <who> <calledfrom> <args>`
+
+Casts a rescue at your NPC target: a threat-position-increase ability first, or a force-target ability when there is none (-NoForceTargets skips that step). -TargetID or -ActorID &lt;id> aims at that actor, other arguments narrow the ability query, and a console line says when nothing was found.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `calledfrom` | string | `OgreBotAPI:CastRescue` |  |
+| `args` | rest |  |  |
+
+Runs: `OgreBotAPI.Abilities:CastRescue`
 
 ```text
-Event[OgreEvent_OnAbilityReadyTimersUpdate]:AttachAtom[MyHandler]
+oc !c -CastRescue_AP ${Me.Name} CastRescue -NoForceTargets
 ```
 
-### `OgreEvent_OnDetrimentalAdded`
+## `-Champions_Zone_Resetter`
 
-Fires on this session when a detrimental with a new icon pair appears on this character, with six arguments: the effect ID, BackDropIconID, MainIconID, CurrentIncrements, Duration and MaxDuration. Your detrimentals are checked about every 500 ms while you are in the world and alive, and a detrimental whose icon changes shows up as a Removed for the old pair and an Added for the new one.
+`-Champions_Zone_Resetter <who> <zonename>`
+
+Uses your Champion's Zone Lockout Reset item to reset the lockout of the named zone, picking it from the item's select window, and skips when the reset is on cooldown. Runs in the action queue, and prints a console line and stops when the item is not in your bags.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `zonename` | string | `DoesNotExist` |  |
+
+Runs: `OgreBotAPI.Zone:ChampionsResetter`
 
 ```text
-Event[OgreEvent_OnDetrimentalAdded]:AttachAtom[MyHandler]
+oc !c -Champions_Zone_Resetter ${Me.Name} "${Zone.Name}"
 ```
 
-### `OgreEvent_OnDetrimentalRemoved`
+## `-ChangeBeltAdorn`
 
-Fires on this session when a detrimental's icon pair is no longer on this character, with six arguments describing it as last seen: the effect ID, BackDropIconID, MainIconID, CurrentIncrements, Duration and MaxDuration. Checks run about every 500 ms and pause while you are dead, so detrimentals that dropped at death are reported once you are alive again.
+`-ChangeBeltAdorn <who> <value> <unequip>`
+
+Changes your belt adorn. Valid options are stun stifle mez fear medic.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `value` | string | `?` | Which adornment to put on the belt: Stun, Stifle, Mez, Fear or Medic. |
+| `unequip` | string | `TRUE` | Unequip belt |
+
+Runs: `OgreBotAPI.Inventory:ChangeBeltAdorn`
 
 ```text
-Event[OgreEvent_OnDetrimentalRemoved]:AttachAtom[MyHandler]
+oc !c -ChangeBeltAdorn igw:${Me.Name} Stun TRUE
 ```
 
-### `OgreEvent_OnDetrimentalUpdated`
+## `-ChangeCampSpot`
 
-Fires on this session when a detrimental that is still on this character (same icon pair) changes its increments, Duration or MaxDuration, with six arguments: the effect ID, BackDropIconID, MainIconID, CurrentIncrements, Duration and MaxDuration. Because Duration counts down, expect it for every timed detrimental on about every 500 ms check.
+`-ChangeCampSpot <who> <x> <y> <z>`
+
+Also: `-Change_CampSpot`, `-ccs`, `-ChangeCampSpotWho`, `-Change_Campspot_Who`, `-ccsw`, `-ccsfw`
+
+Relays a change to active campspots.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who acts - leave blank to use the For Who window. |
+| `x` | string |  | X, or the name of a point of interest in this zone |
+| `y` | string |  | YCord |
+| `z` | string |  | ZCord |
+
+Runs: `OgreBotAPI.CampSpot:SetLoc`
 
 ```text
-Event[OgreEvent_OnDetrimentalUpdated]:AttachAtom[MyHandler]
+oc !c -ChangeCampSpot igw:${Me.Name} ${Me.X} ${Me.Y} ${Me.Z}
 ```
 
-### `OgreEvent_OnItemUse`
+## `-ChangeCastStackListBoxItem`
 
-Fires on this session the moment the bot uses an item (not when the use lands), with four arguments: the user (this character), the item name, the target's actor ID and the target's name; food, drink, potions and other self-used items pass 0 and an empty name for the target. The other sessions in this session's relay group get the same arguments as OgreEvent_OthersOnItemUse.
+`-ChangeCastStackListBoxItem <who> <object> <value> <silentmode>`
+
+Also: `-ChangeCastStack`, `-CCastStack`, `-CCStack`
+
+Changes a list box item on the CAST STACK tab only.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `object` | string |  | Ability name |
+| `value` | string | `TRUE` | TRUE - FALSE or TOGGLE |
+| `silentmode` | bool | `FALSE` | Silent mode. TRUE or FALSE |
+
+Runs: `OgreBotAPI.CastStack:SetEntry`
 
 ```text
-Event[OgreEvent_OnItemUse]:AttachAtom[MyHandler]
+oc !c -ChangeCastStackListBoxItem igw:${Me.Name} "Absorb Magic" TOGGLE FALSE
 ```
 
-### `OgreEvent_SmartLootAssigned`
+## `-ChangeCastStackListBoxItemByTag`
 
-Fires on the looting session when SmartLoot decides to assign an item to a character, with three arguments: the character's name, the item it counted (the adornment's name when the assign was for an adornment) and that character's new count for it. It fires at decision time, so it still fires if the assign later fails in the loot window.
+`-ChangeCastStackListBoxItemByTag <who> <object> <value> <partial> <silentmode>`
+
+Also: `-ChangeCastStackByTag`, `-CCastStackByTag`, `-CCStackByTag`
+
+Changes a list box item on the CAST STACK tab only by custom Tags.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `object` | string |  | Tag name |
+| `value` | string | `TRUE` | Status: (Enabled/Disabled) TRUE or FALSE or Toggle |
+| `partial` | bool | `FALSE` | Partial match: TRUE or FALSE (case sensitive) |
+| `silentmode` | bool | `FALSE` | Silent mode. TRUE or FALSE (case sensitive) |
+
+Runs: `OgreBotAPI.CastStack:SetEntryByTag`
 
 ```text
-Event[OgreEvent_SmartLootAssigned]:AttachAtom[MyHandler]
+oc !c -ChangeCastStackListBoxItemByTag igw:${Me.Name} AE FALSE FALSE FALSE
 ```
 
-### `OgreEvent_SpewStats`
+## `-ChangeLootOptions`
 
-Fires when OgreBotAPI.Debug:BroadcastStat (or OgreBotAPI.Roster:SpewMarked) resolves a value, on the asking session and on the other sessions in its relay group, with one JSON argument holding Character, Command, Label and Value (a faction result also has FactionStanding). Command is the request as typed, such as "-item a frog leg", except the faction, currency and recipe lookups send "Faction", "Currency" or "Recipe", and a bad request prints an error and fires nothing.
+`-ChangeLootOptions <who> <args>`
+
+Changes loot options. Parameters after = Options you want. Such as LO or RR or FFA. See wiki for full possible parameters.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `args` | rest |  |  |
+
+Runs: `OgreBotAPI.Loot:SetOptions`
 
 ```text
-Event[OgreEvent_SpewStats]:AttachAtom[MyHandler]
+oc !c -ChangeLootOptions ${Me.Name} RR T AN
+```
+
+## `-ChangeOgreBotUIOption`
+
+`-ChangeOgreBotUIOption <who> <args>`
+
+Changes an OgreBot option: a checkbox (TRUE / FALSE / TOGGLE), a text box, a dropdown or a slider (its value). Param 1 = For who. Param 2 = the option's name - in OgreBot, right-click the option and choose Copy &lt;name>. Param 3 = the value.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `args` | rest |  |  |
+
+Runs: `OgreBotAPI.Options:Set`
+
+```text
+oc !c -ChangeOgreBotUIOption igw:${Me.Name} checkbox_autotarget_enabled TRUE
+```
+
+## `-ChangeZoneTo`
+
+`-ChangeZoneTo <who> <value>`
+
+Changes your zone # to someone elses in your group. Example: You are in Phantom Seas 2 and your group is in Phantom Seas 3.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `value` | string |  | Toon name's zone to move to. Example: Bob. \${Me.Name} is acceptable also |
+
+Runs: `OgreBotAPI.Zone:ChangeZoneTo`
+
+```text
+oc !c -ChangeZoneTo ${Me.Name} ${Group[1].Name}
+```
+
+## `-CheckGear`
+
+`-CheckGear <who> <equalorunder>`
+
+Also: `-Gear`
+
+Reports gear conditions. Value to report. Will always report under 30. If you want it to report 90% or below use 90.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `equalorunder` | string | `100` |  |
+
+Runs: `OgreBotAPI.Inventory:CheckGear`
+
+```text
+oc !c -CheckGear igw:${Me.Name} 90
+```
+
+## `-CheckKunarkAscendingRequirements`
+
+`-CheckKunarkAscendingRequirements <who>`
+
+Will report back any quests that you are missing for Kunark Ascending signature request line requirements.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.Quest:CheckKunarkAscending`
+
+```text
+oc !c -CheckKunarkAscendingRequirements igw:${Me.Name}
+```
+
+## `-CheckMemberLevel`
+
+`-CheckMemberLevel <who> <value>`
+
+Reports EQ2's membership level. Such as Member or silver or free. Optional Parameter: Set to TRUE if you only want to see non-members.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `value` | string | `FALSE` |  |
+
+Runs: `OgreBotAPI.Roster:CheckMemberLevel`
+
+```text
+oc !c -CheckMemberLevel igw:${Me.Name} FALSE
+```
+
+## `-CheckMercenaryTraining`
+
+`-CheckMercenaryTraining <who>`
+
+Resumes your mercenary when it is not out, opens Persona, Mercenary and prints the training progress or starts training; in a full group it stops at once with a console line. Runs in the action queue, and a second press replaces the first.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.Consumables:CheckMercenaryTraining`
+
+```text
+oc !c -CheckMercenaryTraining ${Me.Name}
+```
+
+## `-CheckMountTraining`
+
+`-CheckMountTraining <who>`
+
+Opens Persona, Mounts and starts mount training when it is not running, answering the confirm popup. Runs in the action queue, and you must be on a mount (not a flight transport).
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.Consumables:CheckMountTraining`
+
+```text
+oc !c -CheckMountTraining ${Me.Name} FALSE
+```
+
+## `-CheckResearch`
+
+`-CheckResearch <who> <value>`
+
+Checks if your research of abilities is done. Only reports completed by default. Pass TRUE if you want to see how long remaining.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `value` | string | `FALSE` | Report all values |
+
+Runs: `OgreBotAPI.Util:CheckResearch`
+
+```text
+oc !c -CheckResearch igw:${Me.Name} TRUE
+```
+
+## `-CheckVersion`
+
+`-CheckVersion <who> <compareversionto>`
+
+Each session compares its version to the one you pass and reports the verdict to IRC. Leave the version blank to just report versions.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `compareversionto` | string |  | Version to compare against. Blank = just report the version. |
+
+Runs: `OgreBotAPI.Comms:ReportVersion`
+
+```text
+oc !c -CheckVersion all
+```
+
+## `-ChoiceWindow`
+
+`-ChoiceWindow <who> <value>`
+
+Clicks option N (default 1) on the yes/no choice window on screen. Nothing happens when none is open.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `value` | int64 | `1` |  |
+
+Runs: `OgreBotAPI.Windows:Choice`
+
+```text
+oc !c -ChoiceWindow igw:${Me.Name} 1
+```
+
+## `-ClassInfo_ChangeValue`
+
+`-ClassInfo_ChangeValue <who> <member> <value>`
+
+Overrides one class check (such as IsFighter) for this character, so the bot treats the class as having that value; auto removes the override. A member that is not a class name, or a value that is not TRUE, FALSE or auto, is refused with a console line, and the override is dropped when you switch characters.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `member` | string | `DoesNotExist` |  |
+| `value` | string | `FALSE` |  |
+
+Runs: `OgreBotAPI.Roster:SetClassValue`
+
+```text
+oc !c -ClassInfo_ChangeValue ${Me.Name} IsFighter TRUE
+```
+
+## `-Clear_Allow_HOICon`
+
+`-Clear_Allow_HOICon <who> <variablename>`
+
+Removes one HO icon id from the allow list.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `variablename` | int64 |  |  |
+
+Runs: `OgreBotAPI.HOs:ClearAllowIcon`
+
+```text
+oc !c -Clear_Allow_HOICon ${Me.Name} 12
+```
+
+## `-Clear_Allow_HOICons`
+
+`-Clear_Allow_HOICons <who>`
+
+Empties the HO icon allow list, so Heroic Opportunity abilities are no longer limited to it.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.HOs:ClearAllowIcons`
+
+```text
+oc !c -Clear_Allow_HOICons ${Me.Name}
+```
+
+## `-Clear_Disable_HOICon`
+
+`-Clear_Disable_HOICon <who> <variablename>`
+
+Removes one HO icon id from the disable list.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `variablename` | int64 |  |  |
+
+Runs: `OgreBotAPI.HOs:ClearDisableIcon`
+
+```text
+oc !c -Clear_Disable_HOICon ${Me.Name} 24
+```
+
+## `-Clear_Disable_HOICons`
+
+`-Clear_Disable_HOICons <who>`
+
+Empties the HO icon disable list.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.HOs:ClearDisableIcons`
+
+```text
+oc !c -Clear_Disable_HOICons ${Me.Name}
+```
+
+## `-clear_Internalvariable`
+
+`-clear_Internalvariable <who> <variablename>`
+
+Removes the named entry from the bot's internal variable store on this session.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `variablename` | string |  |  |
+
+Runs: `OgreBotAPI.Vars:ClearInternal`
+
+```text
+oc !c -clear_Internalvariable ${Me.Name} PullCount
+```
+
+## `-clear_Internalvariables`
+
+`-clear_Internalvariables <who>`
+
+Empties the bot's internal variable store on this session.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.Vars:ClearAllInternal`
+
+```text
+oc !c -clear_Internalvariables ${Me.Name}
+```
+
+## `-clear_variable`
+
+`-clear_variable <who> <variablename>`
+
+Removes the named entry from the script variable store on this session.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `variablename` | string |  |  |
+
+Runs: `OgreBotAPI.Vars:Clear`
+
+```text
+oc !c -clear_variable igw:${Me.Name} Phase
+```
+
+## `-clear_variables`
+
+`-clear_variables <who>`
+
+Empties the script variable store on this session.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.Vars:ClearAll`
+
+```text
+oc !c -clear_variables igw:${Me.Name}
+```
+
+## `-ClearNoOffensiveOn`
+
+`-ClearNoOffensiveOn <who>`
+
+Empties the no-offensive mob name list. The -SetNoOffensive switch is not changed.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.Combat:ClearNoOffensive`
+
+```text
+oc !c -ClearNoOffensiveOn igw:${Me.Name}
+```
+
+## `-CloseExamineWindow`
+
+`-CloseExamineWindow <who>`
+
+Clicks the Close button of the item examine window.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.Windows:CloseExamine`
+
+```text
+oc !c -CloseExamineWindow ${Me.Name}
+```
+
+## `-CloseWindow`
+
+`-CloseWindow <who>`
+
+Also: `-ClsWdn`
+
+Close Window. Closes the top most window in the game.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.Windows:Close`
+
+```text
+oc !c -CloseWindow igw:${Me.Name}
+```
+
+## `-Come2Me`
+
+`-Come2Me <who> <moveto> <precision>`
+
+Also: `-ComeTome`
+
+Tells [Bots] to move to a specific [player].
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to move - leave blank to use the For Who window. |
+| `moveto` | string | `${Me.Name}` | Player to move to (the destination toon) |
+| `precision` | float | `3` | Precision |
+
+Runs: `OgreBotAPI.Movement:Come2Me`
+
+```text
+oc !c -Come2Me igw:${Me.Name} ${Me.Name} 3
+```
+
+## `-CompareQuest`
+
+`-CompareQuest <who> <questname> <sender>`
+
+Asks the boxes named whether they are on the same step of a quest as you. Only the box that sends the line asks.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who is asked - leave blank to use the For Who window. all asks your group. |
+| `questname` | string |  | The quest to compare. Quote a name with spaces. IE: "A Quest Name" |
+| `sender` | string | `${Me.Name}` | The box that asks. Leave this out: it is the box that sent the line. |
+
+Runs: `OgreBotAPI.Quest:CompareUpdate`
+
+```text
+oc !c -CompareQuest all "The Quest Name"
+```
+
+## `-Consume_Familiars`
+
+`-Consume_Familiars <who>`
+
+Adds Familiars to collection if possible otherwise consumes for experience.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.Inventory:ConsumeFamiliars`
+
+```text
+oc !c -Consume_Familiars igw:${Me.Name}
+```
+
+## `-Consume_Status_Ingots`
+
+`-Consume_Status_Ingots <who> <value>`
+
+Also: `-Consume_Status_Ignots`
+
+Consumes Ingots.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `value` | string | `99999` | How Many to consume |
+
+Runs: `OgreBotAPI.Inventory:ConsumeStatusIngots`
+
+```text
+oc !c -Consume_Status_Ingots igw:${Me.Name} 10
+```
+
+## `-Consume_Status_Tokens`
+
+`-Consume_Status_Tokens <who> <value>`
+
+Consumes Status Tokens.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `value` | string | `99999` | How Many to consume |
+
+Runs: `OgreBotAPI.Inventory:ConsumeStatusTokens`
+
+```text
+oc !c -Consume_Status_Tokens igw:${Me.Name} 10
+```
+
+## `-ConsumeItems_ProcessList_AP`
+
+`-ConsumeItems_ProcessList_AP <who> <args>`
+
+Uses the items on your profile's Consume Items tab, top to bottom, skipping disabled rows, in-combat-only rows out of combat, items on their snack timer and items not ready; it stops after the first item used unless -all is given. -fc ignores the in-combat-only marks and the in-combat throttle, and -st ignores the snack timers.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `args` | rest |  |  |
+
+Runs: `OgreBotAPI.Inventory:ConsumeList`
+
+```text
+oc !c -ConsumeItems_ProcessList_AP igw:${Me.Name} -all -st
+```
+
+## `-ConversationBubble`
+
+`-ConversationBubble <who> <num>`
+
+Also: `-Conversation_Bubble`
+
+After hailing you can use this to converse with an NPC.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `num` | string | `1` | chat option to choose |
+
+Runs: `OgreBotAPI.Comms:ConversationBubble`
+
+```text
+oc !c -ConversationBubble igw:${Me.Name} 1
+```
+
+## `-countdown`
+
+`-countdown <who> <time>`
+
+Starts the in-game group countdown for the given number of seconds. Only a grouped group leader does it, everyone else does nothing, and a time of 0 or over 30 echoes an error instead.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `time` | string | `1` |  |
+
+Runs: `OgreBotAPI.Combat:Countdown`
+
+```text
+oc !c -countdown ${Me.Name} 10
+```
+
+## `-CoV`
+
+`-CoV <who> <traveloption> <toonoption> <allowsamezone>`
+
+Uses Call of the Veteran.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `traveloption` | string | `Teleport` | TravelOption. Teleport or Summon |
+| `toonoption` | string | `ToonName` | Toon to interact with |
+| `allowsamezone` | string | `FALSE` | Allow Same zone |
+
+Runs: `OgreBotAPI.Consumables:CoV`
+
+```text
+oc !c -CoV ${Me.Name} Summon ${Group[1].Name} FALSE
+```
+
+## `-Crouch`
+
+`-Crouch <who>`
+
+Presses the crouch key once.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.Movement:Crouch`
+
+```text
+oc !c -Crouch igw:${Me.Name}
+```
+
+## `-CS_ClearAll`
+
+`-CS_ClearAll <who>`
+
+Clears Campspot data
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.CampSpot:ClearAll`
+
+```text
+oc !c -CS_ClearAll igw:${Me.Name}
+```
+
+## `-CS_ClearCampSpot`
+
+`-CS_ClearCampSpot <who>`
+
+Clears Campspot location only
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.CampSpot:ClearCampSpot`
+
+```text
+oc !c -CS_ClearCampSpot igw:${Me.Name}
+```
+
+## `-CS_ClearRelative`
+
+`-CS_ClearRelative <who>`
+
+Clears Relative data
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.CampSpot:ClearRelative`
+
+```text
+oc !c -CS_ClearRelative igw:${Me.Name}
+```
+
+## `-CS_Set_ChangeCampSpot`
+
+`-CS_Set_ChangeCampSpot <who> <x> <y> <z>`
+
+Changes the base campspot.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `x` | string | `${Me.X}` | X, or the name of a point of interest in this zone |
+| `y` | string | `${Me.Y}` | Y |
+| `z` | string | `${Me.Z}` | Z |
+
+Runs: `OgreBotAPI.CampSpot:SetLoc`
+
+```text
+oc !c -CS_Set_ChangeCampSpot igw:${Me.Name} ${Me.X} ${Me.Y} ${Me.Z}
+```
+
+## `-CS_Set_ChangeCampSpotBy`
+
+`-CS_Set_ChangeCampSpotBy <who> <x> <y> <z>`
+
+Also: `-ccsbw`, `-ccsbfw`, `-ccsbyforwho`, `-ccsb`, `-ChangeCampSpotBy`, `-cs-set-ccs-by`
+
+Changes the base campspot by.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `x` | string | `0` | X |
+| `y` | string | `0` | Y |
+| `z` | string | `0` | Z |
+
+Runs: `OgreBotAPI.CampSpot:NudgeBy`
+
+```text
+oc !c -CS_Set_ChangeCampSpotBy igw:${Me.Name} 5 0 -5
+```
+
+## `-CS_Set_ChangeRelativeCampSpotBy`
+
+`-CS_Set_ChangeRelativeCampSpotBy <who> <x> <y> <z>`
+
+Changes the relative campspot by.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `x` | string | `0` | X delta to ADD to the relative campspot (0 = no change) |
+| `y` | string | `0` | Y/height delta to add (0 = no change) |
+| `z` | string | `0` | Z delta to add (0 = no change) |
+
+Runs: `OgreBotAPI.CampSpot:SetRelativeBy`
+
+```text
+oc !c -CS_Set_ChangeRelativeCampSpotBy igw:${Me.Name} 0 0 10
+```
+
+## `-CS_Set_Formation_Circle`
+
+`-CS_Set_Formation_Circle <who> <distance> <x> <y> <z> <userelativecs>`
+
+Also: `-cs-circle`
+
+Creates a circle.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `distance` | float | `7` | Distance from center. Example: 7 |
+| `x` | string | `${Me.X}` | X Position of Center, or the name of a point of interest in this zone. \${Me.X} is acceptable |
+| `y` | string | `${Me.Y}` | Y Position of Center. \${Me.Y} is acceptable |
+| `z` | string | `${Me.Z}` | Z Position of Center. \${Me.Z} is acceptable |
+| `userelativecs` | bool | `FALSE` | Use Relative campspot instead of campspot: TRUE or FALSE. |
+
+Runs: `OgreBotAPI.CampSpot:SetFormation`
+
+```text
+oc !c -CS_Set_Formation_Circle igw:${Me.Name} 7 ${Me.X} ${Me.Y} ${Me.Z} FALSE
+```
+
+## `-CS_Set_Formation_MonkeyInMiddle`
+
+`-CS_Set_Formation_MonkeyInMiddle <who> <distance> <x> <y> <z> <middleman> <userelativecs>`
+
+Also: `-cs-monkey`
+
+Creates a circle with one person in the middle.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `distance` | float | `7` | Distance from center. Example: 7 |
+| `x` | string | `${Me.X}` | X Position of Center, or the name of a point of interest in this zone. \${Me.X} is acceptable |
+| `y` | string | `${Me.Y}` | Y Position of Center. \${Me.Y} is acceptable |
+| `z` | string | `${Me.Z}` | Z Position of Center. \${Me.Z} is acceptable |
+| `middleman` | string | `${Me.Name}` | Who will be in the middle. \${Me.Name} is acceptable |
+| `userelativecs` | bool | `FALSE` | Use Relative campspot instead of campspot: TRUE or FALSE. |
+
+Runs: `OgreBotAPI.CampSpot:SetFormation`
+
+```text
+oc !c -CS_Set_Formation_MonkeyInMiddle igw:${Me.Name} 7 ${Me.X} ${Me.Y} ${Me.Z} ${Me.Name} FALSE
+```
+
+## `-CS_Set_Formation_MonkeyInMiddleRaid`
+
+`-CS_Set_Formation_MonkeyInMiddleRaid <who> <middleforwho> <distance> <x> <y> <z> <circlespots> <userelativecs>`
+
+Also: `-cs-monkeyRaid`
+
+Gives each matched toon its own spot on a ring of circlespots spots (default 5, placed by raid order) at distance (default 7) around x y z, while the toons middleforwho matches stand on the centre. userelativecs TRUE sets the relative campspot instead of the base one, and nothing is set (a console line says so) while OgreBot is not open.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `middleforwho` | string |  |  |
+| `distance` | float | `7` |  |
+| `x` | string | `${Me.X}` | X, or the name of a point of interest in this zone |
+| `y` | string | `${Me.Y}` |  |
+| `z` | string | `${Me.Z}` |  |
+| `circlespots` | string | `5` |  |
+| `userelativecs` | bool | `FALSE` |  |
+
+Runs: `OgreBotAPI.CampSpot:SetFormation`
+
+```text
+oc !c -CS_Set_Formation_MonkeyInMiddleRaid all igw:${Me.Name} 15 ${Me.X} ${Me.Y} ${Me.Z} 5 FALSE
+```
+
+## `-CS_Set_HowClose`
+
+`-CS_Set_HowClose <who> <value>`
+
+Changes the HowClose for CampSpot
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `value` | float | `1` | HowClose |
+
+Runs: `OgreBotAPI.CampSpot:SetHowClose`
+
+```text
+oc !c -CS_Set_HowClose igw:${Me.Name} 3
+```
+
+## `-CS_Set_HowFar`
+
+`-CS_Set_HowFar <who> <value>`
+
+Changes the HowFar for CampSpot
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `value` | float | `200` | HowFar |
+
+Runs: `OgreBotAPI.CampSpot:SetHowFar`
+
+```text
+oc !c -CS_Set_HowFar igw:${Me.Name} 200
+```
+
+## `-CS_Set_Relative`
+
+`-CS_Set_Relative <who> <x> <y> <z>`
+
+Sets the relative camp spot to this location (an absolute location, not an offset; -CS_Set_ChangeRelativeCampSpotBy moves it by an offset).
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `x` | string | `${Me.X}` | X of the flat relative campspot (absolute coordinate, NOT a diff/offset) |
+| `y` | string | `${Me.Y}` | Y/height of the flat relative campspot (absolute, not a diff) |
+| `z` | string | `${Me.Z}` | Z of the flat relative campspot (absolute, not a diff) |
+
+Runs: `OgreBotAPI.CampSpot:SetRelativeLoc`
+
+```text
+oc !c -CS_Set_Relative igw:${Me.Name} ${Me.X} ${Me.Y} ${Me.Z}
+```
+
+## `-CurePotions_Replenish`
+
+`-CurePotions_Replenish <who> <potion>`
+
+Replenishes cure potions from the depot. Default is all. Other options are: Arcane, Trauma, Noxious, Elemental. All other options will be assumed to be the full name.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `potion` | string | `all` | Optional. Which cure: all, arcane, elemental, noxious or trauma. |
+
+Runs: `OgreBotAPI.Cures:ReplenishPotions`
+
+```text
+oc !c -CurePotions_Replenish igw:${Me.Name} trauma
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/commands/console-d-n.md
+
+# Console commands: D-N
+
+## `-DeleteQuest`
+
+`-DeleteQuest <who> <value>`
+
+Deletes a quest.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `value` | string |  | Quest name |
+
+Runs: `OgreBotAPI.Quest:Delete`
+
+```text
+oc !c -DeleteQuest igw:${Me.Name} "A Lost Shipment"
+```
+
+## `-DestroyItem`
+
+`-DestroyItem <who> <itemname> <charges>`
+
+Destroys item if it has no charges or charges are at Charges. Default of 0.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `itemname` | string | `DoesNotExist` | Itemname |
+| `charges` | string | `0` | Charges |
+
+Runs: `OgreBotAPI.Inventory:DestroyItem`
+
+```text
+oc !c -DestroyItem igw:${Me.Name} "Rusty Dagger" 0
+```
+
+## `-DestroyItem_NoChecks`
+
+`-DestroyItem_NoChecks <who> <itemname>`
+
+Destroys the carried item (bags, not bank) with that name without checking its charges, through the bot's one destroy door, which re-checks the name and refuses a bag. Nothing happens when you carry no such item.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `itemname` | string | `DoesNotExist` |  |
+
+Runs: `OgreBotAPI.Inventory:DestroyItemNoChecks`
+
+```text
+oc !c -DestroyItem_NoChecks igw:${Me.Name} "Rusty Dagger"
+```
+
+## `-Disable_Dispells`
+
+`-Disable_Dispells <who>`
+
+Ticks the No Dispels setting, so the bot stops casting dispels.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.Abilities:SetDispellsEnabled`
+
+```text
+oc !c -Disable_Dispells igw:${Me.Name}
+```
+
+## `-Disable_Interrupts`
+
+`-Disable_Interrupts <who>`
+
+Ticks the No Interrupts setting, and on a Rogue also turns Daring Advance off in the cast stack and cancels it.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.Abilities:SetInterruptsEnabled`
+
+```text
+oc !c -Disable_Interrupts igw:${Me.Name}
+```
+
+## `-Disband`
+
+`-Disband <who>`
+
+Disband your group.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.Roster:Disband`
+
+```text
+oc !c -Disband ${Me.Name}
+```
+
+## `-DispellNPCWithAny`
+
+`-DispellNPCWithAny <who> <npcnameorid>`
+
+Queues a dispel on the NPC (name or actor id) using your class dispel ability first and an Energy Inverter clicky if there is none, as soon as the cast bar is free. Every call queues another one, and a blank NPC prints a console line instead.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `npcnameorid` | string | `DoesNotExist` |  |
+
+Runs: `OgreBotAPI.Abilities:DispellNPC`
+
+```text
+oc !c -DispellNPCWithAny igw:${Me.Name} ${Target.ID}
+```
+
+## `-DispellNPCWithItem`
+
+`-DispellNPCWithItem <who> <npcnameorid>`
+
+Queues a dispel on the NPC (name or actor id) using a fighter's Energy Inverter clicky, used as soon as the cast bar is free, and every call queues another one. A blank NPC prints a console line instead.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `npcnameorid` | string | `DoesNotExist` |  |
+
+Runs: `OgreBotAPI.Abilities:DispellNPC`
+
+```text
+oc !c -DispellNPCWithItem igw:${Me.Name} ${Target.ID}
+```
+
+## `-DispellNPCWithSpell`
+
+`-DispellNPCWithSpell <who> <npcnameorid>`
+
+Dispel a buff off an NPC using your class dispel ability (no item fallback - use -DispellNPCWithAny for that).
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `npcnameorid` | string | `DoesNotExist` |  |
+
+Runs: `OgreBotAPI.Abilities:DispellNPC`
+
+```text
+oc !c -DispellNPCWithSpell igw:${Me.Name} ${Target.ID}
+```
+
+## `-DisplayEtherealMissionInfo`
+
+`-DisplayEtherealMissionInfo <who>`
+
+Show which zones are hot right now, when they rotate, and what is next. Legacy name - use -DisplayHotZoneInfo.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.Quest:ShowMissionInfo`
+
+```text
+oc !c -DisplayEtherealMissionInfo ${Me.Name}
+```
+
+## `-DisplayHotZoneInfo`
+
+`-DisplayHotZoneInfo <who>`
+
+Also: `-HotZones`, `-DisplayHotZonesInfo`
+
+Show which zones are hot right now, when they rotate, and what is next. Only the expansions ticked on the Hot Zones tab are listed.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.Quest:ShowMissionInfo`
+
+```text
+oc !c -DisplayHotZoneInfo ${Me.Name}
+```
+
+## `-DoHO_Reset`
+
+`-DoHO_Reset <who>`
+
+Clears the HO run record (target, completion count and options) without changing whether DoHO is enabled or its timeout.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.HOs:DoReset`
+
+```text
+oc !c -DoHO_Reset igw:${Me.Name}
+```
+
+## `-DoHO_Set_Enable`
+
+`-DoHO_Set_Enable <who> <torf> <args>`
+
+TRUE (default) elects this session as the group's HO'er with the options given (-Force, -NoEnable, -NoHoAbilities, -DelayStart, -TimeOut), and FALSE ends the HO run and puts the HO options back. A word that is not TRUE or FALSE changes nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `torf` | string | `TRUE` |  |
+| `args` | rest |  |  |
+
+Runs: `OgreBotAPI.HOs:DoSetEnabled`
+
+```text
+oc !c -DoHO_Set_Enable ${Me.Name} FALSE
+```
+
+## `-DoHO_Setup`
+
+`-DoHO_Setup <who> <args>`
+
+Makes this session the group's HO'er: the others stand down, and it runs Heroic Opportunities until -NumHOsToComplete are done (default 1) or -TimeOut passes (default 25 seconds), then everyone's HO options are put back. Further options are -TargetID, -LeaveWheelOpen, -LeaveStartOpen, -NoModifyOptions and -AllowCastStack.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `args` | rest |  |  |
+
+Runs: `OgreBotAPI.HOs:DoSetup`
+
+```text
+oc !c -DoHO_Setup ${Me.Name} -TargetID ${Target.ID} -NumHOsToComplete 2
+```
+
+## `-DoNotMove`
+
+`-DoNotMove <who>`
+
+Also: `-NoMove`
+
+Pauses follow and stops the current move. The leader is kept: LetsGo or a new follow resumes it, and the camp spot still pulls the character back.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.Movement:StopFollow`
+
+```text
+oc !c -DoNotMove igw:${Me.Name}
+```
+
+## `-DoVDebuff`
+
+`-DoVDebuff <who> <npcnameorid> <allowmovement>`
+
+Also: `-raiddebuff`
+
+Auto rebuffing of DoV Raid Debuffs.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `npcnameorid` | string |  | NPC Name or ID |
+| `allowmovement` | string |  | Allow Moving |
+
+Runs: `OgreBotAPI:DoVDebuff`
+
+```text
+oc !c -DoVDebuff igw:${Me.Name} ${Target.ID} TRUE
+```
+
+## `-DoVDebuff_Half`
+
+`-DoVDebuff_Half <who> <npcnameorid> <archetype> <odd> <allowmovement>`
+
+Half of the toons cast DoV Raid Debuff.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `npcnameorid` | string |  | NPC Name or ID |
+| `archetype` | string | `auto` | Archtype. Valid options are: Fighter or scout or priest or mage |
+| `odd` | string | `TRUE` | Odd |
+| `allowmovement` | string |  | Allow Moving |
+
+Runs: `OgreBotAPI:DoVDebuff_Half`
+
+```text
+oc !c -DoVDebuff_Half igw:${Me.Name} ${Target.ID} auto TRUE FALSE
+```
+
+## `-Drink_Alcohol`
+
+`-Drink_Alcohol <who> <value>`
+
+Drinks the item in your main bags with that name using the game's drink_alcohol command. Nothing happens when no such item is there.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `value` | string |  | The drink's name, as it is in your bags |
+
+Runs: `OgreBotAPI.Consumables:DrinkAlcohol`
+
+```text
+oc !c -Drink_Alcohol ${Me.Name} "Halas Ale"
+```
+
+## `-DungeonMakerCancel`
+
+`-DungeonMakerCancel <who>`
+
+Also: `-DungeonMaker_Cancel`
+
+Cancels the rating window for DM
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.Windows:DungeonMakerCancel`
+
+```text
+oc !c -DungeonMakerCancel igw:${Me.Name}
+```
+
+## `-Enable_Dispells`
+
+`-Enable_Dispells <who>`
+
+Unticks the No Dispels setting, so the bot casts dispels again.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.Abilities:SetDispellsEnabled`
+
+```text
+oc !c -Enable_Dispells igw:${Me.Name}
+```
+
+## `-Enable_Interrupts`
+
+`-Enable_Interrupts <who>`
+
+Unticks the No Interrupts setting and turns Daring Advance on in the cast stack.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.Abilities:SetInterruptsEnabled`
+
+```text
+oc !c -Enable_Interrupts igw:${Me.Name}
+```
+
+## `-End_Bot`
+
+`-End_Bot <who>`
+
+Also: `-EndBot`
+
+Ends Ogrebot.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.Bot:End`
+
+```text
+oc !c -End_Bot all
+```
+
+## `-EndScriptOB`
+
+`-EndScriptOB <who> <scriptname>`
+
+Also: `-EndScriptRequiresOgreBot`, `-esob`
+
+Ends a script ForWho.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `scriptname` | string | `Nothing` | ScriptName |
+
+Runs: `OgreBotAPI.Bot:EndScript`
+
+```text
+oc !c -EndScriptOB igw:${Me.Name} MyScript
+```
+
+## `-EquipCharm`
+
+`-EquipCharm <who> <value>`
+
+Equips charms based on what is selected in the 'Equipment Info' tab in Ogrebot. Note: It ONLY equips into Charm slot 1.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `value` | int64 | `1` | Which charm option. Example: 1 |
+
+Runs: `OgreBotAPI.Inventory:EquipCharm`
+
+```text
+oc !c -EquipCharm igw:${Me.Name} 1
+```
+
+## `-evac`
+
+`-evac <who> <mode>`
+
+Anyone with an evacuate ability will use it. With mode `totem`, a toon with no class evac (or one not ready) uses a Totem of Escape if it has one ready.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `mode` | string |  | Blank for the class evac only; `totem` also allows a Totem of Escape when there is no class evac ready (per toon). |
+
+Runs: `OgreBotAPI.Movement:Evac`
+
+```text
+oc !c -evac igw:${Me.Name} totem
+```
+
+## `-ExamineAllOfItem`
+
+`-ExamineAllOfItem <who> <args>`
+
+Examines stacks of items. Parameter 2+ = Item Names
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `args` | rest |  |  |
+
+Runs: `OgreBotAPI.Inventory:ExamineAll`
+
+```text
+oc !c -ExamineAllOfItem igw:${Me.Name} Shard
+```
+
+## `-ExamineInventoryItem`
+
+`-ExamineInventoryItem <who> <value>`
+
+Opens the examine window for the item in your main bags with exactly that name. Nothing happens when no such item is there.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `value` | string |  |  |
+
+Runs: `OgreBotAPI.Inventory:Examine`
+
+```text
+oc !c -ExamineInventoryItem ${Me.Name} "Ethereal Shard"
+```
+
+## `-ExecuteEvent_AP`
+
+`-ExecuteEvent_AP <who> <eventname> <args>`
+
+Fires the named LavishScript event on this session, passing the remaining arguments joined by commas.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `eventname` | string | `DoesNotExist` |  |
+| `args` | rest |  |  |
+
+Runs: `OgreBotAPI.Comms:ExecuteEvent`
+
+```text
+oc !c -ExecuteEvent_AP igw:${Me.Name} MyScript_Phase 2
+```
+
+## `-ExitClient`
+
+`-ExitClient <who> <seconds>`
+
+Shows a message box warning that the game client will exit in the given number of seconds (30 by default), then closes the client without camping out. Clicking OK on the box before the time is up cancels it.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `seconds` | string | `30` |  |
+
+Runs: `OgreBotAPI.Bot:ExitClient`
+
+```text
+oc !c -ExitClient ${Me.Name} 30
+```
+
+## `-F2PWindow_Check`
+
+`-F2PWindow_Check <who>`
+
+Closes the All-Access (F2P) upsell window once if it is showing, with a console note. Does nothing when the window is not up.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.Windows:F2PWindowCheck`
+
+```text
+oc !c -F2PWindow_Check all
+```
+
+## `-F2PWindow_SetOptions`
+
+`-F2PWindow_SetOptions <who>`
+
+Turns on the watcher that closes the All Access upsell window (Settings tab: Close F2P upsell window).
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI:F2PWindow_SetOptions`
+
+```text
+oc !c -F2PWindow_SetOptions all
+```
+
+## `-FaceActor`
+
+`-FaceActor <who> <actornameid>`
+
+Turns you to face the actor with exactly that name, or that actor ID. Nothing happens when it is not found.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `actornameid` | string | `0` |  |
+
+Runs: `OgreBotAPI.Movement:FaceActor`
+
+```text
+oc !c -FaceActor igw:${Me.Name} ${Target.ID}
+```
+
+## `-FaceAngle`
+
+`-FaceAngle <who> <angle>`
+
+Turns you to face the heading angle. A missing angle is refused with a console error.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `angle` | string |  |  |
+
+Runs: `OgreBotAPI.Movement:FaceAngle`
+
+```text
+oc !c -FaceAngle igw:${Me.Name} 90
+```
+
+## `-FaceLoc`
+
+`-FaceLoc <who> <x> <y> <z>`
+
+Turns you to face the x and z location; y is ignored (a heading is flat) and kept so a location pastes in as x y z. A missing x or z is refused with a console error.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `x` | string |  | X, or the name of a point of interest in this zone |
+| `y` | string |  | Y - ignored (a heading is flat); kept so a location pastes in as x y z |
+| `z` | string |  | Z |
+
+Runs: `OgreBotAPI.Movement:FaceLoc`
+
+```text
+oc !c -FaceLoc igw:${Me.Name} 120 15 -340
+```
+
+## `-FastTravel`
+
+`-FastTravel <who> <towhere> <args>`
+
+Also: `-TravelFast`
+
+Fast Travel.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `towhere` | string | `NoWhere!` | Travel to where |
+| `args` | rest | `FALSE.` | Exact Match |
+
+Runs: `OgreBotAPI.Travel:Fast`
+
+```text
+oc !c -FastTravel igw:${Me.Name} Antonica FALSE
+```
+
+## `-FlagToon`
+
+`-FlagToon <who> <value>`
+
+Assigns a Flag designation to characters.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `value` | string | `1` | Flag # from 1 to 24 |
+
+Runs: `OgreBotAPI.Roster:Flag`
+
+```text
+oc !c -FlagToon ${Me.Name} 3
+```
+
+## `-FlyDown`
+
+`-FlyDown <who>`
+
+Also: `-FlyDownForWho`
+
+Presses the fly down [or swim down] button. Note: This is NOT a toggle.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.Movement:FlyDown`
+
+```text
+oc !c -FlyDown igw:${Me.Name}
+```
+
+## `-FlyStop`
+
+`-FlyStop <who>`
+
+Also: `-FlyStopForWho`
+
+Stops flying [up and down]. Note: This is NOT a toggle.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.Movement:FlyStop`
+
+```text
+oc !c -FlyStop igw:${Me.Name}
+```
+
+## `-FlyUp`
+
+`-FlyUp <who>`
+
+Also: `-FlyUpForWho`
+
+Presses the fly up [or swim up] button. Note: This is NOT a toggle.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.Movement:FlyUp`
+
+```text
+oc !c -FlyUp igw:${Me.Name}
+```
+
+## `-FoodDrink_AutoConsume`
+
+`-FoodDrink_AutoConsume <who> <value>`
+
+Modifies Food and Drink AutoConsume based on Parameter 2 input.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `value` | string | `TRUE` | Value. Options are: TRUE. FALSE. TOGGLE. REPORT |
+
+Runs: `OgreBotAPI.Inventory:AutoConsumeFoodDrink`
+
+```text
+oc !c -FoodDrink_AutoConsume igw:${Me.Name} TRUE
+```
+
+## `-FoodDrink_Replenish`
+
+`-FoodDrink_Replenish <who>`
+
+Replenishes food and drink from inventory and depot.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.Consumables:ReplenishFoodDrink`
+
+```text
+oc !c -FoodDrink_Replenish igw:${Me.Name}
+```
+
+## `-Force_MountOff`
+
+`-Force_MountOff <who>`
+
+Will dismount you. The down half of Force_MountOn.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.Consumables:MountDown`
+
+```text
+oc !c -Force_MountOff igw:${Me.Name}
+```
+
+## `-Force_MountOn`
+
+`-Force_MountOn <who>`
+
+Will cancel and recast your mount.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.Consumables:MountUp`
+
+```text
+oc !c -Force_MountOn igw:${Me.Name}
+```
+
+## `-ForceAliasUpdate`
+
+`-ForceAliasUpdate <who>`
+
+Drops the cached alias answers on the matched toons, so the next *alias is worked out against the group and raid as they are now.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.ForWho:ForceUpdate`
+
+```text
+oc !c -ForceAliasUpdate all
+```
+
+## `-forcefollow`
+
+`-forcefollow <who>`
+
+Also: `-ffollow`
+
+Does a Force follow as per what is set in OgreBot setup tab.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.Movement:ForceFollow`
+
+```text
+oc !c -forcefollow igw:${Me.Name}
+```
+
+## `-GetFlag`
+
+`-GetFlag <who>`
+
+Gets a flag from a guild strategist.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI:GetFlag`
+
+```text
+oc !c -GetFlag igw:${Me.Name}
+```
+
+## `-GetToConcentration`
+
+`-GetToConcentration <who> <value>`
+
+Cancels your maintained buffs that cost concentration, last slot first, one buff for each point your used concentration is above the value (default 4).
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `value` | string | `4` |  |
+
+Runs: `OgreBotAPI.Movement:GetToConcentration`
+
+```text
+oc !c -GetToConcentration igw:${Me.Name} 4
+```
+
+## `-GetToGH`
+
+`-GetToGH <who>`
+
+Gets you to GH. Using call to GH or call to home or fast travel.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.Movement:GetToGH`
+
+```text
+oc !c -GetToGH igw:${Me.Name}
+```
+
+## `-GroupCure`
+
+`-GroupCure <who>`
+
+Asks the matched toons for an immediate group cure: within the next 2 seconds they cast their class group cure if at least one group member is afflicted.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.Cures:RequestGroup`
+
+```text
+oc !c -GroupCure igw:${Me.Name}
+```
+
+## `-Hail`
+
+`-Hail <who> <mobnameid>`
+
+Also: `-HailNPC`
+
+Will hail based on parameters.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `mobnameid` | string | `0` | NPC Name or ID. \${Target.ID} is fine to use for your target |
+
+Runs: `OgreBotAPI.Actors:Hail`
+
+```text
+oc !c -Hail ${Me.Name} ${Target.ID}
+```
+
+## `-Heartstone_RekindleBond`
+
+`-Heartstone_RekindleBond <who>`
+
+Will use the Heartstone to rekindle your bond.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.Consumables:RekindleHeartstone`
+
+```text
+oc !c -Heartstone_RekindleBond ${Me.Name}
+```
+
+## `-HO_Cancel_Starter`
+
+`-HO_Cancel_Starter <who>`
+
+Cancels the open Heroic Opportunity starter selection. Nothing happens when no HO starter is showing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.HOs:CancelStarter`
+
+```text
+oc !c -HO_Cancel_Starter ${Me.Name}
+```
+
+## `-HO_Start`
+
+`-HO_Start <who> <args>`
+
+Casts your archetype's Heroic Opportunity starter ability to open an HO, unless one is already up or one was just started. -ActorID &lt;id> casts it on that actor, and -SkipTimer ignores the just-started wait.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `args` | rest |  |  |
+
+Runs: `OgreBotAPI.HOs:Start`
+
+```text
+oc !c -HO_Start ${Me.Name} -ActorID ${Target.ID}
+```
+
+## `-HO_Starter_Advance`
+
+`-HO_Starter_Advance <who>`
+
+Also: `-HO_Starter`
+
+Casts the abilities that match your archetype's offered starter icons, advancing the Heroic Opportunity starter chain.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.HOs:Starter`
+
+```text
+oc !c -HO_Starter_Advance igw:${Me.Name}
+```
+
+## `-HO_Wheel_Advance`
+
+`-HO_Wheel_Advance <who>`
+
+Also: `-HO_Advance`
+
+Casts the abilities that match your archetype's icons on the Heroic Opportunity wheel, advancing it toward completion.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.HOs:Advance`
+
+```text
+oc !c -HO_Wheel_Advance igw:${Me.Name}
+```
+
+## `-holdup`
+
+`-holdup <who>`
+
+Pauses follow and stops the current move. The leader is kept: LetsGo or a new follow resumes it, and the camp spot still pulls the character back.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.Movement:StopFollow`
+
+```text
+oc !c -holdup igw:${Me.Name}
+```
+
+## `-ImmRes`
+
+`-ImmRes <who> <howmany>`
+
+Uses Cleric AA Immaculate Revival if X people are dead. Will always cast if a priest or fighter is dead.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who acts - leave blank to use the For Who window. |
+| `howmany` | string | `2` | How many dead to cast |
+
+Runs: `OgreBotAPI.Session:ImmRes`
+
+```text
+oc !c -ImmRes igw:${Me.Name} 2
+```
+
+## `-InjectChat`
+
+`-InjectChat <who> <chat>`
+
+Injects a phrase as if it was said in raid chat.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `chat` | string | `Nothing` | Chat text |
+
+Runs: `OgreBotAPI.Comms:InjectChat`
+
+```text
+oc !c -InjectChat igw:${Me.Name} "Set up for ${Target.Name}"
+```
+
+## `-InputTextWindow_Accept`
+
+`-InputTextWindow_Accept <who>`
+
+Clicks the accept button of the text-entry popup on screen. Nothing happens when that popup is not showing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.Windows:InputTextAccept`
+
+```text
+oc !c -InputTextWindow_Accept igw:${Me.Name}
+```
+
+## `-InputTextWindow_AddText`
+
+`-InputTextWindow_AddText <who> <value>`
+
+Appends the text to the input box of the text-entry popup on screen. Nothing happens when that popup is not showing or the text is blank.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `value` | string |  |  |
+
+Runs: `OgreBotAPI.Windows:InputTextAdd`
+
+```text
+oc !c -InputTextWindow_AddText igw:${Me.Name} opensesame
+```
+
+## `-InputTextWindow_ClearText`
+
+`-InputTextWindow_ClearText <who>`
+
+Empties the input box of the text-entry popup on screen. Nothing happens when that popup is not showing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.Windows:InputTextClear`
+
+```text
+oc !c -InputTextWindow_ClearText igw:${Me.Name}
+```
+
+## `-Invite`
+
+`-Invite <who> <invitewho>`
+
+The matched toons send a group invite to invitewho (default: you), and an alias resolves to the toon it names. A player already in their group or raid is skipped, a name that is not a plain character name is refused with a console line, and raidinvite is not read.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `invitewho` | string |  |  |
+
+Runs: `OgreBotAPI.Roster:Invite`
+
+```text
+oc !c -Invite ${Me.Name} ${Target.Name} FALSE
+```
+
+## `-Inviter`
+
+`-Inviter <who> <args>`
+
+Send 1-second-spaced group/raid invites to a curated list of toons.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `args` | rest |  | Space/comma-separated list of toon names to invite (plus any per-name flags). |
+
+Runs: `OgreBotAPI.Roster:Inviter`
+
+```text
+oc !c -Inviter ${Me.Name} ${Target.Name}
+```
+
+## `-ItemEmbargo`
+
+`-ItemEmbargo <who> <abilityid> <duration> <args>`
+
+Also: `-ItemRotate`
+
+Embargo an item for N seconds on the toons the for-who names (an item rotation): their cast stack skips that item until the time is up, while their Enable Item Embargo box (Settings) is ticked.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who embargoes - leave blank to use the For Who window; `all` = every session that hears it. |
+| `abilityid` | string |  | The item's LinkID, as the item's LinkID member reads it (it can be negative). The unsigned form a guild bank or Census link writes is the same item. |
+| `duration` | string |  |  |
+| `args` | rest |  |  |
+
+Runs: `OgreBotAPI.Inventory:AddEmbargo`
+
+```text
+oc !c -ItemEmbargo all 987654321 30
+```
+
+## `-joustin`
+
+`-joustin <who>`
+
+Also: `-joust-in`, `-jst-in`
+
+Joust In. When campspot is turned on you will joust In (if permitted).
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.Movement:JoustIn`
+
+```text
+oc !c -joustin igw:${Me.Name}
+```
+
+## `-joustoff`
+
+`-joustoff <who>`
+
+Also: `-joust-off`, `-jst-off`
+
+Joust Off. Tells certain classes or people they are not permitted to joust in.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto+Caster` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.Movement:JoustOff`
+
+```text
+oc !c -joustoff igw:${Me.Name}
+```
+
+## `-jouston`
+
+`-jouston <who>`
+
+Also: `-joust-on`, `-jst-on`
+
+Joust On. Reverses the effects of Joust Off. DOES NOT JOUST IN. Tells certain classes or people they are permitted to joust in.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto+Melee` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.Movement:JoustOn`
+
+```text
+oc !c -jouston igw:${Me.Name}
+```
+
+## `-joustout`
+
+`-joustout <who>`
+
+Also: `-joust-out`, `-jst-out`
+
+Joust Out. When campspot is turned on you will joust out.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.Movement:JoustOut`
+
+```text
+oc !c -joustout igw:${Me.Name}
+```
+
+## `-Jump`
+
+`-Jump <who>`
+
+Presses the jump key once.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.Movement:Jump`
+
+```text
+oc !c -Jump igw:${Me.Name}
+```
+
+## `-Kick`
+
+`-Kick <who> <kickwho>`
+
+Kicks a member out of the group.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who acts - leave blank to use the For Who window. |
+| `kickwho` | string |  | The group member to kick |
+
+Runs: `OgreBotAPI.Roster:Kick`
+
+```text
+oc !c -Kick ${Me.Name} ${Group[1].Name}
+```
+
+## `-LandFlyingMount`
+
+`-LandFlyingMount <who>`
+
+Holds the fly-down key until the toon has landed its flying mount, for up to 60 seconds, then releases the key. It runs as a queued action and does nothing outside the world.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.Movement:LandFlyingMount`
+
+```text
+oc !c -LandFlyingMount igw:${Me.Name}
+```
+
+## `-letsgo`
+
+`-letsgo <who>`
+
+This button removes movement restrictions such as HoldUp and campspot.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.CampSpot:Release`
+
+```text
+oc !c -letsgo igw:${Me.Name}
+```
+
+## `-LoadAutoTargetList`
+
+`-LoadAutoTargetList <who> <list>`
+
+Also: `-LoadAutoTargetListForWho`, `-LATL`
+
+Loads an AutoTarget List for a specific toon
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `list` | string |  | List to load |
+
+Runs: `OgreBotAPI.AutoTarget:LoadSaved`
+
+```text
+oc !c -LoadAutoTargetList igw:${Me.Name} MyRaidList
+```
+
+## `-LoadBot`
+
+`-LoadBot <who>`
+
+Loads OgreBot (starts it if it is not running).
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.Bot:Load`
+
+```text
+oc !c -LoadBot igw:${Me.Name}
+```
+
+## `-LoadProfile`
+
+`-LoadProfile <who> <profilename>`
+
+Also: `-ProfileForWho`, `-Profile`
+
+Loads a profile using the name you provide.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `profilename` | string |  | Profile Name |
+
+Runs: `OgreBotAPI.Options:LoadProfile`
+
+```text
+oc !c -LoadProfile igw:${Me.Name} Raid
+```
+
+## `-LogToonIn`
+
+`-LogToonIn <who> <name> <server> <class>`
+
+Logs a character in on one box: from the login screen, from character select, or from the world on another character (it camps first). Name the box by its InnerSpace session or its character, and at character select or the login screen by the character it last played: oc !c -LogToonIn MyToon MyToon logs MyToon back in after a zone dropped it to character select.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | string |  | The box: its InnerSpace session name or its character's name (at character select, the character it last played). all and groups pick no box. |
+| `name` | string |  | The character to log in. It needs a saved login on this PC. |
+| `server` | string |  | The server, for a character saved on more than one. Blank uses its default. A short form works: ior, md. |
+| `class` | string |  | The class to log in as, like ranger. Blank logs in whatever class it was. |
+
+Runs: `OgreBotAPI.Session:LogToonIn`
+
+```text
+oc !c -LogToonIn ${Me.Name} ${Group[1].Name}
+```
+
+## `-LootAll`
+
+`-LootAll <who>`
+
+Clicks Loot All on the loot window of the matched toons. It does nothing on a toon with no loot window open.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.Loot:LootAll`
+
+```text
+oc !c -LootAll ${Me.Name}
+```
+
+## `-MakeLeader`
+
+`-MakeLeader <who> <name>`
+
+Makes someone else the group leader.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `name` | string | `${Me.Name}` | Person to make group leader. Leave blank for youself |
+
+Runs: `OgreBotAPI.Roster:MakeLeader`
+
+```text
+oc !c -MakeLeader ${Me.Name} ${Group[1].Name}
+```
+
+## `-MarkToon`
+
+`-MarkToon <who>`
+
+Marks each selected character (the same as setting flag 24).
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.Roster:Mark`
+
+```text
+oc !c -MarkToon ${Me.Name}
+```
+
+## `-Mentor`
+
+`-Mentor <who> <mentorwho>`
+
+Tells [Bots] to mentor a specific player.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who acts - leave blank to use the For Who window. |
+| `mentorwho` | string | `${Me.Name}` | Toonname to mentor |
+
+Runs: `OgreBotAPI.Roster:Mentor`
+
+```text
+oc !c -Mentor igw:${Me.Name} ${Me.Name}
+```
+
+## `-Mercenary_AddMercenaries`
+
+`-Mercenary_AddMercenaries <who>`
+
+Adds every Mercenary item in your bags, Overseer bag and harvest bag.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.Consumables:AddMercenaries`
+
+```text
+oc !c -Mercenary_AddMercenaries ${Me.Name}
+```
+
+## `-Message`
+
+`-Message <who> <text>`
+
+Display a message on this session's console.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `text` | string |  | Message text to display. |
+
+Runs: `OgreBotAPI.Comms:Message`
+
+```text
+oc !c -Message igw:${Me.Name} "Pulling in 5"
+```
+
+## `-Message_Relay`
+
+`-Message_Relay <who> <text>`
+
+Broadcast a message to every session's console across the fleet (including this one).
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `text` | string |  | Message text to broadcast. |
+
+Runs: `OgreBotAPI.Comms:Broadcast`
+
+```text
+oc !c -Message_Relay ${Me.Name} "Ready check"
+```
+
+## `-Move2Area`
+
+`-Move2Area <who> <x> <y> <z> <precision>`
+
+Also: `-MoveToArea`
+
+Tells [Bots] to move to a specific area.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `x` | string | `${Me.X}` | X coordinate (paste ${Me.X}), or the name of a point of interest in this zone |
+| `y` | float | `${Me.Y}` | Y/height - IGNORED (2D ground move); pass ${Me.Y} for game-order convenience |
+| `z` | float | `${Me.Z}` | Z coordinate (paste ${Me.Z}) |
+| `precision` | float | `3` | Arrival precision |
+
+Runs: `OgreBotAPI.Movement:Move2Area`
+
+```text
+oc !c -Move2Area igw:${Me.Name} ${Me.X} ${Me.Y} ${Me.Z} 3
+```
+
+## `-MoveToAreaNoTarget`
+
+`-MoveToAreaNoTarget <who> <x> <y> <z> <precision>`
+
+Also: `-Move2AreaNoTarget`
+
+Walks to the given X and Z (Y is ignored) and stops within the precision distance, whether or not the toon has a target. A toon on a campspot stays there until -joustout or -letsgo; nothing moves if X or Z is missing or OgreBot is not open.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+| `x` | string | `${Me.X}` | X coordinate (paste ${Me.X}), or the name of a point of interest in this zone |
+| `y` | float | `${Me.Y}` | Y/height - IGNORED (2D ground move) |
+| `z` | float | `${Me.Z}` | Z coordinate (paste ${Me.Z}) |
+| `precision` | float | `3` | Arrival precision |
+
+Runs: `OgreBotAPI.Movement:Move2AreaNoTarget`
+
+```text
+oc !c -MoveToAreaNoTarget igw:${Me.Name} ${Me.X} ${Me.Y} ${Me.Z} 3
+```
+
+## `-NavStop`
+
+`-NavStop <who>`
+
+Also: `-nav-stop`, `-nav_stop`
+
+Stops the nav trip under way, unless it belongs to an encounter (`ogre nav stop` ends any trip).
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who navs - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI.Movement:NavStop`
+
+```text
+oc !c -NavStop igw:${Me.Name}
+```
+
+## `-NavTo`
+
+`-NavTo <who> <x> <y> <z> <fly>`
+
+Also: `-nav-to`, `-nav_to`
+
+Nav (the mesh router) to an x y z, or to a point of interest in this zone. It waits while OgreBot is paused and stops when OgreBot closes. It leaves an encounter's trip alone.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who navs - leave blank to use the For Who window. |
+| `x` | string |  | X, or the name of a point of interest in this zone |
+| `y` | float |  |  |
+| `z` | float |  |  |
+| `fly` | string | `nofly` | fly flies the trip; nofly walks it. |
+
+Runs: `OgreBotAPI.Movement:NavTo`
+
+```text
+oc !c -NavTo igw:${Me.Name} 120.5 -14 380.25 nofly
+```
+
+## `-NoTarget`
+
+`-NoTarget <who>`
+
+Clears everyones target. Useful to stop come2me.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `who` | forwho | `auto` | Who to target - leave blank to use the For Who window. |
+
+Runs: `OgreBotAPI:NoTarget`
+
+```text
+oc !c -NoTarget igw:${Me.Name}
 ```

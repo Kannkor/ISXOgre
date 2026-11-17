@@ -16,12 +16,12 @@ The Classic objects scripts used that Classic's docs never had a page for (`GetI
 |---|---|
 | ⚠️ Arguments changed | 114 |
 | ⚠️ Argument order changed | 10 |
-| ✏️ Renamed | 117 |
+| ✏️ Renamed | 118 |
 | ➡️ Moved | 6 |
 | ➡️ Lives somewhere else | 178 |
 | 📄 In a data file now | 31 |
 | ⛔ Exists, does nothing yet | 8 |
-| ⛔ Not ported yet | 203 |
+| ⛔ Not ported yet | 202 |
 | ⛔ Removed | 129 |
 | **Total** | **796** |
 
@@ -368,7 +368,7 @@ call Obj_OgreUtilities.HandleWaitForCombat -TimeOutIfNoProgress 30
 | `call Obj_OgreUtilities.GetInGameQuestStep` | does nothing | — | ⛔ Not ported yet | Classic: makes the quest current in the journal and returns its first unchecked step (text, index, counts, zone) in a collection. New: no journal step reader. |
 | `call Obj_OgreUtilities.GetIntoCorrectZone` | does nothing | — | ⛔ Not ported yet | Classic: CORRECTZONE / GUILDHALL / else CallToGH, then CheckEvacTotems + GetIntoZoneFromGH. Incomplete in Classic itself: WhereAreWe never returns CORRECTZONE and GetIntoZoneFromGH is not defined in this objectdef. 0 calls. |
 | `call Obj_OgreUtilities.GHToHouse` | does nothing | — | ⛔ Not ported yet | Classic: double-click 'Portal to Housing', filter the house list by name, enter, wait for zoning. 0 calls. New: no 'go to a house' door; the housing-portal clicks exist only inside DepotTransfer's transfer flow and GetToGH's guild-hall tab. |
-| `Obj_OgreUtilities.GroupInCombat` | reads NULL | — | ⛔ Not ported yet | Classic: any group member (not this toon) in combat mode; 3 calls. New: no script-facing or data-file read of group combat - OgreBotAPI.Combat.InCombat reads this toon only; the `inCombat` condition reads this toon only too. |
+| `Obj_OgreUtilities.GroupInCombat` | reads NULL | `OgreBotAPI.Roster.InCombat` | ✏️ Renamed | It counts you too, so a solo character reads its own combat mode (Classic's skipped you and read FALSE solo). Your group only, never the rest of a raid. |
 | `Obj_OgreUtilities.GroupWithinDistance` | reads NULL | `OgreBotAPI.Position.FarthestGroupDistance` | ⚠️ Arguments changed | Returns a number, not TRUE/FALSE. It counts every group member (a mercenary too), where Classic skipped non-PCs. In a data file: the `groupDistance` condition. |
 | `call Obj_OgreUtilities.Handle_Depot` | does nothing | — | ⛔ Not ported yet | Classic: for every harvest depot within 12 m, open it and press Deposit All. 0 calls. New: nothing deposits bag harvests into a nearby depot. DepotTransfer clicks the same Deposit All button, but only inside its house &lt;-&gt; guild-hall depot transfer. |
 | `call Obj_OgreUtilities.HandleCampSpotToLoc` | does nothing | `campSpot` | 📄 In a data file now | Two steps: {"do":"campSpot","op":"setLoc","loc":[x,y,z],"sendTo":"igw:{{me}}"} then {"wait":"atCampSpot","limitMs":...,"onTimeout":...}. |
@@ -1084,7 +1084,6 @@ If your script needs one of these, leave it out for now and tell us - this list 
 - `call Obj_OgreUtilities.GetInGameQuestStep` - not ported yet
 - `call Obj_OgreUtilities.GetIntoCorrectZone` - not ported yet
 - `call Obj_OgreUtilities.GHToHouse` - not ported yet
-- `Obj_OgreUtilities.GroupInCombat` - not ported yet
 - `TabConfig:GUI_Discord` - not ported yet
 - `TabConfig:GUI_Forums` - not ported yet
 - `TabConfig:GUI_Helper` - not ported yet

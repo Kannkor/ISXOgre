@@ -9556,6 +9556,8 @@ with `lstype`. The two you will use most are `ISXOgreEQ2` and `OgreBotAPI`.
 
 ## Where to start
 
+- **Never written a script?** [Your first script](script-basics.md) shows a whole small one and explains
+  each piece: where the file goes, variables, `if`, loops, `wait`, and how to make your group act.
 - **Moving a Classic script over?** Start with [Converting your scripts](converting.md). It has a tool
   that checks a script and fixes what it safely can, and a step-by-step procedure you can hand to Claude.
 - **Want the Instance Controller to run a zone it does not know?** [Write your own zone files](zone-files/index.md)
@@ -9572,6 +9574,190 @@ with `lstype`. The two you will use most are `ISXOgreEQ2` and `OgreBotAPI`.
 > Point it at `https://kannkor.github.io/ISXOgre/EQ2/bot/llms.txt`. That file lists these pages as plain
 > text, so the assistant can read them directly. For a script conversion, also tell it to follow the
 > procedure on [Converting your scripts](converting.md).
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/script-basics.md
+
+# Your first script
+
+This page is for you if you have never written a script. It shows one small script, explains each piece,
+and then shows how a script reads the bot and makes your group act. After this, the
+[API reference](api/index.md) tells you what each bot call does.
+
+Scripts are written in LavishScript, the InnerSpace script language.
+
+## Where a script goes and how to run it
+
+A script is a plain text file that ends in `.iss`. Put it in InnerSpace's `Scripts` folder, for example
+`Scripts\waitforgroup.iss`.
+
+To run it, type this in the InnerSpace console:
+
+```
+run waitforgroup
+```
+
+- Leave off the `.iss`.
+- The path starts at the `Scripts` folder. A script in a folder of its own is run as
+  `run MyScripts/waitforgroup`, with forward slashes.
+
+To stop a script that is still running, type `end` and its name:
+
+```
+end waitforgroup
+```
+
+## A whole script
+
+This script waits until you are out of combat and your whole group is in the zone with you. Then it tells
+the bots of everyone in your group to resume. If that has not happened after one minute, it gives up.
+
+```
+; waitforgroup.iss
+; Wait until the fight is over and the group is here, then resume the group's bots.
+function main()
+{
+    variable int Tries=0
+    variable bool Ready=FALSE
+    variable string Who="igw:${Me.Name}"
+
+    ; Check once a second, 60 times: give up after one minute.
+    while ${Tries}<60
+    {
+        if !${OgreBotAPI.Combat.InCombat} && ${OgreBotAPI.Roster.InZone}
+        {
+            Ready:Set[TRUE]
+            break
+        }
+        Tries:Inc
+        wait 10
+    }
+
+    if !${Ready}
+    {
+        echo "Gave up: still fighting, or the group is not all here."
+        return
+    }
+
+    echo "All ${OgreBotAPI.Roster.GroupSize} of us are here. Resuming."
+    oc !c -resume ${Who}
+}
+```
+
+## Each piece
+
+**`function main()` and braces.** `main` is where the script starts. Its lines go between `{` and `}`.
+The `{` and the `}` each go on a line of their own, for `function`, `if`, `else` and `while` alike. Writing
+`function main() {` on one line is wrong.
+
+**Comments.** A line that starts with `;` is a comment, and the script skips it. The `;` must be the first
+thing on the line (spaces before it are fine). There is no comment at the end of a line, so keep each
+comment on a line of its own.
+
+**Variables.** `variable <type> <name>=<value>` makes a variable. The common types are:
+
+| Type | Holds | Example |
+|---|---|---|
+| `int` | a whole number | `variable int Tries=0` |
+| `string` | text | `variable string Name="Bob"` |
+| `bool` | `TRUE` or `FALSE` | `variable bool Ready=FALSE` |
+
+A variable made inside `main` lasts until `main` ends.
+
+**`${...}` reads a value.** `${Tries}` is put in its place by the value of `Tries` before the line runs. So
+`echo "Try ${Tries}"` prints `Try 3`. The same goes for the game and the bot: `${Me.Name}` is your
+character's name.
+
+**Changing a variable.** A variable is changed with a method, written with a `:`, on a line of its own:
+
+```
+Tries:Inc
+Tries:Inc[5]
+Tries:Set[0]
+Ready:Set[TRUE]
+Name:Set["Bob"]
+```
+
+`Inc` adds 1 (or the number you give it). `Set` gives the variable a new value.
+
+**`echo`** writes a line in the InnerSpace console. It is the easiest way to see what your script is doing.
+
+**`if` and `else`.** `if` runs the lines under it only when its test is true. `else` runs when it is not.
+A test is true when it is not `0`, `NULL` or `FALSE`.
+
+- Compare numbers with `<`, `>`, `<=`, `>=`, `==` and `!=`, as in `${Tries}<60`.
+- `&&` means and, `||` means or, and `!` in front means not: `!${Ready}` is true when `Ready` is `FALSE`.
+- With only one line under it, an `if` needs no braces. With more, put them in `{` and `}`.
+
+**`while`** runs the lines in its braces again and again, as long as its test is true. `break` leaves the
+loop at once.
+
+**`wait`** pauses the script. Its number is in **tenths of a second**: `wait 10` is one second, `wait 50` is
+five. Every loop needs a `wait` in it. A loop without one uses up all the time the game has to draw a frame,
+and the game looks frozen.
+
+**A loop that gives up.** The `while` above stops after 60 tries, one second apart. Without that limit, a
+group member who never zones in would keep the script waiting forever.
+
+**`return`** leaves the function at once. Here it stops `main` early, so nothing after it runs.
+
+**Quoting.** A space splits a line into separate words. Text with a space in it goes in double quotes:
+`echo "Gave up: still fighting"`. A `"` inside quoted text is written `\"`. When you pass a variable's text
+to another command or method inside quotes, write a `~` before the `}`, as in `"${Name~}"`, so a quote or a
+`}` in the text cannot break the line.
+
+## Reading the bot
+
+A **member** is read with `${...}` and a `.` between the parts:
+
+```
+echo ${OgreBotAPI.Roster.GroupSize}
+```
+
+That prints how many people are in your group, counting you. Some members take arguments in `[ ]`:
+`${OgreBotAPI.Roster.InZone[50]}` is TRUE only when the rest of your group is in this zone and no farther
+than 50 from you. Each member's row in the API reference says what it returns.
+
+`${Me}`, `${Target}`, `${Zone}` and the like are not the bot's. They are ISXEQ2's own objects, so they are
+not in the bot's API reference. `${Me.Name}` is your character's name.
+
+A **method** makes something happen. It is a line of its own, with a `:` before the method's name:
+
+```
+OgreBotAPI.Bot:Resume[igw:${Me.Name}]
+```
+
+To read a result, use a member.
+
+## Making the group act
+
+Most bot methods take a [for-who](api/ogrebotapi/ForWho.md) as their first argument. In a script, the
+for-who only decides whether **this** character acts. `OgreBotAPI.Bot:Resume[igw:${Me.Name}]` resumes
+your own bot, because you are in your group. It never reaches the other characters.
+
+To make other characters act, send a console command with `oc !c`, as the script above does:
+
+```
+oc !c -resume igw:${Me.Name}
+```
+
+The command goes to the sessions on this PC, this one included. The for-who after the command picks which
+of them act:
+
+- `igw:${Me.Name}` is your whole group.
+- `igwbn:${Me.Name}` is your group without you.
+- Left out, or `auto`, it uses the For Who window.
+
+`oc !ci` does the same as `oc !c`. The [Commands](api/commands/index.md) pages list every console command
+and what it takes.
+
+## Where next
+
+- [API reference](api/index.md) - every member, method and command a script can use, with an example.
+- [For-who](api/ogrebotapi/ForWho.md) - every word a for-who can use.
+- [Converting your scripts](converting.md) - moving an OgreBot Classic script over to the new bot.
 
 
 ---
@@ -9895,7 +10081,8 @@ of the expression, and any `[arguments]` the new member takes. If the new member
 **Commented-out code in the original stays commented**, and is not converted.
 
 **`call` and functions.** A Classic `call OgreBotAPI.X` or `call <Object>.X` is a function call. If the
-row's `newForm` is a method (it has a `:`), write a method call, `OgreBotAPI.Group:Name[...]`. If the row
+row's `newForm` is a method (it has a `:`), write a method call in the form `OgreBotAPI.<Object>:<Method>[...]`, for example
+`OgreBotAPI.Combat:Countdown[igw:${Me.Name},5]`. If the row
 is `unchanged`, keep the `call`.
 
 **Events.** `lookup event:<Name>` says whether a Classic event still fires. An atom attached to an event
@@ -10954,6 +11141,7 @@ both in `Scripts\Ogre\EQ2\IC\default\Rage of Cthurath\`.
 - [Other actions](other-actions.md): the actions a step can run besides moving.
 - [Run your own fight files](fight-files.md): where your own fight (encounter) files go, how one is picked, and starting a setup from a button or a zone file.
 - [Check your file](checking.md): how to find what is wrong with a file, and a checklist before you share it.
+- [Build one in the Content Builder](builder.md): the window that draws a zone file or a fight file as boxes, so you can build and change one without writing JSON.
 
 
 ---
@@ -11912,6 +12100,202 @@ steps with the same `stepId`. So watch the log the first time a new file runs.
 
 ---
 
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/zone-files/builder.md
+
+# Build one in the Content Builder
+
+The **Content Builder** is a window that draws a zone file as boxes, one per step. You add steps from a list, fill in
+their options in a form, and the game checks the file after every change. You do not have to write JSON, and you can
+still see and edit the JSON whenever you want to.
+
+It does the same for fight files, on its **Encounters** tab: see [Fight files](#fight-files-the-encounters-tab) below.
+
+Type `ogre contentbuilder` to open it. It works at the login screen too; only **Run** and the **here** buttons need a
+character in the world.
+
+> **No promises.** Use this at your own risk, and expect it to change.
+
+## A first file, start to finish
+
+This builds a small file you can run in your guild hall: walk to a spot, say so, wait for any fight to end, loot,
+say you are done.
+
+1. Press **New**. The card on the left of the graph is the top of the file, and it is selected: type the zone's name
+   in **zone** on the right, exactly as the game shows it. The file already ends with a **Leave the zone** step,
+   because every zone file must say how it leaves.
+2. Click the **Walk a path** chip at the bottom. A box appears, outlined red: a walk needs at least one spot. Stand
+   where the group should walk to and press **+ where I stand**. The red outline goes away.
+3. Click **Show a message** and type the `message`.
+4. Click **Wait for the fight to end**, then **Loot**. Loot starts as `chest`; the `op` dropdown has `shinies` and
+   `corpses` too.
+5. Drag **Show a message** from the bottom onto the **+** under the Loot box, and type its message.
+6. The verdict in the bar should say **loads clean**. Press **Save** and give the file a name.
+7. Press **Run**. The Instance Controller runs the file where your character stands, and its window and the console
+   show each step.
+
+For a file that only runs in place, like this one, set the last step's `op` to `none`: it then stays in the zone
+instead of looking for an exit.
+
+## The window
+
+| Part | What it is |
+|---|---|
+| The tabs at the top left | **Instances** for zone files, **Encounters** for fight files. Each keeps its own file. |
+| The bar | The file's name, **New**, **Open**, **Save**, **Save as**, **Undo**, **Redo**, **Run**, **Add to IC list**, and the verdict. |
+| The lists | **Before**, **Steps**, **After**, **On a wipe**, **Zone given up**: the file's `enter`, `steps`, `exit`, `onWipe` and `afterWipe`. Click one to see its boxes. Most files only use **Steps**. |
+| The graph | The boxes of the list you picked, top to bottom, then the next column. Steps whose names start the same (`named1`, `named1.walk`, `named1.chest`) share a column. **Fit** and **All** zoom out; click the percent for normal size. |
+| The pane on the right | **Box**: the selected box's options. **Box JSON** and **File JSON**: the same as text. **Problems**: what the game's check found. |
+| The chips at the bottom | The steps you can add, grouped. **Every step...** opens the full list, with a search. |
+
+### The colours
+
+| Colour | Kind | Examples |
+|---|---|---|
+| Green | Moves the group | Walk a path, Use a teleporter, Leave the zone |
+| Blue | Does something | Kill a named, Loot, Show a message |
+| Yellow | Waits | Wait, Wait for the fight to end |
+| Teal | Loops | Repeat, For each |
+| Purple | Keeps a value | Ask the group, Mark a step done, Set a variable |
+| Red | Stops and wipes | Recover from a wipe |
+| Grey | A step this window does not know | It stays in the file as it is. You can move or delete it, not edit it. |
+
+## Adding, moving and changing steps
+
+- **Add**: click a chip (the step goes after the selected box, or at the end), drag a chip onto a **+**, or click a
+  **+** to pick from the full list.
+- **Move**: drag a box onto a **+**, or select it and use the arrows.
+- **Duplicate** and **Delete** are on the right when a box is selected. **Undo** takes back any change, one at a time.
+- **Loops**: a **Repeat** or **For each** box holds steps of its own. Drop a chip or a box on a **+** inside it.
+
+## The options of a step
+
+Click a box. The form on the right is made from the same list of steps and options the game itself uses, so it
+always shows every option the step has.
+
+- A red star marks an option the step cannot do without.
+- **More options** holds the rest. Each shows what it does and its default. An option you leave alone is not written
+  to the file.
+- A dropdown lists the words an option takes. Yes / no options are two buttons.
+- A spot has three boxes, x, y and z. **here** fills them from where your character stands; **+ where I stand** adds
+  a spot to a list of spots.
+- The **x** beside an option takes it out of the file again, back to its default.
+- Conditions (a step's `when`, a wait) are a list: press **+ a condition**, pick one, and fill in its settings. Every
+  condition in the list must be true. **Not**, **Any of** and **All of** hold conditions of their own.
+
+What each step and option does is on [The steps, one by one](steps.md) and [Other actions](other-actions.md).
+
+## The game checks it
+
+After every change the whole file goes to the game, which checks it by the same rules it uses when it loads a zone
+file. Nothing is saved to do that.
+
+- The verdict in the bar says **loads clean**, **loads** with a number of notes, or how many problems there are.
+- A box with a problem is outlined red. Hover it to read the problem.
+- The **Problems** tab lists everything, in the game's own words. Click one to go to its box.
+
+The messages are the ones on [Check your file](checking.md).
+
+## Saving and running
+
+- **Save** writes to your own folder, `Scripts\OgreSave\EQ2\IC\custom\`. You can put a folder in front of the name
+  (`mine/My_Zone.json`).
+- A zone file that ships with Ogre can be opened, but it is never changed. **Save** on one asks for a name and keeps
+  your own copy.
+- A file with problems can still be saved, so you can stop and come back. It shows red in the Instance Controller
+  and cannot run until it is fixed.
+- **Run** puts the saved file on the Instance Controller's list, starts the list at its row and ticks **Stop after this zone**, so only this file runs. It runs as any zone on your list does: your Instance Controller options apply, the after-zone ones too.
+- **Add to IC list** adds the saved file to the Instance Controller's list, the same as its **Add** button.
+- Changes you have not saved are kept if the window closes or the UI reloads, and are offered back the next time
+  the window opens.
+
+## Fight files: the Encounters tab
+
+The **Encounters** tab at the top left is the same window for the other kind of file: a fight file, which says what the
+group does in one fight. Each tab keeps its own file, so you can switch back and forth.
+
+A fight file has six lists, shown as tabs above the graph:
+
+| Tab | What it holds |
+|---|---|
+| **Setup** | Steps that run once when the fight starts. |
+| **When something happens** | Rules set off by something: a line of text, an announcement, a mob appearing, a detriment landing, a cast ending. |
+| **All the time** | Rules checked over and over while the fight lasts. |
+| **Teardown** | Steps that run once when the fight is over. |
+| **On a kill** | Steps that run when a mob dies, one column per mob. |
+| **Routines** | Named lists of steps that a **Run a routine** step runs. |
+
+### Rules
+
+A rule is drawn as a column: its head on top, a yellow **Only when** box with its conditions, then its steps.
+
+- Click the **head** for the rule's settings. Under **When something happens**, **on** says what sets it off and **match**
+  shows the fields for that kind: a `needle` for text, a `name` for a mob, `main` and `back` for a detriment.
+- Click the **yellow box** for its conditions. Press **+ a condition**, pick one from the list, and fill in its settings.
+  Every condition in the list must be true. **Not**, **Any of** and **All of** hold conditions of their own.
+- With a rule selected, a chip you click goes to the end of that rule's steps. You can also drag a chip onto any **+**.
+
+### Quick starts
+
+Three buttons beside the rules make a common rule from a few questions. What they make is an ordinary rule you can change.
+
+| Quick start | What it makes |
+|---|---|
+| **Run out on a detriment** | While a character has the detriment it stands on a spot you choose, and comes back when the detriment is gone. |
+| **When I get a detriment…** | A rule set off by a detriment: once when it lands, or again and again while it lasts. |
+| **From what happened in a fight…** | A rule set off by a line of text, an announcement, a mob appearing or a cast ending. |
+
+### The top of the file
+
+The card on the left holds **named**, the mob or mobs the fight is for, and the zone. A new fight starts with one empty
+name: target the mob and press **target**, or type it. **+ a mob** and **+ my target** add another. The fight starts when
+one of the named is engaged. Click the card, and **named** and **zone** are the first two rows on the right.
+
+### Saving a fight
+
+Your fight files go in `Scripts\OgreSave\EQ2\Encounters\custom`. The game reads its fight files again after each save.
+
+To change a fight that ships with Ogre, open it and save it under the same name. Your copy then replaces the shipped fight
+for you: it is saved with `noMerge`, so what you see in the window is the whole fight. Under another name the game sees
+two files for the same mob in the same zone and skips yours; the window tells you so.
+
+A file with no `named`, saved under a shipped fight's name, holds only what it changes. The game lays it over the shipped
+fight: what you leave out comes from that fight, and a list you write replaces the shipped list whole. The card then says
+**Laid over the shipped fight**. Type a name and it becomes a whole fight of its own.
+[Run your own fight files](fight-files.md) has more on how your file and the shipped one meet.
+
+**Set up now** asks the game to run the saved fight's setup, as the Set Up For button does. The named must be here.
+
+### What the game says about a fight file
+
+- A problem with the file itself (no `named`, a mob another file already has) stops it from loading.
+- A broken rule or step does not: the game keeps the file and that part does not do what it says. The bar reads
+  "loads, but … broken".
+- A yellow note is not an error. It often points at a mistake all the same, such as an option nothing reads.
+
+## Checking a file from the console or a script
+
+`ogre ic validate custom My_Zone.json` checks a zone file on disk by the same rules and prints each problem; `ogre encounter validate custom "My Zone/My Mob.json"` does the same for a fight file. It
+changes nothing.
+
+```
+ogre ic validate custom My_Zone.json
+```
+
+A script calls `ISXOgreEQ2.IC:Validate[custom,"My_Zone.json"]` and reads the answer from `${ISXOgreEQ2.IC.Validation}`.
+The answer is JSON: `ok` (true when the file would load), `errors` and `warnings` (how many), and `issues`, one for
+each line the console printed.
+
+## The schema
+
+The list of steps and options the window draws from is a file that ships with Ogre:
+`Scripts\Ogre\EQ2\IC\ic.schema.json`. It is a JSON Schema, so an editor that understands those can use it to check
+a zone file and to complete as you type. Ogre makes that file from the game's own tables; do not edit it.
+
+Fight files have one too: `Scripts\Ogre\EQ2\Encounters\fight.schema.json`.
+
+
+---
+
 Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/index.md
 
 # API reference
@@ -11924,9 +12308,9 @@ Every member, method, command and event a script or a user can reach, one row ea
 
 **Reading a row.** A member is read as `${Object.Member}` and may take `[arguments]`; a method is a line of its own, `Object:Method[arguments]` - to read a result, use a member. An argument shown `name=value` is optional and `value` is its default.
 
-**The for-who.** A first argument `fw` is the [for-who](ogrebotapi/ForWho.md): the call runs only when this character is one it names. A script's call never reaches another session - to make other characters act, send the console command with `oc !c` (see [Commands](commands.md)).
+**The for-who.** A first argument `fw` is the [for-who](ogrebotapi/ForWho.md): the call runs only when this character is one it names. A script's call never reaches another session - to make other characters act, send the console command with `oc !c` (see [Commands](commands/index.md)).
 
-**What is not here.** `${Me}`, `${Target}`, `${Zone}`, `${Group[1]}` and the like in the examples are ISXEQ2's own objects, not the bot's. The examples are LavishScript, the InnerSpace script language; `wait 10` waits one second.
+**What is not here.** `${Me}`, `${Target}`, `${Zone}`, `${Group[1]}` and the like in the examples are ISXEQ2's own objects, not the bot's. The examples are LavishScript, the InnerSpace script language; `wait 10` waits one second. New to it? Start with [Your first script](../script-basics.md).
 
 ## OgreBotAPI
 
@@ -11987,12 +12371,14 @@ Every member, method, command and event a script or a user can reach, one row ea
 - [ISXOgreEQ2.AntiAfk](isxogreeq2/AntiAfk.md)
 - [ISXOgreEQ2.Auth](isxogreeq2/Auth.md)
 - [ISXOgreEQ2.AutoLogin](isxogreeq2/AutoLogin.md)
+- [ISXOgreEQ2.BgRender](isxogreeq2/BgRender.md)
 - [ISXOgreEQ2.Chat](isxogreeq2/Chat.md)
 - [ISXOgreEQ2.ChatCmd](isxogreeq2/ChatCmd.md)
 - [ISXOgreEQ2.Class](isxogreeq2/Class.md)
 - [ISXOgreEQ2.Codex](isxogreeq2/Codex.md)
 - [ISXOgreEQ2.Collection](isxogreeq2/Collection.md)
 - [ISXOgreEQ2.Commands](isxogreeq2/Commands.md)
+- [ISXOgreEQ2.ContentBuilder](isxogreeq2/ContentBuilder.md)
 - [ISXOgreEQ2.Craft](isxogreeq2/Craft.md)
 - [ISXOgreEQ2.CraftGm](isxogreeq2/CraftGm.md)
 - [ISXOgreEQ2.CraftingMats](isxogreeq2/CraftingMats.md)
@@ -12054,7 +12440,7 @@ Every member, method, command and event a script or a user can reach, one row ea
 
 ## Commands and events
 
-- [Commands](commands.md)
+- [Commands](commands/index.md)
 - [Events](events.md)
 
 
@@ -14142,8 +14528,8 @@ Adds or removes the mob names this script asks NPC cast monitoring to watch, or 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
 | `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
-| `-watch "&lt;mob>" ...` | string |  | -watch followed by a mob name to watch, matched as a whole name in any case; repeat the pair for more mobs; it ends at the next zone or when NPC Cast Monitoring is unticked, and the tick stays |
-| `-unwatch "&lt;mob>` | string |  | -unwatch followed by a mob name to stop watching (only a watch a script added) |
+| `-watch "<mob>" ...` | string |  | -watch followed by a mob name to watch, matched as a whole name in any case; repeat the pair for more mobs; it ends at the next zone or when NPC Cast Monitoring is unticked, and the tick stays |
+| `-unwatch "<mob>` | string |  | -unwatch followed by a mob name to stop watching (only a watch a script added) |
 | `-clear` | flag |  | drops every watch scripts added |
 | `-radius N` | int |  | -radius followed by the scan radius, a whole number from 5 to 500 (default 50); it beats the zone's own radius and ends at the next zone or when NPC Cast Monitoring is unticked |
 
@@ -16318,7 +16704,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/deve
 
 `${OgreBotAPI.Combat.InCombat}`
 
-TRUE when your character is in combat or something hates it. Always FALSE while you are not in the world, such as at character select.
+TRUE when your character is in combat or something hates it; for your whole group, use ${OgreBotAPI.Roster.InCombat}. Always FALSE while you are not in the world, such as at character select.
 
 **Returns:** bool: TRUE when Me.InCombat or Me.IsHated is TRUE; FALSE otherwise or out of the world.
 
@@ -22577,6 +22963,20 @@ echo ${OgreBotAPI.Roster.GuildFlagLocation}
 
 *Was (OldBot):* `OgreBotAPI.GuildFlagLocation`
 
+### `InCombat`
+
+`${OgreBotAPI.Roster.InCombat}`
+
+TRUE when anyone in your group is in combat mode, you included, so a solo character reads its own; it checks your group only, never the rest of a raid, and a member in another zone counts as out of combat. Reads NULL when you are not in the world; for your character alone, hated included, use ${OgreBotAPI.Combat.InCombat}.
+
+**Returns:** bool - TRUE when any member of your group, you included, is in combat mode; FALSE when nobody is.
+
+```text
+echo ${OgreBotAPI.Roster.InCombat}
+```
+
+*Was (OldBot):* `Obj_OgreUtilities.GroupInCombat`
+
 ### `InEQ2Chars`
 
 `${OgreBotAPI.Roster.InEQ2Chars[speaker,fullAccountOnly=FALSE]}`
@@ -25281,6 +25681,20 @@ All of it: [ISXOgreEQ2.AutoLogin](AutoLogin.md)
 echo ${ISXOgreEQ2.AutoLogin}
 ```
 
+### `BgRender`
+
+`${ISXOgreEQ2.BgRender}`
+
+The BgRender sub-object behind ogre bgrender: while this client is not the foreground window it skips the game's drawing except once a second and caps the background loop, so a background session uses much less CPU and GPU while the bot, the network and scripts keep running. It is off when the extension loads and never skips while you are logging in, zoning, camping or at character select.
+
+All of it: [ISXOgreEQ2.BgRender](BgRender.md)
+
+**Returns:** object: the BgRender sub-object; it always exists, and as text it reads ISXOgreEQ2.BgRender.
+
+```text
+echo ${ISXOgreEQ2.BgRender}
+```
+
 ### `BuildHash`
 
 `${ISXOgreEQ2.BuildHash}`
@@ -25376,6 +25790,22 @@ All of it: [ISXOgreEQ2.Commands](Commands.md)
 ```text
 echo ${ISXOgreEQ2.Commands}
 ```
+
+### `ContentBuilder`
+
+`${ISXOgreEQ2.ContentBuilder}`
+
+The Content Builder window: it draws a zone file or a fight file as boxes and edits it. Its methods open and close the window.
+
+All of it: [ISXOgreEQ2.ContentBuilder](ContentBuilder.md)
+
+**Returns:** The Content Builder object. As text it reads "ISXOgreEQ2.ContentBuilder".
+
+```text
+ISXOgreEQ2.ContentBuilder:Open
+```
+
+More: [developer/zone-files/builder.md](../../zone-files/builder.md)
 
 ### `CoreBuildHash`
 
@@ -26646,6 +27076,179 @@ ISXOgreEQ2.AutoLogin:Toggle
 
 ---
 
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/BgRender.md
+
+# ISXOgreEQ2.BgRender
+
+## Members
+
+### `Enabled`
+
+`${ISXOgreEQ2.BgRender.Enabled}`
+
+Whether background render skipping is turned on (ogre bgrender on). On does not mean it is skipping right now - see Skipping.
+
+**Returns:** bool: TRUE after :On, FALSE after :Off and when the extension loads.
+
+```text
+echo ${ISXOgreEQ2.BgRender.Enabled}
+```
+
+### `Held`
+
+`${ISXOgreEQ2.BgRender.Held[name]}`
+
+Whether a hold stops BgRender from skipping draws. With no name it asks whether any hold is in place; with a name, whether that one is.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `name` | string | `""` | the hold to ask about; leave it out to ask whether any hold is in place |
+
+**Returns:** bool: TRUE when that hold (or any hold) is in place.
+
+```text
+echo ${ISXOgreEQ2.BgRender.Held[Crafting]}
+```
+
+### `Holds`
+
+`${ISXOgreEQ2.BgRender.Holds}`
+
+How many holds are in place. BgRender skips draws only while this is 0.
+
+**Returns:** int: the number of distinct holds.
+
+```text
+echo ${ISXOgreEQ2.BgRender.Holds}
+```
+
+### `Skipping`
+
+`${ISXOgreEQ2.BgRender.Skipping}`
+
+Whether BgRender is skipping draws at this moment: it is on, nothing holds it, your character is settled in the world, and this client is in the background (or Force is on).
+
+**Returns:** bool: TRUE while draws are being skipped; FALSE while every frame is drawn.
+
+```text
+echo ${ISXOgreEQ2.BgRender.Skipping}
+```
+
+## Methods
+
+### `Clear`
+
+`ISXOgreEQ2.BgRender:Clear`
+
+Removes every hold, whoever added it.
+
+```text
+ISXOgreEQ2.BgRender:Clear
+```
+
+### `Draw`
+
+`ISXOgreEQ2.BgRender:Draw[ms]`
+
+Sets how often a background client still draws one frame, so its window or thumbnail keeps updating. Values are held between 0 and 60000.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `ms` | int | `1000` | milliseconds between background draws; 0 never draws while in the background |
+
+```text
+ISXOgreEQ2.BgRender:Draw[1000]
+```
+
+### `Force`
+
+`ISXOgreEQ2.BgRender:Force[onoff]`
+
+Treats this client as a background one even while it is the foreground window, so you can watch the effect on the window in front of you. For testing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `onoff` | string | `off` | on or off (also TRUE / FALSE or 1 / 0) |
+
+```text
+ISXOgreEQ2.BgRender:Force[on]
+```
+
+### `Hold`
+
+`ISXOgreEQ2.BgRender:Hold[name]`
+
+Adds a named hold: while any hold is in place every frame is drawn, as if BgRender were off. Use it around anything that needs the screen drawn and release the same name after; holding a name twice is one hold.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `name` | string |  | your hold's name - any text; each caller releases only its own name |
+
+```text
+ISXOgreEQ2.BgRender:Hold[Crafting]
+```
+
+### `Hz`
+
+`ISXOgreEQ2.BgRender:Hz[n]`
+
+Sets the most loops per second a background client runs while it is skipping draws, so a loop with no draw cannot spin a core. The bot runs once per loop, so a low value also slows the bot.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `n` | int | `100` | loops per second, held between 0 and 1000; 0 is no cap |
+
+```text
+ISXOgreEQ2.BgRender:Hz[100]
+```
+
+### `Off`
+
+`ISXOgreEQ2.BgRender:Off`
+
+Turns background render skipping off (`ogre end bgrender`): every frame is drawn again. The hook stays installed but does nothing until :On.
+
+```text
+ISXOgreEQ2.BgRender:Off
+```
+
+### `On`
+
+`ISXOgreEQ2.BgRender:On`
+
+Turns background render skipping on and prints the status; while this client is the foreground window every frame is still drawn. The first time, it finds and hooks the game's draw function, and if that fails (for example after a game patch) it says why and stays off.
+
+```text
+ISXOgreEQ2.BgRender:On
+```
+
+### `Release`
+
+`ISXOgreEQ2.BgRender:Release[name]`
+
+Removes the named hold; when no hold is left, BgRender may skip draws again. Releasing a name that is not held does nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `name` | string |  | the hold to remove |
+
+```text
+ISXOgreEQ2.BgRender:Release[Crafting]
+```
+
+### `Status`
+
+`ISXOgreEQ2.BgRender:Status`
+
+Prints BgRender's state (`ogre bgrender`): on or off, the draw interval and loop cap, whether the draw hook is installed, whether it is skipping now and if not why (off, held, world not settled, foreground), the holds, and the last second's loop, draw and skip counts.
+
+```text
+ISXOgreEQ2.BgRender:Status
+```
+
+
+---
+
 Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Chat.md
 
 # ISXOgreEQ2.Chat
@@ -27180,6 +27783,42 @@ Opens the Commands window, which lists the ogre console commands with their usag
 ```text
 ISXOgreEQ2.Commands:Open
 ```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/ContentBuilder.md
+
+# ISXOgreEQ2.ContentBuilder
+
+## Methods
+
+### `End`
+
+`ISXOgreEQ2.ContentBuilder:End`
+
+Closes the Content Builder window (the same as `ogre end contentbuilder` and the window's X). Changes that were not saved are kept and offered back the next time the window opens, and a run it started goes on.
+
+```text
+ISXOgreEQ2.ContentBuilder:End
+```
+
+### `Open`
+
+`ISXOgreEQ2.ContentBuilder:Open[tier,path]`
+
+Opens the Content Builder window (the same as `ogre contentbuilder`), on a zone file when you name one. A window that is already open comes to the front, and asks before it opens that file over unsaved changes; without the Ogre UI desktop it prints a warning.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `tier` | string | `none` | The root the zone file is in: default or custom. Leave both out to open the window as it was. |
+| `path` | string | `none` | The zone file's path inside that root, ending in .json. A path with spaces may be quoted or written as several words. |
+
+```text
+ISXOgreEQ2.ContentBuilder:Open[custom,"My_Zone.json"]
+```
+
+More: [developer/zone-files/builder.md](../../zone-files/builder.md)
 
 
 ---
@@ -28428,6 +29067,20 @@ Every live encounter sequence as a JSON array, so you can see which step a fight
 echo ${ISXOgreEQ2.Encounter.Sequences}
 ```
 
+### `Validation`
+
+`${ISXOgreEQ2.Encounter.Validation}`
+
+The answer of the last Encounter:Validate, as JSON: ok (true when the file would load), errors and warnings (how many), fileErrors and ruleErrors (the errors split: a file error stops the file from loading, a rule error does not), and issues - one for each line it printed, with the list, the rule and the step it belongs to (counted from 1), the message, and whether it is only a warning. Empty until Encounter:Validate has run.
+
+**Returns:** string: JSON, for example {"ok":true,"errors":0,"warnings":0,"fileErrors":0,"ruleErrors":0,"issues":[]}; "" before the first Encounter:Validate.
+
+```text
+echo ${ISXOgreEQ2.Encounter.Validation}
+```
+
+More: [developer/zone-files/builder.md](../../zone-files/builder.md)
+
 ## Methods
 
 ### `Debug`
@@ -28499,6 +29152,23 @@ Prints the Sequences JSON to the console, or "(none live)" when nothing is runni
 ISXOgreEQ2.Encounter:Sequences
 ```
 
+### `Validate`
+
+`ISXOgreEQ2.Encounter:Validate[root,path]`
+
+Checks one fight file by the same rules the game uses when it loads fight files, and changes nothing: a file on disk by its root and path (the same as `ogre encounter validate`), or the base64 text of a fight file's JSON. It prints whether the file would load and each problem, and keeps the answer for Encounter.Validation.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `root` | string |  | The root the fight file is in: default or custom. With no path, this one argument is read as the base64 text of a fight file's JSON, checked as a new file of your own. |
+| `path` | string | `none` | The fight file's path inside that root, ending in .json. A path with spaces may be quoted or written as several words. |
+
+```text
+ISXOgreEQ2.Encounter:Validate[custom,"My Zone/My Mob.json"]
+```
+
+More: [developer/zone-files/builder.md](../../zone-files/builder.md)
+
 
 ---
 
@@ -28528,7 +29198,7 @@ How many arrivals of this game event have been handed out to the extension's fea
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `&lt;event>` | string |  | The event's 0-based number or its name, such as ActorSpawned; leave it out for the total across all events |
+| `<event>` | string |  | The event's 0-based number or its name, such as ActorSpawned; leave it out for the total across all events |
 
 **Returns:** int64: arrivals handed out for that event since load (or for all events); NULL for an unknown event
 
@@ -28556,7 +29226,7 @@ The extension's name for a game event, such as IncomingChatText, looked up by it
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `&lt;event>` | string |  | The event's 0-based number (0 to Count minus 1) or its name |
+| `<event>` | string |  | The event's 0-based number (0 to Count minus 1) or its name |
 
 **Returns:** string: the event's name; NULL for a missing or unknown event
 
@@ -28572,7 +29242,7 @@ The ISXEQ2 event a game event is read from, such as EQ2_onIncomingChatText, whic
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `&lt;event>` | string |  | The event's 0-based number (0 to Count minus 1) or its name, such as IncomingChatText |
+| `<event>` | string |  | The event's 0-based number (0 to Count minus 1) or its name, such as IncomingChatText |
 
 **Returns:** string: the ISXEQ2 event name; NULL for a missing or unknown event
 
@@ -28600,7 +29270,7 @@ How many times this game event has arrived since the extension loaded, or the to
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `&lt;event>` | string |  | The event's 0-based number or its name, such as IncomingChatText; leave it out for the total across all events |
+| `<event>` | string |  | The event's 0-based number or its name, such as IncomingChatText; leave it out for the total across all events |
 
 **Returns:** int64: arrivals of that event since load (or of all events); NULL for an unknown event
 
@@ -28640,7 +29310,7 @@ How many of the extension's own features are listening to this game event (such 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `&lt;event>` | string |  | The event's 0-based number or its name, such as FinishedZoning; leave it out for the total across all events |
+| `<event>` | string |  | The event's 0-based number or its name, such as FinishedZoning; leave it out for the total across all events |
 
 **Returns:** int: listeners on that event (or on all events); NULL for an unknown event
 
@@ -29468,6 +30138,20 @@ IC's whole state as JSON text: zone files loaded and skipped, its folders, both 
 echo ${ISXOgreEQ2.IC.State}
 ```
 
+### `Validation`
+
+`${ISXOgreEQ2.IC.Validation}`
+
+The answer of the last IC:Validate, as JSON: ok (true when the file would load), errors and warnings (how many), and issues - one for each line it printed, with the list and the step it belongs to (counted from 1), the message, and whether it is only a warning. Empty until IC:Validate has run.
+
+**Returns:** string: JSON, for example {"ok":true,"errors":0,"warnings":0,"issues":[]}; "" before the first IC:Validate.
+
+```text
+echo ${ISXOgreEQ2.IC.Validation}
+```
+
+More: [developer/zone-files/builder.md](../../zone-files/builder.md)
+
 ### `Value`
 
 `${ISXOgreEQ2.IC.Value[key]}`
@@ -29758,6 +30442,23 @@ Stops the run and the list where they stand and clears IC's pause: a zone script
 ```text
 ISXOgreEQ2.IC:Stop
 ```
+
+### `Validate`
+
+`ISXOgreEQ2.IC:Validate[tier,path]`
+
+Checks one zone file by the same rules the Instance Controller uses when it loads zone files, and changes nothing: a file on disk by its tier and path (the same as `ogre ic validate`), or the base64 text of a zone file's JSON. It prints whether the file would load and each problem, and keeps the answer for IC.Validation.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `tier` | string |  | The root the zone file is in: default or custom. With no path, this one argument is read as the base64 text of a zone file's JSON. |
+| `path` | string | `none` | The zone file's path inside that root, ending in .json. |
+
+```text
+ISXOgreEQ2.IC:Validate[custom,"My_Zone.json"]
+```
+
+More: [developer/zone-files/builder.md](../../zone-files/builder.md)
 
 ### `Value`
 
@@ -33069,7 +33770,7 @@ Whether the actor ID is in the live set: seen spawning (or present when the zone
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `&lt;id>` | int64 |  | The actor ID to test. |
+| `<id>` | int64 |  | The actor ID to test. |
 
 **Returns:** bool: TRUE when that actor is live; FALSE when it is not, or when no ID is given.
 
@@ -33167,7 +33868,7 @@ Sets how many due spawns one drain may emit, for this session only, held between
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `&lt;k>` | int |  | The per-drain cap, 1 to 5000. |
+| `<k>` | int |  | The per-drain cap, 1 to 5000. |
 
 ```text
 ISXOgreEQ2.Spawn:SetOnSpawnCap[25]
@@ -33181,7 +33882,7 @@ Sets the delay before EQ2_ActorSpawned_Delayed fires, for this session only (it 
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `&lt;ms>` | int |  | The delay in milliseconds, 0 to 60000. |
+| `<ms>` | int |  | The delay in milliseconds, 0 to 60000. |
 
 ```text
 ISXOgreEQ2.Spawn:SetOnSpawnDelay[1500]
@@ -33331,7 +34032,7 @@ Replaces the working auto-target list with the saved list of that name for the c
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `&lt;name>` | string |  | The saved list's name. |
+| `<name>` | string |  | The saved list's name. |
 
 ```text
 ISXOgreEQ2.Targeting:LoadList[Trash]
@@ -35332,17 +36033,1716 @@ T:Stop
 
 ---
 
-Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/commands.md
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/commands/index.md
 
 # Commands
 
 What a user types: the `ogre` commands (the in-game Commands panel lists them all) and the console commands (`oc !c` / `oc !ci`).
 
-A console command is sent as `oc !c <command> <who> ...` - typed in the console, put on an MCP button or run from a script. It goes to the sessions on this PC, this one included, and the [for-who](ogrebotapi/ForWho.md) in `<who>` picks which of them act: `igw:${Me.Name}` is your whole group, `igwbn:${Me.Name}` your group without you. Left out, or `auto`, it uses the For Who window. `oc !ci` does the same as `oc !c`.
+A console command is sent as `oc !c <command> <who> ...` - typed in the console, put on an MCP button or run from a script. It goes to the sessions on this PC, this one included, and the [for-who](../ogrebotapi/ForWho.md) in `<who>` picks which of them act: `igw:${Me.Name}` is your whole group, `igwbn:${Me.Name}` your group without you. Left out, or `auto`, it uses the For Who window. `oc !ci` does the same as `oc !c`.
 
-## Console commands (ISXOgreX)
+- [`ogre` commands](ogre.md) - 94 commands
+- [Console commands: ISXOgreX](console-isxogrex.md) - 9 commands
+- [Console commands: A-B](console-a-b.md) - 48 commands
+- [Console commands: C](console-c.md) - 72 commands
+- [Console commands: D-N](console-d-n.md) - 88 commands
+- [Console commands: O-R](console-o-r.md) - 65 commands
+- [Console commands: S-Z](console-s-z.md) - 83 commands
 
-### `-auth`
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/commands/ogre.md
+
+# `ogre` commands
+
+## `abilitydetails`
+
+`ogre abilitydetails [name or id]`
+
+Show every field your ability export holds for an ability, with a search
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `<name or id>` | text | the window opens with nothing picked | An ability's name or ID: a base name picks the rank the bot uses, a rank's full name or an ID picks exactly that rank, and the search box is filled in with it. |
+
+```text
+ogre abilitydetails Kick
+```
+
+## `account`
+
+`ogre account`
+
+Show this session's account and access level
+
+```text
+ogre account
+```
+
+## `ae`
+
+`ogre ae`
+
+Also: `ogre abilityefficiency`
+
+Score your abilities as damage / (cast + recovery) into a report file
+
+```text
+ogre ae
+```
+
+## `afk`
+
+`ogre afk [0|on|off]`
+
+Also: `ogre antiafk`
+
+Keep the session alive (bare = silent; 0 = noisy; off = stop)
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `0` | word | bare `ogre afk` turns it on silent | Turn the keepalive on in noisy mode: it prints a line each time it sends its /who all (every 10 to 15 minutes). |
+| `on` | word |  | Turn the keepalive on and keep the silent or noisy choice it already has. |
+| `off` | word |  | Stop the keepalive (the same as `ogre end afk`); invite accepting is not changed. |
+| `invites` | word | off at load | `invites on` or `invites off`: auto-accept group invites from names on your characters list; separate from the keepalive. |
+
+```text
+ogre afk off
+```
+
+## `analysis`
+
+`ogre analysis [scan|monitor|taps|export|import|end]`
+
+Also: `ogre anal`
+
+Watch actors, record what changes and when, and diff two of them
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `scan` | word | bare `ogre analysis` opens the window | Scan the zone's actors; add `<member>=<value>` terms (`<member><<value>` and `<member>><value>` too) to keep only matching ones, none reuses the window's terms or scans everything. |
+| `monitor` | word |  | `monitor on\|off\|clear\|list`, or `monitor add <id\|target\|cursor>` / `monitor remove <id>`: pick the actors to watch and record their changes. |
+| `taps` | word |  | `taps on` or `taps off`: log the choice and reward windows that appear (any word but off turns them on). |
+| `export` | word |  | `export [<name>]`: save what was recorded to a file. |
+| `import` | word |  | `import <name\|path>`: load a saved session back in. |
+| `end` | word |  | Stop sampling, the taps and any scan, then close the window (the same as `ogre end analysis`). |
+| `panel` | word |  | Open the window. |
+| `close` | word |  | Close the window only; recording goes on. |
+| `status` | word |  | Print what is monitored, the sample count, the scan and the taps. |
+| `rate` | word |  | `rate <ms>`: how often monitored actors are sampled, 100 to 10000 ms. |
+| `sessions` | word |  | List the saved sessions you can import. |
+
+```text
+ogre analysis monitor add target
+```
+
+## `assist`
+
+`ogre assist`
+
+Show who this toon is assisting right now, and why
+
+```text
+ogre assist
+```
+
+## `atb`
+
+`ogre atb`
+
+Also: `ogre autotargetbalance`
+
+Open OgreBot at the AutoTarget tab (Balance generator)
+
+```text
+ogre atb
+```
+
+## `autologin`
+
+`ogre autologin`
+
+Open the auto-login config panel
+
+```text
+ogre autologin
+```
+
+## `bgrender`
+
+`ogre bgrender [on|off|draw <ms>|hz <n>|force on|off|hold <name>|release <name>|clear]`
+
+Skip drawing while this client is in the background (once a second; full drawing when active)
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `on` | word | off at load; bare `ogre bgrender` prints the status | Turn background render skipping on. |
+| `off` | word |  | Turn it off - full drawing again (the same as `ogre end bgrender`). |
+| `draw` | word |  | Set how often a background client still draws a frame, the `<ms>` after it. |
+| `<ms>` | number | 1000 | The background draw interval in milliseconds; 0 means never draw in the background. |
+| `hz` | word |  | Set the background loop cap, the `<n>` after it. |
+| `<n>` | number | 100 | Loops per second while in the background; 0 means no cap. |
+| `hold` | word |  | `hold <name>`: keep every frame drawn until that name is released (for scripts that need the screen drawn). |
+| `release` | word |  | `release <name>`: drop that hold. |
+| `clear` | word |  | Drop every hold. |
+
+```text
+ogre bgrender on
+```
+
+## `bot`
+
+`ogre bot [<toon>] [-s <server>] [-c <class>]`
+
+Load OgreBot (logs &lt;toon> in first if given, on that server and as that class if given)
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `<toon>` | name | OgreBot loads on the character you are on now | Log this character in first, then load OgreBot. |
+| `-s` | flag |  | Log in on the server named next (`-server` works too); needed when the character is on more than one server and none is the default. |
+| `<server>` | name | the character's default server | The server for `-s`; `ogre login -?` lists the short forms. |
+| `-c` | flag |  | Log in as the class named next (`-class` works too). |
+| `<class>` | name | whatever class it was | The class for `-c`. |
+
+```text
+ogre bot Mytoon
+```
+
+## `buycrate`
+
+`ogre buycrate [-r|-h|-all]`
+
+Buy this zone's heroic/raid crates (-r raid, -h heroic, -all)
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `-r` | flag | with no flag both crates are bought | Buy only the raid crate (`-raid` works too). |
+| `-h` | flag |  | Buy only the heroic crate (`-heroic` works too). |
+| `-all` | flag | on | Buy both the heroic and the raid crate. |
+
+```text
+ogre buycrate -r
+```
+
+## `buyfuel`
+
+`ogre buyfuel [amount]`
+
+Buy the EXAMINED fuel up to &lt;amount> in the guild fuel depot
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `<amount>` | number | 90000 | Buy the examined fuel until the guild Fuel Depot holds this many. |
+
+```text
+ogre buyfuel 50000
+```
+
+## `buyoverseermissions`
+
+`ogre buyoverseermissions [flags] | stop | status`
+
+Also: `ogre bom`
+
+Buy Overseer missions from the Administrator agent
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `-season` | flag | bare = the options on this character's Overseer Buy tab | `-season <n>`: only missions of season 1 to 7 (`-s` works too). |
+| `-colour` | flag | any colour | `-colour <name>`: only Blue, Yellow, Purple or Green missions (`-c` / `-color` work too). |
+| `-num` | flag | 10 | `-num <n>`: how many different missions to buy (`-n` works too). |
+| `-amount` | flag | 10 | `-amount <n>`: how many of each to buy, at most 20 (`-a` works too). |
+| `-replenishonly` | flag | off | Only top up missions you already have (`-r` / `-ro` work too). |
+| `-noscribe` | flag | scribe is on | Do not scribe the bought missions (`-scribe` turns it back on). |
+| `-destroy` | flag | off | Destroy the copies left over after scribing (`-nodestroy` turns it off). |
+| `-gettogh` | flag | off | Go to the guild hall when the run finishes (`-gh`; `-nogettogh` / `-nogh` turn it off). |
+| `stop` | word |  | Stop a running buy (`abort` works too). |
+| `status` | word |  | Print how the buy run is going. |
+
+```text
+ogre buyoverseermissions -num 5 -amount 2
+```
+
+## `camp`
+
+`ogre camp [charselect]`
+
+Camp out to login+exit ('charselect' stays at char select)
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `charselect` | word | camps to the login screen, then exits the game | Camp to character select and stay there (`cs` / `select` work too). |
+
+```text
+ogre camp charselect
+```
+
+## `chatcmd`
+
+`ogre chatcmd [off|status|debug [on|off]|reloadauth|test <chattype> <speaker> [message]]`
+
+Run the commands your own characters send you in chat
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `off` | word | bare `ogre chatcmd` turns it on | Stop running commands sent to you in chat (the same as `ogre end chatcmd`). |
+| `status` | word |  | Print whether it is on, how many names it trusts, and how many lines it ran or rejected. |
+| `reloadauth` | word |  | Re-read the names of your own characters whose chat lines it will obey. |
+
+```text
+ogre chatcmd status
+```
+
+## `cm`
+
+`ogre cm [-small|-large]`
+
+Also: `ogre collection`, `ogre collections`
+
+Add collectibles from your collectible depot to your collections
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `-small` | flag | the nearest Collectible Depot, else your Personal Collectible Stash | Use the Collectible Depot (the small one) only. |
+| `-large` | flag |  | Use the Collectible Depot (Large) only. |
+| `-inventory` | flag | off | Add the collectibles in your bags instead of a depot (`1` / `-1` work too). |
+
+```text
+ogre cm -large
+```
+
+## `codexinspect`
+
+`ogre codexinspect <Name[,Name...]|reset>`
+
+Inspect group/raid members and upload their gear to eq2codex.com
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `<Name[,Name...]>` | text | bare prints the status and the usage | Inspect these group or raid members (names split by commas) and upload their gear to eq2codex.com. |
+| `reset` | word |  | Reset your active raid on eq2codex.com. |
+| `status` | word |  | Print how the upload pass is going (`?` works too). |
+
+```text
+ogre codexinspect Alpha,Bravo
+```
+
+## `codextoon`
+
+`ogre codextoon [status]`
+
+Upload your own gear/stat snapshot to eq2codex.com
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `status` | word | bare uploads your own gear and stats now | Print the upload status instead of uploading (`?` works too). |
+
+```text
+ogre codextoon
+```
+
+## `commandpacks`
+
+`ogre commandpacks`
+
+Also: `ogre packs`
+
+Re-read the console's commands, including command packs (Scripts/OgreExternal)
+
+```text
+ogre commandpacks
+```
+
+## `commands`
+
+`ogre commands`
+
+Also: `ogre help`
+
+Open the Commands panel: every ogre command, searchable and runnable
+
+```text
+ogre commands
+```
+
+## `console`
+
+`ogre console`
+
+Also: `ogre oc`, `ogre ogreconsole`
+
+Open the OgreConsole window
+
+```text
+ogre console
+```
+
+## `contentbuilder`
+
+`ogre contentbuilder`
+
+Also: `ogre icbuilder`
+
+Build and edit Instance Controller zone files and fight files as boxes: every step and its options, checked as you go
+
+```text
+ogre contentbuilder
+```
+
+## `craft`
+
+`ogre craft [status|start|writs|tinker|lll|stop|end|minimize|scan|add|set|shop|?]`
+
+Also: `ogre craft2`
+
+Open the crafting panel
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `status` | word | bare `ogre craft` opens the panel and turns on craft reactions | Print what crafting is doing, how many are crafted and the last error. |
+| `start` | word |  | Craft what is in the queue. |
+| `writs` | word |  | Run the writ flow. |
+| `tinker` | word |  | Run auto tinkering. |
+| `lll` | word |  | Run low level leveling. |
+| `stop` | word |  | Stop the run; the panel stays open. |
+| `end` | word |  | Stop everything and close the window (the same as `ogre end craft`). |
+| `minimize` | word |  | Roll the window up to its title bar; crafting goes on, bare `ogre craft` brings it back. |
+| `scan` | word |  | Re-read your recipe book. |
+| `add` | word |  | `add <recipe name\|id\|lastknownrecipe> [<quantity>]`: put a recipe in the queue; a trailing whole number is the quantity (default 1), lastknownrecipe is the last one you scribed. |
+| `set` | word |  | `set <key> <value>`: change one craft setting (saved a second later). |
+| `shop` | word |  | `shop books`, `shop sell <name>...` or `shop destroy <name>...`: run one merchant errand by hand (not while a craft runs). |
+| `?` | word |  | Print the word list (`help` works too). |
+| `pause` | word |  | `pause` or `pause on` pauses the run; `pause off` resumes it. |
+| `clear` | word |  | Empty the queue. |
+| `queue` | word |  | List what is in the queue. |
+| `quest` | word |  | Craft the recipe steps of your current quest until none is left. |
+| `save` | word |  | Save the craft settings now. |
+| `reload` | word |  | Re-read the craft settings and the data files. |
+
+```text
+ogre craft writs
+```
+
+## `craftgm`
+
+`ogre craftgm [<range>] | scan [<range>] | start [<range>] | queue [<range>] | status | stop | end | close  [depot|nodepot]`
+
+Open the Grandmaster crafting panel ((Master) scrolls -> (Grandmaster) crafts)
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `<range>` | text | bare opens the panel and does nothing else | A level (`131`), a range (`131-135` or `131 135`), or `all`; on its own it opens the panel with the range filled in and scans nothing. |
+| `scan` | word |  | `scan [<range>]`: open the panel and find the (Master) scrolls to craft, crafting nothing. |
+| `start` | word |  | `start [<range>]`: open the panel and scan, queue and craft the (Grandmaster) recipes. |
+| `queue` | word |  | `queue [<range>]`: scan and replace the Craft queue with the (Grandmaster) recipes, then stop; never uses the Scroll Depot. |
+| `status` | word |  | Print the state; does not touch the panel. |
+| `stop` | word |  | Stop a run; the panel stays as it is. |
+| `end` | word |  | Stop a run and close the panel (the same as `ogre end craftgm`). |
+| `close` | word |  | The same as end. |
+| `depot` | word | as last set (off to start) | Also pull scrolls from the Scroll Depot; sticks, and works with any word that takes a range. |
+| `nodepot` | word |  | Use your bags only (`bagsonly` works too); sticks. |
+
+```text
+ogre craftgm start 131-135 depot
+```
+
+## `craftingmats`
+
+`ogre craftingmats [-<expansion> -<category> ...] | ogre craftingmats plan|help|end`
+
+Also: `ogre cmats`
+
+Edit the crafting-mats lists; with flags, pull a craft's mats from the harvest depot
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `-<expansion>` | flag | with only a category, Visions of Vetrovia | Which list to pull from: -vov, -cd, -mm, -pop or -ka (any list file's key); several may be given. |
+| `-<category>` | flag | the list's own line (signature; for -ka daily and weekly) | -sig (or -s), -daily (or -d) or -weekly (or -w). |
+| `plan` | word |  | `plan [-<expansion> -<category> ...]`: print the shopping list and stop, without the depot (`preview` and `-plan` work too). |
+| `help` | word |  | Print the usage (`?` works too). |
+| `end` | word |  | Stop a pull and close the editor (the same as `ogre end craftingmats`). |
+| `panel` | word | bare `ogre craftingmats` opens the editor | Open the list editor (`config` / `edit` work too). |
+
+```text
+ogre craftingmats -vov -sig
+```
+
+## `craftlite`
+
+`ogre craftlite`
+
+Also: `ogre cl`
+
+Cast crafting reactions only (no panel, no queue)
+
+```text
+ogre craftlite
+```
+
+## `dets`
+
+`ogre dets [m|target] [-noinfo]`
+
+Also: `ogre detrimentals`
+
+Dump your detrimentals, with Name and Description (a server read each; -noinfo skips them)
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `m` | word | your own detrimentals | Dump your maintained effects instead (`maintained` works too). |
+| `target` | word |  | Dump your target's effects instead (`t` works too). |
+| `-noinfo` | flag | Name and Description are read (one server read each) | Skip the Name and Description - a cheap dump with the icon pair only. |
+
+```text
+ogre dets target -noinfo
+```
+
+## `effecttracker`
+
+`ogre effecttracker [on|off|npc on|merge|status|end]`
+
+Also: `ogre oet`
+
+Capture what every detrimental and NPC effect says it does, into the shared zone dataset
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `on` | word | bare opens the window | Start capturing your detrimental effects. |
+| `off` | word |  | Stop both captures (players and NPCs); the window stays open. |
+| `npc` | word |  | `npc on` or `npc off`: also capture NPC effects. |
+| `merge` | word |  | Merge every character's captures for the zone you are in into the zone's one dataset file. |
+| `status` | word |  | Print what is armed and how much was captured. |
+| `end` | word |  | Stop both captures and close the window (the same as `ogre end effecttracker`). |
+| `panel` | word |  | Open the window. |
+| `close` | word |  | Close the window only. |
+| `reload` | word |  | Re-read the capture files from disk; anything not yet saved is dropped. |
+| `describe` | word | on | `describe on` or `describe off`: read each new effect's info once from the server (off loses only the Description). |
+| `closewindow` | word |  | `closewindow [all]`: close one leftover examine window, or all of them. |
+
+```text
+ogre effecttracker on
+```
+
+## `encounter`
+
+`ogre encounter [reload|debug comms|steps on|off|sequences]`
+
+Encounter authoring: reload the json from disk, toggle the debug echoes, list live sequences
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `reload` | word | bare prints the word list | Re-read the encounter json from disk and swap it in; a line follows with the loaded, scanned and error counts. |
+| `debug` | word |  | `debug comms on\|off` or `debug steps on\|off`: console echo for comms or step changes; `debug` alone prints the current switches. |
+| `sequences` | word |  | List every live sequence: its step, how long it has been there and what holds it (`seq` works too). |
+
+```text
+ogre encounter reload
+```
+
+## `examine`
+
+`ogre examine [on|off|reset]`
+
+Examine each NEW detrimental signature once and report it
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `on` | word | bare turns it on | Examine each new detrimental once and report its Name and Description (`start` works too). |
+| `off` | word |  | Stop examining (`stop` works too; the same as `ogre end examine`). |
+| `reset` | word |  | Forget the ones already seen, so each is examined again (`clear` works too). |
+| `status` | word |  | Print whether it is on and what it has seen. |
+
+```text
+ogre examine reset
+```
+
+## `experiment`
+
+`ogre experiment [-<stat> <n>]... | items | run <row> ...`
+
+Also: `ogre experimentui`
+
+Boost item stats on the tradeskill Experiment tab
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `-<stat>` | flag | bare prints the status and the usage | A stat to boost on the item already selected on the Experiment tab: -potency (or -p), -critbonus (or -cb), or any other option's label. |
+| `<n>` | number |  | How many times to boost the stat before it; a count of 0 or less adds nothing. |
+| `items` | word |  | List the item rows on the Experiment tab. |
+| `run` | word |  | `run <row> -<stat> <n> ...`: the same boost on item row `<row>` from `items`. |
+| `stop` | word |  | Stop and put the window size back (`off` works too; the same as `ogre end experiment`). |
+| `status` | word |  | Print the state and the usage. |
+
+```text
+ogre experiment -potency 3
+```
+
+## `export`
+
+`ogre export [flags]`
+
+Also: `ogre abilityexport`
+
+Open the export panel (-start runs it now, -default uses defaults)
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `-default` | flag | the current saved options | Use the default options for this run only; the saved ones are not changed. |
+| `-start` | flag | bare opens the options panel | Run the export now, without the options panel. |
+| `-stop` | flag |  | Stop an export that is running. |
+
+```text
+ogre export -default -start
+```
+
+## `find`
+
+`ogre find <name> [-rorr]`
+
+Watch for named actors and waypoint them when they spawn
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `<name>` | name | bare prints the usage and the built-in options | Watch for actors with exactly this name (any case); each word is one name, and the list replaces the old one and does one scan now. |
+| `-rorr` | flag |  | Watch for the four Renewal of Ro researchers. |
+| `-add` | flag |  | `-add <name>`: add a name to the list. |
+| `-remove` | flag |  | `-remove <name>`: take a name off the list. |
+| `-clear` | flag |  | Empty the list. |
+| `-list` | flag |  | Print the list. |
+| `-on` | flag |  | Start watching. |
+| `-off` | flag |  | Stop watching (the same as `ogre end find`). |
+| `-scan` | flag |  | Look for the listed names now. |
+| `-status` | flag |  | Print whether it is watching and how many names. |
+| `-panel` | flag |  | Open the window. |
+
+```text
+ogre find Gorenaire
+```
+
+## `forwhogroups`
+
+`ogre forwhogroups [list|panel|reload]`
+
+Also: `ogre fwg`
+
+Name a set of toons once, then select them all with one *Team:&lt;group> for-who token
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `list` | word | bare prints the groups | Print every group and its toons. |
+| `panel` | word |  | Open the editor where you name groups (`config` works too). |
+| `reload` | word |  | Re-read the groups from disk (`refresh` works too). |
+| `close` | word |  | Close the editor (the same as `ogre end forwhogroups`). |
+
+```text
+ogre forwhogroups panel
+```
+
+## `getquest`
+
+`ogre getquest [list|reload|status|off]`
+
+Hail the configured NPC for this zone and pick up its quest (you must be standing next to them)
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `list` | word | bare hails this zone's NPC and takes the quest | Print which areas are loaded and for which zones. |
+| `reload` | word |  | Re-read the data files (refused while a run is going). |
+| `status` | word |  | Print the run's state and counts. |
+| `off` | word |  | Stop a run (`stop` works too; the same as `ogre end getquest`). |
+
+```text
+ogre getquest status
+```
+
+## `ghtohouse`
+
+`ogre ghtohouse [flags]`
+
+Move the guild-hall depots into your house ones (-all, -scroll, ...)
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `-all` | flag | no depot = refused | Move all eight shared depots (harvest, ammo, adorn, food, lore, potion, collectible, fuel); not scroll. |
+| `-harvest` | flag |  | Move the harvest depot (`-h` works too). |
+| `-ammo` | flag |  | Move the ammo depot. |
+| `-adorn` | flag |  | Move the adornment depot. |
+| `-food` | flag |  | Move the food and drink depot. |
+| `-lore` | flag |  | Move the lore and legend depot. |
+| `-potion` | flag |  | Move the poison, potion and totem depot. |
+| `-collectible` | flag |  | Move the collectible depot (`-collect` / `-c` work too). |
+| `-fuel` | flag |  | Move the fuel depot. |
+| `-scroll` | flag |  | Move the scroll depot (only this direction has one). |
+| `-no<depot>` | flag |  | Turn one depot back off, e.g. `-nofuel` after `-all` (also `-nh`, `-nc`). |
+| `<owner>` | name | your own house | Whose house to deposit into. |
+
+```text
+ogre ghtohouse -all -scroll
+```
+
+## `heartstone`
+
+`ogre heartstone [on|off|now]`
+
+Also: `ogre hs`
+
+Rekindle a guild-hall Heartstone (always-on; arms itself at zone-in)
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `on` | word | on; bare prints the status | Turn the Heartstone rekindler on. |
+| `off` | word |  | Turn it off (the same as `ogre end heartstone`). |
+| `now` | word |  | Try a rekindle on the next pulse, or look for a Heartstone if it has not found one yet. |
+
+```text
+ogre heartstone now
+```
+
+## `hideeffects`
+
+`ogre hideeffects [panel|clear|end]`
+
+Hide the listed junk effects on your character (plain `ogre hideeffects` runs it now)
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `panel` | word | bare runs it now | Open the editor for the list of effects to hide (`config` works too). |
+| `clear` | word |  | Un-hide every effect the client is hiding. |
+| `end` | word |  | Stop a run and close the window (the same as `ogre end hideeffects`); hidden effects stay hidden. |
+| `run` | word |  | Hide the listed effects on your character now. |
+| `list` | word |  | Have the client print what it is hiding, in the EQ2 chat window. |
+| `delete` | word |  | `delete <id>`: un-hide one effect (`del` works too). |
+| `reload` | word |  | Re-read the effect list files. |
+| `reset` | word |  | Delete your own edits so the list is back to what shipped. |
+| `status` | word |  | Print what is loaded, what applies to this character and how the last run went. |
+
+```text
+ogre hideeffects panel
+```
+
+## `hl`
+
+`ogre hl [off|status|interval <ms>]`
+
+Also: `ogre harvestlite`
+
+Collect resource nodes already in reach (no walking)
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `off` | word | bare turns it on | Stop collecting (the same as `ogre end hl`). |
+| `status` | word |  | Print whether it is on and what it has done. |
+| `interval` | word |  | Set how often it looks for nodes in reach, the `<ms>` after it. |
+| `<ms>` | number | 500 | The pass interval in milliseconds, 250 to 10000. |
+
+```text
+ogre hl interval 1000
+```
+
+## `housetogh`
+
+`ogre housetogh [flags]`
+
+Move your house depots into the guild-hall ones (-all, -harvest, ...)
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `-all` | flag | no depot = refused | Move all eight depots (harvest, ammo, adorn, food, lore, potion, collectible, fuel). |
+| `-harvest` | flag |  | Move the harvest depot (`-h` works too). |
+| `-ammo` | flag |  | Move the ammo depot. |
+| `-adorn` | flag |  | Move the adornment depot. |
+| `-food` | flag |  | Move the food and drink depot. |
+| `-lore` | flag |  | Move the lore and legend depot. |
+| `-potion` | flag |  | Move the poison, potion and totem depot. |
+| `-collectible` | flag |  | Move the collectible depot (`-collect` / `-c` work too). |
+| `-fuel` | flag |  | Move the fuel depot. |
+| `-no<depot>` | flag |  | Turn one depot back off, e.g. `-nofuel` after `-all` (also `-nh`, `-nc`). |
+| `<owner>` | name | your own house | Whose house to take from. |
+
+```text
+ogre housetogh -all -nofuel
+```
+
+## `ic`
+
+`ogre ic [status|list|run|check|pause|end|options] | ogre ic -<option>[=off] ...`
+
+Also: `ogre icx`, `ogre instancecontroller`
+
+Open the instance controller - run zones from a queue (doc 28)
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `status` | word | bare opens the window | Print the run's state as text. |
+| `list` | word |  | `list [<filter>]`: every loaded zone file, or those whose zone or path holds the filter. |
+| `run` | word |  | `run <tier> <relative/path.json>`: run that one zone file (not the list); tier is default, test or custom. |
+| `check` | word |  | `check [<zone>]`: which files claim the zone (no zone = the one you are in) and whether it is available. |
+| `pause` | word |  | Pause the run. |
+| `end` | word |  | Close the instance controller out (the same as `ogre end ic` and the window's X). |
+| `options` | word |  | `options` lists every option; `options -<option>[=on\|off] ...` sets them. |
+| `-<option>` | flag | a bare -option means on | Set any option of the window, e.g. `-loop`, `-haltAtEnd=off`, `-maxwait=30`; several at once. |
+| `resume` | word |  | Resume a paused run. |
+| `stop` | word |  | End the run (the window's End button). |
+| `runlist` | word |  | `runlist [<row>]`: run the queue from the top, or from row `<row>`. |
+| `queue` | word |  | `queue` lists it; `queue add <zone name>`, `queue add <tier> <path.json>`, `queue startat <row> <N>` (start that row at step N) or `queue clear`. |
+| `wipe` | word |  | Declare a wipe now and start recovering. |
+| `reload` | word |  | Re-read the zone files (the window's Reload). |
+| `refresh` | word |  | Refresh the zone lock table. |
+| `panel` | word |  | Open the window. |
+
+```text
+ogre ic -loop -haltAtEnd=off
+```
+
+## `im`
+
+`ogre im [-depot -sell -destroy -tse -end] | depot|sell|destroy|tse|restock|trade <args> | chain | status | stop | close`
+
+Also: `ogre inventorymanager`
+
+Inventory manager - the window is the session; runs depot/sell/destroy/tse/restock/trade
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `-depot` | flag | bare opens the window | In a chain: deposit to depots. Chain flags run in order: -depot, -sell, -destroy, -tse, -restock, -trade. |
+| `-sell` | flag |  | In a chain: sell to the merchant. |
+| `-destroy` | flag |  | In a chain: destroy the listed items. |
+| `-tse` | flag |  | In a chain: consume items for tradeskill experience. |
+| `-end` | flag |  | Close the window once the chain is done. |
+| `depot` | word |  | `depot <depot flags>`: deposit into house or guild-hall depots; `ogre im help` lists the flags. |
+| `sell` | word |  | Sell; `sell preview\|list\|add\|remove\|status\|stop\|reload` too. |
+| `destroy` | word |  | Destroy the list, or `destroy <name>` for one item; `destroy preview\|list\|add\|remove\|status\|stop` too. |
+| `tse` | word |  | Consume items for tradeskill experience; `tse -stopafter <n>` stops after that many. |
+| `restock` | word |  | `restock [<profile>]` buys up to a profile; `restock list\|show <profile>\|preview\|stop` too. |
+| `trade` | word |  | Run the trade queue; `trade add <player> <qty\|all> <item>`, `trade list\|remove <n>\|clear\|preview`. |
+| `chain` | word |  | Show what each chain flag does. |
+| `status` | word |  | Print what the window and each mode is doing. |
+| `stop` | word |  | Stop whatever mode or chain is running. |
+| `close` | word |  | Close the window only. |
+| `end` | word |  | Stop and close the window (the same as `ogre end im`). |
+| `queue` | word |  | `queue <mode>`: run that mode when the current one finishes; `queue` alone shows what waits. |
+| `console` | word |  | `console [always\|running\|never\|clear]`: the activity log strip. |
+| `settings` | word |  | Print the saved options; `settings bag ...` and `settings tse <option> <value>` change them. |
+| `transmute` | word |  | `transmute <name>`: transmute that item. |
+| `reload` | word |  | Re-read the data files. |
+| `help` | word |  | Print the full usage (`?` works too). |
+
+```text
+ogre im -depot -sell -end
+```
+
+## `info`
+
+`ogre config`
+
+Also: `ogre options`, `ogre config`
+
+Open Ogre Options (account, UI scale, theme, per-game options)
+
+```text
+ogre config
+```
+
+## `irc`
+
+`ogre irc`
+
+Also: `ogre ogreirc`
+
+Connect to IRC (`ogre end irc` disconnects). `irc <message>` sends.
+
+```text
+ogre irc
+```
+
+## `keys`
+
+`ogre keys`
+
+Also: `ogre keyboard`, `ogre kbd`
+
+Dump the keyboard state (Shift stuck? run it while it happens and send the lines)
+
+```text
+ogre keys
+```
+
+## `lag`
+
+`ogre lag [report [s]|dump [s]|on|off|overhead|budget <ms> <ms>|minutes <1-60>|clear|close]`
+
+Every frame of the last few minutes - what it cost and what ran in it; find and open the FPS dips
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `report` | word | bare opens the window | Print a report of the last `<s>` seconds: the FPS dips and what caused them. |
+| `<s>` | number | 60 for report; everything recorded for dump | How many seconds back report or dump looks. |
+| `dump` | word |  | Save the last `<s>` seconds of frames to a file (the save itself costs one frame). |
+| `on` | word | on | Record every frame (saved). |
+| `off` | word |  | Stop recording; frames already recorded are kept. |
+| `overhead` | word |  | Measure and print what the recorder itself costs. |
+| `budget` | word | 25 and 33.3 ms | `budget <ms> <ms>`: the two frame budgets the report counts against; the second must be above the first. |
+| `minutes` | word | 5 | `minutes <1-60>`: how many minutes of frames are kept; it starts again empty. |
+| `clear` | word |  | Throw away the recorded frames. |
+| `close` | word |  | Close the window (the same as `ogre end lag`). |
+
+```text
+ogre lag report 30
+```
+
+## `leveltransmuting`
+
+`ogre leveltransmuting [on|off|status|end]`
+
+Also: `ogre lt`
+
+Buy transmuter's stones from Barnaby, then transmute them, for transmuting skill-ups
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `on` | word | bare opens the panel | Start: buy transmuter's stones from Barnaby (travelling there if needed), transmute them, and repeat. |
+| `<count>` | number | 60 | For `on`: stones to hold per merchant visit, 1 to 800. |
+| `<rounds>` | number | 20 | For `on`: stop after this many rounds, 1 to 500; there is no unlimited mode. |
+| `off` | word |  | Stop the run. |
+| `status` | word |  | Print the run's phase and round count. |
+| `end` | word |  | Stop and close the panel (the same as `ogre end leveltransmuting`). |
+| `panel` | word |  | Open the panel (`gui` / `ui` work too). |
+
+```text
+ogre leveltransmuting on 60 20
+```
+
+## `login`
+
+`ogre login <toon> [-s <server>] [-c <class>]`
+
+Log a character in (does not load OgreBot). 'ogre login -?' lists the server short forms
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `<toon>` | name |  | The character to log in; nothing happens without it. |
+| `-s` | flag | the character's default row | Log in on this server, a full name or a short form such as `ab`; it matters only for a name on more than one server. |
+| `-c` | flag | logs in whatever class it was | Log in as this class; a character already in the world as another class camps and comes back as it. |
+| `-?` | flag |  | List the server short forms instead of logging in. |
+
+```text
+ogre login Mytoon -s ab
+```
+
+## `mbc`
+
+`ogre mbc <from> <to>`
+
+Also: `ogre movebagcontents`
+
+Move a bag's contents into another bag (bags 1-6)
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `<from>` | number |  | The bag (1-6) to empty. |
+| `<to>` | number |  | The bag (1-6) to move its items into. |
+
+```text
+ogre mbc 2 5
+```
+
+## `mcp`
+
+`ogre mcp`
+
+Also: `ogre ogremcp`
+
+Open the Master Control Panel
+
+```text
+ogre mcp
+```
+
+## `merchant_craft`
+
+`ogre mc [list | #<n>|<recipe> [count]]`
+
+Also: `ogre mc`
+
+Buy limited recipes from a merchant, then craft them
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `list` | word |  | Scan the targeted merchant and number the limited recipes it sells. |
+| `<recipe>` | text |  | Part of a recipe name: each round buys it if you do not know it, scribes it, summons the station and crafts 3. |
+| `#<n>` | word |  | Use row `<n>` from the last `ogre mc list` instead of a name. |
+| `<count>` | number | 1 | After the recipe: how many rounds to run (1-999). |
+| `stop` | word |  | Abandon the run (the same as `ogre end mc`). |
+| `status` | word | this is what no word does | Say what it is doing and what the last scan found, then the usage. |
+| `help` | word |  | Show the usage. |
+
+```text
+ogre mc ferrite bracelet 4
+```
+
+## `mesh`
+
+`ogre mesh <destination>`
+
+Also: `ogre ogretravelmesh`
+
+Travel to a destination across the zone-network mesh
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `<destination>` | text |  | The zone to travel to; the whole rest of the line is one name, spaces and all. |
+
+```text
+ogre mesh Qeynos Harbor
+```
+
+## `migrate`
+
+`ogre migrate`
+
+Review migration status and re-run any item
+
+```text
+ogre migrate
+```
+
+## `move`
+
+`ogre move`
+
+NOT PORTED YET - comes with the new movement and navigation
+
+```text
+ogre move
+```
+
+## `moveincombat`
+
+`ogre moveincombat`
+
+NOT PORTED YET - comes with the new movement and navigation
+
+```text
+ogre moveincombat
+```
+
+## `movent`
+
+`ogre movent`
+
+NOT PORTED YET - comes with the new movement and navigation
+
+```text
+ogre movent
+```
+
+## `nav`
+
+`ogre nav -loc \"x,y,z\" [flags]`
+
+Also: `ogre navigate`
+
+Walk somewhere over the baked navmesh (`ogre nav -help` for the flags)
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `-loc` | flag |  | Walk to these coordinates: x,y,z as one quoted word or three words (Y is up). |
+| `-precision` | flag |  | Stop within this many units of the spot; it stays set for the session. |
+| `-fly` | flag | auto: flies only on a long detour | Fly this trip. |
+| `-nofly` | flag | auto: flies only on a long detour | Never fly this trip. |
+| `-nodoors` | flag | doors are opened | Do not open doors on the way. |
+| `-doors` | flag |  | Open doors on the way again. |
+| `-on` | flag |  | Let nav move this character. |
+| `-off` | flag |  | Stop nav from moving this character at all. |
+| `-set` | flag |  | Change one nav setting: `-set <key> <value>` (arrive, lookmax, avoid, doortries and more). |
+| `-reset` | flag |  | Put every nav setting back to its default, or only `<key>` when you name one. |
+| `-panel` | flag |  | Open the nav window now and on every trip. |
+| `-nopanel` | flag |  | Close the nav window and stop it opening on each trip. |
+| `stop` | word |  | Stop the trip; the nav window stays open. |
+| `end` | word |  | Stop the trip and close the nav window (the same as `ogre end nav`). |
+| `status` | word |  | Say what nav is doing, which mesh is loaded and any setting you changed. |
+| `panel` | word |  | Open the nav window. |
+| `help` | word | this is what no word does | Show the flags. |
+
+```text
+ogre nav -loc "100,20,-300" -precision 3
+```
+
+## `navlib`
+
+`ogre navlib`
+
+NOT PORTED YET - comes with the new navigation
+
+```text
+ogre navlib
+```
+
+## `npccast`
+
+`ogre npccast [monitor [target|named|all|off|copy]|status|zone|capture|reload|import|end]`
+
+Also: `ogre npccastmonitoring`
+
+Log what mobs cast (spell name + ability id) to copy or send; watch named mobs' casts - interrupt them or run your own commands
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `monitor` | word |  | Start the cast monitor: each cast is logged with mob, spell name, ability id and cast time, ready to copy. |
+| `target` | word | the monitor's default | After `monitor`: watch your target and its target (these casts come with the spell name). |
+| `named` | word |  | After `monitor`: also watch every named mob nearby. |
+| `all` | word |  | After `monitor`: also watch every NPC nearby. |
+| `off` | word |  | After `monitor`: stop the monitor (it saves its list). |
+| `copy` | word |  | After `monitor`: put the logged casts on the clipboard. |
+| `watch` | word |  | Add a mob to the watch list: `watch <mob name>`, every word after it is the name. |
+| `unwatch` | word |  | Take a mob off the watch list: `unwatch <mob name>`. |
+| `clear` | word |  | Clear the watches you added; the zone's and the fights' own stay. |
+| `radius` | word |  | Set the scan radius for this zone: `radius <n>`. |
+| `status` | word |  | Show the scan counters, the watch list and what is being cast now. |
+| `zone` | word |  | Show the cast data loaded for this zone. |
+| `capture` | word |  | Add the spell your target is casting right now to your own copy of this zone's file. |
+| `reload` | word |  | Re-read this zone's cast files. |
+| `import` | word |  | Copy the shipped OgreBot Classic custom cast files into your own folder, never over a file you already have. |
+| `end` | word |  | Stop the monitor and close the window (the same as `ogre end npccast`); the watch list keeps running. |
+
+```text
+ogre npccast monitor named
+```
+
+## `oau`
+
+`ogre oau [minLevel]`
+
+Also: `ogre abilityupgrades`, `ogre ogreabilityupgrades`
+
+Report which Scroll Depot scrolls upgrade an ability you know
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `<minLevel>` | number | 121 | Ignore scrolls below this level (1-1000). |
+
+```text
+ogre oau 125
+```
+
+## `osa`
+
+`ogre osa`
+
+Open the On-Screen Assistant
+
+```text
+ogre osa
+```
+
+## `overflow`
+
+`ogre overflow`
+
+Move overflow-window items into your bags
+
+```text
+ogre overflow
+```
+
+## `overseer`
+
+`ogre overseer [status|stop]`
+
+Run the daily Overseer missions
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `run` | word | this is what no word does | Run the daily Overseer missions now. |
+| `stop` | word |  | Stop the run (the same as `ogre end overseer`). |
+| `status` | word |  | Say what the run is doing, how many it started and finished, and when the next run may start. |
+
+```text
+ogre overseer status
+```
+
+## `patch`
+
+`ogre patch [status|revert-ext]`
+
+Also: `ogre patcher`, `ogre update`
+
+Check for and apply updates (status: the release you are on; revert-ext: undo a core self-update)
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `status` | word |  | Say which release you are on. |
+| `revert-ext` | word |  | Undo a core self-update. |
+| `mesh` | word |  | The navmesh download setting; with no word after it, a summary of the meshes. |
+| `all` | word |  | After `mesh`: every mesh downloads in the background. |
+| `ondemand` | word |  | After `mesh`: a zone's mesh downloads when you need it. |
+| `off` | word |  | After `mesh`: no meshes download. |
+| `ignore` | word |  | The files the patcher never writes; with no word after it, the list. |
+| `add` | word |  | After `ignore`: add `<path>` to that list. |
+| `remove` | word |  | After `ignore`: take `<path>` off that list. |
+| `list` | word |  | After `ignore`: show the list. |
+| `<path>` | text |  | After `ignore add` or `ignore remove`: a path from the InnerSpace folder, such as Scripts/Ogre/EQ2/x.json. |
+
+```text
+ogre patch mesh ondemand
+```
+
+## `paths`
+
+`ogre paths [<path>]`
+
+This zone's points of interest and saved paths: add them, order them, walk them, import OgreBot Classic's
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `<path>` | text | opens the window | Open the window on this saved path of the current zone; the whole rest of the line is one name. |
+
+```text
+ogre paths Bank Run
+```
+
+## `perf`
+
+`ogre perf [seconds] [nothreads] | stop | status`
+
+Also: `ogre fps`
+
+Measure the frame rate and what uses each frame - run it while it lags and paste the report
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `<seconds>` | number | 10 | How long to measure (3-120 seconds); the report prints when it ends. |
+| `nothreads` | word | the thread sampler runs | Measure without the thread sampler. |
+| `stop` | word |  | Stop early and print the report now, or cancel one that has not started (the same as `ogre end perf`). |
+| `status` | word |  | Say whether it is measuring and how long is left. |
+
+```text
+ogre perf 30
+```
+
+## `persona`
+
+`ogre persona [<class>]`
+
+Change this character's class, or with no class open the window to say which profile file each class uses on this PC; one character's own setting is on OgreBot's Persona tab
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `<class>` | name | opens the Persona window | Change this character to that class; it camps and comes back as it (you must be in the world). |
+
+```text
+ogre persona ranger
+```
+
+## `potcb`
+
+`ogre potcb [on|off|status|reset|interval <ms>|end]`
+
+Also: `ogre cbpot`
+
+Track Potency / Crit Bonus / Fervor during fights - min, max, average and time at cap
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `on` | word |  | Start sampling. |
+| `off` | word |  | Stop sampling and close the window. |
+| `status` | word |  | Print every figure to the console. |
+| `reset` | word |  | Clear the history and keep sampling. |
+| `interval` | word |  | Set how often it samples; with no number, say the current one. |
+| `<ms>` | number | 200 | After `interval`: the time between samples, 50-10000 ms. |
+| `end` | word |  | Stop sampling and always close the window (the same as `ogre end potcb`). |
+| `help` | word |  | Show the usage. |
+
+```text
+ogre potcb interval 500
+```
+
+## `pulse`
+
+`ogre pulse [report|on|off|reset|ceiling <us>|slice <section> <us>|jobtest on|off]`
+
+Also: `ogre pulsebudget`
+
+Tune the per-frame time slice each resumable section gets
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `report` | word |  | Print the budget report: every resumable section, its number and its slice. |
+| `on` | word |  | Turn the shared frame ceiling on and reset the counters. |
+| `off` | word |  | Turn the shared frame ceiling off; each section keeps its own slice. |
+| `reset` | word |  | Reset the counters. |
+| `ceiling` | word |  | Set the shared frame ceiling to `<us>` microseconds (0 = none). |
+| `slice` | word |  | Set one section's time per frame: `slice <section> <us>` (0 = finish it in one frame). |
+| `<section>` | text |  | After `slice`: a section's name or its number from `ogre pulse report`. |
+| `<us>` | number |  | After `ceiling` or `slice`: the time in microseconds. |
+| `close` | word |  | Close the Pulse Budget window; the budget keeps running. |
+
+```text
+ogre pulse ceiling 2000
+```
+
+## `pulseprof`
+
+`ogre pulseprof [report [n] [reads]|reset|on|off|overhead|scans [n|reset|on|off]]`
+
+Frame time and native reads per pulse subsystem
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `report` | word |  | Print the top subsystems by frame time. |
+| `<n>` | number | 20 | After `report` or `scans`: how many rows to print. |
+| `reads` | word |  | After `report <n>`: break the rows down by native reads instead of time. |
+| `reset` | word |  | Reset the counters. |
+| `on` | word |  | Start profiling, counters reset. |
+| `off` | word |  | Stop profiling; the counters freeze (the same as `ogre end pulseprof`). |
+| `overhead` | word |  | Measure what the profiler itself costs. |
+| `scans` | word |  | Report actor lookups by call site; `scans on`, `scans off` and `scans reset` switch or clear that count. |
+
+```text
+ogre pulseprof report 10 reads
+```
+
+## `pushover`
+
+`ogre pushover <message> [-title T] [-priority N] | status|reload`
+
+Send a push notification through Pushover.net
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `<message>` | text |  | The text to send; every word that is not a flag is part of the message. |
+| `-title` | flag | the title in your Pushover settings | The notification's title (the next word). |
+| `-priority` | flag | the priority in your Pushover settings | The priority, -2 to 2; 2 is an emergency that repeats until seen. |
+| `-sound` | flag | the sound in your Pushover settings | The sound to play (the next word). |
+| `-device` | flag | the device in your Pushover settings | Send to this one device (the next word). |
+| `-retry` | flag | the retry in your Pushover settings | For priority 2: how often to repeat it, in seconds. |
+| `-expire` | flag | the expire in your Pushover settings | For priority 2: when to stop repeating it, in seconds. |
+| `status` | word | this is what no word does | Say whether Pushover is set up, and the usage; with more words after it, the whole line is a message. |
+| `reload` | word |  | Re-read your Pushover settings; with more words after it, the whole line is a message. |
+
+```text
+ogre pushover Raid is ready -title EQ2 -priority 1
+```
+
+## `quest`
+
+`ogre quest [1]`
+
+Also: `ogre questhelper`, `ogre qh`
+
+Watch for quest NPCs and dialogs and do the clicking (1 = always take reply 1)
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `on` | word | this is what no word does | Start watching for quest NPCs and dialogs; `on 1` is the same as `1`. |
+| `1` | word |  | Start watching and always take reply 1. |
+| `off` | word |  | Stop (the same as `ogre end quest`). |
+| `status` | word |  | Show its state, counters and what it last did. |
+| `list` | word |  | Show what the reply table holds. |
+| `reload` | word |  | Re-read the reply table. |
+| `help` | word |  | Show the usage. |
+
+```text
+ogre quest 1
+```
+
+## `questcompare`
+
+`ogre questcompare`
+
+Also: `ogre qc`, `ogre compare`
+
+Show whether your group is on the same step of a quest as you (`ogre end questcompare` closes it)
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `close` | word |  | Close the window (also `off`, or `ogre end questcompare`). |
+
+```text
+ogre questcompare
+```
+
+## `quiver`
+
+`ogre quiver`
+
+Refill your quiver/pouch from your bags, then the ammo depot
+
+```text
+ogre quiver
+```
+
+## `radar`
+
+`ogre radar [on|off|<verb>]`
+
+Also: `ogre r`
+
+Show what is around you - nearby actors on a panel (`ogre end radar` to stop)
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `on` | word | this is what no word does | Start scanning and open the panel. |
+| `off` | word |  | Stop scanning and close the panel (the same as `ogre end radar`). |
+| `toggle` | word |  | Turn it on if it is off, off if it is on. |
+| `panel` | word |  | Open or close only the panel: `panel on` or `panel off`; scanning is not changed. |
+| `click` | word |  | `click on` lets the mouse pass through the panel to the game; `click off` makes the panel take it again. |
+| `settings` | word |  | Open the settings drawer, even when the panel lets the mouse through. |
+| `uireset` | word |  | Put the panel's look back to its defaults when you cannot reach it (press Save in the drawer to keep it). |
+| `radius` | word |  | The display radius, 5-500 game units; with no number, say the current one. |
+| `rate` | word |  | Refreshes per second, 0-60; with no number, say the current one. |
+| `cap` | word |  | Draw only the nearest `<n>` blips, 0-5000 (0 = all); with no number, say the current one. |
+| `<n>` | number |  | After `radius`, `rate` or `cap`: the new value. |
+| `status` | word |  | Show the radar's settings and state. |
+| `help` | word |  | List the radar's words. |
+
+```text
+ogre radar radius 100
+```
+
+## `refine`
+
+`ogre refine [start|stop|plan|raw|rare|bags|rewards]`
+
+Refine the Raw/Rare resources in your carried bags
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `status` | word | this is what no word does | Show its state, settings and the usage. |
+| `start` | word |  | Refine once over the chosen bags. |
+| `stop` | word |  | Stop the run (the same as `ogre end refine`). |
+| `plan` | word |  | A dry run: list what would be refined and what is skipped; nothing is refined. |
+| `raw` | word | on | Refine Raw resources: `raw on` or `raw off`. |
+| `rare` | word | off | Refine Rare resources: `rare on` or `rare off`. |
+| `rewards` | word | off | Accept reward windows during a run: `rewards on` or `rewards off`. It accepts any reward window, a quest's too. |
+| `on` | word |  | After `raw`, `rare` or `rewards`: turn it on. |
+| `off` | word |  | After `raw`, `rare` or `rewards`: turn it off. |
+| `bags` | word | bags 1 and 2 | Which carried bags to refine: bag numbers (1,2,3 or 1 2 3), `all` or `none`. |
+| `reload` | word |  | Re-read the resource table. |
+
+```text
+ogre refine bags 1,2,3
+```
+
+## `reloadbot`
+
+`ogre reloadbot`
+
+Reload OgreBot if it is running (does nothing if it is not)
+
+```text
+ogre reloadbot
+```
+
+## `replenishnames`
+
+`ogre replenishnames [show|reload]`
+
+Also: `ogre staples`
+
+The fallback food/drink/potion names the *_Replenish depot verbs use - yours, in a file
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `show` | word | this is what no word does | Print the fallback potion, food and drink names in use. |
+| `reload` | word |  | Re-read your names file, then print them. |
+
+```text
+ogre replenishnames reload
+```
+
+## `safefall`
+
+`ogre safefall [on|off|panel|end]`
+
+Also: `ogre levelsafefall`
+
+Level Safe Fall: fly up, drop, remount, repeat
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `status` | word | this is what no word does | Show the trainer's state and the usage. |
+| `on` | word |  | Start: mount, climb, dismount, fall, repeat. |
+| `<ticks>` | number | 30 | After `on`: the flight time in tenths of a second (5-600); it grows by 5 every 100 rounds. |
+| `off` | word |  | Stop the trainer. |
+| `panel` | word |  | Open the Safe Fall window. |
+| `end` | word |  | Stop and close the window (the same as `ogre end safefall`). |
+| `help` | word |  | Show the usage. |
+
+```text
+ogre safefall on 40
+```
+
+## `sessions`
+
+`ogre sessions [on|off]`
+
+The uplink's session watch: on/off until the uplink restarts (the saved switch is in ogre config); bare: list every session it hears
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `on` | word |  | Turn the uplink's session watch on until the uplink restarts. |
+| `off` | word |  | Turn it off until the uplink restarts. |
+
+```text
+ogre sessions on
+```
+
+## `smalldepottobigdepot`
+
+`ogre smalldepottobigdepot [-type]`
+
+Also: `ogre sd2bd`
+
+Empty a guild-hall depot into its (Large) twin
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `-harvest` | flag | this is the default type | Empty the Harvesting Supply Depot into its (Large) twin. |
+| `-adorn` | flag |  | Empty the Adornment Depot instead. |
+| `-ammo` | flag |  | Empty the ammo depot instead. |
+| `-scroll` | flag |  | Empty the Scroll Depot instead. |
+| `-collectible` | flag |  | Empty the collectible depot instead. |
+| `-food` | flag |  | Empty the Food & Drink Depot instead. |
+| `-fuel` | flag |  | Empty the fuel depot instead. |
+| `-lore` | flag |  | Empty the Lore & Legend Depot instead. |
+| `-potion` | flag |  | Empty the Poison, Potion, & Totem Depot instead. |
+| `-donotdeposit` | flag | deposits | When your bags fill, stop instead of putting them into the large depot. |
+
+```text
+ogre smalldepottobigdepot -adorn
+```
+
+## `smartloot`
+
+`ogre smartloot`
+
+Also: `ogre sl`
+
+Open the SmartLoot quota editor
+
+```text
+ogre smartloot
+```
+
+## `tags`
+
+`ogre tags`
+
+Also: `ogre tagtimers`
+
+Open the Tag Timers window: every Embargo and Allow tag on this character
+
+```text
+ogre tags
+```
+
+## `taskrunner`
+
+`ogre taskrunner [-list <list>|run <list>|start|stop|end|status|panel|lists]`
+
+Also: `ogre tr`, `ogre packpony`, `ogre pony`
+
+Cycle characters through their scheduled chores
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `-list` | flag |  | Start this session on a list: `-list <list>` (the classic spelling of `run`). |
+| `run` | word |  | Start this session on a list: `run <list>`. |
+| `<list>` | name |  | After `-list`, `run` or `plan`: the list's name. |
+| `once` | word | the list's own setting | After the list: go through it once. |
+| `loop` | word | the list's own setting | After the list: keep going round it. |
+| `stagger` | word | the stagger setting | After the list: turn stagger on for this run. |
+| `nostagger` | word | the stagger setting | After the list: turn stagger off for this run. |
+| `start` | word |  | Cycle every configured character; only when no lists are set up. |
+| `stop` | word |  | Stop the run; the window stays open. |
+| `end` | word |  | Stop the run and close the window (the same as `ogre end taskrunner`). |
+| `status` | word |  | Print the run's state. |
+| `close` | word |  | Close the Lists window. |
+| `lists` | word |  | Show the lists and their characters. |
+| `reload` | word |  | Re-read the task files (refused while a character is mid-batch). |
+| `plan` | word | this session's list | Show what is due, character by character; nothing runs. |
+| `now` | word |  | Check what is due right away instead of waiting. |
+| `clear` | word | every character | Clear error and back-off records: all, one `<toon>`, or one `<task>` of that character. |
+| `<toon>` | name |  | After `clear`: the character. |
+| `<task>` | name |  | After `clear <toon>`: the task. |
+
+```text
+ogre taskrunner run mylist loop
+```
+
+## `tempadorns`
+
+`ogre tempadorns [<profile> | list | end]`
+
+Pick the temporary adornment for each gear piece and save it as a profile; `ogre tempadorns <profile>` applies one
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `<profile>` | name | opens the window | Apply this saved profile: each gear piece it names gets its temporary adornment. |
+| `list` | word |  | Print the saved profiles. |
+| `end` | word |  | Close the window (the same as `ogre end tempadorns`). |
+
+```text
+ogre tempadorns CBOC
+```
+
+## `tour`
+
+`ogre tour`
+
+Open the new-user tour
+
+```text
+ogre tour
+```
+
+## `trackshiny`
+
+`ogre trackshiny [colour]`
+
+Watch for a coloured shiny and waypoint it
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `<colour>` | name | Purple | Watch the whole zone for shinies of this colour and waypoint them: White, Green, Purple, Red, BlueShimmer or Blue. |
+| `-off` | flag |  | Stop watching (also `ogre end trackshiny`). |
+| `-colours` | flag |  | List the colours. |
+| `-interval` | flag |  | How often to look, in ms (250-30000): `-interval <ms>`. |
+| `-status` | flag |  | Show what it is watching for and what it found. |
+| `-panel` | flag |  | Open the Watcher window. |
+
+```text
+ogre trackshiny Blue
+```
+
+## `trade`
+
+`ogre trade [count]`
+
+Also: `ogre tradeit`
+
+Trade the EXAMINED item to your target (default 12 stacks)
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `<count>` | number | 12 | How many stacks of the examined item to put in the trade with your target. |
+
+```text
+ogre trade 5
+```
+
+## `travel`
+
+`ogre travel [fast|spire|druid|bell|map|end]`
+
+Also: `ogre travelhelper`
+
+Open the Travel Helper: list a fast-travel, spire, druid-ring or bell map's destinations and send the group to one
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `fast` | word |  | Open the window and list the fast-travel destinations. |
+| `spire` | word |  | Open the window and list the wizard spire destinations. |
+| `druid` | word |  | Open the window and list the druid ring destinations. |
+| `bell` | word |  | Open the window and list the bell destinations. |
+| `map` | word |  | Open the window and list the destinations of the travel map you have open. |
+| `end` | word |  | Stop a list and close the window (the same as `ogre end travel`). |
+| `help` | word |  | Show the usage. |
+
+```text
+ogre travel spire
+```
+
+## `travelsurvey`
+
+`ogre travelsurvey [-r <radius>] [-all]`
+
+Also: `ogre tsurvey`
+
+Record every actor near you into the travel survey (for building the zone corpus)
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `-r` | flag | 200 | Record actors within this many units: `-r <radius>`. |
+| `-all` | flag |  | Record every actor the client holds, however far. |
+
+```text
+ogre travelsurvey -r 300
+```
+
+## `version`
+
+`ogre version`
+
+Which OgreBot release you are on (the name the What's new page uses) and when the core was built
+
+```text
+ogre version
+```
+
+## `watcher`
+
+`ogre watcher`
+
+Open the Watcher window (Find Actor + Track Shiny)
+
+```text
+ogre watcher
+```
+
+## `windowreset`
+
+`ogre windowreset`
+
+Also: `ogre resetwindows`
+
+Open Reset UI Windows - put windows back where they started
+
+```text
+ogre windowreset
+```
+
+## `zone`
+
+`ogre zone [force <name>|end]`
+
+Also: `ogre reset`, `ogre zonereset`
+
+Open the zone-reuse resetter (OldBot's `zone` / `reset`)
+
+| Word | Type | Default | Meaning |
+|---|---|---|---|
+| `list` | word |  | Refresh and print the zone table (the Zone Reuse window opens and closes). |
+| `force` | word |  | Force-reset one zone, `force <zone name>`; this spends one of your reset charges. |
+| `add` | word |  | Add one zone to the reset queue: `add <zone name>`. |
+| `addfilter` | word |  | Add many zones to the queue at once: `resettable` (the default), `noraid` or `notlocked`. |
+| `queue` | word |  | Show the reset queue. |
+| `clear` | word |  | Empty the reset queue. |
+| `reset` | word |  | Reset the timers of every zone in the queue. |
+| `fleet` | word |  | After `reset`: do it for the characters picked in the For Who window too. |
+| `status` | word |  | Show the counters and what it is doing. |
+| `end` | word |  | Stop what it was asked to do and close the window (the same as `ogre end zone`). |
+| `help` | word |  | Show the usage. |
+| `-zone` | flag |  | Reset one zone's timer: `-zone <name>`, every word up to the next flag is the name. |
+| `-force` | flag |  | With `-zone`: force-reset it, which spends a charge. |
+| `-all` | flag |  | Reset every resettable zone; raid zones are skipped. |
+| `-allowraid` | flag |  | With `-all`: include raid zones. |
+| `-fleet` | flag |  | Do it for the characters picked in the For Who window too. |
+
+```text
+ogre zone add Kralet Penumbra: The Hive Mind
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/commands/console-isxogrex.md
+
+# Console commands: ISXOgreX
+
+## `-auth`
 
 `-auth <nick>`
 
@@ -35356,7 +37756,7 @@ IRC only: authorizes an IRC nick to send this hub commands.
 irc !c -auth SomeNick
 ```
 
-### `-authlist`
+## `-authlist`
 
 `-authlist`
 
@@ -35366,7 +37766,7 @@ IRC only: says which IRC nicks are authorized.
 irc !c -authlist
 ```
 
-### `-KillSession`
+## `-KillSession`
 
 `-KillSession <target>`
 
@@ -35380,7 +37780,7 @@ IRC only, authorized senders only: ends one InnerSpace session on this PC, or al
 irc !c -KillSession is3
 ```
 
-### `-LaunchAutoLogin`
+## `-LaunchAutoLogin`
 
 `-LaunchAutoLogin <profile>`
 
@@ -35394,7 +37794,7 @@ From IRC, authorised senders only: runs an auto-login profile.
 irc !c -LaunchAutoLogin MyProfile
 ```
 
-### `-List_AutoLoginProfiles`
+## `-List_AutoLoginProfiles`
 
 `-List_AutoLoginProfiles`
 
@@ -35404,7 +37804,7 @@ From IRC, authorised senders only: lists the auto-login profiles. -details adds 
 irc !c -List_AutoLoginProfiles
 ```
 
-### `-List_Sessions`
+## `-List_Sessions`
 
 `-List_Sessions`
 
@@ -35414,7 +37814,7 @@ IRC only, authorized senders only: lists this PC's InnerSpace sessions.
 irc !c -List_Sessions
 ```
 
-### `-LoadCharacter`
+## `-LoadCharacter`
 
 `-LoadCharacter <toon>`
 
@@ -35428,7 +37828,7 @@ From IRC, authorised senders only: logs one toon in, using the first auto-login 
 irc !c -LoadCharacter MyToon
 ```
 
-### `-unauth`
+## `-unauth`
 
 `-unauth <nick>`
 
@@ -35442,7 +37842,7 @@ IRC only: removes an IRC nick from the authorized list.
 irc !c -unauth SomeNick
 ```
 
-### `-unauthall`
+## `-unauthall`
 
 `-unauthall`
 
@@ -35452,663 +37852,14 @@ IRC only: clears the authorized list.
 irc !c -unauthall
 ```
 
-## `ogre` commands
 
-### `abilitydetails`
+---
 
-`ogre abilitydetails [name or id]`
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/commands/console-a-b.md
 
-Show every field your ability export holds for an ability, with a search
+# Console commands: A-B
 
-### `account`
-
-`ogre account`
-
-Show this session's account and access level
-
-### `ae`
-
-`ogre ae`
-
-Also: `ogre abilityefficiency`
-
-Score your abilities as damage / (cast + recovery) into a report file
-
-### `afk`
-
-`ogre afk [0|on|off]`
-
-Also: `ogre antiafk`
-
-Keep the session alive (bare = silent; 0 = noisy; off = stop)
-
-### `analysis`
-
-`ogre analysis [scan|monitor|taps|export|import|end]`
-
-Also: `ogre anal`
-
-Watch actors, record what changes and when, and diff two of them
-
-### `assist`
-
-`ogre assist`
-
-Show who this toon is assisting right now, and why
-
-### `atb`
-
-`ogre atb`
-
-Also: `ogre autotargetbalance`
-
-Open OgreBot at the AutoTarget tab (Balance generator)
-
-### `autologin`
-
-`ogre autologin`
-
-Open the auto-login config panel
-
-### `bot`
-
-`ogre bot [<toon>] [-s <server>] [-c <class>]`
-
-Load OgreBot (logs &lt;toon> in first if given, on that server and as that class if given)
-
-### `buycrate`
-
-`ogre buycrate [-r|-h|-all]`
-
-Buy this zone's heroic/raid crates (-r raid, -h heroic, -all)
-
-### `buyfuel`
-
-`ogre buyfuel [amount]`
-
-Buy the EXAMINED fuel up to &lt;amount> in the guild fuel depot
-
-### `buyoverseermissions`
-
-`ogre buyoverseermissions [flags] | stop | status`
-
-Also: `ogre bom`
-
-Buy Overseer missions from the Administrator agent
-
-### `camp`
-
-`ogre camp [charselect]`
-
-Camp out to login+exit ('charselect' stays at char select)
-
-### `chatcmd`
-
-`ogre chatcmd [off|status|debug [on|off]|reloadauth|test <chattype> <speaker> [message]]`
-
-Run the commands your own characters send you in chat
-
-### `cm`
-
-`ogre cm [-small|-large]`
-
-Also: `ogre collection`, `ogre collections`
-
-Add collectibles from your collectible depot to your collections
-
-### `codexinspect`
-
-`ogre codexinspect <Name[,Name...]|reset>`
-
-Inspect group/raid members and upload their gear to eq2codex.com
-
-### `codextoon`
-
-`ogre codextoon [status]`
-
-Upload your own gear/stat snapshot to eq2codex.com
-
-### `commandpacks`
-
-`ogre commandpacks`
-
-Also: `ogre packs`
-
-Re-read the console's commands, including command packs (Scripts/OgreExternal)
-
-### `commands`
-
-`ogre commands`
-
-Also: `ogre help`
-
-Open the Commands panel: every ogre command, searchable and runnable
-
-### `console`
-
-`ogre console`
-
-Also: `ogre oc`, `ogre ogreconsole`
-
-Open the OgreConsole window
-
-### `craft`
-
-`ogre craft [status|start|writs|tinker|lll|stop|end|minimize|scan|add|set|shop|?]`
-
-Also: `ogre craft2`
-
-Open the crafting panel
-
-### `craftgm`
-
-`ogre craftgm [<range>] | scan [<range>] | start [<range>] | queue [<range>] | status | stop | end | close  [depot|nodepot]`
-
-Open the Grandmaster crafting panel ((Master) scrolls -> (Grandmaster) crafts)
-
-### `craftingmats`
-
-`ogre craftingmats [-<expansion> -<category> ...] | ogre craftingmats plan|help|end`
-
-Also: `ogre cmats`
-
-Edit the crafting-mats lists; with flags, pull a craft's mats from the harvest depot
-
-### `craftlite`
-
-`ogre craftlite`
-
-Also: `ogre cl`
-
-Cast crafting reactions only (no panel, no queue)
-
-### `dets`
-
-`ogre dets [m|target] [-noinfo]`
-
-Also: `ogre detrimentals`
-
-Dump your detrimentals, with Name and Description (a server read each; -noinfo skips them)
-
-### `effecttracker`
-
-`ogre effecttracker [on|off|npc on|merge|status|end]`
-
-Also: `ogre oet`
-
-Capture what every detrimental and NPC effect says it does, into the shared zone dataset
-
-### `encounter`
-
-`ogre encounter [reload|debug comms|steps on|off|sequences]`
-
-Encounter authoring: reload the json from disk, toggle the debug echoes, list live sequences
-
-### `examine`
-
-`ogre examine [on|off|reset]`
-
-Examine each NEW detrimental signature once and report it
-
-### `experiment`
-
-`ogre experiment [-<stat> <n>]... | items | run <row> ...`
-
-Also: `ogre experimentui`
-
-Boost item stats on the tradeskill Experiment tab
-
-### `export`
-
-`ogre export [flags]`
-
-Also: `ogre abilityexport`
-
-Open the export panel (-start runs it now, -default uses defaults)
-
-### `find`
-
-`ogre find <name> [-rorr]`
-
-Watch for named actors and waypoint them when they spawn
-
-### `forwhogroups`
-
-`ogre forwhogroups [list|panel|reload]`
-
-Also: `ogre fwg`
-
-Name a set of toons once, then select them all with one *Team:&lt;group> for-who token
-
-### `getquest`
-
-`ogre getquest [list|reload|status|off]`
-
-Hail the configured NPC for this zone and pick up its quest (you must be standing next to them)
-
-### `ghtohouse`
-
-`ogre ghtohouse [flags]`
-
-Move the guild-hall depots into your house ones (-all, -scroll, ...)
-
-### `heartstone`
-
-`ogre heartstone [on|off|now]`
-
-Also: `ogre hs`
-
-Rekindle a guild-hall Heartstone (always-on; arms itself at zone-in)
-
-### `hideeffects`
-
-`ogre hideeffects [panel|clear|end]`
-
-Hide the listed junk effects on your character (plain `ogre hideeffects` runs it now)
-
-### `hl`
-
-`ogre hl [off|status|interval <ms>]`
-
-Also: `ogre harvestlite`
-
-Collect resource nodes already in reach (no walking)
-
-### `housetogh`
-
-`ogre housetogh [flags]`
-
-Move your house depots into the guild-hall ones (-all, -harvest, ...)
-
-### `ic`
-
-`ogre ic [status|list|run|check|pause|end|options] | ogre ic -<option>[=off] ...`
-
-Also: `ogre icx`, `ogre instancecontroller`
-
-Open the instance controller - run zones from a queue (doc 28)
-
-### `im`
-
-`ogre im [-depot -sell -destroy -tse -end] | depot|sell|destroy|tse|restock|trade <args> | chain | status | stop | close`
-
-Also: `ogre inventorymanager`
-
-Inventory manager - the window is the session; runs depot/sell/destroy/tse/restock/trade
-
-### `info`
-
-`ogre config`
-
-Also: `ogre options`, `ogre config`
-
-Open Ogre Options (account, UI scale, theme, per-game options)
-
-### `irc`
-
-`ogre irc`
-
-Also: `ogre ogreirc`
-
-Connect to IRC (`ogre end irc` disconnects). `irc <message>` sends.
-
-### `keys`
-
-`ogre keys`
-
-Also: `ogre keyboard`, `ogre kbd`
-
-Dump the keyboard state (Shift stuck? run it while it happens and send the lines)
-
-### `lag`
-
-`ogre lag [report [s]|dump [s]|on|off|overhead|budget <ms> <ms>|minutes <1-60>|clear|close]`
-
-Every frame of the last few minutes - what it cost and what ran in it; find and open the FPS dips
-
-### `leveltransmuting`
-
-`ogre leveltransmuting [on|off|status|end]`
-
-Also: `ogre lt`
-
-Buy transmuter's stones from Barnaby, then transmute them, for transmuting skill-ups
-
-### `login`
-
-`ogre login <toon> [-s <server>] [-c <class>]`
-
-Log a character in (does not load OgreBot). 'ogre login -?' lists the server short forms
-
-### `mbc`
-
-`ogre mbc <from> <to>`
-
-Also: `ogre movebagcontents`
-
-Move a bag's contents into another bag (bags 1-6)
-
-### `mcp`
-
-`ogre mcp`
-
-Also: `ogre ogremcp`
-
-Open the Master Control Panel
-
-### `merchant_craft`
-
-`ogre mc [list | #<n>|<recipe> [count]]`
-
-Also: `ogre mc`
-
-Buy limited recipes from a merchant, then craft them
-
-### `mesh`
-
-`ogre mesh <destination>`
-
-Also: `ogre ogretravelmesh`
-
-Travel to a destination across the zone-network mesh
-
-### `migrate`
-
-`ogre migrate`
-
-Review migration status and re-run any item
-
-### `move`
-
-`ogre move`
-
-NOT PORTED YET - comes with the new movement and navigation
-
-### `moveincombat`
-
-`ogre moveincombat`
-
-NOT PORTED YET - comes with the new movement and navigation
-
-### `movent`
-
-`ogre movent`
-
-NOT PORTED YET - comes with the new movement and navigation
-
-### `nav`
-
-`ogre nav -loc \"x,y,z\" [flags]`
-
-Also: `ogre navigate`
-
-Walk somewhere over the baked navmesh (`ogre nav -help` for the flags)
-
-### `navlib`
-
-`ogre navlib`
-
-NOT PORTED YET - comes with the new navigation
-
-### `npccast`
-
-`ogre npccast [monitor [target|named|all|off|copy]|status|zone|capture|reload|import|end]`
-
-Also: `ogre npccastmonitoring`
-
-Log what mobs cast (spell name + ability id) to copy or send; watch named mobs' casts - interrupt them or run your own commands
-
-### `oau`
-
-`ogre oau [minLevel]`
-
-Also: `ogre abilityupgrades`, `ogre ogreabilityupgrades`
-
-Report which Scroll Depot scrolls upgrade an ability you know
-
-### `osa`
-
-`ogre osa`
-
-Open the On-Screen Assistant
-
-### `overflow`
-
-`ogre overflow`
-
-Move overflow-window items into your bags
-
-### `overseer`
-
-`ogre overseer [status|stop]`
-
-Run the daily Overseer missions
-
-### `patch`
-
-`ogre patch [status|revert-ext]`
-
-Also: `ogre patcher`, `ogre update`
-
-Check for and apply updates (status: the release you are on; revert-ext: undo a core self-update)
-
-### `paths`
-
-`ogre paths [<path>]`
-
-This zone's points of interest and saved paths: add them, order them, walk them, import OgreBot Classic's
-
-### `perf`
-
-`ogre perf [seconds] [nothreads] | stop | status`
-
-Also: `ogre fps`
-
-Measure the frame rate and what uses each frame - run it while it lags and paste the report
-
-### `persona`
-
-`ogre persona [<class>]`
-
-Change this character's class, or with no class open the window to say which profile file each class uses on this PC; one character's own setting is on OgreBot's Persona tab
-
-### `potcb`
-
-`ogre potcb [on|off|status|reset|interval <ms>|end]`
-
-Also: `ogre cbpot`
-
-Track Potency / Crit Bonus / Fervor during fights - min, max, average and time at cap
-
-### `pulse`
-
-`ogre pulse [report|on|off|reset|ceiling <us>|slice <section> <us>|jobtest on|off]`
-
-Also: `ogre pulsebudget`
-
-Tune the per-frame time slice each resumable section gets
-
-### `pulseprof`
-
-`ogre pulseprof [report [n] [reads]|reset|on|off|overhead|scans [n|reset|on|off]]`
-
-Frame time and native reads per pulse subsystem
-
-### `pushover`
-
-`ogre pushover <message> [-title T] [-priority N] | status|reload`
-
-Send a push notification through Pushover.net
-
-### `quest`
-
-`ogre quest [1]`
-
-Also: `ogre questhelper`, `ogre qh`
-
-Watch for quest NPCs and dialogs and do the clicking (1 = always take reply 1)
-
-### `questcompare`
-
-`ogre questcompare`
-
-Also: `ogre qc`, `ogre compare`
-
-Show whether your group is on the same step of a quest as you (`ogre end questcompare` closes it)
-
-### `quiver`
-
-`ogre quiver`
-
-Refill your quiver/pouch from your bags, then the ammo depot
-
-### `radar`
-
-`ogre radar [on|off|<verb>]`
-
-Also: `ogre r`
-
-Show what is around you - nearby actors on a panel (`ogre end radar` to stop)
-
-### `refine`
-
-`ogre refine [start|stop|plan|raw|rare|bags|rewards]`
-
-Refine the Raw/Rare resources in your carried bags
-
-### `reloadbot`
-
-`ogre reloadbot`
-
-Reload OgreBot if it is running (does nothing if it is not)
-
-### `replenishnames`
-
-`ogre replenishnames [show|reload]`
-
-Also: `ogre staples`
-
-The fallback food/drink/potion names the *_Replenish depot verbs use - yours, in a file
-
-### `safefall`
-
-`ogre safefall [on|off|panel|end]`
-
-Also: `ogre levelsafefall`
-
-Level Safe Fall: fly up, drop, remount, repeat
-
-### `sessions`
-
-`ogre sessions [on|off]`
-
-The uplink's session watch: on/off until the uplink restarts (the saved switch is in ogre config); bare: list every session it hears
-
-### `smalldepottobigdepot`
-
-`ogre smalldepottobigdepot [-type]`
-
-Also: `ogre sd2bd`
-
-Empty a guild-hall depot into its (Large) twin
-
-### `smartloot`
-
-`ogre smartloot`
-
-Also: `ogre sl`
-
-Open the SmartLoot quota editor
-
-### `tags`
-
-`ogre tags`
-
-Also: `ogre tagtimers`
-
-Open the Tag Timers window: every Embargo and Allow tag on this character
-
-### `taskrunner`
-
-`ogre taskrunner [-list <list>|run <list>|start|stop|end|status|panel|lists]`
-
-Also: `ogre tr`, `ogre packpony`, `ogre pony`
-
-Cycle characters through their scheduled chores
-
-### `tempadorns`
-
-`ogre tempadorns [<profile> | list | end]`
-
-Pick the temporary adornment for each gear piece and save it as a profile; `ogre tempadorns <profile>` applies one
-
-### `tour`
-
-`ogre tour`
-
-Open the new-user tour
-
-### `trackshiny`
-
-`ogre trackshiny [colour]`
-
-Watch for a coloured shiny and waypoint it
-
-### `trade`
-
-`ogre trade [count]`
-
-Also: `ogre tradeit`
-
-Trade the EXAMINED item to your target (default 12 stacks)
-
-### `travel`
-
-`ogre travel [fast|spire|druid|bell|map|end]`
-
-Also: `ogre travelhelper`
-
-Open the Travel Helper: list a fast-travel, spire, druid-ring or bell map's destinations and send the group to one
-
-### `travelsurvey`
-
-`ogre travelsurvey [-r <radius>] [-all]`
-
-Also: `ogre tsurvey`
-
-Record every actor near you into the travel survey (for building the zone corpus)
-
-### `version`
-
-`ogre version`
-
-Which OgreBot release you are on (the name the What's new page uses) and when the core was built
-
-### `watcher`
-
-`ogre watcher`
-
-Open the Watcher window (Find Actor + Track Shiny)
-
-### `windowreset`
-
-`ogre windowreset`
-
-Also: `ogre resetwindows`
-
-Open Reset UI Windows - put windows back where they started
-
-### `zone`
-
-`ogre zone [force <name>|end]`
-
-Also: `ogre reset`, `ogre zonereset`
-
-Open the zone-reuse resetter (OldBot's `zone` / `reset`)
-
-## Console commands (ISXOgreEQ2)
-
-### `-AbilityEmbargo`
+## `-AbilityEmbargo`
 
 `-AbilityEmbargo <who> <abilityid> <duration> <args>`
 
@@ -36129,7 +37880,7 @@ Runs: `OgreBotAPI.Abilities:AddEmbargo`
 oc !c -AbilityEmbargo all 1234567890 15
 ```
 
-### `-AbilityEmbargo_ResetAbilityEmbargo`
+## `-AbilityEmbargo_ResetAbilityEmbargo`
 
 `-AbilityEmbargo_ResetAbilityEmbargo <who> <value>`
 
@@ -36146,7 +37897,7 @@ Runs: `OgreBotAPI.Abilities:ClearEmbargo`
 oc !c -AbilityEmbargo_ResetAbilityEmbargo all 1234567890
 ```
 
-### `-AbilityEmbargo_ResetAllAbilityEmbargos`
+## `-AbilityEmbargo_ResetAllAbilityEmbargos`
 
 `-AbilityEmbargo_ResetAllAbilityEmbargos <who>`
 
@@ -36162,7 +37913,7 @@ Runs: `OgreBotAPI.Abilities:ClearAllEmbargos`
 oc !c -AbilityEmbargo_ResetAllAbilityEmbargos all
 ```
 
-### `-AbilityTag_ResetAbilityTagAllow`
+## `-AbilityTag_ResetAbilityTagAllow`
 
 `-AbilityTag_ResetAbilityTagAllow <who> <value>`
 
@@ -36179,7 +37930,7 @@ Runs: `OgreBotAPI.CastStack:ClearAllow`
 oc !c -AbilityTag_ResetAbilityTagAllow all Stifle
 ```
 
-### `-AbilityTag_ResetAbilityTagEmbargo`
+## `-AbilityTag_ResetAbilityTagEmbargo`
 
 `-AbilityTag_ResetAbilityTagEmbargo <who> <value>`
 
@@ -36198,7 +37949,7 @@ Runs: `OgreBotAPI.CastStack:ClearEmbargo`
 oc !c -AbilityTag_ResetAbilityTagEmbargo all Stifle
 ```
 
-### `-AbilityTag_ResetAllAbilityTagAllows`
+## `-AbilityTag_ResetAllAbilityTagAllows`
 
 `-AbilityTag_ResetAllAbilityTagAllows <who>`
 
@@ -36214,7 +37965,7 @@ Runs: `OgreBotAPI.CastStack:ClearAllAllows`
 oc !c -AbilityTag_ResetAllAbilityTagAllows all
 ```
 
-### `-AbilityTag_ResetAllAbilityTagEmbargos`
+## `-AbilityTag_ResetAllAbilityTagEmbargos`
 
 `-AbilityTag_ResetAllAbilityTagEmbargos <who>`
 
@@ -36230,7 +37981,7 @@ Runs: `OgreBotAPI.CastStack:ClearAllEmbargos`
 oc !c -AbilityTag_ResetAllAbilityTagEmbargos all
 ```
 
-### `-AbilityTagEmbargo`
+## `-AbilityTagEmbargo`
 
 `-AbilityTagEmbargo <who> <tagname> <duration> <type> <args>`
 
@@ -36252,7 +38003,7 @@ Runs: `OgreBotAPI.CastStack:HoldTag`
 oc !c -AbilityTagEmbargo all Stifle 20 Embargo
 ```
 
-### `-AbilityTracker_Add`
+## `-AbilityTracker_Add`
 
 `-AbilityTracker_Add <who> <abilityname>`
 
@@ -36269,7 +38020,7 @@ Runs: `OgreBotAPI.Abilities:TrackerAdd`
 oc !c -AbilityTracker_Add ${Me.Name} "Bulwark of Order"
 ```
 
-### `-AcceptQuest`
+## `-AcceptQuest`
 
 `-AcceptQuest <who> <questname>`
 
@@ -36286,7 +38037,7 @@ Runs: `OgreBotAPI.Quest:Accept`
 oc !c -AcceptQuest igw:${Me.Name}
 ```
 
-### `-AcceptReward`
+## `-AcceptReward`
 
 `-AcceptReward <who> <num> <windowid>`
 
@@ -36306,7 +38057,7 @@ Runs: `OgreBotAPI.Windows:AcceptReward`
 oc !c -AcceptReward igw:${Me.Name} 1 0
 ```
 
-### `-Actor_Click`
+## `-Actor_Click`
 
 `-Actor_Click <who> <actorname> <exactname>`
 
@@ -36324,7 +38075,7 @@ Runs: `OgreBotAPI.Actors:Click`
 oc !c -Actor_Click ${Me.Name} "Strange Lever" FALSE
 ```
 
-### `-Actor_ClickQueued`
+## `-Actor_ClickQueued`
 
 `-Actor_ClickQueued <who> <actorname> <exactname>`
 
@@ -36342,7 +38093,7 @@ Runs: `OgreBotAPI.Actors:ClickQueued`
 oc !c -Actor_ClickQueued igw:${Me.Name} "Strange Lever" FALSE
 ```
 
-### `-AddNoOffensiveOn`
+## `-AddNoOffensiveOn`
 
 `-AddNoOffensiveOn <who> <mobname> <exactmatchonly>`
 
@@ -36360,7 +38111,7 @@ Runs: `OgreBotAPI.Combat:AddNoOffensive`
 oc !c -AddNoOffensiveOn igw:${Me.Name} "${Target.Name}" TRUE
 ```
 
-### `-Alias_AddEntry`
+## `-Alias_AddEntry`
 
 `-Alias_AddEntry <who> <existingalias> <newalias> <noraid>`
 
@@ -36379,7 +38130,7 @@ Runs: `OgreBotAPI.ForWho:AddAlias`
 oc !c -Alias_AddEntry igw:${Me.Name} *Tank ${Group[1].Name} FALSE
 ```
 
-### `-Alias_ChangeEntryAlias`
+## `-Alias_ChangeEntryAlias`
 
 `-Alias_ChangeEntryAlias <who> <existingalias> <newalias> <silentmode>`
 
@@ -36398,7 +38149,7 @@ Runs: `OgreBotAPI.ForWho:RenameAlias`
 oc !c -Alias_ChangeEntryAlias igw:${Me.Name} *Tank *OffTank FALSE
 ```
 
-### `-Alias_ChangeEntryFor`
+## `-Alias_ChangeEntryFor`
 
 `-Alias_ChangeEntryFor <who> <existingalias> <newalias> <silentmode>`
 
@@ -36419,7 +38170,7 @@ Runs: `OgreBotAPI.ForWho:ChangeAlias`
 oc !c -Alias_ChangeEntryFor igw:${Me.Name} ${Group[1].Name} ${Me.Name} FALSE
 ```
 
-### `-Alias_RemoveEntry`
+## `-Alias_RemoveEntry`
 
 `-Alias_RemoveEntry <who> <existingalias>`
 
@@ -36436,7 +38187,7 @@ Runs: `OgreBotAPI.ForWho:RemoveAlias`
 oc !c -Alias_RemoveEntry igw:${Me.Name} *Tank
 ```
 
-### `-AltarOfTheAncients`
+## `-AltarOfTheAncients`
 
 `-AltarOfTheAncients <who>`
 
@@ -36452,7 +38203,7 @@ Runs: `OgreBotAPI.Actors:ClickQueued`
 oc !c -AltarOfTheAncients ${Me.Name}
 ```
 
-### `-ApplyVerb`
+## `-ApplyVerb`
 
 `-ApplyVerb <who> <actorname> <verb>`
 
@@ -36472,7 +38223,7 @@ Runs: `OgreBotAPI.Actors:ApplyVerb`
 oc !c -ApplyVerb igw:${Me.Name} "${Target.Name}" Use
 ```
 
-### `-ApplyVerbID`
+## `-ApplyVerbID`
 
 `-ApplyVerbID <who> <actorid> <verb>`
 
@@ -36490,7 +38241,7 @@ Runs: `OgreBotAPI.Actors:ApplyVerbID`
 oc !c -ApplyVerbID igw:${Me.Name} ${Target.ID} Use
 ```
 
-### `-ApplyVerbIDQueued`
+## `-ApplyVerbIDQueued`
 
 `-ApplyVerbIDQueued <who> <actorid> <verb>`
 
@@ -36508,7 +38259,7 @@ Runs: `OgreBotAPI.Actors:ApplyVerbIDQueued`
 oc !c -ApplyVerbIDQueued igw:${Me.Name} ${Target.ID} Use
 ```
 
-### `-ApplyVerbQueued`
+## `-ApplyVerbQueued`
 
 `-ApplyVerbQueued <who> <actorname> <verb>`
 
@@ -36526,7 +38277,7 @@ Runs: `OgreBotAPI.Actors:ApplyVerbQueued`
 oc !c -ApplyVerbQueued igw:${Me.Name} "${Target.Name}" Use
 ```
 
-### `-ArcannaseEffigyOfRebirth`
+## `-ArcannaseEffigyOfRebirth`
 
 `-ArcannaseEffigyOfRebirth <who>`
 
@@ -36542,7 +38293,7 @@ Runs: `OgreBotAPI:ArcannaseEffigyOfRebirth`
 oc !c -ArcannaseEffigyOfRebirth ${Me.Name}
 ```
 
-### `-assist`
+## `-assist`
 
 `-assist <who> <assistwho>`
 
@@ -36561,7 +38312,7 @@ Runs: `OgreBotAPI.Assist:Anchor`
 oc !c -assist all ${Me.Name}
 ```
 
-### `-AssistForWho`
+## `-AssistForWho`
 
 `-AssistForWho <who> <assistwho>`
 
@@ -36578,7 +38329,7 @@ Runs: `OgreBotAPI.Assist:Anchor`
 oc !c -AssistForWho igw:${Me.Name} ${Me.Name}
 ```
 
-### `-AuthIfInRaid`
+## `-AuthIfInRaid`
 
 `-AuthIfInRaid <nick> <value>`
 
@@ -36597,7 +38348,7 @@ Runs: `OgreBotAPI.Comms:IrcAuthIfInRaid`
 oc !c -AuthIfInRaid ${Group[1].Name} ${Me.Name}
 ```
 
-### `-AutoConsumeTemporaryFamiliarExperience`
+## `-AutoConsumeTemporaryFamiliarExperience`
 
 `-AutoConsumeTemporaryFamiliarExperience <who>`
 
@@ -36613,7 +38364,7 @@ Runs: `OgreBotAPI.Inventory:AutoConsumeFamiliarXP`
 oc !c -AutoConsumeTemporaryFamiliarExperience ${Me.Name}
 ```
 
-### `-AutoConsumeTemporaryMountTrainingReduction`
+## `-AutoConsumeTemporaryMountTrainingReduction`
 
 `-AutoConsumeTemporaryMountTrainingReduction <who>`
 
@@ -36629,7 +38380,7 @@ Runs: `OgreBotAPI.Inventory:AutoConsumeMountTraining`
 oc !c -AutoConsumeTemporaryMountTrainingReduction ${Me.Name}
 ```
 
-### `-AutoConsumeTemporaryResearchReduction`
+## `-AutoConsumeTemporaryResearchReduction`
 
 `-AutoConsumeTemporaryResearchReduction <who>`
 
@@ -36645,7 +38396,7 @@ Runs: `OgreBotAPI.Inventory:AutoConsumeResearch`
 oc !c -AutoConsumeTemporaryResearchReduction ${Me.Name}
 ```
 
-### `-AutoCure`
+## `-AutoCure`
 
 `-AutoCure <who> <toonname> <args>`
 
@@ -36663,7 +38414,7 @@ Runs: `OgreBotAPI.Cures:Request`
 oc !c -AutoCure igw:${Me.Name} ${Group[1].Name} trauma
 ```
 
-### `-AutoCureRemove`
+## `-AutoCureRemove`
 
 `-AutoCureRemove <who> <toonortag>`
 
@@ -36680,7 +38431,7 @@ Runs: `OgreBotAPI.Cures:CancelRequests`
 oc !c -AutoCureRemove igw:${Me.Name} ${Me.Name}
 ```
 
-### `-AutoCurse`
+## `-AutoCurse`
 
 `-AutoCurse <who> <toonname> <args>`
 
@@ -36698,7 +38449,7 @@ Runs: `OgreBotAPI.Cures:RequestCurse`
 oc !c -AutoCurse igw:${Me.Name} ${Me.Name} -AutoRemove 20
 ```
 
-### `-AutoGroupCure`
+## `-AutoGroupCure`
 
 `-AutoGroupCure <who> <args>`
 
@@ -36715,7 +38466,7 @@ Runs: `OgreBotAPI.Cures:RequestGroupWatch`
 oc !c -AutoGroupCure igw:${Me.Name} arcane trauma -count 3
 ```
 
-### `-autohunt`
+## `-autohunt`
 
 `-autohunt <who> <mode>`
 
@@ -36732,7 +38483,7 @@ Runs: `OgreBotAPI.AutoHunt:SetMode`
 oc !c -autohunt ${Me.Name} hunt
 ```
 
-### `-AutoItemCure`
+## `-AutoItemCure`
 
 `-AutoItemCure <who> <type>`
 
@@ -36749,7 +38500,7 @@ Runs: `OgreBotAPI.Cures:RequestItem`
 oc !c -AutoItemCure igw:${Me.Name} noxious
 ```
 
-### `-AutoRun`
+## `-AutoRun`
 
 `-AutoRun <who>`
 
@@ -36765,7 +38516,7 @@ Runs: `OgreBotAPI.Movement:AutoRun`
 oc !c -AutoRun igw:${Me.Name}
 ```
 
-### `-AutoTarget_AddActor`
+## `-AutoTarget_AddActor`
 
 `-AutoTarget_AddActor <who> <actorname> <hp> <aggroongrouponly> <checkcollision> <maxhp> <aggroonnonfighteronly> <aggroonnotme> <keeplast>`
 
@@ -36791,7 +38542,7 @@ Runs: `OgreBotAPI.AutoTarget:AddActor`
 oc !c -AutoTarget_AddActor igw:${Me.Name} "a frost giant" 0 TRUE FALSE 0 FALSE FALSE FALSE
 ```
 
-### `-AutoTarget_Clear`
+## `-AutoTarget_Clear`
 
 `-AutoTarget_Clear <who>`
 
@@ -36807,7 +38558,7 @@ Runs: `OgreBotAPI.AutoTarget:Clear`
 oc !c -AutoTarget_Clear igw:${Me.Name}
 ```
 
-### `-AutoTarget_ClearActors`
+## `-AutoTarget_ClearActors`
 
 `-AutoTarget_ClearActors <who>`
 
@@ -36825,7 +38576,7 @@ Runs: `OgreBotAPI.AutoTarget:Clear`
 oc !c -AutoTarget_ClearActors igw:${Me.Name}
 ```
 
-### `-AutoTarget_Disable`
+## `-AutoTarget_Disable`
 
 `-AutoTarget_Disable <who> <key>`
 
@@ -36844,7 +38595,7 @@ Runs: `OgreBotAPI.AutoTarget:Suppress`
 oc !c -AutoTarget_Disable igw:${Me.Name} MyScript
 ```
 
-### `-AutoTarget_Enable`
+## `-AutoTarget_Enable`
 
 `-AutoTarget_Enable <who> <key>`
 
@@ -36863,7 +38614,7 @@ Runs: `OgreBotAPI.AutoTarget:Release`
 oc !c -AutoTarget_Enable igw:${Me.Name} MyScript
 ```
 
-### `-AutoTarget_RemoveActor`
+## `-AutoTarget_RemoveActor`
 
 `-AutoTarget_RemoveActor <who> <actorname>`
 
@@ -36882,7 +38633,7 @@ Runs: `OgreBotAPI.AutoTarget:RemoveActor`
 oc !c -AutoTarget_RemoveActor igw:${Me.Name} "a frenzied ghoul"
 ```
 
-### `-AutoTarget_SetScanHeight`
+## `-AutoTarget_SetScanHeight`
 
 `-AutoTarget_SetScanHeight <who> <value>`
 
@@ -36901,7 +38652,7 @@ Runs: `OgreBotAPI.AutoTarget:SetScanHeight`
 oc !c -AutoTarget_SetScanHeight igw:${Me.Name} 5
 ```
 
-### `-AutoTarget_SetScanRadius`
+## `-AutoTarget_SetScanRadius`
 
 `-AutoTarget_SetScanRadius <who> <value>`
 
@@ -36920,7 +38671,7 @@ Runs: `OgreBotAPI.AutoTarget:SetScanRadius`
 oc !c -AutoTarget_SetScanRadius igw:${Me.Name} 50
 ```
 
-### `-AutoTargetOCSToggle`
+## `-AutoTargetOCSToggle`
 
 `-AutoTargetOCSToggle <who> <value> <silent>`
 
@@ -36940,7 +38691,7 @@ Runs: `OgreBotAPI.Options:Set`
 oc !c -AutoTargetOCSToggle igw:${Me.Name} TOGGLE FALSE
 ```
 
-### `-AutoTargetToggle`
+## `-AutoTargetToggle`
 
 `-AutoTargetToggle <who> <value> <silent>`
 
@@ -36960,7 +38711,7 @@ Runs: `OgreBotAPI.Options:Set`
 oc !c -AutoTargetToggle igw:${Me.Name} TRUE FALSE
 ```
 
-### `-BuyFromMerchant`
+## `-BuyFromMerchant`
 
 `-BuyFromMerchant <who> <itemname> <value>`
 
@@ -36978,7 +38729,14 @@ Runs: `OgreBotAPI.Merchant:Buy`
 oc !c -BuyFromMerchant ${Me.Name} "Bundle of Arrows" 2
 ```
 
-### `-CallGH`
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/commands/console-c.md
+
+# Console commands: C
+
+## `-CallGH`
 
 `-CallGH <who>`
 
@@ -36996,7 +38754,7 @@ Runs: `OgreBotAPI.Movement:CallGH`
 oc !c -CallGH igw:${Me.Name}
 ```
 
-### `-campspot`
+## `-campspot`
 
 `-campspot <who> <mindistance> <maxdistance>`
 
@@ -37016,7 +38774,7 @@ Runs: `OgreBotAPI.CampSpot:SetHere`
 oc !c -campspot igw:${Me.Name} 2 200
 ```
 
-### `-CampToDesktop`
+## `-CampToDesktop`
 
 `-CampToDesktop <who> <loginonly>`
 
@@ -37035,7 +38793,7 @@ Runs: `OgreBotAPI.Bot:CampToDesktop`
 oc !c -CampToDesktop igw:${Me.Name} FALSE
 ```
 
-### `-CancelCasting`
+## `-CancelCasting`
 
 `-CancelCasting <who> <args>`
 
@@ -37054,7 +38812,7 @@ Runs: `OgreBotAPI.Abilities:CancelCasting`
 oc !c -CancelCasting igw:${Me.Name} "Bulwark of Order"
 ```
 
-### `-cancelcastnoexport`
+## `-cancelcastnoexport`
 
 `-cancelcastnoexport <who> <abilityname>`
 
@@ -37073,7 +38831,7 @@ Runs: `OgreBotAPI.Abilities:CastNoExport`
 oc !c -cancelcastnoexport igw:${Me.Name} Kick
 ```
 
-### `-CancelDetrimental`
+## `-CancelDetrimental`
 
 `-CancelDetrimental <who> <mainid> <backdropid>`
 
@@ -37091,7 +38849,7 @@ Runs: `OgreBotAPI.Cures:CancelDetrimental`
 oc !c -CancelDetrimental igw:${Me.Name} 612 317
 ```
 
-### `-CancelGroupWaterBreathing`
+## `-CancelGroupWaterBreathing`
 
 `-CancelGroupWaterBreathing <who>`
 
@@ -37107,7 +38865,7 @@ Runs: `OgreBotAPI.Abilities:CancelGroupWaterBreathing`
 oc !c -CancelGroupWaterBreathing igw:${Me.Name}
 ```
 
-### `-CancelMaintained`
+## `-CancelMaintained`
 
 `-CancelMaintained <who> <abilityname> <args>`
 
@@ -37127,7 +38885,7 @@ Runs: `OgreBotAPI.Abilities:CancelMaintainedFor`, `OgreBotAPI.Abilities:CancelMa
 oc !c -CancelMaintained igw:${Me.Name} "Spirit of the Wolf"
 ```
 
-### `-CancelOnCast`
+## `-CancelOnCast`
 
 `-CancelOnCast <who> <abilityname>`
 
@@ -37144,7 +38902,7 @@ Runs: `OgreBotAPI.Abilities:CancelOnCast`
 oc !c -CancelOnCast igw:${Me.Name} Kick
 ```
 
-### `-Cast_Interrupt`
+## `-Cast_Interrupt`
 
 `-Cast_Interrupt <who> <mobnameid> <calledfrom>`
 
@@ -37164,7 +38922,7 @@ Runs: `OgreBotAPI.Abilities:CastInterrupt`
 oc !c -Cast_Interrupt igw:${Me.Name} ${Target.ID} MyScript
 ```
 
-### `-CastAbility`
+## `-CastAbility`
 
 `-CastAbility <who> <abilityname>`
 
@@ -37183,7 +38941,7 @@ Runs: `OgreBotAPI.Abilities:Cast`
 oc !c -CastAbility igw:${Me.Name} Kick
 ```
 
-### `-CastAbilityInSeconds`
+## `-CastAbilityInSeconds`
 
 `-CastAbilityInSeconds <who> <abilityname> <seconds>`
 
@@ -37201,7 +38959,7 @@ Runs: `OgreBotAPI.Abilities:CastInSeconds`
 oc !c -CastAbilityInSeconds igw:${Me.Name} Kick 5
 ```
 
-### `-CastAbilityNoChecks`
+## `-CastAbilityNoChecks`
 
 `-CastAbilityNoChecks <who> <abilityname>`
 
@@ -37218,7 +38976,7 @@ Runs: `OgreBotAPI.Abilities:CastNoChecks`
 oc !c -CastAbilityNoChecks igw:${Me.Name} Kick
 ```
 
-### `-CastAbilityOnNPC`
+## `-CastAbilityOnNPC`
 
 `-CastAbilityOnNPC <who> <abilityname> <mobnameid>`
 
@@ -37238,7 +38996,7 @@ Runs: `OgreBotAPI.Abilities:CastOnNPC`
 oc !c -CastAbilityOnNPC igw:${Me.Name} Kick ${Target.ID}
 ```
 
-### `-CastAbilityOnPlayer`
+## `-CastAbilityOnPlayer`
 
 `-CastAbilityOnPlayer <who> <abilityname> <onplayer>`
 
@@ -37258,7 +39016,7 @@ Runs: `OgreBotAPI.Abilities:CastOnPlayer`
 oc !c -CastAbilityOnPlayer igw:${Me.Name} "Spirit of the Wolf" ${Me.Name}
 ```
 
-### `-CastAbilityOnPlayerInSeconds`
+## `-CastAbilityOnPlayerInSeconds`
 
 `-CastAbilityOnPlayerInSeconds <who> <abilityname> <onplayer> <seconds>`
 
@@ -37277,7 +39035,7 @@ Runs: `OgreBotAPI.Abilities:CastOnPlayerInSeconds`
 oc !c -CastAbilityOnPlayerInSeconds igw:${Me.Name} "Spirit of the Wolf" ${Group[1].Name} 10
 ```
 
-### `-CastAbilityOnPlayerNoChecks`
+## `-CastAbilityOnPlayerNoChecks`
 
 `-CastAbilityOnPlayerNoChecks <who> <abilityname> <onplayer> <calledfrom>`
 
@@ -37296,7 +39054,7 @@ Runs: `OgreBotAPI.Abilities:CastOnPlayerNoChecks`
 oc !c -CastAbilityOnPlayerNoChecks igw:${Me.Name} "Spirit of the Wolf" ${Group[1].Name} MyScript
 ```
 
-### `-CastBulwarkImmediately`
+## `-CastBulwarkImmediately`
 
 `-CastBulwarkImmediately <who>`
 
@@ -37312,7 +39070,7 @@ Runs: `OgreBotAPI.Abilities:CastBulwark`
 oc !c -CastBulwarkImmediately igw:${Me.Name}
 ```
 
-### `-CastGroupWaterBreathing`
+## `-CastGroupWaterBreathing`
 
 `-CastGroupWaterBreathing <who>`
 
@@ -37328,7 +39086,7 @@ Runs: `OgreBotAPI.Abilities:CastGroupWaterBreathing`
 oc !c -CastGroupWaterBreathing igw:${Me.Name}
 ```
 
-### `-CastHOIconID`
+## `-CastHOIconID`
 
 `-CastHOIconID <who> <iconid> <calledfrom>`
 
@@ -37346,7 +39104,7 @@ Runs: `OgreBotAPI.Abilities:CastHOIcon`
 oc !c -CastHOIconID igw:${Me.Name} 3 MyScript
 ```
 
-### `-CastRescue_AP`
+## `-CastRescue_AP`
 
 `-CastRescue_AP <who> <calledfrom> <args>`
 
@@ -37364,7 +39122,7 @@ Runs: `OgreBotAPI.Abilities:CastRescue`
 oc !c -CastRescue_AP ${Me.Name} CastRescue -NoForceTargets
 ```
 
-### `-Champions_Zone_Resetter`
+## `-Champions_Zone_Resetter`
 
 `-Champions_Zone_Resetter <who> <zonename>`
 
@@ -37381,7 +39139,7 @@ Runs: `OgreBotAPI.Zone:ChampionsResetter`
 oc !c -Champions_Zone_Resetter ${Me.Name} "${Zone.Name}"
 ```
 
-### `-ChangeBeltAdorn`
+## `-ChangeBeltAdorn`
 
 `-ChangeBeltAdorn <who> <value> <unequip>`
 
@@ -37399,7 +39157,7 @@ Runs: `OgreBotAPI.Inventory:ChangeBeltAdorn`
 oc !c -ChangeBeltAdorn igw:${Me.Name} Stun TRUE
 ```
 
-### `-ChangeCampSpot`
+## `-ChangeCampSpot`
 
 `-ChangeCampSpot <who> <x> <y> <z>`
 
@@ -37420,7 +39178,7 @@ Runs: `OgreBotAPI.CampSpot:SetLoc`
 oc !c -ChangeCampSpot igw:${Me.Name} ${Me.X} ${Me.Y} ${Me.Z}
 ```
 
-### `-ChangeCastStackListBoxItem`
+## `-ChangeCastStackListBoxItem`
 
 `-ChangeCastStackListBoxItem <who> <object> <value> <silentmode>`
 
@@ -37441,7 +39199,7 @@ Runs: `OgreBotAPI.CastStack:SetEntry`
 oc !c -ChangeCastStackListBoxItem igw:${Me.Name} "Absorb Magic" TOGGLE FALSE
 ```
 
-### `-ChangeCastStackListBoxItemByTag`
+## `-ChangeCastStackListBoxItemByTag`
 
 `-ChangeCastStackListBoxItemByTag <who> <object> <value> <partial> <silentmode>`
 
@@ -37463,7 +39221,7 @@ Runs: `OgreBotAPI.CastStack:SetEntryByTag`
 oc !c -ChangeCastStackListBoxItemByTag igw:${Me.Name} AE FALSE FALSE FALSE
 ```
 
-### `-ChangeLootOptions`
+## `-ChangeLootOptions`
 
 `-ChangeLootOptions <who> <args>`
 
@@ -37480,7 +39238,7 @@ Runs: `OgreBotAPI.Loot:SetOptions`
 oc !c -ChangeLootOptions ${Me.Name} RR T AN
 ```
 
-### `-ChangeOgreBotUIOption`
+## `-ChangeOgreBotUIOption`
 
 `-ChangeOgreBotUIOption <who> <args>`
 
@@ -37497,7 +39255,7 @@ Runs: `OgreBotAPI.Options:Set`
 oc !c -ChangeOgreBotUIOption igw:${Me.Name} checkbox_autotarget_enabled TRUE
 ```
 
-### `-ChangeZoneTo`
+## `-ChangeZoneTo`
 
 `-ChangeZoneTo <who> <value>`
 
@@ -37514,7 +39272,7 @@ Runs: `OgreBotAPI.Zone:ChangeZoneTo`
 oc !c -ChangeZoneTo ${Me.Name} ${Group[1].Name}
 ```
 
-### `-CheckGear`
+## `-CheckGear`
 
 `-CheckGear <who> <equalorunder>`
 
@@ -37533,7 +39291,7 @@ Runs: `OgreBotAPI.Inventory:CheckGear`
 oc !c -CheckGear igw:${Me.Name} 90
 ```
 
-### `-CheckKunarkAscendingRequirements`
+## `-CheckKunarkAscendingRequirements`
 
 `-CheckKunarkAscendingRequirements <who>`
 
@@ -37549,7 +39307,7 @@ Runs: `OgreBotAPI.Quest:CheckKunarkAscending`
 oc !c -CheckKunarkAscendingRequirements igw:${Me.Name}
 ```
 
-### `-CheckMemberLevel`
+## `-CheckMemberLevel`
 
 `-CheckMemberLevel <who> <value>`
 
@@ -37566,7 +39324,7 @@ Runs: `OgreBotAPI.Roster:CheckMemberLevel`
 oc !c -CheckMemberLevel igw:${Me.Name} FALSE
 ```
 
-### `-CheckMercenaryTraining`
+## `-CheckMercenaryTraining`
 
 `-CheckMercenaryTraining <who>`
 
@@ -37582,7 +39340,7 @@ Runs: `OgreBotAPI.Consumables:CheckMercenaryTraining`
 oc !c -CheckMercenaryTraining ${Me.Name}
 ```
 
-### `-CheckMountTraining`
+## `-CheckMountTraining`
 
 `-CheckMountTraining <who>`
 
@@ -37598,7 +39356,7 @@ Runs: `OgreBotAPI.Consumables:CheckMountTraining`
 oc !c -CheckMountTraining ${Me.Name} FALSE
 ```
 
-### `-CheckResearch`
+## `-CheckResearch`
 
 `-CheckResearch <who> <value>`
 
@@ -37615,7 +39373,7 @@ Runs: `OgreBotAPI.Util:CheckResearch`
 oc !c -CheckResearch igw:${Me.Name} TRUE
 ```
 
-### `-CheckVersion`
+## `-CheckVersion`
 
 `-CheckVersion <who> <compareversionto>`
 
@@ -37632,7 +39390,7 @@ Runs: `OgreBotAPI.Comms:ReportVersion`
 oc !c -CheckVersion all
 ```
 
-### `-ChoiceWindow`
+## `-ChoiceWindow`
 
 `-ChoiceWindow <who> <value>`
 
@@ -37649,7 +39407,7 @@ Runs: `OgreBotAPI.Windows:Choice`
 oc !c -ChoiceWindow igw:${Me.Name} 1
 ```
 
-### `-ClassInfo_ChangeValue`
+## `-ClassInfo_ChangeValue`
 
 `-ClassInfo_ChangeValue <who> <member> <value>`
 
@@ -37667,7 +39425,7 @@ Runs: `OgreBotAPI.Roster:SetClassValue`
 oc !c -ClassInfo_ChangeValue ${Me.Name} IsFighter TRUE
 ```
 
-### `-Clear_Allow_HOICon`
+## `-Clear_Allow_HOICon`
 
 `-Clear_Allow_HOICon <who> <variablename>`
 
@@ -37684,7 +39442,7 @@ Runs: `OgreBotAPI.HOs:ClearAllowIcon`
 oc !c -Clear_Allow_HOICon ${Me.Name} 12
 ```
 
-### `-Clear_Allow_HOICons`
+## `-Clear_Allow_HOICons`
 
 `-Clear_Allow_HOICons <who>`
 
@@ -37700,7 +39458,7 @@ Runs: `OgreBotAPI.HOs:ClearAllowIcons`
 oc !c -Clear_Allow_HOICons ${Me.Name}
 ```
 
-### `-Clear_Disable_HOICon`
+## `-Clear_Disable_HOICon`
 
 `-Clear_Disable_HOICon <who> <variablename>`
 
@@ -37717,7 +39475,7 @@ Runs: `OgreBotAPI.HOs:ClearDisableIcon`
 oc !c -Clear_Disable_HOICon ${Me.Name} 24
 ```
 
-### `-Clear_Disable_HOICons`
+## `-Clear_Disable_HOICons`
 
 `-Clear_Disable_HOICons <who>`
 
@@ -37733,7 +39491,7 @@ Runs: `OgreBotAPI.HOs:ClearDisableIcons`
 oc !c -Clear_Disable_HOICons ${Me.Name}
 ```
 
-### `-clear_Internalvariable`
+## `-clear_Internalvariable`
 
 `-clear_Internalvariable <who> <variablename>`
 
@@ -37750,7 +39508,7 @@ Runs: `OgreBotAPI.Vars:ClearInternal`
 oc !c -clear_Internalvariable ${Me.Name} PullCount
 ```
 
-### `-clear_Internalvariables`
+## `-clear_Internalvariables`
 
 `-clear_Internalvariables <who>`
 
@@ -37766,7 +39524,7 @@ Runs: `OgreBotAPI.Vars:ClearAllInternal`
 oc !c -clear_Internalvariables ${Me.Name}
 ```
 
-### `-clear_variable`
+## `-clear_variable`
 
 `-clear_variable <who> <variablename>`
 
@@ -37783,7 +39541,7 @@ Runs: `OgreBotAPI.Vars:Clear`
 oc !c -clear_variable igw:${Me.Name} Phase
 ```
 
-### `-clear_variables`
+## `-clear_variables`
 
 `-clear_variables <who>`
 
@@ -37799,7 +39557,7 @@ Runs: `OgreBotAPI.Vars:ClearAll`
 oc !c -clear_variables igw:${Me.Name}
 ```
 
-### `-ClearNoOffensiveOn`
+## `-ClearNoOffensiveOn`
 
 `-ClearNoOffensiveOn <who>`
 
@@ -37815,7 +39573,7 @@ Runs: `OgreBotAPI.Combat:ClearNoOffensive`
 oc !c -ClearNoOffensiveOn igw:${Me.Name}
 ```
 
-### `-CloseExamineWindow`
+## `-CloseExamineWindow`
 
 `-CloseExamineWindow <who>`
 
@@ -37831,7 +39589,7 @@ Runs: `OgreBotAPI.Windows:CloseExamine`
 oc !c -CloseExamineWindow ${Me.Name}
 ```
 
-### `-CloseWindow`
+## `-CloseWindow`
 
 `-CloseWindow <who>`
 
@@ -37849,7 +39607,7 @@ Runs: `OgreBotAPI.Windows:Close`
 oc !c -CloseWindow igw:${Me.Name}
 ```
 
-### `-Come2Me`
+## `-Come2Me`
 
 `-Come2Me <who> <moveto> <precision>`
 
@@ -37869,7 +39627,7 @@ Runs: `OgreBotAPI.Movement:Come2Me`
 oc !c -Come2Me igw:${Me.Name} ${Me.Name} 3
 ```
 
-### `-CompareQuest`
+## `-CompareQuest`
 
 `-CompareQuest <who> <questname> <sender>`
 
@@ -37887,7 +39645,7 @@ Runs: `OgreBotAPI.Quest:CompareUpdate`
 oc !c -CompareQuest all "The Quest Name"
 ```
 
-### `-Consume_Familiars`
+## `-Consume_Familiars`
 
 `-Consume_Familiars <who>`
 
@@ -37903,7 +39661,7 @@ Runs: `OgreBotAPI.Inventory:ConsumeFamiliars`
 oc !c -Consume_Familiars igw:${Me.Name}
 ```
 
-### `-Consume_Status_Ingots`
+## `-Consume_Status_Ingots`
 
 `-Consume_Status_Ingots <who> <value>`
 
@@ -37922,7 +39680,7 @@ Runs: `OgreBotAPI.Inventory:ConsumeStatusIngots`
 oc !c -Consume_Status_Ingots igw:${Me.Name} 10
 ```
 
-### `-Consume_Status_Tokens`
+## `-Consume_Status_Tokens`
 
 `-Consume_Status_Tokens <who> <value>`
 
@@ -37939,7 +39697,7 @@ Runs: `OgreBotAPI.Inventory:ConsumeStatusTokens`
 oc !c -Consume_Status_Tokens igw:${Me.Name} 10
 ```
 
-### `-ConsumeItems_ProcessList_AP`
+## `-ConsumeItems_ProcessList_AP`
 
 `-ConsumeItems_ProcessList_AP <who> <args>`
 
@@ -37956,7 +39714,7 @@ Runs: `OgreBotAPI.Inventory:ConsumeList`
 oc !c -ConsumeItems_ProcessList_AP igw:${Me.Name} -all -st
 ```
 
-### `-ConversationBubble`
+## `-ConversationBubble`
 
 `-ConversationBubble <who> <num>`
 
@@ -37975,7 +39733,7 @@ Runs: `OgreBotAPI.Comms:ConversationBubble`
 oc !c -ConversationBubble igw:${Me.Name} 1
 ```
 
-### `-countdown`
+## `-countdown`
 
 `-countdown <who> <time>`
 
@@ -37992,7 +39750,7 @@ Runs: `OgreBotAPI.Combat:Countdown`
 oc !c -countdown ${Me.Name} 10
 ```
 
-### `-CoV`
+## `-CoV`
 
 `-CoV <who> <traveloption> <toonoption> <allowsamezone>`
 
@@ -38011,7 +39769,7 @@ Runs: `OgreBotAPI.Consumables:CoV`
 oc !c -CoV ${Me.Name} Summon ${Group[1].Name} FALSE
 ```
 
-### `-Crouch`
+## `-Crouch`
 
 `-Crouch <who>`
 
@@ -38027,7 +39785,7 @@ Runs: `OgreBotAPI.Movement:Crouch`
 oc !c -Crouch igw:${Me.Name}
 ```
 
-### `-CS_ClearAll`
+## `-CS_ClearAll`
 
 `-CS_ClearAll <who>`
 
@@ -38043,7 +39801,7 @@ Runs: `OgreBotAPI.CampSpot:ClearAll`
 oc !c -CS_ClearAll igw:${Me.Name}
 ```
 
-### `-CS_ClearCampSpot`
+## `-CS_ClearCampSpot`
 
 `-CS_ClearCampSpot <who>`
 
@@ -38059,7 +39817,7 @@ Runs: `OgreBotAPI.CampSpot:ClearCampSpot`
 oc !c -CS_ClearCampSpot igw:${Me.Name}
 ```
 
-### `-CS_ClearRelative`
+## `-CS_ClearRelative`
 
 `-CS_ClearRelative <who>`
 
@@ -38075,7 +39833,7 @@ Runs: `OgreBotAPI.CampSpot:ClearRelative`
 oc !c -CS_ClearRelative igw:${Me.Name}
 ```
 
-### `-CS_Set_ChangeCampSpot`
+## `-CS_Set_ChangeCampSpot`
 
 `-CS_Set_ChangeCampSpot <who> <x> <y> <z>`
 
@@ -38094,7 +39852,7 @@ Runs: `OgreBotAPI.CampSpot:SetLoc`
 oc !c -CS_Set_ChangeCampSpot igw:${Me.Name} ${Me.X} ${Me.Y} ${Me.Z}
 ```
 
-### `-CS_Set_ChangeCampSpotBy`
+## `-CS_Set_ChangeCampSpotBy`
 
 `-CS_Set_ChangeCampSpotBy <who> <x> <y> <z>`
 
@@ -38115,7 +39873,7 @@ Runs: `OgreBotAPI.CampSpot:NudgeBy`
 oc !c -CS_Set_ChangeCampSpotBy igw:${Me.Name} 5 0 -5
 ```
 
-### `-CS_Set_ChangeRelativeCampSpotBy`
+## `-CS_Set_ChangeRelativeCampSpotBy`
 
 `-CS_Set_ChangeRelativeCampSpotBy <who> <x> <y> <z>`
 
@@ -38134,7 +39892,7 @@ Runs: `OgreBotAPI.CampSpot:SetRelativeBy`
 oc !c -CS_Set_ChangeRelativeCampSpotBy igw:${Me.Name} 0 0 10
 ```
 
-### `-CS_Set_Formation_Circle`
+## `-CS_Set_Formation_Circle`
 
 `-CS_Set_Formation_Circle <who> <distance> <x> <y> <z> <userelativecs>`
 
@@ -38157,7 +39915,7 @@ Runs: `OgreBotAPI.CampSpot:SetFormation`
 oc !c -CS_Set_Formation_Circle igw:${Me.Name} 7 ${Me.X} ${Me.Y} ${Me.Z} FALSE
 ```
 
-### `-CS_Set_Formation_MonkeyInMiddle`
+## `-CS_Set_Formation_MonkeyInMiddle`
 
 `-CS_Set_Formation_MonkeyInMiddle <who> <distance> <x> <y> <z> <middleman> <userelativecs>`
 
@@ -38181,7 +39939,7 @@ Runs: `OgreBotAPI.CampSpot:SetFormation`
 oc !c -CS_Set_Formation_MonkeyInMiddle igw:${Me.Name} 7 ${Me.X} ${Me.Y} ${Me.Z} ${Me.Name} FALSE
 ```
 
-### `-CS_Set_Formation_MonkeyInMiddleRaid`
+## `-CS_Set_Formation_MonkeyInMiddleRaid`
 
 `-CS_Set_Formation_MonkeyInMiddleRaid <who> <middleforwho> <distance> <x> <y> <z> <circlespots> <userelativecs>`
 
@@ -38206,7 +39964,7 @@ Runs: `OgreBotAPI.CampSpot:SetFormation`
 oc !c -CS_Set_Formation_MonkeyInMiddleRaid all igw:${Me.Name} 15 ${Me.X} ${Me.Y} ${Me.Z} 5 FALSE
 ```
 
-### `-CS_Set_HowClose`
+## `-CS_Set_HowClose`
 
 `-CS_Set_HowClose <who> <value>`
 
@@ -38223,7 +39981,7 @@ Runs: `OgreBotAPI.CampSpot:SetHowClose`
 oc !c -CS_Set_HowClose igw:${Me.Name} 3
 ```
 
-### `-CS_Set_HowFar`
+## `-CS_Set_HowFar`
 
 `-CS_Set_HowFar <who> <value>`
 
@@ -38240,7 +39998,7 @@ Runs: `OgreBotAPI.CampSpot:SetHowFar`
 oc !c -CS_Set_HowFar igw:${Me.Name} 200
 ```
 
-### `-CS_Set_Relative`
+## `-CS_Set_Relative`
 
 `-CS_Set_Relative <who> <x> <y> <z>`
 
@@ -38259,7 +40017,7 @@ Runs: `OgreBotAPI.CampSpot:SetRelativeLoc`
 oc !c -CS_Set_Relative igw:${Me.Name} ${Me.X} ${Me.Y} ${Me.Z}
 ```
 
-### `-CurePotions_Replenish`
+## `-CurePotions_Replenish`
 
 `-CurePotions_Replenish <who> <potion>`
 
@@ -38276,7 +40034,14 @@ Runs: `OgreBotAPI.Cures:ReplenishPotions`
 oc !c -CurePotions_Replenish igw:${Me.Name} trauma
 ```
 
-### `-DeleteQuest`
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/commands/console-d-n.md
+
+# Console commands: D-N
+
+## `-DeleteQuest`
 
 `-DeleteQuest <who> <value>`
 
@@ -38293,7 +40058,7 @@ Runs: `OgreBotAPI.Quest:Delete`
 oc !c -DeleteQuest igw:${Me.Name} "A Lost Shipment"
 ```
 
-### `-DestroyItem`
+## `-DestroyItem`
 
 `-DestroyItem <who> <itemname> <charges>`
 
@@ -38311,7 +40076,7 @@ Runs: `OgreBotAPI.Inventory:DestroyItem`
 oc !c -DestroyItem igw:${Me.Name} "Rusty Dagger" 0
 ```
 
-### `-DestroyItem_NoChecks`
+## `-DestroyItem_NoChecks`
 
 `-DestroyItem_NoChecks <who> <itemname>`
 
@@ -38328,7 +40093,7 @@ Runs: `OgreBotAPI.Inventory:DestroyItemNoChecks`
 oc !c -DestroyItem_NoChecks igw:${Me.Name} "Rusty Dagger"
 ```
 
-### `-Disable_Dispells`
+## `-Disable_Dispells`
 
 `-Disable_Dispells <who>`
 
@@ -38344,7 +40109,7 @@ Runs: `OgreBotAPI.Abilities:SetDispellsEnabled`
 oc !c -Disable_Dispells igw:${Me.Name}
 ```
 
-### `-Disable_Interrupts`
+## `-Disable_Interrupts`
 
 `-Disable_Interrupts <who>`
 
@@ -38360,7 +40125,7 @@ Runs: `OgreBotAPI.Abilities:SetInterruptsEnabled`
 oc !c -Disable_Interrupts igw:${Me.Name}
 ```
 
-### `-Disband`
+## `-Disband`
 
 `-Disband <who>`
 
@@ -38376,7 +40141,7 @@ Runs: `OgreBotAPI.Roster:Disband`
 oc !c -Disband ${Me.Name}
 ```
 
-### `-DispellNPCWithAny`
+## `-DispellNPCWithAny`
 
 `-DispellNPCWithAny <who> <npcnameorid>`
 
@@ -38393,7 +40158,7 @@ Runs: `OgreBotAPI.Abilities:DispellNPC`
 oc !c -DispellNPCWithAny igw:${Me.Name} ${Target.ID}
 ```
 
-### `-DispellNPCWithItem`
+## `-DispellNPCWithItem`
 
 `-DispellNPCWithItem <who> <npcnameorid>`
 
@@ -38410,7 +40175,7 @@ Runs: `OgreBotAPI.Abilities:DispellNPC`
 oc !c -DispellNPCWithItem igw:${Me.Name} ${Target.ID}
 ```
 
-### `-DispellNPCWithSpell`
+## `-DispellNPCWithSpell`
 
 `-DispellNPCWithSpell <who> <npcnameorid>`
 
@@ -38427,7 +40192,7 @@ Runs: `OgreBotAPI.Abilities:DispellNPC`
 oc !c -DispellNPCWithSpell igw:${Me.Name} ${Target.ID}
 ```
 
-### `-DisplayEtherealMissionInfo`
+## `-DisplayEtherealMissionInfo`
 
 `-DisplayEtherealMissionInfo <who>`
 
@@ -38443,7 +40208,7 @@ Runs: `OgreBotAPI.Quest:ShowMissionInfo`
 oc !c -DisplayEtherealMissionInfo ${Me.Name}
 ```
 
-### `-DisplayHotZoneInfo`
+## `-DisplayHotZoneInfo`
 
 `-DisplayHotZoneInfo <who>`
 
@@ -38461,7 +40226,7 @@ Runs: `OgreBotAPI.Quest:ShowMissionInfo`
 oc !c -DisplayHotZoneInfo ${Me.Name}
 ```
 
-### `-DoHO_Reset`
+## `-DoHO_Reset`
 
 `-DoHO_Reset <who>`
 
@@ -38477,7 +40242,7 @@ Runs: `OgreBotAPI.HOs:DoReset`
 oc !c -DoHO_Reset igw:${Me.Name}
 ```
 
-### `-DoHO_Set_Enable`
+## `-DoHO_Set_Enable`
 
 `-DoHO_Set_Enable <who> <torf> <args>`
 
@@ -38495,7 +40260,7 @@ Runs: `OgreBotAPI.HOs:DoSetEnabled`
 oc !c -DoHO_Set_Enable ${Me.Name} FALSE
 ```
 
-### `-DoHO_Setup`
+## `-DoHO_Setup`
 
 `-DoHO_Setup <who> <args>`
 
@@ -38512,7 +40277,7 @@ Runs: `OgreBotAPI.HOs:DoSetup`
 oc !c -DoHO_Setup ${Me.Name} -TargetID ${Target.ID} -NumHOsToComplete 2
 ```
 
-### `-DoNotMove`
+## `-DoNotMove`
 
 `-DoNotMove <who>`
 
@@ -38530,7 +40295,7 @@ Runs: `OgreBotAPI.Movement:StopFollow`
 oc !c -DoNotMove igw:${Me.Name}
 ```
 
-### `-DoVDebuff`
+## `-DoVDebuff`
 
 `-DoVDebuff <who> <npcnameorid> <allowmovement>`
 
@@ -38550,7 +40315,7 @@ Runs: `OgreBotAPI:DoVDebuff`
 oc !c -DoVDebuff igw:${Me.Name} ${Target.ID} TRUE
 ```
 
-### `-DoVDebuff_Half`
+## `-DoVDebuff_Half`
 
 `-DoVDebuff_Half <who> <npcnameorid> <archetype> <odd> <allowmovement>`
 
@@ -38570,7 +40335,7 @@ Runs: `OgreBotAPI:DoVDebuff_Half`
 oc !c -DoVDebuff_Half igw:${Me.Name} ${Target.ID} auto TRUE FALSE
 ```
 
-### `-Drink_Alcohol`
+## `-Drink_Alcohol`
 
 `-Drink_Alcohol <who> <value>`
 
@@ -38587,7 +40352,7 @@ Runs: `OgreBotAPI.Consumables:DrinkAlcohol`
 oc !c -Drink_Alcohol ${Me.Name} "Halas Ale"
 ```
 
-### `-DungeonMakerCancel`
+## `-DungeonMakerCancel`
 
 `-DungeonMakerCancel <who>`
 
@@ -38605,7 +40370,7 @@ Runs: `OgreBotAPI.Windows:DungeonMakerCancel`
 oc !c -DungeonMakerCancel igw:${Me.Name}
 ```
 
-### `-Enable_Dispells`
+## `-Enable_Dispells`
 
 `-Enable_Dispells <who>`
 
@@ -38621,7 +40386,7 @@ Runs: `OgreBotAPI.Abilities:SetDispellsEnabled`
 oc !c -Enable_Dispells igw:${Me.Name}
 ```
 
-### `-Enable_Interrupts`
+## `-Enable_Interrupts`
 
 `-Enable_Interrupts <who>`
 
@@ -38637,7 +40402,7 @@ Runs: `OgreBotAPI.Abilities:SetInterruptsEnabled`
 oc !c -Enable_Interrupts igw:${Me.Name}
 ```
 
-### `-End_Bot`
+## `-End_Bot`
 
 `-End_Bot <who>`
 
@@ -38655,7 +40420,7 @@ Runs: `OgreBotAPI.Bot:End`
 oc !c -End_Bot all
 ```
 
-### `-EndScriptOB`
+## `-EndScriptOB`
 
 `-EndScriptOB <who> <scriptname>`
 
@@ -38674,7 +40439,7 @@ Runs: `OgreBotAPI.Bot:EndScript`
 oc !c -EndScriptOB igw:${Me.Name} MyScript
 ```
 
-### `-EquipCharm`
+## `-EquipCharm`
 
 `-EquipCharm <who> <value>`
 
@@ -38691,7 +40456,7 @@ Runs: `OgreBotAPI.Inventory:EquipCharm`
 oc !c -EquipCharm igw:${Me.Name} 1
 ```
 
-### `-evac`
+## `-evac`
 
 `-evac <who> <mode>`
 
@@ -38708,7 +40473,7 @@ Runs: `OgreBotAPI.Movement:Evac`
 oc !c -evac igw:${Me.Name} totem
 ```
 
-### `-ExamineAllOfItem`
+## `-ExamineAllOfItem`
 
 `-ExamineAllOfItem <who> <args>`
 
@@ -38725,7 +40490,7 @@ Runs: `OgreBotAPI.Inventory:ExamineAll`
 oc !c -ExamineAllOfItem igw:${Me.Name} Shard
 ```
 
-### `-ExamineInventoryItem`
+## `-ExamineInventoryItem`
 
 `-ExamineInventoryItem <who> <value>`
 
@@ -38742,7 +40507,7 @@ Runs: `OgreBotAPI.Inventory:Examine`
 oc !c -ExamineInventoryItem ${Me.Name} "Ethereal Shard"
 ```
 
-### `-ExecuteEvent_AP`
+## `-ExecuteEvent_AP`
 
 `-ExecuteEvent_AP <who> <eventname> <args>`
 
@@ -38760,7 +40525,7 @@ Runs: `OgreBotAPI.Comms:ExecuteEvent`
 oc !c -ExecuteEvent_AP igw:${Me.Name} MyScript_Phase 2
 ```
 
-### `-ExitClient`
+## `-ExitClient`
 
 `-ExitClient <who> <seconds>`
 
@@ -38777,7 +40542,7 @@ Runs: `OgreBotAPI.Bot:ExitClient`
 oc !c -ExitClient ${Me.Name} 30
 ```
 
-### `-F2PWindow_Check`
+## `-F2PWindow_Check`
 
 `-F2PWindow_Check <who>`
 
@@ -38793,7 +40558,7 @@ Runs: `OgreBotAPI.Windows:F2PWindowCheck`
 oc !c -F2PWindow_Check all
 ```
 
-### `-F2PWindow_SetOptions`
+## `-F2PWindow_SetOptions`
 
 `-F2PWindow_SetOptions <who>`
 
@@ -38809,7 +40574,7 @@ Runs: `OgreBotAPI:F2PWindow_SetOptions`
 oc !c -F2PWindow_SetOptions all
 ```
 
-### `-FaceActor`
+## `-FaceActor`
 
 `-FaceActor <who> <actornameid>`
 
@@ -38826,7 +40591,7 @@ Runs: `OgreBotAPI.Movement:FaceActor`
 oc !c -FaceActor igw:${Me.Name} ${Target.ID}
 ```
 
-### `-FaceAngle`
+## `-FaceAngle`
 
 `-FaceAngle <who> <angle>`
 
@@ -38843,7 +40608,7 @@ Runs: `OgreBotAPI.Movement:FaceAngle`
 oc !c -FaceAngle igw:${Me.Name} 90
 ```
 
-### `-FaceLoc`
+## `-FaceLoc`
 
 `-FaceLoc <who> <x> <y> <z>`
 
@@ -38862,7 +40627,7 @@ Runs: `OgreBotAPI.Movement:FaceLoc`
 oc !c -FaceLoc igw:${Me.Name} 120 15 -340
 ```
 
-### `-FastTravel`
+## `-FastTravel`
 
 `-FastTravel <who> <towhere> <args>`
 
@@ -38882,7 +40647,7 @@ Runs: `OgreBotAPI.Travel:Fast`
 oc !c -FastTravel igw:${Me.Name} Antonica FALSE
 ```
 
-### `-FlagToon`
+## `-FlagToon`
 
 `-FlagToon <who> <value>`
 
@@ -38899,7 +40664,7 @@ Runs: `OgreBotAPI.Roster:Flag`
 oc !c -FlagToon ${Me.Name} 3
 ```
 
-### `-FlyDown`
+## `-FlyDown`
 
 `-FlyDown <who>`
 
@@ -38917,7 +40682,7 @@ Runs: `OgreBotAPI.Movement:FlyDown`
 oc !c -FlyDown igw:${Me.Name}
 ```
 
-### `-FlyStop`
+## `-FlyStop`
 
 `-FlyStop <who>`
 
@@ -38935,7 +40700,7 @@ Runs: `OgreBotAPI.Movement:FlyStop`
 oc !c -FlyStop igw:${Me.Name}
 ```
 
-### `-FlyUp`
+## `-FlyUp`
 
 `-FlyUp <who>`
 
@@ -38953,7 +40718,7 @@ Runs: `OgreBotAPI.Movement:FlyUp`
 oc !c -FlyUp igw:${Me.Name}
 ```
 
-### `-FoodDrink_AutoConsume`
+## `-FoodDrink_AutoConsume`
 
 `-FoodDrink_AutoConsume <who> <value>`
 
@@ -38970,7 +40735,7 @@ Runs: `OgreBotAPI.Inventory:AutoConsumeFoodDrink`
 oc !c -FoodDrink_AutoConsume igw:${Me.Name} TRUE
 ```
 
-### `-FoodDrink_Replenish`
+## `-FoodDrink_Replenish`
 
 `-FoodDrink_Replenish <who>`
 
@@ -38986,7 +40751,7 @@ Runs: `OgreBotAPI.Consumables:ReplenishFoodDrink`
 oc !c -FoodDrink_Replenish igw:${Me.Name}
 ```
 
-### `-Force_MountOff`
+## `-Force_MountOff`
 
 `-Force_MountOff <who>`
 
@@ -39002,7 +40767,7 @@ Runs: `OgreBotAPI.Consumables:MountDown`
 oc !c -Force_MountOff igw:${Me.Name}
 ```
 
-### `-Force_MountOn`
+## `-Force_MountOn`
 
 `-Force_MountOn <who>`
 
@@ -39018,7 +40783,7 @@ Runs: `OgreBotAPI.Consumables:MountUp`
 oc !c -Force_MountOn igw:${Me.Name}
 ```
 
-### `-ForceAliasUpdate`
+## `-ForceAliasUpdate`
 
 `-ForceAliasUpdate <who>`
 
@@ -39034,7 +40799,7 @@ Runs: `OgreBotAPI.ForWho:ForceUpdate`
 oc !c -ForceAliasUpdate all
 ```
 
-### `-forcefollow`
+## `-forcefollow`
 
 `-forcefollow <who>`
 
@@ -39052,7 +40817,7 @@ Runs: `OgreBotAPI.Movement:ForceFollow`
 oc !c -forcefollow igw:${Me.Name}
 ```
 
-### `-GetFlag`
+## `-GetFlag`
 
 `-GetFlag <who>`
 
@@ -39068,7 +40833,7 @@ Runs: `OgreBotAPI:GetFlag`
 oc !c -GetFlag igw:${Me.Name}
 ```
 
-### `-GetToConcentration`
+## `-GetToConcentration`
 
 `-GetToConcentration <who> <value>`
 
@@ -39085,7 +40850,7 @@ Runs: `OgreBotAPI.Movement:GetToConcentration`
 oc !c -GetToConcentration igw:${Me.Name} 4
 ```
 
-### `-GetToGH`
+## `-GetToGH`
 
 `-GetToGH <who>`
 
@@ -39101,7 +40866,7 @@ Runs: `OgreBotAPI.Movement:GetToGH`
 oc !c -GetToGH igw:${Me.Name}
 ```
 
-### `-GroupCure`
+## `-GroupCure`
 
 `-GroupCure <who>`
 
@@ -39117,7 +40882,7 @@ Runs: `OgreBotAPI.Cures:RequestGroup`
 oc !c -GroupCure igw:${Me.Name}
 ```
 
-### `-Hail`
+## `-Hail`
 
 `-Hail <who> <mobnameid>`
 
@@ -39136,7 +40901,7 @@ Runs: `OgreBotAPI.Actors:Hail`
 oc !c -Hail ${Me.Name} ${Target.ID}
 ```
 
-### `-Heartstone_RekindleBond`
+## `-Heartstone_RekindleBond`
 
 `-Heartstone_RekindleBond <who>`
 
@@ -39152,7 +40917,7 @@ Runs: `OgreBotAPI.Consumables:RekindleHeartstone`
 oc !c -Heartstone_RekindleBond ${Me.Name}
 ```
 
-### `-HO_Cancel_Starter`
+## `-HO_Cancel_Starter`
 
 `-HO_Cancel_Starter <who>`
 
@@ -39168,7 +40933,7 @@ Runs: `OgreBotAPI.HOs:CancelStarter`
 oc !c -HO_Cancel_Starter ${Me.Name}
 ```
 
-### `-HO_Start`
+## `-HO_Start`
 
 `-HO_Start <who> <args>`
 
@@ -39185,7 +40950,7 @@ Runs: `OgreBotAPI.HOs:Start`
 oc !c -HO_Start ${Me.Name} -ActorID ${Target.ID}
 ```
 
-### `-HO_Starter_Advance`
+## `-HO_Starter_Advance`
 
 `-HO_Starter_Advance <who>`
 
@@ -39203,7 +40968,7 @@ Runs: `OgreBotAPI.HOs:Starter`
 oc !c -HO_Starter_Advance igw:${Me.Name}
 ```
 
-### `-HO_Wheel_Advance`
+## `-HO_Wheel_Advance`
 
 `-HO_Wheel_Advance <who>`
 
@@ -39221,7 +40986,7 @@ Runs: `OgreBotAPI.HOs:Advance`
 oc !c -HO_Wheel_Advance igw:${Me.Name}
 ```
 
-### `-holdup`
+## `-holdup`
 
 `-holdup <who>`
 
@@ -39237,7 +41002,7 @@ Runs: `OgreBotAPI.Movement:StopFollow`
 oc !c -holdup igw:${Me.Name}
 ```
 
-### `-ImmRes`
+## `-ImmRes`
 
 `-ImmRes <who> <howmany>`
 
@@ -39254,7 +41019,7 @@ Runs: `OgreBotAPI.Session:ImmRes`
 oc !c -ImmRes igw:${Me.Name} 2
 ```
 
-### `-InjectChat`
+## `-InjectChat`
 
 `-InjectChat <who> <chat>`
 
@@ -39271,7 +41036,7 @@ Runs: `OgreBotAPI.Comms:InjectChat`
 oc !c -InjectChat igw:${Me.Name} "Set up for ${Target.Name}"
 ```
 
-### `-InputTextWindow_Accept`
+## `-InputTextWindow_Accept`
 
 `-InputTextWindow_Accept <who>`
 
@@ -39287,7 +41052,7 @@ Runs: `OgreBotAPI.Windows:InputTextAccept`
 oc !c -InputTextWindow_Accept igw:${Me.Name}
 ```
 
-### `-InputTextWindow_AddText`
+## `-InputTextWindow_AddText`
 
 `-InputTextWindow_AddText <who> <value>`
 
@@ -39304,7 +41069,7 @@ Runs: `OgreBotAPI.Windows:InputTextAdd`
 oc !c -InputTextWindow_AddText igw:${Me.Name} opensesame
 ```
 
-### `-InputTextWindow_ClearText`
+## `-InputTextWindow_ClearText`
 
 `-InputTextWindow_ClearText <who>`
 
@@ -39320,7 +41085,7 @@ Runs: `OgreBotAPI.Windows:InputTextClear`
 oc !c -InputTextWindow_ClearText igw:${Me.Name}
 ```
 
-### `-Invite`
+## `-Invite`
 
 `-Invite <who> <invitewho>`
 
@@ -39337,7 +41102,7 @@ Runs: `OgreBotAPI.Roster:Invite`
 oc !c -Invite ${Me.Name} ${Target.Name} FALSE
 ```
 
-### `-Inviter`
+## `-Inviter`
 
 `-Inviter <who> <args>`
 
@@ -39354,7 +41119,7 @@ Runs: `OgreBotAPI.Roster:Inviter`
 oc !c -Inviter ${Me.Name} ${Target.Name}
 ```
 
-### `-ItemEmbargo`
+## `-ItemEmbargo`
 
 `-ItemEmbargo <who> <abilityid> <duration> <args>`
 
@@ -39375,7 +41140,7 @@ Runs: `OgreBotAPI.Inventory:AddEmbargo`
 oc !c -ItemEmbargo all 987654321 30
 ```
 
-### `-joustin`
+## `-joustin`
 
 `-joustin <who>`
 
@@ -39393,7 +41158,7 @@ Runs: `OgreBotAPI.Movement:JoustIn`
 oc !c -joustin igw:${Me.Name}
 ```
 
-### `-joustoff`
+## `-joustoff`
 
 `-joustoff <who>`
 
@@ -39411,7 +41176,7 @@ Runs: `OgreBotAPI.Movement:JoustOff`
 oc !c -joustoff igw:${Me.Name}
 ```
 
-### `-jouston`
+## `-jouston`
 
 `-jouston <who>`
 
@@ -39429,7 +41194,7 @@ Runs: `OgreBotAPI.Movement:JoustOn`
 oc !c -jouston igw:${Me.Name}
 ```
 
-### `-joustout`
+## `-joustout`
 
 `-joustout <who>`
 
@@ -39447,7 +41212,7 @@ Runs: `OgreBotAPI.Movement:JoustOut`
 oc !c -joustout igw:${Me.Name}
 ```
 
-### `-Jump`
+## `-Jump`
 
 `-Jump <who>`
 
@@ -39463,7 +41228,7 @@ Runs: `OgreBotAPI.Movement:Jump`
 oc !c -Jump igw:${Me.Name}
 ```
 
-### `-Kick`
+## `-Kick`
 
 `-Kick <who> <kickwho>`
 
@@ -39480,7 +41245,7 @@ Runs: `OgreBotAPI.Roster:Kick`
 oc !c -Kick ${Me.Name} ${Group[1].Name}
 ```
 
-### `-LandFlyingMount`
+## `-LandFlyingMount`
 
 `-LandFlyingMount <who>`
 
@@ -39496,7 +41261,7 @@ Runs: `OgreBotAPI.Movement:LandFlyingMount`
 oc !c -LandFlyingMount igw:${Me.Name}
 ```
 
-### `-letsgo`
+## `-letsgo`
 
 `-letsgo <who>`
 
@@ -39512,7 +41277,7 @@ Runs: `OgreBotAPI.CampSpot:Release`
 oc !c -letsgo igw:${Me.Name}
 ```
 
-### `-LoadAutoTargetList`
+## `-LoadAutoTargetList`
 
 `-LoadAutoTargetList <who> <list>`
 
@@ -39531,7 +41296,7 @@ Runs: `OgreBotAPI.AutoTarget:LoadSaved`
 oc !c -LoadAutoTargetList igw:${Me.Name} MyRaidList
 ```
 
-### `-LoadBot`
+## `-LoadBot`
 
 `-LoadBot <who>`
 
@@ -39547,7 +41312,7 @@ Runs: `OgreBotAPI.Bot:Load`
 oc !c -LoadBot igw:${Me.Name}
 ```
 
-### `-LoadProfile`
+## `-LoadProfile`
 
 `-LoadProfile <who> <profilename>`
 
@@ -39566,7 +41331,7 @@ Runs: `OgreBotAPI.Options:LoadProfile`
 oc !c -LoadProfile igw:${Me.Name} Raid
 ```
 
-### `-LogToonIn`
+## `-LogToonIn`
 
 `-LogToonIn <who> <name> <server> <class>`
 
@@ -39585,7 +41350,7 @@ Runs: `OgreBotAPI.Session:LogToonIn`
 oc !c -LogToonIn ${Me.Name} ${Group[1].Name}
 ```
 
-### `-LootAll`
+## `-LootAll`
 
 `-LootAll <who>`
 
@@ -39601,7 +41366,7 @@ Runs: `OgreBotAPI.Loot:LootAll`
 oc !c -LootAll ${Me.Name}
 ```
 
-### `-MakeLeader`
+## `-MakeLeader`
 
 `-MakeLeader <who> <name>`
 
@@ -39618,7 +41383,7 @@ Runs: `OgreBotAPI.Roster:MakeLeader`
 oc !c -MakeLeader ${Me.Name} ${Group[1].Name}
 ```
 
-### `-MarkToon`
+## `-MarkToon`
 
 `-MarkToon <who>`
 
@@ -39634,7 +41399,7 @@ Runs: `OgreBotAPI.Roster:Mark`
 oc !c -MarkToon ${Me.Name}
 ```
 
-### `-Mentor`
+## `-Mentor`
 
 `-Mentor <who> <mentorwho>`
 
@@ -39651,7 +41416,7 @@ Runs: `OgreBotAPI.Roster:Mentor`
 oc !c -Mentor igw:${Me.Name} ${Me.Name}
 ```
 
-### `-Mercenary_AddMercenaries`
+## `-Mercenary_AddMercenaries`
 
 `-Mercenary_AddMercenaries <who>`
 
@@ -39667,7 +41432,7 @@ Runs: `OgreBotAPI.Consumables:AddMercenaries`
 oc !c -Mercenary_AddMercenaries ${Me.Name}
 ```
 
-### `-Message`
+## `-Message`
 
 `-Message <who> <text>`
 
@@ -39684,7 +41449,7 @@ Runs: `OgreBotAPI.Comms:Message`
 oc !c -Message igw:${Me.Name} "Pulling in 5"
 ```
 
-### `-Message_Relay`
+## `-Message_Relay`
 
 `-Message_Relay <who> <text>`
 
@@ -39701,7 +41466,7 @@ Runs: `OgreBotAPI.Comms:Broadcast`
 oc !c -Message_Relay ${Me.Name} "Ready check"
 ```
 
-### `-Move2Area`
+## `-Move2Area`
 
 `-Move2Area <who> <x> <y> <z> <precision>`
 
@@ -39723,7 +41488,7 @@ Runs: `OgreBotAPI.Movement:Move2Area`
 oc !c -Move2Area igw:${Me.Name} ${Me.X} ${Me.Y} ${Me.Z} 3
 ```
 
-### `-MoveToAreaNoTarget`
+## `-MoveToAreaNoTarget`
 
 `-MoveToAreaNoTarget <who> <x> <y> <z> <precision>`
 
@@ -39745,7 +41510,7 @@ Runs: `OgreBotAPI.Movement:Move2AreaNoTarget`
 oc !c -MoveToAreaNoTarget igw:${Me.Name} ${Me.X} ${Me.Y} ${Me.Z} 3
 ```
 
-### `-NavStop`
+## `-NavStop`
 
 `-NavStop <who>`
 
@@ -39763,7 +41528,7 @@ Runs: `OgreBotAPI.Movement:NavStop`
 oc !c -NavStop igw:${Me.Name}
 ```
 
-### `-NavTo`
+## `-NavTo`
 
 `-NavTo <who> <x> <y> <z> <fly>`
 
@@ -39785,7 +41550,7 @@ Runs: `OgreBotAPI.Movement:NavTo`
 oc !c -NavTo igw:${Me.Name} 120.5 -14 380.25 nofly
 ```
 
-### `-NoTarget`
+## `-NoTarget`
 
 `-NoTarget <who>`
 
@@ -39801,7 +41566,14 @@ Runs: `OgreBotAPI:NoTarget`
 oc !c -NoTarget igw:${Me.Name}
 ```
 
-### `-ofol---`
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/commands/console-o-r.md
+
+# Console commands: O-R
+
+## `-ofol---`
 
 `-ofol--- <who>`
 
@@ -39819,7 +41591,7 @@ Runs: `OgreBotAPI.Movement:FollowDistanceDown`
 oc !c -ofol--- igw:${Me.Name}
 ```
 
-### `-OFolIncDistance`
+## `-OFolIncDistance`
 
 `-OFolIncDistance <who>`
 
@@ -39837,7 +41609,7 @@ Runs: `OgreBotAPI.Movement:FollowDistanceUp`
 oc !c -OFolIncDistance igw:${Me.Name}
 ```
 
-### `-OgreBotAPI`
+## `-OgreBotAPI`
 
 `-OgreBotAPI <who> <apicall> <args>`
 
@@ -39855,7 +41627,7 @@ Runs: `OgreBotAPI:${apicall}`
 oc !c -OgreBotAPI igw:${Me.Name} NoTarget
 ```
 
-### `-OgreBotToggleConsoleWindow`
+## `-OgreBotToggleConsoleWindow`
 
 `-OgreBotToggleConsoleWindow <who> <value>`
 
@@ -39872,7 +41644,7 @@ Runs: `OgreBotAPI.Windows:ToggleConsole`
 oc !c -OgreBotToggleConsoleWindow ${Me.Name} TOGGLE
 ```
 
-### `-OgreCommandOB_AP`
+## `-OgreCommandOB_AP`
 
 `-OgreCommandOB_AP <who> <scriptname> <args>`
 
@@ -39890,7 +41662,7 @@ Runs: `OgreBotAPI.Bot:OgreCommand`
 oc !c -OgreCommandOB_AP igw:${Me.Name} tempadorns
 ```
 
-### `-OgreConsole_Show`
+## `-OgreConsole_Show`
 
 `-OgreConsole_Show <who> <value>`
 
@@ -39907,7 +41679,7 @@ Runs: `OgreBotAPI.Windows:ShowConsole`
 oc !c -OgreConsole_Show all TRUE
 ```
 
-### `-OgreCraft_AddLastScribedRecipe`
+## `-OgreCraft_AddLastScribedRecipe`
 
 `-OgreCraft_AddLastScribedRecipe <who> <iquantity>`
 
@@ -39924,7 +41696,7 @@ Runs: `OgreBotAPI.Craft:AddLastScribedRecipe`
 oc !c -OgreCraft_AddLastScribedRecipe ${Me.Name} 5
 ```
 
-### `-OgreCraft_AddRecipe`
+## `-OgreCraft_AddRecipe`
 
 `-OgreCraft_AddRecipe <who> <iquantity> <recipename>`
 
@@ -39942,7 +41714,7 @@ Runs: `OgreBotAPI.Craft:AddRecipe`
 oc !c -OgreCraft_AddRecipe ${Me.Name} 10 lastknownrecipe
 ```
 
-### `-OgreCraft_CompleteNavigation`
+## `-OgreCraft_CompleteNavigation`
 
 `-OgreCraft_CompleteNavigation <who>`
 
@@ -39958,7 +41730,7 @@ Runs: `OgreBotAPI.Craft:CompleteNavigation`
 oc !c -OgreCraft_CompleteNavigation ${Me.Name}
 ```
 
-### `-OgreCraft_CraftQueue`
+## `-OgreCraft_CraftQueue`
 
 `-OgreCraft_CraftQueue <who>`
 
@@ -39974,7 +41746,7 @@ Runs: `OgreBotAPI.Craft:Start`
 oc !c -OgreCraft_CraftQueue ${Me.Name}
 ```
 
-### `-OgreCraft_DeferNavigation`
+## `-OgreCraft_DeferNavigation`
 
 `-OgreCraft_DeferNavigation <who>`
 
@@ -39990,7 +41762,7 @@ Runs: `OgreBotAPI.Craft:DeferNavigation`
 oc !c -OgreCraft_DeferNavigation ${Me.Name}
 ```
 
-### `-OgreCraft_ScribeRecipe`
+## `-OgreCraft_ScribeRecipe`
 
 `-OgreCraft_ScribeRecipe <who> <recipename>`
 
@@ -40007,7 +41779,7 @@ Runs: `OgreBotAPI.Craft:ScribeRecipe`
 oc !c -OgreCraft_ScribeRecipe ${Me.Name} all
 ```
 
-### `-OgreCraft_StartLLL`
+## `-OgreCraft_StartLLL`
 
 `-OgreCraft_StartLLL <who>`
 
@@ -40023,7 +41795,7 @@ Runs: `OgreBotAPI.Craft:StartLLL`
 oc !c -OgreCraft_StartLLL ${Me.Name}
 ```
 
-### `-OgreCraft_StartQuest`
+## `-OgreCraft_StartQuest`
 
 `-OgreCraft_StartQuest <who>`
 
@@ -40039,7 +41811,7 @@ Runs: `OgreBotAPI.Craft:StartQuest`
 oc !c -OgreCraft_StartQuest ${Me.Name}
 ```
 
-### `-OgreCraft_StartTinker`
+## `-OgreCraft_StartTinker`
 
 `-OgreCraft_StartTinker <who>`
 
@@ -40055,7 +41827,7 @@ Runs: `OgreBotAPI.Craft:StartTinker`
 oc !c -OgreCraft_StartTinker ${Me.Name}
 ```
 
-### `-OgreCraft_StartWrits`
+## `-OgreCraft_StartWrits`
 
 `-OgreCraft_StartWrits <who>`
 
@@ -40071,7 +41843,7 @@ Runs: `OgreBotAPI.Craft:StartWrits`
 oc !c -OgreCraft_StartWrits ${Me.Name}
 ```
 
-### `-OgreCraft_Stop`
+## `-OgreCraft_Stop`
 
 `-OgreCraft_Stop <who>`
 
@@ -40087,7 +41859,7 @@ Runs: `OgreBotAPI.Craft:Stop`
 oc !c -OgreCraft_Stop ${Me.Name}
 ```
 
-### `-ogrefollow`
+## `-ogrefollow`
 
 `-ogrefollow <who> <whotofollow> <mindistance> <maxdistance> <breakonfollow> <backoffdistance>`
 
@@ -40110,7 +41882,7 @@ Runs: `OgreBotAPI.Movement:Follow`
 oc !c -ogrefollow igw:${Me.Name} ${Me.Name} 8 200 FALSE 0
 ```
 
-### `-OgreZoneForceReset`
+## `-OgreZoneForceReset`
 
 `-OgreZoneForceReset <who> <zonename>`
 
@@ -40127,7 +41899,7 @@ Runs: `OgreBotAPI.Zone:ForceReset`
 oc !c -OgreZoneForceReset ${Me.Name} "${Zone.Name}"
 ```
 
-### `-OK_Button`
+## `-OK_Button`
 
 `-OK_Button <who>`
 
@@ -40143,7 +41915,7 @@ Runs: `OgreBotAPI.Windows:OK`
 oc !c -OK_Button igw:${Me.Name}
 ```
 
-### `-OpenAndBuyFromMerchant`
+## `-OpenAndBuyFromMerchant`
 
 `-OpenAndBuyFromMerchant <who> <merchantname> <itemname> <value>`
 
@@ -40162,7 +41934,7 @@ Runs: `OgreBotAPI.Merchant:OpenAndBuy`
 oc !c -OpenAndBuyFromMerchant ${Me.Name} ${Target.Name} "Bundle of Arrows" 1
 ```
 
-### `-OpenAndBuyFromMerchantXTimes`
+## `-OpenAndBuyFromMerchantXTimes`
 
 `-OpenAndBuyFromMerchantXTimes <who> <merchantname> <itemname> <value> <timestobuy>`
 
@@ -40182,7 +41954,7 @@ Runs: `OgreBotAPI.Merchant:OpenAndBuyXTimes`
 oc !c -OpenAndBuyFromMerchantXTimes ${Me.Name} ${Target.Name} "Bundle of Arrows" 1 5
 ```
 
-### `-Overseer_AddAgentsToCollection`
+## `-Overseer_AddAgentsToCollection`
 
 `-Overseer_AddAgentsToCollection <who> <destroy>`
 
@@ -40199,7 +41971,7 @@ Runs: `OgreBotAPI.Overseer:AddAgents`
 oc !c -Overseer_AddAgentsToCollection ${Me.Name} TRUE
 ```
 
-### `-Overseer_AutoAddOverseerQuests`
+## `-Overseer_AutoAddOverseerQuests`
 
 `-Overseer_AutoAddOverseerQuests <who>`
 
@@ -40215,7 +41987,7 @@ Runs: `OgreBotAPI.Overseer:AutoAddQuests`
 oc !c -Overseer_AutoAddOverseerQuests ${Me.Name}
 ```
 
-### `-Overseer_BuyMissions`
+## `-Overseer_BuyMissions`
 
 `-Overseer_BuyMissions <who> <args>`
 
@@ -40234,7 +42006,7 @@ Runs: `OgreBotAPI.Overseer:BuyMissions`
 oc !c -Overseer_BuyMissions igw:${Me.Name}
 ```
 
-### `-Overseer_CheckQuests`
+## `-Overseer_CheckQuests`
 
 `-Overseer_CheckQuests <who>`
 
@@ -40250,7 +42022,7 @@ Runs: `OgreBotAPI.Overseer:CheckQuests`
 oc !c -Overseer_CheckQuests ${Me.Name}
 ```
 
-### `-PackPony`
+## `-PackPony`
 
 `-PackPony <who> <forcecheck>`
 
@@ -40267,7 +42039,7 @@ Runs: `OgreBotAPI.Inventory:CheckPackPony`
 oc !c -PackPony igw:${Me.Name} TRUE
 ```
 
-### `-Path`
+## `-Path`
 
 `-Path <who> <name>`
 
@@ -40284,7 +42056,7 @@ Runs: `OgreBotAPI.Paths:Start`
 oc !c -Path igw:${Me.Name} autohuntpath1
 ```
 
-### `-PathStop`
+## `-PathStop`
 
 `-PathStop <who>`
 
@@ -40300,7 +42072,7 @@ Runs: `OgreBotAPI.Paths:Stop`
 oc !c -PathStop igw:${Me.Name}
 ```
 
-### `-pause`
+## `-pause`
 
 `-pause <who>`
 
@@ -40316,7 +42088,7 @@ Runs: `OgreBotAPI.Bot:Pause`
 oc !c -pause igw:${Me.Name}
 ```
 
-### `-PetAssist`
+## `-PetAssist`
 
 `-PetAssist <who>`
 
@@ -40332,7 +42104,7 @@ Runs: `OgreBotAPI.Pet:Assist`
 oc !c -PetAssist igw:${Me.Name}
 ```
 
-### `-petattack`
+## `-petattack`
 
 `-petattack <who>`
 
@@ -40350,7 +42122,7 @@ Runs: `OgreBotAPI.Pet:Attack`
 oc !c -petattack igw:${Me.Name}
 ```
 
-### `-PetGetLost`
+## `-PetGetLost`
 
 `-PetGetLost <who>`
 
@@ -40366,7 +42138,7 @@ Runs: `OgreBotAPI.Pet:GetLost`
 oc !c -PetGetLost igw:${Me.Name}
 ```
 
-### `-PetOff`
+## `-PetOff`
 
 `-PetOff <who>`
 
@@ -40384,7 +42156,7 @@ Runs: `OgreBotAPI.Pet:Off`
 oc !c -PetOff igw:${Me.Name}
 ```
 
-### `-POI_Add`
+## `-POI_Add`
 
 `-POI_Add <name> <x> <y> <z> <sender>`
 
@@ -40404,7 +42176,7 @@ Runs: `OgreBotAPI.POI:Add`
 oc !c -POI_Add "Quest giver"
 ```
 
-### `-Poison_AutoConsume`
+## `-Poison_AutoConsume`
 
 `-Poison_AutoConsume <who> <value> <potion>`
 
@@ -40422,7 +42194,7 @@ Runs: `OgreBotAPI.Inventory:AutoConsumeStatPotions`
 oc !c -Poison_AutoConsume igw:${Me.Name} TRUE "Cerebral Caustic Poison"
 ```
 
-### `-Poison_Replenish`
+## `-Poison_Replenish`
 
 `-Poison_Replenish <who> <potion>`
 
@@ -40439,7 +42211,7 @@ Runs: `OgreBotAPI.Consumables:ReplenishStatPotions`
 oc !c -Poison_Replenish igw:${Me.Name} "Cerebral Caustic Poison"
 ```
 
-### `-PortalToGuildHall`
+## `-PortalToGuildHall`
 
 `-PortalToGuildHall <who>`
 
@@ -40457,7 +42229,7 @@ Runs: `OgreBotAPI.Travel:ToGuildHall`
 oc !c -PortalToGuildHall igw:${Me.Name}
 ```
 
-### `-ProvingGrounds_Exit`
+## `-ProvingGrounds_Exit`
 
 `-ProvingGrounds_Exit <who>`
 
@@ -40473,7 +42245,7 @@ Runs: `OgreBotAPI.Windows:ProvingGroundsExit`
 oc !c -ProvingGrounds_Exit igw:${Me.Name}
 ```
 
-### `-ProvingGrounds_Scoreboard_Close`
+## `-ProvingGrounds_Scoreboard_Close`
 
 `-ProvingGrounds_Scoreboard_Close <who>`
 
@@ -40489,7 +42261,7 @@ Runs: `OgreBotAPI.Windows:ProvingGroundsScoreboardClose`
 oc !c -ProvingGrounds_Scoreboard_Close igw:${Me.Name}
 ```
 
-### `-Pushover`
+## `-Pushover`
 
 `-Pushover <who> <args>`
 
@@ -40506,7 +42278,7 @@ Runs: `OgreBotAPI.Comms:Pushover`
 oc !c -Pushover ${Me.Name} -title Raid "Named is up"
 ```
 
-### `-Question`
+## `-Question`
 
 `-Question <who>`
 
@@ -40522,7 +42294,7 @@ Runs: `OgreBotAPI.Session:CollectShiny`
 oc !c -Question ${Me.Name}
 ```
 
-### `-RaidAuth`
+## `-RaidAuth`
 
 `-RaidAuth <who>`
 
@@ -40538,7 +42310,7 @@ Runs: `OgreBotAPI.Comms:IrcRaidAuth`
 oc !c -RaidAuth ${Me.Name}
 ```
 
-### `-RaidInvite`
+## `-RaidInvite`
 
 `-RaidInvite <who> <invitewho>`
 
@@ -40555,7 +42327,7 @@ Runs: `OgreBotAPI.Roster:RaidInvite`
 oc !c -RaidInvite ${Me.Name} ${Target.Name} TRUE
 ```
 
-### `-RaidUnauth`
+## `-RaidUnauth`
 
 `-RaidUnauth <who>`
 
@@ -40571,7 +42343,7 @@ Runs: `OgreBotAPI.Comms:IrcRaidUnauth`
 oc !c -RaidUnauth ${Me.Name}
 ```
 
-### `-RawCommandOB_AP`
+## `-RawCommandOB_AP`
 
 `-RawCommandOB_AP <who> <args>`
 
@@ -40590,7 +42362,7 @@ Runs: `OgreBotAPI.Bot:RawCommand`
 oc !c -RawCommandOB_AP igw:${Me.Name} eq2execute pet getlost
 ```
 
-### `-Rebuff`
+## `-Rebuff`
 
 `-Rebuff <who>`
 
@@ -40608,7 +42380,7 @@ Runs: `OgreBotAPI.Abilities:Rebuff`
 oc !c -Rebuff igw:${Me.Name}
 ```
 
-### `-RedeemKrono`
+## `-RedeemKrono`
 
 `-RedeemKrono <who>`
 
@@ -40626,7 +42398,7 @@ Runs: `OgreBotAPI.Inventory:RedeemKrono`
 oc !c -RedeemKrono ${Me.Name}
 ```
 
-### `-Reload_Bot`
+## `-Reload_Bot`
 
 `-Reload_Bot <who>`
 
@@ -40644,7 +42416,7 @@ Runs: `OgreBotAPI.Bot:Reload`
 oc !c -Reload_Bot all
 ```
 
-### `-ReloadOgreIRC`
+## `-ReloadOgreIRC`
 
 `-ReloadOgreIRC <who>`
 
@@ -40660,7 +42432,7 @@ Runs: `OgreBotAPI.Comms:IrcReload`
 oc !c -ReloadOgreIRC all
 ```
 
-### `-RemoveNoOffensiveOn`
+## `-RemoveNoOffensiveOn`
 
 `-RemoveNoOffensiveOn <who> <mobname>`
 
@@ -40677,7 +42449,7 @@ Runs: `OgreBotAPI.Combat:RemoveNoOffensive`
 oc !c -RemoveNoOffensiveOn igw:${Me.Name} "${Target.Name}"
 ```
 
-### `-RepairGear`
+## `-RepairGear`
 
 `-RepairGear <who> <force>`
 
@@ -40696,7 +42468,7 @@ Runs: `OgreBotAPI.Merchant:Repair`
 oc !c -RepairGear igw:${Me.Name} FALSE
 ```
 
-### `-ReplyDialog`
+## `-ReplyDialog`
 
 `-ReplyDialog <who> <choice>`
 
@@ -40713,7 +42485,7 @@ Runs: `OgreBotAPI.Windows:Reply`
 oc !c -ReplyDialog igw:${Me.Name} 2
 ```
 
-### `-ReplyDialogClose`
+## `-ReplyDialogClose`
 
 `-ReplyDialogClose <who>`
 
@@ -40729,7 +42501,7 @@ Runs: `OgreBotAPI.Windows:ReplyClose`
 oc !c -ReplyDialogClose igw:${Me.Name}
 ```
 
-### `-Res`
+## `-Res`
 
 `-Res <who>`
 
@@ -40745,7 +42517,7 @@ Runs: `OgreBotAPI.Session:Res`
 oc !c -Res igw:${Me.Name}
 ```
 
-### `-Research_Material_Check`
+## `-Research_Material_Check`
 
 `-Research_Material_Check <who>`
 
@@ -40761,7 +42533,7 @@ Runs: `OgreBotAPI.Util:CheckResearchMaterials`
 oc !c -Research_Material_Check ${Me.Name}
 ```
 
-### `-ResetActorsLooted`
+## `-ResetActorsLooted`
 
 `-ResetActorsLooted <who>`
 
@@ -40777,7 +42549,7 @@ Runs: `OgreBotAPI.Loot:ResetLootedActors`
 oc !c -ResetActorsLooted igw:${Me.Name}
 ```
 
-### `-ResetCameraAngle`
+## `-ResetCameraAngle`
 
 `-ResetCameraAngle <who>`
 
@@ -40793,7 +42565,7 @@ Runs: `OgreBotAPI.Client:ResetCamera`
 oc !c -ResetCameraAngle igw:${Me.Name}
 ```
 
-### `-ResetZone`
+## `-ResetZone`
 
 `-ResetZone <who> <zonename>`
 
@@ -40810,7 +42582,7 @@ Runs: `OgreBotAPI.Zone:ResetZone`
 oc !c -ResetZone igw:${Me.Name} "${Zone.Name}"
 ```
 
-### `-Resource`
+## `-Resource`
 
 `-Resource <who>`
 
@@ -40826,7 +42598,7 @@ Runs: `OgreBotAPI.Session:Harvest`
 oc !c -Resource ${Me.Name}
 ```
 
-### `-ResStone`
+## `-ResStone`
 
 `-ResStone <who>`
 
@@ -40842,7 +42614,7 @@ Runs: `OgreBotAPI.Session:ResStone`
 oc !c -ResStone igw:${Me.Name}
 ```
 
-### `-resume`
+## `-resume`
 
 `-resume <who>`
 
@@ -40858,7 +42630,7 @@ Runs: `OgreBotAPI.Bot:Resume`
 oc !c -resume igw:${Me.Name}
 ```
 
-### `-Revive`
+## `-Revive`
 
 `-Revive <who> <option> <exactmatch>`
 
@@ -40876,7 +42648,7 @@ Runs: `OgreBotAPI.Session:Revive`
 oc !c -Revive igw:${Me.Name} 0 FALSE
 ```
 
-### `-Run`
+## `-Run`
 
 `-Run <who>`
 
@@ -40892,7 +42664,7 @@ Runs: `OgreBotAPI.Movement:SetRunMode`
 oc !c -Run igw:${Me.Name}
 ```
 
-### `-RunScriptOB`
+## `-RunScriptOB`
 
 `-RunScriptOB <who> <scriptname> <args>`
 
@@ -40912,7 +42684,14 @@ Runs: `OgreBotAPI.Bot:RunScript`
 oc !c -RunScriptOB igw:${Me.Name} MyScript arg1
 ```
 
-### `-Scribe_Empyral`
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/commands/console-s-z.md
+
+# Console commands: S-Z
+
+## `-Scribe_Empyral`
 
 `-Scribe_Empyral <who> <namefilter>`
 
@@ -40931,7 +42710,7 @@ Runs: `OgreBotAPI:Scribe_Empyral`
 oc !c -Scribe_Empyral igw:${Me.Name} Empyral
 ```
 
-### `-ScrollOf`
+## `-ScrollOf`
 
 `-ScrollOf <who> <name> <value> <usebest>`
 
@@ -40950,7 +42729,7 @@ Runs: `OgreBotAPI.Consumables:ScrollOf`
 oc !c -ScrollOf ${Me.Name} Prowess 0 TRUE
 ```
 
-### `-Select_Window_AP`
+## `-Select_Window_AP`
 
 `-Select_Window_AP <who> <args>`
 
@@ -40967,7 +42746,7 @@ Runs: `OgreBotAPI.Windows:Select`
 oc !c -Select_Window_AP ${Me.Name} -substring Heroic
 ```
 
-### `-Select_Window_Spew_AP`
+## `-Select_Window_Spew_AP`
 
 `-Select_Window_Spew_AP <who>`
 
@@ -40983,7 +42762,7 @@ Runs: `OgreBotAPI.Windows:SelectSpew`
 oc !c -Select_Window_Spew_AP ${Me.Name}
 ```
 
-### `-Select_Zone_Version`
+## `-Select_Zone_Version`
 
 `-Select_Zone_Version <who>`
 
@@ -40999,7 +42778,7 @@ Runs: `OgreBotAPI.Zone:SelectVersion`
 oc !c -Select_Zone_Version igw:${Me.Name}
 ```
 
-### `-SellToMerchant`
+## `-SellToMerchant`
 
 `-SellToMerchant <who> <itemname> <value>`
 
@@ -41017,7 +42796,7 @@ Runs: `OgreBotAPI.Merchant:Sell`
 oc !c -SellToMerchant ${Me.Name} "Rusty Dagger" 1
 ```
 
-### `-Set_Allow_HOICon`
+## `-Set_Allow_HOICon`
 
 `-Set_Allow_HOICon <who> <variablename>`
 
@@ -41034,7 +42813,7 @@ Runs: `OgreBotAPI.HOs:AllowIcon`
 oc !c -Set_Allow_HOICon ${Me.Name} 12
 ```
 
-### `-Set_CameraPitch`
+## `-Set_CameraPitch`
 
 `-Set_CameraPitch <who> <pitch>`
 
@@ -41053,7 +42832,7 @@ Runs: `OgreBotAPI.Client:SetCameraPitch`
 oc !c -Set_CameraPitch ${Me.Name} 30
 ```
 
-### `-Set_CampSpotJump_Handle`
+## `-Set_CampSpotJump_Handle`
 
 `-Set_CampSpotJump_Handle <who> <start> <jump> <end> <completed> <args>`
 
@@ -41074,7 +42853,7 @@ Runs: `OgreBotAPI.Movement:JumpRoute`
 oc !c -Set_CampSpotJump_Handle ${Me.Name} 100,20,300 110,20,310 120,22,320 125,22,325 -JumpDistance 3
 ```
 
-### `-Set_Disable_HOICon`
+## `-Set_Disable_HOICon`
 
 `-Set_Disable_HOICon <who> <variablename>`
 
@@ -41091,7 +42870,7 @@ Runs: `OgreBotAPI.HOs:DisableIcon`
 oc !c -Set_Disable_HOICon ${Me.Name} 24
 ```
 
-### `-Set_DisableAllAOEs_AllParams`
+## `-Set_DisableAllAOEs_AllParams`
 
 `-Set_DisableAllAOEs_AllParams <who> <args>`
 
@@ -41108,7 +42887,7 @@ Runs: `OgreBotAPI.Abilities:SetAOEsDisabled`
 oc !c -Set_DisableAllAOEs_AllParams igw:${Me.Name} TRUE -allowcounters
 ```
 
-### `-set_Internalvariable`
+## `-set_Internalvariable`
 
 `-set_Internalvariable <who> <variablename> <variablevalue>`
 
@@ -41126,7 +42905,7 @@ Runs: `OgreBotAPI.Vars:SetInternal`
 oc !c -set_Internalvariable ${Me.Name} PullCount 3
 ```
 
-### `-set_variable`
+## `-set_variable`
 
 `-set_variable <who> <variablename> <variablevalue>`
 
@@ -41144,7 +42923,7 @@ Runs: `OgreBotAPI.Vars:Set`
 oc !c -set_variable igw:${Me.Name} Phase 2
 ```
 
-### `-SetAccessLevel`
+## `-SetAccessLevel`
 
 `-SetAccessLevel <who> <value> <silent>`
 
@@ -41162,7 +42941,7 @@ Runs: `OgreBotAPI.Access:SetLevel`
 oc !c -SetAccessLevel ${Me.Name} 0
 ```
 
-### `-SetAutoLootMode`
+## `-SetAutoLootMode`
 
 `-SetAutoLootMode <who> <value>`
 
@@ -41179,7 +42958,7 @@ Runs: `OgreBotAPI.Loot:SetAutoLootMode`
 oc !c -SetAutoLootMode igw:${Me.Name} 1
 ```
 
-### `-SetCS_BehindNPC`
+## `-SetCS_BehindNPC`
 
 `-SetCS_BehindNPC <who> <nameorid> <distance> <skipifaggro>`
 
@@ -41198,7 +42977,7 @@ Runs: `OgreBotAPI.CampSpot:SetLocBehindActor`
 oc !c -SetCS_BehindNPC igw:${Me.Name} ${Target.ID} 4 FALSE
 ```
 
-### `-SetCS_InFrontNPC`
+## `-SetCS_InFrontNPC`
 
 `-SetCS_InFrontNPC <who> <nameorid> <distance> <skipifaggro>`
 
@@ -41217,7 +42996,7 @@ Runs: `OgreBotAPI.CampSpot:SetLocInFrontOfActor`
 oc !c -SetCS_InFrontNPC ${Me.Name} ${Target.ID} 3 TRUE
 ```
 
-### `-SetCS_NPC`
+## `-SetCS_NPC`
 
 `-SetCS_NPC <who> <angle> <nameorid> <distance> <skipifaggro>`
 
@@ -41237,7 +43016,7 @@ Runs: `OgreBotAPI.CampSpot:SetLocAtAngleFromActor`
 oc !c -SetCS_NPC igw:${Me.Name} 90 ${Target.ID} 5 FALSE
 ```
 
-### `-SetCS_PositionNPC`
+## `-SetCS_PositionNPC`
 
 `-SetCS_PositionNPC <who> <nameorid> <distance> <skipifaggro>`
 
@@ -41256,7 +43035,7 @@ Runs: `OgreBotAPI.CampSpot:SetLocByRole`
 oc !c -SetCS_PositionNPC igw:${Me.Name} ${Target.ID} 3 FALSE
 ```
 
-### `-SetNoDefensive`
+## `-SetNoDefensive`
 
 `-SetNoDefensive <who> <trueorfalse>`
 
@@ -41273,7 +43052,7 @@ Runs: `OgreBotAPI.Combat:SetNoDefensive`
 oc !c -SetNoDefensive igw:${Me.Name} TRUE
 ```
 
-### `-SetNoOffensive`
+## `-SetNoOffensive`
 
 `-SetNoOffensive <who> <value> <reason>`
 
@@ -41291,7 +43070,7 @@ Runs: `OgreBotAPI.Combat:SetNoOffensive`
 oc !c -SetNoOffensive igw:${Me.Name} TRUE mezzed
 ```
 
-### `-SetNoReqBowAbilities`
+## `-SetNoReqBowAbilities`
 
 `-SetNoReqBowAbilities <who> <value>`
 
@@ -41308,7 +43087,7 @@ Runs: `OgreBotAPI.Combat:SetNoReqBowAbilities`
 oc !c -SetNoReqBowAbilities igw:${Me.Name} TRUE
 ```
 
-### `-SetUpFor`
+## `-SetUpFor`
 
 `-SetUpFor <who> <chat> <restart>`
 
@@ -41326,7 +43105,7 @@ Runs: `OgreBotAPI.Bot:SetUpFor`
 oc !c -SetUpFor igw:${Me.Name} "${Target.Name}" TRUE
 ```
 
-### `-ShareAllMissions`
+## `-ShareAllMissions`
 
 `-ShareAllMissions <who>`
 
@@ -41342,7 +43121,7 @@ Runs: `OgreBotAPI.Quest:ShareAllMissions`
 oc !c -ShareAllMissions ${Me.Name}
 ```
 
-### `-ShareMission`
+## `-ShareMission`
 
 `-ShareMission <who> <value>`
 
@@ -41359,7 +43138,7 @@ Runs: `OgreBotAPI.Quest:ShareMission`
 oc !c -ShareMission ${Me.Name} "Zone Mission"
 ```
 
-### `-ShareQuest`
+## `-ShareQuest`
 
 `-ShareQuest <who> <value>`
 
@@ -41376,7 +43155,7 @@ Runs: `OgreBotAPI.Quest:ShareQuest`
 oc !c -ShareQuest ${Me.Name} "A Lost Shipment"
 ```
 
-### `-ShareQuestsForZone`
+## `-ShareQuestsForZone`
 
 `-ShareQuestsForZone <who> <value>`
 
@@ -41393,7 +43172,7 @@ Runs: `OgreBotAPI.Zone:ShareQuestsForZone`
 oc !c -ShareQuestsForZone igw:${Me.Name} ${Me.Name}
 ```
 
-### `-ShowAvailableSetups`
+## `-ShowAvailableSetups`
 
 `-ShowAvailableSetups <who>`
 
@@ -41411,7 +43190,7 @@ Runs: `OgreBotAPI.Encounter:List`
 oc !c -ShowAvailableSetups ${Me.Name}
 ```
 
-### `-ShowWikiForQuest`
+## `-ShowWikiForQuest`
 
 `-ShowWikiForQuest <who> <questname>`
 
@@ -41428,7 +43207,7 @@ Runs: `OgreBotAPI.Quest:ShowWiki`
 oc !c -ShowWikiForQuest ${Me.Name} "A Lost Shipment"
 ```
 
-### `-SmartLoot_ReloadDataFromFile`
+## `-SmartLoot_ReloadDataFromFile`
 
 `-SmartLoot_ReloadDataFromFile <who>`
 
@@ -41444,7 +43223,7 @@ Runs: `OgreBotAPI.Loot:Reload`
 oc !c -SmartLoot_ReloadDataFromFile all
 ```
 
-### `-Special`
+## `-Special`
 
 `-Special <who>`
 
@@ -41462,7 +43241,7 @@ Runs: `OgreBotAPI:Special`
 oc !c -Special igw:${Me.Name}
 ```
 
-### `-SpecialZoneSpecific`
+## `-SpecialZoneSpecific`
 
 `-SpecialZoneSpecific <who>`
 
@@ -41480,7 +43259,7 @@ Runs: `OgreBotAPI.Zone:SpecialZoneSpecific`
 oc !c -SpecialZoneSpecific igw:${Me.Name}
 ```
 
-### `-Spew_BoZ_Research`
+## `-Spew_BoZ_Research`
 
 `-Spew_BoZ_Research <who>`
 
@@ -41496,7 +43275,7 @@ Runs: `OgreBotAPI.Debug:SpewResearchWindow`
 oc !c -Spew_BoZ_Research ${Me.Name}
 ```
 
-### `-Spew_MissionTimerInfo_AP`
+## `-Spew_MissionTimerInfo_AP`
 
 `-Spew_MissionTimerInfo_AP <who> <args>`
 
@@ -41513,7 +43292,7 @@ Runs: `OgreBotAPI.Quest:SpewMissionTimers`
 oc !c -Spew_MissionTimerInfo_AP igw:${Me.Name} Weekly
 ```
 
-### `-Spew_RelayGroup`
+## `-Spew_RelayGroup`
 
 `-Spew_RelayGroup <who>`
 
@@ -41531,7 +43310,7 @@ Runs: `OgreBotAPI.Comms:SpewRelayGroup`
 oc !c -Spew_RelayGroup all
 ```
 
-### `-SpewFlags`
+## `-SpewFlags`
 
 `-SpewFlags <who>`
 
@@ -41547,7 +43326,7 @@ Runs: `OgreBotAPI.Roster:SpewFlags`
 oc !c -SpewFlags igw:${Me.Name}
 ```
 
-### `-SpewStat`
+## `-SpewStat`
 
 `-SpewStat <who> <type> <value> <where>`
 
@@ -41568,7 +43347,7 @@ Runs: `OgreBotAPI.Debug:BroadcastStat`
 oc !c -SpewStat all -stat potency oc
 ```
 
-### `-SpewSubscriptionStatus`
+## `-SpewSubscriptionStatus`
 
 `-SpewSubscriptionStatus <who>`
 
@@ -41586,7 +43365,7 @@ Runs: `OgreBotAPI.Debug:SpewSubscriptionStatus`
 oc !c -SpewSubscriptionStatus all
 ```
 
-### `-stand`
+## `-stand`
 
 `-stand <who>`
 
@@ -41602,7 +43381,7 @@ Runs: `OgreBotAPI.Movement:Stand`
 oc !c -stand igw:${Me.Name}
 ```
 
-### `-StatPotions_AutoConsume`
+## `-StatPotions_AutoConsume`
 
 `-StatPotions_AutoConsume <who> <value> <potion>`
 
@@ -41620,7 +43399,7 @@ Runs: `OgreBotAPI.Inventory:AutoConsumeStatPotions`
 oc !c -StatPotions_AutoConsume igw:${Me.Name} TOGGLE
 ```
 
-### `-StatPotions_Replenish`
+## `-StatPotions_Replenish`
 
 `-StatPotions_Replenish <who> <potion>`
 
@@ -41637,7 +43416,7 @@ Runs: `OgreBotAPI.Consumables:ReplenishStatPotions`
 oc !c -StatPotions_Replenish igw:${Me.Name}
 ```
 
-### `-StopRes`
+## `-StopRes`
 
 `-StopRes <who>`
 
@@ -41653,7 +43432,7 @@ Runs: `OgreBotAPI.Session:StopRes`
 oc !c -StopRes igw:${Me.Name}
 ```
 
-### `-Summon_Familiar`
+## `-Summon_Familiar`
 
 `-Summon_Familiar <who>`
 
@@ -41669,7 +43448,7 @@ Runs: `OgreBotAPI.Consumables:SummonFamiliar`
 oc !c -Summon_Familiar igw:${Me.Name}
 ```
 
-### `-Target`
+## `-Target`
 
 `-Target <who> <targetwho>`
 
@@ -41686,7 +43465,7 @@ Runs: `OgreBotAPI:Target`
 oc !c -Target igw:${Me.Name} ${Group[1].Name}
 ```
 
-### `-targetlock`
+## `-targetlock`
 
 `-targetlock <who> <target>`
 
@@ -41705,7 +43484,7 @@ Runs: `OgreBotAPI:TargetLock`
 oc !c -targetlock igw:${Me.Name} ${Target.ID}
 ```
 
-### `-Tell`
+## `-Tell`
 
 `-Tell <who> <target> <message>`
 
@@ -41723,7 +43502,7 @@ Runs: `OgreBotAPI.Comms:SendTell`
 oc !c -Tell ${Me.Name} ${Group[1].Name} "Ready when you are"
 ```
 
-### `-TempAdorns`
+## `-TempAdorns`
 
 `-TempAdorns <who> <profile>`
 
@@ -41740,7 +43519,7 @@ Runs: `OgreBotAPI.TempAdorns:Apply`
 oc !c -TempAdorns igw:${Me.Name} CBOC FALSE
 ```
 
-### `-ThreatFighterIgnoreList_Add`
+## `-ThreatFighterIgnoreList_Add`
 
 `-ThreatFighterIgnoreList_Add <who> <args>`
 
@@ -41757,7 +43536,7 @@ Runs: `OgreBotAPI.Combat:ThreatIgnoreAdd`
 oc !c -ThreatFighterIgnoreList_Add igw:${Me.Name} ${Group[1].Name}
 ```
 
-### `-ThreatFighterIgnoreList_Clear`
+## `-ThreatFighterIgnoreList_Clear`
 
 `-ThreatFighterIgnoreList_Clear <who>`
 
@@ -41773,7 +43552,7 @@ Runs: `OgreBotAPI.Combat:ThreatIgnoreClear`
 oc !c -ThreatFighterIgnoreList_Clear igw:${Me.Name}
 ```
 
-### `-ThreatFighterIgnoreList_Remove`
+## `-ThreatFighterIgnoreList_Remove`
 
 `-ThreatFighterIgnoreList_Remove <who> <args>`
 
@@ -41790,7 +43569,7 @@ Runs: `OgreBotAPI.Combat:ThreatIgnoreRemove`
 oc !c -ThreatFighterIgnoreList_Remove igw:${Me.Name} ${Group[1].Name}
 ```
 
-### `-Timer`
+## `-Timer`
 
 `-Timer <who> <time> <slot> <message> <minupdatetimer>`
 
@@ -41812,7 +43591,7 @@ Runs: `OgreBotAPI.Util:OnScreenTimer`
 oc !c -Timer all 60 2 Burn: 1
 ```
 
-### `-ToggleMainWindow`
+## `-ToggleMainWindow`
 
 `-ToggleMainWindow <who>`
 
@@ -41830,7 +43609,7 @@ Runs: `OgreBotAPI.Windows:ToggleMain`
 oc !c -ToggleMainWindow igw:${Me.Name}
 ```
 
-### `-ToggleZoneReset`
+## `-ToggleZoneReset`
 
 `-ToggleZoneReset <who>`
 
@@ -41846,7 +43625,7 @@ Runs: `OgreBotAPI.Zone:ResetUpdateInfo`
 oc !c -ToggleZoneReset igw:${Me.Name}
 ```
 
-### `-ToonMarked`
+## `-ToonMarked`
 
 `-ToonMarked <who> <where>`
 
@@ -41863,7 +43642,7 @@ Runs: `OgreBotAPI.Roster:SpewMarked`
 oc !c -ToonMarked igw:${Me.Name} oc
 ```
 
-### `-Travel`
+## `-Travel`
 
 `-Travel <who> <value> <exactmatch> <multiplezoneoption>`
 
@@ -41884,7 +43663,7 @@ Runs: `OgreBotAPI.Travel:Travel`
 oc !c -Travel igw:${Me.Name} Qeynos FALSE LAST_ENTRY
 ```
 
-### `-TravelBell`
+## `-TravelBell`
 
 `-TravelBell <who> <value> <exactmatch> <multiplezoneoption>`
 
@@ -41903,7 +43682,7 @@ Runs: `OgreBotAPI.Travel:Bell`
 oc !c -TravelBell igw:${Me.Name} Qeynos FALSE LAST_ENTRY
 ```
 
-### `-TravelDruid`
+## `-TravelDruid`
 
 `-TravelDruid <who> <value> <exactmatch> <multiplezoneoption>`
 
@@ -41922,7 +43701,7 @@ Runs: `OgreBotAPI.Travel:Druid`
 oc !c -TravelDruid igw:${Me.Name} Antonica FALSE LAST_ENTRY
 ```
 
-### `-TravelMesh`
+## `-TravelMesh`
 
 `-TravelMesh <who> <destination> <poi>`
 
@@ -41940,7 +43719,7 @@ Runs: `OgreBotAPI.Travel:Mesh`
 oc !c -TravelMesh igw:${Me.Name} Antonica "Druid Rings"
 ```
 
-### `-TravelMeshFeatures`
+## `-TravelMeshFeatures`
 
 `-TravelMeshFeatures <who> <flag> <value>`
 
@@ -41958,7 +43737,7 @@ Runs: `OgreBotAPI.Travel:MeshFeatures`
 oc !c -TravelMeshFeatures ${Me.Name} roc_friends_and_family TRUE
 ```
 
-### `-TravelMeshGroup`
+## `-TravelMeshGroup`
 
 `-TravelMeshGroup <who> <destination> <poi>`
 
@@ -41976,7 +43755,7 @@ Runs: `OgreBotAPI.Travel:MeshGroup`
 oc !c -TravelMeshGroup ${Me.Name} Antonica
 ```
 
-### `-TravelMeshPreview`
+## `-TravelMeshPreview`
 
 `-TravelMeshPreview <who> <destination>`
 
@@ -41993,7 +43772,7 @@ Runs: `OgreBotAPI.Travel:MeshPreview`
 oc !c -TravelMeshPreview ${Me.Name} Antonica
 ```
 
-### `-TravelMeshStop`
+## `-TravelMeshStop`
 
 `-TravelMeshStop <who>`
 
@@ -42009,7 +43788,7 @@ Runs: `OgreBotAPI.Travel:MeshStop`
 oc !c -TravelMeshStop igw:${Me.Name}
 ```
 
-### `-TravelSpires`
+## `-TravelSpires`
 
 `-TravelSpires <who> <value> <exactmatch> <multiplezoneoption>`
 
@@ -42030,7 +43809,7 @@ Runs: `OgreBotAPI.Travel:Spires`
 oc !c -TravelSpires igw:${Me.Name} Antonica FALSE LAST_ENTRY
 ```
 
-### `-TTS`
+## `-TTS`
 
 `-TTS <who> <message>`
 
@@ -42047,7 +43826,7 @@ Runs: `OgreBotAPI.Comms:TTS`
 oc !c -TTS ${Me.Name} "Named is up"
 ```
 
-### `-UnflagAll`
+## `-UnflagAll`
 
 `-UnflagAll <who>`
 
@@ -42063,7 +43842,7 @@ Runs: `OgreBotAPI.Roster:UnflagAll`
 oc !c -UnflagAll igw:${Me.Name}
 ```
 
-### `-UnflagToon`
+## `-UnflagToon`
 
 `-UnflagToon <who> <value>`
 
@@ -42080,7 +43859,7 @@ Runs: `OgreBotAPI.Roster:Unflag`
 oc !c -UnflagToon ${Me.Name} 3
 ```
 
-### `-UnmarkToon`
+## `-UnmarkToon`
 
 `-UnmarkToon <who>`
 
@@ -42096,7 +43875,7 @@ Runs: `OgreBotAPI.Roster:Unmark`
 oc !c -UnmarkToon ${Me.Name}
 ```
 
-### `-Unmentor`
+## `-Unmentor`
 
 `-Unmentor <who>`
 
@@ -42112,7 +43891,7 @@ Runs: `OgreBotAPI.Roster:Unmentor`
 oc !c -Unmentor igw:${Me.Name}
 ```
 
-### `-Unpack`
+## `-Unpack`
 
 `-Unpack <who> <itemname> <args>`
 
@@ -42130,7 +43909,7 @@ Runs: `OgreBotAPI.Inventory:Unpack`
 oc !c -Unpack ${Me.Name} "Overseer Reward Crate" -all
 ```
 
-### `-Unpack_Consume_Familiars`
+## `-Unpack_Consume_Familiars`
 
 `-Unpack_Consume_Familiars <who>`
 
@@ -42146,7 +43925,7 @@ Runs: `OgreBotAPI.Inventory:UnpackConsumeFamiliars`
 oc !c -Unpack_Consume_Familiars igw:${Me.Name}
 ```
 
-### `-Unpack_Familiars`
+## `-Unpack_Familiars`
 
 `-Unpack_Familiars <who>`
 
@@ -42162,7 +43941,7 @@ Runs: `OgreBotAPI.Inventory:UnpackFamiliars`
 oc !c -Unpack_Familiars igw:${Me.Name}
 ```
 
-### `-UpgradeItem`
+## `-UpgradeItem`
 
 `-UpgradeItem <who>`
 
@@ -42178,7 +43957,7 @@ Runs: `OgreBotAPI.Inventory:UpgradeItem`
 oc !c -UpgradeItem ${Me.Name}
 ```
 
-### `-UplinkOptionChange`
+## `-UplinkOptionChange`
 
 `-UplinkOptionChange <who> <object> <value> <silent>`
 
@@ -42199,7 +43978,7 @@ Runs: `OgreBotAPI.Options:Set`
 oc !c -UplinkOptionChange all checkbox_autotarget_enabled TRUE FALSE
 ```
 
-### `-UplinkOptionSilent`
+## `-UplinkOptionSilent`
 
 `-UplinkOptionSilent <who> <args>`
 
@@ -42218,7 +43997,7 @@ Runs: `OgreBotAPI.Options:Set`
 oc !c -UplinkOptionSilent all checkbox_autotarget_enabled FALSE
 ```
 
-### `-UseFlag`
+## `-UseFlag`
 
 `-UseFlag <who>`
 
@@ -42234,7 +44013,7 @@ Runs: `OgreBotAPI:UseFlag`
 oc !c -UseFlag igw:${Me.Name}
 ```
 
-### `-UseItem`
+## `-UseItem`
 
 `-UseItem <who> <abilityname>`
 
@@ -42253,7 +44032,7 @@ Runs: `OgreBotAPI.Inventory:Use`
 oc !c -UseItem igw:${Me.Name} "Totem of the Otter"
 ```
 
-### `-UseItemOnPlayer`
+## `-UseItemOnPlayer`
 
 `-UseItemOnPlayer <who> <abilityname> <onplayer>`
 
@@ -42273,7 +44052,7 @@ Runs: `OgreBotAPI.Inventory:UseOnPlayer`
 oc !c -UseItemOnPlayer igw:${Me.Name} "Totem of the Otter" ${Group[1].Name}
 ```
 
-### `-Walk`
+## `-Walk`
 
 `-Walk <who>`
 
@@ -42289,7 +44068,7 @@ Runs: `OgreBotAPI.Movement:SetRunMode`
 oc !c -Walk igw:${Me.Name}
 ```
 
-### `-WarnBeforeSave`
+## `-WarnBeforeSave`
 
 `-WarnBeforeSave <who>`
 
@@ -42305,7 +44084,7 @@ Runs: `OgreBotAPI.Options:WarnBeforeSave`
 oc !c -WarnBeforeSave igw:${Me.Name}
 ```
 
-### `-Waypoint`
+## `-Waypoint`
 
 `-Waypoint <who> <x> <y> <z>`
 
@@ -42324,7 +44103,7 @@ Runs: `OgreBotAPI.Movement:Waypoint`
 oc !c -Waypoint ${Me.Name} 125.5 -10.2 340.8
 ```
 
-### `-Zone`
+## `-Zone`
 
 `-Zone <who>`
 
@@ -42340,7 +44119,7 @@ Runs: `OgreBotAPI.Zone:Zone`
 oc !c -Zone igw:${Me.Name}
 ```
 
-### `-ZoneDoor`
+## `-ZoneDoor`
 
 `-ZoneDoor <who> <dooroption>`
 
@@ -42359,7 +44138,7 @@ Runs: `OgreBotAPI.Travel:ZoneDoorFor`
 oc !c -ZoneDoor igw:${Me.Name} 1
 ```
 
-### `-ZoneResetAll`
+## `-ZoneResetAll`
 
 `-ZoneResetAll <who> <ballowraid>`
 
