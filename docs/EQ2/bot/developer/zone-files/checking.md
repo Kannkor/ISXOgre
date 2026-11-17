@@ -1,8 +1,8 @@
+# Check your file
+
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../index.md).
 </div>
-
-# Check your file
 
 ## Checking your file
 

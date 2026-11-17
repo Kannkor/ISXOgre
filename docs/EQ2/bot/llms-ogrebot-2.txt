@@ -18,8 +18,6 @@ The Ascension tab has one option. Etherflash normally teleports you to your targ
 |---|---|---|
 | **Etherflash - Prevent Port** | When the bot casts Etherflash, it switches your target to yourself once the cast is over 90% done, so the teleport takes you nowhere. About a second after the cast ends, your normal target returns.<br>*Only for Etherflash casts made by the bot, any rank.* | off |
 
-
-
 ## Good to know
 
 - It only works when the bot casts Etherflash (for example from the Cast Stack). If you press Etherflash yourself, nothing changes.
@@ -172,23 +170,17 @@ Some casts spoil a buff you keep up, so that buff needs to be cancelled and cast
 | **2. ...cancel these  (pick several)** | Pick the buffs to cancel when that cast happens. Click as many as you like, and click one again to unpick it. Only buffs that last until cancelled are listed. | your until-cancelled buffs |
 | **Cancels setup** | Your rows: the cast, then the buffs it cancels. After that cast, each buff still up is cancelled one at a time, once a second, until it is gone. Drag to reorder, double-click to switch a row off, X to remove.<br>*A 'C' on a row means it may cancel during combat. Tick 'In combat' beside Add when you make the row.* | empty |
 
-
-
 ## Options
 
 | Control | What it does | Default |
 |---|---|---|
 | **Also run in overland zones (by default this only runs inside instances)** | Lets the cancels happen in overland zones too. When unticked they only happen inside instances. | off |
 
-
-
 ## Build a row
 
 | Control | What it does |
 |---|---|
 | **Add** | Adds a row with your picks from lists 1 and 2 to Cancels setup. Tick 'In combat' beside it first to let that row cancel during a fight. It is greyed out until both lists have a pick (hover it to see which is missing). When several buffs are picked it reads 'Add (3)'. |
-
-
 
 ## Good to know
 
@@ -255,8 +247,6 @@ Codex Inspect uploads the gear of the people in your group or raid to the EQ2Cod
 | **Inspect Queued Now** | Starts a run: the bot inspects each name in the To Inspect list, one about every 3 seconds, and uploads their gear to eq2codex.com.<br>*Greyed out while a run is going. Names inspected in the last 5 minutes are skipped.* |  |
 | **Reset Raid Force** | Clears your active group/raid on the eq2codex.com website, including the gear and adornments uploaded for it. Nothing on your PC changes.<br>*Greyed out while a run is going.* |  |
 
-
-
 ## Top of tab
 
 | Control | What it does |
@@ -265,8 +255,6 @@ Codex Inspect uploads the gear of the people in your group or raid to the EQ2Cod
 | **Wiki** | Opens the EQ2Codex help pages in your web browser. |
 | **Setup API Token** | Opens the EQ2Codex API Token window, where you paste your token from eq2codex.com. The token is kept on this PC, outside your profile, and is never shown back to you.<br>*The same window opens from the Codex Toons tab. One token serves both.* |
 | **View my Group/Raid** | Opens your active group/raid page on eq2codex.com in your web browser. |
-
-
 
 ## Good to know
 
@@ -321,16 +309,12 @@ Consume Items keeps you using items such as potions and temporary buffs. While t
 | **Full Item List** | Your registered items from the Items tab. Click one to pick it for the Add form, or double-click it to add it straight away with no options. | your registered items |
 | **Consume Item List** | The items the bot uses, in priority order: each check it uses the first one that is in your bags, ready, and not waiting out its effect. 'IC' on a row means in combat only.<br>*Drag to reorder, click to edit, double-click to switch off or on, x to remove.* | empty |
 
-
-
 ## Where it works
 
 | Control | What it does | Default |
 |---|---|---|
 | **Allow in Guild Halls** | Lets the list be used automatically in a guild hall. Without it, nothing is used there. | off |
 | **Allow in Overland zones** | Lets the list be used automatically outside instances, in overland and city zones. Without it, items are only used inside instances. | off |
-
-
 
 ## Item lists
 
@@ -339,8 +323,6 @@ Consume Items keeps you using items such as potions and temporary buffs. While t
 | **In-combat** | The item being added is only used while you are in combat. | off |
 | **Add** | Adds the item picked on the left to the end of the list, with the In-combat option as ticked. When you are editing a row, it reads Update and saves your change. |  |
 | **Clear Options** | Unticks In-combat. It otherwise stays ticked for the next Add. |  |
-
-
 
 ## Good to know
 
@@ -366,16 +348,12 @@ With Enable Crowd Control ticked on the Settings tab, the bot mezzes (or roots) 
 | **Full Ability list** | Your abilities, with a search box. Click one and press Add (or double-click it) to put it in the Priority Order list. | filled from your ability export |
 | **Priority Order** | The mez abilities to use, top first. The bot uses the first one that is ready and can reach the add. Double-click a row to turn it off without removing it.<br>*Drag to reorder, double-click to switch a row off, x to remove. Clicking a row loads it back into the form.* | empty |
 
-
-
 ## Crowd Control
 
 | Control | What it does | Default |
 |---|---|---|
 | **Allow Epics as Valid Targets** | Off: the bot never mezzes an epic mob. On: epic mobs can be mezzed like any other add. | off |
 | **Add** | Adds the ability you clicked on the left to the bottom of the Priority Order list. Next to it you see the picked ability, or 'click an ability on the left' until you pick one. |  |
-
-
 
 ## Good to know
 
@@ -439,8 +417,6 @@ Equipment Info stores two charm choices so you can swap between them quickly. Pi
 | **Equip Charm 1** | Finds the Charm Option 1 item in your bags and asks the game to equip it, on this character only.<br>*Does nothing but print a message if Charm Option 1 is empty or the item is not in your bags.* |  |
 | **Equip Charm 2** | Finds the Charm Option 2 item in your bags and asks the game to equip it, on this character only.<br>*Does nothing but print a message if Charm Option 2 is empty or the item is not in your bags.* |  |
 
-
-
 ## Good to know
 
 - The drop-downs are empty until you register items on the Items tab. They list every registered item, not only charms.
@@ -461,15 +437,11 @@ HO Excludes lists abilities the bot must never use to work a Heroic Opportunity.
 | **Full Ability list** | All of this character's abilities. Double-click one to add it to the exclude list. An ability that is already listed is not added twice. | your abilities |
 | **Abilities to Exclude in HOs** | The abilities the bot will not pick for HO Starter or HO Wheel icons, shown A to Z. Double-click a row to switch it off (it is then used again), X to remove. | empty |
 
-
-
 ## Full Ability list (left)
 
 | Control | What it does |
 |---|---|
 | **Search ... abilities** | Type to filter the ability list. Display only. |
-
-
 
 ## Good to know
 
@@ -494,8 +466,6 @@ HUDs puts live text straight onto your game screen: the nearest mob, the nearest
 | **X** | How far from the left edge of the screen the Nearest NPC line starts, in pixels. | blank (300) |
 | **Y** | How far down from the top of the screen the Nearest NPC line sits, in pixels. | blank (400) |
 
-
-
 ## Nearest PC
 
 | Option | What it does | Default |
@@ -506,8 +476,6 @@ HUDs puts live text straight onto your game screen: the nearest mob, the nearest
 | **Msg alerts to OgreConsole** | When a player comes within 150 metres, and again within 30, a line such as 'Kannkor --> Nearest PC: Serath: 24.1 < 30' is posted to OgreConsole. Each player is reported once per distance band, and alerts are at least 5 seconds apart.<br>*Needs 'Display nearest PC' ticked.* | off |
 | **Ding alerts** | Plays a short ding when a player comes within 30 metres. If 'Msg alerts' is also ticked, it dings at 150 metres too. A ding under 30 metres also posts the OgreConsole line, even without 'Msg alerts'.<br>*Needs 'Display nearest PC' ticked.* | off |
 | **Loud alarm when close** | When a player comes within 30 metres, plays a louder two-tone alarm instead of the short ding.<br>*Does nothing on its own. 'Msg alerts' or 'Ding alerts' must also be ticked.* | off |
-
-
 
 ## Group Information
 
@@ -520,8 +488,6 @@ HUDs puts live text straight onto your game screen: the nearest mob, the nearest
 | **Hide names** | Leaves the slot number and name off each group line, so it shows only the distance, target and cast. Not used while your group follows the raid settings (Display raid information on, Only in a raid off). | off |
 | **Hide casting** | Leaves off the 'what they are casting' part of each group line. Not used while your group follows the raid settings (Display raid information on, Only in a raid off). | off |
 | **Name width** | How many letters of each name and target the group lines show. Longer ones are cut and shorter ones padded, so every line's cast starts in the same place. Not used while your group follows the raid settings (Display raid information on, Only in a raid off). | blank (6) |
-
-
 
 ## Raid Information
 
@@ -538,8 +504,6 @@ HUDs puts live text straight onto your game screen: the nearest mob, the nearest
 | **Hide casting** | Leaves off the 'what they are casting' part of each line. Outside a raid your group's lines use it too, unless Only in a raid is ticked. | off |
 | **Name width** | How many letters of each name and target are shown. Longer ones are cut and shorter ones padded, so every line's cast starts in the same place. Outside a raid your group's lines use it too, unless Only in a raid is ticked. | blank (6) |
 
-
-
 ## Raid Options
 
 | Option | What it does | Default |
@@ -549,8 +513,6 @@ HUDs puts live text straight onto your game screen: the nearest mob, the nearest
 | **Y** | How far down from the top of the screen the first Raid Options message sits, in pixels. | blank (300) |
 | **Line spacing** | How many pixels apart the Raid Options messages are. | blank (15) |
 
-
-
 ## OSA - NPC On-Screen-Assistant
 
 | Option | What it does | Default |
@@ -559,8 +521,6 @@ HUDs puts live text straight onto your game screen: the nearest mob, the nearest
 | **Scan Radius (slider)** | The same scan radius as the box beside it, as a slider from 0 to 149. Moving one updates the other. | not set (the OSA uses 50) |
 | **Display NPCs with Targets Only** | The OSA window only lists mobs that have a target, meaning mobs that are fighting someone. Idle mobs are hidden. | off |
 | **Clip Y Axis (only show mobs on the same floor as you)** | The OSA window hides mobs that are 8 or more above or below you, so the floors over and under you drop out of the list.<br>*Only used while the OSA is turned on.* | off |
-
-
 
 ## What you see
 
@@ -683,8 +643,6 @@ Items is where you register the items the rest of OgreBot can offer you. The lef
 | **All Item List** | Everything you have equipped, everything in your bags, 'whatever is in slot X' entries and your equipped adornments. Double-click an item to register it.<br>*Items already registered show a green '✓ registered' mark and cannot be added twice.* | filled when your profile loads |
 | **Items to include in ability lists** | Your registered items. These are the items the item pickers on the Cast Stack, Consume Items, Item Embargo, Pre/Post-Cast, Equipment Info and Auto-Hunt tabs offer. | empty |
 
-
-
 ## Items
 
 | Control | What it does | Default |
@@ -693,8 +651,6 @@ Items is where you register the items the rest of OgreBot can offer you. The lef
 | **Search N items...** | Type part of a name to show only the matching items in the All Item List. It only filters what you see. | empty |
 | **Double-click an item (left list)** | Registers that item, adding it to 'Items to include in ability lists'. The change is saved straight away. |  |
 | **x (remove row)** | Unregisters that item. It stops appearing in the other tabs' pickers. |  |
-
-
 
 ## Good to know
 
@@ -762,16 +718,12 @@ Loot decides what the bot does when a loot window opens. Nothing on the left hal
 | **Accept any tradable** | The bot handles Free For All loot windows. It takes every tradable item, plus anything on the Auto-Loot list. No-Trade and Heirloom items are left behind unless 'Loot everything' is ticked.<br>*With this off, Free For All windows are ignored completely.* | off |
 | **Loot everything** | In Free For All windows the bot takes every item, No-Trade and Heirloom included.<br>*Needs 'Accept any tradable' ticked too.* | off |
 
-
-
 ## Lotto Loot Options
 
 | Option | What it does | Default |
 |---|---|---|
 | **Accept All (including No-Trade)** | When a Lottery loot window opens, the bot enters the roll for everything in it.<br>*If both Lotto boxes are ticked, this one wins.* | off |
 | **Decline all** | When a Lottery loot window opens, the bot declines the roll. | off |
-
-
 
 ## NBG Loot Options
 
@@ -780,8 +732,6 @@ Loot decides what the bot does when a loot window opens. Nothing on the left hal
 | **Need All (including No-Trade)** | When a Need Before Greed window opens, the bot picks Need.<br>*If several NBG boxes are ticked, Need wins, then Greed, then Decline.* | off |
 | **Greed All (including No-Trade)** | When a Need Before Greed window opens, the bot picks Greed. | off |
 | **Decline all** | When a Need Before Greed window opens, the bot declines it. | off |
-
-
 
 ## Leader Only Loot Options
 
@@ -799,8 +749,6 @@ Loot decides what the bot does when a loot window opens. Nothing on the left hal
 | **Pass LORE items I already have to the group** | A LORE item the bot would take for you, when you already have one in your bags or bank, goes to a group member who does not have one. The bot asks the group once per chest, and only members whose bot answers can be given one, in group order. If everyone who answered has one, the item stays in the chest and the bot moves on.<br>*Group only: in a raid it does nothing. A hand-out that does not go through counts as that member having one, and the next copy goes to the next member. The instance controller's default setup ticks it.* | off |
 | **Close loot window when done** | Once the bot has nothing left to do in a Leader Only loot window, about a second later it closes it, whatever is left inside. Leave it off when you are there and want the window to wait for you.<br>*The instance controller's default setup ticks it, so a run loots each chest and moves on. Its no-trade steps turn it off while they run.* | off |
 
-
-
 ## Misc Options
 
 | Option | What it does | Default |
@@ -813,15 +761,11 @@ Loot decides what the bot does when a loot window opens. Nothing on the left hal
 | **Enable coin splitting with the group/raid after looting.** | Each time you loot coin, the bot splits that amount with your group or raid. | off |
 | **Only split if the coin includes 1 platinum or more.** | Coin is only split when the looted amount has at least 1 platinum in it. Gold, silver and copper alone are kept.<br>*Does nothing unless the box above is ticked. 99 gold does not count as 1 platinum.* | off |
 
-
-
 ## Auto-Loot item names
 
 | Option | What it does | Default |
 |---|---|---|
 | **Always loot these exact item names (Free-For-All and Leader Only). Adds to the built-in list (Void Shard, Obol, ...).** | Items named here are always taken from Free For All and Leader Only windows, even No-Trade ones. Your names are added to the shipped list.<br>*The name must match exactly (case does not matter). The FFA or Leader Only master box must be ticked for its window type.* | empty |
-
-
 
 ## Auto-Loot item names
 
@@ -831,8 +775,6 @@ Loot decides what the bot does when a loot window opens. Nothing on the left hal
 | **From examine** | Fills the name box with the item in the examine window you have open (examine the item in game first). Press Add to put it on the list.<br>*It only fills the box - nothing is added until you press Add. With no item examine window open, the box is left as it was and the window says 'Examine the item first, then press From examine'.* |  |
 | **Add** | Adds the typed name to the Auto-Loot list. It takes effect on the next loot window. |  |
 | **x (remove row)** | Removes that name from your list. |  |
-
-
 
 ## Good to know
 
@@ -860,8 +802,6 @@ Loot Distribution hands out gear from a Leader Only chest by Resolve. The looter
 | **Weapons only for secondary slot. Example: Scouts/Brawlers - This means you will NOT accept a shield in your secondary.** | For your secondary slot, this character only bids on weapons (sword, dagger, mace, axe, rapier, hammer, fist, katana, great sword, great axe, great hammer, staff, spear). Shields and other off-hand items are refused.<br>*A weapon that also fits your primary slot can still be bid on for primary.* | off |
 | **Match Type for ranged slot. Example: If you are using a crossbow, only accept a crossbow.** | For your ranged slot, this character only bids on the same kind of item it already holds there, for example crossbow for crossbow.<br>*If your ranged slot is empty, nothing matches.* | off |
 
-
-
 ## Weapon Choices
 
 | Option | What it does | Default |
@@ -869,16 +809,12 @@ Loot Distribution hands out gear from a Leader Only chest by Resolve. The looter
 | **Do not accept two-handed weapons** | This character never bids on two-handed weapons.<br>*Tick both Weapon Choice boxes to take no weapons at all from distribution.* | off |
 | **Do not accept one-handed weapons** | This character never bids on one-handed weapons. Shields and other off-hand items that are not weapons are still accepted.<br>*Ranged items are not affected.* | off |
 
-
-
 ## Looter Options. Options for the person opening the chest.
 
 | Option | What it does | Default |
 |---|---|---|
 | **Only distribute items at or above a minimum Resolve:** | Only items with at least the Resolve in the box below are auctioned. Lower items go to the normal Leader Only loot boxes instead. | off |
 | **Minimum Resolve** | The lowest Resolve an item needs to be auctioned. Only used when the box above is ticked. | empty (0 - no minimum) |
-
-
 
 ## Good to know
 
@@ -903,8 +839,6 @@ OnZone does two things each time you finish zoning. It runs the commands in the 
 | **Full Ability list** | All of this character's abilities. Click one and press Add below, or double-click it, to put it on the 'Cancel after zoning' list. |  |
 | **Cancel after zoning** | After each zone has loaded, the bot cancels any of your maintained spells that match a name here, whatever its rank.<br>*Runs even while paused. Double-click a row to switch it off.* | empty |
 
-
-
 ## Executes
 
 | Control | What it does | Default |
@@ -912,15 +846,11 @@ OnZone does two things each time you finish zoning. It runs the commands in the 
 | **Command to run on zone** | Type a console command here. Put `eq2execute` in front of an in-game slash command. Press Enter or Add to put it on the list.<br>*Commas and ] are removed when you add the line.* | empty |
 | **Add** | Adds the typed command to the end of the Executes list. It is not run now, only after your next zone. |  |
 
-
-
 ## Cancel after zoning
 
 | Control | What it does |
 |---|---|
 | **Add** | Adds the ability you clicked in the Full Ability list to the cancel list. Greyed out until you click one. |
-
-
 
 ## Good to know
 
@@ -1072,8 +1002,6 @@ Pack Pony sends your Artisan's Pack Pony out to gather harvests by itself. With 
 | **Conversation 3 - Option 3 (BoZimara 125-130 / Luclin 110-120 harvests)** | When the pony asks its third question, the bot picks reply 3. | off |
 | **Conversation 3 - Option 4 (SoD 130 harvests)** | When the pony asks its third question, the bot picks reply 4. | off |
 
-
-
 ## Good to know
 
 - The character needs the 'Summon Artisan's Pack Pony' ability, or the run does not start.
@@ -1171,8 +1099,6 @@ Pushover is a separate phone and desktop notification service (pushover.net). Wi
 | **[Normal Priority] When smartloot assigns an item.** | Each time SmartLoot gives an item to someone, you get a notification with the time, who got it and the item. | off |
 | **[Normal Priority] When you get an in-game TELL from someone on your eq2chars list.** | When one of your own characters (anyone on the EQ2Chars tab) sends you a tell, you get a notification with who sent it and what they said. | off |
 | **[HIGHEST Priority] When you get an in-game TELL from someone NOT on your eq2chars list.** | When anyone not on your EQ2Chars list sends you a tell, you get a high-priority notification with who sent it and what they said.<br>*This is the one notification that still gets through 'Disable Normal Pushover Messages'.* | off |
-
-
 
 ## Good to know
 

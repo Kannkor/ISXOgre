@@ -1,8 +1,8 @@
+# No Ogre windows
+
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../index.md).
 </div>
-
-# No Ogre windows
 
 OgreBot loads and runs, but no Ogre windows appear in the game. Ogre's windows are drawn inside each game, unless you chose to have one separate program, `OgreUltralight.exe`, draw them for every game to save memory. When they cannot start, the InnerSpace console says why, and a window opens (at most once a day) with two choices: the steps on this page, or the other way of drawing them.
 

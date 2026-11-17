@@ -166,7 +166,7 @@ echo ${ISXOgreEQ2.Craft.QueueUpdated}
 
 `${ISXOgreEQ2.Craft.Recipes}`
 
-How many recipes the engine has indexed from your recipe book. It is 0 until the book has been read; a read starts on its own when the panel opens, craft lite turns on, a run starts or you scribe a recipe, or on Scan.
+How many recipes the engine has indexed from your recipe book. It is 0 until the book has been read; a read starts when a run starts, when you scribe a recipe or on Scan, and also when the panel opens or craft lite turns on unless Do NOT load recipes on startup is ticked.
 
 **Returns:** int: the number of recipes indexed by the last recipe-book read; 0 before the first read.
 

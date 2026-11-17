@@ -1,8 +1,8 @@
-# `ogre` commands
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../../index.md).
 </div>
+
+# `ogre` commands
 
 ## `abilitydetails`
 
@@ -1003,7 +1003,7 @@ Walk somewhere over the baked navmesh (`ogre nav -help` for the flags)
 | `-doors` | flag |  | Open doors on the way again. |
 | `-on` | flag |  | Let nav move this character. |
 | `-off` | flag |  | Stop nav from moving this character at all. |
-| `-set` | flag |  | Change one nav setting: `-set <key> <value>` (arrive, lookmax, avoid, doortries and more). |
+| `-set` | flag |  | Change one nav setting: `-set <key> <value>` (arrive, lookmax, avoid, doortries and more). `-set` alone lists the keys. |
 | `-reset` | flag |  | Put every nav setting back to its default, or only `<key>` when you name one. |
 | `-panel` | flag |  | Open the nav window now and on every trip. |
 | `-nopanel` | flag |  | Close the nav window and stop it opening on each trip. |

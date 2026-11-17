@@ -1,8 +1,8 @@
+# OgreBotAPI.AutoHunt
+
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../../index.md).
 </div>
-
-# OgreBotAPI.AutoHunt
 
 ## Members
 

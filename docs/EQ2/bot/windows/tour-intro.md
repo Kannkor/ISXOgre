@@ -1,8 +1,8 @@
+# Welcome to OgreBot
+
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
-
-# Welcome to OgreBot
 
 A short cartoon that starts the New User Tour. It is just for fun and changes nothing.
 

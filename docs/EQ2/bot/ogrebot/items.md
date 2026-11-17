@@ -1,20 +1,17 @@
+# Items
+
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
-
-# Items
 
 Items is where you register the items the rest of OgreBot can offer you. The left list, All Item List, shows everything you have equipped and everything in your bags. It is filled when your profile loads; press Refresh list after looting or changing gear. It also has a search box. Double-click an item to register it: it moves into the right list, 'Items to include in ability lists', and gets a green '✓ registered' mark on the left. Only registered items appear in the item pickers on other tabs: the Cast Stack, Consume Items, Item Embargo, Pre-Cast and Post-Cast, the Equipment Info charm choices and the Auto-Hunt pull list. Click the x on a right-hand row to unregister it.
 
 [![Items tab](../assets/ogrebot/tab-items.png)](../assets/ogrebot/tab-items.png "Click for full size")
 
-
 | Option | What it does | Default |
 |---|---|---|
 | **All Item List** | Everything you have equipped, everything in your bags, 'whatever is in slot X' entries and your equipped adornments. Double-click an item to register it.<br>*Items already registered show a green '✓ registered' mark and cannot be added twice.* | filled when your profile loads |
 | **Items to include in ability lists** | Your registered items. These are the items the item pickers on the Cast Stack, Consume Items, Item Embargo, Pre/Post-Cast, Equipment Info and Auto-Hunt tabs offer. | empty |
-
-
 
 ## Items
 
@@ -24,8 +21,6 @@ Items is where you register the items the rest of OgreBot can offer you. The lef
 | **Search N items...** | Type part of a name to show only the matching items in the All Item List. It only filters what you see. | empty |
 | **Double-click an item (left list)** | Registers that item, adding it to 'Items to include in ability lists'. The change is saved straight away. |  |
 | **x (remove row)** | Unregisters that item. It stops appearing in the other tabs' pickers. |  |
-
-
 
 ## Good to know
 

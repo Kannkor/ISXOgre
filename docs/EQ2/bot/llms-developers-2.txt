@@ -110,7 +110,6 @@ A `wait` step holds the list. `limitMs` and `onTimeout` are always needed: there
 
 Here the group runs to each light the boss calls, while the lights are up and the boss is not on top of them:
 
-
 ```json
     {
       "stepId": "named1.lights",

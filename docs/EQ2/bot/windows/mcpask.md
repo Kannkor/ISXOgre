@@ -1,8 +1,8 @@
+# Ask
+
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
-
-# Ask
 
 > **:bulb: In game - the ? button on this window says**
 >
@@ -41,8 +41,6 @@ One field per setting of each command on the button, in order, under the command
 | **Send** | Sends the button with your answers and closes the window. |
 | **Cancel** | Closes the window. Nothing is sent. |
 
-
-
 ## No mouse needed
 
 The cursor starts in the first field, so you can type straight away.
@@ -55,8 +53,6 @@ The cursor starts in the first field, so you can type straight away.
 | **Enter** | The next field. On the last field it sends. |
 | **Esc** | Closes the window without sending. |
 | **The red line** | Says why a press was refused - a number field holding text, or a starred field left empty - and the cursor goes to that field. |
-
-
 
 ## Good to know
 

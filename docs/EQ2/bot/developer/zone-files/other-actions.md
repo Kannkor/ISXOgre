@@ -1,8 +1,8 @@
+# Other actions
+
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../index.md).
 </div>
-
-# Other actions
 
 These come from fight files, and the shipped zone files use them too. They run on the IC character. Add
 `sendTo` to have others do it as well: `"sendTo": "igwbn:{{me}}"` is everyone in the group but the IC character.

@@ -8,42 +8,6 @@ Index of every page and of every file like this one: https://kannkor.github.io/I
 
 ---
 
-Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/ContentBuilder.md
-
-# ISXOgreEQ2.ContentBuilder
-
-## Methods
-
-### `End`
-
-`ISXOgreEQ2.ContentBuilder:End`
-
-Closes the Content Builder window (the same as `ogre end contentbuilder` and the window's X). Changes that were not saved are kept and offered back the next time the window opens, and a run it started goes on.
-
-```text
-ISXOgreEQ2.ContentBuilder:End
-```
-
-### `Open`
-
-`ISXOgreEQ2.ContentBuilder:Open[tier,path]`
-
-Opens the Content Builder window (the same as `ogre contentbuilder`), on a zone file when you name one. A window that is already open comes to the front, and asks before it opens that file over unsaved changes; without the Ogre UI desktop it prints a warning.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `tier` | string | `none` | The root the zone file is in: default or custom. Leave both out to open the window as it was. |
-| `path` | string | `none` | The zone file's path inside that root, ending in .json. A path with spaces may be quoted or written as several words. |
-
-```text
-ISXOgreEQ2.ContentBuilder:Open[custom,"My_Zone.json"]
-```
-
-More: [developer/zone-files/builder.md](../../zone-files/builder.md)
-
-
----
-
 Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Craft.md
 
 # ISXOgreEQ2.Craft
@@ -210,7 +174,7 @@ echo ${ISXOgreEQ2.Craft.QueueUpdated}
 
 `${ISXOgreEQ2.Craft.Recipes}`
 
-How many recipes the engine has indexed from your recipe book. It is 0 until the book has been read; a read starts on its own when the panel opens, craft lite turns on, a run starts or you scribe a recipe, or on Scan.
+How many recipes the engine has indexed from your recipe book. It is 0 until the book has been read; a read starts when a run starts, when you scribe a recipe or on Scan, and also when the panel opens or craft lite turns on unless Do NOT load recipes on startup is ticked.
 
 **Returns:** int: the number of recipes indexed by the last recipe-book read; 0 before the first read.
 
@@ -2997,4 +2961,47 @@ Prints the run's state and usage to the console. It takes no arguments.
 
 ```text
 ISXOgreEQ2.LevelTransmuting:Status
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/LootScan.md
+
+# ISXOgreEQ2.LootScan
+
+## Methods
+
+### `Interval`
+
+`ISXOgreEQ2.LootScan:Interval[ms]`
+
+Sets how often the driver scans, for this session only. A value out of range prints the range and changes nothing; with no value it prints one warning.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `ms` | int |  | The scan interval in milliseconds, 500 to 30000. |
+
+```text
+ISXOgreEQ2.LootScan:Interval[2000]
+```
+
+### `Reset`
+
+`ISXOgreEQ2.LootScan:Reset`
+
+Forgets which actors were looted, so they are looked at again.
+
+```text
+ISXOgreEQ2.LootScan:Reset
+```
+
+### `Status`
+
+`ISXOgreEQ2.LootScan:Status`
+
+Prints the auto-loot driver to the console: its gates, interval, last scan, what it opened and what it remembers.
+
+```text
+ISXOgreEQ2.LootScan:Status
 ```

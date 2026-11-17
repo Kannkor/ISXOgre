@@ -286,6 +286,53 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.11.17.001 {#r2026-11-17-001}
+
+*Tuesday, November 17, 2026 at 2:57 PM EST*
+
+- **New** · Bot: **Scripts can ask whether anyone in the group is in combat.** The new `${OgreBotAPI.Roster.InCombat}` is TRUE when anyone in your group is in combat, you included, so a script can wait for the whole group to be out of combat before it moves on. It checks your group only, not the rest of a raid. Classic scripts that used `Obj_OgreUtilities.GroupInCombat` can use it instead.
+- **New** · Bot: **The bot now handles mobs that are immune to area attacks cast through an assist.** Some mobs, such as training dummies, only take area attacks from someone targeting them directly, and the game says "Your target is immune to your indirect AOE attacks." The bot now stops that attack at once and ticks the new Dynamic Direct Assist Targeting box, which is never saved, then waits 1 second for that to take effect. If Direct Assist Targeting is already on, or you tick the new "Do not automatically turn on DAT" box, it holds all area attacks for 10 seconds instead.
+- **New** · Instance Controller: **Check a zone file or a fight file from the console.** `ogre ic validate` and `ogre encounter validate` check a file by the rules the game loads it with and print each problem. The game now also warns about a rule option nothing reads. Ogre ships a schema of every step, condition and option (`ic.schema.json`, `fight.schema.json`) for outside editors.
+- **New** · Instance Controller: **Content Builder: build zone files and fight files as boxes.** `ogre contentbuilder` opens a new window that draws a file as boxes: an Instance Controller zone file, or a fight file. Add steps from a list and fill in their options and conditions in forms; the game checks the file after every change. Save to your own folder and run it from the window.
+- **New** · Instance Controller: **Instance Controller's Ogre IM can now run on every character in the group.** The IC window has a new box under Ogre IM: All characters in the group. With it ticked, every character in the group runs the same Ogre IM as you, which suits a group that shares loot round robin, and the list waits until all of them are done. It is off by default, so only your own character runs Ogre IM, as before.
+- **New** · Other: **The API reference is on the site.** The Developers section now has an API reference, covering every member, method, command and event of `OgreBotAPI`, `ISXOgreEQ2` and `ISXOgreX` that a script can use. Each one shows what it is for, its arguments and an example. The pages are rebuilt from the code, so they stay current as the bot changes.
+- **Changed** · Bot: **After a res, a priest waits 10 seconds before sending another res at the same body.** Once a res is sent at a body, that priest sends no other res at it for 10 seconds, from any of its res abilities, so a res the person has not accepted yet is not cast over it. Before, a res the game refused, such as "You cannot see your target!", was sent again about twice a second, switching between res abilities.
+- **Changed** · Bot: **Auto-Hunt's Delay After Combat works, and the tab is no longer struck through.** With Campspot or CS-JO-JI, ticking **Delay After Combat** makes the group wait 3 seconds with no mob in reach before it is let go to follow you again, instead of 1.5. The **Use IRC** box is gone: Auto-Hunt sends its group commands on this PC only. Every option on the Auto-Hunt tab now works, so its name in the tab list is no longer struck through.
+- **Changed** · Bot: **Loading a profile or closing OgreBot no longer warns about unsaved changes afterwards.** Loading a profile or closing OgreBot over changes that were not saved printed a warning in the console, but only afterwards, when nothing could be done about it. The load warning also appeared after almost every second load, because a profile's own load-tab commands change settings. Both now go to the log file only, and the marker beside the X still shows unsaved changes before you close.
+- **Changed** · Instance Controller: **The Chimeric Chain Heroic - a Lord Shomp flight with no cloud in sight is now reported.** If Lord Shomp stays in flight for 20 seconds with no stormcloud in sight, the fight cannot go on, because nobody has a cloud to dispel. The group leader now plays the chat ding, and every box prints what it can see to its own console, every 30 seconds until the flight ends. If you see this, please send the lines from each session's log.
+- **Changed** · Other: **The API reference is easier to use.** The Developers section has a new page, Your first script, that walks through a whole small script and explains each piece. The Commands reference is split into smaller pages, and each `ogre` command now lists the words it takes with an example. The API pages also say what a for-who does in a script and how `oc !c` makes your group act.
+- **Fixed** · Bot: **A cure request no longer says it gave up when a cure landed.** A curse or cure request could end with a "gave up, never cured" warning in the Errors tab even though the cures landed: on a character with two curses or one that came back, or one that asked again while still out of range. Those requests now end quietly in the log file, and the Errors tab warning is kept for a request where nothing came off.
+- **Fixed** · Bot: **Call of the Veteran works on the first try.** Call of the Veteran often failed the first time with "popup up still not met", because the bot clicked the porter the moment the cast ended, before it could be clicked. It now waits up to 5 seconds for the porter, so Teleport and Summon go through on the first try.
+- **Fixed** · Bot: **Currency lookups no longer stall the game.** Looking up a currency amount stalled the game for most of a second while the bot read the Persona window's currency list. The list is now read a little each frame, with far fewer reads, so the lookup is no longer noticeable.
+- **Fixed** · Bot: **Instant abilities whose cooldown starts after their effect are now seen as cast.** Some instant abilities, such as Unyielding Retribution, run their effect first and only start their cooldown when it ends. The bot waited for that cooldown, held the cast bar for about 3 seconds and then logged the cast as failed, which also stopped any Post-Cast after it. The bot now also watches the ability's ready state and moves on as soon as it has gone off.
+- **Fixed** · Bot: **Looting no longer skips items whose icon shows up late.** When a loot window was slow to draw its item icons, the bot could skip items as "not in chest" and leave them in the chest. It now waits up to a second for an item's icon while the item is still in the window, and only skips an item that has really gone.
+- **Fixed** · Bot: **Mission timers no longer freeze the game.** Asking for mission timers froze the game for 7 to 8 seconds while the bot read the Mission Timers table. The table is now read in one pass, a little each frame, so the same answer comes back in well under a second without a freeze.
+- **Fixed** · Bot: **ogre perf no longer blames the game's own frame on OgreBot.** `ogre perf` used to say "OgreBot is RESPONSIBLE for" 10 ms or more of each frame. That number came from an OgreBot address found anywhere on the game's stack, and those addresses were leftovers from calls that had already finished while the game drew its own frame. The report now shows OgreBot's pulse and its own DLLs' time outside it, both measured directly.
+- **Fixed** · Bot: **OgreBot opens on a first run with no OldBot profiles.** With no OldBot profiles to bring across, opening OgreBot stopped at "Routing.json not found". It now makes the file and gives your character a profile of its own.
+- **Fixed** · Bot: **OSA and the HUD no longer read every placed item in a house or guild hall.** A house or guild hall can hold more than a thousand placed items, and the OSA and the HUD's nearest NPC/PC lines read every one of them several times a second. They now pass over anything that is not an NPC or a player - placed items, chests, harvest nodes, doors, pets and mercenaries - without reading it.
+- **Fixed** · Bot: **OSA and the HUD read the zone's actors once between them.** With both the OSA and the HUD's nearest NPC/PC lines open, each read every actor in the zone on its own, several times a second. In a zone full of actors, such as a busy guild hall, that cost a few milliseconds a frame. The HUD now uses the OSA's read, so the bot does that work once.
+- **Fixed** · Bot: **Overseer no longer reports a false error after adding a mission.** After auto-add scribed a mission such as Heritage Hunt [Daily], the Overseer could report "the quest list did not grow" as an error even though the mission was then started. It now looks for each added mission by name once the list is read again, and only warns when one is missing, since a missing mission will not be started.
+- **Fixed** · Bot: **Post-Casts now wait for the ability they follow to finish.** A Post-Cast waited only 2 seconds for the cast bar, so it could be skipped while the ability it follows was still going, for example an instant whose cooldown only starts after its effect. A Post-Cast now waits for that ability's cast to finish, however long it takes, and is skipped only if a different spell takes the cast bar first or the ability never went off. The log also no longer reports a skipped Post-Cast for abilities that have none.
+- **Fixed** · Bot: **Pulse Budget settings changed on one box are no longer undone by another.** All boxes on a PC share one Pulse Budget settings file, and a box used to write the whole file from its own copy. A change made on one box (a slice, the frame ceiling, on or off) was put back the next time any other box saved. Each box now changes only what it changed, on the file as it is at that moment.
+- **Fixed** · Instance Controller: **A revived character's walk back waits until it is in the world again.** After a revive, the Instance Controller sent the walk back to the group while the character was still loading in, so the character's own session put "nav: not in world" warnings in the Errors tab. The walk now goes once the character is in the world again, or after 15 seconds if that is never seen.
+- **Fixed** · Instance Controller: **Dominion of Pain Heroic - Sir Rendal's light puzzle now runs every time.** The Instance Controller now clears the trash on both sides first, then lets the fight file take Sir Rendal Cauldthorn. The fight starts a Heroic Opportunity on him so the lights come up, clicks the lights on the north side and then the south, and kills the Knights of Truth with the whole group. Before, the lights often never came, and the group fought him while he healed.
+- **Fixed** · Instance Controller: **Dominion of Pain Heroic - The Soulbleeder's pool runners stay with the group once cured.** When a pool runner's curse was cured, the fight sometimes sent that character straight back to its pool, and the curse was put back on it a few seconds later. A character that has asked for its cure now stays with the group for the rest of the fight.
+- **Fixed** · Instance Controller: **Resuming a zone no longer puts a warning in the Errors tab.** Starting a zone part-way, with Resume or a named number, added a warning like "startAt 20: skipping the first 20 of 34 step(s)" to the Errors tab, although you asked for it. It is now an ordinary console line. It stays a warning only when the start point is past the last step, because then nothing runs.
+- **Fixed** · Instance Controller: **Stopping the Instance Controller during a zone-in now stops the whole group's travel.** Ending or failing the Instance Controller while the group was travelling to a zone stopped only the leader. The rest of the group kept going, and a character still waiting for its staggered start set off afterwards. The stop now reaches every character in the group.
+- **Fixed** · Instance Controller: **The Instance Controller no longer warns when something out of range keeps the group hated.** After some fights the group stays hated with no mob anywhere near, usually one that ran off, and the Instance Controller moves on after 15 seconds. That "nothing in range, moving on" line went to the Errors tab every time and is now an ordinary console line. A mob in range that will not die is still a warning.
+- **Fixed** · Instance Controller: **The Instance Controller now turns on Auto Assist for the rest of the group.** The setup list told the group to assist you at each zone start, but a member only acts on that with Auto Assist ticked, so a profile with it off stood on its own target through the trash. A new default row ticks Auto Assist for everyone in the group but you, and it is added to your saved list once. The profile reload at the end of a run puts each character's own setting back.
+- **Fixed** · Instance Controller: **The Instance Controller reads the lockout again before skipping a locked zone.** A zone could be skipped as locked and not resettable on a lockout reading up to 15 minutes old, even after its reset had become available. Before skipping a zone now, the Instance Controller reads the lockout again and skips only on that new reading.
+- **Fixed** · Instance Controller: **The Instance Controller's loot walk stops once the target is in reach.** When a corpse or shiny came within reach while the group was still walking to it, the loot was taken but the walk carried on toward the target's exact spot. A corpse left floating above the ground, which nav cannot reach, then caused several nav warnings in the Errors tab. The walk now stops where it is as soon as the target is in reach.
+- **Fixed** · Instance Controller: **The Instance Controller's res run ends when the dead member is ressed during a fight.** When a group member died and was ressed while the group was still in combat, the res run kept waiting for the fight to end before it finished, even though nobody was dead any more. With a mob far off that kept the group in combat, the walk could sit for minutes. The res run now finishes as soon as nobody is dead.
+- **Fixed** · Instance Controller: **The Instance Controller's wait for a group member who falls behind is no longer a warning.** When someone fell more than 40 m behind on a walk, the "waiting for (name)" line went to the Errors tab, although waiting for them is the normal thing to do. It is now an ordinary console line. A member still behind after 60 s, when the walk goes on without them, is still a warning.
+- **Fixed** · Instance Controller: **The res run takes the group to the body itself, not where the group window last showed it.** When a member died while running, the group window could still show them up to 15 m back, and the res run walked the group to that spot. From there the priests often could not see the body, every res failed, and the member was revived after two minutes instead. The res run now goes to where the body actually lies.
+- **Fixed** · Navigation: **Getting stuck once and finding a way round is no longer a warning.** When nav ran into something the navmesh does not know about, it marked that spot as blocked, went round it, and put "the game will not let us through there" in the Errors tab, even though the walk then went on. The first time at a spot is now an ordinary console line. Getting stuck at the same spot again on one trip, or at a spot stuck on before, is still a warning.
+- **Fixed** · Navigation: **ogre nav -set on its own lists the settings.** Typing `ogre nav -set` with no key now lists the nav settings you can change, as its help always said. It used to stop with "-set needs a value" instead.
+- **Fixed** · Navigation: **Stepping off the edge of a route once is no longer a warning.** When a character took a bend wide and dropped a little below its route, nav plans again from where it landed, and that line went to the Errors tab every time. The first drop at a spot is now an ordinary console line. Dropping off the same spot again on one trip is still a warning, because it points at a navmesh problem.
+- **Fixed** · Navigation: **Travel no longer gives up on a zone door whose destination window is empty.** Clicking a door or a guild hall portal could find its destination window open but with nothing listed, and travel then gave up with "its 0 destination(s) are: (none)" even though the click went on to zone the character. A destination window that lists nothing is now treated as no window, so travel waits for the zone or for the list to fill.
+- **Fixed** · Crafting: **A rush order no longer freezes the writ run at "scanning recipes".** Taking a rush order from the agent could leave the craft bot stuck at "scanning recipes" until you ended it. It now finishes talking to the agent first, then reads your recipe book and carries on.
+- **Fixed** · Crafting: **The craft bot walks close enough to start the recipe.** The craft bot could stop just outside the distance where the game lets a recipe start. The game then said "You must be located near a Forge" and every craft was skipped. It now stops a little closer to the station.
+
 ## 2026.11.16.001 {#r2026-11-16-001}
 
 *Monday, November 16, 2026 at 12:52 AM EST*
@@ -2158,16 +2205,12 @@ Ability Tracker watches the cooldowns of a short list of your abilities and shar
 | **Full Ability list** | All of this character's abilities. Click one to select it for the Add button below, or double-click it to add it to the Ability Tracker List straight away. | your abilities |
 | **Ability Tracker List** | The abilities whose cooldowns are tracked, shown A to Z. Twice a second the bot reads how long each has left and shares it with your other characters, and the OgreMCP window shows it on matching buttons. Double-click a row to switch it off, X to remove.<br>*Needs 'Enable Ability Tracker' on the Settings tab.* | empty |
 
-
-
 ## Full Ability list (left)
 
 | Control | What it does |
 |---|---|
 | **Search ... abilities** | Type to filter the ability list. Display only. |
 | **Add** | Adds the ability you clicked in the list above to the Ability Tracker List. It is greyed out until you click one, and the name you picked is shown beside it. |
-
-
 
 ## Good to know
 
@@ -2263,8 +2306,6 @@ The Ascension tab has one option. Etherflash normally teleports you to your targ
 | Option | What it does | Default |
 |---|---|---|
 | **Etherflash - Prevent Port** | When the bot casts Etherflash, it switches your target to yourself once the cast is over 90% done, so the teleport takes you nowhere. About a second after the cast ends, your normal target returns.<br>*Only for Etherflash casts made by the bot, any rank.* | off |
-
-
 
 ## Good to know
 
@@ -2418,23 +2459,17 @@ Some casts spoil a buff you keep up, so that buff needs to be cancelled and cast
 | **2. ...cancel these  (pick several)** | Pick the buffs to cancel when that cast happens. Click as many as you like, and click one again to unpick it. Only buffs that last until cancelled are listed. | your until-cancelled buffs |
 | **Cancels setup** | Your rows: the cast, then the buffs it cancels. After that cast, each buff still up is cancelled one at a time, once a second, until it is gone. Drag to reorder, double-click to switch a row off, X to remove.<br>*A 'C' on a row means it may cancel during combat. Tick 'In combat' beside Add when you make the row.* | empty |
 
-
-
 ## Options
 
 | Control | What it does | Default |
 |---|---|---|
 | **Also run in overland zones (by default this only runs inside instances)** | Lets the cancels happen in overland zones too. When unticked they only happen inside instances. | off |
 
-
-
 ## Build a row
 
 | Control | What it does |
 |---|---|
 | **Add** | Adds a row with your picks from lists 1 and 2 to Cancels setup. Tick 'In combat' beside it first to let that row cancel during a fight. It is greyed out until both lists have a pick (hover it to see which is missing). When several buffs are picked it reads 'Add (3)'. |
-
-
 
 ## Good to know
 
@@ -2501,8 +2536,6 @@ Codex Inspect uploads the gear of the people in your group or raid to the EQ2Cod
 | **Inspect Queued Now** | Starts a run: the bot inspects each name in the To Inspect list, one about every 3 seconds, and uploads their gear to eq2codex.com.<br>*Greyed out while a run is going. Names inspected in the last 5 minutes are skipped.* |  |
 | **Reset Raid Force** | Clears your active group/raid on the eq2codex.com website, including the gear and adornments uploaded for it. Nothing on your PC changes.<br>*Greyed out while a run is going.* |  |
 
-
-
 ## Top of tab
 
 | Control | What it does |
@@ -2511,8 +2544,6 @@ Codex Inspect uploads the gear of the people in your group or raid to the EQ2Cod
 | **Wiki** | Opens the EQ2Codex help pages in your web browser. |
 | **Setup API Token** | Opens the EQ2Codex API Token window, where you paste your token from eq2codex.com. The token is kept on this PC, outside your profile, and is never shown back to you.<br>*The same window opens from the Codex Toons tab. One token serves both.* |
 | **View my Group/Raid** | Opens your active group/raid page on eq2codex.com in your web browser. |
-
-
 
 ## Good to know
 
@@ -2567,16 +2598,12 @@ Consume Items keeps you using items such as potions and temporary buffs. While t
 | **Full Item List** | Your registered items from the Items tab. Click one to pick it for the Add form, or double-click it to add it straight away with no options. | your registered items |
 | **Consume Item List** | The items the bot uses, in priority order: each check it uses the first one that is in your bags, ready, and not waiting out its effect. 'IC' on a row means in combat only.<br>*Drag to reorder, click to edit, double-click to switch off or on, x to remove.* | empty |
 
-
-
 ## Where it works
 
 | Control | What it does | Default |
 |---|---|---|
 | **Allow in Guild Halls** | Lets the list be used automatically in a guild hall. Without it, nothing is used there. | off |
 | **Allow in Overland zones** | Lets the list be used automatically outside instances, in overland and city zones. Without it, items are only used inside instances. | off |
-
-
 
 ## Item lists
 
@@ -2585,8 +2612,6 @@ Consume Items keeps you using items such as potions and temporary buffs. While t
 | **In-combat** | The item being added is only used while you are in combat. | off |
 | **Add** | Adds the item picked on the left to the end of the list, with the In-combat option as ticked. When you are editing a row, it reads Update and saves your change. |  |
 | **Clear Options** | Unticks In-combat. It otherwise stays ticked for the next Add. |  |
-
-
 
 ## Good to know
 
@@ -2612,16 +2637,12 @@ With Enable Crowd Control ticked on the Settings tab, the bot mezzes (or roots) 
 | **Full Ability list** | Your abilities, with a search box. Click one and press Add (or double-click it) to put it in the Priority Order list. | filled from your ability export |
 | **Priority Order** | The mez abilities to use, top first. The bot uses the first one that is ready and can reach the add. Double-click a row to turn it off without removing it.<br>*Drag to reorder, double-click to switch a row off, x to remove. Clicking a row loads it back into the form.* | empty |
 
-
-
 ## Crowd Control
 
 | Control | What it does | Default |
 |---|---|---|
 | **Allow Epics as Valid Targets** | Off: the bot never mezzes an epic mob. On: epic mobs can be mezzed like any other add. | off |
 | **Add** | Adds the ability you clicked on the left to the bottom of the Priority Order list. Next to it you see the picked ability, or 'click an ability on the left' until you pick one. |  |
-
-
 
 ## Good to know
 
@@ -2685,8 +2706,6 @@ Equipment Info stores two charm choices so you can swap between them quickly. Pi
 | **Equip Charm 1** | Finds the Charm Option 1 item in your bags and asks the game to equip it, on this character only.<br>*Does nothing but print a message if Charm Option 1 is empty or the item is not in your bags.* |  |
 | **Equip Charm 2** | Finds the Charm Option 2 item in your bags and asks the game to equip it, on this character only.<br>*Does nothing but print a message if Charm Option 2 is empty or the item is not in your bags.* |  |
 
-
-
 ## Good to know
 
 - The drop-downs are empty until you register items on the Items tab. They list every registered item, not only charms.
@@ -2707,15 +2726,11 @@ HO Excludes lists abilities the bot must never use to work a Heroic Opportunity.
 | **Full Ability list** | All of this character's abilities. Double-click one to add it to the exclude list. An ability that is already listed is not added twice. | your abilities |
 | **Abilities to Exclude in HOs** | The abilities the bot will not pick for HO Starter or HO Wheel icons, shown A to Z. Double-click a row to switch it off (it is then used again), X to remove. | empty |
 
-
-
 ## Full Ability list (left)
 
 | Control | What it does |
 |---|---|
 | **Search ... abilities** | Type to filter the ability list. Display only. |
-
-
 
 ## Good to know
 
@@ -2740,8 +2755,6 @@ HUDs puts live text straight onto your game screen: the nearest mob, the nearest
 | **X** | How far from the left edge of the screen the Nearest NPC line starts, in pixels. | blank (300) |
 | **Y** | How far down from the top of the screen the Nearest NPC line sits, in pixels. | blank (400) |
 
-
-
 ## Nearest PC
 
 | Option | What it does | Default |
@@ -2752,8 +2765,6 @@ HUDs puts live text straight onto your game screen: the nearest mob, the nearest
 | **Msg alerts to OgreConsole** | When a player comes within 150 metres, and again within 30, a line such as 'Kannkor --> Nearest PC: Serath: 24.1 < 30' is posted to OgreConsole. Each player is reported once per distance band, and alerts are at least 5 seconds apart.<br>*Needs 'Display nearest PC' ticked.* | off |
 | **Ding alerts** | Plays a short ding when a player comes within 30 metres. If 'Msg alerts' is also ticked, it dings at 150 metres too. A ding under 30 metres also posts the OgreConsole line, even without 'Msg alerts'.<br>*Needs 'Display nearest PC' ticked.* | off |
 | **Loud alarm when close** | When a player comes within 30 metres, plays a louder two-tone alarm instead of the short ding.<br>*Does nothing on its own. 'Msg alerts' or 'Ding alerts' must also be ticked.* | off |
-
-
 
 ## Group Information
 
@@ -2766,8 +2777,6 @@ HUDs puts live text straight onto your game screen: the nearest mob, the nearest
 | **Hide names** | Leaves the slot number and name off each group line, so it shows only the distance, target and cast. Not used while your group follows the raid settings (Display raid information on, Only in a raid off). | off |
 | **Hide casting** | Leaves off the 'what they are casting' part of each group line. Not used while your group follows the raid settings (Display raid information on, Only in a raid off). | off |
 | **Name width** | How many letters of each name and target the group lines show. Longer ones are cut and shorter ones padded, so every line's cast starts in the same place. Not used while your group follows the raid settings (Display raid information on, Only in a raid off). | blank (6) |
-
-
 
 ## Raid Information
 
@@ -2784,8 +2793,6 @@ HUDs puts live text straight onto your game screen: the nearest mob, the nearest
 | **Hide casting** | Leaves off the 'what they are casting' part of each line. Outside a raid your group's lines use it too, unless Only in a raid is ticked. | off |
 | **Name width** | How many letters of each name and target are shown. Longer ones are cut and shorter ones padded, so every line's cast starts in the same place. Outside a raid your group's lines use it too, unless Only in a raid is ticked. | blank (6) |
 
-
-
 ## Raid Options
 
 | Option | What it does | Default |
@@ -2795,8 +2802,6 @@ HUDs puts live text straight onto your game screen: the nearest mob, the nearest
 | **Y** | How far down from the top of the screen the first Raid Options message sits, in pixels. | blank (300) |
 | **Line spacing** | How many pixels apart the Raid Options messages are. | blank (15) |
 
-
-
 ## OSA - NPC On-Screen-Assistant
 
 | Option | What it does | Default |
@@ -2805,8 +2810,6 @@ HUDs puts live text straight onto your game screen: the nearest mob, the nearest
 | **Scan Radius (slider)** | The same scan radius as the box beside it, as a slider from 0 to 149. Moving one updates the other. | not set (the OSA uses 50) |
 | **Display NPCs with Targets Only** | The OSA window only lists mobs that have a target, meaning mobs that are fighting someone. Idle mobs are hidden. | off |
 | **Clip Y Axis (only show mobs on the same floor as you)** | The OSA window hides mobs that are 8 or more above or below you, so the floors over and under you drop out of the list.<br>*Only used while the OSA is turned on.* | off |
-
-
 
 ## What you see
 
@@ -2929,8 +2932,6 @@ Items is where you register the items the rest of OgreBot can offer you. The lef
 | **All Item List** | Everything you have equipped, everything in your bags, 'whatever is in slot X' entries and your equipped adornments. Double-click an item to register it.<br>*Items already registered show a green '✓ registered' mark and cannot be added twice.* | filled when your profile loads |
 | **Items to include in ability lists** | Your registered items. These are the items the item pickers on the Cast Stack, Consume Items, Item Embargo, Pre/Post-Cast, Equipment Info and Auto-Hunt tabs offer. | empty |
 
-
-
 ## Items
 
 | Control | What it does | Default |
@@ -2939,8 +2940,6 @@ Items is where you register the items the rest of OgreBot can offer you. The lef
 | **Search N items...** | Type part of a name to show only the matching items in the All Item List. It only filters what you see. | empty |
 | **Double-click an item (left list)** | Registers that item, adding it to 'Items to include in ability lists'. The change is saved straight away. |  |
 | **x (remove row)** | Unregisters that item. It stops appearing in the other tabs' pickers. |  |
-
-
 
 ## Good to know
 
@@ -3008,16 +3007,12 @@ Loot decides what the bot does when a loot window opens. Nothing on the left hal
 | **Accept any tradable** | The bot handles Free For All loot windows. It takes every tradable item, plus anything on the Auto-Loot list. No-Trade and Heirloom items are left behind unless 'Loot everything' is ticked.<br>*With this off, Free For All windows are ignored completely.* | off |
 | **Loot everything** | In Free For All windows the bot takes every item, No-Trade and Heirloom included.<br>*Needs 'Accept any tradable' ticked too.* | off |
 
-
-
 ## Lotto Loot Options
 
 | Option | What it does | Default |
 |---|---|---|
 | **Accept All (including No-Trade)** | When a Lottery loot window opens, the bot enters the roll for everything in it.<br>*If both Lotto boxes are ticked, this one wins.* | off |
 | **Decline all** | When a Lottery loot window opens, the bot declines the roll. | off |
-
-
 
 ## NBG Loot Options
 
@@ -3026,8 +3021,6 @@ Loot decides what the bot does when a loot window opens. Nothing on the left hal
 | **Need All (including No-Trade)** | When a Need Before Greed window opens, the bot picks Need.<br>*If several NBG boxes are ticked, Need wins, then Greed, then Decline.* | off |
 | **Greed All (including No-Trade)** | When a Need Before Greed window opens, the bot picks Greed. | off |
 | **Decline all** | When a Need Before Greed window opens, the bot declines it. | off |
-
-
 
 ## Leader Only Loot Options
 
@@ -3045,8 +3038,6 @@ Loot decides what the bot does when a loot window opens. Nothing on the left hal
 | **Pass LORE items I already have to the group** | A LORE item the bot would take for you, when you already have one in your bags or bank, goes to a group member who does not have one. The bot asks the group once per chest, and only members whose bot answers can be given one, in group order. If everyone who answered has one, the item stays in the chest and the bot moves on.<br>*Group only: in a raid it does nothing. A hand-out that does not go through counts as that member having one, and the next copy goes to the next member. The instance controller's default setup ticks it.* | off |
 | **Close loot window when done** | Once the bot has nothing left to do in a Leader Only loot window, about a second later it closes it, whatever is left inside. Leave it off when you are there and want the window to wait for you.<br>*The instance controller's default setup ticks it, so a run loots each chest and moves on. Its no-trade steps turn it off while they run.* | off |
 
-
-
 ## Misc Options
 
 | Option | What it does | Default |
@@ -3059,15 +3050,11 @@ Loot decides what the bot does when a loot window opens. Nothing on the left hal
 | **Enable coin splitting with the group/raid after looting.** | Each time you loot coin, the bot splits that amount with your group or raid. | off |
 | **Only split if the coin includes 1 platinum or more.** | Coin is only split when the looted amount has at least 1 platinum in it. Gold, silver and copper alone are kept.<br>*Does nothing unless the box above is ticked. 99 gold does not count as 1 platinum.* | off |
 
-
-
 ## Auto-Loot item names
 
 | Option | What it does | Default |
 |---|---|---|
 | **Always loot these exact item names (Free-For-All and Leader Only). Adds to the built-in list (Void Shard, Obol, ...).** | Items named here are always taken from Free For All and Leader Only windows, even No-Trade ones. Your names are added to the shipped list.<br>*The name must match exactly (case does not matter). The FFA or Leader Only master box must be ticked for its window type.* | empty |
-
-
 
 ## Auto-Loot item names
 
@@ -3077,8 +3064,6 @@ Loot decides what the bot does when a loot window opens. Nothing on the left hal
 | **From examine** | Fills the name box with the item in the examine window you have open (examine the item in game first). Press Add to put it on the list.<br>*It only fills the box - nothing is added until you press Add. With no item examine window open, the box is left as it was and the window says 'Examine the item first, then press From examine'.* |  |
 | **Add** | Adds the typed name to the Auto-Loot list. It takes effect on the next loot window. |  |
 | **x (remove row)** | Removes that name from your list. |  |
-
-
 
 ## Good to know
 
@@ -3106,8 +3091,6 @@ Loot Distribution hands out gear from a Leader Only chest by Resolve. The looter
 | **Weapons only for secondary slot. Example: Scouts/Brawlers - This means you will NOT accept a shield in your secondary.** | For your secondary slot, this character only bids on weapons (sword, dagger, mace, axe, rapier, hammer, fist, katana, great sword, great axe, great hammer, staff, spear). Shields and other off-hand items are refused.<br>*A weapon that also fits your primary slot can still be bid on for primary.* | off |
 | **Match Type for ranged slot. Example: If you are using a crossbow, only accept a crossbow.** | For your ranged slot, this character only bids on the same kind of item it already holds there, for example crossbow for crossbow.<br>*If your ranged slot is empty, nothing matches.* | off |
 
-
-
 ## Weapon Choices
 
 | Option | What it does | Default |
@@ -3115,16 +3098,12 @@ Loot Distribution hands out gear from a Leader Only chest by Resolve. The looter
 | **Do not accept two-handed weapons** | This character never bids on two-handed weapons.<br>*Tick both Weapon Choice boxes to take no weapons at all from distribution.* | off |
 | **Do not accept one-handed weapons** | This character never bids on one-handed weapons. Shields and other off-hand items that are not weapons are still accepted.<br>*Ranged items are not affected.* | off |
 
-
-
 ## Looter Options. Options for the person opening the chest.
 
 | Option | What it does | Default |
 |---|---|---|
 | **Only distribute items at or above a minimum Resolve:** | Only items with at least the Resolve in the box below are auctioned. Lower items go to the normal Leader Only loot boxes instead. | off |
 | **Minimum Resolve** | The lowest Resolve an item needs to be auctioned. Only used when the box above is ticked. | empty (0 - no minimum) |
-
-
 
 ## Good to know
 
@@ -3149,8 +3128,6 @@ OnZone does two things each time you finish zoning. It runs the commands in the 
 | **Full Ability list** | All of this character's abilities. Click one and press Add below, or double-click it, to put it on the 'Cancel after zoning' list. |  |
 | **Cancel after zoning** | After each zone has loaded, the bot cancels any of your maintained spells that match a name here, whatever its rank.<br>*Runs even while paused. Double-click a row to switch it off.* | empty |
 
-
-
 ## Executes
 
 | Control | What it does | Default |
@@ -3158,15 +3135,11 @@ OnZone does two things each time you finish zoning. It runs the commands in the 
 | **Command to run on zone** | Type a console command here. Put `eq2execute` in front of an in-game slash command. Press Enter or Add to put it on the list.<br>*Commas and ] are removed when you add the line.* | empty |
 | **Add** | Adds the typed command to the end of the Executes list. It is not run now, only after your next zone. |  |
 
-
-
 ## Cancel after zoning
 
 | Control | What it does |
 |---|---|
 | **Add** | Adds the ability you clicked in the Full Ability list to the cancel list. Greyed out until you click one. |
-
-
 
 ## Good to know
 
@@ -3318,8 +3291,6 @@ Pack Pony sends your Artisan's Pack Pony out to gather harvests by itself. With 
 | **Conversation 3 - Option 3 (BoZimara 125-130 / Luclin 110-120 harvests)** | When the pony asks its third question, the bot picks reply 3. | off |
 | **Conversation 3 - Option 4 (SoD 130 harvests)** | When the pony asks its third question, the bot picks reply 4. | off |
 
-
-
 ## Good to know
 
 - The character needs the 'Summon Artisan's Pack Pony' ability, or the run does not start.
@@ -3417,8 +3388,6 @@ Pushover is a separate phone and desktop notification service (pushover.net). Wi
 | **[Normal Priority] When smartloot assigns an item.** | Each time SmartLoot gives an item to someone, you get a notification with the time, who got it and the item. | off |
 | **[Normal Priority] When you get an in-game TELL from someone on your eq2chars list.** | When one of your own characters (anyone on the EQ2Chars tab) sends you a tell, you get a notification with who sent it and what they said. | off |
 | **[HIGHEST Priority] When you get an in-game TELL from someone NOT on your eq2chars list.** | When anyone not on your EQ2Chars list sends you a tell, you get a high-priority notification with who sent it and what they said.<br>*This is the one notification that still gets through 'Disable Normal Pushover Messages'.* | off |
-
-
 
 ## Good to know
 
@@ -3540,16 +3509,12 @@ Unload is a list of commands the bot runs, top to bottom, when OgreBot closes. T
 |---|---|---|
 | **Executes** | Commands the bot runs, top to bottom, when OgreBot closes. Switched-off lines are skipped.<br>*Also runs when you swap to another character in the same game window.* | empty |
 
-
-
 ## Executes
 
 | Control | What it does | Default |
 |---|---|---|
 | **Command to run on unload** | Type a console command here. Put `eq2execute` in front of an in-game slash command. Press Enter or Add to put it on the list.<br>*Commas and ] are removed when you add the line.* | empty |
 | **Add** | Adds the typed command to the end of the list. It is not run now, only when OgreBot closes. |  |
-
-
 
 ## Good to know
 
@@ -3575,8 +3540,6 @@ Admin is for sharing profiles and for Profile Parts. The left side saves a share
 | **Use profile name** | The profile name stored inside the shareable copy. This is the name the other person sees after importing it. Leave blank to use your class name. | empty |
 | **Save Custom Profile** | Writes a shareable copy of the profile you are running to Scripts\OgreSave\EQ2\OgreBot\Profiles\Samples\<file name>.json. Your Aliases and Relay Groups are left out.<br>*Refuses if that file already exists.* |  |
 
-
-
 ## Importing Profiles
 
 | Option | What it does | Default |
@@ -3585,8 +3548,6 @@ Admin is for sharing profiles and for Profile Parts. The left side saves a share
 | **Import Profile** | Imports the file selected in the list below: every profile in it is added next to yours (renamed with _1, _2 if the name is taken) and not loaded. With nothing selected it says so and does nothing. |  |
 | **Profiles you can import** | The .json files in Scripts\OgreSave\EQ2\OgreBot\Profiles\Import. Click a name to select it (it is highlighted), then press Import Profile. Click it again to clear the selection. | empty until you press Refresh List |
 | **Clear Item Effect Cache** | Forgets everything the bot learned about what your usable items do, then examines the items on your Cast Stack again right away. Use it when an item's effect changed or was read wrong.<br>*The cache is shared by every character on this PC.* |  |
-
-
 
 ## Profile Parts
 
@@ -3600,16 +3561,12 @@ Admin is for sharing profiles and for Profile Parts. The left side saves a share
 | **Add AND load tab immediately** | Points the chosen tab at the chosen file and reloads your profile, so that tab now shows and saves the shared settings. Choosing a tab that is already listed moves it to the new file.<br>*Needs Enable Profile Parts ticked to have any effect.* |  |
 | **Profile Parts in use** | Each shared tab and the file it uses ('from <file>.json'). A struck-through row ('would use') is switched off and uses your own profile. | empty |
 
-
-
 ## Profile Parts
 
 | Control | What it does |
 |---|---|
 | **Double-click a row** | Switches that mapping off (the tab goes back to your own profile) or back on. The mapping is kept either way.<br>*Reloads your profile at once.* |
 | **x (stop sharing this tab)** | Removes the mapping. The tab goes back to your own profile's settings, which were never changed while it was shared.<br>*Reloads your profile at once. The shared file itself is not deleted.* |
-
-
 
 ## Good to know
 
@@ -4919,8 +4876,6 @@ One field per setting of each command on the button, in order, under the command
 | **Send** | Sends the button with your answers and closes the window. |
 | **Cancel** | Closes the window. Nothing is sent. |
 
-
-
 ## No mouse needed
 
 The cursor starts in the first field, so you can type straight away.
@@ -4931,8 +4886,6 @@ The cursor starts in the first field, so you can type straight away.
 | **Enter** | The next field. On the last field it sends. |
 | **Esc** | Closes the window without sending. |
 | **The red line** | Says why a press was refused - a number field holding text, or a starred field left empty - and the cursor goes to that field. |
-
-
 
 ## Good to know
 
@@ -5508,8 +5461,6 @@ The status text on the right says what the last action did (for example 'scraped
 |---|---|
 | **Refresh** | Reads the zone list and timers again. It briefly opens the game's Zone Reuse window, reads it, and closes it.<br>*Opening this window with no list yet does a Refresh for you. Nothing happens when you are not in the world.* |
 
-
-
 ## Full zone list
 
 Every zone the game has a lockout record for: resettable first, then locked, then no data. Zones with 'Raid' in the name carry a small 'raid' tag. Hover a row to see the game's own tooltip for it.
@@ -5520,8 +5471,6 @@ Every zone the game has a lockout record for: resettable first, then locked, the
 | **Add resettable** | Adds every green (resettable) zone to the queue. |
 | **Add non-raid** | Adds every resettable zone that does not have 'Raid' in its name. |
 | **Add non-locked** | Adds every zone that is not locked: the resettable ones and the ones with no data. |
-
-
 
 ## Reset queue
 
@@ -5535,8 +5484,6 @@ The zones you picked. The queue is kept while the bot is loaded, even if you clo
 | **Force reset selected / Force reset: <zone> / Click again to SPEND a charge on: <zone>** | Spends one of your limited zone reset charges to reset the selected zone right now, even if it is locked. It takes two clicks: the first click only arms the button (its text changes to 'Click again to SPEND a charge on: <zone>'), and a second click within 5 seconds does the reset. The bot then opens the Zone Reuse window, finds the zone, clicks Force Reset, and only clicks the confirm button if the game's confirm message names exactly that zone. If it does not, nothing is clicked, no charge is spent, and the confirm window is left open for you.<br>*Cannot be undone. If you do not click again within 5 seconds, the button goes back to normal and nothing is spent.* | greyed out until a zone is selected (and while the window is busy) |
 | **Reset queue for me** | Resets the lockout timer of every queued zone on this character only, one zone every half second.<br>*Greyed out while the window is busy. With an empty queue it just says the queue is empty.* |  |
 | **Reset queue via <oc/irc> for <who>** | Sends a reset for every queued zone to the characters picked in the Master Control Panel's For Who window, over the bot console (or IRC if that is what the For Who window says). Each character that receives it resets its own timer for those zones. The button text shows where it will go.<br>*If the For Who window has never been set, this goes to every character (all).* | oc for all (when the For Who window has never been set) |
-
-
 
 ## Footer
 
@@ -5947,8 +5894,6 @@ The green line shows the zone, your character, how many effects are waiting to b
 |---|---|---|
 | **Shrink / Expand** | Shrink folds the window down to a small title bar with just an Expand button, so it is out of your way. Expand brings it back to the size it was before you shrank it (940 by 600 the first time, because the window opens shrunk). Display only - the capture keeps running while shrunk.<br>*The window always opens shrunk. Click Expand to see the list.* | shrunk (the window opens small) |
 
-
-
 ## Turning the capture on and off
 
 | Control | What it does | Default |
@@ -5956,8 +5901,6 @@ The green line shows the zone, your character, how many effects are waiting to b
 | **Player: off / Player: ON** | Turns on (or off) recording of the detrimentals that land on you. When turned on it also looks at the detrimentals already on you.<br>*Effects already recorded before (by any of your characters) are skipped, so a zone you have done before may capture nothing new. It is not saved: it starts off again in every new session. Turning off the last of Player and NPC saves what was captured straight away.* | off |
 | **NPC: off / NPC: ON** | Turns on (or off) recording of the effects on NPCs and named NPCs that have a target (are fighting). Up to 10 effects per NPC.<br>*It only captures during combat, because that is when NPCs carry the effects.* | off |
 | **Merge zone** | Combines every character's capture file for the zone you are in into one merged file for the zone. Your own latest captures are saved first, so they are included. The console says how many records were added and updated.<br>*It works whether Player or NPC is on or not. Outside a zone it says 'not in a zone' and does nothing.* |  |
-
-
 
 ## Browsing what was captured
 
@@ -5969,8 +5912,6 @@ The green line shows the zone, your character, how many effects are waiting to b
 | **Clear** | Empties the search box and shows everything again. Display only. |  |
 | **descriptions (server reads)** | When ticked, the tracker also asks the game server for each new effect's description, one effect at a time. When unticked, names and effect text are still captured from the examine window; only the description is missing.<br>*It is not saved: it is ticked again in every new session. The footer shows how many server reads were used.* | on |
 
-
-
 ## The list
 
 One row per captured effect: its name, its icon key (two numbers), how many lines of text it has, '+desc' if it has a description, 'on <mob>' for NPC effects, any crowd control it causes in yellow, and a red note if the capture failed.
@@ -5979,8 +5920,6 @@ One row per captured effect: its name, its icon key (two numbers), how many line
 |---|---|
 | **Click a row** | Opens the row to show everything recorded for that effect: icon numbers, duration, counters, the description, each line of effect text, and the mobs it was seen with (named mobs are starred). Click it again to close it. Display only.<br>*Dragging across text selects it for copying instead of opening the row.* |
 | **Right-click a row > Copy coding details** | Copies the effect's name, icon numbers, duration, the mob it was on, and all its text to the Windows clipboard, ready to paste into an encounter file or a note.<br>*If another program is holding the clipboard, the console says it could not copy.* |
-
-
 
 ## Footer
 
@@ -6070,8 +6009,6 @@ Shows the character, class and archetype the lists are matched against. 'run in 
 | **Reload list** | Reads all the hide lists from disk again. Use it after editing a list file by hand. |  |
 | **Reset my edits** | Deletes the file that holds your Add and remove changes, so every group loses those changes at once. A list file you put in your own custom folder by hand is not touched.<br>*No confirmation and no undo.* |  |
 
-
-
 ## The lists
 
 One block per group, with the groups that apply to you first. The tag says what kind of group it is (general, ascension, subclass or archetype) and whether it 'applies' to you or is for an 'other class' (greyed out). A yellow 'custom file' tag means the group comes from a file in your own folder. The number on the right is how many names are in it.
@@ -6082,8 +6019,6 @@ One block per group, with the groups that apply to you first. The tag says what 
 | **remove** | Takes this name off the group, so Run no longer hides it. Saved at once in your own file.<br>*It does not show the effect again if it is already hidden. Use Clear all or Un-hide id for that.* |  |
 | **add a name to <group> (box)** | Type the name of an effect to add to this group. Capital letters do not matter. | empty |
 | **Add** | Adds the typed name to this group and saves it at once in your own file. Nothing happens if the box is empty.<br>*The name is not checked against the game, so a typo is saved and simply never matches.* |  |
-
-
 
 ## Footer
 
@@ -6530,8 +6465,6 @@ Each button makes this character open that kind of travel map and list it. The m
 | **Bell** | Clicks the bell or globe next to you and lists where it goes. |
 | **Open Travel Map** | Lists the travel map you already have open, and leaves it open.<br>*Everyone you send to must have their own travel map open too - this one opens nothing for them.* |
 
-
-
 ## Picking a destination
 
 The list shows every destination the map offers, in the map's order. Type in the filter box to narrow it.
@@ -6542,8 +6475,6 @@ The list shows every destination the map offers, in the map's order. Type in the
 | **Destination list** | Click a destination to select it. Double-click it to travel there. |
 | **Travel** | Sends everyone in the For Who window to the selected destination.<br>*Each character opens its own map and clicks exactly that destination - the whole name, not part of it.* |
 | **Keep list open after travelling** | Leaves this window open after you send the group. Off, it closes once you pick. |
-
-
 
 ## What the window shows
 
@@ -6933,8 +6864,6 @@ The green text on the left says 'sampling every 200 ms' while recording, or 'sto
 |---|---|---|
 | **Start / Stop** | Stop pauses the recording. Start carries on from where it stopped; the numbers so far are kept. The time while stopped is not counted. | Stop (recording starts when the window is opened) |
 | **Reset** | Throws away every number and starts the session over. Recording keeps going if it was on.<br>*No confirmation.* |  |
-
-
 
 ## The table
 
@@ -7865,15 +7794,11 @@ Your saved profiles, in name order. The number after a name is how many characte
 | **Import** | Copies your auto-login profiles from the old OgreBot into this window. It reads the old bot's AutoLoginProfiles.xml and AutoLoginSettings.xml (in Scripts\EQ2OgreCommon\OgreAutoLogin) and writes one new profile per old one. The log shows how many were written, skipped or failed.<br>*The old bot's timing settings are copied into every imported profile. Characters not in your saved account list are counted as warnings but still imported.* |  |
 | **Overwrite on import** | When ticked, Import replaces a profile you already have with the same name. When not ticked, those are skipped and your existing profile is kept. | off |
 
-
-
 ## Profile name
 
 | Control | What it does | Default |
 |---|---|---|
 | **Profile name** | The name of the profile. Save uses it. The file on disk is named after it, with anything that is not a letter or number turned into an underscore.<br>*Spaces are fine. Renaming a saved profile and clicking Save moves it to the new name.* | empty |
-
-
 
 ## Character assignments
 
@@ -7887,8 +7812,6 @@ One row per character. Each field is pick-or-type: click it for a list, or type 
 | **x (remove row)** | Removes that character row. If it was the last row, a fresh empty row takes its place.<br>*Not saved until you click Save.* |  |
 | **+ Add row** | Adds another character row (Uplink ThisUplink, Session any, Character empty). |  |
 
-
-
 ## Other PCs (uplinks)
 
 The other PCs a character row can name, by their InnerSpace uplink name. It is the same list as OgreBot's Uplink Info tab and the MCP's Connect button. When a profile has rows on another PC, Start connects to that PC if it is not connected yet, checks that its uplink answers, then launches, logs in and loads OgreBot on its sessions from this PC. A PC that cannot be reached has its rows skipped and the rest of the profile still runs.
@@ -7898,8 +7821,6 @@ The other PCs a character row can name, by their InnerSpace uplink name. It is t
 | **Uplink name** | Type the InnerSpace uplink name of another PC (in InnerSpace on that PC: its Remote name). | empty |
 | **+ Add** | Adds the typed name to the list. The log says whether it was added.<br>*The list is saved at once, for every profile on this PC.* |  |
 | **x (remove PC)** | Takes that PC off the list.<br>*Rows that name it keep the name; Start still tries to connect to it.* |  |
-
-
 
 ## Settings
 
@@ -7914,8 +7835,6 @@ Times are in tenths of a second: 150 means 15 seconds. The editor scrolls; these
 | **Wait between launches** | The pause after each new session is launched, before the next one. | 50 (5 seconds) |
 | **Login stagger - base** | The pause between one character's login and the next, so the server is not hit with every login at once. | 300 (30 seconds) |
 | **Login stagger - random** | A random extra pause, up to this much, added to the base pause for each login. 0 turns the random part off. | 150 (up to 15 seconds) |
-
-
 
 ## Save, Delete, Shortcut and Start
 
@@ -7932,15 +7851,11 @@ At the opening window size these buttons are below the fold: scroll the right si
 | **Dry run** | When ticked, Start only works out and lists what it would do (who stays, who gets camped, which sessions it would launch, who it would log in). Nothing is actually done.<br>*Off means Start really does it. Tick it the first time you try a new profile.* | off |
 | **Start** | Runs the selected profile, as it is saved, in InnerSpace. Characters already where they belong are left alone; a wrong character in a session is camped first; missing sessions are launched; then each character logs in, with the stagger pause between logins. Each character gets OgreBot loaded as soon as it is in the world. Progress appears in the log below as it happens.<br>*Start runs the profile as last SAVED, not what is on screen. Click Save first if you changed anything, or if the profile is new.* |  |
 
-
-
 ## Window
 
 | Control | What it does |
 |---|---|
 | **Title bar close (X)** | Closes the window. A run that has already started keeps going in InnerSpace.<br>*Unsaved changes are lost.* |
-
-
 
 ## What the window shows
 
@@ -9158,8 +9073,6 @@ Read-only. All of these use the period picked under Stats over (1 minute to star
 | **OgreBot: … ms of each frame** | How much of each frame, on average, was the bot's own work: all parts of the bot, drawing its windows, and any bot commands that ran between frames. Then the period and how many frames it covers. |
 | **Warning line (yellow)** | Shows 'Recording is OFF' when recording is turned off. It can also say the window system loaded in your game is too old to report its time - the UI and GPU numbers then read 0 until you restart the game client. |
 
-
-
 ## Stats over, Recording and Save frames
 
 | Control | What it does | Default |
@@ -9167,8 +9080,6 @@ Read-only. All of these use the period picked under Stats over (1 minute to star
 | **Stats over: 30 s / 1 min / 5 min** | Picks the period used by the numbers at the top, the counts under Dips, the What adds to the dips list, and the 'typical frame' used to judge what caused each dip. The picked button is outlined. Display only - changes what you see, not what the bot does.<br>*The FPS line and the list of dips always cover the last 3 minutes, whichever button is picked.* | 1 min |
 | **Recording** | Turns the recorder on or off. Off: nothing new is recorded, but the frames already recorded are kept. The choice is saved and applies to every character on this PC.<br>*While Recording is off the window stops updating, even after you click something. Close and reopen it to see the current state.* | on |
 | **Save frames** | Saves every frame the recorder is holding (the last 5 minutes, unless you changed that) to a file in OgreSave/EQ2/OgreBot/, named lag- plus the session name and the date and time. The console says how many frames were saved and where. Send the file to us when you report lag.<br>*Saving takes a moment, so the frame you saved in shows up as a dip itself. The console line says how long it took.* |  |
-
-
 
 ## The FPS line
 
@@ -9182,8 +9093,6 @@ Every slow moment of the last 3 minutes, newest first. Slow frames that come wit
 |---|---|
 | **Click a dip** | Opens the frames around that dip (see below). Each entry shows how long ago it was, the cause of its worst frame, the biggest bot call in that frame with its time, the worst frame's time, and 'x2', 'x3' … when more than one frame was slow. |
 
-
-
 ## What adds to the dips
 
 Read-only. The bot's calls over the Stats over period - up to 14 - with the one that adds most to the slow frames first. A call that runs no longer in a slow frame than in a normal one is listed after those, by how long it takes on average. Hover a row for more: how often it ran in slow and in normal frames, its average time per frame, and how long it takes 95 times in 100.
@@ -9196,8 +9105,6 @@ Opens over the two lists when you click a dip. One row per frame, from half a se
 |---|---|
 | **Back** | Closes the frame list and shows the two lists again. |
 | **Title bar close (X)** | Closes the window. The recorder keeps recording. |
-
-
 
 ## What the window shows
 
@@ -9346,8 +9253,6 @@ Drag the right edge, the bottom edge or the bottom-right corner of the tour wind
 | **Skip** | Ends the tour now. It counts as seen, so it will not open by itself again. Your hidden windows come back.<br>*Every step has Skip. `ogre tour` brings the tour back later.* |
 | **Title bar close (X)** | Closing the tour window is the same as Skip: the tour counts as seen and your hidden windows come back. |
 
-
-
 ## Step 2 - Right-click my title bar
 
 Right-click the title bar (the bar with the window's name). Its menu opens and the tour moves to step 3. Every Ogre window with a title bar has this menu.
@@ -9360,8 +9265,6 @@ In the title-bar menu, choose Save Position (it pulses). That makes the window o
 |---|---|
 | **Save Position (title-bar menu)** | Saves where this window is and how big it is, so it opens there next time. On the tour this also finishes step 3.<br>*If the menu closes without saving, right-click the title bar again.* |
 
-
-
 ## Step 4 - Open the settings
 
 Click the gear (⚙) in the top-right corner. Many windows keep their settings behind a gear like this. Close the settings again (gear or its X) to finish.
@@ -9372,8 +9275,6 @@ Click the gear (⚙) in the top-right corner. Many windows keep their settings b
 | **x (close settings)** | Closes the example settings panel, the same as clicking the gear again. |
 | **A toggle option / A slider / A colour** | Examples only, to show what a settings panel looks like. Nothing here saves or changes anything. |
 
-
-
 ## All set
 
 The last page reminds you that most commands work like before (`ogre` still loads OgreBot), and that right-clicking windows and lists often shows extra options.
@@ -9381,8 +9282,6 @@ The last page reminds you that most commands work like before (`ogre` still load
 | Control | What it does |
 |---|---|
 | **Got it** | Closes the tour. It counts as seen and will not open by itself again. Your hidden windows come back. |
-
-
 
 ## What the window shows
 
@@ -9404,8 +9303,6 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 # Welcome to OgreBot
 
 A short cartoon that starts the New User Tour. It is just for fun and changes nothing.
-
-
 
 [Open it on its own page](../teaser/index.html){ .md-button }
 
@@ -10246,7 +10143,6 @@ To start your own window, copy that folder next to your script and rename things
 
 ### The window: `hello.html`
 
-
 ```html
 
 <script type="ogre/window">{"title":"Hello","w":280,"h":0}</script>
@@ -10274,7 +10170,6 @@ To start your own window, copy that folder next to your script and rename things
 ```
 
 ### The script: `hello.iss`
-
 
 ```
 ; hello.iss - opens hello.html, reacts to its button, follows its checkbox, re-opens it after a UI reload, and
@@ -10710,7 +10605,6 @@ say), reads `""` rather than `NULL`. The ids are listed on
 An extension uses the same names through InnerSpace. For a window that changes many times a second there are
 also [direct calls](#without-lavishscript-the-ui-hosts-own-functions) into the UI host.
 
-
 ```cpp
 // open, change, read  (myDir = the folder your files are in, with forward slashes)
 std::string open = "ISXOgreX.UI:Open[mytool,\"" + myDir + "/mytool.html\"]";
@@ -10864,8 +10758,6 @@ which replaces Ogre's entire UI and does not bring it back.
 
 ## Reference
 
-
-
 | Name | Kind | Arguments | Returns / does |
 |---|---|---|---|
 | `ISXOgreX.UI:Open` | method | `name`, `path`, optional `helpPath` | Opens window `name` from the file at `path`; nothing if it is already open. |
@@ -10897,8 +10789,6 @@ which replaces Ogre's entire UI and does not bring it back.
 | `data-ogmini` | attribute in your markup | - | The element stays shown while the window is minimized (it shows as usual too). See [Minimizing](#minimizing). |
 | `data-ogmini="only"` | attribute in your markup | - | The element shows ONLY while the window is minimized. |
 | `ogreminimize` | event on your window's body | `detail.minimized` | Fired when the window is minimized (`true`) or restored (`false`). |
-
-
 
 ### In the EverQuest 2 bot
 
@@ -11228,7 +11118,6 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/deve
 
 The top of the file says which zone it is for:
 
-
 ```json
 {
   ...
@@ -11256,7 +11145,6 @@ Then come the **steps**. Each named gets a few: walk to it, kill it, loot what i
 walk is cut into legs (`named1.walk.s01`, `named1.walk.s02`, and so on), and each leg is followed by a short
 [waitForLoot](steps.md#waitforloot) whose `when` (see [Steps](how-it-runs.md#steps)) makes it run only when something
 lies dead within 20 meters. Here is the last leg before the first named, and that named's own steps:
-
 
 ```json
     ...
@@ -11329,7 +11217,6 @@ And the file ends with **the way out**: the last leg and its wait for loot, then
 that appears near the last boss once it is dead. If that exit is not there, the next step runs, so the door step after
 it is the fallback: it walks the group to the door called Exit and clicks it. Every zone file must have a way out (see
 [The way out](how-it-runs.md#the-way-out)):
-
 
 ```json
     ...
@@ -11470,7 +11357,6 @@ A `wait` step holds the list. `limitMs` and `onTimeout` are always needed: there
 `.id`, `.name` and `.distance` read it.
 
 Here the group runs to each light the boss calls, while the lights are up and the boss is not on top of them:
-
 
 ```json
     {
@@ -27989,7 +27875,7 @@ echo ${ISXOgreEQ2.Craft.QueueUpdated}
 
 `${ISXOgreEQ2.Craft.Recipes}`
 
-How many recipes the engine has indexed from your recipe book. It is 0 until the book has been read; a read starts on its own when the panel opens, craft lite turns on, a run starts or you scribe a recipe, or on Scan.
+How many recipes the engine has indexed from your recipe book. It is 0 until the book has been read; a read starts when a run starts, when you scribe a recipe or on Scan, and also when the panel opens or craft lite turns on unless Do NOT load recipes on startup is ticked.
 
 **Returns:** int: the number of recipes indexed by the last recipe-book read; 0 before the first read.
 
@@ -37055,7 +36941,7 @@ Walk somewhere over the baked navmesh (`ogre nav -help` for the flags)
 | `-doors` | flag |  | Open doors on the way again. |
 | `-on` | flag |  | Let nav move this character. |
 | `-off` | flag |  | Stop nav from moving this character at all. |
-| `-set` | flag |  | Change one nav setting: `-set <key> <value>` (arrive, lookmax, avoid, doortries and more). |
+| `-set` | flag |  | Change one nav setting: `-set <key> <value>` (arrive, lookmax, avoid, doortries and more). `-set` alone lists the keys. |
 | `-reset` | flag |  | Put every nav setting back to its default, or only `<key>` when you name one. |
 | `-panel` | flag |  | Open the nav window now and on every trip. |
 | `-nopanel` | flag |  | Close the nav window and stop it opening on each trip. |

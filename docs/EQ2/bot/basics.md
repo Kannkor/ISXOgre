@@ -1,8 +1,8 @@
+# The basics
+
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../index.md).
 </div>
-
-# The basics
 
 Every OgreBot window works the same way. This page covers what they all share.
 

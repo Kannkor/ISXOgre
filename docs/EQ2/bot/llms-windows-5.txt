@@ -133,8 +133,6 @@ Read-only. All of these use the period picked under Stats over (1 minute to star
 | **OgreBot: … ms of each frame** | How much of each frame, on average, was the bot's own work: all parts of the bot, drawing its windows, and any bot commands that ran between frames. Then the period and how many frames it covers. |
 | **Warning line (yellow)** | Shows 'Recording is OFF' when recording is turned off. It can also say the window system loaded in your game is too old to report its time - the UI and GPU numbers then read 0 until you restart the game client. |
 
-
-
 ## Stats over, Recording and Save frames
 
 | Control | What it does | Default |
@@ -142,8 +140,6 @@ Read-only. All of these use the period picked under Stats over (1 minute to star
 | **Stats over: 30 s / 1 min / 5 min** | Picks the period used by the numbers at the top, the counts under Dips, the What adds to the dips list, and the 'typical frame' used to judge what caused each dip. The picked button is outlined. Display only - changes what you see, not what the bot does.<br>*The FPS line and the list of dips always cover the last 3 minutes, whichever button is picked.* | 1 min |
 | **Recording** | Turns the recorder on or off. Off: nothing new is recorded, but the frames already recorded are kept. The choice is saved and applies to every character on this PC.<br>*While Recording is off the window stops updating, even after you click something. Close and reopen it to see the current state.* | on |
 | **Save frames** | Saves every frame the recorder is holding (the last 5 minutes, unless you changed that) to a file in OgreSave/EQ2/OgreBot/, named lag- plus the session name and the date and time. The console says how many frames were saved and where. Send the file to us when you report lag.<br>*Saving takes a moment, so the frame you saved in shows up as a dip itself. The console line says how long it took.* |  |
-
-
 
 ## The FPS line
 
@@ -157,8 +153,6 @@ Every slow moment of the last 3 minutes, newest first. Slow frames that come wit
 |---|---|
 | **Click a dip** | Opens the frames around that dip (see below). Each entry shows how long ago it was, the cause of its worst frame, the biggest bot call in that frame with its time, the worst frame's time, and 'x2', 'x3' … when more than one frame was slow. |
 
-
-
 ## What adds to the dips
 
 Read-only. The bot's calls over the Stats over period - up to 14 - with the one that adds most to the slow frames first. A call that runs no longer in a slow frame than in a normal one is listed after those, by how long it takes on average. Hover a row for more: how often it ran in slow and in normal frames, its average time per frame, and how long it takes 95 times in 100.
@@ -171,8 +165,6 @@ Opens over the two lists when you click a dip. One row per frame, from half a se
 |---|---|
 | **Back** | Closes the frame list and shows the two lists again. |
 | **Title bar close (X)** | Closes the window. The recorder keeps recording. |
-
-
 
 ## What the window shows
 
@@ -321,8 +313,6 @@ Drag the right edge, the bottom edge or the bottom-right corner of the tour wind
 | **Skip** | Ends the tour now. It counts as seen, so it will not open by itself again. Your hidden windows come back.<br>*Every step has Skip. `ogre tour` brings the tour back later.* |
 | **Title bar close (X)** | Closing the tour window is the same as Skip: the tour counts as seen and your hidden windows come back. |
 
-
-
 ## Step 2 - Right-click my title bar
 
 Right-click the title bar (the bar with the window's name). Its menu opens and the tour moves to step 3. Every Ogre window with a title bar has this menu.
@@ -335,8 +325,6 @@ In the title-bar menu, choose Save Position (it pulses). That makes the window o
 |---|---|
 | **Save Position (title-bar menu)** | Saves where this window is and how big it is, so it opens there next time. On the tour this also finishes step 3.<br>*If the menu closes without saving, right-click the title bar again.* |
 
-
-
 ## Step 4 - Open the settings
 
 Click the gear (⚙) in the top-right corner. Many windows keep their settings behind a gear like this. Close the settings again (gear or its X) to finish.
@@ -347,8 +335,6 @@ Click the gear (⚙) in the top-right corner. Many windows keep their settings b
 | **x (close settings)** | Closes the example settings panel, the same as clicking the gear again. |
 | **A toggle option / A slider / A colour** | Examples only, to show what a settings panel looks like. Nothing here saves or changes anything. |
 
-
-
 ## All set
 
 The last page reminds you that most commands work like before (`ogre` still loads OgreBot), and that right-clicking windows and lists often shows extra options.
@@ -356,8 +342,6 @@ The last page reminds you that most commands work like before (`ogre` still load
 | Control | What it does |
 |---|---|
 | **Got it** | Closes the tour. It counts as seen and will not open by itself again. Your hidden windows come back. |
-
-
 
 ## What the window shows
 
@@ -379,8 +363,6 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 # Welcome to OgreBot
 
 A short cartoon that starts the New User Tour. It is just for fun and changes nothing.
-
-
 
 [Open it on its own page](../teaser/index.html){ .md-button }
 

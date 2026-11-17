@@ -1,8 +1,8 @@
+# Effect Tracker
+
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
-
-# Effect Tracker
 
 > **:bulb: In game - the ? button on this window says**
 >
@@ -40,8 +40,6 @@ The green line shows the zone, your character, how many effects are waiting to b
 |---|---|---|
 | **Shrink / Expand** | Shrink folds the window down to a small title bar with just an Expand button, so it is out of your way. Expand brings it back to the size it was before you shrank it (940 by 600 the first time, because the window opens shrunk). Display only - the capture keeps running while shrunk.<br>*The window always opens shrunk. Click Expand to see the list.* | shrunk (the window opens small) |
 
-
-
 ## Turning the capture on and off
 
 [![Turning the capture on and off](../assets/effecttracker/arm.png)](../assets/effecttracker/arm.png "Click for full size")
@@ -51,8 +49,6 @@ The green line shows the zone, your character, how many effects are waiting to b
 | **Player: off / Player: ON** | Turns on (or off) recording of the detrimentals that land on you. When turned on it also looks at the detrimentals already on you.<br>*Effects already recorded before (by any of your characters) are skipped, so a zone you have done before may capture nothing new. It is not saved: it starts off again in every new session. Turning off the last of Player and NPC saves what was captured straight away.* | off |
 | **NPC: off / NPC: ON** | Turns on (or off) recording of the effects on NPCs and named NPCs that have a target (are fighting). Up to 10 effects per NPC.<br>*It only captures during combat, because that is when NPCs carry the effects.* | off |
 | **Merge zone** | Combines every character's capture file for the zone you are in into one merged file for the zone. Your own latest captures are saved first, so they are included. The console says how many records were added and updated.<br>*It works whether Player or NPC is on or not. Outside a zone it says 'not in a zone' and does nothing.* |  |
-
-
 
 ## Browsing what was captured
 
@@ -66,8 +62,6 @@ The green line shows the zone, your character, how many effects are waiting to b
 | **Clear** | Empties the search box and shows everything again. Display only. |  |
 | **descriptions (server reads)** | When ticked, the tracker also asks the game server for each new effect's description, one effect at a time. When unticked, names and effect text are still captured from the examine window; only the description is missing.<br>*It is not saved: it is ticked again in every new session. The footer shows how many server reads were used.* | on |
 
-
-
 ## The list
 
 One row per captured effect: its name, its icon key (two numbers), how many lines of text it has, '+desc' if it has a description, 'on <mob>' for NPC effects, any crowd control it causes in yellow, and a red note if the capture failed.
@@ -79,14 +73,11 @@ One row per captured effect: its name, its icon key (two numbers), how many line
 | **Click a row** | Opens the row to show everything recorded for that effect: icon numbers, duration, counters, the description, each line of effect text, and the mobs it was seen with (named mobs are starred). Click it again to close it. Display only.<br>*Dragging across text selects it for copying instead of opening the row.* |
 | **Right-click a row > Copy coding details** | Copies the effect's name, icon numbers, duration, the mob it was on, and all its text to the Windows clipboard, ready to paste into an encounter file or a note.<br>*If another program is holding the clipboard, the console says it could not copy.* |
 
-
-
 ## Footer
 
 Record count (and 'showing N of M' when there are more than 250 matches; the file still has them all), how many effects were captured this session, how many effects are already known and will never be examined again, how many examine windows were opened, any timeouts or windows that were not ours, and how many server reads were used.
 
 [![Footer](../assets/effecttracker/footer.png)](../assets/effecttracker/footer.png "Click for full size")
-
 
 ## What the window shows
 

@@ -1,8 +1,8 @@
+# The super secret project
+
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../index.md).
 </div>
-
-# The super secret project
 
 Where to even start! I guess a super brief history of how OgreBot became to be. I'd guess the basics of my story was the same as most people's here. A friend wanted me to play eq2 with them (they wanted me to make a bot, as I had done so for eq1). I said sure, but I was ONLY playing 1 toon. Pretty sure I made a troubadour. I was coding at low levels but it was hard back then. It logically only made sense, to have a second account for a priest. It's only 2 accounts, that's basically just 1 account.
 

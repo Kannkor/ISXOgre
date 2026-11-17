@@ -1,19 +1,16 @@
+# Unload
+
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
-
-# Unload
 
 Unload is a list of commands the bot runs, top to bottom, when OgreBot closes. That is the X on the OgreBot window or its mini toolbar, or `ogre end bot`. It also happens when you camp to another character in the same game window, because OgreBot closes and reopens for the new character.
 
 [![Unload tab](../assets/ogrebot/tab-unload.png)](../assets/ogrebot/tab-unload.png "Click for full size")
 
-
 | Option | What it does | Default |
 |---|---|---|
 | **Executes** | Commands the bot runs, top to bottom, when OgreBot closes. Switched-off lines are skipped.<br>*Also runs when you swap to another character in the same game window.* | empty |
-
-
 
 ## Executes
 
@@ -21,8 +18,6 @@ Unload is a list of commands the bot runs, top to bottom, when OgreBot closes. T
 |---|---|---|
 | **Command to run on unload** | Type a console command here. Put `eq2execute` in front of an in-game slash command. Press Enter or Add to put it on the list.<br>*Commas and ] are removed when you add the line.* | empty |
 | **Add** | Adds the typed command to the end of the list. It is not run now, only when OgreBot closes. |  |
-
-
 
 ## Good to know
 

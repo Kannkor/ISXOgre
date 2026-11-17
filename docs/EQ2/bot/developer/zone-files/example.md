@@ -1,11 +1,10 @@
+# A zone file, start to finish
+
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../index.md).
 </div>
 
-# A zone file, start to finish
-
 The top of the file says which zone it is for:
-
 
 ```json
 {
@@ -34,7 +33,6 @@ Then come the **steps**. Each named gets a few: walk to it, kill it, loot what i
 walk is cut into legs (`named1.walk.s01`, `named1.walk.s02`, and so on), and each leg is followed by a short
 [waitForLoot](steps.md#waitforloot) whose `when` (see [Steps](how-it-runs.md#steps)) makes it run only when something
 lies dead within 20 meters. Here is the last leg before the first named, and that named's own steps:
-
 
 ```json
     ...
@@ -107,7 +105,6 @@ And the file ends with **the way out**: the last leg and its wait for loot, then
 that appears near the last boss once it is dead. If that exit is not there, the next step runs, so the door step after
 it is the fallback: it walks the group to the door called Exit and clicks it. Every zone file must have a way out (see
 [The way out](how-it-runs.md#the-way-out)):
-
 
 ```json
     ...

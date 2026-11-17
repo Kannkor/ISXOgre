@@ -1,8 +1,8 @@
-# Commands
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../../index.md).
 </div>
+
+# Commands
 
 What a user types: the `ogre` commands (the in-game Commands panel lists them all) and the console commands (`oc !c` / `oc !ci`).
 

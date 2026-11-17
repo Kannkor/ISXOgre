@@ -1,13 +1,12 @@
+# Pushover
+
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
 
-# Pushover
-
 Pushover is a separate phone and desktop notification service (pushover.net). With a Pushover account, the bot can send you a notification when certain things happen: a loot window left open, SmartLoot handing out an item, or a tell. Press 'Set up Pushover account' once to enter your Pushover details, then tick the notifications you want. The two Disable boxes at the top switch notifications off without losing your choices below.
 
 [![Pushover tab](../assets/ogrebot/tab-pushover.png)](../assets/ogrebot/tab-pushover.png "Click for full size")
-
 
 | Option | What it does | Default |
 |---|---|---|
@@ -18,8 +17,6 @@ Pushover is a separate phone and desktop notification service (pushover.net). Wi
 | **[Normal Priority] When smartloot assigns an item.** | Each time SmartLoot gives an item to someone, you get a notification with the time, who got it and the item. | off |
 | **[Normal Priority] When you get an in-game TELL from someone on your eq2chars list.** | When one of your own characters (anyone on the EQ2Chars tab) sends you a tell, you get a notification with who sent it and what they said. | off |
 | **[HIGHEST Priority] When you get an in-game TELL from someone NOT on your eq2chars list.** | When anyone not on your EQ2Chars list sends you a tell, you get a high-priority notification with who sent it and what they said.<br>*This is the one notification that still gets through 'Disable Normal Pushover Messages'.* | off |
-
-
 
 ## Good to know
 
