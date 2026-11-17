@@ -1,0 +1,2992 @@
+# OgreBot for EverQuest II - documentation, Developers (part 8 of 13)
+
+OgreBot is in beta testing. For OgreBot Classic see https://kannkor.github.io/ISXOgre/EQ2/
+This file is ONE PIECE of the documentation: Developers (part 8 of 13) - Developers - API reference - OgreBotAPI; Developers - API reference - ISXOgreEQ2.
+The entire documentation in one document: https://kannkor.github.io/ISXOgre/EQ2/bot/llms-full.txt
+Index of every page and of every file like this one: https://kannkor.github.io/ISXOgre/EQ2/bot/llms.txt
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Zone.md
+
+# OgreBotAPI.Zone
+
+## Members
+
+### `CityRestrictions`
+
+`${OgreBotAPI.Zone.CityRestrictions}`
+
+TRUE in one of the bot's 17 city zones, such as The City of Freeport or Qeynos Province District, unless Allow City Casting is ticked. FALSE out of world.
+
+**Returns:** bool: TRUE in a listed city with Allow City Casting unticked; FALSE otherwise or out of world.
+
+```text
+echo ${OgreBotAPI.Zone.CityRestrictions}
+```
+
+*Was (OldBot):* `OgreBotAPI.CityRestrictions`
+
+### `CleanName`
+
+`${OgreBotAPI.Zone.CleanName[name]}`
+
+The same cleaned name as Name, made safe for file and setting names: spaces become underscores and the characters , [ ] : ' and ` are removed. Reads "" out of world when no name is passed.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `name` | text | `${Zone.Name}` | a zone name to clean; blank means the zone you are in |
+
+**Returns:** string: the cleaned zone name with underscores for spaces; "" out of world when no name is given.
+
+```text
+echo ${OgreBotAPI.Zone.CleanName}
+```
+
+*Was (OldBot):* `OgreBotAPI.CleanZoneName`, `Ogre_Instance_Controller.CleanZoneName`
+
+### `InGuildHall`
+
+`${OgreBotAPI.Zone.InGuildHall}`
+
+TRUE when the zone's short name contains guildhall, except the Island of Mara Estate (guildhall_mara). FALSE out of world.
+
+**Returns:** bool: TRUE in a guild hall; FALSE elsewhere or out of world.
+
+```text
+echo ${OgreBotAPI.Zone.InGuildHall}
+```
+
+*Was (OldBot):* `GetInfoOb.InGuildHallZone`, `Obj_OgreUtilities.InGuildHallZone`, `OgreBotAPI.InGuildHallZone`
+
+### `InHouse`
+
+`${OgreBotAPI.Zone.InHouse}`
+
+TRUE when you look to be inside a house: not in a guild hall, and a Magic Door to the Guild Hall or a market bulletin board is in the zone. It is a guess from those two objects; FALSE out of world.
+
+**Returns:** bool: TRUE when either object is in the zone and it is not a guild hall; FALSE otherwise or out of world.
+
+```text
+echo ${OgreBotAPI.Zone.InHouse}
+```
+
+*Was (OldBot):* `GetInfoOb.InHouseZone`, `OgreBotAPI.InHouseZone`
+
+### `InHouseAccess`
+
+`${OgreBotAPI.Zone.InHouseAccess}`
+
+TRUE in one of the eight zones the bot treats as house-access zones: Antonica, Halas, the two Qeynos zones, Timorous Deep, Greater Faydark, Neriak and Freeport. This is the outdoor zone, not the house itself; FALSE out of world.
+
+**Returns:** bool: TRUE when the zone's short name is antonica, halas, qeynos_combined01, qeynos_combined02, exp04_rgn_timorous_deep, exp03_rgn_greater_faydark, neriak or freeport_combined; FALSE otherwise or out of world.
+
+```text
+echo ${OgreBotAPI.Zone.InHouseAccess}
+```
+
+*Was (OldBot):* `GetInfoOb.InHouseAccessZone`, `OgreBotAPI.InHouseAccessZone`
+
+### `InInstance`
+
+`${OgreBotAPI.Zone.InInstance}`
+
+TRUE when the zone name contains a [ (instances are named like that, such as [Heroic] or [Solo]) and you are not in a guild hall. FALSE out of world.
+
+**Returns:** bool: TRUE in an instance; FALSE in an open zone, a guild hall, or out of world.
+
+```text
+echo ${OgreBotAPI.Zone.InInstance}
+```
+
+*Was (OldBot):* `GetInfoOb.InAInstance`, `OgreBotAPI.InInstance`
+
+### `Name`
+
+`${OgreBotAPI.Zone.Name[name]}`
+
+The zone name with colour codes and the trailing instance number removed. Every trailing digit and space is stripped, so a name that really ends in a number loses it; "" out of world when no name is passed.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `name` | text | `${Zone.Name}` | a zone name to clean; blank means the zone you are in |
+
+**Returns:** string: the cleaned zone name; "" out of world when no name is given.
+
+```text
+echo ${OgreBotAPI.Zone.Name}
+```
+
+*Was (OldBot):* `OgreBotAPI.ZoneName`
+
+### `ResetReady`
+
+`${OgreBotAPI.Zone.ResetReady}`
+
+TRUE once the Zone Reuse table has been read at least once and no re-read is asked for or running. Wait for it after ResetUpdateInfo before reading ResetZoneData.
+
+**Returns:** bool: TRUE when the table is in and not being re-read; FALSE before the first read or while a re-read is pending.
+
+```text
+echo ${OgreBotAPI.Zone.ResetReady}
+```
+
+*Was (OldBot):* `OgreBotAPI.ZoneReset_IsReady`
+
+### `ResetUpdating`
+
+`${OgreBotAPI.Zone.ResetUpdating}`
+
+TRUE while a Zone Reuse re-read is asked for or running.
+
+**Returns:** bool: TRUE while a re-read is pending or running; FALSE otherwise.
+
+```text
+echo ${OgreBotAPI.Zone.ResetUpdating}
+```
+
+*Was (OldBot):* `OgreBotAPI.ZoneReset_IsUpdating`
+
+### `ResetZoneData`
+
+`${OgreBotAPI.Zone.ResetZoneData[zone,field]}`
+
+One zone's entry from the Zone Reuse window, as last read by ResetUpdateInfo. A zone that is not in the table reads FALSE, and an unknown field prints a console line and reads FALSE.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `zone` | text |  | the zone name exactly as the Zone Reuse window shows it, any case |
+| `field` | text |  | blank reads TRUE when the zone has an entry; otherwise ZoneName, IsSet (TRUE when its timer state is known), Resettable, TimeLeft (seconds) or TextTimeLeft |
+
+**Returns:** bool, int64 or string by field: TRUE/FALSE for blank, IsSet and Resettable; seconds for TimeLeft; text for ZoneName and TextTimeLeft. FALSE when the zone is not in the table.
+
+```text
+echo ${OgreBotAPI.Zone.ResetZoneData["${OgreBotAPI.Zone.Name}",Resettable]}
+```
+
+*Was (OldBot):* `OgreBotAPI.ZoneReset_Get_ZoneData`
+
+## Methods
+
+### `ChampionsResetter`
+
+`OgreBotAPI.Zone:ChampionsResetter[fw, zone]`
+
+Resets one zone with your Champion's Zone Lockout Reset item: examines it, then picks the zone in the window it opens. Prints a console line when the item is not in your bags, is on cooldown, or does not list the zone.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `zone` | text |  | the zone name as the item's window lists it |
+
+```text
+OgreBotAPI.Zone:ChampionsResetter[${Me.Name},"${OgreBotAPI.Zone.Name}"]
+```
+
+*Was (OldBot):* `OgreBotAPI:Champions_Zone_Resetter`
+
+### `ChangeZoneTo`
+
+`OgreBotAPI.Zone:ChangeZoneTo[fw, toWho]`
+
+When the group member is in another instance of your zone, sends the game's /zone_to_group_member_zone command for them on this character. A name that is not in your group or a different zone prints a console line; nothing happens when they share your instance.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `toWho` | character name |  | the group member whose instance to join |
+
+```text
+OgreBotAPI.Zone:ChangeZoneTo[${Me.Name},${Group[1].Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:ChangeZoneTo`, `Obj_OgreIH:ChangeZoneTo`
+
+### `ForceReset`
+
+`OgreBotAPI.Zone:ForceReset[fw, zone]`
+
+Presses Force Reset in the Zone Reuse window for one named zone, which uses up one of your limited force-reset charges. A blank zone prints a console line and does nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `zone` | text |  | the zone name as the Zone Reuse window shows it |
+
+```text
+OgreBotAPI.Zone:ForceReset[${Me.Name},"${OgreBotAPI.Zone.Name}"]
+```
+
+### `ResetAll`
+
+`OgreBotAPI.Zone:ResetAll[fw, allowRaid=FALSE]`
+
+Runs the game's reset_all_zone_timers command on each matching character. In a raid it does nothing unless allowRaid is TRUE.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `allowRaid` | bool | `FALSE` | TRUE to reset even while in a raid |
+
+```text
+OgreBotAPI.Zone:ResetAll[igw:${Me.Name},FALSE]
+```
+
+*Was (OldBot):* `OgreBotAPI:ZoneResetAll`
+
+### `ResetUpdateInfo`
+
+`OgreBotAPI.Zone:ResetUpdateInfo[fw]`
+
+Asks the bot to re-read the Zone Reuse window, which it opens and closes to do so. Asking again while a re-read is pending does nothing extra; ResetUpdating and ResetReady follow it.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Zone:ResetUpdateInfo[${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:ToggleZoneReuse`, `Obj_OgreUtilities:ZoneReset_PopulateInternalMemory`, `OgreBotAPI:ZoneReset_UpdateInfo`
+
+### `ResetZone`
+
+`OgreBotAPI.Zone:ResetZone[fw, zone]`
+
+Resets the lockout timer for one zone on each matching character, opening the Zone Reuse window first when the bot has no zone data yet. A blank zone prints a console line and does nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `zone` | text |  | the zone name as the Zone Reuse window shows it |
+
+```text
+OgreBotAPI.Zone:ResetZone[igw:${Me.Name},"${OgreBotAPI.Zone.Name}"]
+```
+
+*Was (OldBot):* `OgreBotAPI:ResetZone`
+
+### `SelectVersion`
+
+`OgreBotAPI.Zone:SelectVersion[fw]`
+
+Clicks the OK button of the game's select zone version window on each matching character. When the window is not open it prints a console line instead.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Zone:SelectVersion[igw:${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:Select_Zone_Version`
+
+### `ShareQuestsForZone`
+
+`OgreBotAPI.Zone:ShareQuestsForZone[fw, zone=""]`
+
+Shares, one at a time after the group has gathered, the Hot Zones missions in your journal that belong to this zone. It works only while you are in that zone, and with for-who all only the group leader shares.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `zone` | text | `""` | the zone the missions are for; blank means the zone you are in. Another zone prints a console line and shares nothing. |
+
+```text
+OgreBotAPI.Zone:ShareQuestsForZone[all]
+```
+
+*Was (OldBot):* `OgreBotAPI:ShareQuestsForZone`, `OgreBotAPI:CheckToShareQuest`
+
+### `SpecialZoneSpecific`
+
+`OgreBotAPI.Zone:SpecialZoneSpecific[fw]`
+
+The Special button: in zones with a known puzzle it clicks the puzzle object in reach (a clock, door, brazier, rope, zip line or orb) or hands the press to that zone's fight. Anywhere else it double-clicks the nearest interactable object of a special type.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Zone:SpecialZoneSpecific[igw:${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:SpecialZoneSpecific`, `call Obj_OgreIH.ZoneSpecialwait`, `call Object_Instance_Inherit.ZoneSpecialwait`
+
+### `Zone`
+
+`OgreBotAPI.Zone:Zone[fw]`
+
+Double-clicks the nearest zone exit on each matching character: an object named with exit, else with zone_, else the nearest door, else a NoKill NPC within 30 meters. Does nothing in a guild hall.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Zone:Zone[igw:${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:Zone`
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/ISXOgreEQ2.md
+
+# ISXOgreEQ2
+
+## Members
+
+### `AbilityDetails`
+
+`${ISXOgreEQ2.AbilityDetails}`
+
+The AbilityDetails sub-object: the Ability Details window, which opens through OgreBotAPI.Abilities:AbilityDetails, not through this object. :Close closes it (ogre end abilitydetails) and :UI is the window's own click channel, which does nothing without its one argument.
+
+**Returns:** object: the AbilityDetails sub-object; it always exists, has no members, and as text it reads ISXOgreEQ2.AbilityDetails.
+
+```text
+echo ${ISXOgreEQ2.AbilityDetails}
+```
+
+### `AbilityEfficiency`
+
+`${ISXOgreEQ2.AbilityEfficiency}`
+
+The AbilityEfficiency sub-object behind ogre ae: :Run with no argument writes a per-ability efficiency report from your ability export to OgreSave/EQ2/OgreBot/AbilityEfficiency/&lt;name>_&lt;class>_&lt;server>_AbilityEfficiency.txt, and :Run[-h] or :Run[help] prints the usage. Any other word is refused; it is a one-shot with no members.
+
+**Returns:** object: the AbilityEfficiency sub-object; it always exists, has no members, and as text it reads ISXOgreEQ2.AbilityEfficiency.
+
+```text
+echo ${ISXOgreEQ2.AbilityEfficiency}
+```
+
+### `AbilityUpgrades`
+
+`${ISXOgreEQ2.AbilityUpgrades}`
+
+The AbilityUpgrades sub-object behind ogre oau: :Run[minLevel] reports which Scroll Depot scrolls would upgrade an ability you know, from the given minimum scroll level (a default when left out), and :Run[-h] prints the usage. It only reports, buys nothing, and has no members.
+
+**Returns:** object: the AbilityUpgrades sub-object; it always exists, has no members, and as text it reads ISXOgreEQ2.AbilityUpgrades.
+
+```text
+echo ${ISXOgreEQ2.AbilityUpgrades}
+```
+
+### `Analysis`
+
+`${ISXOgreEQ2.Analysis}`
+
+The Analysis sub-object behind ogre analysis: watches actors, records what changes and when, and scans a zone for actors that match. Its methods are :Open, :Close, :End, :Status, :Demo, :Rate, :Taps, :Monitor, :Scan, :Sessions, :Export, :Import and the panel's :UI, and it has no members.
+
+**Returns:** object: the Analysis sub-object; it always exists, has no members, and as text it reads ISXOgreEQ2.Analysis.
+
+```text
+echo ${ISXOgreEQ2.Analysis}
+```
+
+### `AntiAfk`
+
+`${ISXOgreEQ2.AntiAfk}`
+
+The AntiAfk sub-object behind ogre afk: :On[1\|0] starts a /who at random long intervals so the character is not idle (1 silent, 0 with messages, nothing keeps the current setting) and :Off stops it. :Invites[on\|off] is a separate switch that auto-accepts group invites from characters on your own accounts, :Help prints the usage, and it has no members.
+
+**Returns:** object: the AntiAfk sub-object; it always exists, has no members, and as text it reads ISXOgreEQ2.AntiAfk.
+
+```text
+echo ${ISXOgreEQ2.AntiAfk}
+```
+
+### `Auth`
+
+`${ISXOgreEQ2.Auth}`
+
+The Auth sub-object: this session's login name, relay group and access level, with Spew to print them.
+
+**Returns:** object: the Auth sub-object; it always exists, and as text it reads ISXOgreEQ2.Auth.
+
+```text
+echo ${ISXOgreEQ2.Auth}
+```
+
+### `AutoLogin`
+
+`${ISXOgreEQ2.AutoLogin}`
+
+The auto-login settings window: :Open / :Close / :Toggle show it, and the window's own buttons save, delete or start login profiles and make desktop shortcuts for them. Echoing the object prints ISXOgreEQ2.AutoLogin.
+
+**Returns:** object: the auto-login settings window (type ogreeq2autologin); methods only
+
+```text
+echo ${ISXOgreEQ2.AutoLogin}
+```
+
+### `BuildHash`
+
+`${ISXOgreEQ2.BuildHash}`
+
+The fingerprint of the ISXOgreEQ2 file this session loaded: the SHA-256 of its code section as 64 hex characters, the same value the session log's first adapter line shows. Two sessions that show the same value run the same build.
+
+**Returns:** string: 64 hex characters, or NULL if the file could not be read
+
+```text
+echo ${ISXOgreEQ2.BuildHash}
+```
+
+### `Chat`
+
+`${ISXOgreEQ2.Chat}`
+
+Read-only counters for incoming chat handling: .Lines, .Hits, .Subscribers and per-source counts such as .TellReceived and .TellSent. Echoing the object prints a one-line summary (lines, hits, subscribers).
+
+**Returns:** object: chat handling counters (type ogreeq2chat); members only
+
+```text
+echo ${ISXOgreEQ2.Chat}
+```
+
+### `ChatCmd`
+
+`${ISXOgreEQ2.ChatCmd}`
+
+The ChatCmd sub-object: the chat commands your own characters send you, off until :On. Its methods are :On, :Off, :Debug, :ReloadAuth, :Test and :Status, and `ogre chatcmd` types them.
+
+**Returns:** object: the ChatCmd sub-object; it always exists, has no members, and as text it reads ISXOgreEQ2.ChatCmd.
+
+```text
+echo ${ISXOgreEQ2.ChatCmd}
+```
+
+### `Class`
+
+`${ISXOgreEQ2.Class}`
+
+Your character's class identity: .Archetype, .ClassTier, .Subclass, .Is[&lt;name>] and the server ruleset flags, with :Update to recompute them from the game. Echoing the object prints ISXOgreEQ2.Class.
+
+**Returns:** object: your class identity (type ogreeq2class)
+
+```text
+echo ${ISXOgreEQ2.Class}
+```
+
+### `Codex`
+
+`${ISXOgreEQ2.Codex}`
+
+The Codex sub-object behind ogre codextoon and ogre codexinspect: :Toon uploads your own gear and stats to eq2codex, :Inspect[names] inspects and uploads each named character, and :End stops an inspect pass. Uploads need the codex address and token set up; without them it reports that it is not configured.
+
+**Returns:** object: the Codex sub-object; it always exists, has no members, and as text it reads ISXOgreEQ2.Codex.
+
+```text
+echo ${ISXOgreEQ2.Codex}
+```
+
+### `Collection`
+
+`${ISXOgreEQ2.Collection}`
+
+The Collection sub-object behind ogre cm: :Run adds collectibles to your collection journal, from the depot by default (-small or -large picks the depot) or from your bags with -inventory, and :Stop stops it. Its members Running and Status report the run.
+
+**Returns:** object: the Collection sub-object; it always exists, and as text it reads its status line - "idle", "cm (&lt;n>/&lt;total>, &lt;N> added)" or "cm -inventory (&lt;n>/&lt;total>, &lt;N> added)".
+
+```text
+echo ${ISXOgreEQ2.Collection}
+```
+
+### `Commands`
+
+`${ISXOgreEQ2.Commands}`
+
+The Commands sub-object: the Commands panel that ogre commands, ogre help or a bare question mark after ogre opens. :Open and :Close show and hide it, and :UI is the panel's own click channel, which does nothing without its one argument.
+
+**Returns:** object: the Commands sub-object; it always exists, has no members, and as text it reads ISXOgreEQ2.Commands.
+
+```text
+echo ${ISXOgreEQ2.Commands}
+```
+
+### `CoreBuildHash`
+
+`${ISXOgreEQ2.CoreBuildHash}`
+
+The fingerprint of the ISXOgreX file this session loaded, read the same way as BuildHash and shown on the same log line.
+
+**Returns:** string: 64 hex characters, or NULL if the file could not be read
+
+```text
+echo ${ISXOgreEQ2.CoreBuildHash}
+```
+
+### `Craft`
+
+`${ISXOgreEQ2.Craft}`
+
+The crafting engine and its window: .Running, .Status, .Crafted and .Setting[&lt;id>] read it, and :Open, :Start, :StartWrits, :Stop and :AddRecipe[...] drive it. OgreBotAPI.Craft has the for-who versions of the starts and recipe adds (no Stop); echoing the object prints "&lt;flow>/&lt;status> &lt;crafted> of &lt;total>", such as "queue/crafting Tempered Iron 3 of 10".
+
+**Returns:** object: the crafting engine (type ogreeq2craft)
+
+```text
+echo ${ISXOgreEQ2.Craft}
+```
+
+### `CraftGm`
+
+`${ISXOgreEQ2.CraftGm}`
+
+The CraftGm sub-object behind ogre craftgm: turns the (Master) spell scrolls you carry into queued (Grandmaster) crafts. Its methods are :Open, :Scan, :Start, :Status, :Stop, :End and :Close, which take the words the command does, and it has no members.
+
+**Returns:** object: the CraftGm sub-object; it always exists, has no members, and as text it reads ISXOgreEQ2.CraftGm.
+
+```text
+echo ${ISXOgreEQ2.CraftGm}
+```
+
+### `CraftingMats`
+
+`${ISXOgreEQ2.CraftingMats}`
+
+The CraftingMats sub-object behind the ogre craftingmats command: it pulls the materials a signature, daily or weekly craft needs out of the Harvesting Supply Depot. It has the members Lists, Keys and Warnings and the methods :Get, :Plan, :Reload, :Help, :Open, :UI and :End.
+
+**Returns:** object: the CraftingMats sub-object; it always exists, and as text it reads "&lt;N> lists (&lt;keys>)" - how many list files are loaded and their expansion keys.
+
+```text
+echo ${ISXOgreEQ2.CraftingMats}
+```
+
+### `DepotTransfer`
+
+`${ISXOgreEQ2.DepotTransfer}`
+
+The DepotTransfer sub-object behind ogre housetogh, ogre ghtohouse and ogre smalldepottobigdepot: one bulk depot transfer with three directions (:HouseToGH, :GHToHouse, :SmallToLarge) and :Stop. Each method only starts the transfer, which runs on the pulse and zones through the Portal to Housing and the guild hall Magic Door as needed; Running and Status report it.
+
+**Returns:** object: the DepotTransfer sub-object; it always exists, and as text it reads its status line - "idle", or "&lt;depot> (&lt;n>/&lt;total>, &lt;N> pulled)" while a transfer runs.
+
+```text
+echo ${ISXOgreEQ2.DepotTransfer}
+```
+
+### `Det`
+
+`${ISXOgreEQ2.Det}`
+
+Detrimental effect lookups matched by an effect's main and backdrop icon ids: .DetrimentalInfo[...] and .DetrimentalInfo_JSON read one effect or all of yours, and :DetrimentalCancel / :DetrimentalCacheClear act on them. Echoing the object prints ISXOgreEQ2.Det.
+
+**Returns:** object: the detrimental effect lookups (type ogreeq2det)
+
+```text
+echo ${ISXOgreEQ2.Det}
+```
+
+### `EffectTracker`
+
+`${ISXOgreEQ2.EffectTracker}`
+
+The EffectTracker sub-object behind ogre effecttracker: captures what detrimental and NPC effects say they do into a dataset per zone. Its methods are :Open, :Close, :End, :On, :Off, :Npc, :Status, :Reload, :Trace, :Probe, :Bench, :UiDiag, :Demo, :CloseWindow, :Describe, :Merge and the panel's :UI, and it has no members.
+
+**Returns:** object: the EffectTracker sub-object; it always exists, has no members, and as text it reads ISXOgreEQ2.EffectTracker.
+
+```text
+echo ${ISXOgreEQ2.EffectTracker}
+```
+
+### `Encounter`
+
+`${ISXOgreEQ2.Encounter}`
+
+The encounter engine that runs the coded fights: .Loaded, .ActiveCount, .IsActive[&lt;mob>] and .Current read it, and :Reload, :Fire[&lt;mob>] and :List act on it. OgreBotAPI.Encounter is the for-who version of :List; echoing the object prints the loaded and active counts.
+
+**Returns:** object: the encounter engine (type ogreeq2encounter)
+
+```text
+echo ${ISXOgreEQ2.Encounter}
+```
+
+### `Events`
+
+`${ISXOgreEQ2.Events}`
+
+Read-only counters for the game events the extension listens to: .Pending, .Dropped and per-event .Received[&lt;event>] / .Dispatched[&lt;event>] / .Subscribers[&lt;event>]. Echoing the object prints a one-line summary of the counters.
+
+**Returns:** object: game-event counters (type ogreeq2events); members only
+
+```text
+echo ${ISXOgreEQ2.Events}
+```
+
+### `Experiment`
+
+`${ISXOgreEQ2.Experiment}`
+
+The Experiment sub-object behind ogre experiment: it raises stats on the tradeskill Experiment tab. :Boost[-stat,n,...] works the item already selected, :Run[row,flags...] works a given item row, :Items lists the rows, and :Status and :Stop round it out; it has no members.
+
+**Returns:** object: the Experiment sub-object; it always exists, has no members, and as text it reads ISXOgreEQ2.Experiment.
+
+```text
+echo ${ISXOgreEQ2.Experiment}
+```
+
+### `Export`
+
+`${ISXOgreEQ2.Export}`
+
+The ability exporter: :Abilities[...] writes your abilities to a JSON file over several pulses, and :Config opens its options window (`ogre export`). .Busy is TRUE until the file is written and .Processed / .Total show progress; echoing the object prints ISXOgreEQ2.Export.
+
+**Returns:** object: the ability exporter (type ogreeq2export)
+
+```text
+echo ${ISXOgreEQ2.Export}
+```
+
+### `ForWhoGroups`
+
+`${ISXOgreEQ2.ForWhoGroups}`
+
+The ForWhoGroups sub-object behind ogre forwhogroups: named sets of toons you select with one for-who token. Its methods are :List, :Open, :Close, :Reload and the panel's own :UI channel, and it has no members.
+
+**Returns:** object: the ForWhoGroups sub-object; it always exists, has no members, and as text it reads ISXOgreEQ2.ForWhoGroups.
+
+```text
+echo ${ISXOgreEQ2.ForWhoGroups}
+```
+
+### `Game`
+
+`${ISXOgreEQ2.Game}`
+
+The game-client login and camp helper: :Login[character] logs that character in from the saved accounts, :Camp camps to the login screen and closes the session (:Camp[charselect] stops at character select), and :Abort stops either flow. .Busy and .State read where the flow is; echoing the object prints ISXOgreEQ2.Game.
+
+**Returns:** object: the login / camp helper (type ogreeq2game)
+
+```text
+echo ${ISXOgreEQ2.Game}
+```
+
+### `GetQuest`
+
+`${ISXOgreEQ2.GetQuest}`
+
+The GetQuest sub-object behind ogre getquest: :Start hails the NPC configured for this zone and takes its quest, deleting and retaking it until the wanted step comes up or the attempt limit runs out, and it does not walk, so stand next to the NPC first. The other methods are :Stop, :List, :Reload, :Status and :Help, and it has no members.
+
+**Returns:** object: the GetQuest sub-object; it always exists, has no members, and as text it reads ISXOgreEQ2.GetQuest.
+
+```text
+echo ${ISXOgreEQ2.GetQuest}
+```
+
+### `HarvestLite`
+
+`${ISXOgreEQ2.HarvestLite}`
+
+The HarvestLite sub-object behind ogre hl: while on, it harvests any resource node already within reach and lets go when something attacks you, and it never moves you. It starts off; :On, :Off, :Status and :Interval[ms] control it, and it has no members.
+
+**Returns:** object: the HarvestLite sub-object; it always exists, has no members, and as text it reads ISXOgreEQ2.HarvestLite.
+
+```text
+echo ${ISXOgreEQ2.HarvestLite}
+```
+
+### `Heartstone`
+
+`${ISXOgreEQ2.Heartstone}`
+
+The Heartstone sub-object behind ogre heartstone: on each zone-in it looks for a Heartstone and, when you are within 6 units of it, rekindles the bond every 15 to 30 minutes (random), whether or not OgreBot is running. It starts on; :On, :Off, :Now (try on the next pulse) and :Status control it, and it has no members.
+
+**Returns:** object: the Heartstone sub-object; it always exists, has no members, and as text it reads ISXOgreEQ2.Heartstone.
+
+```text
+echo ${ISXOgreEQ2.Heartstone}
+```
+
+### `HideEffects`
+
+`${ISXOgreEQ2.HideEffects}`
+
+The HideEffects sub-object behind ogre hideeffects: hides the listed junk effects on your character. Its methods are :Run, :List, :Clear, :Delete[id], :Open, :Reload, :Reset, :Status, :End and the panel's own :UI channel, and it has no members.
+
+**Returns:** object: the HideEffects sub-object; it always exists, has no members, and as text it reads ISXOgreEQ2.HideEffects.
+
+```text
+echo ${ISXOgreEQ2.HideEffects}
+```
+
+### `HUDs`
+
+`${ISXOgreEQ2.HUDs}`
+
+The on-screen HUD overlay, a click-through window showing the nearest NPC, group or raid member distances and timed raid messages. :Open / :Close show and hide it, :Set and :SetOption change it, and .Diag is a one-line status; echoing the object prints ISXOgreEQ2.HUDs.
+
+**Returns:** object: the HUD overlay (type ogreeq2huds)
+
+```text
+echo ${ISXOgreEQ2.HUDs}
+```
+
+### `IC`
+
+`${ISXOgreEQ2.IC}`
+
+The Instance Controller that runs zones from a list: .Running, .Zone, .Verdict and .Value[&lt;key>] read the run, and :Run, :RunList, :Stop, :Pause / :Resume and :Complete drive it. Echoing the object prints the engine state as JSON, not the run's values (read .Value for those).
+
+**Returns:** object: the Instance Controller (type ogreeq2ic)
+
+```text
+echo ${ISXOgreEQ2.IC}
+```
+
+### `InvOps`
+
+`${ISXOgreEQ2.InvOps}`
+
+The InvOps sub-object behind the ogre overflow, ogre mbc and ogre trade commands: :Overflow, :MoveBag and :Trade each only start a flow that then works one step per pulse, and :Stop drops whatever is running. Its members Busy and Status report the flow.
+
+**Returns:** object: the InvOps sub-object; it always exists, and as text it reads its status line - "idle", "overflow (&lt;N> popped)", "mbc (&lt;done>/&lt;total>)" or "trade (&lt;done>/&lt;total>)".
+
+```text
+echo ${ISXOgreEQ2.InvOps}
+```
+
+### `Lag`
+
+`${ISXOgreEQ2.Lag}`
+
+The Lag sub-object behind ogre lag: the frame ledger, every frame of the last few minutes with what it cost and what ran in it. Its methods are :Open, :Close, :Report, :Dump, :Minutes, :On, :Off, :Overhead, :Budget, :Clear and the window's own :UI channel, and it has no members.
+
+**Returns:** object: the Lag sub-object; it always exists, has no members, and as text it reads ISXOgreEQ2.Lag.
+
+```text
+echo ${ISXOgreEQ2.Lag}
+```
+
+### `LevelTransmuting`
+
+`${ISXOgreEQ2.LevelTransmuting}`
+
+The LevelTransmuting sub-object behind ogre leveltransmuting: buys transmuter's stones and transmutes them for skill-ups. Its methods are :Open, :On, :Off, :Status, :End and :Help, and it has no members.
+
+**Returns:** object: the LevelTransmuting sub-object; it always exists, has no members, and as text it reads ISXOgreEQ2.LevelTransmuting.
+
+```text
+echo ${ISXOgreEQ2.LevelTransmuting}
+```
+
+### `LootScan`
+
+`${ISXOgreEQ2.LootScan}`
+
+The LootScan sub-object: diagnostics for the auto-loot driver, which the Loot tab turns on. Its methods are :Status, :Interval and :Reset, and it has no members.
+
+**Returns:** object: the LootScan sub-object; it always exists, has no members, and as text it reads ISXOgreEQ2.LootScan.
+
+```text
+echo ${ISXOgreEQ2.LootScan}
+```
+
+### `MCP`
+
+`${ISXOgreEQ2.MCP}`
+
+The Master Control Panel window: open, close or toggle it, save or reload its button layout, fire a button by id and manage the key binds that press its buttons. Members .ForWho (the For Who in force on this session) and .IrcConnected read its state; echoing the object prints ISXOgreEQ2.MCP.
+
+**Returns:** object: the Master Control Panel (type ogreeq2mcp)
+
+```text
+echo ${ISXOgreEQ2.MCP}
+```
+
+### `MerchantCraft`
+
+`${ISXOgreEQ2.MerchantCraft}`
+
+The MerchantCraft sub-object behind ogre mc: it buys a merchant's limited recipes and crafts them. :List numbers the targeted merchant's recipes, :Start[recipe words,count] or :Start[#n,count] runs it, :Stop abandons it, and :Status and :Help round it out; it has no members.
+
+**Returns:** object: the MerchantCraft sub-object; it always exists, has no members, and as text it reads ISXOgreEQ2.MerchantCraft.
+
+```text
+echo ${ISXOgreEQ2.MerchantCraft}
+```
+
+### `MerchantOps`
+
+`${ISXOgreEQ2.MerchantOps}`
+
+The MerchantOps sub-object behind ogre buyfuel and ogre buycrate: :BuyFuel and :BuyCrate only start a merchant buy that runs on the pulse, and :Stop stops it. Its members Running and Status report the buy.
+
+**Returns:** object: the MerchantOps sub-object; it always exists, and as text it reads its status line - "idle", "buyfuel '&lt;fuel>' (round &lt;N>)" or "buycrate (&lt;n>/&lt;total>)".
+
+```text
+echo ${ISXOgreEQ2.MerchantOps}
+```
+
+### `Migrate`
+
+`${ISXOgreEQ2.Migrate}`
+
+The Migration Assistant, which copies OldBot settings (such as accounts, profiles, IRC, MCP and IM settings) into the new bot's files. :Open shows each task's status with a re-run button, and :Run re-runs one task; echoing the object prints ISXOgreEQ2.Migrate.
+
+**Returns:** object: the Migration Assistant (type ogreeq2migrate); methods only
+
+```text
+echo ${ISXOgreEQ2.Migrate}
+```
+
+### `Nav`
+
+`${ISXOgreEQ2.Nav}`
+
+Navigation inside the current zone over its navmesh: :To[x,y,z] starts a trip, :Stop ends it, :Set[&lt;key>,&lt;value>] changes a nav setting, and .NavActive / .NavState / .NavDistance follow the trip. Echoing the object prints the trip state and, when there is one, the reason.
+
+**Returns:** object: in-zone navigation (type ogreeq2nav)
+
+```text
+echo ${ISXOgreEQ2.Nav}
+```
+
+### `NpcCast`
+
+`${ISXOgreEQ2.NpcCast}`
+
+The NpcCast sub-object behind ogre npccast: the NPC cast watch list, its zone data and the cast Monitor. Its methods are :Open, :Status, :End, :Watch, :Unwatch, :Clear, :Radius, :Reload, :Capture, :Import, :Zone, :Monitor and the panel's :UI, and it has no members.
+
+**Returns:** object: the NpcCast sub-object; it always exists, has no members, and as text it reads ISXOgreEQ2.NpcCast.
+
+```text
+echo ${ISXOgreEQ2.NpcCast}
+```
+
+### `NPCTarget`
+
+`${ISXOgreEQ2.NPCTarget}`
+
+The NPC you are fighting, as an actor: your target when it is a live NPC or named NPC, otherwise your target's target when that is one. Worked out once per pulse while in the world; with no such NPC, or out of the world, the member does not exist, so check (exists) first.
+
+**Returns:** actor: the current NPC kill target; does not exist when there is none. Out of the world it is not refreshed and keeps the last one.
+
+```text
+echo ${ISXOgreEQ2.NPCTarget.Name}
+```
+
+### `NPCTargetID`
+
+`${ISXOgreEQ2.NPCTargetID}`
+
+The actor id of the NPC you are fighting, picked the same way as ${ISXOgreEQ2.NPCTarget} once per pulse while in the world, and reads 0 out of the world. OgreBotAPI:UpdateNPCTarget refreshes it on demand and ${OgreBotAPI.ValidKillTarget} checks it.
+
+**Returns:** int64: the kill target's actor id; 0 when there is no live NPC target. Out of the world it is not refreshed and keeps its last value.
+
+```text
+echo ${ISXOgreEQ2.NPCTargetID}
+```
+
+### `OgreBot`
+
+`${ISXOgreEQ2.OgreBot}`
+
+The OgreBot window and its profile settings: open and close the windows, load, create or save profiles, and read a setting with .Value[&lt;id>]. .IsReady is TRUE once a window is up and a profile is loaded; echoing the object prints ISXOgreEQ2.OgreBot.
+
+**Returns:** object: the OgreBot window and profile store (type ogreeq2ogrebot)
+
+```text
+echo ${ISXOgreEQ2.OgreBot}
+```
+
+### `OSA`
+
+`${ISXOgreEQ2.OSA}`
+
+The On-Screen Assistant, a window that lists the NPCs in range and targets one when you click its row. It has methods only (:Open, :Close, :Target[actorID]); echoing the object prints ISXOgreEQ2.OSA.
+
+**Returns:** object: the On-Screen Assistant (type ogreeq2osa); methods only
+
+```text
+echo ${ISXOgreEQ2.OSA}
+```
+
+### `Overseer`
+
+`${ISXOgreEQ2.Overseer}`
+
+The Overseer sub-object behind ogre overseer and ogre buyoverseermissions, for this session only (OgreBotAPI.Overseer is the one that takes a for-who). :Run, :Stop and :Status drive the daily Overseer run; :BuyMissions[flags...], :BuyMissionsStop and :BuyMissionsStatus drive the mission buy.
+
+**Returns:** object: the Overseer sub-object; it always exists, has no members, and as text it reads ISXOgreEQ2.Overseer.
+
+```text
+echo ${ISXOgreEQ2.Overseer}
+```
+
+### `PackPony`
+
+`${ISXOgreEQ2.PackPony}`
+
+The PackPony sub-object: one pack pony run, sent out and unloaded straight away. Its methods are :Start, :Stop and :Status, and it has no members; ogre packpony is the Task Runner, not this.
+
+**Returns:** object: the PackPony sub-object; it always exists, has no members, and as text it reads ISXOgreEQ2.PackPony.
+
+```text
+echo ${ISXOgreEQ2.PackPony}
+```
+
+### `Paths`
+
+`${ISXOgreEQ2.Paths}`
+
+The Paths sub-object behind ogre paths: the window that lists this zone's points of interest and saved paths. Its methods are :Open, :End and the window's own :UI channel, it has no members, and the walking verbs are OgreBotAPI.Paths.
+
+**Returns:** object: the Paths sub-object; it always exists, has no members, and as text it reads ISXOgreEQ2.Paths.
+
+```text
+echo ${ISXOgreEQ2.Paths}
+```
+
+### `Perf`
+
+`${ISXOgreEQ2.Perf}`
+
+The Perf sub-object behind ogre perf: :Measure[seconds,nothreads] measures the game's frame rate next to the time OgreBot's pulse takes, plus CPU and memory, and prints one report to the console. :Stop reports early and :Status says where a run stands, and it has no members.
+
+**Returns:** object: the Perf sub-object; it always exists, has no members, and as text it reads ISXOgreEQ2.Perf.
+
+```text
+echo ${ISXOgreEQ2.Perf}
+```
+
+### `Persona`
+
+`${ISXOgreEQ2.Persona}`
+
+The Persona sub-object behind `ogre persona`: the window that says which profile file each class uses on this PC. Its methods are :Open, :Close and the window's own :UI channel, and it has no members.
+
+**Returns:** object: the Persona sub-object; it always exists, has no members, and as text it reads ISXOgreEQ2.Persona.
+
+```text
+echo ${ISXOgreEQ2.Persona}
+```
+
+### `PotCb`
+
+`${ISXOgreEQ2.PotCb}`
+
+The PotCb sub-object behind ogre potcb: a sampler for Potency, Crit Bonus and Fervor with its own panel. Its methods are :Open, :On, :Off, :End, :Status, :Reset, :Interval[ms], :Help and the panel's own :UI channel, and it has no members.
+
+**Returns:** object: the PotCb sub-object; it always exists, has no members, and as text it reads ISXOgreEQ2.PotCb.
+
+```text
+echo ${ISXOgreEQ2.PotCb}
+```
+
+### `PulseBudget`
+
+`${ISXOgreEQ2.PulseBudget}`
+
+The PulseBudget sub-object behind ogre pulse: the per-frame time each resumable section gets, and its window. Its methods are :Open, :Close, :On, :Off, :Reset, :Ceiling, :Slice, :Report, :JobTest and the panel's own :UI channel, and it has no members.
+
+**Returns:** object: the PulseBudget sub-object; it always exists, has no members, and as text it reads ISXOgreEQ2.PulseBudget.
+
+```text
+echo ${ISXOgreEQ2.PulseBudget}
+```
+
+### `PulseProf`
+
+`${ISXOgreEQ2.PulseProf}`
+
+The PulseProf sub-object behind ogre pulseprof: frame time and native read counts per pulse subsystem. Its methods are :Help, :Report, :Reset, :On, :Off, :Overhead and :Scans, and it has no members.
+
+**Returns:** object: the PulseProf sub-object; it always exists, has no members, and as text it reads ISXOgreEQ2.PulseProf.
+
+```text
+echo ${ISXOgreEQ2.PulseProf}
+```
+
+### `Pushover`
+
+`${ISXOgreEQ2.Pushover}`
+
+The Pushover sub-object behind ogre pushover: push notifications through Pushover.net, for one session; OgreBotAPI.Comms:Pushover takes a for-who. Its methods are :Status, :Reload, :Message and the credentials window's :UI, and it has no members.
+
+**Returns:** object: the Pushover sub-object; it always exists, has no members, and as text it reads ISXOgreEQ2.Pushover.
+
+```text
+echo ${ISXOgreEQ2.Pushover}
+```
+
+### `QuestCompare`
+
+`${ISXOgreEQ2.QuestCompare}`
+
+The QuestCompare sub-object behind ogre questcompare: the small window that shows whether your group is on the same step of a quest as you. Its methods are :Open, :Close and the window's own :UI channel, and it has no members.
+
+**Returns:** object: the QuestCompare sub-object; it always exists, has no members, and as text it reads ISXOgreEQ2.QuestCompare.
+
+```text
+echo ${ISXOgreEQ2.QuestCompare}
+```
+
+### `QuestHelper`
+
+`${ISXOgreEQ2.QuestHelper}`
+
+The QuestHelper sub-object behind ogre quest: once on, it keeps hailing nearby NPCs that offer, update or complete a quest, clicks nearby special objects and answers the conversation, until you turn it off. Its methods are :On (On[1] always takes reply 1), :Off, :Status, :List, :Reload and :Help, and it has no members.
+
+**Returns:** object: the QuestHelper sub-object; it always exists, has no members, and as text it reads ISXOgreEQ2.QuestHelper.
+
+```text
+echo ${ISXOgreEQ2.QuestHelper}
+```
+
+### `Queue`
+
+`${ISXOgreEQ2.Queue}`
+
+The priority action queue that runs casts, item uses, clicks, commands, moves and flows one at a time: :Add or .Enqueue[...] queue an action, .Count / .Entry[N] / .EntryJSON[N] list them and .Status[seq] follows one. :Spew prints every entry and :Remove[seq] drops a waiting one; echoing the object prints ISXOgreEQ2.Queue.
+
+**Returns:** object: the priority action queue (type ogreeq2queue)
+
+```text
+echo ${ISXOgreEQ2.Queue}
+```
+
+### `Quiver`
+
+`${ISXOgreEQ2.Quiver}`
+
+The Quiver sub-object behind ogre quiver: :Refill tops up your ammo container from your bags and then, in a guild hall, pulls more ammo from the depot, and :Stop stops it. Its members Running and Status report the run.
+
+**Returns:** object: the Quiver sub-object; it always exists, and as text it reads its status line - "idle", "filling from bags (&lt;n>/&lt;total>)" or "arming the depot pull".
+
+```text
+echo ${ISXOgreEQ2.Quiver}
+```
+
+### `Radar`
+
+`${ISXOgreEQ2.Radar}`
+
+The Radar sub-object behind ogre radar: nearby actors on a panel. It has one method per word of the command, from :On and :Off to the settings and the reports, and it has no members.
+
+**Returns:** object: the Radar sub-object; it always exists, has no members, and as text it reads ISXOgreEQ2.Radar.
+
+```text
+echo ${ISXOgreEQ2.Radar}
+```
+
+### `Refine`
+
+`${ISXOgreEQ2.Refine}`
+
+The Refine sub-object behind ogre refine: it refines the Raw and Rare resources in your carried bags. :Start runs one pass, :Plan is a dry run, :Stop, :Status and :Reload round it out, and :Raw, :Rare, :Rewards (on or off) and :Bags (a bag list, all or none) are its settings; it has no members.
+
+**Returns:** object: the Refine sub-object; it always exists, has no members, and as text it reads ISXOgreEQ2.Refine.
+
+```text
+echo ${ISXOgreEQ2.Refine}
+```
+
+### `ReplenishNames`
+
+`${ISXOgreEQ2.ReplenishNames}`
+
+The ReplenishNames sub-object behind ogre replenishnames: the fallback food, drink and potion names the replenish calls use, read from two files. :Show prints the active names and both files, :Reload re-reads them and then prints the same report, and it has no members.
+
+**Returns:** object: the ReplenishNames sub-object; it always exists, has no members, and as text it reads ISXOgreEQ2.ReplenishNames.
+
+```text
+echo ${ISXOgreEQ2.ReplenishNames}
+```
+
+### `SafeFall`
+
+`${ISXOgreEQ2.SafeFall}`
+
+The SafeFall sub-object behind ogre safefall: the Safe Fall trainer that flies up, drops, remounts and repeats. Its methods are :Status, :On, :Off, :Open, :End and :Help, and it has no members.
+
+**Returns:** object: the SafeFall sub-object; it always exists, has no members, and as text it reads ISXOgreEQ2.SafeFall.
+
+```text
+echo ${ISXOgreEQ2.SafeFall}
+```
+
+### `Scheduler`
+
+`${ISXOgreEQ2.Scheduler}`
+
+Timers that fire a LavishScript event after a delay: :FireEvent[delayMs,eventName,...] once, :FireEventEvery[...] on repeat, :Cancel[key] to stop one, with .Count, .Active[key] and .Remaining[key] to check them. The encounter engine's timers share the table and a script sees them too (in .Count, :Spew and :ClearNonPersistent), so a script can watch or act on them; arming a pending key replaces it, and echoing the object prints ISXOgreEQ2.Scheduler.
+
+**Returns:** object: the event timer scheduler (type ogreeq2scheduler)
+
+```text
+echo ${ISXOgreEQ2.Scheduler}
+```
+
+### `Spawn`
+
+`${ISXOgreEQ2.Spawn}`
+
+Read-only status for actor spawn and despawn tracking: .LiveCount, .IsLive[&lt;id>], .HasChest / .ChestId for an Exquisite Chest, and event counters, plus :SetOnSpawnDelay[ms] / :ResetOnSpawnDelay for this session. Echoing the object prints a one-line summary (live count, chest id, spawns, despawns).
+
+**Returns:** object: spawn tracking status (type ogreeq2spawn)
+
+```text
+echo ${ISXOgreEQ2.Spawn}
+```
+
+### `TagTimers`
+
+`${ISXOgreEQ2.TagTimers}`
+
+The Tag Timers window, which lists every Embargo and Allow tag on this character. :Open and :Close show and hide it; echoing the object prints ISXOgreEQ2.TagTimers.
+
+**Returns:** object: the Tag Timers window (type ogreeq2tagtimers); methods only
+
+```text
+echo ${ISXOgreEQ2.TagTimers}
+```
+
+### `Targeting`
+
+`${ISXOgreEQ2.Targeting}`
+
+The assist and auto-target engine that decides who you attack: .AssistId, .Enabled and .InControl read its decision, :Tick evaluates it and queues a retarget for the next pulse, and :LoadList / :ClearList pick a saved auto-target list. Echoing the object prints ISXOgreEQ2.Targeting.
+
+**Returns:** object: the assist / auto-target engine (type ogreeq2targeting)
+
+```text
+echo ${ISXOgreEQ2.Targeting}
+```
+
+### `TaskRunner`
+
+`${ISXOgreEQ2.TaskRunner}`
+
+The TaskRunner sub-object behind ogre taskrunner: logs characters in one at a time, does the chores that are due, and logs out. Its methods are :Open, :Close, :End, :Status, :Run, :Lists, :Start, :Stop, :Reload, :Plan, :Now, :Clear and the Lists window's :UI, and it has no members.
+
+**Returns:** object: the TaskRunner sub-object; it always exists, has no members, and as text it reads ISXOgreEQ2.TaskRunner.
+
+```text
+echo ${ISXOgreEQ2.TaskRunner}
+```
+
+### `Tour`
+
+`${ISXOgreEQ2.Tour}`
+
+The first-run window tour that teaches resizing a window, its title-bar menu and Save Position. :Open / :Close show and hide it, and :Done / :Skip mark it seen; echoing the object prints ISXOgreEQ2.Tour.
+
+**Returns:** object: the first-run window tour (type ogreeq2tour); methods only
+
+```text
+echo ${ISXOgreEQ2.Tour}
+```
+
+### `Travel`
+
+`${ISXOgreEQ2.Travel}`
+
+The Travel sub-object behind ogre travel: the Travel Helper window, which lists a fast-travel, spire, druid-ring or bell map's destinations and sends the group to one. Its methods are :Open, :End, :Help and the window's own :UI channel, and it has no members.
+
+**Returns:** object: the Travel sub-object; it always exists, has no members, and as text it reads ISXOgreEQ2.Travel.
+
+```text
+echo ${ISXOgreEQ2.Travel}
+```
+
+### `TravelMesh`
+
+`${ISXOgreEQ2.TravelMesh}`
+
+Zone-to-zone travel routing over the game's travel networks such as bells, spires and druid rings: :Go[&lt;destination>] starts a route, :GoGroup[...] sends the group, :Stop ends it, and .TMActive / .TMState / .TMRoute follow it. Echoing the object prints "idle" with the last reason when no route is running, otherwise the route status.
+
+**Returns:** object: the zone-to-zone travel router (type ogreeq2travelmesh)
+
+```text
+echo ${ISXOgreEQ2.TravelMesh}
+```
+
+### `Version`
+
+`${ISXOgreEQ2.Version}`
+
+The extension's build date as an 8-digit yyyymmdd string, stamped when the extension was compiled. Echoing ${ISXOgreEQ2} on its own prints "ISXOgreEQ2" followed by the same value.
+
+**Returns:** string: the build date as yyyymmdd, such as 20261103
+
+```text
+echo ${ISXOgreEQ2.Version}
+```
+
+### `Watcher`
+
+`${ISXOgreEQ2.Watcher}`
+
+The Watcher sub-object behind ogre find, ogre trackshiny and ogre watcher: :Find[words...] watches for actors by name and :TrackShiny[words...] for harvestables of one colour, each announcing and dropping a waypoint when one turns up. :End turns both watches off and closes the Watcher window, and it has no members.
+
+**Returns:** object: the Watcher sub-object; it always exists, has no members, and as text it reads ISXOgreEQ2.Watcher.
+
+```text
+echo ${ISXOgreEQ2.Watcher}
+```
+
+### `WindowReactions`
+
+`${ISXOgreEQ2.WindowReactions}`
+
+The WindowReactions sub-object: a diagnostic over what the bot does when a loot, choice or quest window comes up. Its one method is :Status, and it has no members.
+
+**Returns:** object: the WindowReactions sub-object; it always exists, has no members, and as text it reads ISXOgreEQ2.WindowReactions.
+
+```text
+echo ${ISXOgreEQ2.WindowReactions}
+```
+
+### `ZoneReset`
+
+`${ISXOgreEQ2.ZoneReset}`
+
+The ZoneReset sub-object behind ogre zone: the zone-reuse resetter, which reads the game's Zone Reuse window and resets zone timers. Its methods are :Open, :End, :Help, :List, :Dump, :Force, :Add, :AddFilter, :Queue, :Clear, :Reset, :Status, :Flags and the panel's :UI, and it has no members.
+
+**Returns:** object: the ZoneReset sub-object; it always exists, has no members, and as text it reads ISXOgreEQ2.ZoneReset.
+
+```text
+echo ${ISXOgreEQ2.ZoneReset}
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/AbilityDetails.md
+
+# ISXOgreEQ2.AbilityDetails
+
+## Methods
+
+### `Close`
+
+`ISXOgreEQ2.AbilityDetails:Close`
+
+Closes the Ability Details window (the same as `ogre end abilitydetails`) and drops any clicks it had not acted on yet. The window is opened with OgreBotAPI.Abilities:AbilityDetails.
+
+```text
+ISXOgreEQ2.AbilityDetails:Close
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/AbilityEfficiency.md
+
+# ISXOgreEQ2.AbilityEfficiency
+
+## Methods
+
+### `Run`
+
+`ISXOgreEQ2.AbilityEfficiency:Run[-h]`
+
+Scores every ability in your loaded ability export as the damage in its description divided by cast plus recovery time (recast is not counted), writes one Name\|Value line per ability best first to Scripts/OgreSave/EQ2/OgreBot/AbilityEfficiency/&lt;name>_&lt;subclass>_&lt;server>_AbilityEfficiency.txt and prints the top 20 (the same as `ogre ae`). With no export loaded it prints an error telling you to run `ogre export`, and any argument other than a help word is refused.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `-h` | switch |  | print the usage instead of running (-help, --help, ? and help work too) |
+
+```text
+ISXOgreEQ2.AbilityEfficiency:Run
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/AbilityUpgrades.md
+
+# ISXOgreEQ2.AbilityUpgrades
+
+## Methods
+
+### `Run`
+
+`ISXOgreEQ2.AbilityUpgrades:Run[minLevel]`
+
+With a container window open it reads that one and leaves it open; otherwise it opens each Scroll Depot within 30 units in turn, reads it and closes it, and either way reports which spell scrolls upgrade an ability you already know, both in your console and to your other sessions through the Ogre console with your name in front (the same as `ogre oau`). It is queued, scribes or uses nothing, and is refused with a console line when you are not in the world, no ability export is loaded, a scan is already running or the level is not a whole number from 1 to 1000.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `minLevel` | int | `121` | ignore scrolls below this level (1 to 1000); -h prints the usage instead |
+
+```text
+ISXOgreEQ2.AbilityUpgrades:Run[125]
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Analysis.md
+
+# ISXOgreEQ2.Analysis
+
+## Methods
+
+### `Close`
+
+`ISXOgreEQ2.Analysis:Close`
+
+Closes the window and leaves everything running. :End stops it too.
+
+```text
+ISXOgreEQ2.Analysis:Close
+```
+
+### `Demo`
+
+`ISXOgreEQ2.Analysis:Demo`
+
+Fills the window with sample data and opens it, for looking at the layout. Nothing is saved.
+
+```text
+ISXOgreEQ2.Analysis:Demo
+```
+
+### `End`
+
+`ISXOgreEQ2.Analysis:End`
+
+Turns the monitor and the taps off, drops a scan in progress, a + Cursor countdown and the spawn watch, and closes the window, the same as `ogre end analysis` and the window's X. What was recorded stays.
+
+```text
+ISXOgreEQ2.Analysis:End
+```
+
+### `Export`
+
+`ISXOgreEQ2.Analysis:Export[name]`
+
+Saves the monitored actors and scan results to a file and says where.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `name` | string |  | The file name. Optional: with none it is session_ and the date and time. |
+
+```text
+ISXOgreEQ2.Analysis:Export["My Run"]
+```
+
+### `Import`
+
+`ISXOgreEQ2.Analysis:Import[name]`
+
+Loads a saved session, replacing what is in memory and stopping live monitoring. With no name, or one that cannot be read, it prints one warning and changes nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `name` | string |  | A session name from :Sessions, or a path; required. |
+
+```text
+ISXOgreEQ2.Analysis:Import["My Run"]
+```
+
+### `Monitor`
+
+`ISXOgreEQ2.Analysis:Monitor[word,actor]`
+
+The monitor: starts or stops sampling, empties or prints the list, or adds or removes an actor. With no word, or another word, it prints one warning listing the words.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `word` | string |  | on and off start and stop sampling, clear empties the list, list prints it, add and remove take an actor; required. |
+| `actor` | string |  | For add and remove: an actor id, or target or cursor for the actor you have targeted or are pointing at. |
+
+```text
+ISXOgreEQ2.Analysis:Monitor[add,target]
+```
+
+### `Open`
+
+`ISXOgreEQ2.Analysis:Open`
+
+Opens the Analysis window, the same as bare `ogre analysis`.
+
+```text
+ISXOgreEQ2.Analysis:Open
+```
+
+### `Rate`
+
+`ISXOgreEQ2.Analysis:Rate[ms]`
+
+Sets how often monitored actors are sampled. A value outside 100 to 10000, or none, prints one warning and changes nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `ms` | int |  | Milliseconds between samples, 100 to 10000; the default is 250; required. |
+
+```text
+ISXOgreEQ2.Analysis:Rate[500]
+```
+
+### `Scan`
+
+`ISXOgreEQ2.Analysis:Scan[terms]`
+
+Snapshots the actors that match, reusing the window's terms if you give none; with none there either it scans the whole zone. It refuses to start while a scan runs or out of the world.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `terms` | string |  | Terms like Level>120: a member, then =, &lt; or >, then a value, one argument each; a term that does not read that way prints a warning and is skipped. Optional. |
+
+```text
+ISXOgreEQ2.Analysis:Scan["Level>120"]
+```
+
+### `Sessions`
+
+`ISXOgreEQ2.Analysis:Sessions`
+
+Prints the names of the saved sessions to the console.
+
+```text
+ISXOgreEQ2.Analysis:Sessions
+```
+
+### `Status`
+
+`ISXOgreEQ2.Analysis:Status`
+
+Prints the monitor, taps, scan and sample counters to the console, with the last error if there is one.
+
+```text
+ISXOgreEQ2.Analysis:Status
+```
+
+### `Taps`
+
+`ISXOgreEQ2.Analysis:Taps[state]`
+
+Turns the passive event logs on or off and prints the status.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `state` | string |  | on or off. Optional: anything but off, or nothing, turns it on. |
+
+```text
+ISXOgreEQ2.Analysis:Taps[on]
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/AntiAfk.md
+
+# ISXOgreEQ2.AntiAfk
+
+## Methods
+
+### `Help`
+
+`ISXOgreEQ2.AntiAfk:Help`
+
+Prints the `ogre afk` usage lines to the console. It changes nothing.
+
+```text
+ISXOgreEQ2.AntiAfk:Help
+```
+
+### `Invites`
+
+`ISXOgreEQ2.AntiAfk:Invites[state]`
+
+Turns automatic acceptance of group invites on or off: an invite is accepted from any name on your characters list (every account, auth-only names included), a switch separate from the keepalive that starts off at every load. A missing value is refused with a warning and nothing changes.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `state` | string |  | on, 1 or TRUE to accept; off, 0 or FALSE to stop |
+
+```text
+ISXOgreEQ2.AntiAfk:Invites[on]
+```
+
+### `Off`
+
+`ISXOgreEQ2.AntiAfk:Off`
+
+Stops the keepalive /who and prints "anti-AFK keepalive OFF" to the console (the same as `ogre end afk`). The group-invite switch set by AntiAfk:Invites is left as it is.
+
+```text
+ISXOgreEQ2.AntiAfk:Off
+```
+
+### `On`
+
+`ISXOgreEQ2.AntiAfk:On[silent]`
+
+Starts the keepalive, which sends `/who all <your name>` to the game right away and then again after a random 10 to 15 minutes, only while you are in the world, until AntiAfk:Off or the extension unloads. Calling it while it is already on changes only the verbosity, and any other value is refused with an error and the usage.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `silent` | string |  | 1 or TRUE for silent; 0 or FALSE to also print "Ogre Anti AFK" to the console each time; leave out to keep the current setting (silent until changed) |
+
+```text
+ISXOgreEQ2.AntiAfk:On[1]
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Auth.md
+
+# ISXOgreEQ2.Auth
+
+## Members
+
+### `AccessLevel`
+
+`${ISXOgreEQ2.Auth.AccessLevel}`
+
+The access level text the Ogre login reported for this account. If the login did not send one, it reads a fixed default value.
+
+**Returns:** string: the account's access level as text; a fixed default value when the login did not send one.
+
+```text
+echo ${ISXOgreEQ2.Auth.AccessLevel}
+```
+
+### `AccessLevelNum`
+
+`${ISXOgreEQ2.Auth.AccessLevelNum}`
+
+The account's access level as a number, as the Ogre login reported it. It reads -1 when the login sent no number.
+
+**Returns:** int: the account's access level number; -1 when the login sent no number.
+
+```text
+echo ${ISXOgreEQ2.Auth.AccessLevelNum}
+```
+
+### `Authorized`
+
+`${ISXOgreEQ2.Auth.Authorized}`
+
+Whether this session's Ogre login was accepted. In normal use it reads TRUE, because the extension does not stay loaded without an accepted login.
+
+**Returns:** bool: TRUE when this session's Ogre login was accepted; FALSE otherwise.
+
+```text
+echo ${ISXOgreEQ2.Auth.Authorized}
+```
+
+### `RelayGroup`
+
+`${ISXOgreEQ2.Auth.RelayGroup}`
+
+The relay group this session sends its relays to right now - ogre_everquest2 unless the Relay Groups tab sets another. It is the same value the bot's own relays use, so it follows a change on that tab at once.
+
+**Returns:** string: the current relay group name.
+
+```text
+echo ${ISXOgreEQ2.Auth.RelayGroup}
+```
+
+### `Username`
+
+`${ISXOgreEQ2.Auth.Username}`
+
+The Ogre account username this session logged in with. Empty when the login sent no username.
+
+**Returns:** string: the Ogre account username; empty when none was sent.
+
+```text
+echo ${ISXOgreEQ2.Auth.Username}
+```
+
+## Methods
+
+### `Spew`
+
+`ISXOgreEQ2.Auth:Spew`
+
+Prints one line to the console with this session's Ogre username, whether its login was accepted, its access level text and number, and the relay group it sends to.
+
+```text
+ISXOgreEQ2.Auth:Spew
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/AutoLogin.md
+
+# ISXOgreEQ2.AutoLogin
+
+## Methods
+
+### `Close`
+
+`ISXOgreEQ2.AutoLogin:Close`
+
+Closes the Auto-Login window if it is open. Nothing is saved or changed.
+
+```text
+ISXOgreEQ2.AutoLogin:Close
+```
+
+### `Open`
+
+`ISXOgreEQ2.AutoLogin:Open`
+
+Opens the in-game Auto-Login window, where you build auto-login profiles (which characters to log in from your saved logins) and start them. Does nothing if the window is already open, and prints a console error if the window's own files are missing.
+
+```text
+ISXOgreEQ2.AutoLogin:Open
+```
+
+### `Refresh`
+
+`ISXOgreEQ2.AutoLogin:Refresh`
+
+Re-reads the saved auto-login profiles and repaints the profile list in the Auto-Login window when the list has changed.
+
+```text
+ISXOgreEQ2.AutoLogin:Refresh
+```
+
+### `Toggle`
+
+`ISXOgreEQ2.AutoLogin:Toggle`
+
+Opens the Auto-Login window when it is closed and closes it when it is open.
+
+```text
+ISXOgreEQ2.AutoLogin:Toggle
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Chat.md
+
+# ISXOgreEQ2.Chat
+
+## Members
+
+### `Hits`
+
+`${ISXOgreEQ2.Chat.Hits}`
+
+Total times a filtered chat listener matched a line and ran, since the extension loaded. Listeners that receive every line are not counted here.
+
+**Returns:** int64: filtered-listener matches since the extension loaded
+
+```text
+echo ${ISXOgreEQ2.Chat.Hits}
+```
+
+### `Lines`
+
+`${ISXOgreEQ2.Chat.Lines}`
+
+Total lines handed to the extension's chat listeners since it loaded: every chat-channel line, game text line and announcement, injected lines included. A read-only counter that only goes up.
+
+**Returns:** int64: lines passed to the chat listeners since the extension loaded
+
+```text
+echo ${ISXOgreEQ2.Chat.Lines}
+```
+
+### `Matchers`
+
+`${ISXOgreEQ2.Chat.Matchers}`
+
+How many registered chat listeners are filtered - they run only when a line matches their pattern.
+
+**Returns:** int: current filtered listener count
+
+```text
+echo ${ISXOgreEQ2.Chat.Matchers}
+```
+
+### `RawSubs`
+
+`${ISXOgreEQ2.Chat.RawSubs}`
+
+How many registered chat listeners receive every line and do their own parsing.
+
+**Returns:** int: current every-line listener count
+
+```text
+echo ${ISXOgreEQ2.Chat.RawSubs}
+```
+
+### `SeenAnnounce`
+
+`${ISXOgreEQ2.Chat.SeenAnnounce}`
+
+Announcements received since the extension loaded (EQ2's announcement event).
+
+**Returns:** int64: announcements received since the extension loaded
+
+```text
+echo ${ISXOgreEQ2.Chat.SeenAnnounce}
+```
+
+### `SeenChat`
+
+`${ISXOgreEQ2.Chat.SeenChat}`
+
+Chat-channel lines received since the extension loaded (EQ2's incoming chat text event). Lines injected through OgreBotAPI.Comms:InjectChat are counted here too, once processed on the next pulse.
+
+**Returns:** int64: chat-channel lines received since the extension loaded
+
+```text
+echo ${ISXOgreEQ2.Chat.SeenChat}
+```
+
+### `SeenText`
+
+`${ISXOgreEQ2.Chat.SeenText}`
+
+Game text lines received since the extension loaded (EQ2's incoming text event: system messages, combat text and other text the game prints).
+
+**Returns:** int64: game text lines received since the extension loaded
+
+```text
+echo ${ISXOgreEQ2.Chat.SeenText}
+```
+
+### `Subscribers`
+
+`${ISXOgreEQ2.Chat.Subscribers}`
+
+How many chat listeners are registered inside the extension right now: the every-line listeners plus the filtered ones (RawSubs + Matchers).
+
+**Returns:** int: current listener count, RawSubs plus Matchers
+
+```text
+echo ${ISXOgreEQ2.Chat.Subscribers}
+```
+
+### `TellReceived`
+
+`${ISXOgreEQ2.Chat.TellReceived}`
+
+Tells addressed to you since the extension loaded. Each one also fires the OgreEvent_InGameTell event.
+
+**Returns:** int64: tells received since the extension loaded
+
+```text
+echo ${ISXOgreEQ2.Chat.TellReceived}
+```
+
+### `TellSent`
+
+`${ISXOgreEQ2.Chat.TellSent}`
+
+Tells you sent since the extension loaded. Each one also fires the OgreEvent_InGameTellSent event.
+
+**Returns:** int64: tells sent since the extension loaded
+
+```text
+echo ${ISXOgreEQ2.Chat.TellSent}
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/ChatCmd.md
+
+# ISXOgreEQ2.ChatCmd
+
+## Methods
+
+### `Debug`
+
+`ISXOgreEQ2.ChatCmd:Debug[state]`
+
+Turns the router's debug lines on or off. Anything but on, true or 1, or nothing, turns them off.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `state` | string |  | on, true or 1 turns it on. Optional: off when left out. |
+
+```text
+ISXOgreEQ2.ChatCmd:Debug[on]
+```
+
+### `Off`
+
+`ISXOgreEQ2.ChatCmd:Off`
+
+Turns chat commands off. The Broadcast guild talk box keeps working.
+
+```text
+ISXOgreEQ2.ChatCmd:Off
+```
+
+### `On`
+
+`ISXOgreEQ2.ChatCmd:On`
+
+Turns chat commands on: commands from your authorized characters are run.
+
+```text
+ISXOgreEQ2.ChatCmd:On
+```
+
+### `ReloadAuth`
+
+`ISXOgreEQ2.ChatCmd:ReloadAuth`
+
+Rebuilds the set of authorized characters from the accounts store and says how many names it holds.
+
+```text
+ISXOgreEQ2.ChatCmd:ReloadAuth
+```
+
+### `Status`
+
+`ISXOgreEQ2.ChatCmd:Status`
+
+Prints the router's state to the console: on or off, debug, the authorized names, and lines seen, dispatched and rejected.
+
+```text
+ISXOgreEQ2.ChatCmd:Status
+```
+
+### `Test`
+
+`ISXOgreEQ2.ChatCmd:Test[chattype,speaker,message]`
+
+A dry run: prints what would happen to a made-up chat line right now and runs nothing. With chat commands off it shows them off; with no chat type or speaker it prints one warning.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `chattype` | int |  | The chat type number. |
+| `speaker` | string |  | Who said it. |
+| `message` | string |  | What was said; every further argument joins it. Optional. |
+
+```text
+ISXOgreEQ2.ChatCmd:Test[16,Bob,"mount up"]
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Class.md
+
+# ISXOgreEQ2.Class
+
+## Members
+
+### `Archetype`
+
+`${ISXOgreEQ2.Class.Archetype}`
+
+The local character's archetype in lowercase: fighter, priest, mage or scout. It is read from the game the first time it is asked for once in world and refreshed on every zone load; it is empty before any character has been read, and a ChangeValue override does not change it (only Is does).
+
+**Returns:** string: fighter, priest, mage or scout; empty when no character has been read yet or the game's value is not recognised
+
+```text
+echo ${ISXOgreEQ2.Class.Archetype}
+```
+
+### `AscensionClass`
+
+`${ISXOgreEQ2.Class.AscensionClass}`
+
+The local character's ascension class: Thaumaturgist, Elementalist, Etherealist or Geomancer, in that capitalisation. Empty when the character has no ascension class or none of those names is found in the game's ascension label.
+
+**Returns:** string: Thaumaturgist, Elementalist, Etherealist or Geomancer; empty when none is found
+
+```text
+echo ${ISXOgreEQ2.Class.AscensionClass}
+```
+
+### `ClassTier`
+
+`${ISXOgreEQ2.Class.ClassTier}`
+
+The local character's class grouping, the level between archetype and subclass, in lowercase: warrior, crusader, brawler, cleric, druid, shaman, shaper, sorcerer, enchanter, summoner, bard, rogue, predator or animalist. Empty before any character has been read.
+
+**Returns:** string: the lowercase class grouping; empty when no character has been read yet or the game's value is not recognised
+
+```text
+echo ${ISXOgreEQ2.Class.ClassTier}
+```
+
+### `HasEpic2`
+
+`${ISXOgreEQ2.Class.HasEpic2}`
+
+TRUE for a ranger who owns the ranger epic 2.0 ability, FALSE otherwise. The buff is hidden and kept up, so owning it is taken to mean it is on.
+
+**Returns:** bool: TRUE when the character is a ranger who owns the epic 2.0 ability; FALSE otherwise
+
+```text
+echo ${ISXOgreEQ2.Class.HasEpic2}
+```
+
+### `Is`
+
+`${ISXOgreEQ2.Class.Is[name]}`
+
+TRUE when name matches the local character's archetype, class grouping or class, case-insensitive, with an optional leading Is ignored, so Is[Scout], Is[predator] and Is[IsRanger] all answer TRUE for a ranger. A value forced with ChangeValue for that name wins over the real class, and no argument returns FALSE.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `name` | string |  | An archetype, class grouping or class name, optionally prefixed with Is (fighter, crusader, paladin, IsPaladin) |
+
+**Returns:** bool: TRUE when the name matches the character (or a ChangeValue override for it is TRUE); FALSE otherwise or when no name is given
+
+```text
+echo ${ISXOgreEQ2.Class.Is[templar]}
+```
+
+### `OnBGServer`
+
+`${ISXOgreEQ2.Class.OnBGServer}`
+
+TRUE when the current server is the Battlegrounds server. The server name match is case-insensitive.
+
+**Returns:** bool: TRUE on Battlegrounds; FALSE on any other server or before the server has been read
+
+```text
+echo ${ISXOgreEQ2.Class.OnBGServer}
+```
+
+### `OnKaladimServer`
+
+`${ISXOgreEQ2.Class.OnKaladimServer}`
+
+TRUE when the current server is Kaladim. Kaladim also counts as TLE, so OnTLEServer is TRUE there too.
+
+**Returns:** bool: TRUE on Kaladim; FALSE on any other server or before the server has been read
+
+```text
+echo ${ISXOgreEQ2.Class.OnKaladimServer}
+```
+
+### `OnTLEServer`
+
+`${ISXOgreEQ2.Class.OnTLEServer}`
+
+TRUE when the current server is a Time Locked Expansion server: Kaladim, Varsoon, Fallen Gate, Stormhold, Deathtoll, Zarrakon or Wuoshi. The server is read with the class identity (first read and every zone load) and again by UpdateServer.
+
+**Returns:** bool: TRUE on one of the listed TLE servers; FALSE on any other server or before the server has been read
+
+```text
+echo ${ISXOgreEQ2.Class.OnTLEServer}
+```
+
+### `OnVarsoonServer`
+
+`${ISXOgreEQ2.Class.OnVarsoonServer}`
+
+TRUE when the current server is Varsoon. Varsoon also counts as TLE, so OnTLEServer is TRUE there too.
+
+**Returns:** bool: TRUE on Varsoon; FALSE on any other server or before the server has been read
+
+```text
+echo ${ISXOgreEQ2.Class.OnVarsoonServer}
+```
+
+### `Ruleset`
+
+`${ISXOgreEQ2.Class.Ruleset}`
+
+The current server's ruleset as one word: Battlegrounds, TLE or Live. Any server not on the TLE or Battlegrounds list answers Live, including before the server has been read.
+
+**Returns:** string: Battlegrounds, TLE or Live
+
+```text
+echo ${ISXOgreEQ2.Class.Ruleset}
+```
+
+### `Subclass`
+
+`${ISXOgreEQ2.Class.Subclass}`
+
+The local character's final class in lowercase, such as templar, ranger or shadowknight (one of the 26 classes). Empty before any character has been read.
+
+**Returns:** string: the lowercase class name; empty when no character has been read yet or the game's value is not recognised
+
+```text
+echo ${ISXOgreEQ2.Class.Subclass}
+```
+
+### `WaterBreathingAbility`
+
+`${ISXOgreEQ2.Class.WaterBreathingAbility}`
+
+The name of the group water-breathing ability the bot uses for the local character's class: Water Spirit for a mystic, Abominus for a defiler. Every other class, channeler included, answers empty.
+
+**Returns:** string: Water Spirit, Abominus, or empty for every other class
+
+```text
+echo ${ISXOgreEQ2.Class.WaterBreathingAbility}
+```
+
+## Methods
+
+### `ChangeValue`
+
+`ISXOgreEQ2.Class:ChangeValue[member,value]`
+
+Forces Is[member] to answer value for the local character, so ChangeValue[IsFighter,TRUE] makes a non-fighter run fighter logic, and auto removes the override so it reads what the game says again; it lasts across zones until set again or a different character is read. A missing argument, a member that is not an archetype, class or subclass, or a value that is not TRUE, FALSE or auto prints one line and stores nothing, the same line as OgreBotAPI.Roster:SetClassValue.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `member` | string |  | The class name to force, with or without a leading Is (IsFighter, fighter, IsTemplar): an archetype, class or subclass |
+| `value` | string |  | TRUE or FALSE (also 1/0, yes/no, on/off) to force it, or auto to remove the override |
+
+```text
+ISXOgreEQ2.Class:ChangeValue[IsFighter,TRUE]
+```
+
+### `Update`
+
+`ISXOgreEQ2.Class:Update`
+
+Re-reads the local character's name, class, ascension class and server from the game right away; out of world the read is held and happens on the first Class read once in world. ChangeValue overrides survive for the same character but are dropped when a different character is read, and a console line says so whenever the identity changes.
+
+```text
+ISXOgreEQ2.Class:Update
+```
+
+### `UpdateServer`
+
+`ISXOgreEQ2.Class:UpdateServer`
+
+Re-reads the server name now and resets OnTLEServer, OnKaladimServer, OnVarsoonServer, OnBGServer and Ruleset from it. Class values are not touched.
+
+```text
+ISXOgreEQ2.Class:UpdateServer
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Codex.md
+
+# ISXOgreEQ2.Codex
+
+## Methods
+
+### `End`
+
+`ISXOgreEQ2.Codex:End`
+
+Stops a running Codex inspect pass: drops the names still waiting, closes the inspect window and prints how many were not inspected - the same as ogre end codexinspect. Players already uploaded keep their cooldown; with no pass running it does nothing.
+
+```text
+ISXOgreEQ2.Codex:End
+```
+
+### `Inspect`
+
+`ISXOgreEQ2.Codex:Inspect[names,setting]`
+
+Queues the named players to be inspected one at a time, 3 s apart, each one an inspect request to the game server (a server request), and each uploaded to Codex as an active raid member - the same as ogre codexinspect. A name inspected in the last 5 minutes (by default) is skipped, reset clears the active raid roster on Codex, status (or ?) or no argument prints the status line, and the console says how many were queued.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `names` | string |  | a comma-separated list of player names, or reset, or status / ? |
+| `setting` | string | `""` | optional; leave it out |
+
+```text
+ISXOgreEQ2.Codex:Inspect[status]
+```
+
+### `Toon`
+
+`ISXOgreEQ2.Codex:Toon[word]`
+
+Inspects your own character and uploads its snapshot to Codex - the same as ogre codextoon: it sends the game an inspect request for you (a server request), then uploads over the web and prints the result when the upload answers. With status (or ?) it only prints the Codex status line, and it refuses with a message when Codex is not set up, you are not in the world, or an upload is already running.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `word` | string | `""` | status or ? prints the Codex status line instead of uploading; leave it out to upload |
+
+```text
+ISXOgreEQ2.Codex:Toon[status]
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Collection.md
+
+# ISXOgreEQ2.Collection
+
+## Members
+
+### `Running`
+
+`${ISXOgreEQ2.Collection.Running}`
+
+TRUE while an `ogre cm` collection run is in progress, from the depot or from your bags. Starting another while one runs is refused with a busy warning.
+
+**Returns:** bool: TRUE while a collection run is going; FALSE when idle.
+
+```text
+echo ${ISXOgreEQ2.Collection.Running}
+```
+
+### `Status`
+
+`${ISXOgreEQ2.Collection.Status}`
+
+Progress of the running collection run, or "idle". It is the same text `${ISXOgreEQ2.Collection}` returns.
+
+**Returns:** string: "idle", "cm (done/total, n added)" for a depot run or "cm -inventory (done/total, n added)" for a bag scan.
+
+```text
+echo ${ISXOgreEQ2.Collection.Status}
+```
+
+## Methods
+
+### `Run`
+
+`ISXOgreEQ2.Collection:Run[flags...]`
+
+The engine behind `ogre cm`: opens the collectible depot within 10 m, turns Hide Grey on, then withdraws each listed piece one at a time, examines it and clicks the quest journal's Add button; the final result line goes to OgreConsole prefixed with your name. With -inventory it scans your bags instead and MAKES A SERVER CALL PER ITEM (`.ToItemInfo.IsCollectible` and `.AlreadyCollected`, waiting up to 5 s for each item's info), so it is slow.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `flags...` | string |  | none = the nearest depot whose name contains Collectible Depot, else a Personal Collectible Stash; -small = exactly Collectible Depot; -large = exactly Collectible Depot (Large) (a named depot that is not found refuses the call); -inventory (also 1 or -1) scans your bags instead; unknown words are ignored |
+
+```text
+ISXOgreEQ2.Collection:Run[-large]
+```
+
+### `Stop`
+
+`ISXOgreEQ2.Collection:Stop`
+
+Stops a running collection run, closes the depot window if it is open and prints "cm: stopped.". Does nothing when idle.
+
+```text
+ISXOgreEQ2.Collection:Stop
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Commands.md
+
+# ISXOgreEQ2.Commands
+
+## Methods
+
+### `Close`
+
+`ISXOgreEQ2.Commands:Close`
+
+Closes the Commands window and drops any clicks it had not run yet.
+
+```text
+ISXOgreEQ2.Commands:Close
+```
+
+### `Open`
+
+`ISXOgreEQ2.Commands:Open`
+
+Opens the Commands window, which lists the ogre console commands with their usage and lets you run or end one with a click. If the window cannot open, a warning goes to the console.
+
+```text
+ISXOgreEQ2.Commands:Open
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Craft.md
+
+# ISXOgreEQ2.Craft
+
+## Members
+
+### `Crafted`
+
+`${ISXOgreEQ2.Craft.Crafted}`
+
+How many crafts the current queue has made: a writ or loop run crafts queue after queue, and this counts the one crafting now. Once nothing is running it reads the count from the last queue that ran, so a finished run does not drop to 0.
+
+**Returns:** int: crafts made so far in the current queue, or in the last queue once idle; 0 before any run.
+
+```text
+echo ${ISXOgreEQ2.Craft.Crafted}
+```
+
+### `CraftTotal`
+
+`${ISXOgreEQ2.Craft.CraftTotal}`
+
+How many crafts the current queue plans to make: a writ or loop run crafts queue after queue, so this is one queue's total, not the whole run's. Once nothing is running it reads the total of the last queue that ran.
+
+**Returns:** int: the planned craft count of the current queue, or of the last queue once idle; 0 before any run.
+
+```text
+echo ${ISXOgreEQ2.Craft.CraftTotal}
+```
+
+### `Details`
+
+`${ISXOgreEQ2.Craft.Details}`
+
+The whole crafting picture as one JSON string: running, paused, flow, stage, status, crafted, craftTotal, recipe, row, rows, lastError, and short (a list of name / need / have / fuel for what the latest resource count came up short on). recipe is "" and row / rows are 0 when no queue row is being crafted.
+
+**Returns:** string: a JSON object with the fields listed above.
+
+```text
+echo ${ISXOgreEQ2.Craft.Details}
+```
+
+### `Flow`
+
+`${ISXOgreEQ2.Craft.Flow}`
+
+Which crafting run is going: idle, queue, writs, autotinkering, lowlevelleveling or quest. It goes back to idle when the run finishes.
+
+**Returns:** string: "idle", "queue", "writs", "autotinkering", "lowlevelleveling" or "quest".
+
+```text
+echo ${ISXOgreEQ2.Craft.Flow}
+```
+
+### `IsReady`
+
+`${ISXOgreEQ2.Craft.IsReady}`
+
+Whether the crafting engine has started up, which happens on its first pulse after the extension loads. It does not mean the recipe book has been read - see ScanActive and QueueUpdated.
+
+**Returns:** bool: TRUE once the crafting engine has started; FALSE before that.
+
+```text
+echo ${ISXOgreEQ2.Craft.IsReady}
+```
+
+### `LastError`
+
+`${ISXOgreEQ2.Craft.LastError}`
+
+The last refusal or failure the crafting engine reported, the same line the panel shows in red. It is cleared only when a run passes its start checks.
+
+**Returns:** string: the last error or refusal text; "" when there has been none since the last good start.
+
+```text
+echo ${ISXOgreEQ2.Craft.LastError}
+```
+
+### `LastScribedRecipeId`
+
+`${ISXOgreEQ2.Craft.LastScribedRecipeId}`
+
+The recipe id of the recipe you scribed most recently, by this engine or by hand, filled in when the recipe book is read again after the game's "put in recipe book" message, so it lags the name briefly. If that name is not found in the re-read book the id keeps the previous recipe's, so it can disagree with LastScribedRecipeName.
+
+**Returns:** int64: the last scribed recipe's id; 0 when none has been seen since the extension loaded.
+
+```text
+echo ${ISXOgreEQ2.Craft.LastScribedRecipeId}
+```
+
+### `LastScribedRecipeName`
+
+`${ISXOgreEQ2.Craft.LastScribedRecipeName}`
+
+The name of the recipe you scribed most recently, by this engine or by hand, taken from the game's "put in recipe book" message.
+
+**Returns:** string: the last scribed recipe's name; "" when none has been seen since the extension loaded.
+
+```text
+echo ${ISXOgreEQ2.Craft.LastScribedRecipeName}
+```
+
+### `Lite`
+
+`${ISXOgreEQ2.Craft.Lite}`
+
+Whether craft lite is on - the reaction engine that casts the crafting reaction arts during a craft, also for crafts you start by hand. Opening the panel or starting any run turns it on.
+
+**Returns:** bool: TRUE when craft lite (crafting reactions) is on; FALSE when it is off.
+
+```text
+echo ${ISXOgreEQ2.Craft.Lite}
+```
+
+### `MissingResources`
+
+`${ISXOgreEQ2.Craft.MissingResources}`
+
+Whether the latest queue's resource count came up short of something it needs. It stays set after the run ends and resets when the next count starts; Details lists what is short.
+
+**Returns:** bool: TRUE when the latest resource count was short; FALSE before any count and when nothing was short.
+
+```text
+echo ${ISXOgreEQ2.Craft.MissingResources}
+```
+
+### `NavigationDetails`
+
+`${ISXOgreEQ2.Craft.NavigationDetails}`
+
+The most recent navigation request as a JSON string, the same payload OgreCraft_NavigationRequired passes: requestID, action, category, key, displayName, customNamedPoint, precision, zone, characterName, targetFound, and targetID / targetName / targetX / targetY / targetZ / targetDistance when the target was found. It keeps the last request after it is answered and is "" before the first one.
+
+**Returns:** string: the last navigation request's JSON; "" when no request has been made since the extension loaded.
+
+```text
+echo ${ISXOgreEQ2.Craft.NavigationDetails}
+```
+
+### `Paused`
+
+`${ISXOgreEQ2.Craft.Paused}`
+
+Whether the crafting pause is on. A pause turned on with no run going still reads TRUE but holds nothing, and the next start clears it.
+
+**Returns:** bool: TRUE when the crafting pause is on; FALSE otherwise.
+
+```text
+echo ${ISXOgreEQ2.Craft.Paused}
+```
+
+### `QueueUpdated`
+
+`${ISXOgreEQ2.Craft.QueueUpdated}`
+
+Whether every recipe add and queue load you asked for has landed in the setup queue. An add or load asked while the recipe book is still being read waits for the read, and this is FALSE until it lands.
+
+**Returns:** bool: TRUE when no add or queue load is waiting for the recipe book; FALSE while one waits.
+
+```text
+echo ${ISXOgreEQ2.Craft.QueueUpdated}
+```
+
+### `Recipes`
+
+`${ISXOgreEQ2.Craft.Recipes}`
+
+How many recipes the engine has indexed from your recipe book. It is 0 until the book has been read; a read starts on its own when the panel opens, craft lite turns on, a run starts or you scribe a recipe, or on Scan.
+
+**Returns:** int: the number of recipes indexed by the last recipe-book read; 0 before the first read.
+
+```text
+echo ${ISXOgreEQ2.Craft.Recipes}
+```
+
+### `RecipesInQueue`
+
+`${ISXOgreEQ2.Craft.RecipesInQueue}`
+
+How many recipe rows are in the setup queue (the queue Start crafts). It counts rows, not the quantity to craft.
+
+**Returns:** int: the number of rows in the setup queue; 0 when it is empty.
+
+```text
+echo ${ISXOgreEQ2.Craft.RecipesInQueue}
+```
+
+### `Running`
+
+`${ISXOgreEQ2.Craft.Running}`
+
+Whether a crafting run is going: a setup-queue run, writs, auto tinkering, low level leveling or quest crafting. A paused run still counts as running.
+
+**Returns:** bool: TRUE while any crafting run is going (paused or not); FALSE when crafting is idle.
+
+```text
+echo ${ISXOgreEQ2.Craft.Running}
+```
+
+### `ScanActive`
+
+`${ISXOgreEQ2.Craft.ScanActive}`
+
+Whether the engine is reading your recipe book right now. Runs wait for the read to finish before they resolve any recipe.
+
+**Returns:** bool: TRUE while the recipe book is being read; FALSE otherwise.
+
+```text
+echo ${ISXOgreEQ2.Craft.ScanActive}
+```
+
+### `Setting`
+
+`${ISXOgreEQ2.Craft.Setting[id]}`
+
+One crafting panel setting, read by its id, as the raw stored text. An id that has never been saved returns "" (the built-in default is not filled in), and a call with no id returns NULL.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `id` | string |  | The panel setting id, such as slider_craft_writcount or checkbox_craft_useevents. |
+
+**Returns:** string: the stored value of that setting; "" when it is not set.
+
+```text
+echo ${ISXOgreEQ2.Craft.Setting[slider_craft_writcount]}
+```
+
+### `Stage`
+
+`${ISXOgreEQ2.Craft.Stage}`
+
+One word for what crafting is doing right now, such as countingResources, findingStation, walking, crafting, findingWrit, turningIn, buyingBooks or disposing. It reads idle when nothing is running.
+
+**Returns:** string: the current stage word; "idle" when no run is going.
+
+```text
+echo ${ISXOgreEQ2.Craft.Stage}
+```
+
+### `Status`
+
+`${ISXOgreEQ2.Craft.Status}`
+
+The crafting engine's status line, the same text the panel shows, such as "idle", "crafting &lt;recipe>", "scanning recipes", "paused" or "waiting for your navigation script (...)". A refused start does not change it - the reason is in LastError.
+
+**Returns:** string: the current status text; "idle" when nothing is running.
+
+```text
+echo ${ISXOgreEQ2.Craft.Status}
+```
+
+### `WaitingForNavigation`
+
+`${ISXOgreEQ2.Craft.WaitingForNavigation}`
+
+Whether the crafting engine is waiting for your script to move the character, after it fired OgreCraft_NavigationRequired. This happens only with the "use events" setting (checkbox_craft_useevents) on; the wait has no time limit and Stop ends it.
+
+**Returns:** bool: TRUE while a navigation request is waiting for CompleteNavigation or DeferNavigation; FALSE otherwise.
+
+```text
+echo ${ISXOgreEQ2.Craft.WaitingForNavigation}
+```
+
+## Methods
+
+### `AddLastScribedRecipe`
+
+`ISXOgreEQ2.Craft:AddLastScribedRecipe[qty]`
+
+Adds the recipe you last scribed this session (by the bot or by hand) to the craft setup queue, waiting for the recipe book to be read first when needed. With nothing scribed yet it prints a warning and adds nothing; it is the same as OgreBotAPI.Craft:AddLastScribedRecipe.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `qty` | int |  | How many to craft; left out, 0 or less it is 1. |
+
+```text
+ISXOgreEQ2.Craft:AddLastScribedRecipe[2]
+```
+
+### `AddRecipe`
+
+`ISXOgreEQ2.Craft:AddRecipe[nameOrID|lastknownrecipe, qty]`
+
+Adds a recipe to the craft setup queue by full name, by part of a name that matches only one recipe (4 letters or more), by recipe ID, or lastknownrecipe for the recipe last scribed this session; a recipe already queued gets the quantity added. A recipe not in your book prints a warning and adds nothing, an add made before the book is read waits for it, and this is OgreBotAPI.Craft:AddRecipe without the for-who.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `nameOrID\|lastknownrecipe` | string |  | The recipe name, its ID (plain digits), or lastknownrecipe. A name may also be passed as several arguments; they are joined with spaces. |
+| `qty` | int |  | How many to craft. Read only when it is the last of two or more arguments and a whole number; left out it is 1, and 0 or less becomes 1. |
+
+```text
+ISXOgreEQ2.Craft:AddRecipe["Tempered Iron",2]
+```
+
+### `AddRecipeListFromFile`
+
+`ISXOgreEQ2.Craft:AddRecipeListFromFile[file]`
+
+Adds the recipes of one of your saved craft queues to the setup queue (the panel's Load Queue replaces it instead), warning about any recipe not in this character's book. The name is a queue in your queues folder, any path is cut off and a .json or .xml ending dropped, a missing name or file prints a warning, and a queue that needs the recipe book waits for the book to be read.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `file` | string |  | The saved queue's name, with or without .json, as saved from the craft panel; a folder in front of it is ignored. |
+
+```text
+ISXOgreEQ2.Craft:AddRecipeListFromFile["MyQueue.json"]
+```
+
+### `BuyAllTinkeringRecipes`
+
+`ISXOgreEQ2.Craft:BuyAllTinkeringRecipes[]`
+
+Buys every tinkering recipe book you do not already know or carry from Fizza Cogsworth, then scribes the ones your skill allows when the Scribe recipes setting is on. It is refused unless you carry at least 3 platinum, are in Steamfont Mountains and are within 10 meters of her, and also while a crafting flow or merchant errand is running (the same as OgreBotAPI.Craft:BuyAllTinkeringRecipes).
+
+```text
+ISXOgreEQ2.Craft:BuyAllTinkeringRecipes
+```
+
+### `Catalog`
+
+`ISXOgreEQ2.Craft:Catalog[]`
+
+Prints how much the craft data files loaded: devices, universal devices, merchant types, recipe book series, conversions and partial conversions. The files are loaded first if they were not yet.
+
+```text
+ISXOgreEQ2.Craft:Catalog
+```
+
+### `Clear`
+
+`ISXOgreEQ2.Craft:Clear[]`
+
+Empties the craft setup queue, whether or not a flow is running, and prints setup queue cleared. Each row it drops fires OgreCraft_RecipeQueueUpdated as a removed row, as a remove does.
+
+```text
+ISXOgreEQ2.Craft:Clear
+```
+
+### `CompleteNavigation`
+
+`ISXOgreEQ2.Craft:CompleteNavigation[]`
+
+Answers craft's OgreCraft_NavigationRequired event (sent only when the craft setting to use events for movement is on) to say your script has moved the character; craft then takes the nearest station or NPC of the same name within 100 m and checks the distance again. If no request is waiting it prints a warning, and it is the same as OgreBotAPI.Craft:CompleteNavigation.
+
+```text
+ISXOgreEQ2.Craft:CompleteNavigation
+```
+
+### `DeferNavigation`
+
+`ISXOgreEQ2.Craft:DeferNavigation[]`
+
+Answers craft's OgreCraft_NavigationRequired event to say your script will not move the character, so craft walks there with its own movement. If no request is waiting it prints a warning, and it is the same as OgreBotAPI.Craft:DeferNavigation.
+
+```text
+ISXOgreEQ2.Craft:DeferNavigation
+```
+
+### `End`
+
+`ISXOgreEQ2.Craft:End[]`
+
+Closes the craft window and ends all of crafting: the running flow, craft's own movement, a merchant errand, a summoned station, and craft lite. It is the same as ogre end craft and the window's X; use Stop to stop a run and keep the window.
+
+```text
+ISXOgreEQ2.Craft:End
+```
+
+### `Help`
+
+`ISXOgreEQ2.Craft:Help[]`
+
+Prints the ogre craft console words and their arguments to the console. It changes nothing.
+
+```text
+ISXOgreEQ2.Craft:Help
+```
+
+### `Lite`
+
+`ISXOgreEQ2.Craft:Lite`
+
+Turns craft lite on, so the crafting reactions are cast for you during crafting rounds, and prints a console line when the state changes; turned on in the world with the recipe book not yet read, it also starts reading the book unless the "Do NOT load recipes on startup" setting is ticked. Opening the panel and starting any crafting flow turn it on as well.
+
+```text
+ISXOgreEQ2.Craft:Lite
+```
+
+### `LiteOff`
+
+`ISXOgreEQ2.Craft:LiteOff`
+
+Turns craft lite off, so no crafting reactions are cast, drops any reaction waiting to be cast, and prints a console line when the state changes. Starting any crafting flow turns it back on.
+
+```text
+ISXOgreEQ2.Craft:LiteOff
+```
+
+### `Minimize`
+
+`ISXOgreEQ2.Craft:Minimize[]`
+
+Rolls the craft window up to its header while crafting carries on; Open brings it back. With the window not open it does nothing.
+
+```text
+ISXOgreEQ2.Craft:Minimize
+```
+
+### `Open`
+
+`ISXOgreEQ2.Craft:Open`
+
+Opens the crafting panel, or brings back a minimized one, and turns craft lite on - the same as a bare `ogre craft`. A panel that cannot open prints why and leaves craft as it was, and with the "Do NOT load recipes on startup" setting ticked an unread recipe book stays unread.
+
+```text
+ISXOgreEQ2.Craft:Open
+```
+
+### `Pause`
+
+`ISXOgreEQ2.Craft:Pause[on|off]`
+
+Pauses or resumes crafting: off resumes, and on, any other word or no argument pauses. A craft already begun finishes and nothing new starts while paused, and a pause made with no flow running is dropped when the next flow starts.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `on\|off` | string | `on` | off resumes; on, any other word, or nothing pauses. |
+
+```text
+ISXOgreEQ2.Craft:Pause[on]
+```
+
+### `Queue`
+
+`ISXOgreEQ2.Craft:Queue[]`
+
+Prints each row of the craft setup queue to the console as quantity, recipe name and recipe ID, or setup queue is empty. It changes nothing.
+
+```text
+ISXOgreEQ2.Craft:Queue
+```
+
+### `Reload`
+
+`ISXOgreEQ2.Craft:Reload`
+
+Writes any setting changed in the last second, then reloads the craft settings from disk and the craft data files (devices, merchants, recipe books and reaction arts), printing what the data files loaded.
+
+```text
+ISXOgreEQ2.Craft:Reload
+```
+
+### `Save`
+
+`ISXOgreEQ2.Craft:Save`
+
+Writes changed craft settings to disk now instead of waiting for the automatic save, and prints settings saved or settings NOT saved (saved also when nothing had changed and nothing was written). It refuses to write over a settings file that could not be read.
+
+```text
+ISXOgreEQ2.Craft:Save
+```
+
+### `Scan`
+
+`ISXOgreEQ2.Craft:Scan`
+
+Re-reads your recipe book from the start, opening the book so the client lists every recipe, and restarts a scan already in progress. Out of the world it does nothing and prints nothing.
+
+```text
+ISXOgreEQ2.Craft:Scan
+```
+
+### `ScribeRecipe`
+
+`ISXOgreEQ2.Craft:ScribeRecipe[name|all=all]`
+
+Scribes recipe scrolls from your bags one at a time, then opens and closes the tradeskill book so the new recipes are listed. A name scribes only scrolls whose full item name matches it in any case (a name with a comma arrives whole), nothing matching prints a line, and a call while scribing adds the new scrolls to the run (the same as OgreBotAPI.Craft:ScribeRecipe).
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `name\|all` | string | `all` | The scroll's full item name in any case, or all for every scribeable scroll in your bags. Left empty it scribes all. |
+
+```text
+ISXOgreEQ2.Craft:ScribeRecipe[all]
+```
+
+### `Set`
+
+`ISXOgreEQ2.Craft:Set[key,value]`
+
+Changes one craft setting by its key and prints the new value; it is saved by itself about a second later. Both arguments are required, and a key that is not a craft setting (any case is accepted) prints a warning and saves nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `key` | string |  | The setting's key, the panel control's id such as checkbox_craft_scriberecipes. |
+| `value` | string |  | The new value, stored as given (TRUE or FALSE for a checkbox). |
+
+```text
+ISXOgreEQ2.Craft:Set[checkbox_craft_scriberecipes,TRUE]
+```
+
+### `Start`
+
+`ISXOgreEQ2.Craft:Start`
+
+Starts crafting the setup queue, the same as `ogre craft start` and OgreBotAPI.Craft:Start (without the for-who). It is refused with a console line and LastError when you are not in the world, a run is already going, or the setup queue is empty, and a refused start changes nothing.
+
+```text
+ISXOgreEQ2.Craft:Start
+```
+
+### `StartLLL`
+
+`ISXOgreEQ2.Craft:StartLLL`
+
+Starts low level leveling, a loop that crafts low-level recipes round after round and stops when your tradeskill level is 9, or 19 or higher - the same as `ogre craft lll` and OgreBotAPI.Craft:StartLLL. It is refused when you are not in the world or a run is already going.
+
+```text
+ISXOgreEQ2.Craft:StartLLL
+```
+
+### `StartQuest`
+
+`ISXOgreEQ2.Craft:StartQuest[]`
+
+Crafts the recipe steps of the quest selected in your journal, one of each per pass, until no craftable step is left; it keeps to that quest even if you select another one mid-run. It is refused when no quest is selected, a crafting flow is already running, or you are not in the world, and is the same as OgreBotAPI.Craft:StartQuest.
+
+```text
+ISXOgreEQ2.Craft:StartQuest
+```
+
+### `StartTinker`
+
+`ISXOgreEQ2.Craft:StartTinker`
+
+Starts auto tinkering, a loop that crafts tinkering recipes round after round and ends when you have no tinkering skill or it is at its maximum - the same as `ogre craft tinker` and OgreBotAPI.Craft:StartTinker. It is refused when you are not in the world or a run is already going.
+
+```text
+ISXOgreEQ2.Craft:StartTinker
+```
+
+### `StartWrits`
+
+`ISXOgreEQ2.Craft:StartWrits`
+
+Starts a writs (rush order) run for as many writs as the writ count setting (default 10), the same as `ogre craft writs` and OgreBotAPI.Craft:StartWrits. It is refused below tradeskill level 20, when you are not in the world, or when a run is already going.
+
+```text
+ISXOgreEQ2.Craft:StartWrits
+```
+
+### `Status`
+
+`ISXOgreEQ2.Craft:Status[]`
+
+Prints the crafting state to the console: craft lite on or off, the flow, the status text, crafted of total, the number of recipes read from your book, and the last error when there is one. It changes nothing.
+
+```text
+ISXOgreEQ2.Craft:Status
+```
+
+### `Stop`
+
+`ISXOgreEQ2.Craft:Stop`
+
+Stops the running crafting run and drops a pause, printing "craft: stopping (Craft:Stop)." to the console, while the panel stays open (End closes it). With no run going it drops a pause and prints that nothing is running, the same as `ogre craft stop`.
+
+```text
+ISXOgreEQ2.Craft:Stop
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/CraftGm.md
+
+# ISXOgreEQ2.CraftGm
+
+## Methods
+
+### `Close`
+
+`ISXOgreEQ2.CraftGm:Close`
+
+The same as :End: closing this window never leaves a run going. It takes no arguments.
+
+```text
+ISXOgreEQ2.CraftGm:Close
+```
+
+### `End`
+
+`ISXOgreEQ2.CraftGm:End`
+
+Stops a run and closes the window, the same as `ogre end craftgm` and the window's X. It takes no arguments.
+
+```text
+ISXOgreEQ2.CraftGm:End
+```
+
+### `Open`
+
+`ISXOgreEQ2.CraftGm:Open[words]`
+
+Opens the Craft Grandmasters window and does nothing else, the same as bare `ogre craftgm`. A word it cannot read prints why and the usage, and nothing changes.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `words` | string |  | A level range such as 131-135 or all, to seed the boxes, and depot or nodepot for the Scroll Depot box, one argument each. Optional. |
+
+```text
+ISXOgreEQ2.CraftGm:Open
+```
+
+### `Queue`
+
+`ISXOgreEQ2.CraftGm:Queue[words]`
+
+Opens the window, seeds it the same way, scans, then replaces the Ogre Craft queue with the Grandmaster recipes and stops - nothing is crafted, the Scroll Depot is never used, and the Craft window opens on the queue.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `words` | string |  | A level range, one argument. Optional. depot is refused: Queue never pulls from the Scroll Depot. |
+
+```text
+ISXOgreEQ2.CraftGm:Queue[131-135]
+```
+
+### `Scan`
+
+`ISXOgreEQ2.CraftGm:Scan[words]`
+
+Opens the window, seeds it the same way, and scans. It queues nothing and crafts nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `words` | string |  | A level range and depot or nodepot, one argument each. Optional. |
+
+```text
+ISXOgreEQ2.CraftGm:Scan[131-135,depot]
+```
+
+### `Start`
+
+`ISXOgreEQ2.CraftGm:Start[words]`
+
+Opens the window, seeds it the same way, then scans, queues and crafts.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `words` | string |  | A level range and depot or nodepot, one argument each. Optional. |
+
+```text
+ISXOgreEQ2.CraftGm:Start[all,nodepot]
+```
+
+### `Status`
+
+`ISXOgreEQ2.CraftGm:Status`
+
+Prints the state, filter, queue and Scroll Depot counters to the console. It takes no arguments.
+
+```text
+ISXOgreEQ2.CraftGm:Status
+```
+
+### `Stop`
+
+`ISXOgreEQ2.CraftGm:Stop`
+
+Stops a run and leaves the window as it is, so you can see what happened. It takes no arguments.
+
+```text
+ISXOgreEQ2.CraftGm:Stop
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/CraftingMats.md
+
+# ISXOgreEQ2.CraftingMats
+
+## Members
+
+### `Keys`
+
+`${ISXOgreEQ2.CraftingMats.Keys}`
+
+The keys of the loaded lists, comma separated - each key is also the flag that picks that list in Get and Plan (the shipped ones are cd, ka, mm, pop and vov). Re-reads the list files first if any changed on disk.
+
+**Returns:** string: the loaded list keys joined with ", "; "" when none loaded
+
+```text
+echo ${ISXOgreEQ2.CraftingMats.Keys}
+```
+
+### `Lists`
+
+`${ISXOgreEQ2.CraftingMats.Lists}`
+
+How many crafting-mats lists are loaded: the shipped ones plus your own from OgreSave/EQ2/CraftingMats/custom. Reading it first re-reads the list files if any changed on disk; any load warnings are in Warnings, and Get, Plan and Reload print them.
+
+**Returns:** int: number of loaded lists; 0 when no list files were found
+
+```text
+echo ${ISXOgreEQ2.CraftingMats.Lists}
+```
+
+### `Warnings`
+
+`${ISXOgreEQ2.CraftingMats.Warnings}`
+
+The warnings the last load of the list files produced, such as an unreadable file; Get, Plan and Reload also print them each time they run. Re-reads the list files first if any changed on disk.
+
+**Returns:** string: the warnings joined with " \| "; "" when the load was clean
+
+```text
+echo ${ISXOgreEQ2.CraftingMats.Warnings}
+```
+
+## Methods
+
+### `End`
+
+`ISXOgreEQ2.CraftingMats:End`
+
+Stops a depot withdraw that a crafting-mats run started (only that one) and closes the editor window; unsaved edits are kept for the next Open. This is what `ogre end craftingmats` and the window's X do.
+
+```text
+ISXOgreEQ2.CraftingMats:End
+```
+
+### `Get`
+
+`ISXOgreEQ2.CraftingMats:Get[flags...]`
+
+Works out the mats for the chosen lists and categories, prints any list-file warnings and the plan, then starts pulling them from the Harvesting Supply Depot and buying any fuel at the Guild Fuel Merchant on the pulse after the call returns (the same as `ogre craftingmats -<flags>`). No flags pulls the Visions of Vetrovia signature line; nothing is pulled when not in world, when another depot errand is running, or when only unknown words were given, and the run stops if no depot is within 11 of you.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `flags...` | string |  | Any mix, dash optional, any case: a list key (-vov, -cd, -mm, -pop, -ka or your own list's key), -sig / -s, -daily / -d, -weekly / -w, -plan to print only, help. A list with no category uses its own signature line (daily + weekly for Kunark's Ascending), a category with no list uses Visions of Vetrovia, and unknown words are ignored with one warning. |
+
+```text
+ISXOgreEQ2.CraftingMats:Get[-vov,-daily,-weekly]
+```
+
+### `Help`
+
+`ISXOgreEQ2.CraftingMats:Help`
+
+Prints the `ogre craftingmats` usage to the console: the list and category flags, the defaults, the script calls and where to put your own lists so updates never overwrite them.
+
+```text
+ISXOgreEQ2.CraftingMats:Help
+```
+
+### `Open`
+
+`ISXOgreEQ2.CraftingMats:Open`
+
+Opens the Crafting Mats list editor window, where you change a list and save it to your own custom file (the same as bare `ogre craftingmats`). Calling it while the window is open changes nothing, and without the Ogre UI desktop it prints a warning instead.
+
+```text
+ISXOgreEQ2.CraftingMats:Open
+```
+
+### `Plan`
+
+`ISXOgreEQ2.CraftingMats:Plan[flags...]`
+
+Prints any list-file warnings and the shopping list Get would use - the mats to pull from the depot and the fuel to buy - and touches neither the depot nor the merchant. Takes the same flags as Get; no flags plans the Visions of Vetrovia signature line.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `flags...` | string |  | Any mix, dash optional, any case: a list key (-vov, -cd, -mm, -pop, -ka or your own list's key), -sig / -s, -daily / -d, -weekly / -w, -plan to print only, help. A list with no category uses its own signature line (daily + weekly for Kunark's Ascending), a category with no list uses Visions of Vetrovia, and unknown words are ignored with one warning. |
+
+```text
+ISXOgreEQ2.CraftingMats:Plan[-ka]
+```
+
+### `Reload`
+
+`ISXOgreEQ2.CraftingMats:Reload`
+
+Re-reads every list file from disk now, prints any warnings the load produced, then "craftingmats: reloaded -" with the list count and keys. Rarely needed: the lists are re-read by themselves whenever a list file changes.
+
+```text
+ISXOgreEQ2.CraftingMats:Reload
+```

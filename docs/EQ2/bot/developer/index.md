@@ -18,7 +18,9 @@ with `lstype`. The two you will use most are `ISXOgreEQ2` and `OgreBotAPI`.
   shows how a zone file is laid out, every step it can use, and how to check it.
 - **Want a window of your own in game?** [Build your own window](build-your-own-window.md) shows how a script
   or an extension opens one, reads and changes what is in it, and reacts to clicks.
-- **Looking up one name?** [Coming from Classic](coming-from-classic/index.md) lists Classic's API
+- **Want to know what a member, method or command does?** The [API reference](api/index.md) lists every
+  one a script can use, with its arguments and an example.
+- **Looking up a Classic name?** [Coming from Classic](coming-from-classic/index.md) lists Classic's API
   calls, objects, events and console commands, and what each one is in the new bot.
 
 > **:bulb: Using Claude (or another AI assistant)?**

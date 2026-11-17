@@ -1,0 +1,2482 @@
+# OgreBot for EverQuest II - documentation, Developers (part 5 of 13)
+
+OgreBot is in beta testing. For OgreBot Classic see https://kannkor.github.io/ISXOgre/EQ2/
+This file is ONE PIECE of the documentation: Developers (part 5 of 13) - Developers - API reference - OgreBotAPI.
+The entire documentation in one document: https://kannkor.github.io/ISXOgre/EQ2/bot/llms-full.txt
+Index of every page and of every file like this one: https://kannkor.github.io/ISXOgre/EQ2/bot/llms.txt
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Cures.md
+
+# OgreBotAPI.Cures
+
+## Members
+
+### `CurseCalled`
+
+`${OgreBotAPI.Cures.CurseCalled[victim]}`
+
+TRUE while a cure-curse call is open for that character, made by RequestCurse or by Request with kind curse. With no argument it asks about you, and any asks whether a call is open for anyone.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `victim` | character name |  | who to ask about; blank means you; any means anyone |
+
+**Returns:** bool: TRUE while a cure-curse call is open (a call lasts at most 8 seconds); FALSE otherwise, and FALSE out of world when no name is given.
+
+```text
+echo ${OgreBotAPI.Cures.CurseCalled[${Group[1].Name}]}
+```
+
+*Was (OldBot):* `Obj_CureCurseCalled.CastCureCurse`
+
+### `CursedID`
+
+`${OgreBotAPI.Cures.CursedID[-archetype X...,-uncurable,-uncurableonly,-GroupOnly]}`
+
+The actor ID of the first cursed member found, searching the raid when you are in one and otherwise the group with you first. By default only curable curses count; 0 when nobody matches.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `-archetype X...` | flag + word |  | only members of this archetype: fighter, priest, mage or scout, any case. Repeat the switch to allow more than one archetype. |
+| `-uncurable` | flag |  | also accept a member whose curse cannot be cured |
+| `-uncurableonly` | flag |  | accept only a member whose curse cannot be cured |
+| `-GroupOnly` | flag |  | search your group even when you are in a raid |
+
+**Returns:** int64: the actor ID of the first matching member; 0 when nobody matches.
+
+```text
+echo ${OgreBotAPI.Cures.CursedID[-archetype,priest,-uncurable]}
+```
+
+*Was (OldBot):* `Obj_CureCurseCalled.GetID_CursedMember`, `Obj_CureCurseCalled.GetID_GroupCursedMember`, `Obj_CureCurseCalled.GetID_RaidCursedMember`
+
+### `Detrimental`
+
+`${OgreBotAPI.Cures.Detrimental[main,back,actorId,field]}`
+
+One field of a detrimental, found by its main and backdrop icon IDs, on you or another actor, as a number. The default field, exists, reads 1 or 0; a detrimental that is not there reads 0.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `main` | int | `0` | the detrimental's main icon ID |
+| `back` | int | `0` | the detrimental's backdrop icon ID |
+| `actorId` | int64 | `0` | whose effects to look at: 0 or your own ID is you. Any other actor ID reads only that actor's first 10 effects, and there duration and maxduration always read 0. |
+| `field` | text | `exists` | exists, iseffectinfoavailable, id, mainiconid, backdropiconid, currentincrements, duration or maxduration, any case. Any other word is read from the effect's examine info, and text such as Name reads 0 here - use DetrimentalText. cancel removes the detrimental from you and reads 0. |
+
+**Returns:** float: the field's value; exists reads 1 or 0; 0 when the detrimental is not found or the field is text.
+
+```text
+echo ${OgreBotAPI.Cures.Detrimental[279,315,${Target.ID},exists]}
+```
+
+*Was (OldBot):* `GetInfoOb.CurrentIncrements`, `GetInfoOb.CurrentIncrements_ref`, `GetInfoOb.DetrimentalInfo`
+
+### `DetrimentalText`
+
+`${OgreBotAPI.Cures.DetrimentalText[main,back,actorId,field]}`
+
+The same read as Detrimental, returned as text, so examine-info fields such as Name and Description can be read. Reads "" when the detrimental is not found.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `main` | int | `0` | the detrimental's main icon ID |
+| `back` | int | `0` | the detrimental's backdrop icon ID |
+| `actorId` | int64 | `0` | whose effects to look at: 0 or your own ID is you. Any other actor ID reads only that actor's first 10 effects, and there duration and maxduration always read 0. |
+| `field` | text | `exists` | exists (1 or 0), iseffectinfoavailable, id, mainiconid, backdropiconid, currentincrements, duration, maxduration, or an examine-info field such as Name or Description. Examine-info text can be empty on the first read, so wait for iseffectinfoavailable to read 1. cancel removes the detrimental from you and reads "". |
+
+**Returns:** string: the field's value; "" when the detrimental is not found.
+
+```text
+echo ${OgreBotAPI.Cures.DetrimentalText[279,315,0,exists]}
+```
+
+*Was (OldBot):* `GetInfoOb.DottedDescription_ref`, `GetInfoOb.DottedName_ref`, `OgreBotAPI.DetrimentalInfo_String`
+
+### `GroupCurses`
+
+`${OgreBotAPI.Cures.GroupCurses}`
+
+How many living group members, you included, have a curse that can be cured. Uncurable curses are not counted here - GroupUncurable counts those.
+
+**Returns:** int: the number of living group members with a curable curse; 0 when nobody has one.
+
+```text
+echo ${OgreBotAPI.Cures.GroupCurses}
+```
+
+*Was (OldBot):* `GetInfoOb.CursesInGroup`, `GroupCureOb.NumOfPCsCursed`, `Obj_CureCurseCalled.GroupCurseCount`
+
+### `GroupUncurable`
+
+`${OgreBotAPI.Cures.GroupUncurable}`
+
+How many group members, you included, carry a curse that cannot be cured. Curable curses are not counted.
+
+**Returns:** int: the number of group members with an uncurable curse; 0 when nobody has one.
+
+```text
+echo ${OgreBotAPI.Cures.GroupUncurable}
+```
+
+*Was (OldBot):* `OgreBotAPI.Get_GroupUncurableCurseCount`
+
+### `GroupUncurableIDs`
+
+`${OgreBotAPI.Cures.GroupUncurableIDs}`
+
+The actor IDs of the group members, you included, who carry an uncurable curse, as a JSON array sorted lowest first. Reads [] when there are none.
+
+**Returns:** string: a JSON array of actor IDs, for example [1234,5678]; [] when nobody has an uncurable curse.
+
+```text
+echo ${OgreBotAPI.Cures.GroupUncurableIDs}
+```
+
+*Was (OldBot):* `OgreBotAPI.Get_GroupUncurableCurses_JSON`
+
+### `HaveSickness`
+
+`${OgreBotAPI.Cures.HaveSickness}`
+
+TRUE while you have revive sickness (the detrimental with main icon 279 and backdrop icon 315). FALSE out of world.
+
+**Returns:** bool: TRUE when you have revive sickness; FALSE when you do not or out of world.
+
+```text
+echo ${OgreBotAPI.Cures.HaveSickness}
+```
+
+*Was (OldBot):* `OgreBotAPI.HaveSickness`
+
+### `PotionAvailable`
+
+`${OgreBotAPI.Cures.PotionAvailable[type]}`
+
+TRUE when you carry a Cure &lt;type> potion that is ready to use. It does not check whether you are afflicted.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `type` | text |  | arcane, elemental, noxious or trauma, matched as part of the item name. Any other word answers FALSE. |
+
+**Returns:** bool: TRUE when a ready potion of that type is in your bags; FALSE when not, when it is still cooling down, when type is not one of the four, or out of world.
+
+```text
+echo ${OgreBotAPI.Cures.PotionAvailable[noxious]}
+```
+
+### `PotionNeeded`
+
+`${OgreBotAPI.Cures.PotionNeeded}`
+
+The cure type to drink a potion for right now: the first of arcane, elemental, noxious and trauma that is ticked in the cure potion settings, is on you, and has a ready Cure &lt;type> potion in your bags. Reads "" when none qualifies or out of world.
+
+**Returns:** string: arcane, elemental, noxious or trauma; "" when no potion is both needed and ready.
+
+```text
+echo ${OgreBotAPI.Cures.PotionNeeded}
+```
+
+### `RaidCursedIDs`
+
+`${OgreBotAPI.Cures.RaidCursedIDs}`
+
+The actor IDs of every raid member with a curse, curable or not, as a JSON array sorted lowest first. Out of a raid it lists the group members with a curse, curable or not.
+
+**Returns:** string: a JSON array of actor IDs, for example [1234,5678]; [] when nobody matches or out of world.
+
+```text
+echo ${OgreBotAPI.Cures.RaidCursedIDs}
+```
+
+*Was (OldBot):* `Obj_CureCurseCalled.ic_CursedToons`, `OgreBotAPI.Get_RaidCurableOrUncurableCurses_JSON`
+
+### `RaidCurses`
+
+`${OgreBotAPI.Cures.RaidCurses}`
+
+How many raid members are alive and have a curse that can be cured. Out of a raid it gives the group count, the same as GroupCurses.
+
+**Returns:** int: the number of living raid members with a curable curse (the group count when not in a raid); 0 when nobody has one.
+
+```text
+echo ${OgreBotAPI.Cures.RaidCurses}
+```
+
+*Was (OldBot):* `OgreBotAPI.Get_RaidCurseCount`, `OgreBotAPI.NumRaidWithCurses`
+
+### `RaidUncurable`
+
+`${OgreBotAPI.Cures.RaidUncurable}`
+
+How many raid members carry a curse that cannot be cured. Out of a raid it gives the group count, the same as GroupUncurable, and it reads 0 out of world.
+
+**Returns:** int: the number of raid members with an uncurable curse (the group count when not in a raid); 0 when nobody has one or out of world.
+
+```text
+echo ${OgreBotAPI.Cures.RaidUncurable}
+```
+
+*Was (OldBot):* `OgreBotAPI.Get_RaidUncurableCurseCount`
+
+### `RaidUncurableIDs`
+
+`${OgreBotAPI.Cures.RaidUncurableIDs}`
+
+The actor IDs of the raid members who carry an uncurable curse, as a JSON array sorted lowest first. Out of a raid it lists your group instead; [] when there are none or out of world.
+
+**Returns:** string: a JSON array of actor IDs, for example [1234,5678]; [] when nobody has an uncurable curse or out of world.
+
+```text
+echo ${OgreBotAPI.Cures.RaidUncurableIDs}
+```
+
+*Was (OldBot):* `OgreBotAPI.Get_RaidUncurableCurses_JSON`
+
+### `Uncurable`
+
+`${OgreBotAPI.Cures.Uncurable[type,-GroupOnly]}`
+
+The actor ID of the first member whose affliction of this type cannot be cured: the raid when you are in one, else the group with you first, else just you. 0 when nobody has one or out of world.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `type` | text | `Cursed` | the affliction to check, as the game names it: Cursed, Arcane, Noxious, Elemental or Trauma. Blank means Cursed. |
+| `-GroupOnly` | flag |  | search your group even when you are in a raid |
+
+**Returns:** int64: the actor ID of the first member with an uncurable affliction of that type; 0 when nobody has one or out of world.
+
+```text
+echo ${OgreBotAPI.Cures.Uncurable[Cursed,-GroupOnly]}
+```
+
+*Was (OldBot):* `OgreBotAPI.Get_Uncurable`
+
+## Methods
+
+### `CancelDetrimental`
+
+`OgreBotAPI.Cures:CancelDetrimental[fw, mainId, backdropId]`
+
+Cancels the detrimental with this main and backdrop icon ID on each matching character. Prints a console line when there is no such detrimental, and does nothing when both IDs are 0.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `mainId` | int |  | the detrimental's main icon ID |
+| `backdropId` | int |  | the detrimental's backdrop icon ID |
+
+```text
+OgreBotAPI.Cures:CancelDetrimental[igw:${Me.Name},279,315]
+```
+
+*Was (OldBot):* `OgreBotAPI:CancelDetrimental`, `GetInfoOb:CancelEffect`, `GetInfoOb:CancelEffect_ref`
+
+### `CancelRequests`
+
+`OgreBotAPI.Cures:CancelRequests[fw, victimOrTag]`
+
+Cancels, on each character the for-who matches, every curse, cure and group-cure request whose victim or -tag is the given name (any letter case). Says how many went when any did.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `victimOrTag` | text |  | the toon the requests were for, or the -tag they were given; a blank one is refused with one console line |
+
+```text
+OgreBotAPI.Cures:CancelRequests[igw:${Me.Name},${Group[1].Name}]
+```
+
+### `ItemCure`
+
+`OgreBotAPI.Cures:ItemCure[fw, type]`
+
+Drinks a cure potion now on each matching character, if a ready one is in their bags. With a type it drinks that potion whether or not you are afflicted or the type is ticked; with no type, or any, it drinks the one PotionNeeded names.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `type` | text |  | arcane, elemental, noxious or trauma; blank or any drinks whatever the cure potion settings need. Any other word prints a console line and does nothing. |
+
+```text
+OgreBotAPI.Cures:ItemCure[igw:${Me.Name},trauma]
+```
+
+*Was (OldBot):* `OgreBotAPI:AutoItemCure`
+
+### `ReplenishPotions`
+
+`OgreBotAPI.Cures:ReplenishPotions[fw, all|arcane|elemental|noxious|trauma]`
+
+Tops up cure potions, up to a full stack, from a Poison, Potion, & Totem Depot within 11 meters, on each matching character. A type is restocked only if one of its potions is already in your bags; a blank or unknown type prints a console line and does nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `all\|arcane\|elemental\|noxious\|trauma` | word |  | all four cure types, or just one of them, any case |
+
+```text
+OgreBotAPI.Cures:ReplenishPotions[igw:${Me.Name},all]
+```
+
+*Was (OldBot):* `OgreBotAPI:CurePotions_Replenish`, `OgreBotAPI:Get_CurePotions`
+
+### `Request`
+
+`OgreBotAPI.Cures:Request[fw, victim, kinds...]`
+
+Records a cure request for the victim on each character the for-who matches, and their cure casting serves it. A request lasts 8 seconds unless -AutoRemove says otherwise, and is not sent anywhere else, so use oc !c to reach other characters.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `victim` | character name |  | who to cure; a blank one is refused with one console line |
+| `kinds...` | words |  | which cures: arcane (a), noxious (n), elemental (e), trauma (t), curse, confrontfear or sickness, one per argument or comma-separated. None means the four basic kinds (arcane, noxious, elemental, trauma). Then the options -AutoRemove &lt;seconds> (how long the request lasts, 1 to 600, default 8) and -tag &lt;name> (a name Cures:CancelRequests can cancel it by). Any other word refuses the whole request with one console line naming it. confrontfear and sickness are kept only on a dirge. |
+
+```text
+OgreBotAPI.Cures:Request[igw:${Me.Name},${Group[1].Name},noxious,trauma,-AutoRemove,20]
+```
+
+*Was (OldBot):* `OgreBotAPI:AutoCure`, `Obj_CureCalled:AutoAdd`, `Obj_CurseCalled:AutoAdd`
+
+### `RequestCurse`
+
+`OgreBotAPI.Cures:RequestCurse[fw, victim, options...]`
+
+Records a cure-curse request for the victim on each character the for-who matches, for their cure casting to serve. The request lasts 8 seconds unless -AutoRemove says otherwise, and is not sent anywhere else; a blank victim, or a word it does not know, refuses it with one console line.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `victim` | character name |  | who to cure of the curse; a blank one is refused with one console line |
+| `options...` | words |  | -AutoRemove &lt;seconds> (how long the request lasts, 1 to 600, default 8) and -tag &lt;name> (a name Cures:CancelRequests can cancel it by). Any other word refuses the request with one console line naming it. |
+
+```text
+OgreBotAPI.Cures:RequestCurse[igw:${Me.Name},${Group[1].Name},-AutoRemove,20]
+```
+
+*Was (OldBot):* `OgreBotAPI:AutoCurse`, `OgreBotAPI:Cursed`, `Obj_CureCurseCalled:Add`
+
+### `RequestGroup`
+
+`OgreBotAPI.Cures:RequestGroup[fw]`
+
+Asks each matching character to cast its class group cure within the next 2 seconds, when that ability is ready and someone in the group, you included, has an arcane, noxious, elemental or trauma detrimental. Curses are not group cured.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Cures:RequestGroup[igw:${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:GroupCure`
+
+### `RequestGroupWatch`
+
+`OgreBotAPI.Cures:RequestGroupWatch[fw, words...]`
+
+Watches for a group cure on each matching character: the class group cure goes out as soon as it is ready and enough of the group, you included, carry one of the named kinds, each counted on its own (curses are not group cured). The watch lasts 8 seconds unless -AutoRemove says otherwise, and several can run at once.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `words...` | words |  | kinds: arcane (a), noxious (n), elemental (e), trauma (t), one per argument or comma-separated; none means any of the four. Options: -count &lt;n> (at least n of you and the group carry the kind, 1 to 6, default 1), -AutoRemove &lt;seconds> (how long to watch, 1 to 600, default 8), -tag &lt;name> (a name Cures:CancelRequests can cancel it by). Any other word refuses the request with one console line naming it. |
+
+```text
+OgreBotAPI.Cures:RequestGroupWatch[igw:${Me.Name},arcane,trauma,-count,3]
+```
+
+*Was (OldBot):* `OgreBotAPI:AutoGroupCure`
+
+### `RequestItem`
+
+`OgreBotAPI.Cures:RequestItem[fw, type]`
+
+Queues a potion cure on each matching character, drunk once the cast bar is free; a potion only ever cures the one who drinks it. The request waits up to 8 seconds for a ready potion.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `type` | text |  | arcane, elemental, noxious or trauma. Blank or any picks the needed type when the request is served. Any other word prints a console line and queues nothing. |
+
+```text
+OgreBotAPI.Cures:RequestItem[igw:${Me.Name},arcane]
+```
+
+### `SetEnabled`
+
+`OgreBotAPI.Cures:SetEnabled[fw, on=TRUE]`
+
+Turns cures on or off on each matching character: the Disable CS_Cure setting and, for a Templar, Warden, Mystic or Monk, that class's cure ability in the Cast Stack. At character select it prints a line and changes nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `on` | bool | `TRUE` | TRUE turns cures on, FALSE turns them off. Off also unticks Enable Auto Cure Potions and cancels the running class ability (Mana Cure, Tranquility, Ancestral Balm or Will of the Heavens). The 'Use these while stunned / stifled / rooted' option is left as you set it. A word that is not yes or no changes nothing. |
+
+```text
+OgreBotAPI.Cures:SetEnabled[igw:${Me.Name},FALSE]
+```
+
+*Was (OldBot):* `OgreBotAPI:Enable_Cures`, `OgreBotAPI:Disable_Cures`
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Debug.md
+
+# OgreBotAPI.Debug
+
+## Members
+
+### `CheckVersion`
+
+`${OgreBotAPI.Debug.CheckVersion[fw,compareTo]}`
+
+Compares this session's version with compareTo and returns a one-line verdict that names the character. It returns "" when the for-who does not match this character or the character is not in the world.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `compareTo` | string |  | the version to compare with, as ${ISXOgreEQ2.Version} gives it; blank just reports this session's version |
+
+**Returns:** string: "SAME: &lt;name> (&lt;version>)" when they match; "DIFFERENT: &lt;name> - Mine: &lt;version> Requested: &lt;compareTo>" when they do not; "VERSION: &lt;name> (&lt;version>)" when compareTo is blank; "" when the for-who does not match or the character is not in the world
+
+```text
+echo ${OgreBotAPI.Debug.CheckVersion[all,${ISXOgreEQ2.Version}]}
+```
+
+*Was (OldBot):* `OgreBotAPI.CheckVersion`
+
+### `DebugPrefix`
+
+`${OgreBotAPI.Debug.DebugPrefix}`
+
+A time-stamped prefix for your own debug lines: the current time followed by ": OgreBot:". The bot does not add it to anything for you, :DebugEcho included.
+
+**Returns:** string: "&lt;time>: OgreBot:", for example "14:03:22: OgreBot:"
+
+```text
+echo ${OgreBotAPI.Debug.DebugPrefix} checking loot
+```
+
+*Was (OldBot):* `OgreBotAPI.DebugMessage`, `OgreBotDebug.Prefix`
+
+## Methods
+
+### `BroadcastStat`
+
+`OgreBotAPI.Debug:BroadcastStat[fw, type, value, where=oc]`
+
+Reads one fact about this character, sends "&lt;name> --> &lt;label> &lt;value>" to where `where` says and fires the OgreEvent_SpewStats event with the same data. An unknown type or stat sends a "SpewStat:" error line instead, and faction, currency and recipe open a game window, so their answer comes a moment later.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `type` | string |  | what to report: stat, item, missingitem, abilityready, abilityidready, abilityidcd, marked, faction, currency, recipe or ascension (a leading - is allowed); quest and missingquest answer with a not-yet error |
+| `value` | string |  | what to look up for that type: a stat key such as potency or haste, an item name, an ability id, a faction name or all, a currency name (eth and loyalty are short names), or a recipe name; leave blank for marked and ascension. An item you have none of sends nothing |
+| `where` | string | `oc` | where the line goes: oc (the Ogre console on every session), irc, or event (no line, only the event); any other word goes to oc |
+
+```text
+OgreBotAPI.Debug:BroadcastStat[all,stat,potency,oc]
+```
+
+*Was (OldBot):* `OgreBotAPI.SpewStat`, `OgreBotAPI:Get_Faction`
+
+### `DebugEcho`
+
+`OgreBotAPI.Debug:DebugEcho[fw, a, b]`
+
+Echoes a and b, joined by a space, to this session's console, but only while debug mode is on (see :SetDebugMode). With debug mode off, which is the default, it prints nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `a` | string |  | the first part of the line |
+| `b` | string |  | the second part, printed after a space |
+
+```text
+OgreBotAPI.Debug:DebugEcho[${Me.Name},"Target:",${Target.Name}]
+```
+
+### `Echo`
+
+`OgreBotAPI.Debug:Echo[fw, text, text2=""]`
+
+Echoes text and text2, joined by a space, to this session's console. Only characters the for-who matches print it, and it works out of the world too.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `text` | string |  | the first part of the line |
+| `text2` | string | `""` | the second part, printed after a space |
+
+```text
+OgreBotAPI.Debug:Echo[${Me.Name},"Pull ready","waiting on tank"]
+```
+
+*Was (OldBot):* `OgreBotAPI:Echo`, `OgreBotDebug:Echo`
+
+### `SetDebugMode`
+
+`OgreBotAPI.Debug:SetDebugMode[fw, on=TRUE]`
+
+Turns debug mode on or off; while it is on, :DebugEcho prints its lines. Debug mode starts off, and a word that is not a yes/no word leaves it as it is.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `on` | bool | `TRUE` | TRUE turns debug mode on, FALSE turns it off |
+
+```text
+OgreBotAPI.Debug:SetDebugMode[all,TRUE]
+```
+
+*Was (OldBot):* `OgreBotAPI:SetDebugMode`
+
+### `SpewInternalVariables`
+
+`OgreBotAPI.Debug:SpewInternalVariables[fw]`
+
+Echoes every internal variable as "name -> value" to this session's console, in name order. These are the values stored with OgreBotAPI.Vars:SetInternal; an empty store prints nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Debug:SpewInternalVariables[${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:Spew_InternalVariables`
+
+### `SpewResearchWindow`
+
+`OgreBotAPI.Debug:SpewResearchWindow[fw]`
+
+Queues a job that opens the Knowledge window's research page if it is not up, broadcasts every row to every session as "&lt;label> -> &lt;status>", then closes the window if it opened it. It needs the character in the world, and with no rows it echoes a note to the console instead.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Debug:SpewResearchWindow[${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:Spew_BoZ_Research`
+
+### `SpewSubscriptionStatus`
+
+`OgreBotAPI.Debug:SpewSubscriptionStatus[fw]`
+
+Reads the game's All Access membership status from the tooltip of the Marketplace window's All Access button and broadcasts it to every session as Good, Need to claim, Need more time, Not a member or Unknown, followed by the tooltip text. It does not open the window, and a tooltip it cannot read reports as Unknown.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Debug:SpewSubscriptionStatus[all]
+```
+
+*Was (OldBot):* `OgreBotAPI:SpewSubscriptionStatus`
+
+### `SpewVariables`
+
+`OgreBotAPI.Debug:SpewVariables[fw]`
+
+Echoes every script variable as "name -> value" to this session's console, in name order. These are the values stored with OgreBotAPI.Vars:Set; an empty store prints nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Debug:SpewVariables[${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:Spew_Variables`
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Encounter.md
+
+# OgreBotAPI.Encounter
+
+## Methods
+
+### `List`
+
+`OgreBotAPI.Encounter:List[fw]`
+
+Prints in this character's console the encounter coding for the current zone: one line per fight with its named mobs, (DISABLED) when switched off, and its file. With none it prints "No encounter coding for this zone"; the Settings tab's No Available Setups box does not silence it.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Encounter:List[${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:DisplayAvailableSetups`
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Events.md
+
+# OgreBotAPI.Events
+
+## Methods
+
+### `AddChatEntry`
+
+`OgreBotAPI.Events:AddChatEntry[fw, text, oc, ding, code]`
+
+Adds a row to the Chat Events tab of the loaded profile: when a line in the chat window contains text (any case), it announces in OgreConsole (oc), plays the ding sound (ding) and runs code as a command, in that order, with no arguments passed to the code. The row is unsaved until Save, only fires while the tab is ticked on the Settings tab (it warns if not), a blank text or an identical enabled row is refused with a console line, and every session's console is told it was added.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `text` | string |  | Text to watch for - matched as a case-insensitive substring of each incoming chat-window line |
+| `oc` | bool |  | TRUE to send `<name> -> <kind> event -> (<text>) found -> <match>` to OgreConsole when it fires |
+| `ding` | bool |  | TRUE to play the ding sound when it fires |
+| `code` | string |  | A command line to run when it fires (run on the next frame, may be empty); any extra arguments after it are joined back on with commas |
+
+```text
+OgreBotAPI.Events:AddChatEntry[igw:${Me.Name},"tells you",TRUE,TRUE,"echo got a tell"]
+```
+
+*Was (OldBot):* `OgreBotAPI:ChatEvent_AddEntry`
+
+### `AddDespawnEntry`
+
+`OgreBotAPI.Events:AddDespawnEntry[fw, text, oc, ding, code]`
+
+Adds a row to the Despawn Events tab of the loaded profile: when an actor despawns whose name contains text (case-sensitive), it announces in OgreConsole (oc), plays the ding sound (ding) and runs code as a command, in that order, with no arguments passed to the code. The row is unsaved until Save, only fires while the tab is ticked on the Settings tab (it warns if not), a blank text or an identical enabled row is refused with a console line, and every session's console is told it was added.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `text` | string |  | Text to watch for - matched as a case-sensitive substring of the despawning actor's name |
+| `oc` | bool |  | TRUE to send `<name> -> <kind> event -> (<text>) found -> <match>` to OgreConsole when it fires |
+| `ding` | bool |  | TRUE to play the ding sound when it fires |
+| `code` | string |  | A command line to run when it fires (run on the next frame, may be empty); any extra arguments after it are joined back on with commas |
+
+```text
+OgreBotAPI.Events:AddDespawnEntry[${Me.Name},"a cursed spirit",TRUE,FALSE,"echo spirit is gone"]
+```
+
+*Was (OldBot):* `OgreBotAPI:DespawnEvent_AddEntry`
+
+### `AddSpawnEntry`
+
+`OgreBotAPI.Events:AddSpawnEntry[fw, text, oc, ding, code]`
+
+Adds a row to the Spawn Events tab of the loaded profile: when an actor spawns whose name contains text (case-sensitive), it announces in OgreConsole (oc), plays the ding sound (ding) and runs code as a command, in that order, with no arguments passed to the code. The row is unsaved until Save, only fires while the tab is ticked on the Settings tab (it warns if not), a blank text or an identical enabled row is refused with a console line, and every session's console is told it was added.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `text` | string |  | Text to watch for - matched as a case-sensitive substring of the spawning actor's name |
+| `oc` | bool |  | TRUE to send `<name> -> <kind> event -> (<text>) found -> <match>` to OgreConsole when it fires |
+| `ding` | bool |  | TRUE to play the ding sound when it fires |
+| `code` | string |  | A command line to run when it fires (run on the next frame, may be empty); any extra arguments after it are joined back on with commas |
+
+```text
+OgreBotAPI.Events:AddSpawnEntry[${Me.Name},"a cursed spirit",TRUE,TRUE,"echo spirit is up"]
+```
+
+*Was (OldBot):* `OgreBotAPI:SpawnEvent_AddEntry`
+
+### `RemoveChatEntry`
+
+`OgreBotAPI.Events:RemoveChatEntry[fw, text=all]`
+
+Removes every Chat Events row whose text equals text (any case, disabled rows included), or every row for all, and tells every session's console which rows went. The change is unsaved until Save; no match, no loaded profile or a text passed but empty each print a console line and remove nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `text` | string | `all` | The watch text of the rows to remove, or all for every row |
+
+```text
+OgreBotAPI.Events:RemoveChatEntry[igw:${Me.Name},"tells you"]
+```
+
+*Was (OldBot):* `OgreBotAPI:ChatEvent_RemoveEntry`
+
+### `RemoveDespawnEntry`
+
+`OgreBotAPI.Events:RemoveDespawnEntry[fw, text=all]`
+
+Removes every Despawn Events row whose text equals text (any case, disabled rows included), or every row for all, and tells every session's console which rows went. The change is unsaved until Save; no match, no loaded profile or a text passed but empty each print a console line and remove nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `text` | string | `all` | The watch text of the rows to remove, or all for every row |
+
+```text
+OgreBotAPI.Events:RemoveDespawnEntry[${Me.Name},all]
+```
+
+*Was (OldBot):* `OgreBotAPI:DespawnEvent_RemoveEntry`
+
+### `RemoveSpawnEntry`
+
+`OgreBotAPI.Events:RemoveSpawnEntry[fw, text=all]`
+
+Removes every Spawn Events row whose text equals text (any case, disabled rows included), or every row for all, and tells every session's console which rows went. The change is unsaved until Save; no match, no loaded profile or a text passed but empty each print a console line and remove nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `text` | string | `all` | The watch text of the rows to remove, or all for every row |
+
+```text
+OgreBotAPI.Events:RemoveSpawnEntry[${Me.Name},"a cursed spirit"]
+```
+
+*Was (OldBot):* `OgreBotAPI:SpawnEvent_RemoveEntry`
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/ForWho.md
+
+# OgreBotAPI.ForWho
+
+## Members
+
+### `Alias`
+
+`${OgreBotAPI.ForWho.Alias[name]}`
+
+Returns the character name an alias points to right now, or "" when it names nobody present. It reads @me, @Tank, @Healer1 to @Healer3, @DPS1 to @DPS3, @Bard, @Enchanter, @Fighter / @Priest / @Mage / @Scout with an optional rank, @PCTarget, @NPCsTarget, *&lt;your alias> (only while the OgreBot enable-aliases setting is on and you are in the world) and *Team:&lt;group> (its first member present); a plain character name or class word returns "".
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `name` | string |  | the alias to resolve, with its @ or * (any case) |
+
+**Returns:** string: the character name the alias resolves to; "" when it resolves to nobody, is not an alias, or no argument is given.
+
+```text
+echo ${OgreBotAPI.ForWho.Alias[@Healer1]}
+```
+
+*Was (OldBot):* `OgreBotAPI.Get_Alias`, `GetInfoOb.Alias`
+
+### `AliasesJSON`
+
+`${OgreBotAPI.ForWho.AliasesJSON}`
+
+Returns the loaded OgreBot profile's own alias list as JSON text, one object per row with its starred name, For (what it points to) and, when set, NR (no raid) and a disabled marker. Returns "[]" when no OgreBot profile is loaded or it has no aliases.
+
+**Returns:** string: a JSON array of alias rows; "[]" when there are none or no profile is loaded.
+
+```text
+echo ${OgreBotAPI.ForWho.AliasesJSON}
+```
+
+*Was (OldBot):* `OgreBotAPI.Get_Aliases_JSON`
+
+### `Me`
+
+`${OgreBotAPI.ForWho.Me[expr]}`
+
+Answers whether a call with this for-who would run on this character - the same test every OgreBotAPI method makes on its first argument. While zoning or at character select it answers from what it already knows: words that need a live read (id:, a bare actor id, eval_num_me:, @PCTarget, @NPCsTarget, *aliases) do not match, and group words use your last settled zone.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `expr` | string |  | a for-who expression, one word with no spaces or commas. \| separates alternatives (any one group matching is enough), + joins words that must all match, and a leading - or ! negates a word. Words, any case: all, auto, @all, @group, @raid (everyone); me, @me; a character name; your InnerSpace session name (is1); an archetype fighter, priest, mage, scout, or healer, melee, caster (plurals too), and not&lt;archetype> such as notfighter; a class or subclass (predator, ranger); an ascension class (geomancer); g1 to g4 (your raid group); groups:&lt;digits> (your raid group number appears in the digits); groupleader; igw:&lt;name> (that character is you or in your group), with irw: also counting the raid, igzw: / irzw: also needing them in your zone, and a bn ending (igwbn:, irzwbn:) leaving yourself out; not:&lt;name>; id:&lt;actor id> or a bare actor id; ToonFlagged:&lt;n>; eval_num_me:&lt;member>&lt;op>&lt;value> with op &lt; &lt;= > >= = or ==; @Tank, @Healer1 to @Healer3, @DPS1 to @DPS3, @Bard, @Enchanter; @Fighter, @Priest, @Mage, @Scout with an optional rank (@Scout2); @PCTarget, @NPCsTarget; *&lt;alias> (your own aliases) and *Team:&lt;group>. A word that is none of these simply does not match. |
+
+**Returns:** int: 1 when the expression selects this character; 0 when it does not, including an empty expression (an empty for-who on a method means all); NULL with no argument.
+
+```text
+echo ${OgreBotAPI.ForWho.Me[igw:${Me.Name}+healer]}
+```
+
+*Was (OldBot):* `GetInfoOb.CommandForMe`, `GetInfoOb.CommandForMe_Check`, `GetInfoOb.CommandForMe_Eval_Me`
+
+### `Member`
+
+`${OgreBotAPI.ForWho.Member[expr,name]}`
+
+Answers whether a for-who expression selects a given member of your group or raid, using the same words as ForWho.Me with that member in your place. The member must be in your current group or raid; g1 to g4, groups:, groupleader, session names and ascension words never match a member, and eval_num_me: only reads Health, HealthPct, Power and PowerPct.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `expr` | string |  | a for-who expression, the same grammar and words as ForWho.Me |
+| `name` | string |  | the group or raid member to test, by character name (any case) |
+
+**Returns:** int: 1 when the expression selects that member; 0 when it does not, when the name is not in your group or raid, or when you are not in the world; NULL with fewer than two arguments.
+
+```text
+echo ${OgreBotAPI.ForWho.Member[priest,${Group[1].Name}]}
+```
+
+## Methods
+
+### `AddAlias`
+
+`OgreBotAPI.ForWho:AddAlias[fw, alias, value, noRaid=FALSE]`
+
+Adds a row to the loaded OgreBot profile's alias list, so *&lt;alias> names the first character present that value matches: you, a group member by name, a raid member by name, then whoever of you, the group and the raid first fits value as a class word. Several rows may share one name (the first that resolves wins) but an exact repeat is refused with a warning; with no OgreBot profile loaded nothing happens and one console line says so, and the change is kept in memory until the profile is saved.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `alias` | string |  | the alias name; a leading * is added when you leave it off |
+| `value` | string |  | what the alias points to: a character name or a class word (archetype, class or subclass) |
+| `noRaid` | bool | `FALSE` | TRUE = only you and your group count, raid members are not matched |
+
+```text
+OgreBotAPI.ForWho:AddAlias[${Me.Name},MainHealer,${Group[1].Name},TRUE]
+```
+
+*Was (OldBot):* `OgreBotAPI:Alias_AddEntry`
+
+### `ChangeAlias`
+
+`OgreBotAPI.ForWho:ChangeAlias[fw, from, to, silent=FALSE]`
+
+Points the first alias row named from at to instead (a blank to clears it, so the alias names nobody), and announces the change in the Ogre console unless silent is TRUE. When no alias of that name exists nothing changes and one console line says so (not when silent); with no OgreBot profile loaded nothing happens and one console line says so.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `from` | string |  | the alias to change (with or without its *) |
+| `to` | string |  | the new character name or class word it points to |
+| `silent` | bool | `FALSE` | TRUE = make the change without the Ogre console announce |
+
+```text
+OgreBotAPI.ForWho:ChangeAlias[${Me.Name},MainHealer,Templar]
+```
+
+*Was (OldBot):* `OgreBotAPI:Alias_ChangeEntry`
+
+### `ForceUpdate`
+
+`OgreBotAPI.ForWho:ForceUpdate[fw]`
+
+Drops the cached alias answers, so the next *alias is worked out against the group and raid as they are now. The cache lasts about a second and every alias edit already drops it, so this matters only straight after the group changes.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.ForWho:ForceUpdate[all]
+```
+
+*Was (OldBot):* `OgreBotAPI:ForceAliasUpdate`
+
+### `RemoveAlias`
+
+`OgreBotAPI.ForWho:RemoveAlias[fw, name|all]`
+
+Removes the first alias row with that name from the loaded OgreBot profile, or every alias row when the name is all or blank. With no OgreBot profile loaded nothing happens and one console line says so; the change is kept in memory until the profile is saved.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `name\|all` | string |  | the alias to remove (with or without its *), or all to clear the whole list |
+
+```text
+OgreBotAPI.ForWho:RemoveAlias[${Me.Name},MainHealer]
+```
+
+*Was (OldBot):* `OgreBotAPI:Alias_RemoveEntry`
+
+### `RenameAlias`
+
+`OgreBotAPI.ForWho:RenameAlias[fw, from, to, silent=FALSE]`
+
+Renames the first alias row named from to to (stars added when missing), keeping what it points to, and announces it in the Ogre console unless silent is TRUE. The row keeps its place and its no-raid and disabled settings; a blank name, no alias named from or a to name already taken gets one line and renames nothing, and with no OgreBot profile loaded nothing happens.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `from` | string |  | the alias to rename (with or without its *) |
+| `to` | string |  | the new alias name (with or without its *) |
+| `silent` | bool | `FALSE` | TRUE = rename without the Ogre console announce |
+
+```text
+OgreBotAPI.ForWho:RenameAlias[${Me.Name},MainHealer,BackupHealer]
+```
+
+*Was (OldBot):* `OgreBotAPI:Alias_ChangeEntryAlias`
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/HOs.md
+
+# OgreBotAPI.HOs
+
+## Members
+
+### `DoEnabled`
+
+`${OgreBotAPI.HOs.DoEnabled}`
+
+TRUE while this character is running OgreBot's solo HO (started with DoSetup or DoSetEnabled); session only, never saved, and FALSE after a reload. It turns FALSE when the HO count is reached, the timeout runs out, the target dies or goes away, DoSetEnabled[...,FALSE] is called, or another group member takes over the solo HO.
+
+**Returns:** bool: TRUE when the solo HO is running on this character; FALSE otherwise.
+
+```text
+echo ${OgreBotAPI.HOs.DoEnabled}
+```
+
+*Was (OldBot):* `OgreBotAPI.DoHO_Get_Enabled`
+
+### `DoHOerID`
+
+`${OgreBotAPI.HOs.DoHOerID}`
+
+The actor ID of the OTHER group member who is running the solo HO, as that character announced it. Session only; 0 when this character is the one running it, or nobody is.
+
+**Returns:** int64: the other HO'er's actor ID; 0 when it is this character or nobody.
+
+```text
+echo ${OgreBotAPI.HOs.DoHOerID}
+```
+
+*Was (OldBot):* `OgreBotAPI.DoHO_Get_HOerID`
+
+### `DoPrimed`
+
+`${OgreBotAPI.HOs.DoPrimed}`
+
+TRUE once the solo HO has made its first full setup pass on this character (the group's HO settings set, stale casts cancelled, the HO'er announced); a later enable while primed only turns this character's own HO settings back on. Session only, and cleared by DoReset, by a disable, and when another session takes over.
+
+**Returns:** bool: TRUE when the solo HO setup has been applied; FALSE otherwise.
+
+```text
+echo ${OgreBotAPI.HOs.DoPrimed}
+```
+
+*Was (OldBot):* `OgreBotAPI.DoHO_Get_Primed`
+
+### `DoTargetID`
+
+`${OgreBotAPI.HOs.DoTargetID}`
+
+The actor ID given to DoSetup with -TargetID, the mob the solo HO is aimed at; 0 when no target was given, or after DoReset or a new DoSetup without one. Session only - note the casing: DoTargetID.
+
+**Returns:** int64: the solo HO's target actor ID; 0 when none is set.
+
+```text
+echo ${OgreBotAPI.HOs.DoTargetID}
+```
+
+*Was (OldBot):* `OgreBotAPI.DoHo_Get_TargetID`
+
+### `MyArchetypeStart`
+
+`${OgreBotAPI.HOs.MyArchetypeStart}`
+
+TRUE when the starter window is up and the heroic opportunity's centre icon is this character's own archetype, so the starter in progress is ours. FALSE when no starter is showing or it belongs to another archetype.
+
+**Returns:** bool: TRUE when the starter showing is this character's archetype; FALSE otherwise, including when no heroic opportunity is up.
+
+```text
+echo ${OgreBotAPI.HOs.MyArchetypeStart}
+```
+
+*Was (OldBot):* `OgreBotAPI:MyArchetypeHOStart`
+
+### `MyWheelTimeRemaining`
+
+`${OgreBotAPI.HOs.MyWheelTimeRemaining}`
+
+Seconds left on the HO timer, but only while the wheel is up and it is this character's archetype's wheel. Returns 0 when no heroic opportunity is up, it is still in the starter phase, or the wheel belongs to another archetype.
+
+**Returns:** float: seconds left on this character's archetype's wheel; 0 otherwise.
+
+```text
+echo ${OgreBotAPI.HOs.MyWheelTimeRemaining}
+```
+
+*Was (OldBot):* `OgreBotAPI:MyArchetypeWheelTimeRemaining`
+
+### `StarterClass`
+
+`${OgreBotAPI.HOs.StarterClass}`
+
+Which archetype's starter is up, from the starter window's centre icon, in lower case: fighter, priest, mage or scout. Empty when the starter window is not showing or no heroic opportunity is up.
+
+**Returns:** string: fighter, priest, mage or scout; "" when no starter is showing.
+
+```text
+echo ${OgreBotAPI.HOs.StarterClass}
+```
+
+*Was (OldBot):* `OgreBotAPI.HO_Starter_Class`
+
+### `StarterClassAvailable`
+
+`${OgreBotAPI.HOs.StarterClassAvailable[class]}`
+
+TRUE when the starter chain currently offers an icon that the given archetype can use. FALSE when the starter window is not up, no heroic opportunity is up, or class is not fighter, priest, mage or scout (any case).
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `class` | string | `my archetype` | Archetype to check: fighter, priest, mage or scout (any case). Blank or left out means this character's own archetype. |
+
+**Returns:** bool: TRUE when that archetype has an icon on the starter chain now; FALSE otherwise, including when no heroic opportunity is up.
+
+```text
+echo ${OgreBotAPI.HOs.StarterClassAvailable[scout]}
+```
+
+*Was (OldBot):* `OgreBotAPI.HO_Starter_Class_Available`
+
+### `StarterVisible`
+
+`${OgreBotAPI.HOs.StarterVisible}`
+
+TRUE while the HO starter window (the chain of icons before the wheel) is showing. FALSE when no heroic opportunity is up or it has moved on to the wheel.
+
+**Returns:** bool: TRUE when the starter window is up; FALSE otherwise, including when no heroic opportunity is up.
+
+```text
+echo ${OgreBotAPI.HOs.StarterVisible}
+```
+
+*Was (OldBot):* `OgreBotAPI.HO_Starter_Visible`
+
+### `TargetID`
+
+`${OgreBotAPI.HOs.TargetID}`
+
+The actor ID the bot recorded as the HO target: set when this character's bot casts an HO start, and when another group member's bot announces one. Returns 0 when no heroic opportunity is up or that actor no longer exists.
+
+**Returns:** int64: the HO target's actor ID; 0 when no heroic opportunity is up, the actor is gone, or no start has been recorded.
+
+```text
+echo ${OgreBotAPI.HOs.TargetID}
+```
+
+*Was (OldBot):* `OgreBotAPI.HO_TargetID`
+
+### `Visible`
+
+`${OgreBotAPI.HOs.Visible}`
+
+TRUE while a heroic opportunity is up in any phase (starter, wheel or finishing); FALSE when none is up or out of world. The HO reads are refreshed at most every 250 ms, so a value can be up to a quarter second old.
+
+**Returns:** bool: TRUE when a heroic opportunity is up; FALSE when none is up or not in world.
+
+```text
+echo ${OgreBotAPI.HOs.Visible}
+```
+
+*Was (OldBot):* `OgreBotAPI.HO_Visible`
+
+### `WheelClassAvailable`
+
+`${OgreBotAPI.HOs.WheelClassAvailable[class]}`
+
+TRUE when the wheel currently has a step the given archetype can complete right now. FALSE when the wheel is not up, no heroic opportunity is up, or class is not fighter, priest, mage or scout (any case).
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `class` | string | `my archetype` | Archetype to check: fighter, priest, mage or scout (any case). Blank or left out means this character's own archetype. |
+
+**Returns:** bool: TRUE when that archetype has a completable step on the wheel now; FALSE otherwise, including when no heroic opportunity is up.
+
+```text
+echo ${OgreBotAPI.HOs.WheelClassAvailable[mage]}
+```
+
+*Was (OldBot):* `OgreBotAPI.HO_Class_Available`, `OgreBotAPI.HO_Wheel_Class_Available`
+
+### `WheelName`
+
+`${OgreBotAPI.HOs.WheelName}`
+
+The heroic opportunity name shown on the wheel, read from the HO window itself. Empty when no heroic opportunity is up; it can also be empty or stale during the starter phase, so check WheelVisible first.
+
+**Returns:** string: the wheel's HO name; "" when no heroic opportunity is up.
+
+```text
+echo ${OgreBotAPI.HOs.WheelName}
+```
+
+*Was (OldBot):* `OgreBotAPI.HO_Wheel_Name`
+
+### `WheelVisible`
+
+`${OgreBotAPI.HOs.WheelVisible}`
+
+TRUE while the HO wheel is showing. FALSE when no heroic opportunity is up or it is still in the starter phase.
+
+**Returns:** bool: TRUE when the wheel is up; FALSE otherwise, including when no heroic opportunity is up.
+
+```text
+echo ${OgreBotAPI.HOs.WheelVisible}
+```
+
+*Was (OldBot):* `OgreBotAPI.HO_Wheel_Visible`
+
+## Methods
+
+### `Advance`
+
+`OgreBotAPI.HOs:Advance[fw]`
+
+Takes one turn on an open wheel, casting each of this character's abilities once for the wheel steps its archetype can complete now; it follows "Offensive Only" and "HO - Change Target", works while the bot is paused, and suits scripts that keep "HO Wheel" off and drive the wheel themselves. It does nothing with no heroic opportunity or wheel up, no step for this archetype, "Last to Complete" on while other archetypes still have steps, "HO - allow unknown target" off with no known HO target, or within 1 second of the last advance.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.HOs:Advance[igw:${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:HO_Advance`, `OgreBotAPI:HO_Wheel_Advance`
+
+### `AllowIcon`
+
+`OgreBotAPI.HOs:AllowIcon[fw, icon]`
+
+Adds an HO icon ID to the allow list; while the list has any icon, cast stack abilities that carry a different HO icon are skipped (abilities with no HO icon are not affected, the disable list wins over it, and the bot's own HO starter and wheel casts are not steered). Session only - never saved to the profile, kept until cleared, LetsGo or the extension reloads.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `icon` | int |  | HO icon ID: fighter 0-5, priest 12-17, mage 24-29, scout 36-41. Required; an icon already in the list does nothing. A missing icon, or a word that is not a whole number, is refused with a console line and changes nothing. |
+
+```text
+OgreBotAPI.HOs:AllowIcon[${Me.Name},25]
+```
+
+*Was (OldBot):* `OgreBotAPI:Set_Allow_HOICon`
+
+### `CancelStarter`
+
+`OgreBotAPI.HOs:CancelStarter[fw]`
+
+Cancels the HO starter window right away by sending the game's cancel HO starter command. Does nothing when no heroic opportunity is up or the starter window is not showing (a running wheel is never cancelled).
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.HOs:CancelStarter[${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:HO_Cancel_Starter`
+
+### `ClearAllowIcon`
+
+`OgreBotAPI.HOs:ClearAllowIcon[fw, icon]`
+
+Removes one HO icon ID from the allow list (session only). When the list becomes empty, no ability is skipped for its HO icon by this list.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `icon` | int |  | HO icon ID to remove from the allow list. Required; an icon not in the list does nothing. A missing icon, or a word that is not a whole number, is refused with a console line and changes nothing. |
+
+```text
+OgreBotAPI.HOs:ClearAllowIcon[${Me.Name},25]
+```
+
+*Was (OldBot):* `OgreBotAPI:Clear_Allow_HOICon`
+
+### `ClearAllowIcons`
+
+`OgreBotAPI.HOs:ClearAllowIcons[fw]`
+
+Empties the HO icon allow list (session only), so the cast stack no longer skips abilities for being outside it. The disable list is not touched.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.HOs:ClearAllowIcons[igw:${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:Clear_Allow_HOICons`
+
+### `ClearDisableIcon`
+
+`OgreBotAPI.HOs:ClearDisableIcon[fw, icon]`
+
+Removes one HO icon ID from the disable list, so abilities with that icon can be cast again (subject to the allow list). Session only; an icon not in the list does nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `icon` | int |  | HO icon ID to remove from the disable list. Required. A missing icon, or a word that is not a whole number, is refused with a console line and changes nothing. |
+
+```text
+OgreBotAPI.HOs:ClearDisableIcon[${Me.Name},14]
+```
+
+*Was (OldBot):* `OgreBotAPI:Clear_Disable_HOICon`
+
+### `ClearDisableIcons`
+
+`OgreBotAPI.HOs:ClearDisableIcons[fw]`
+
+Empties the HO icon disable list (session only). The allow list is not touched, and the per-icon disable checkboxes in the profile are a separate setting and stay as they are.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.HOs:ClearDisableIcons[igw:${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:Clear_Disable_HOICons`
+
+### `DisableIcon`
+
+`OgreBotAPI.HOs:DisableIcon[fw, icon]`
+
+Adds an HO icon ID to the disable list, so cast stack abilities that carry that HO icon are skipped even if the icon is also in the allow list; the bot's own HO starter and wheel casts are not steered. Session only - never saved to the profile, kept until cleared, LetsGo or the extension reloads.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `icon` | int |  | HO icon ID: fighter 0-5, priest 12-17, mage 24-29, scout 36-41. Required. A missing icon, or a word that is not a whole number, is refused with a console line and changes nothing. |
+
+```text
+OgreBotAPI.HOs:DisableIcon[${Me.Name},14]
+```
+
+*Was (OldBot):* `OgreBotAPI:Set_Disable_HOICon`
+
+### `DoReset`
+
+`OgreBotAPI.HOs:DoReset[fw]`
+
+Clears this character's solo HO record (session only): target, HO count and completions, the leave-open and cast stack options, the other HO'er's ID and the primed flag. It does not turn the solo HO on or off, change the timeout, or change any settings.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.HOs:DoReset[${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:DoHO_Reset`
+
+### `DoSetEnabled`
+
+`OgreBotAPI.HOs:DoSetEnabled[fw, on=TRUE, option...]`
+
+Turns OgreBot's solo HO on or off on this character without clearing its record (use DoSetup to set the target and count); calling it with the state it already has does nothing unless -Force, and a value that is not a yes/no word does nothing. On/off is session only, and the settings it writes are profile options in memory, kept on disk only if the profile is saved before they are put back.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `on` | bool | `TRUE` | TRUE to run the solo HO here: makes this character the HO'er, tells the rest of the group to stand down, cancels another archetype's starter if one is up, writes the group's HO settings, cancels group casts with more than 0.5 seconds left, holds the first start for -DelayStart seconds (default 1) and extends the timeout to at least 25 seconds (or sets it to -TimeOut n). FALSE to stop it: puts back this character's HO settings and asks the group to put back theirs. |
+| `option...` | flags |  | Any of -Force (run even if already in that state), -NoEnable / -PrimeOnly / -NoStart (set the group up but leave this character's HO settings off), -NoHoAbilities (on FALSE, keep HO abilities disabled on the rest of the group), -TimeOut n, -DelayStart n. Unknown words are ignored. |
+
+```text
+OgreBotAPI.HOs:DoSetEnabled[${Me.Name},FALSE]
+```
+
+*Was (OldBot):* `OgreBotAPI:DoHO_Set_Enable`
+
+### `DoSetup`
+
+`OgreBotAPI.HOs:DoSetup[fw, option...]`
+
+Starts OgreBot's solo HO with this character as the one who starts it (no HO needs to be up): it clears the previous record, starts a 25 second timeout and enables it as DoSetEnabled[fw,TRUE,...] with the same options, turning HO Start, Starter and Wheel off for the group and on for this character and setting the group's HO helper settings. It ends after -NumHOsToComplete completions (default 1), on timeout, or when the -TargetID mob dies or goes away, and every session then puts back the HO settings it had; the record is session only, and the changed HO settings are profile options in memory, written to disk only if the profile is saved while they are changed.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `option...` | flags |  | Any of -TargetID id, -NumHOsToComplete n, -TimeOut n (instead of 25 seconds), -LeaveStartOpen, -LeaveWheelOpen, -AllowCastStack (keep this character's cast stack on), -NoModifyOptions (change no settings), -Force (when the solo HO is already running, apply the settings again instead of only recording the new options), -NoEnable, -DelayStart n, -NoHoAbilities, in any order; the DoSetEnabled options work here too. Unknown words are ignored. |
+
+```text
+OgreBotAPI.HOs:DoSetup[${Me.Name},-TargetID,${Target.ID},-NumHOsToComplete,1,-TimeOut,30]
+```
+
+*Was (OldBot):* `OgreBotAPI:DoHO_Setup`
+
+### `RestoreSetUpFor`
+
+`OgreBotAPI.HOs:RestoreSetUpFor[fw]`
+
+Puts "Heroic Surge (ROC Adorn)" back to the value SetUpFor remembered, quietly, and forgets it. Does nothing if SetUpFor was not called since the last restore, or the extension was reloaded in between.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.HOs:RestoreSetUpFor[igw:${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:Restore_SetUpFor_HOs`
+
+### `SetUpFor`
+
+`OgreBotAPI.HOs:SetUpFor[fw]`
+
+Readies a fight that needs HOs controlled, with or without an HO up: remembers the current "Heroic Surge (ROC Adorn)" setting (only on the first call before a RestoreSetUpFor), then turns it off quietly so the adornment cannot start or advance HOs on its own. The remembered value is session only; the setting itself is a profile option changed in memory, so saving the profile before RestoreSetUpFor keeps it off on disk.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.HOs:SetUpFor[igw:${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:SetUpFor_HOs`
+
+### `Start`
+
+`OgreBotAPI.HOs:Start[fw, -ActorID id, -SkipTimer]`
+
+Casts this character's archetype HO starter ability (Fighting Chance, Lucky Break, Divine Providence or Arcane Augur) once, immediately, even while the bot is paused, and tells the group which actor the HO is on. Nothing happens within 1 second of the last start unless -SkipTimer is given, or when the ability is not ready, out of range or the cast bar is busy - call it again to retry.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `-ActorID id` | flag + number |  | Start the HO on this actor ID instead of the current target; -TargetID id is the same flag. Without it the cast goes at the current target and does nothing while any heroic opportunity is already up. With it, nothing happens if that actor is gone or a wheel is already running, and if another archetype's starter is up it is cancelled and the cast goes on the actor once the starter closes and the ability is ready (giving up after about 8 seconds). |
+| `-SkipTimer` | flag |  | Ignore the 1 second wait after the last start. |
+
+```text
+OgreBotAPI.HOs:Start[${Me.Name},-ActorID,${Target.ID}]
+```
+
+*Was (OldBot):* `OgreBotAPI:HO_Start`
+
+### `Starter`
+
+`OgreBotAPI.HOs:Starter[fw]`
+
+Takes one turn on an open starter chain, casting this character's abilities for the starter icons its archetype is offered; it follows "HO - Change Target" and works while the bot is paused. It does nothing when no heroic opportunity or starter window is up, this archetype has no icon in the chain, "HO - allow unknown target" is off and no HO target is known, or within 1 second of the last starter cast.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.HOs:Starter[igw:${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:HO_Starter`, `OgreBotAPI:HO_Starter_Advance`
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/IM.md
+
+# OgreBotAPI.IM
+
+## Members
+
+### `EndWhenFinished`
+
+`${OgreBotAPI.IM.EndWhenFinished}`
+
+Whether -end is armed, so the Inventory Manager window closes itself once the work has been idle for about 1.5 seconds. Only the console arms it (the -end flag of an `ogre im` line); there is no method for it, and closing the window clears it.
+
+**Returns:** bool: TRUE while -end is armed; FALSE otherwise.
+
+```text
+echo ${OgreBotAPI.IM.EndWhenFinished}
+```
+
+### `IsOpen`
+
+`${OgreBotAPI.IM.IsOpen}`
+
+Whether the Inventory Manager window is up on this session - the window is the session, so this is what a script waits on after starting it with -end. It reads FALSE when the UI host is not available, even while modes run from the console.
+
+**Returns:** bool: TRUE while the Inventory Manager window really exists; FALSE when it is closed or could not open.
+
+```text
+echo ${OgreBotAPI.IM.IsOpen}
+```
+
+### `IsRunning`
+
+`${OgreBotAPI.IM.IsRunning}`
+
+Whether the Inventory Manager is doing work right now - a mode (depot, sell, destroy, tse, restock, trade, quiver), a chain of them, or a depot withdraw started anywhere. It is FALSE while the window sits open and idle and can be FALSE just before a mode starts, so to wait for work to finish poll IsOpen with -end instead.
+
+**Returns:** bool: TRUE while any Inventory Manager mode or chain is working; FALSE when idle.
+
+```text
+echo ${OgreBotAPI.IM.IsRunning}
+```
+
+### `Mode`
+
+`${OgreBotAPI.IM.Mode}`
+
+The Inventory Manager mode working right now: depot, sell, destroy, tse, restock, trade, quiver or withdraw (a depot withdraw from anywhere). It reads chain when only a chain is busy between modes, and empty when idle.
+
+**Returns:** string: the busy mode's name, "chain", or "" when nothing is running.
+
+```text
+echo ${OgreBotAPI.IM.Mode}
+```
+
+### `Status`
+
+`${OgreBotAPI.IM.Status}`
+
+One line saying what the Inventory Manager is doing, the same line `echo ${OgreBotAPI.IM}` prints. It reads "closed", "open, idle", "open, running sell", "open, running withdraw" or "closed (running headless), running restock", with "; will close when finished (-end)" added while -end is armed.
+
+**Returns:** string: the status line, such as "open, idle" or "closed".
+
+```text
+echo ${OgreBotAPI.IM.Status}
+```
+
+## Methods
+
+### `Chain`
+
+`OgreBotAPI.IM:Chain[fw, words...]`
+
+Prints what each -&lt;mode> flag expands to. `reload` reads the chain defaults from disk again.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `words...` | string |  | reload. Optional. |
+
+```text
+OgreBotAPI.IM:Chain[all,reload]
+```
+
+### `Close`
+
+`OgreBotAPI.IM:Close[fw]`
+
+Closes the Inventory Manager window, clears a pending -end, and closes the merchant window unless a sell run is using it. It does not stop work that is running - use Stop for that.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.IM:Close[${Me.Name}]
+```
+
+### `Console`
+
+`OgreBotAPI.IM:Console[fw, word]`
+
+The window's activity log: always, running or never sets when the strip shows, and clear empties it. With no word it prints the setting and how many lines it holds.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `word` | string |  | always, running, never or clear. Optional. |
+
+```text
+OgreBotAPI.IM:Console[all,running]
+```
+
+### `Depot`
+
+`OgreBotAPI.IM:Depot[fw, words...]`
+
+Runs the depot mode, deposits into the nearest house or guild hall depots, and brings the window up; with no flags it runs the line saved on the Depot tab, or warns if nothing is saved. The words after it are read as one `ogre im` line, so `ogre im depot status` is `ogre im status`.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `words...` | string |  | The depot flags, one argument each, such as -harvest all -nearestdepot. `ogre im help` lists them. Optional. |
+
+```text
+OgreBotAPI.IM:Depot[all,-harvest,all,-nearestdepot]
+```
+
+### `Destroy`
+
+`OgreBotAPI.IM:Destroy[fw, words...]`
+
+The destroy mode: with no words, or flags first, it brings the window up and destroys what is on the destroy list; a name or an item id destroys that one item. The other first words are in the param.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `words...` | string |  | stop, status, reload, preview (or plan), list [all], add &lt;name> or remove &lt;name>; or flags; or an item. One argument each. Optional. |
+
+```text
+OgreBotAPI.IM:Destroy[all,preview]
+```
+
+### `End`
+
+`OgreBotAPI.IM:End[fw]`
+
+Stops whatever the Inventory Manager is running and closes the window, the same as `ogre end im` and the window's X. It stops first, so a script polling IsOpen never reads FALSE while work is still going.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.IM:End[all]
+```
+
+### `Examine`
+
+`OgreBotAPI.IM:Examine[fw, box]`
+
+Fills the named box of the window with the item in the open item examine window; you still pick the quantity and add it. It warns when no item examine window is open.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `box` | string |  | restock or trade: the tab whose box it fills. |
+
+```text
+OgreBotAPI.IM:Examine[all,restock]
+```
+
+### `Flags`
+
+`OgreBotAPI.IM:Flags[fw, words...]`
+
+Takes the words no other method spells: a line wholly of mode flags is a chain, run in that order, with -end to close the window when it finishes. Any other line goes to the depot parser, which says what it cannot read.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `words...` | string |  | The line, one argument each. |
+
+```text
+OgreBotAPI.IM:Flags[all,-destroy,-tse,-end]
+```
+
+### `Help`
+
+`OgreBotAPI.IM:Help[fw]`
+
+Prints the `ogre im` usage to the console: the depot flags, every other mode, chains, the queue and the settings.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.IM:Help[all]
+```
+
+### `Open`
+
+`OgreBotAPI.IM:Open[fw]`
+
+Opens the Inventory Manager window on the characters named; calling it while the window is up just refreshes it. If the UI host is not available it prints a warning and IsOpen stays FALSE.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.IM:Open[${Me.Name}]
+```
+
+### `Pane`
+
+`OgreBotAPI.IM:Pane[fw, words...]`
+
+Builds the editor list for a tab and prints how many rows it holds: sell or destroy, destroy when no name is given. `sell reopen` opens the merchant again first if its window is shut, as the Sell list tab's Refresh button does.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `words...` | string |  | The tab name, then reopen for sell. Optional. |
+
+```text
+OgreBotAPI.IM:Pane[all,destroy]
+```
+
+### `Probe`
+
+`OgreBotAPI.IM:Probe[fw]`
+
+Prints what the open depot's tier dropdown holds, for checking a depot window against the depot tables. It changes nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.IM:Probe[all]
+```
+
+### `Queue`
+
+`OgreBotAPI.IM:Queue[fw, mode]`
+
+Adds a mode to the run queue and brings the window up: it runs when the current work finishes. With no mode it prints what is waiting, and a word that is not a mode is refused.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `mode` | string |  | depot, sell, destroy, tse, restock, trade or quiver. Optional. |
+
+```text
+OgreBotAPI.IM:Queue[all,sell]
+```
+
+### `Reload`
+
+`OgreBotAPI.IM:Reload[fw]`
+
+Reloads the depot tables from disk: the depot kinds, the ammo rows and the shared resource table.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.IM:Reload[all]
+```
+
+### `Restock`
+
+`OgreBotAPI.IM:Restock[fw, words...]`
+
+The restock mode: with no words, or a profile name, it brings the window up and tops up from the depots, and -forwho &lt;expr> runs it only on the characters named. A word short of its arguments is read as a profile name.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `words...` | string |  | A profile, or one of stop, status, reload, list (or profiles), show &lt;profile>, preview (or plan) [profile], set &lt;profile> &lt;qty> &lt;item>, forwho &lt;profile> &lt;who> &lt;item>, drop &lt;profile> &lt;item>. Optional. |
+
+```text
+OgreBotAPI.IM:Restock[all,"Raid night",-forwho,${Me.Name}]
+```
+
+### `Sell`
+
+`OgreBotAPI.IM:Sell[fw, words...]`
+
+The sell mode: with no words it brings the window up and sells what is on the sell list, opening a nearby merchant if none is open. The other first words are in the param; any other words go to the run.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `words...` | string |  | stop, status, reload, preview (or plan), list [all], add &lt;name> or remove &lt;name>, then its arguments. Optional. |
+
+```text
+OgreBotAPI.IM:Sell[all,preview]
+```
+
+### `Settings`
+
+`OgreBotAPI.IM:Settings[fw, words...]`
+
+With no words, prints the saved settings; too few words prints the usage and changes nothing. Otherwise it changes one setting, as the param says.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `words...` | string |  | One of: bag &lt;tse\|destroy> &lt;1-6\|overseer\|harvest\|sharedtradeskill> &lt;on\|off>; tse &lt;option> &lt;on\|off\|number>; quiver &lt;arrow\|bolt\|throwing> &lt;name\|clear\|examine>; depot &lt;flags>; reload. One argument each. Optional. |
+
+```text
+OgreBotAPI.IM:Settings[all,tse,minlevel,120]
+```
+
+### `Status`
+
+`OgreBotAPI.IM:Status[fw]`
+
+Prints the session line to the console, then the chain if one runs and one summary line each for depot, sell, destroy, restock and trade. For one line a script can read, use ${OgreBotAPI.IM.Status}.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.IM:Status[all]
+```
+
+### `Stop`
+
+`OgreBotAPI.IM:Stop[fw]`
+
+Stops whatever the Inventory Manager is running (the chain, every busy mode, or a depot withdraw still in flight) and leaves the window open. When nothing is running it prints "im: nothing is running." to the console.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.IM:Stop[igw:${Me.Name}]
+```
+
+### `Trade`
+
+`OgreBotAPI.IM:Trade[fw, words...]`
+
+The trade mode: with no words it brings the window up and runs the queue. The other first words are in the param.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `words...` | string |  | add &lt;player> &lt;qty\|all> &lt;item>, remove &lt;n> (or delete), list, clear, preview (or plan), status or stop, then its arguments. Optional. |
+
+```text
+OgreBotAPI.IM:Trade[all,add,Tobbin,5,"Rare Ore"]
+```
+
+### `Transmute`
+
+`OgreBotAPI.IM:Transmute[fw, words...]`
+
+Brings the window up and transmutes one named item, or an item by id.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `words...` | string |  | The item name or id. A name may be several arguments; they are joined with spaces. |
+
+```text
+OgreBotAPI.IM:Transmute[all,"Rusted Greatsword"]
+```
+
+### `Tse`
+
+`OgreBotAPI.IM:Tse[fw, words...]`
+
+The transmute, salvage and extract mode: `stop` stops it, and anything else brings the window up and runs. It starts from the options saved on the TSE tab, and flags such as -salvage or -stopafter 5 change that run.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `words...` | string |  | stop, or the run's flags, one argument each. Optional. |
+
+```text
+OgreBotAPI.IM:Tse[all,-stopafter,5]
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Inventory.md
+
+# OgreBotAPI.Inventory
+
+## Members
+
+### `AdornmentColour`
+
+`${OgreBotAPI.Inventory.AdornmentColour[iconId]}`
+
+Looks up the colour of an adornment from its icon id, using the bot's built-in table of known adornment icons.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `iconId` | number |  | the adornment's icon id |
+
+**Returns:** string - White, Red, Blue, Cyan, Green, Purple or Black. Empty when the icon id is not in the table.
+
+```text
+echo ${OgreBotAPI.Inventory.AdornmentColour[3877]}
+```
+
+*Was (OldBot):* `OgreBotAPI.AdornmentIconIDColour`, `OgreBotAPI.Get_AdornmentColour`
+
+### `AdornToRemoveSlot`
+
+`${OgreBotAPI.Inventory.AdornToRemoveSlot[adorn]}`
+
+The reverse of AdornToSlot: takes the slot number out of an adornment entry name, so _ADORN_&lt;slot>_&lt;name> becomes _ADORN_&lt;name>. Text that is not in that form comes back unchanged.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `adorn` | text |  | the adornment entry name, _ADORN_&lt;slot>_&lt;name> |
+
+**Returns:** string - the entry name without the slot, or the input unchanged when it is not in the _ADORN_&lt;slot>_&lt;name> form.
+
+```text
+echo ${OgreBotAPI.Inventory.AdornToRemoveSlot["_ADORN_21_Raid Rune: Void Flow III"]}
+```
+
+*Was (OldBot):* `OgreBotAPI.ConvertAdornToRemoveSlot`
+
+### `AdornToSlot`
+
+`${OgreBotAPI.Inventory.AdornToSlot[adorn, slot=21]}`
+
+Puts a slot number into an adornment entry name: _ADORN_&lt;name> becomes _ADORN_&lt;slot>_&lt;name>. Text that is not in the _ADORN_&lt;name> form (with no other underscores) comes back unchanged.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `adorn` | text |  | the adornment entry name, _ADORN_&lt;name> |
+| `slot` | number | `21` | the slot number to insert |
+
+**Returns:** string - the entry name with the slot inserted, or the input unchanged when it is not in the _ADORN_&lt;name> form.
+
+```text
+echo ${OgreBotAPI.Inventory.AdornToSlot["_ADORN_Raid Rune: Void Flow III",21]}
+```
+
+*Was (OldBot):* `OgreBotAPI.ConvertAdornToSlot`
+
+### `Count`
+
+`${OgreBotAPI.Inventory.Count[itemName, exact|contains]}`
+
+Counts how many of an item you are carrying, adding up every stack in your bags and your Harvest Bag. The name match ignores case; it is exact unless you pass contains.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `itemName` | item name |  | the item to count |
+| `exact\|contains` | text | `exact` | exact = the whole name must match, contains = any item whose name contains the text |
+
+**Returns:** int - the total quantity on hand. 0 when nothing matches, the name is empty, you are not in the world, or the match word is not exact or contains (that last case also prints a line).
+
+```text
+echo ${OgreBotAPI.Inventory.Count[Ingot,contains]}
+```
+
+*Was (OldBot):* `Obj_OgreUtilities.ItemCount`, `OgreBotAPI.ItemCount`
+
+### `CurrentImmunityRune`
+
+`${OgreBotAPI.Inventory.CurrentImmunityRune}`
+
+Names the immunity rune on the belt you are wearing; it only reads your own character. It needs the belt's item details: an empty answer means they are still loading (the read asks the game for them), so ask again shortly - never treat empty as no rune.
+
+**Returns:** string - Stun, Stifle, Mez, Fear or Medic for the rune worn. Unknown when the details are loaded and no known rune is on the belt. Empty when the details are not loaded yet or you are not in the world.
+
+```text
+echo ${OgreBotAPI.Inventory.CurrentImmunityRune}
+```
+
+*Was (OldBot):* `OgreBotAPI.Get_CurrentImmunityRune`
+
+### `IsAdornmentColour`
+
+`${OgreBotAPI.Inventory.IsAdornmentColour[iconId, colour]}`
+
+TRUE when an adornment icon id is a known icon of the given colour. The colour match ignores case, and a blank colour means White.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `iconId` | number |  | the adornment's icon id |
+| `colour` | text | `White` | White, Red, Blue, Cyan, Green, Purple or Black |
+
+**Returns:** bool - TRUE when the icon is in the table with that colour. FALSE when the colour differs or the icon id is not in the table.
+
+```text
+echo ${OgreBotAPI.Inventory.IsAdornmentColour[3877,White]}
+```
+
+*Was (OldBot):* `OgreBotAPI.IsAdornmentColour`
+
+### `PackPonyRunning`
+
+`${OgreBotAPI.Inventory.PackPonyRunning}`
+
+TRUE while a pack pony run is in progress, whether CheckPackPony or the bot's own pack pony chore started it.
+
+**Returns:** bool: TRUE while a pack pony run is in progress; FALSE otherwise.
+
+```text
+echo ${OgreBotAPI.Inventory.PackPonyRunning}
+```
+
+*Was (OldBot):* `OgreBotAPI.Get_APIPackPonyRunning`, `OgreBotAPI.Get_PackPonyRunning`, `OgreBotAPI.bAPIPackPonyRunning`
+
+### `SlotAvailable`
+
+`${OgreBotAPI.Inventory.SlotAvailable[slot name]}`
+
+TRUE when the item worn in the named equipment slot can be used (activated) right now - for example, a clicky cloak on cooldown reads FALSE. It does not tell you whether the slot is empty or can hold an item.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `slot name` | text |  | one of: primary, secondary, head, cloak, chest, shoulders, forearms, hands, legs, feet, left_ring, right_ring, ears, ears2, neck, left_wrist, right_wrist, ranged, ammo, waist, activate1, activate2, event_slot, food, drink (any case) |
+
+**Returns:** bool - TRUE when the item in that slot is usable now. FALSE when it is not, when the name is not one of the slot names (a warning is printed), or when the slot could not be read.
+
+```text
+echo ${OgreBotAPI.Inventory.SlotAvailable[cloak]}
+```
+
+*Was (OldBot):* `OgreBotAPI.EquipmentSlotAvailable`
+
+### `SlotModifier`
+
+`${OgreBotAPI.Inventory.SlotModifier[slot, modifier]}`
+
+Reads one stat modifier from the item equipped in a slot, matching the modifier name without regard to case. It reads the item's detail record, which the game may have to fetch first, so it can return empty until that has loaded.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `slot` | slot name or number |  | the equipment slot, as the game's equipment list accepts it |
+| `modifier` | text |  | the modifier name, e.g. Potency |
+
+**Returns:** string - the modifier's value. Empty when the item has no such modifier, its details are not loaded yet, or you are not in the world.
+
+```text
+echo ${OgreBotAPI.Inventory.SlotModifier[primary,Potency]}
+```
+
+*Was (OldBot):* `OgreBotAPI.Get_EquipmentModifierValue`
+
+### `SlotName`
+
+`${OgreBotAPI.Inventory.SlotName[n=1]}`
+
+Turns one of the bot's slot numbers (1 to 22) into the bot's short slot name: primary, secondary, head, chest, shoulders, Forearms, Hands, legs, feet, LRing, RRing, ear, ear2, neck, lwrist, rwrist, ranged, ammo, waist, cloak, Activate1, Activate2.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `n` | number | `1` | the slot number, 1 to 22 |
+
+**Returns:** string - the slot name. Empty when n is outside 1 to 22.
+
+```text
+echo ${OgreBotAPI.Inventory.SlotName[20]}
+```
+
+*Was (OldBot):* `OgreBotAPI.Get_SlotNum_To_SlotNames`, `OgreBotAPI.SlotNum_SlotNames`, `OgreBotAPI.Slot_SlotNames`
+
+### `SlotNumAvailable`
+
+`${OgreBotAPI.Inventory.SlotNumAvailable[slot number 1-22]}`
+
+The same check as SlotAvailable, with the slot given as a number from 1 to 22 in the bot's own numbering (not the game's equipment index): 1 primary, 2 secondary, 3 head, 4 chest, 5 shoulders, 6 forearms, 7 hands, 8 legs, 9 feet, 10 left_ring, 11 right_ring, 12 ears, 13 ears2, 14 neck, 15 left_wrist, 16 right_wrist, 17 ranged, 18 ammo, 19 waist, 20 cloak, 21 activate1, 22 activate2.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `slot number 1-22` | number |  | the slot, in the bot's numbering (whole digits only) |
+
+**Returns:** bool - TRUE when the item in that slot is usable now. FALSE when it is not, when the number is not 1 to 22 (a warning is printed), or when the slot could not be read. event_slot, food and drink have no number; use SlotAvailable for them.
+
+```text
+echo ${OgreBotAPI.Inventory.SlotNumAvailable[20]}
+```
+
+*Was (OldBot):* `OgreBotAPI.EquipmentSlotNumAvailable`
+
+### `SlotUIName`
+
+`${OgreBotAPI.Inventory.SlotUIName[n=1]}`
+
+Turns one of the bot's slot numbers (1 to 22) into the slot's name as the game's character window spells it: primary, secondary, head, chest, shoulders, Forearms, Hands, legs, feet, left_ring, right_ring, ears, ears2, neck, left_wrist, right_wrist, ranged, ammo, waist, cloak, Activate1, Activate2.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `n` | number | `1` | the slot number, 1 to 22 |
+
+**Returns:** string - the window's slot name. Empty when n is outside 1 to 22.
+
+```text
+echo ${OgreBotAPI.Inventory.SlotUIName[10]}
+```
+
+*Was (OldBot):* `OgreBotAPI.Get_SlotNum_EQ2UIPageSlotNames`, `OgreBotAPI.SlotNum_EQ2UIPageSlotNames`
+
+## Methods
+
+### `AddEmbargo`
+
+`OgreBotAPI.Inventory:AddEmbargo[fw, linkId, durationSec]`
+
+Stops the bot's casting from using an item, given by its LinkID, for a number of seconds (while item embargo is enabled in the bot's settings). Both arguments are required; a new embargo on the same item only ever extends it, and the signed and unsigned forms of a LinkID both work.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `linkId` | number |  | the item's LinkID, a whole number from -2147483648 to 4294967295 |
+| `durationSec` | number |  | how long, in seconds; 0 expires at once |
+
+```text
+OgreBotAPI.Inventory:AddEmbargo["all",-1112810742,30]
+```
+
+*Was (OldBot):* `OgreBotAPI:ItemEmbargo_AddRotateTimer`
+
+### `AutoConsumeFamiliarXP`
+
+`OgreBotAPI.Inventory:AutoConsumeFamiliarXP[fw]`
+
+Uses "(Temporary 4 hour) Familiar Experience" from your bags up to 10 times, waiting while you are in combat or moving. Only one temporary auto-consume run (this, mount training or research) runs at a time; a new call replaces the one before.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Inventory:AutoConsumeFamiliarXP[${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:AutoConsumeTemporaryFamiliarExperience`
+
+### `AutoConsumeFoodDrink`
+
+`OgreBotAPI.Inventory:AutoConsumeFoodDrink[fw, value=TRUE]`
+
+Turns auto-consume on or off for the food and drink in your equipped provision slots, flipping only a slot whose setting differs from what you asked. It is queued, with a 1-second pause after.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `value` | true/false or word | `TRUE` | TRUE = on, FALSE = off, toggle = flip, report = change nothing; any other word means TRUE |
+
+```text
+OgreBotAPI.Inventory:AutoConsumeFoodDrink[igw:${Me.Name},TRUE]
+```
+
+*Was (OldBot):* `OgreBotAPI:Change_FoodDrinkAutoConsume`, `OgreBotAPI:FoodDrink_AutoConsume`
+
+### `AutoConsumeMountTraining`
+
+`OgreBotAPI.Inventory:AutoConsumeMountTraining[fw]`
+
+Checks that mount training is running, then uses "(Temporary 4 hour) Mount Training Reduction" from your bags up to 10 times, waiting while you are in combat or moving. If training is not running nothing is consumed; a new call replaces any temporary auto-consume run already going.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Inventory:AutoConsumeMountTraining[${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:AutoConsumeTemporaryMountTrainingReduction`
+
+### `AutoConsumeResearch`
+
+`OgreBotAPI.Inventory:AutoConsumeResearch[fw]`
+
+Uses "(Temporary 4 hour) Research Reduction" from your bags up to 10 times, waiting while you are in combat or moving. It opens the research window if needed and stops when research is complete or nothing is being researched; a new call replaces any temporary auto-consume run already going.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Inventory:AutoConsumeResearch[${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:AutoConsumeTemporaryResearchReduction`
+
+### `AutoConsumeStatPotions`
+
+`OgreBotAPI.Inventory:AutoConsumeStatPotions[fw, value=TRUE, potion=""]`
+
+Turns auto-consume on or off for a stat potion in your bags (exact name); with no potion named it uses the bot's configured stat potion. It flips only when the setting differs from what you asked, is queued with a 1-second pause after, and prints a line if the potion is not in your bags.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `value` | true/false or word | `TRUE` | TRUE = on, FALSE = off, toggle = flip, report = change nothing; any other word means TRUE |
+| `potion` | item name | `""` | the potion; blank = the configured stat potion |
+
+```text
+OgreBotAPI.Inventory:AutoConsumeStatPotions[igw:${Me.Name},TRUE]
+```
+
+*Was (OldBot):* `OgreBotAPI:Change_StatPotionsAutoConsume`, `OgreBotAPI:StatPotions_AutoConsume`, `OgreBotAPI:Change_PoisonAutoConsume`
+
+### `ChangeBeltAdorn`
+
+`OgreBotAPI.Inventory:ChangeBeltAdorn[fw, adornType, unequip=TRUE]`
+
+Applies an immunity rune from your bags to your belt; it is queued and refuses while you are moving or in combat. A rune it replaces is accepted back and moved next to where the new rune was.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `adornType` | text |  | Stun, Stifle, Mez, Fear or Medic |
+| `unequip` | true/false | `TRUE` | TRUE takes the belt off, applies the rune and puts the belt back on; FALSE applies the rune to the worn belt |
+
+```text
+OgreBotAPI.Inventory:ChangeBeltAdorn[${Me.Name},Stun,TRUE]
+```
+
+*Was (OldBot):* `OgreBotAPI:ChangeBeltAdorn`
+
+### `CheckGear`
+
+`OgreBotAPI.Inventory:CheckGear[fw, threshold=100]`
+
+Checks the condition of the item in your primary slot and prints "&lt;name> gear N%" when it is at or below the threshold (and always at 30, 20, 10 and 0). It is queued, waits up to 5 seconds for the item's details to load, and fires the gear-condition event on every check.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `threshold` | number | `100` | the percent at or below which to print; TRUE means 100 |
+
+```text
+OgreBotAPI.Inventory:CheckGear[igw:${Me.Name},90]
+```
+
+*Was (OldBot):* `OgreBotAPI:CheckGear`
+
+### `CheckPackPony`
+
+`OgreBotAPI.Inventory:CheckPackPony[fw, forceCheck=FALSE]`
+
+Runs the Artisan's Pack Pony chore now: summons the pony, works through its conversation and dismisses it, pausing the bot for the run (and resuming it after, if it was not already paused). It does not need the pack pony settings enabled, but it waits out the re-check interval unless forced, and prints why if it cannot start (already running, not in the world, no pack pony ability, in combat).
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `forceCheck` | true/false | `FALSE` | TRUE = run even within the re-check interval |
+
+```text
+OgreBotAPI.Inventory:CheckPackPony[${Me.Name},TRUE]
+```
+
+*Was (OldBot):* `OgreBotAPI:CheckPackPony`
+
+### `ClearAllEmbargos`
+
+`OgreBotAPI.Inventory:ClearAllEmbargos[fw]`
+
+Removes every item embargo. Ability embargoes are not touched.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Inventory:ClearAllEmbargos["all"]
+```
+
+### `ClearEmbargo`
+
+`OgreBotAPI.Inventory:ClearEmbargo[fw, linkId]`
+
+Removes the item embargo on one item, by the same LinkID AddEmbargo took. Does nothing if that item has no embargo.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `linkId` | number |  | the item's LinkID |
+
+```text
+OgreBotAPI.Inventory:ClearEmbargo["all",-1112810742]
+```
+
+### `ConsumeFamiliars`
+
+`OgreBotAPI.Inventory:ConsumeFamiliars[fw]`
+
+Goes through each familiar already loose in your bags: one not yet in your collection is added, one you already have is consumed for familiar experience. It does not unpack Familiar Cages - UnpackConsumeFamiliars does both.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Inventory:ConsumeFamiliars[${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:Consume_Familiars`
+
+### `ConsumeList`
+
+`OgreBotAPI.Inventory:ConsumeList[fw, -fc, -all, -st]`
+
+Runs the bot's Consume Items list once: it uses the first entry that is ready and in your bags, or every one with -all. It skips disabled entries, in-combat-only entries outside combat and entries whose own timer has not run out, and stops if you are dead or moving.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `-fc` | flag |  | force combat: ignore the in-combat-only setting and the in-combat wait between items |
+| `-all` | flag |  | use every eligible entry, not just the first |
+| `-st` | flag |  | skip timers: ignore each item's own timer |
+
+```text
+OgreBotAPI.Inventory:ConsumeList[igw:${Me.Name},-all]
+```
+
+*Was (OldBot):* `OgreBotAPI:ConsumeItems_ProcessList`
+
+### `ConsumeStatusIngots`
+
+`OgreBotAPI.Inventory:ConsumeStatusIngots[fw, amount=99999]`
+
+Targets yourself and consumes status ingots - every bag item whose name contains Ingot - by examining each and confirming, until the amount is used. An item that fails twice in a row is skipped (tradeskill ingots match the name too); it is queued, stops if you lose the target, makes at most 250 tries a run, and sends a finished line to every session.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `amount` | number | `99999` | how many to consume; 0 or less means all |
+
+```text
+OgreBotAPI.Inventory:ConsumeStatusIngots[${Me.Name},10]
+```
+
+*Was (OldBot):* `OgreBotAPI:Consume_Status_Ignots`, `OgreBotAPI:Consume_Status_Ingots`
+
+### `ConsumeStatusTokens`
+
+`OgreBotAPI.Inventory:ConsumeStatusTokens[fw, amount=99999]`
+
+Targets yourself and consumes Status Token items, then Status Coin items, by examining each and confirming. Every try counts toward the amount whether or not it consumed one; it is queued, stops if you lose the target, makes at most 250 tries a run, and sends a finished line to every session.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `amount` | number | `99999` | how many tries to make; 0 or less means all |
+
+```text
+OgreBotAPI.Inventory:ConsumeStatusTokens[${Me.Name},10]
+```
+
+*Was (OldBot):* `OgreBotAPI:Consume_Status_Tokens`
+
+### `DestroyItem`
+
+`OgreBotAPI.Inventory:DestroyItem[fw, itemName, charges=0]`
+
+Destroys an item in your carried bags by name, but only when it has no charges or its charges equal the number you give, so a partly used charged item is kept. It is queued, waits a second for the item's details to load and refuses with a line if they did not arrive; the destroy cannot be undone.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `itemName` | item name |  | the item to destroy |
+| `charges` | number | `0` | the charge count the item must have to be destroyed |
+
+```text
+OgreBotAPI.Inventory:DestroyItem[${Me.Name},"Rusty Dagger",0]
+```
+
+*Was (OldBot):* `OgreBotAPI:DestroyItem`
+
+### `DestroyItemNoChecks`
+
+`OgreBotAPI.Inventory:DestroyItemNoChecks[fw, itemName]`
+
+Destroys an item in your carried bags (not the bank) whose name matches exactly, ignoring case - the whole stack, with no charge check. This cannot be undone; use DestroyItem to keep a partly used charged item safe.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `itemName` | item name |  | the item to destroy |
+
+```text
+OgreBotAPI.Inventory:DestroyItemNoChecks[${Me.Name},"Rusty Dagger"]
+```
+
+*Was (OldBot):* `OgreBotAPI:DestroyItem_NoChecks`
+
+### `EquipCharm`
+
+`OgreBotAPI.Inventory:EquipCharm[fw, slot=1]`
+
+Equips the item set as charm option 1 or 2 in the bot's Equipment settings, finding it in your bags by name. This only asks the game to equip it; the game can still refuse (slot rules, relic limits).
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `slot` | number | `1` | which charm option to equip, 1 or 2 |
+
+```text
+OgreBotAPI.Inventory:EquipCharm[igw:${Me.Name},2]
+```
+
+*Was (OldBot):* `OgreBotAPI:EquipCharm`
+
+### `Examine`
+
+`OgreBotAPI.Inventory:Examine[fw, item=DoesNotExist]`
+
+Opens the examine window for an item in your main bags, matched by exact name. Does nothing when no such item is there.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `item` | item name | `DoesNotExist` | the item to examine |
+
+```text
+OgreBotAPI.Inventory:Examine[${Me.Name},"Spirit of the Cat"]
+```
+
+*Was (OldBot):* `OgreBotAPI:ExamineInventoryItem`, `Obj_OgreIH:ExamineInventoryItem`
+
+### `ExamineAll`
+
+`OgreBotAPI.Inventory:ExamineAll[fw, item...]`
+
+Examines every carried item whose name contains any of the given texts (main bags, Overseer Bag and Harvest Bag), each stack as many times as its quantity plus two, closing the examine window after each stack. It is queued and reads the bags when it runs; it prints a line if nothing matches.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `item...` | item names |  | one or more name texts to match (contains, any case) |
+
+```text
+OgreBotAPI.Inventory:ExamineAll[${Me.Name},Potion]
+```
+
+*Was (OldBot):* `OgreBotAPI:ExamineAllOfItem`
+
+### `InitAdornmentInfo`
+
+`OgreBotAPI.Inventory:InitAdornmentInfo[fw]`
+
+Fills the adornment icon colour table that AdornmentColour and IsAdornmentColour read. The table is filled automatically, so a script does not normally need this.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Inventory:InitAdornmentInfo[${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:Initialize_AdornmentInfo`
+
+### `RedeemKrono`
+
+`OgreBotAPI.Inventory:RedeemKrono[fw]`
+
+Redeems a Krono from the Krono page of your character window and confirms it, then prints whether it worked and fires the Krono redemption event. With no Krono to redeem it prints a line and stops.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Inventory:RedeemKrono[${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:RedeemKrono`
+
+### `SpewSlotNames`
+
+`OgreBotAPI.Inventory:SpewSlotNames[fw]`
+
+Prints one console line per gear slot 1 to 22: the slot number, the bot's name for that number, and the item equipped there (NULL when nothing reads).
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Inventory:SpewSlotNames[${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:Spew_SlotNum_To_SlotNames`
+
+### `Unpack`
+
+`OgreBotAPI.Inventory:Unpack[fw, item, ...]`
+
+Unpacks an item in your bags (exact name), with flags after the item in any order: -qty N unpacks N (1 to 1000), -all keeps going until none is left (up to 1000), and -pick &lt;number \| name \| lowest> chooses the reward when the window offers a choice (lowest = the choice you hold the fewest of). It is queued and waits out an open reward window; a bad flag is refused with one line before anything is queued.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `item` | item name |  | the item to unpack |
+| `...` | flags |  | -qty N or -all, and -pick &lt;number \| name \| lowest> |
+
+```text
+OgreBotAPI.Inventory:Unpack[${Me.Name},"Reward Crate",-all,-pick,lowest]
+```
+
+*Was (OldBot):* `OgreBotAPI:Unpack`, `OgreBotAPI:Unpack_EmpyralStones`, `OgreBotAPI:Unpack_PlanarStones`
+
+### `UnpackConsumeFamiliars`
+
+`OgreBotAPI.Inventory:UnpackConsumeFamiliars[fw]`
+
+Unpacks every Familiar Cage in your bags, then goes through each familiar in your bags: one not yet in your collection is added, one you already have is consumed for familiar experience (summoning a familiar if one is needed). A finished line is sent to every session when it is done.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Inventory:UnpackConsumeFamiliars[${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:Unpack_Consume_Familiars`
+
+### `UnpackFamiliars`
+
+`OgreBotAPI.Inventory:UnpackFamiliars[fw]`
+
+Unpacks every Familiar Cage in your bags, one at a time (up to 20). It is queued, and prints a line if there is no Familiar Cage.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Inventory:UnpackFamiliars[${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:Unpack_Familiars`
+
+### `UpgradeItem`
+
+`OgreBotAPI.Inventory:UpgradeItem[fw]`
+
+Moves the adornments from the old item in bag 1 slot 1 onto the new item in bag 1 slot 2, moves the old item to the end of bag 1 and equips the new one. Both must be for the same slot and the new one must have no adornments; an adornment with no free slot of its colour goes back on the old item.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Inventory:UpgradeItem[${Me.Name}]
+```
+
+### `Use`
+
+`OgreBotAPI.Inventory:Use[fw, item, ...]`
+
+Uses an item by name: equipped items (gear, food and drink) are checked first, then your carried bags (exact name, any case). The use is queued and fires when the cast bar is free; an item that is not found prints a line, and an empty name or Nothing does nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `item` | item name |  | the item to use |
+| `...` | any |  | extra arguments are ignored |
+
+```text
+OgreBotAPI.Inventory:Use[${Me.Name},"Spirit of the Cat"]
+```
+
+*Was (OldBot):* `OgreBotAPI:UseItem`
+
+### `UseOnPlayer`
+
+`OgreBotAPI.Inventory:UseOnPlayer[fw, item, player=me, ...]`
+
+Uses an item on another player: it targets that player, uses the item (equipped first, then bags) and puts your old target back. It does nothing if the item is on cooldown, if an effect the item is known to give is already maintained by you, or if the cast bar is busy; an item or player that is not found prints a line.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `item` | item name |  | the item to use |
+| `player` | player name or actor id | `me` | who to use it on |
+| `...` | any |  | extra arguments are ignored |
+
+```text
+OgreBotAPI.Inventory:UseOnPlayer[${Me.Name},"Spirit of the Cat",${Target.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:UseItemOnPlayer`

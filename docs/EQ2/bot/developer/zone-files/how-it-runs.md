@@ -187,7 +187,7 @@ Anything in `{{ }}` inside a step's text is filled in when the step runs. The `i
 | `{{ic.zone.file}}` | The file's path inside its root. |
 | `{{ic.zone.entrance}}` | The file's `entrance`. |
 | `{{ic.zone.options.<name>}}` | The file's own `options`. |
-| `{{ic.options.<name>}}` | The IC window's options, as `TRUE`/`FALSE` (or text): `haltAtEnd`, `loop`, `zoneIn`, `resetZones`, `afterWipe`, `skipBoss`, `skipShinies`, `pauseForNoTradeShinies`, `doNotLootNoTradeBossChest`, `im`, `imAfterEachZone`, `summonMenderToSell`, `callGHAfterEachZone`, `stayInZoneUntilZoneReady`, `skipGroupChecks`, `fileOption1` to `fileOption3`, `fileArgs`. |
+| `{{ic.options.<name>}}` | The IC window's options, as `TRUE`/`FALSE` (or text): `haltAtEnd`, `loop`, `zoneIn`, `resetZones`, `afterWipe`, `skipBoss`, `skipShinies`, `pauseForNoTradeShinies`, `doNotLootNoTradeBossChest`, `im`, `imAfterEachZone`, `imAllGroup`, `summonMenderToSell`, `callGHAfterEachZone`, `stayInZoneUntilZoneReady`, `skipGroupChecks`, `fileOption1` to `fileOption3`, `fileArgs`. |
 | `{{ic.run.verdicts.<stepId>}}` | How a step ended. `named`, `loot` and `zoneOut` steps record one: `killed`, `looted`, `zonedOut` and so on. |
 | `{{ic.run.id}}`, `{{ic.run.attempts}}` | This run's id, and how many tries it has had (1, then one more after each wipe recovery). |
 | `{{ic.run.completed}}`, `{{ic.run.skipped}}` | The steps (by `stepId`) known to be done or skipped. |

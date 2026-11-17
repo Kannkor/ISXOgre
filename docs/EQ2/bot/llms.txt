@@ -6,19 +6,30 @@ To convert a Classic script, follow the procedure on the Converting your scripts
 
 ## Read it all
 
-- [Everything in one document](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-full.txt): the entire documentation, 1092 KB. If that is too much to read at once, use the smaller pieces below - together they are the same text.
+- [Everything in one document](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-full.txt): the entire documentation, 2094 KB. If that is too much to read at once, use the smaller pieces below - together they are the same text.
 - [Start here (part 1 of 2)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-start-here-1.txt): 20 KB - Start here
 - [Start here (part 2 of 2)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-start-here-2.txt): 295 KB - Start here
 - [OgreBot (part 1 of 3)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-ogrebot-1.txt): 99 KB - OgreBot; OgreBot - Tabs
 - [OgreBot (part 2 of 3)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-ogrebot-2.txt): 99 KB - OgreBot - Tabs
 - [OgreBot (part 3 of 3)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-ogrebot-3.txt): 63 KB - OgreBot - Tabs
 - [Windows (part 1 of 5)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-1.txt): 70 KB - Windows - Everyday
-- [Windows (part 2 of 5)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-2.txt): 96 KB - Windows - Running content
+- [Windows (part 2 of 5)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-2.txt): 97 KB - Windows - Running content
 - [Windows (part 3 of 5)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-3.txt): 99 KB - Windows - Running content; Windows - Loot and items; Windows - Crafting
 - [Windows (part 4 of 5)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-4.txt): 97 KB - Windows - Groups and accounts; Windows - Tools
 - [Windows (part 5 of 5)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-5.txt): 35 KB - Windows - Tools
-- [Developers (part 1 of 2)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-1.txt): 99 KB - Developers; Developers - Guides; Developers - Guides - Write your own zone files
-- [Developers (part 2 of 2)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-2.txt): 25 KB - Developers - Guides - Write your own zone files
+- [Developers (part 1 of 13)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-1.txt): 84 KB - Developers; Developers - Guides; Developers - Guides - Write your own zone files
+- [Developers (part 2 of 13)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-2.txt): 75 KB - Developers - Guides - Write your own zone files; Developers - API reference; Developers - API reference - OgreBotAPI
+- [Developers (part 3 of 13)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-3.txt): 84 KB - Developers - API reference - OgreBotAPI
+- [Developers (part 4 of 13)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-4.txt): 96 KB - Developers - API reference - OgreBotAPI
+- [Developers (part 5 of 13)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-5.txt): 98 KB - Developers - API reference - OgreBotAPI
+- [Developers (part 6 of 13)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-6.txt): 80 KB - Developers - API reference - OgreBotAPI
+- [Developers (part 7 of 13)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-7.txt): 91 KB - Developers - API reference - OgreBotAPI
+- [Developers (part 8 of 13)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-8.txt): 98 KB - Developers - API reference - OgreBotAPI; Developers - API reference - ISXOgreEQ2
+- [Developers (part 9 of 13)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-9.txt): 94 KB - Developers - API reference - ISXOgreEQ2
+- [Developers (part 10 of 13)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-10.txt): 95 KB - Developers - API reference - ISXOgreEQ2
+- [Developers (part 11 of 13)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-11.txt): 37 KB - Developers - API reference
+- [Developers (part 12 of 13)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-12.txt): 186 KB - Developers - API reference
+- [Developers (part 13 of 13)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-13.txt): 14 KB - Developers - API reference
 
 Each page on its own, as plain Markdown, in menu order:
 
@@ -171,6 +182,136 @@ Each page on its own, as plain Markdown, in menu order:
 - [Other actions](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/zone-files/other-actions.md)
 - [Run your own fight files](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/zone-files/fight-files.md)
 - [Check your file](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/zone-files/checking.md)
+
+## Developers - API reference
+
+- [API reference](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/index.md)
+
+## Developers - API reference - OgreBotAPI
+
+- [OgreBotAPI](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/OgreBotAPI.md)
+- [Abilities](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Abilities.md)
+- [Access](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Access.md)
+- [Actors](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Actors.md)
+- [Assist](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Assist.md)
+- [AutoHunt](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/AutoHunt.md)
+- [AutoTarget](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/AutoTarget.md)
+- [Bot](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Bot.md)
+- [CampSpot](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/CampSpot.md)
+- [CastStack](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/CastStack.md)
+- [Client](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Client.md)
+- [Combat](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Combat.md)
+- [Comms](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Comms.md)
+- [Comms.GroupQuery](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Comms.GroupQuery.md)
+- [Consumables](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Consumables.md)
+- [Craft](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Craft.md)
+- [Cures](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Cures.md)
+- [Debug](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Debug.md)
+- [Encounter](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Encounter.md)
+- [Events](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Events.md)
+- [ForWho](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/ForWho.md)
+- [HOs](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/HOs.md)
+- [IM](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/IM.md)
+- [Inventory](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Inventory.md)
+- [Loot](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Loot.md)
+- [Merchant](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Merchant.md)
+- [Movement](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Movement.md)
+- [Options](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Options.md)
+- [Overseer](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Overseer.md)
+- [Paths](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Paths.md)
+- [Pet](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Pet.md)
+- [POI](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/POI.md)
+- [Position](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Position.md)
+- [Quest](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Quest.md)
+- [Roster](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Roster.md)
+- [Session](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Session.md)
+- [TempAdorns](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/TempAdorns.md)
+- [Travel](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Travel.md)
+- [Util](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Util.md)
+- [Vars](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Vars.md)
+- [Windows](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Windows.md)
+- [Zone](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Zone.md)
+
+## Developers - API reference - ISXOgreEQ2
+
+- [ISXOgreEQ2](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/ISXOgreEQ2.md)
+- [AbilityDetails](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/AbilityDetails.md)
+- [AbilityEfficiency](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/AbilityEfficiency.md)
+- [AbilityUpgrades](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/AbilityUpgrades.md)
+- [Analysis](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Analysis.md)
+- [AntiAfk](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/AntiAfk.md)
+- [Auth](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Auth.md)
+- [AutoLogin](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/AutoLogin.md)
+- [Chat](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Chat.md)
+- [ChatCmd](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/ChatCmd.md)
+- [Class](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Class.md)
+- [Codex](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Codex.md)
+- [Collection](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Collection.md)
+- [Commands](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Commands.md)
+- [Craft](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Craft.md)
+- [CraftGm](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/CraftGm.md)
+- [CraftingMats](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/CraftingMats.md)
+- [DepotTransfer](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/DepotTransfer.md)
+- [Det](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Det.md)
+- [EffectTracker](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/EffectTracker.md)
+- [Encounter](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Encounter.md)
+- [Events](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Events.md)
+- [Experiment](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Experiment.md)
+- [Export](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Export.md)
+- [ForWhoGroups](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/ForWhoGroups.md)
+- [Game](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Game.md)
+- [GetQuest](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/GetQuest.md)
+- [HarvestLite](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/HarvestLite.md)
+- [Heartstone](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Heartstone.md)
+- [HideEffects](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/HideEffects.md)
+- [HUDs](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/HUDs.md)
+- [IC](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/IC.md)
+- [InvOps](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/InvOps.md)
+- [Lag](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Lag.md)
+- [LevelTransmuting](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/LevelTransmuting.md)
+- [LootScan](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/LootScan.md)
+- [MCP](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/MCP.md)
+- [MerchantCraft](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/MerchantCraft.md)
+- [MerchantOps](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/MerchantOps.md)
+- [Migrate](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Migrate.md)
+- [Nav](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Nav.md)
+- [NpcCast](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/NpcCast.md)
+- [OgreBot](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/OgreBot.md)
+- [OSA](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/OSA.md)
+- [Overseer](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Overseer.md)
+- [PackPony](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/PackPony.md)
+- [Paths](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Paths.md)
+- [Perf](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Perf.md)
+- [Persona](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Persona.md)
+- [PotCb](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/PotCb.md)
+- [PulseBudget](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/PulseBudget.md)
+- [PulseProf](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/PulseProf.md)
+- [Pushover](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Pushover.md)
+- [QuestCompare](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/QuestCompare.md)
+- [QuestHelper](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/QuestHelper.md)
+- [Queue](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Queue.md)
+- [Quiver](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Quiver.md)
+- [Radar](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Radar.md)
+- [Refine](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Refine.md)
+- [ReplenishNames](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/ReplenishNames.md)
+- [SafeFall](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/SafeFall.md)
+- [Scheduler](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Scheduler.md)
+- [Spawn](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Spawn.md)
+- [TagTimers](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/TagTimers.md)
+- [Targeting](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Targeting.md)
+- [TaskRunner](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/TaskRunner.md)
+- [Tour](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Tour.md)
+- [Travel](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Travel.md)
+- [TravelMesh](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/TravelMesh.md)
+- [Watcher](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Watcher.md)
+- [WindowReactions](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/WindowReactions.md)
+- [ZoneReset](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/ZoneReset.md)
+
+## Developers - API reference
+
+- [ISXOgreX](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogrex.md)
+- [Commands](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/commands.md)
+- [Events](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/events.md)
 
 ## Developers - Coming from Classic
 

@@ -1,0 +1,235 @@
+# OgreBot for EverQuest II - documentation, Developers (part 13 of 13)
+
+OgreBot is in beta testing. For OgreBot Classic see https://kannkor.github.io/ISXOgre/EQ2/
+This file is ONE PIECE of the documentation: Developers (part 13 of 13) - Developers - API reference.
+The entire documentation in one document: https://kannkor.github.io/ISXOgre/EQ2/bot/llms-full.txt
+Index of every page and of every file like this one: https://kannkor.github.io/ISXOgre/EQ2/bot/llms.txt
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/events.md
+
+# Events
+
+The events the bot fires. Attach an atom to one in your script to react to it.
+
+## ISXOgreX events
+
+### `OgreUI_Closed`
+
+Fires when a window on the Ogre HTML desktop goes away, passing two arguments: the window name, then the reason - "closed" (title-bar X or ISXOgreX.UI:Close) or "reload" (the desktop was reloaded and took the window with it). On a reload every open window fires it, so a script that wants its window back re-opens it from this event.
+
+```text
+Event[OgreUI_Closed]:AttachAtom[MyHandler]
+```
+
+### `OgreUI_Hidden`
+
+Fires when an open window on the Ogre HTML desktop changes from visible to hidden, passing one argument, the window name. It fires only on a change, and not when the window is closed (that is OgreUI_Closed).
+
+```text
+Event[OgreUI_Hidden]:AttachAtom[MyHandler]
+```
+
+### `OgreUI_Opened`
+
+Fires when a window is created on the Ogre HTML desktop - any window, a script's own (ISXOgreX.UI:Open), OgreBot's or a help window. It passes one argument, the window name.
+
+```text
+Event[OgreUI_Opened]:AttachAtom[MyHandler]
+```
+
+### `OgreUI_Shown`
+
+Fires when an open window on the Ogre HTML desktop changes from hidden to visible, passing one argument, the window name. It fires only on a change and not for a window that opens already visible (that is OgreUI_Opened), but a window opened hidden fires it the first time it is shown.
+
+```text
+Event[OgreUI_Shown]:AttachAtom[MyHandler]
+```
+
+## ISXOgreEQ2 events
+
+### `BalancedSynergy_QueueCasting`
+
+Fires on every box of the group that runs on this PC (the asking box included) when a box's cast stack reaches its Balanced Synergy entry: instead of casting it, that box sends this event to its group with one argument, the delay in seconds (always 10). On each box that receives it the bot itself casts Balanced Synergy after that delay unless "Ignore Balanced Synergy" is ticked or DoHO is running on that box when the delay ends, and a script atom attached here sees the same delay argument.
+
+```text
+Event[BalancedSynergy_QueueCasting]:AttachAtom[MyHandler]
+```
+
+### `CampSpotJump_Completed`
+
+Fires on this session when a jump route (OgreBotAPI.Movement:JumpRoute, or one an encounter starts) reaches its end, with two arguments: the result ("succeeded" or "failed") and why ("arrived", "already there", "timed out", "dead", "zoning", "cancelled" or "not above the check height"). A stopped route fires it as failed / cancelled, and a route that is refused at start never fires it.
+
+```text
+Event[CampSpotJump_Completed]:AttachAtom[MyHandler]
+```
+
+### `OgreCraft_CraftingStatusUpdate`
+
+Fires on this session as the craft engine starts and ends its work, with one argument: a JSON object holding EventName, CharacterName, Time (unix seconds), Status, the flow flags (Writs / AutoTinkering / LLL / Quest), noMassProduction, craftingType, CraftedCount and CraftCount, plus Index, Error and the active recipe's _recipeName / _recipeID / _quantityToCraft / _quantityCrafted when they apply. Status is one of CraftQueue_Start, CraftQueue_CraftRecipe_Start, CraftQueue_CraftRecipe_End, CraftQueue_Finished, CraftQueue_End (bags full), Writs_Start, Writ_Start (with Writ and TotalWritsToDo), Writ_End, Writs_End, Quest_Start, Quest_End, AutoTinkering_Start, AutoTinkering_End, LLL_Start or LLL_End.
+
+```text
+Event[OgreCraft_CraftingStatusUpdate]:AttachAtom[MyHandler]
+```
+
+### `OgreCraft_NavigationRequired`
+
+Fires on this session only when the craft option to manage movement with events (checkbox_craft_useevents) is ticked and craft needs to walk to an out-of-range station, merchant or other craft target, or cannot find it at all; it passes one JSON argument with requestID, action ("move"), category, key, displayName, customNamedPoint, precision, zone, characterName and targetFound, plus targetID, targetName, targetX/Y/Z and targetDistance when the target was found. Craft then waits with no time limit until your script calls ISXOgreEQ2.Craft:CompleteNavigation (you moved it) or ISXOgreEQ2.Craft:DeferNavigation (craft walks itself), and the same JSON stays readable as ${ISXOgreEQ2.Craft.NavigationDetails}.
+
+```text
+Event[OgreCraft_NavigationRequired]:AttachAtom[MyHandler]
+```
+
+### `OgreCraft_RecipeQueueUpdated`
+
+Fires on this session when a recipe is added to the craft setup queue, its quantity changes, or it is removed, with one JSON argument holding EventName, CharacterName, Time (unix seconds), changeInRecipeQuantity, _recipeName, _recipeID, _quantityToCraft and _quantityCrafted. A removal (including a quantity change that reaches zero) also carries RemoveRecipe with the text "TRUE".
+
+```text
+Event[OgreCraft_RecipeQueueUpdated]:AttachAtom[MyHandler]
+```
+
+### `OgreEvent_CastMonitoring_CastingEnded`
+
+Fires on this session when a watched NPC that was casting stops casting that ability, switches to another ability, or leaves the scan, with two arguments: the actor ID and the ability ID that ended. It is part of NPC cast monitoring (watched mobs come from zone data or `ogre npccast watch`, checked every 250 ms within 50 m by default while "NPC Cast Monitoring" is ticked and you are alive), and a cast cut off by zoning or by unticking the box ends silently with no event.
+
+```text
+Event[OgreEvent_CastMonitoring_CastingEnded]:AttachAtom[MyHandler]
+```
+
+### `OgreEvent_CastMonitoring_CastingStarted`
+
+Fires on this session when a watched NPC begins casting, with three arguments: the actor ID, the ability ID it is casting, and the cast time the game reports for it (AbilityCastingTime, as a decimal). Only mobs on the NPC cast monitoring watch list (zone data or `ogre npccast watch`) are checked, every 250 ms within 50 m by default, and only while "NPC Cast Monitoring" is ticked, you are alive and not zoning.
+
+```text
+Event[OgreEvent_CastMonitoring_CastingStarted]:AttachAtom[MyHandler]
+```
+
+### `OgreEvent_DoHODisabled`
+
+Fires on this session, with no arguments, every time DoHO is turned off here: OgreBotAPI.HOs:DoSetEnabled with FALSE, the target number of completed HOs reached, the DoHO timeout running out, or the DoHO target dying or going away. Turning off a DoHO that is already off does nothing and fires nothing unless -Force is passed.
+
+```text
+Event[OgreEvent_DoHODisabled]:AttachAtom[MyHandler]
+```
+
+### `OgreEvent_DoHOEnabled`
+
+Fires on this session, with no arguments, when OgreBotAPI.HOs:DoSetup or :DoSetEnabled with TRUE primes this box as the HO starter for the first time and it takes over the group's HO options. A re-enable of a box that is already primed, an enable that is already on, or a setup with -NoModifyOptions does not fire it.
+
+```text
+Event[OgreEvent_DoHOEnabled]:AttachAtom[MyHandler]
+```
+
+### `OgreEvent_GearConditionReport`
+
+Fires on this session after every gear check, with two arguments: the character's name and the condition of the item in the primary slot as a whole percent. A gear check runs from OgreBotAPI.Inventory:CheckGear and automatically once each time the character dies while OgreBot is loaded; if the item details are not available within 5 seconds the check fails and nothing fires.
+
+```text
+Event[OgreEvent_GearConditionReport]:AttachAtom[MyHandler]
+```
+
+### `OgreEvent_GroupQueryDone`
+
+Fires on the session that started a group query (${OgreBotAPI.Comms.GroupQuery[...]} or OgreBotAPI.Comms:GroupQuery) when that query finishes or fails, with two arguments: the query id ("gq:&lt;session>:&lt;n>") and the result as JSON. The same result stays readable with ${OgreBotAPI.Comms.GroupQuery.Result[id]} for 60 seconds after it finishes.
+
+```text
+Event[OgreEvent_GroupQueryDone]:AttachAtom[MyHandler]
+```
+
+### `OgreEvent_InGameTell`
+
+Fires on this session each time this character receives an in-game tell, with three arguments in this order: the speaker, the chat target (this character) and the message. It fires only on the receiving session and is not sent to other sessions.
+
+```text
+Event[OgreEvent_InGameTell]:AttachAtom[MyHandler]
+```
+
+### `OgreEvent_InGameTellSent`
+
+Fires on this session each time this character sends an in-game tell, with three arguments in this order: the speaker (this character), the chat target (who the tell went to) and the message. It fires only on the sending session and is not sent to other sessions.
+
+```text
+Event[OgreEvent_InGameTellSent]:AttachAtom[MyHandler]
+```
+
+### `OgreEvent_KronoRedemption`
+
+Fires on this session when a Krono redemption started by OgreBotAPI.Inventory:RedeemKrono reports its result, with two arguments: the character's name and TRUE (redeemed) or FALSE (the game said it failed). Nothing fires when there is no Krono to redeem, when no result shows up after 100 checks about a second apart, or when the character dies or leaves the world first.
+
+```text
+Event[OgreEvent_KronoRedemption]:AttachAtom[MyHandler]
+```
+
+### `OgreEvent_OnAbilityCast`
+
+Fires on this session the moment the bot sends an ability cast (not when the cast lands), with five arguments: the caster (this character), the ability ID, the ability name, the target's actor ID (0 for none) and the target's name (empty for none); the other sessions in this session's relay group get the same arguments as OgreEvent_OthersOnAbilityCast. A handler that casts from inside this event can nest it at most 8 deep, after which the fire is skipped with a console line.
+
+```text
+Event[OgreEvent_OnAbilityCast]:AttachAtom[MyHandler]
+```
+
+### `OgreEvent_OnAbilityCastCompleted`
+
+Fires on this session when an ability the cast stack cast finishes, meaning its cast bar ended or an instant ability went on cooldown, with three arguments: the character's name, the ability ID and the ability name; the other sessions in this session's relay group get the same arguments as OgreEvent_OthersOnAbilityCastCompleted. Items never fire it, and neither does a cast the bot cancelled or saw fail to start, but a cast bar that drops for any other reason (an interrupt, say) counts as finished.
+
+```text
+Event[OgreEvent_OnAbilityCastCompleted]:AttachAtom[MyHandler]
+```
+
+### `OgreEvent_OnAbilityReadyTimersUpdate`
+
+Fires on this session about every 500 ms for each enabled ability on the OgreBot Ability Tracker list, whether or not anything changed, with four arguments: the character's name, the ability ID, the ability's short name and its time until ready in seconds (as a decimal). It fires only while the Ability Tracker option is ticked, the list has entries, and the character is in the world; an entry that does not match one of your abilities is skipped.
+
+```text
+Event[OgreEvent_OnAbilityReadyTimersUpdate]:AttachAtom[MyHandler]
+```
+
+### `OgreEvent_OnDetrimentalAdded`
+
+Fires on this session when a detrimental with a new icon pair appears on this character, with six arguments: the effect ID, BackDropIconID, MainIconID, CurrentIncrements, Duration and MaxDuration. Your detrimentals are checked about every 500 ms while you are in the world and alive, and a detrimental whose icon changes shows up as a Removed for the old pair and an Added for the new one.
+
+```text
+Event[OgreEvent_OnDetrimentalAdded]:AttachAtom[MyHandler]
+```
+
+### `OgreEvent_OnDetrimentalRemoved`
+
+Fires on this session when a detrimental's icon pair is no longer on this character, with six arguments describing it as last seen: the effect ID, BackDropIconID, MainIconID, CurrentIncrements, Duration and MaxDuration. Checks run about every 500 ms and pause while you are dead, so detrimentals that dropped at death are reported once you are alive again.
+
+```text
+Event[OgreEvent_OnDetrimentalRemoved]:AttachAtom[MyHandler]
+```
+
+### `OgreEvent_OnDetrimentalUpdated`
+
+Fires on this session when a detrimental that is still on this character (same icon pair) changes its increments, Duration or MaxDuration, with six arguments: the effect ID, BackDropIconID, MainIconID, CurrentIncrements, Duration and MaxDuration. Because Duration counts down, expect it for every timed detrimental on about every 500 ms check.
+
+```text
+Event[OgreEvent_OnDetrimentalUpdated]:AttachAtom[MyHandler]
+```
+
+### `OgreEvent_OnItemUse`
+
+Fires on this session the moment the bot uses an item (not when the use lands), with four arguments: the user (this character), the item name, the target's actor ID and the target's name; food, drink, potions and other self-used items pass 0 and an empty name for the target. The other sessions in this session's relay group get the same arguments as OgreEvent_OthersOnItemUse.
+
+```text
+Event[OgreEvent_OnItemUse]:AttachAtom[MyHandler]
+```
+
+### `OgreEvent_SmartLootAssigned`
+
+Fires on the looting session when SmartLoot decides to assign an item to a character, with three arguments: the character's name, the item it counted (the adornment's name when the assign was for an adornment) and that character's new count for it. It fires at decision time, so it still fires if the assign later fails in the loot window.
+
+```text
+Event[OgreEvent_SmartLootAssigned]:AttachAtom[MyHandler]
+```
+
+### `OgreEvent_SpewStats`
+
+Fires when OgreBotAPI.Debug:BroadcastStat (or OgreBotAPI.Roster:SpewMarked) resolves a value, on the asking session and on the other sessions in its relay group, with one JSON argument holding Character, Command, Label and Value (a faction result also has FactionStanding). Command is the request as typed, such as "-item a frog leg", except the faction, currency and recipe lookups send "Faction", "Currency" or "Recipe", and a bad request prints an error and fires nothing.
+
+```text
+Event[OgreEvent_SpewStats]:AttachAtom[MyHandler]
+```

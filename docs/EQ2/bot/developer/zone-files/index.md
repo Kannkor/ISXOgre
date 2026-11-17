@@ -1,8 +1,8 @@
-# Write your own zone files
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../index.md).
 </div>
+
+# Write your own zone files
 
 A **zone file** tells the Instance Controller (IC) how to run one instanced zone: where the group walks, which
 nameds it kills, what it loots, and how it leaves. It is a JSON file. IC reads it from the top, one step at a
@@ -25,6 +25,7 @@ both in `Scripts\Ogre\EQ2\IC\default\Rage of Cthurath\`.
 4. Pick **custom** in the IC window's root list. A file with a problem shows there in **red**, marked *not valid*:
    click it, and the bar under the list says what is wrong (see [Checking your file](checking.md#checking-your-file)).
 5. When your zone shows normally, queue it and press **Run**.
+
 
 ## The pages
 

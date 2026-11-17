@@ -7920,7 +7920,6 @@
    "checkbox_autohunt_ignoreyellow",
    "checkbox_autohunt_pauseonexquisitechest",
    "checkbox_autohunt_prebuff",
-   "checkbox_autohunt_useirc",
    "checkbox_autotarget_enabled",
    "checkbox_autotarget_outofcombatscanning",
    "checkbox_brigand_epic2",
@@ -7978,6 +7977,7 @@
    "checkbox_donotsave_autohunt",
    "checkbox_donotsave_dynamicassist",
    "checkbox_donotsave_dynamiccampspot",
+   "checkbox_donotsave_dynamicdirectassisttargeting",
    "checkbox_donotsave_dynamicignorecounterability",
    "checkbox_donotsave_dynamicignoreencounternukes",
    "checkbox_donotsave_dynamicignoreitems",
@@ -8289,6 +8289,7 @@
    "checkbox_settings_no_threatpositionincreases_iffightertanking",
    "checkbox_settings_no_threatpositionincreases_ifmetanking",
    "checkbox_settings_noaeblockers",
+   "checkbox_settings_noautodirectassisttargeting",
    "checkbox_settings_nodazes",
    "checkbox_settings_nodispels",
    "checkbox_settings_nofears",
@@ -8576,6 +8577,9 @@
     "status": "removed"
    },
    "checkbox_autohunt_movementonly": {
+    "status": "removed"
+   },
+   "checkbox_autohunt_useirc": {
     "status": "removed"
    },
    "checkbox_inquisitor_verdictepicnamedonly": {

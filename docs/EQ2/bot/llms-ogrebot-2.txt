@@ -123,12 +123,12 @@ Auto-Hunt is a simple grinding mode. The bot looks for a mob near you, targets i
 
 | Option | What it does | Default |
 |---|---|---|
-| **Campspot** | When the bot finds a mob to pull, the whole group camps at your spot and holds there for the fight. A new pull from the same spot sends nothing. When no mob has been in reach for 1.5 seconds, the group is let go and follows you again; turning Auto Hunt off or pausing the bot lets it go too.<br>*It switches 'Allow Camp Spot' on for each toon. The rest of the group is let go with a full LetsGo. A toon more than 125 from your spot is not pulled in: it stands where it is until the group moves on, and one line in the console names it. Only toons on this PC are reached (OgreConsole).* | off |
+| **Campspot** | When the bot finds a mob to pull, the whole group camps at your spot and holds there for the fight. A new pull from the same spot sends nothing. When no mob has been in reach for 1.5 seconds (3 with Delay After Combat), the group is let go and follows you again; turning Auto Hunt off or pausing the bot lets it go too.<br>*It switches 'Allow Camp Spot' on for each toon. The rest of the group is let go with a full LetsGo. A toon more than 125 from your spot is not pulled in: it stands where it is until the group moves on, and one line in the console names it. Only toons on this PC are reached (OgreConsole).* | off |
 | **CS-JO-JI** | Like Campspot, and the casters stay at the camp while the rest of the group may leave it to fight. Campspot wins if both are ticked. | off |
 | **Prebuff** | Before each pull, the bot targets you, turns auto-attack on and waits 3 seconds, so your normal buffs have time to go out. Then it targets the mob.<br>*It does not cast buffs itself; your Cast Stack does that.* | off |
-| **Use IRC** | **Not built yet.**  | off |
+| **checkbox_autohunt_useirc** |  |  |
 | **Ignore Collision** | Normally the bot skips mobs it cannot see (a wall or hill in the way). Tick this to let it pull those too.<br>*It looks from your eye height to the mob's, the same check your pull ability must pass to be cast.* | off |
-| **Delay After Combat** | **Not built yet.**  | off |
+| **Delay After Combat** | With Campspot or CS-JO-JI, the group waits 3 seconds with no mob in reach before it is let go to follow you again, instead of 1.5. | off |
 | **Pause on Exquisite Chest drop** | While an Exquisite chest is lying within 50 of you, the bot stops pulling and holds still, so you can deal with it.<br>*It carries on by itself once the chest is gone.* | off |
 
 

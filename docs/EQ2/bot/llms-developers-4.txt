@@ -1,0 +1,2551 @@
+# OgreBot for EverQuest II - documentation, Developers (part 4 of 13)
+
+OgreBot is in beta testing. For OgreBot Classic see https://kannkor.github.io/ISXOgre/EQ2/
+This file is ONE PIECE of the documentation: Developers (part 4 of 13) - Developers - API reference - OgreBotAPI.
+The entire documentation in one document: https://kannkor.github.io/ISXOgre/EQ2/bot/llms-full.txt
+Index of every page and of every file like this one: https://kannkor.github.io/ISXOgre/EQ2/bot/llms.txt
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/CampSpot.md
+
+# OgreBotAPI.CampSpot
+
+## Members
+
+### `Active`
+
+`${OgreBotAPI.CampSpot.Active}`
+
+The camp spot slot the leash is using now, 1 to 8. It starts at 1 and only SetActive or ResetAll change it.
+
+**Returns:** int - the active slot number (1 to 8).
+
+```text
+echo ${OgreBotAPI.CampSpot.Active}
+```
+
+### `AnchorLoc`
+
+`${OgreBotAPI.CampSpot.AnchorLoc}`
+
+The active slot's own spot as one "x,y,z" text without the relative layer, or "" when the active slot has no spot. Use it as the fixed reference when a relative layer may be in play; EffectiveLoc is where the character will actually go.
+
+**Returns:** string - "x,y,z", or "" when there is no spot.
+
+```text
+echo ${OgreBotAPI.CampSpot.AnchorLoc}
+```
+
+*Was (OldBot):* `Ogre_CampSpot.AbsoluteCampSpotLoc`, `Ogre_CampSpot.Get_AbsoluteCampSpot`
+
+### `AnchorX`
+
+`${OgreBotAPI.CampSpot.AnchorX}`
+
+The X coordinate of the active slot's own spot, without the relative layer. It reads 0 when the active slot has no spot.
+
+**Returns:** float - the X coordinate, or 0 when there is no spot.
+
+```text
+echo ${OgreBotAPI.CampSpot.AnchorX}
+```
+
+### `AnchorY`
+
+`${OgreBotAPI.CampSpot.AnchorY}`
+
+The Y coordinate of the active slot's own spot, without the relative layer. It reads 0 when the active slot has no spot.
+
+**Returns:** float - the Y coordinate, or 0 when there is no spot.
+
+```text
+echo ${OgreBotAPI.CampSpot.AnchorY}
+```
+
+### `AnchorZ`
+
+`${OgreBotAPI.CampSpot.AnchorZ}`
+
+The Z coordinate of the active slot's own spot, without the relative layer. It reads 0 when the active slot has no spot.
+
+**Returns:** float - the Z coordinate, or 0 when there is no spot.
+
+```text
+echo ${OgreBotAPI.CampSpot.AnchorZ}
+```
+
+### `AtCampSpot`
+
+`${OgreBotAPI.CampSpot.AtCampSpot}`
+
+TRUE when this character is closer to the effective spot than HowClose, measured in 2D unless Use3D is on. It reads FALSE when the active slot has no spot, and it does not check the zone.
+
+**Returns:** bool - TRUE if at the camp spot.
+
+```text
+echo ${OgreBotAPI.CampSpot.AtCampSpot}
+```
+
+*Was (OldBot):* `Ogre_CampSpot.AtCampSpot`
+
+### `DistanceTo`
+
+`${OgreBotAPI.CampSpot.DistanceTo}`
+
+The distance from this character to the effective spot, measured the way the leash measures it: on the ground plane (X and Z) unless Use3D is on. It reads -1 when the active slot has no spot.
+
+**Returns:** float - the distance, or -1 when there is no spot.
+
+```text
+echo ${OgreBotAPI.CampSpot.DistanceTo}
+```
+
+*Was (OldBot):* `Ogre_CampSpot.DistanceFromCampSpot`
+
+### `EffectiveLoc`
+
+`${OgreBotAPI.CampSpot.EffectiveLoc}`
+
+Where the leash will take this character: the active slot's spot with the relative layer applied, as one "x,y,z" text with two decimals. It is "" when the active slot has no spot.
+
+**Returns:** string - "x,y,z", or "" when there is no spot.
+
+```text
+echo ${OgreBotAPI.CampSpot.EffectiveLoc}
+```
+
+*Was (OldBot):* `Ogre_CampSpot.Get_CampSpot`, `Ogre_CampSpot.Get_RelativeCampSpot`, `Ogre_CampSpot.RelativeCampSpotLoc`
+
+### `EffectiveX`
+
+`${OgreBotAPI.CampSpot.EffectiveX}`
+
+The X coordinate of the spot the leash will take this character to, with the relative layer applied. It reads 0 when the active slot has no spot, so check HasSpot first.
+
+**Returns:** float - the X coordinate, or 0 when there is no spot.
+
+```text
+echo ${OgreBotAPI.CampSpot.EffectiveX}
+```
+
+*Was (OldBot):* `Ogre_CampSpot.Get_X`
+
+### `EffectiveY`
+
+`${OgreBotAPI.CampSpot.EffectiveY}`
+
+The Y coordinate of the spot the leash will take this character to, with the relative layer applied. It reads 0 when the active slot has no spot, so check HasSpot first.
+
+**Returns:** float - the Y coordinate, or 0 when there is no spot.
+
+```text
+echo ${OgreBotAPI.CampSpot.EffectiveY}
+```
+
+*Was (OldBot):* `Ogre_CampSpot.Get_Y`
+
+### `EffectiveZ`
+
+`${OgreBotAPI.CampSpot.EffectiveZ}`
+
+The Z coordinate of the spot the leash will take this character to, with the relative layer applied. It reads 0 when the active slot has no spot, so check HasSpot first.
+
+**Returns:** float - the Z coordinate, or 0 when there is no spot.
+
+```text
+echo ${OgreBotAPI.CampSpot.EffectiveZ}
+```
+
+*Was (OldBot):* `Ogre_CampSpot.Get_Z`
+
+### `Enabled`
+
+`${OgreBotAPI.CampSpot.Enabled}`
+
+TRUE while the leash is turned on. It starts TRUE and only the Enable and Disable methods change it; the leash still needs a spot in the current zone to move anyone.
+
+**Returns:** bool - TRUE if the leash is on.
+
+```text
+echo ${OgreBotAPI.CampSpot.Enabled}
+```
+
+### `HasSpot`
+
+`${OgreBotAPI.CampSpot.HasSpot}`
+
+TRUE when the active slot holds a camp spot. It does not check the zone or whether the leash is on.
+
+**Returns:** bool - TRUE if the active slot has a spot.
+
+```text
+echo ${OgreBotAPI.CampSpot.HasSpot}
+```
+
+### `HowClose`
+
+`${OgreBotAPI.CampSpot.HowClose}`
+
+The arrival radius of the active slot: inside this distance the character counts as at the camp spot and the leash stops. A slot that was never set reads 1.
+
+**Returns:** float - the arrival radius.
+
+```text
+echo ${OgreBotAPI.CampSpot.HowClose}
+```
+
+*Was (OldBot):* `Ogre_CampSpot.Get_HowClose`, `Ogre_CampSpot.HowClose`
+
+### `HowFar`
+
+`${OgreBotAPI.CampSpot.HowFar}`
+
+The leash radius of the active slot: the leash walks the character back only from farther than HowClose and no farther than HowFar, and beyond HowFar it does not chase. A slot that was never set reads 125.
+
+**Returns:** float - the leash radius.
+
+```text
+echo ${OgreBotAPI.CampSpot.HowFar}
+```
+
+*Was (OldBot):* `Ogre_CampSpot.Get_HowFar`, `Ogre_CampSpot.HowFar`
+
+### `Leashing`
+
+`${OgreBotAPI.CampSpot.Leashing}`
+
+TRUE while the leash is walking this character back toward the camp spot right now. It goes FALSE once the character arrives, is paused, dead, zoning, or held by a movement block.
+
+**Returns:** bool - TRUE while the leash is moving the character.
+
+```text
+echo ${OgreBotAPI.CampSpot.Leashing}
+```
+
+*Was (OldBot):* `Ogre_CampSpot.ValidStayAtCampSpotOptions`
+
+### `MaxSlots`
+
+`${OgreBotAPI.CampSpot.MaxSlots}`
+
+The number of camp spot slots there are. It is always 8.
+
+**Returns:** int - 8.
+
+```text
+echo ${OgreBotAPI.CampSpot.MaxSlots}
+```
+
+### `OutsideLeash`
+
+`${OgreBotAPI.CampSpot.OutsideLeash}`
+
+TRUE when this character is farther from the effective spot than HowFar, which is where the leash stops trying to walk back. FALSE when the active slot has no spot.
+
+**Returns:** bool - TRUE if beyond the leash radius.
+
+```text
+echo ${OgreBotAPI.CampSpot.OutsideLeash}
+```
+
+### `RelativeActive`
+
+`${OgreBotAPI.CampSpot.RelativeActive}`
+
+TRUE when the relative layer changes where the character goes: the effective spot differs from the anchor, or the offset is not 0,0,0. UsingRelativeBy answers a different question (which mode the layer is in).
+
+**Returns:** bool - TRUE if a relative layer is in effect.
+
+```text
+echo ${OgreBotAPI.CampSpot.RelativeActive}
+```
+
+*Was (OldBot):* `Ogre_CampSpot.UsingRelative`
+
+### `RelativeLoc`
+
+`${OgreBotAPI.CampSpot.RelativeLoc}`
+
+The relative layer as one "x,y,z" text: the offset in offset mode, or the fixed destination after SetRelativeLoc. It reads "0.00,0.00,0.00" when the layer is clear.
+
+**Returns:** string - "x,y,z".
+
+```text
+echo ${OgreBotAPI.CampSpot.RelativeLoc}
+```
+
+*Was (OldBot):* `Ogre_CampSpot.Get_RelativeMods`, `Ogre_CampSpot.RelativeLoc`
+
+### `RelativeX`
+
+`${OgreBotAPI.CampSpot.RelativeX}`
+
+The X part of the relative layer: an offset when UsingRelativeBy is TRUE, or the fixed destination's X after SetRelativeLoc. It reads 0 when the layer is clear.
+
+**Returns:** float - the X value of the relative layer.
+
+```text
+echo ${OgreBotAPI.CampSpot.RelativeX}
+```
+
+### `RelativeY`
+
+`${OgreBotAPI.CampSpot.RelativeY}`
+
+The Y part of the relative layer: an offset when UsingRelativeBy is TRUE, or the fixed destination's Y after SetRelativeLoc. It reads 0 when the layer is clear.
+
+**Returns:** float - the Y value of the relative layer.
+
+```text
+echo ${OgreBotAPI.CampSpot.RelativeY}
+```
+
+### `RelativeZ`
+
+`${OgreBotAPI.CampSpot.RelativeZ}`
+
+The Z part of the relative layer: an offset when UsingRelativeBy is TRUE, or the fixed destination's Z after SetRelativeLoc. It reads 0 when the layer is clear.
+
+**Returns:** float - the Z value of the relative layer.
+
+```text
+echo ${OgreBotAPI.CampSpot.RelativeZ}
+```
+
+### `SlotCount`
+
+`${OgreBotAPI.CampSpot.SlotCount}`
+
+How many of the 8 camp spot slots currently hold a spot. Slots that are not active still count.
+
+**Returns:** int - the number of slots with a spot (0 to 8).
+
+```text
+echo ${OgreBotAPI.CampSpot.SlotCount}
+```
+
+### `SlotHasSpot`
+
+`${OgreBotAPI.CampSpot.SlotHasSpot[n]}`
+
+TRUE when slot n holds a camp spot, whether or not it is the active slot. A missing n or one outside 1 to 8 reads FALSE.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `n` | int |  | The slot number to check, 1 to 8. |
+
+**Returns:** bool - TRUE if slot n has a spot.
+
+```text
+echo ${OgreBotAPI.CampSpot.SlotHasSpot[2]}
+```
+
+### `Use3D`
+
+`${OgreBotAPI.CampSpot.Use3D}`
+
+TRUE when the active slot measures distance in 3D. FALSE (the default) measures on the ground plane only (X and Z), ignoring height.
+
+**Returns:** bool - TRUE for 3D distances.
+
+```text
+echo ${OgreBotAPI.CampSpot.Use3D}
+```
+
+*Was (OldBot):* `Ogre_CampSpot.Get_Use3D`, `Ogre_CampSpot.bUse3D`
+
+### `UsingRelativeBy`
+
+`${OgreBotAPI.CampSpot.UsingRelativeBy}`
+
+TRUE when the relative layer is an offset added to the spot (the default, and still TRUE with a 0,0,0 offset); FALSE after SetRelativeLoc, when it is a fixed destination instead. To ask whether the layer changes anything, read RelativeActive.
+
+**Returns:** bool - TRUE in offset mode.
+
+```text
+echo ${OgreBotAPI.CampSpot.UsingRelativeBy}
+```
+
+*Was (OldBot):* `Ogre_CampSpot.UsingRelativeBy`
+
+### `ValidOptions`
+
+`${OgreBotAPI.CampSpot.ValidOptions}`
+
+TRUE when everything ValidOptionsCommon checks is true and this character is in the zone the active spot was set in. It does not look at Enabled or at how far away the character is, and reads the two options when asked, so a change made while the leash is paused counts at once.
+
+**Returns:** bool - TRUE if the camp spot options are in force here.
+
+```text
+echo ${OgreBotAPI.CampSpot.ValidOptions}
+```
+
+*Was (OldBot):* `Ogre_CampSpot.ValidCampSpotOptions`
+
+### `ValidOptionsCommon`
+
+`${OgreBotAPI.CampSpot.ValidOptionsCommon}`
+
+TRUE when the Allow Camp Spot and Dynamic Camp Spot options are both on, no movement block or leash hold is in, and the active slot has a spot. It does not check the zone (ValidOptions does), and reads the two options when asked, so a change made while the leash is paused counts at once.
+
+**Returns:** bool - TRUE if the camp spot options allow the leash.
+
+```text
+echo ${OgreBotAPI.CampSpot.ValidOptionsCommon}
+```
+
+*Was (OldBot):* `Ogre_CampSpot.ValidCampSpotOptionsCommon`
+
+### `Zone`
+
+`${OgreBotAPI.CampSpot.Zone}`
+
+The short name of the zone the active slot's spot was set in; the leash only acts in that zone. It is "" when the slot was never set with SetHere, SetSlotHere or SetFormation, or after ClearAll.
+
+**Returns:** string - the zone short name, or "".
+
+```text
+echo ${OgreBotAPI.CampSpot.Zone}
+```
+
+*Was (OldBot):* `Ogre_CampSpot.CSZoneName`
+
+## Methods
+
+### `ClearAll`
+
+`OgreBotAPI.CampSpot:ClearAll[fw]`
+
+Clears the spot and zone in all 8 slots and clears the relative layer, and also drops any hold on the leash (for example from a joust). Each slot keeps its radii and the active slot stays the same; ResetAll resets those too.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.CampSpot:ClearAll[igw:${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:ClearAll`, `Ogre_CampSpot:ClearAll`
+
+### `ClearCampSpot`
+
+`OgreBotAPI.CampSpot:ClearCampSpot[fw]`
+
+Clears the spot in the active slot, so the leash stops. The slot keeps its zone and radii, the relative layer is kept, and the other slots are not touched.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.CampSpot:ClearCampSpot[igw:${Me.Name}]
+```
+
+*Was (OldBot):* `Ogre_CampSpot:ClearCampSpot`
+
+### `ClearRelative`
+
+`OgreBotAPI.CampSpot:ClearRelative[fw]`
+
+Clears the relative layer back to a 0,0,0 offset, so the leash goes to the active slot's own spot again. The spots are not touched, and it works even when OgreBot is closed.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.CampSpot:ClearRelative[igw:${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:ClearRCS`, `Ogre_CampSpot:ClearRelative`
+
+### `Disable`
+
+`OgreBotAPI.CampSpot:Disable[fw]`
+
+Turns the leash off, for every slot. The spots are kept, so Enable picks up where it left off.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.CampSpot:Disable[igw:${Me.Name}]
+```
+
+### `Enable`
+
+`OgreBotAPI.CampSpot:Enable[fw]`
+
+Turns the leash on, for every slot. The leash is on by default; it still needs a spot in the current zone to move anyone.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.CampSpot:Enable[igw:${Me.Name}]
+```
+
+### `NudgeBy`
+
+`OgreBotAPI.CampSpot:NudgeBy[fw, dx=0, dy=0, dz=0]`
+
+Adds dx, dy and dz to the active slot's camp spot, keeping its zone and radii; a slot with no spot stays as it is, with one line. Nothing is set, with a line on the console, when OgreBot is not open (unless Movement:UseWithoutOgreBot is on).
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `dx` | float | `0` | Amount added to X. |
+| `dy` | float | `0` | Amount added to Y. |
+| `dz` | float | `0` | Amount added to Z. |
+
+```text
+OgreBotAPI.CampSpot:NudgeBy[igw:${Me.Name},5,0,0]
+```
+
+*Was (OldBot):* `Ogre_CampSpot:Set_ChangeCampSpotBy`
+
+### `Release`
+
+`OgreBotAPI.CampSpot:Release[fw]`
+
+Lets the character go: clears every camp spot (as ClearAll), stops a running jump route, clears the manual target overrides, the reasons that hold auto target, the reasons that stop offensive and defensive abilities, the no-offensive list, the threat ignore list, the no-bow flag and the HO icon lists, resumes a held follow, unlocks facing, turns Ignore Joust Commands off and stands a feigned toon. Named movement blocks set with Movement:Block stay in.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.CampSpot:Release[igw:${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:LetsGo`, `LetsGo`
+
+### `ResetAll`
+
+`OgreBotAPI.CampSpot:ResetAll[fw]`
+
+Puts all 8 slots back to new: no spot, no zone, radii 1 and 125, 3D off; clears the relative layer and makes slot 1 active. It also drops any hold on the leash, as ClearAll does, and it does not change Enabled.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.CampSpot:ResetAll[igw:${Me.Name}]
+```
+
+### `SetActive`
+
+`OgreBotAPI.CampSpot:SetActive[fw, n]`
+
+Makes slot n the one the leash uses, so the character heads for that slot's spot, and the relative layer carries over to it. A missing n or one outside 1 to 8 does nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `n` | int |  | The slot to use, 1 to 8. |
+
+```text
+OgreBotAPI.CampSpot:SetActive[igw:${Me.Name},2]
+```
+
+### `SetFormation`
+
+`OgreBotAPI.CampSpot:SetFormation[fw, kind=circle, dist=7, x, y, z, useRelative=FALSE, middle="", circleSpots=0]`
+
+Places each character on a ring of radius dist around x,y,z and makes that the active slot's camp spot in the current zone, so the leash walks it there: circle spaces by group order 60 degrees apart, monkey 72 degrees with the named middle character on the centre, and monkeyraid 360/circleSpots degrees (default 5) by raid order with the middle for-who on the centre. The centre is required: a missing x, y or z, or one that is not a number, prints a line and does nothing, as does an unknown kind or OgreBot not open.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `kind` | string | `circle` | circle, monkey or monkeyraid. |
+| `dist` | float | `7` | Ring radius; 0 or less means 7. |
+| `x` | float or name |  | X of the centre, or the whole centre as one word: the name of a point of interest in this zone, or x,y,z. An unknown name prints one line and does nothing. |
+| `y` | float |  | Y of the centre. Not read when x holds the whole location. |
+| `z` | float |  | Z of the centre. Not read when x holds the whole location. |
+| `useRelative` | bool | `FALSE` | TRUE to also set the ring spot as the relative layer's fixed destination. |
+| `middle` | string | `""` | Who stands on the centre: a character name for monkey, a for-who for monkeyraid, TRUE for this character; FALSE or blank for nobody. Ignored for circle. |
+| `circleSpots` | int | `0` | Number of ring spots for monkeyraid; less than 1 means 5. |
+
+```text
+OgreBotAPI.CampSpot:SetFormation[igw:${Me.Name},circle,7,${Me.X},${Me.Y},${Me.Z},FALSE,"",0]
+```
+
+*Was (OldBot):* `OgreBotAPI:Set_Formation_Circle`, `OgreBotAPI:Set_Formation_MonkeyInMiddle`, `OgreBotAPI:Set_Formation_MonkeyInMiddleRaid`
+
+### `SetHere`
+
+`OgreBotAPI.CampSpot:SetHere[fw, howClose=2, howFar=200]`
+
+Sets the active slot's camp spot to where this character stands now, in the current zone, with the given arrival and leash radii (0 or less falls back to 1 and 125); the relative layer is kept. Nothing is set, with a line on the console, when OgreBot is not open (unless Movement:UseWithoutOgreBot is on) or when the Allow Camp Spot option is off.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `howClose` | float | `2` | Arrival radius: inside this distance the character counts as at the spot. |
+| `howFar` | float | `200` | Leash radius: the leash walks back only from within this distance. |
+
+```text
+OgreBotAPI.CampSpot:SetHere[igw:${Me.Name},2,200]
+```
+
+*Was (OldBot):* `OgreBotAPI:CampSpot`, `Ogre_CampSpot:Set_CS`, `Ogre_CampSpot:Set_CampSpot`
+
+### `SetHowClose`
+
+`OgreBotAPI.CampSpot:SetHowClose[fw, v=0]`
+
+Sets the active slot's arrival radius: inside this distance the character counts as at the spot. 0 or less (and the default) sets 1, and it works without a spot.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `v` | float | `0` | The arrival radius; 0 or less means 1. |
+
+```text
+OgreBotAPI.CampSpot:SetHowClose[igw:${Me.Name},3]
+```
+
+*Was (OldBot):* `Ogre_CampSpot:Set_HowClose`
+
+### `SetHowFar`
+
+`OgreBotAPI.CampSpot:SetHowFar[fw, v=0]`
+
+Sets the active slot's leash radius: the leash walks back only from within this distance. 0 or less (and the default) sets 125, and it works without a spot.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `v` | float | `0` | The leash radius; 0 or less means 125. |
+
+```text
+OgreBotAPI.CampSpot:SetHowFar[igw:${Me.Name},150]
+```
+
+*Was (OldBot):* `Ogre_CampSpot:Set_HowFar`
+
+### `SetLoc`
+
+`OgreBotAPI.CampSpot:SetLoc[fw, x|point, y, z]`
+
+Moves the active slot's camp spot to x,y,z (three values, one "x,y,z" text, or the name of a point of interest in this zone), keeping its zone and radii; it does not start a camp on its own, so the leash only walks there if the slot was set with SetHere, SetSlotHere or SetFormation in this zone. A missing, NULL or non-number coordinate or an unknown name sets nothing and prints a warning, and nothing is set (with a console line) when OgreBot is not open, unless Movement:UseWithoutOgreBot is on.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `x\|point` | float or name |  | X coordinate of the new spot, or the whole spot as one word: "x,y,z" or the name of a point of interest in this zone. |
+| `y` | float |  | Y coordinate of the new spot. Not read when x holds the whole location. |
+| `z` | float |  | Z coordinate of the new spot. Not read when x holds the whole location. |
+
+```text
+OgreBotAPI.CampSpot:SetLoc[igw:${Me.Name},${Me.X},${Me.Y},${Me.Z}]
+```
+
+*Was (OldBot):* `OgreBotAPI:CCS`, `OgreBotAPI:ChangeCampSpotWho`, `Ogre_CampSpot:Set_ChangeCampSpot`
+
+### `SetLocAtAngleFromActor`
+
+`OgreBotAPI.CampSpot:SetLocAtAngleFromActor[fw, angle, nameOrId, dist=3, skipIfAggro=FALSE, includeNpcSize=TRUE]`
+
+Moves the active slot's camp spot to dist from the actor at angle degrees from the way it faces (0 is the SetLocBehindActor spot, 180 the SetLocInFrontOfActor spot), and with includeNpcSize TRUE the actor's size is added, so the same dist lands farther out than those two. Nothing happens when the actor is not found or is this character, and like SetLoc it moves the leash only if the slot was set with SetHere, SetSlotHere or SetFormation in this zone.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `angle` | float |  | Degrees from the actor's facing; 0 is behind, 180 is in front. |
+| `nameOrId` | string |  | The actor: an ID, a name, an @role, pet:&lt;owner> or a class word. Blank uses this character's NPC target (its target, or its target's target). |
+| `dist` | float | `3` | Distance from the actor; this character's own size is added. |
+| `skipIfAggro` | bool | `FALSE` | TRUE to do nothing while the actor's threat on this character is at 100. |
+| `includeNpcSize` | bool | `TRUE` | TRUE to add the actor's size to the distance as well. |
+
+```text
+OgreBotAPI.CampSpot:SetLocAtAngleFromActor[igw:${Me.Name},90,${Target.ID},3,FALSE,TRUE]
+```
+
+*Was (OldBot):* `OgreBotAPI:SetCS_NPC_ForWho`, `OgreBotAPI:SetCS_NPC`
+
+### `SetLocBehindActor`
+
+`OgreBotAPI.CampSpot:SetLocBehindActor[fw, nameOrId, dist=3, skipIfAggro=FALSE]`
+
+Moves the active slot's camp spot to dist behind the actor, from the way it faces now (a one-time spot, not a follow), and the character walks there; nothing happens when the actor is not found or is this character. Like SetLoc, it moves the leash only if the slot was set with SetHere, SetSlotHere or SetFormation in this zone.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `nameOrId` | string |  | The actor: an ID, a name, an @role, pet:&lt;owner> or a class word. Blank uses this character's NPC target (its target, or its target's target). |
+| `dist` | float | `3` | Distance from the actor; this character's own size is added. |
+| `skipIfAggro` | bool | `FALSE` | TRUE to do nothing while the actor's threat on this character is at 100. |
+
+```text
+OgreBotAPI.CampSpot:SetLocBehindActor[igw:${Me.Name},${Target.ID},3,FALSE]
+```
+
+*Was (OldBot):* `OgreBotAPI:SetCS_BehindNPC`
+
+### `SetLocByRole`
+
+`OgreBotAPI.CampSpot:SetLocByRole[fw, nameOrId, dist=3, skipIfAggro=FALSE]`
+
+Each character picks its own side - fighters take the spot in front of the actor and everyone else the spot behind it, as SetLocInFrontOfActor and SetLocBehindActor do; nothing happens when the actor is not found or is this character. Like SetLoc, it moves the leash only if the slot was set with SetHere, SetSlotHere or SetFormation in this zone.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `nameOrId` | string |  | The actor: an ID, a name, an @role, pet:&lt;owner> or a class word. Blank uses this character's NPC target (its target, or its target's target). |
+| `dist` | float | `3` | Distance from the actor; this character's own size is added. |
+| `skipIfAggro` | bool | `FALSE` | TRUE to do nothing while the actor's threat on this character is at 100. |
+
+```text
+OgreBotAPI.CampSpot:SetLocByRole[igw:${Me.Name},${Target.ID},3,FALSE]
+```
+
+*Was (OldBot):* `OgreBotAPI:SetCS_PositionNPC`
+
+### `SetLocInFrontOfActor`
+
+`OgreBotAPI.CampSpot:SetLocInFrontOfActor[fw, nameOrId, dist=3, skipIfAggro=FALSE]`
+
+Moves the active slot's camp spot to dist in front of the actor, from the way it faces now (a one-time spot, not a follow), and the character walks there; nothing happens when the actor is not found or is this character. Like SetLoc, it moves the leash only if the slot was set with SetHere, SetSlotHere or SetFormation in this zone.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `nameOrId` | string |  | The actor: an ID, a name, an @role, pet:&lt;owner> or a class word. Blank uses this character's NPC target (its target, or its target's target). |
+| `dist` | float | `3` | Distance from the actor; this character's own size is added. |
+| `skipIfAggro` | bool | `FALSE` | TRUE to do nothing while the actor's threat on this character is at 100. |
+
+```text
+OgreBotAPI.CampSpot:SetLocInFrontOfActor[igw:${Me.Name},${Target.ID},3,FALSE]
+```
+
+*Was (OldBot):* `OgreBotAPI:SetCS_InFrontNPC`
+
+### `SetRelativeBy`
+
+`OgreBotAPI.CampSpot:SetRelativeBy[fw, dx=0, dy=0, dz=0]`
+
+Adds dx, dy and dz to the relative offset (it does not replace it) and puts the layer in offset mode, so the leash goes to the active slot's spot plus the offset; after SetRelativeLoc the spot stays where it is and moves by exactly that amount. Nothing is set, with a line on the console, when OgreBot is not open (unless Movement:UseWithoutOgreBot is on).
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `dx` | float | `0` | Amount added to the X offset. |
+| `dy` | float | `0` | Amount added to the Y offset. |
+| `dz` | float | `0` | Amount added to the Z offset. |
+
+```text
+OgreBotAPI.CampSpot:SetRelativeBy[igw:${Me.Name},0,0,5]
+```
+
+*Was (OldBot):* `OgreBotAPI:CS_Set_ChangeRelativeCampSpotBy`, `Ogre_CampSpot:Set_ChangeRelativeCampSpotBy`
+
+### `SetRelativeLoc`
+
+`OgreBotAPI.CampSpot:SetRelativeLoc[fw, x, y, z]`
+
+Makes x,y,z the fixed destination of the relative layer, so the leash takes this character there instead of the slot's spot (which is kept, and ClearRelative goes back to it); x, y and z are all required, and a missing, NULL or non-number value gets one line and sets nothing. Nothing is set, with a line on the console, when OgreBot is not open (unless Movement:UseWithoutOgreBot is on).
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `x` | float |  | X of the destination. |
+| `y` | float |  | Y of the destination. |
+| `z` | float |  | Z of the destination. |
+
+```text
+OgreBotAPI.CampSpot:SetRelativeLoc[igw:${Me.Name},${Target.X},${Target.Y},${Target.Z}]
+```
+
+*Was (OldBot):* `OgreBotAPI:CRCS`, `OgreBotAPI:Set_Relative`, `Ogre_CampSpot:Set_Relative`
+
+### `SetSlotHere`
+
+`OgreBotAPI.CampSpot:SetSlotHere[fw, n=1, howClose=2, howFar=200]`
+
+Sets slot n (1 to 8; anything else does nothing) to where this character stands now, in the current zone, without changing the active slot, so the leash uses it once SetActive picks that slot. Nothing is set, with a line on the console, when OgreBot is not open (unless Movement:UseWithoutOgreBot is on) or the Allow Camp Spot option is off.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `n` | int | `1` | The slot to set, 1 to 8. |
+| `howClose` | float | `2` | Arrival radius for that slot (0 or less falls back to 1). |
+| `howFar` | float | `200` | Leash radius for that slot (0 or less falls back to 125). |
+
+```text
+OgreBotAPI.CampSpot:SetSlotHere[${Me.Name},2,2,200]
+```
+
+### `SetUse3D`
+
+`OgreBotAPI.CampSpot:SetUse3D[fw, on=TRUE]`
+
+Turns 3D distance on or off for the active slot; off measures on the ground plane only (X and Z). Left out means on, and a word that is not yes or no leaves it as it is.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `on` | bool | `TRUE` | TRUE for 3D distances, FALSE for ground-plane distances. |
+
+```text
+OgreBotAPI.CampSpot:SetUse3D[igw:${Me.Name},TRUE]
+```
+
+*Was (OldBot):* `Ogre_CampSpot:Set_Use3D`
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/CastStack.md
+
+# OgreBotAPI.CastStack
+
+## Members
+
+### `TagAllowRemaining`
+
+`${OgreBotAPI.CastStack.TagAllowRemaining[tag]}`
+
+Seconds left on an allow tag's clock on this session, as a decimal number; 0 when the tag is not held or has run out, and a tag tied to a maintained buff reads the time left on its limit. Tag names are case-insensitive, and reading changes nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `tag` | string |  | The allow tag name, case-insensitive. Blank returns 0. |
+
+**Returns:** float: seconds left before the allow tag ends; 0 when it is absent, expired or blank. A tag tied to a maintained buff reads the time left on its limit, and 0 when it has none (such a tag can still be active).
+
+```text
+echo ${OgreBotAPI.CastStack.TagAllowRemaining[Burn]}
+```
+
+*Was (OldBot):* `OgreBotAPI.AbilityTag_GetTagAllowTimeRemaining`
+
+### `TagEmbargoRemaining`
+
+`${OgreBotAPI.CastStack.TagEmbargoRemaining[tag]}`
+
+Seconds left on an embargo tag's clock on this session, as a decimal number; 0 when the tag is not held or has run out, and a tag tied to a maintained buff reads the time left on its limit. Tag names are case-insensitive, and reading changes nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `tag` | string |  | The embargo tag name, case-insensitive. Blank returns 0. |
+
+**Returns:** float: seconds left before the embargo tag ends; 0 when it is absent, expired or blank. A tag tied to a maintained buff reads the time left on its limit, and 0 when it has none (such a tag can still be active).
+
+```text
+echo ${OgreBotAPI.CastStack.TagEmbargoRemaining[Stuns]}
+```
+
+*Was (OldBot):* `OgreBotAPI.AbilityTag_GetTagEmbargoTimeRemaining`
+
+## Methods
+
+### `ClearAllAllows`
+
+`OgreBotAPI.CastStack:ClearAllAllows[fw]`
+
+Removes every allow tag, including ones set by cast stack entries, on this session, at once and with or without the console hub, then on every session on this PC in this session's relay group whose for-who matches, sent through the hub and applied on each session's next pulse. Only a session that is itself in the for-who sends it, and nothing is saved.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.CastStack:ClearAllAllows[igw:${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:AbilityTag_ResetAllAbilityTagAllows`
+
+### `ClearAllEmbargos`
+
+`OgreBotAPI.CastStack:ClearAllEmbargos[fw]`
+
+Removes every embargo tag, including ones set by cast stack entries, on this session, at once and with or without the console hub, then on every session on this PC in this session's relay group whose for-who matches, sent through the hub and applied on each session's next pulse. Only a session that is itself in the for-who sends it, and nothing is saved.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.CastStack:ClearAllEmbargos[igw:${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:AbilityTag_ResetAllAbilityTagEmbargos`
+
+### `ClearAllow`
+
+`OgreBotAPI.CastStack:ClearAllow[fw, tag]`
+
+Removes one allow tag on this session, at once and with or without the console hub, then on every session on this PC in this session's relay group whose for-who matches, sent through the hub and applied on each session's next pulse. Only a session that is itself in the for-who sends it, a blank tag gets one line, and nothing is saved.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `tag` | string |  | The allow tag to remove, case-insensitive. A blank gets one line - use ClearAllAllows to remove them all. |
+
+```text
+OgreBotAPI.CastStack:ClearAllow[igw:${Me.Name},Burn]
+```
+
+*Was (OldBot):* `OgreBotAPI:AbilityTag_ResetAbilityTagAllow`
+
+### `ClearEmbargo`
+
+`OgreBotAPI.CastStack:ClearEmbargo[fw, tag]`
+
+Removes one embargo tag on this session, at once and with or without the console hub, then on every session on this PC in this session's relay group whose for-who matches, sent through the hub and applied on each session's next pulse. Only a session that is itself in the for-who sends it, a blank tag gets one line, and nothing is saved.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `tag` | string |  | The embargo tag to remove, case-insensitive. A blank gets one line - use ClearAllEmbargos to remove them all. |
+
+```text
+OgreBotAPI.CastStack:ClearEmbargo[igw:${Me.Name},Stuns]
+```
+
+*Was (OldBot):* `OgreBotAPI:AbilityTag_ResetAbilityTagEmbargo`
+
+### `ClearItemCache`
+
+`OgreBotAPI.CastStack:ClearItemCache[fw]`
+
+Empties the shared item effect file on disk at once, for every character on this PC, and prints a line to the console. This session then re-examines its item entries from the next pulse, including ones that failed earlier.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.CastStack:ClearItemCache[${Me.Name}]
+```
+
+### `Dump`
+
+`OgreBotAPI.CastStack:Dump[fw]`
+
+On the next pulse, checks every cast stack entry against the current game state, prints one line per entry with its verdict to the console, and sends the same list to the OgreBot window. It casts nothing and changes nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.CastStack:Dump[${Me.Name}]
+```
+
+### `ExamineItems`
+
+`OgreBotAPI.CastStack:ExamineItems[fw]`
+
+From the next pulse, examines the cast stack's item entries that are not in the shared item effect file yet, and rebuilds the list of adornments on your equipped gear. What it learns is written to the shared item effect file, which every character on this PC reads.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.CastStack:ExamineItems[${Me.Name}]
+```
+
+### `HoldTag`
+
+`OgreBotAPI.CastStack:HoldTag[fw, tag, duration, type, -m]`
+
+Sets an embargo or allow tag for some seconds on this session, at once and with or without the console hub, then sends it through the hub to every session on this PC in this session's relay group whose for-who matches, applied on each session's next pulse, for that session only. Only a session that is itself in the for-who sends it, so run it on every session (oc !c) or from one inside the for-who, and the tag only blocks or allows entries while Enable Tag Embargo or Enable Tag Allow is ticked.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `tag` | string |  | The tag name, case-insensitive. A blank gets one line. |
+| `duration` | int |  | How long the tag lasts, in seconds. 0, blank or not a number ends it at once. A new hold never shortens a tag that is already running longer. |
+| `type` | string |  | Allow sets an allow tag. Any other word, blank included, sets an embargo tag. |
+| `-m` | switch |  | Optional: -m followed by a maintained buff name or ability id ties this session's hold to its own buff: the hold ends when the buff drops, or at the duration if that comes first, after a grace of the cast time plus 1 second (5 seconds for an item). Other sessions hold plain until this one tells them to let go. |
+
+```text
+OgreBotAPI.CastStack:HoldTag[igw:${Me.Name},Stuns,13,Embargo]
+```
+
+*Was (OldBot):* `OgreBotAPI:AbilityTag_AddRotateTagTimer`
+
+### `Import`
+
+`OgreBotAPI.CastStack:Import[fw, path, profile=""]`
+
+Replaces this session's cast stack with the cast stack from an OgreBot EQ2Save XML file, and prints the entry count and any notes, or why it failed, to the console. It takes effect at once and lasts only until the profile is next opened, reloaded or edited.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `path` | string |  | Full path of the EQ2Save XML file. A relative path is read from the game's working folder, not from Scripts. |
+| `profile` | string | `""` | The profile inside the file whose cast stack to take. Blank takes the first profile that has a cast stack. |
+
+```text
+OgreBotAPI.CastStack:Import[${Me.Name},"${LavishScript.HomeDirectory}/Scripts/MyCastStack.xml",Raid]
+```
+
+### `Load`
+
+`OgreBotAPI.CastStack:Load[fw, path]`
+
+Replaces this session's cast stack with the entries in a JSON cast stack file, and prints the entry count, or why it failed, to the console. It takes effect at once and lasts only until the profile is next opened, reloaded or edited - the profile and the OgreBot window are not changed.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `path` | string |  | Full path of the JSON file, which must hold an "entries" array. A relative path is read from the game's working folder, not from Scripts. An ability entry may give its name alone: names are looked up in this toon's ability export, as a profile load does. |
+
+```text
+OgreBotAPI.CastStack:Load[${Me.Name},"${LavishScript.HomeDirectory}/Scripts/MyCastStack.json"]
+```
+
+### `LoadFromProfile`
+
+`OgreBotAPI.CastStack:LoadFromProfile[fw]`
+
+Reloads this session's cast stack from the OgreBot profile already open, including edits not saved yet, matches each ability name to your ability export, and re-examines item entries from the next pulse. Nothing is read from disk or saved, and with no profile open the stack is left empty.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.CastStack:LoadFromProfile[${Me.Name}]
+```
+
+### `ReloadRangeExtenders`
+
+`OgreBotAPI.CastStack:ReloadRangeExtenders[fw]`
+
+Re-reads the per-zone range extender file, OgreSave/EQ2/OgreBot/Encounters/RangeExtenders.json, at once and prints how many zones and entries it loaded, or a warning. The file lists, per zone, detrimental effects that change your ability range; nothing is saved.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.CastStack:ReloadRangeExtenders[${Me.Name}]
+```
+
+### `SetEntry`
+
+`OgreBotAPI.CastStack:SetEntry[fw, ability, TRUE|FALSE|toggle, silent=FALSE]`
+
+Enables, disables or flips the cast stack entries that match the name, and prints a line to OgreConsole for each entry that actually changed unless silent is TRUE. It takes effect at once in the rotation and the OgreBot window, and is kept in the profile only when you Save.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `ability` | string |  | The entry: its whole name (case-insensitive), an ability id (finds the entry that holds that ability), or one of IsStun, IsInterrupt, IsDaze, IsFear, IsStifle or Ascension to match every entry of that kind. Blank does nothing. |
+| `TRUE\|FALSE\|toggle` | string |  | TRUE enables (1, yes and on count as TRUE too). toggle, or blank, flips each matching entry. Any other word disables. |
+| `silent` | bool | `FALSE` | TRUE skips the OgreConsole lines. |
+
+```text
+OgreBotAPI.CastStack:SetEntry[igw:${Me.Name},Assault,FALSE]
+```
+
+*Was (OldBot):* `OgreBotAPI:ChangeCastStackListBoxItem`, `ChangeCastStackListBoxItem`
+
+### `SetEntryByTag`
+
+`OgreBotAPI.CastStack:SetEntryByTag[fw, tag, TRUE|FALSE|toggle, partial=FALSE, silent=FALSE]`
+
+Enables, disables or flips the cast stack entries whose tag matches, and prints a line to OgreConsole for each entry that actually changed unless silent is TRUE. It takes effect at once in the rotation and the OgreBot window, and is kept in the profile only when you Save.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `tag` | string |  | The entry tag to match, case-insensitive. This is the entry's own tag, not an embargo or allow tag. Blank does nothing. |
+| `TRUE\|FALSE\|toggle` | string |  | TRUE enables (1, yes and on count as TRUE too). toggle, or blank, flips each matching entry. Any other word disables. |
+| `partial` | bool | `FALSE` | TRUE matches every entry whose tag contains the word; FALSE needs the whole tag. |
+| `silent` | bool | `FALSE` | TRUE skips the OgreConsole lines. |
+
+```text
+OgreBotAPI.CastStack:SetEntryByTag[igw:${Me.Name},AE,toggle,TRUE]
+```
+
+*Was (OldBot):* `OgreBotAPI:ChangeCastStackListBoxItemByTag`, `ChangeCastStackListBoxItemByTag`
+
+### `TestCast`
+
+`OgreBotAPI.CastStack:TestCast[fw, ability=""]`
+
+Arms one real cast for the next pulse and then stops: the given ability, or with no ability the first entry the cast stack would cast right now; a name this toon's export does not know gets one line and arms nothing. It fires even while the bot is paused, but needs OgreBot loaded and is ignored while a cast is already in flight.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `ability` | string | `""` | The ability to cast: a name (short or any rank) or an ability id. It is cast with no target, and skipped with a console line if it is not ready. Blank casts the first eligible cast stack entry instead; a name that cannot be found gets one line and casts nothing. |
+
+```text
+OgreBotAPI.CastStack:TestCast[${Me.Name},Assault]
+```
+
+### `Tick`
+
+`OgreBotAPI.CastStack:Tick[fw]`
+
+Runs one evaluation of the cast stack straight away and casts nothing, even while the bot is paused. It prints only when the Debug tab's cast stack eval or casting boxes are ticked, and it changes and saves nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.CastStack:Tick[${Me.Name}]
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Client.md
+
+# OgreBotAPI.Client
+
+## Methods
+
+### `ResetCamera`
+
+`OgreBotAPI.Client:ResetCamera[fw]`
+
+Recentres the camera: in first person it uses the game's camera recentre, otherwise it sets the camera pitch to 0 the way Client:SetCameraPitch does. While a camera pitch from Client:SetCameraPitch is still running, the pitch is not changed and one line says so.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Client:ResetCamera[${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:ResetCameraAngle`, `call Obj_OgreUtilities.ResetCameraAngle`
+
+### `SetCameraPitch`
+
+`OgreBotAPI.Client:SetCameraPitch[fw, pitch=0, endInFirstPerson=FALSE]`
+
+Queued: switches to third person if needed, sets the camera pitch, and goes back to first person when endInFirstPerson is TRUE. A pitch outside -75 to 75, or a call while one is still running, prints a console line and is dropped.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `pitch` | int | `0` | Camera pitch from -75 to 75; 0 is level |
+| `endInFirstPerson` | bool | `FALSE` | TRUE to switch to first person after setting the pitch |
+
+```text
+OgreBotAPI.Client:SetCameraPitch[${Me.Name},-20,FALSE]
+```
+
+*Was (OldBot):* `OgreBotAPI:Set_CameraPitch`, `call Obj_OgreUtilities.Set_LookDown`, `call Obj_OgreUtilities.Set_LookUp`
+
+### `SetMousePosition`
+
+`OgreBotAPI.Client:SetMousePosition[fw, x, y]`
+
+Moves the mouse cursor to x,y with Inner Space's Mouse:SetPosition, right away. A missing x or y prints "Client:SetMousePosition needs fw,X,Y" and does nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `x` | int |  | Horizontal position in pixels |
+| `y` | int |  | Vertical position in pixels |
+
+```text
+OgreBotAPI.Client:SetMousePosition[${Me.Name},800,450]
+```
+
+*Was (OldBot):* `OgreBotAPI:SetMousePosition`
+
+### `SetMousePositionMiddle`
+
+`OgreBotAPI.Client:SetMousePositionMiddle[fw]`
+
+Moves the mouse cursor to the centre of the display (half its width and height), right away.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Client:SetMousePositionMiddle[${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:SetMousePosition_Middle`
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Combat.md
+
+# OgreBotAPI.Combat
+
+## Members
+
+### `InCombat`
+
+`${OgreBotAPI.Combat.InCombat}`
+
+TRUE when your character is in combat or something hates it. Always FALSE while you are not in the world, such as at character select.
+
+**Returns:** bool: TRUE when Me.InCombat or Me.IsHated is TRUE; FALSE otherwise or out of the world.
+
+```text
+echo ${OgreBotAPI.Combat.InCombat}
+```
+
+*Was (OldBot):* `OgreBotAPI.InCombat`
+
+### `IsReady`
+
+`${OgreBotAPI.Combat.IsReady}`
+
+TRUE while OgreBot is open and has finished loading. FALSE after it is closed.
+
+**Returns:** bool: TRUE when OgreBot is open and ready; FALSE otherwise.
+
+```text
+echo ${OgreBotAPI.Combat.IsReady}
+```
+
+*Was (OldBot):* `OgreBotAPI.IsReady`
+
+### `NoDefensive`
+
+`${OgreBotAPI.Combat.NoDefensive}`
+
+TRUE while any no-defensive reason is held (SetNoDefensive). While it is TRUE the bot skips defensive abilities.
+
+**Returns:** bool: TRUE when at least one no-defensive reason is held; FALSE when none is.
+
+```text
+echo ${OgreBotAPI.Combat.NoDefensive}
+```
+
+*Was (OldBot):* `OgreBotAPI.CheckNoDefensiveOn`
+
+### `NoOffensive`
+
+`${OgreBotAPI.Combat.NoOffensive}`
+
+TRUE while offensive actions are held off: a no-offensive reason is set (SetNoOffensive), or your current NPC target matches the no-offensive list (AddNoOffensive). While it is TRUE the bot skips offensive abilities and, while running, turns auto-attack off.
+
+**Returns:** bool: TRUE when a no-offensive reason is held or the current NPC target is on the no-offensive list; FALSE otherwise.
+
+```text
+echo ${OgreBotAPI.Combat.NoOffensive}
+```
+
+*Was (OldBot):* `OgreBotAPI.CheckNoOffensiveOn`, `OgreBotAPI.NoOffensiveOn`
+
+### `NoReqBowAbilities`
+
+`${OgreBotAPI.Combat.NoReqBowAbilities}`
+
+Returns the flag SetNoReqBowAbilities sets, FALSE until something sets it. While it is TRUE the cast stack skips abilities that need a bow.
+
+**Returns:** bool: TRUE when SetNoReqBowAbilities turned the flag on; FALSE otherwise.
+
+```text
+echo ${OgreBotAPI.Combat.NoReqBowAbilities}
+```
+
+*Was (OldBot):* `OgreBotAPI.CheckNoReqBowAbilities`, `OgreBotAPI.bNoReqBowAbilities`
+
+### `Zoning`
+
+`${OgreBotAPI.Combat.Zoning}`
+
+TRUE while a zone change is in progress, including the short wait after arriving before the character is settled. FALSE once you are in a zone and settled.
+
+**Returns:** bool: TRUE while zoning or not yet settled after a zone; FALSE otherwise.
+
+```text
+echo ${OgreBotAPI.Combat.Zoning}
+```
+
+*Was (OldBot):* `OgreBotAPI.Zoning`
+
+## Methods
+
+### `AddNoOffensive`
+
+`OgreBotAPI.Combat:AddNoOffensive[fw, mobName, exactOnly=TRUE]`
+
+Adds a mob name to the no-offensive list: while your current NPC target matches an entry, NoOffensive is TRUE and the bot holds off offensive abilities and auto-attack. Matching ignores case, adding a name already listed replaces its exactOnly setting, and the list is kept until ClearNoOffensive, LetsGo or the bot closing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `mobName` | string |  | The mob name to add. A blank name is ignored. |
+| `exactOnly` | bool | `TRUE` | TRUE matches the whole name only; FALSE matches any target whose name contains mobName. |
+
+```text
+OgreBotAPI.Combat:AddNoOffensive[all,"a shield of Yothshaval",TRUE]
+```
+
+*Was (OldBot):* `OgreBotAPI:AddNoOffensiveOn`
+
+### `ClearNoOffensive`
+
+`OgreBotAPI.Combat:ClearNoOffensive[fw]`
+
+Empties the no-offensive list built by AddNoOffensive. Reasons set with SetNoOffensive are not touched.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Combat:ClearNoOffensive[all]
+```
+
+*Was (OldBot):* `OgreBotAPI:ClearNoOffensiveOn`
+
+### `Countdown`
+
+`OgreBotAPI.Combat:Countdown[fw, seconds=10]`
+
+When this character is grouped and is the group leader, runs the game's countdown for the given seconds; on anyone else it does nothing. A number below 1 counts down from 1 and one over 30 from 30, with a console line saying so.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `seconds` | int | `10` | Seconds to count down, 1 to 30. A word that is not a number reads as 0, so it counts down from 1. The -countdown console row passes 1 when its time is left blank. |
+
+```text
+OgreBotAPI.Combat:Countdown[igw:${Me.Name},5]
+```
+
+*Was (OldBot):* `OgreBotAPI:Countdown`
+
+### `RemoveNoOffensive`
+
+`OgreBotAPI.Combat:RemoveNoOffensive[fw,mobName]`
+
+Takes a mob name off the no-offensive list that Combat:AddNoOffensive adds to; the name is matched ignoring case. A name not on the list changes nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `mobName` | string |  | The mob name to take off the list. A blank name is ignored. |
+
+```text
+OgreBotAPI.Combat:RemoveNoOffensive[all,"a shield of Yothshaval"]
+```
+
+*Was (OldBot):* `OgreBotAPI:RemoveNoOffensiveOn`
+
+### `SetNoDefensive`
+
+`OgreBotAPI.Combat:SetNoDefensive[fw, on=TRUE, reason=""]`
+
+Turns no-defensive on or off by reason: on adds the reason (manual when blank), off with a reason removes just that one, and off with no reason clears them all. While any reason is held the bot skips defensive abilities; LetsGo and reopening the bot clear every reason.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `on` | bool | `TRUE` | TRUE adds the reason; FALSE removes it, or every reason when reason is blank. A word that is not yes or no changes nothing. |
+| `reason` | string | `""` | A name for why it is on, so several callers can hold it at once. Blank means manual when adding and every reason when removing. |
+
+```text
+OgreBotAPI.Combat:SetNoDefensive[igw:${Me.Name},FALSE,"tank swap"]
+```
+
+*Was (OldBot):* `OgreBotAPI:SetNoDefensive`
+
+### `SetNoOffensive`
+
+`OgreBotAPI.Combat:SetNoOffensive[fw, on=TRUE, reason=""]`
+
+Turns no-offensive on or off by reason: on adds the reason (manual when blank), off with a reason removes just that one, and off with no reason clears them all. While any reason is held the bot skips offensive abilities and turns auto-attack off; LetsGo and reopening the bot clear every reason.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `on` | bool | `TRUE` | TRUE adds the reason; FALSE removes it, or every reason when reason is blank. A word that is not yes or no changes nothing. |
+| `reason` | string | `""` | A name for why it is on, so several callers can hold it at once. Blank means manual when adding and every reason when removing. |
+
+```text
+OgreBotAPI.Combat:SetNoOffensive[igw:${Me.Name},TRUE,"tank swap"]
+```
+
+*Was (OldBot):* `OgreBotAPI:SetNoOffensive`
+
+### `SetNoReqBowAbilities`
+
+`OgreBotAPI.Combat:SetNoReqBowAbilities[fw, on=TRUE]`
+
+Sets the flag NoReqBowAbilities reports, and needs the character in the world. While it is on the cast stack skips abilities that need a bow; LetsGo and closing the bot turn it off.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `on` | bool | `TRUE` | TRUE turns the flag on; FALSE turns it off. A word that is not yes or no leaves it as it is. |
+
+```text
+OgreBotAPI.Combat:SetNoReqBowAbilities[${Me.Name},FALSE]
+```
+
+*Was (OldBot):* `OgreBotAPI:SetNoReqBowAbilities`
+
+### `ThreatIgnoreAdd`
+
+`OgreBotAPI.Combat:ThreatIgnoreAdd[fw, name...]`
+
+Adds fighter names to the threat ignore list: a fighter on it holding aggro does not count as a fighter already tanking, so your taunts and threat abilities are still used. Matching ignores case, blank and NULL names are skipped, and the list is cleared when the bot is opened or closed.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `name...` | string |  | One or more fighters' character names to add. |
+
+```text
+OgreBotAPI.Combat:ThreatIgnoreAdd[igw:${Me.Name},${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:ThreatFighterIgnoreList_Add`
+
+### `ThreatIgnoreClear`
+
+`OgreBotAPI.Combat:ThreatIgnoreClear[fw]`
+
+Empties the threat ignore list. Needs the character in the world.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Combat:ThreatIgnoreClear[igw:${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:ThreatFighterIgnoreList_Clear`
+
+### `ThreatIgnoreList`
+
+`OgreBotAPI.Combat:ThreatIgnoreList[fw]`
+
+Prints the threat ignore list to the console: a ThreatFighterIgnoreList -- Start -- line, then one name per line. There is no end line, and the character must be in the world.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Combat:ThreatIgnoreList[${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI.ThreatFighterIgnoreList`, `OgreBotAPI:ThreatFighterIgnoreList_List`
+
+### `ThreatIgnoreRemove`
+
+`OgreBotAPI.Combat:ThreatIgnoreRemove[fw, name...]`
+
+Removes each named fighter from the threat ignore list, in any case. A name that is not on the list is ignored, and the character must be in the world.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `name...` | string |  | One or more character names to remove. |
+
+```text
+OgreBotAPI.Combat:ThreatIgnoreRemove[igw:${Me.Name},${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:ThreatFighterIgnoreList_Remove`
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Comms.md
+
+# OgreBotAPI.Comms
+
+## Members
+
+### `Dispatched`
+
+`${OgreBotAPI.Comms.Dispatched}`
+
+How many received events at least one of the bot's own handlers acted on. Events no handler wants, and events dropped by for-who, are not counted.
+
+**Returns:** int64: events handled
+
+```text
+echo ${OgreBotAPI.Comms.Dispatched}
+```
+
+### `Errors`
+
+`${OgreBotAPI.Comms.Errors}`
+
+How many received events were thrown away as unreadable: bad base64, bad JSON, not an event, a newer envelope version, no name, or a name unfit for a script event. For-who drops and a full inbox are not counted here.
+
+**Returns:** int64: unreadable events
+
+```text
+echo ${OgreBotAPI.Comms.Errors}
+```
+
+### `GroupQuery`
+
+`${OgreBotAPI.Comms.GroupQuery[fw,question...]}`
+
+With arguments, starts a groupQuery on this session and returns it - every read of this form asks again; with no arguments it is the handle whose .Last, .Done[id] and .Result[id] read queries. Answers come over this PC's relay group only, so group or raid members on other PCs show as missing, and a bad question prints a groupQuery error.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `question...` | string |  | one JSON object, or -key,value pairs: -question (itemCount, abilityReady, slotResolve or LavishScript["${...}"]), -item, -ability or -slot, -compare with -value, -sendTo (default igw:&lt;me>), -limitMs (default 3000), -askAgainIfBlank |
+
+**Returns:** groupquery object: its text is the new query id (read .Done and .Result on it); NULL when the for-who does not name this character or the question is refused. With no arguments: the handle with .Last, .Done[id], .Result[id]
+
+```text
+echo ${OgreBotAPI.Comms.GroupQuery[all,-question,itemCount,-item,"Mechanized Platinum Repository of Reconstruction"]}
+```
+
+*Was (OldBot):* `OgreBotAPI.Ask`, `OgreBotAPI.Ask_AllFalse`, `OgreBotAPI.Ask_AllTrue`
+
+### `Query_Active`
+
+`${OgreBotAPI.Comms.Query_Active[id]}`
+
+TRUE while a query is still collecting replies, before its timeout. An empty id reads the last query (Query_Last); an unknown or cleared id reads FALSE.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `id` | string |  | the query id from Query_Last; empty = the last query |
+
+**Returns:** bool: TRUE while the query is collecting replies; FALSE once it is done, or for an unknown id
+
+```text
+echo ${OgreBotAPI.Comms.Query_Active[${OgreBotAPI.Comms.Query_Last}]}
+```
+
+### `Query_Count`
+
+`${OgreBotAPI.Comms.Query_Count[id]}`
+
+How many characters have replied to a query; an unknown id reads 0. Only in-world sessions on this PC answer, and this session answers its own question.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `id` | string |  | the query id from Query_Last; empty = the last query |
+
+**Returns:** int: replies so far (final once Query_Done); 0 for an unknown id
+
+```text
+echo ${OgreBotAPI.Comms.Query_Count[${OgreBotAPI.Comms.Query_Last}]}
+```
+
+### `Query_Done`
+
+`${OgreBotAPI.Comms.Query_Done[id]}`
+
+TRUE once a query's timeout has passed and its tally is final. The tally stays readable for 60 seconds after that, then the query is forgotten and this reads FALSE again.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `id` | string |  | the query id from Query_Last; empty = the last query |
+
+**Returns:** bool: TRUE when the query has finished; FALSE while it runs, after it is forgotten, or for an unknown id
+
+```text
+echo ${OgreBotAPI.Comms.Query_Done[${OgreBotAPI.Comms.Query_Last}]}
+```
+
+### `Query_Json`
+
+`${OgreBotAPI.Comms.Query_Json[id]}`
+
+Every reply to a query as one JSON object of responder name to raw answer: the item count, seconds until the ability is ready, the equipped item name, or the expression's text. An empty id reads the last query.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `id` | string |  | the query id from Query_Last; empty = the last query |
+
+**Returns:** string: JSON such as {"Name1":"5","Name2":"0"}; {} when nobody replied or the id is unknown
+
+```text
+echo ${OgreBotAPI.Comms.Query_Json[${OgreBotAPI.Comms.Query_Last}]}
+```
+
+### `Query_Last`
+
+`${OgreBotAPI.Comms.Query_Last}`
+
+The id of the last query this session started with Comms:Query; the bot's own group, loot and quest questions do not change it, and a refused :Query leaves the previous id in place.
+
+**Returns:** string: the query id; empty before any query started
+
+```text
+echo ${OgreBotAPI.Comms.Query_Last}
+```
+
+### `Query_TrueCount`
+
+`${OgreBotAPI.Comms.Query_TrueCount[id]}`
+
+How many replies to a query answered TRUE: has the item, ability ready, slot filled, or the expression read true. An empty id reads the last query; an unknown id reads 0.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `id` | string |  | the query id from Query_Last; empty = the last query |
+
+**Returns:** int: TRUE replies so far; 0 for an unknown id
+
+```text
+echo ${OgreBotAPI.Comms.Query_TrueCount[${OgreBotAPI.Comms.Query_Last}]}
+```
+
+### `Queued`
+
+`${OgreBotAPI.Comms.Queued}`
+
+How many received events are waiting to be handled right now. They are handled on the next pulse, so this is normally 0.
+
+**Returns:** int64: events waiting
+
+```text
+echo ${OgreBotAPI.Comms.Queued}
+```
+
+### `Received`
+
+`${OgreBotAPI.Comms.Received}`
+
+How many events this session has received from its relay group since it loaded or since the last ResetStats, counting its own events and events its for-who then dropped. It stays 0 when the uplink's OgreConsoleHub is not loaded, because then nothing comes back.
+
+**Returns:** int64: events received
+
+```text
+echo ${OgreBotAPI.Comms.Received}
+```
+
+### `Stats`
+
+`${OgreBotAPI.Comms.Stats}`
+
+This session's comms counters as one line: received, queued, handled, dropped by for-who, sent, and errors by kind. It is a local read that sends nothing, and echo ${OgreBotAPI.Comms} prints the same line.
+
+**Returns:** string: the counter line, e.g. recv=12 q=0 proc=12 disp=10 nosub=2 refired=12 cfwdrop=0 emit=5 err[b64=0 json=0 type=0 ver=0 name=0 refname=0] of=0 tid[recv=... pulse=...]
+
+```text
+echo ${OgreBotAPI.Comms.Stats}
+```
+
+### `UplinkName`
+
+`${OgreBotAPI.Comms.UplinkName}`
+
+Inner Space's uplink name for this PC, read from ${InnerSpace.Uplink}. A local read; every session on the PC reads the same text.
+
+**Returns:** string: the value of ${InnerSpace.Uplink}
+
+```text
+echo ${OgreBotAPI.Comms.UplinkName}
+```
+
+*Was (OldBot):* `GetInfoOb.UplinkName`, `OgreBotAPI.UplinkName`
+
+## Methods
+
+### `AddAnnounce`
+
+`OgreBotAPI.Comms:AddAnnounce[fw, ability, to, text]`
+
+Adds a row to this character's Announce tab and saves it in the loaded profile like a panel edit; from then on, casting the ability sends text to the to place (group or raid chat, a tell to the target, a game command, or a console command). An unknown ability or place, empty text, a duplicate row or no loaded profile is refused with a console line, and nothing announces while the Announce tab is switched off.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `ability` | string |  | the ability's name (any rank) or id, from this character's ability export |
+| `to` | string |  | where to announce: Group, Raid, Tell To Target, In-Game Command or Execute In Console (any case) |
+| `text` | string |  | the announce text; everything after to is joined back with commas, so it need not be quoted |
+
+```text
+OgreBotAPI.Comms:AddAnnounce[${Me.Name},Rescue,Group,"Rescue on *Target*"]
+```
+
+*Was (OldBot):* `OgreBotAPI:Announce_AddEntry`
+
+### `Broadcast`
+
+`OgreBotAPI.Comms:Broadcast[fw, text, -tab name..., -sound ding|alarm]`
+
+Sends the text to every session in this PC's relay group, this one included; each shows "[Notify] &lt;sender>: &lt;text>" in its OgreConsole (and the -tab tab) and plays the -sound. fw picks which sessions send, not who receives; it never leaves the PC, and with no OgreConsoleHub in the uplink nobody shows it, not even this session.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `text` | string |  | the line to show; commas in it are kept |
+| `-tab name...` | string |  | followed by an OgreConsole tab name - each receiver also puts the line in that tab; may be repeated |
+| `-sound ding\|alarm` | string |  | followed by ding or alarm - each receiver plays that sound; a bare -sound is ding |
+
+```text
+OgreBotAPI.Comms:Broadcast[${Me.Name},"Named is up",-sound,alarm]
+```
+
+*Was (OldBot):* `OgreBotAPI:Message_Relay`
+
+### `ConversationBubble`
+
+`OgreBotAPI.Comms:ConversationBubble[fw, num=1]`
+
+Clicks reply number num in the NPC conversation window open on this session; needs a character in the world. When no conversation is open or it has no such reply nothing is clicked, and only the log file says so.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `num` | int | `1` | which reply to click, counting from 1 as SpewConversationBubbles numbers them |
+
+```text
+OgreBotAPI.Comms:ConversationBubble[igw:${Me.Name},2]
+```
+
+*Was (OldBot):* `OgreBotAPI:ConversationBubble`, `OgreBotAPI:OptNum`, `call Obj_OgreUtilities.DoConversation`
+
+### `Emit`
+
+`OgreBotAPI.Comms:Emit[fw, name, cfw="", dest="", ev=1, dataJson=""]`
+
+Sends a named event to every session in this session's relay group on this PC, this one included; each session whose for-who matches cfw runs its handlers and fires the script event OgreComms_&lt;name> with the event JSON. It never leaves the PC and needs OgreConsoleHub in the uplink - without it nothing arrives anywhere and, a few seconds on, a "comms egress is BLIND" warning prints; an empty name gets a refusal line and invalid dataJson is refused (log file only).
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `name` | string |  | the event name (required); letters, digits and _ up to 64 characters, or no OgreComms_ script event fires |
+| `cfw` | string | `""` | for-who checked by each receiving session; empty = every session. A session not in the world (login screen, character select, zoning) takes in only what needs no game - messages, tag changes, group and key-bind updates - and throws momentary requests (casts, script events) away; a changed MCP file is kept once and read when it reaches the world; the OgreComms_ script event fires only in the world |
+| `dest` | string | `""` | the relay group to deliver to; empty = this session's relay group (Relay Groups tab) |
+| `ev` | int | `1` | the data version number stamped on the event |
+| `dataJson` | string | `""` | a JSON value carried as the event's data; must be valid JSON |
+
+```text
+OgreBotAPI.Comms:Emit[${Me.Name},MyEvent]
+```
+
+### `ExecuteEvent`
+
+`OgreBotAPI.Comms:ExecuteEvent[fw, name, ...]`
+
+Runs Event["name"]:Execute[...] on this session with the remaining arguments joined by commas, as written (not quoted). Local only - nothing is sent; needs a character in the world.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `name` | string |  | the LavishScript event to fire |
+| `...` | string |  | arguments passed to the event, in order |
+
+```text
+OgreBotAPI.Comms:ExecuteEvent[${Me.Name},MyScript_Pull,${Target.ID}]
+```
+
+*Was (OldBot):* `OgreBotAPI:ExecuteEvent_JSON`, `OgreBotAPI:ExecuteEvent`
+
+### `GroupQuery`
+
+`OgreBotAPI.Comms:GroupQuery[fw, question...]`
+
+Starts a groupQuery: asks group or raid members a question and judges the answers; read the id from ${OgreBotAPI.Comms.GroupQuery.Last} and the result JSON from .Result[id], which also fires OgreEvent_GroupQueryDone. Answers come over this PC's relay group only, so members on other PCs show as missing, and a bad question prints a groupQuery error to the console.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `question...` | string |  | one JSON object, or -key,value pairs: -question (itemCount, abilityReady, slotResolve or LavishScript["${...}"]), -item, -ability or -slot, -compare with -value, -sendTo (default igw:&lt;me>), -limitMs (default 3000), -askAgainIfBlank |
+
+```text
+OgreBotAPI.Comms:GroupQuery[${Me.Name},-question,abilityReady,-ability,Rescue,-sendTo,igw:${Me.Name}]
+```
+
+### `Ingest`
+
+`OgreBotAPI.Comms:Ingest[fw, wire]`
+
+Hands a base64 event envelope to this session's comms receiver as if it had arrived from the relay group; it is handled on the next pulse. Nothing is sent anywhere, and unreadable input only adds to Errors.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `wire` | string |  | the base64-encoded event envelope JSON |
+
+```text
+OgreBotAPI.Comms:Ingest[${Me.Name},eyJ2IjoxLCJmcm9tIjoiaXMxIiwiZGVzdGluYXRpb24iOiJvZ3JlX2V2ZXJxdWVzdDIiLCJ0eXBlIjoiZXZlbnQiLCJhcmdzIjp7Im5hbWUiOiJNeUV2ZW50IiwiZXYiOjF9fQ==]
+```
+
+### `InjectChat`
+
+`OgreBotAPI.Comms:InjectChat[fw, chat=Nothing]`
+
+Feeds the text into this session's own chat handling as a raid-chat line from the bot's built-in speaker OgreIRCSession, on the next pulse, so chat triggers and chat commands act on it. Nothing is said in game or sent anywhere; needs a character in the world.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `chat` | string | `Nothing` | the chat text to inject |
+
+```text
+OgreBotAPI.Comms:InjectChat[${Me.Name},"burn now"]
+```
+
+*Was (OldBot):* `OgreBotAPI:InjectChat`
+
+### `IrcAuthIfInRaid`
+
+`OgreBotAPI.Comms:IrcAuthIfInRaid[nick, toon]`
+
+If toon is in this character's raid, tells this PC's IRC bridge to accept commands from the IRC nick nick, marked as learned through the raid so IrcRaidUnauth can take it back. There is no for-who - every in-world session checks and prints a line saying whether toon is in its raid; nothing happens if the IRC bridge is not loaded in the uplink.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `nick` | string |  | the IRC nick to accept, as written |
+| `toon` | string |  | the character whose raid membership decides it |
+
+```text
+OgreBotAPI.Comms:IrcAuthIfInRaid[${Me.Name}_IRC,${Group[1].Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:OgreIRC_AuthIfInRaid`
+
+### `IrcConnect`
+
+`OgreBotAPI.Comms:IrcConnect[fw]`
+
+Loads the IRC bridge (OgreIRCHub) in this PC's uplink if it is not loaded and connects it to IRC with the saved settings; already connected = no change. It prints "irc: connecting" either way, and if the settings file cannot be read the bridge says so and does not connect.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Comms:IrcConnect[${Me.Name}]
+```
+
+### `IrcDisconnect`
+
+`OgreBotAPI.Comms:IrcDisconnect[fw]`
+
+Asks this PC's IRC bridge to disconnect from IRC; the bridge stays loaded and idle. It prints "irc: asking the uplink OgreIRCHub to disconnect (it stays loaded)." and the bridge reports the result on the uplink.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Comms:IrcDisconnect[${Me.Name}]
+```
+
+### `IrcRaidAuth`
+
+`OgreBotAPI.Comms:IrcRaidAuth[fw]`
+
+Asks, over IRC, every IRC bridge whose PC has a character in this raid to accept commands from each other's nicks; characters outside the raid take no part. Needs a character in a raid and IRC connected - otherwise it prints why and asks nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Comms:IrcRaidAuth[${Me.Name}]
+```
+
+### `IrcRaidCheck`
+
+`OgreBotAPI.Comms:IrcRaidCheck[fw, ask, toon]`
+
+Answers this PC's IRC bridge: if toon is in this character's raid, it reports this character's name back for question number ask. It says nothing when toon is not in the raid, when ask is not all digits, or out of the world; the bridge calls this itself.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `ask` | int |  | the bridge's question number (digits only) |
+| `toon` | string |  | the character that asked; must be a plain name |
+
+```text
+OgreBotAPI.Comms:IrcRaidCheck[all,12,${Group[1].Name}]
+```
+
+### `IrcRaidUnauth`
+
+`OgreBotAPI.Comms:IrcRaidUnauth[fw]`
+
+Asks, over IRC, every IRC bridge in this raid to drop the nicks it accepted through the raid; nicks accepted any other way stay. Needs a character in a raid and IRC connected - otherwise it prints why and asks nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Comms:IrcRaidUnauth[${Me.Name}]
+```
+
+### `IrcReload`
+
+`OgreBotAPI.Comms:IrcReload[fw]`
+
+Makes this PC's IRC bridge re-read its settings and reconnect with them, but only if it is connected - an idle bridge stays idle. It prints "irc: reloading the uplink hub config."; a settings file that does not read is only written to the bridge's log.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Comms:IrcReload[${Me.Name}]
+```
+
+### `LogStats`
+
+`OgreBotAPI.Comms:LogStats[fw]`
+
+Prints the Stats counter line to this session's console and writes it to the log file. Local only.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Comms:LogStats[all]
+```
+
+### `Message`
+
+`OgreBotAPI.Comms:Message[fw, text, -tab name..., -sound ding|alarm]`
+
+Prints "[Message] &lt;text>" in this session's OgreConsole (the Inner Space console when OgreConsole is not available); nothing goes to other sessions, IRC or game chat. -tab also puts it in that OgreConsole tab and -sound plays the sound here; an unknown sound name warns and plays nothing, and an empty text does nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `text` | string |  | the line to show; commas in it are kept |
+| `-tab name...` | string |  | followed by an OgreConsole tab name - the line also lands in that tab; may be repeated |
+| `-sound ding\|alarm` | string |  | followed by ding or alarm - plays that sound with the line; a bare -sound is ding |
+
+```text
+OgreBotAPI.Comms:Message[${Me.Name},"Pull in 10 seconds",-sound,ding]
+```
+
+*Was (OldBot):* `OgreBotAPI:Message`, `OgreBotAPI:Message_NT`
+
+### `Pushover`
+
+`OgreBotAPI.Comms:Pushover[fw, message..., -title t, -priority n]`
+
+Sends a push notification through the Pushover service from this session; every word that is not a flag becomes the message. Not configured (no app token or user key), switched off in the profile, or no message = nothing sent and a warning, and -sound, -device, -retry and -expire are accepted but ignored.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `message...` | string |  | the notification text; unflagged words are joined with spaces |
+| `-title t` | string |  | followed by the notification title |
+| `-priority n` | int | `0` | followed by a Pushover priority, -2 to 2 |
+
+```text
+OgreBotAPI.Comms:Pushover[${Me.Name},"Raid wiped",-title,EQ2,-priority,1]
+```
+
+*Was (OldBot):* `OgreBotAPI:Pushover`, `Obj_Pushover.PushoverSendMsg`, `Obj_Pushover`
+
+### `Query`
+
+`OgreBotAPI.Comms:Query[fw, kind, cfw="", timeoutMs=0, paramsJson=""]`
+
+Asks every in-world session in this PC's relay group a typed question and tallies the replies; read the new id from Query_Last, then Query_Count, Query_TrueCount and Query_Json once Query_Done. Sessions on other PCs never answer (it does not use IRC), with no OgreConsoleHub in the uplink nobody answers, not even this session, and an unknown kind or one of the bot's own (lootBid, questSteps) is refused (log file only).
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `kind` | string |  | the question: itemCount, abilityReady, slotResolve or eval (required) |
+| `cfw` | string | `""` | for-who checked by each session before it answers; empty = every session |
+| `timeoutMs` | int | `0` | how long to collect replies in milliseconds; 0 or less = 3000, capped at 60000 |
+| `paramsJson` | string | `""` | the question's JSON: itemCount {"item":"name"}, abilityReady {"ability":"name or id"}, slotResolve {"slot":"slot name or number"}, eval {"expr":"a LavishScript expression"}; missing or wrong = nobody answers |
+
+```text
+OgreBotAPI.Comms:Query[${Me.Name},itemCount,all,5000,{"item":"Mechanized Platinum Repository of Reconstruction"}]
+```
+
+### `Query_Clear`
+
+`OgreBotAPI.Comms:Query_Clear[fw, id=""]`
+
+Forgets a query and its tally on this session; its Query_* reads go back to FALSE, 0 and {}. Leave id empty for the last Comms:Query - an unknown id does nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `id` | string | `""` | the query id to forget; empty = the last query (the word last itself is not recognised) |
+
+```text
+OgreBotAPI.Comms:Query_Clear[${Me.Name}]
+```
+
+### `ReportVersion`
+
+`OgreBotAPI.Comms:ReportVersion[fw, compareTo]`
+
+Says this character's bot version in IRC: "VERSION: &lt;name> (&lt;version>)" when compareTo is empty, else "SAME: &lt;name> (&lt;version>)" or "DIFFERENT: &lt;name> - Mine: &lt;version> Requested: &lt;compareTo>". Needs a character in the world; while IRC is not connected the IRC bridge holds the line and sends it once it connects.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `compareTo` | string |  | the version to compare against; empty = just report the version |
+
+```text
+OgreBotAPI.Comms:ReportVersion[all,""]
+```
+
+### `ResetStats`
+
+`OgreBotAPI.Comms:ResetStats[fw]`
+
+Zeroes this session's comms counters (Stats, Received, Dispatched, Errors) and restarts the silent-hub warning's clock. Local only; prints nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Comms:ResetStats[all]
+```
+
+### `SendTell`
+
+`OgreBotAPI.Comms:SendTell[fw, target, message]`
+
+Sends an in-game /tell from this character to target, in game chat; needs a character in the world. If target or message contains NULL the tell is not sent and an "Unable to send" line goes to IRC instead (the IRC bridge holds it until IRC connects).
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `target` | string |  | the character to send the tell to |
+| `message` | string |  | the tell's text; commas in it are kept |
+
+```text
+OgreBotAPI.Comms:SendTell[${Me.Name},${Group[1].Name},"Ready when you are"]
+```
+
+*Was (OldBot):* `OgreBotAPI:Send_Tell`
+
+### `SpewConversationBubbles`
+
+`OgreBotAPI.Comms:SpewConversationBubbles[fw]`
+
+Prints the replies the open NPC conversation window offers to this session's console, numbered the way ConversationBubble clicks them. With no conversation open it prints "no conversation window open."
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Comms:SpewConversationBubbles[${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:ConversationBubbleSpew`
+
+### `SpewRelayGroup`
+
+`OgreBotAPI.Comms:SpewRelayGroup[fw]`
+
+Sends "&lt;name>: OgreRelayGroup: &lt;group>" to every session in this PC's relay group, naming the relay group this session uses now. Same path as Broadcast - nobody shows it without OgreConsoleHub in the uplink - and it needs a character in the world.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Comms:SpewRelayGroup[all]
+```
+
+*Was (OldBot):* `OgreBotAPI:Spew_RelayGroup`
+
+### `TTS`
+
+`OgreBotAPI.Comms:TTS[fw, text]`
+
+Speaks the text aloud on this PC through Inner Space (uplink speak). An empty for-who means is1, not all, so by default only session is1 speaks; empty text does nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `text` | string |  | the words to speak |
+
+```text
+OgreBotAPI.Comms:TTS[${Me.Name},"Tank is low"]
+```
+
+*Was (OldBot):* `OgreBotAPI:TTS`
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Comms.GroupQuery.md
+
+# OgreBotAPI.Comms.GroupQuery
+
+## Members
+
+### `Done`
+
+`${OgreBotAPI.Comms.GroupQuery.Done[id]}`
+
+Whether a group query has finished. With no id it reads the query this object was started as, else the last one; an id from another session matches nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `id` | string |  | The query id from Last (like gq:is1:4); blank reads the bound or last query |
+
+**Returns:** bool: TRUE once the query has finished; FALSE while it runs, for an id this session did not start, and again 60 seconds after it finished, when the result is dropped.
+
+```text
+echo ${OgreBotAPI.Comms.GroupQuery.Done[${OgreBotAPI.Comms.GroupQuery.Last}]}
+```
+
+### `Last`
+
+`${OgreBotAPI.Comms.GroupQuery.Last}`
+
+The id of the last group query this session started, from ${OgreBotAPI.Comms.GroupQuery[fw,...]} or OgreBotAPI.Comms:GroupQuery. Pass it to Done and Result to read that query.
+
+**Returns:** string: the id, like gq:is1:4; "" when this session has not started one.
+
+```text
+echo ${OgreBotAPI.Comms.GroupQuery.Last}
+```
+
+### `Result`
+
+`${OgreBotAPI.Comms.GroupQuery.Result[id]}`
+
+The result of a finished group query, as JSON. With no id it reads the query this object was started as, else the last one; the result stays readable for 60 seconds after the query finishes.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `id` | string |  | The query id from Last (like gq:is1:4); blank reads the bound or last query |
+
+**Returns:** string: the result JSON once finished; "" while it runs, for an id this session did not start, and after the 60 seconds are up.
+
+```text
+echo ${OgreBotAPI.Comms.GroupQuery.Result[${OgreBotAPI.Comms.GroupQuery.Last}]}
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Consumables.md
+
+# OgreBotAPI.Consumables
+
+## Methods
+
+### `AddMercenaries`
+
+`OgreBotAPI.Consumables:AddMercenaries[fw]`
+
+Queues, for every item in your bags, Overseer bag and harvest bag whose name contains "Mercenary: ", an examine that answers the "What would you like to do?" dialog with its first choice and closes the examine window. It echoes how many it is adding, or that there are none.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Consumables:AddMercenaries[${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:Mercenary_AddMercenaries`
+
+### `CheckFamiliar`
+
+`OgreBotAPI.Consumables:CheckFamiliar[fw]`
+
+Summons your familiar at once with summon_familiar, unless your Summon Familiar buff is already maintained. After a summon it ignores further calls for 2 seconds.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Consumables:CheckFamiliar[all]
+```
+
+*Was (OldBot):* `OgreBotAPI:Check_Familiar`
+
+### `CheckMercenaryTraining`
+
+`OgreBotAPI.Consumables:CheckMercenaryTraining[fw]`
+
+Queues a check that resumes your mercenary if needed, opens Persona on the Mercenary tab and starts training when the button is enabled (it reports training already running or max level instead), then closes Persona, and suspends the mercenary again only when this check summoned it. It refuses in a full group of 6, reports every step to the console, and a new call replaces an earlier one.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Consumables:CheckMercenaryTraining[${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:CheckMercenaryTraining`
+
+### `CheckMountTraining`
+
+`OgreBotAPI.Consumables:CheckMountTraining[fw]`
+
+Queues a check that opens Persona on the Mounts tab and starts training your current mount when the Start Training button is showing, answering the confirm popup (it declines when the popup says training will be carried over from another mount), then closes Persona. You must be on a mount that is not a flight transport or it stops with a console line, and a new call replaces an earlier one.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Consumables:CheckMountTraining[${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:CheckMountTraining`
+
+### `CoV`
+
+`OgreBotAPI.Consumables:CoV[fw, travel=Teleport, toon, allowSameZone=FALSE]`
+
+Uses Call of the Veteran to bring up the veteran reward porter (or uses one already within 15, or a selection window already open), then picks the travel option and the named group or raid member in its two popups. It is skipped with a console line when you are in combat, name yourself, the member is not in your group (raid when you are in one), the member is already in your zone without allowSameZone, or there is no porter, no open window and the item is not ready.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `travel` | string | `Teleport` | the option to pick in the first popup, matched by its label in any case; the default takes you to the member, Summon brings the member to you |
+| `toon` | string |  | the group or raid member to pick in the second popup, by full name; blank echoes that no toon was named and does nothing |
+| `allowSameZone` | bool | `FALSE` | TRUE goes ahead even when the member is already in your zone; FALSE skips that case |
+
+```text
+OgreBotAPI.Consumables:CoV[${Me.Name},Summon,${Group[1].Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:CoV`
+
+### `DrinkAlcohol`
+
+`OgreBotAPI.Consumables:DrinkAlcohol[fw, item]`
+
+Drinks the named item from your bags at once, using the game's drink_alcohol command on it. With no item named it says so on the console, and so does an item that is not in your bags.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `item` | string | `""` | the item's full name (case does not matter); it must be in your bags, not the bank; required |
+
+```text
+OgreBotAPI.Consumables:DrinkAlcohol[${Me.Name},"Flask of Ale"]
+```
+
+*Was (OldBot):* `OgreBotAPI:Drink_Alcohol`
+
+### `MountDown`
+
+`OgreBotAPI.Consumables:MountDown[fw]`
+
+Queues a forced dismount: sit, toggle summon_mount once, then stand, about 3 seconds in all. It does nothing if you are moving when its turn comes, and with one line if you are not mounted.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Consumables:MountDown[all]
+```
+
+*Was (OldBot):* `OgreBotAPI:Force_MountOff`
+
+### `MountUp`
+
+`OgreBotAPI.Consumables:MountUp[fw]`
+
+Queues a forced mount-up: sit, toggle summon_mount, stand, then toggle summon_mount again, about 4 seconds in all. It does nothing if you are moving when its turn comes, and with one line if you are already mounted.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Consumables:MountUp[all]
+```
+
+*Was (OldBot):* `OgreBotAPI:Force_MountOn`
+
+### `RekindleHeartstone`
+
+`OgreBotAPI.Consumables:RekindleHeartstone[fw]`
+
+Applies the Rekindle Bond verb at once to the nearest actor whose name contains "Heartstone". Nothing happens, with no message, when there is none or it is more than 6 away.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Consumables:RekindleHeartstone[${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:Heartstone_RekindleBond`
+
+### `ReplenishFoodDrink`
+
+`OgreBotAPI.Consumables:ReplenishFoodDrink[fw]`
+
+Opens the nearest Food & Drink Depot (it must be within 11) and tops your equipped food and drink up to stacks of 100, equipping a bag copy into the slot before and after the pull, then closes the depot window. It uses the names in your Food and Drink slots, or the configured fallback names when a slot is empty, runs in the background over a few seconds, and only one depot run can be in flight at a time (a second call echoes that it is busy).
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Consumables:ReplenishFoodDrink[igw:${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:FoodDrink_Replenish`, `OgreBotAPI:Get_FoodDrink`
+
+### `ReplenishStatPotions`
+
+`OgreBotAPI.Consumables:ReplenishStatPotions[fw, potion=""]`
+
+Opens the nearest Poison, Potion, & Totem Depot (it must be within 11) and pulls one potion until your bags hold 100 of it, then closes the depot window. Each step reports to the console (already stocked, depot out, depot low, no depot nearby), and only one depot run can be in flight at a time.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `potion` | string | `""` | the potion's name as the depot lists it; blank uses the statPotion name from replenish-names.json (your OgreSave/EQ2/Replenish/custom copy wins over the shipped one) |
+
+```text
+OgreBotAPI.Consumables:ReplenishStatPotions[${Me.Name},"Planar Elixir of intellect"]
+```
+
+*Was (OldBot):* `OgreBotAPI:Get_StatPotions`, `OgreBotAPI:StatPotions_Replenish`, `OgreBotAPI:Get_Poisons`
+
+### `ScrollOf`
+
+`OgreBotAPI.Consumables:ScrollOf[fw, name=Prowess, cancelIfDurationLessThan=0, useBest=FALSE]`
+
+Keeps one scroll buff up: if a buff of that family is already maintained it does nothing (or cancels and recasts it when it has fewer than cancelIfDurationLessThan minutes left), otherwise it casts the family's ability already in your spellbook, or scribes one from your bags first when none is, and checks that it landed. It is queued, reports each outcome to the console, and a new call replaces one still running.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `name` | string | `Prowess` | the scroll family, any case: Prowess, forcelink, Pain, painlink, Power or powerlink; anything else is refused with a console warning |
+| `cancelIfDurationLessThan` | int | `0` | minutes; a maintained buff of the family with less time left than this is cancelled and recast, 0 leaves any maintained one alone |
+| `useBest` | bool | `FALSE` | only used when none of the family is in your spellbook yet: TRUE scribes the first bag scroll found from the bottom of the family's scroll list, FALSE from the top |
+
+```text
+OgreBotAPI.Consumables:ScrollOf[igw:${Me.Name},Prowess,10,TRUE]
+```
+
+*Was (OldBot):* `OgreBotAPI:ScrollOf`
+
+### `SummonFamiliar`
+
+`OgreBotAPI.Consumables:SummonFamiliar[fw]`
+
+Sends summon_familiar at once, with no check of whether a familiar is already out. Use CheckFamiliar to summon only when needed.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Consumables:SummonFamiliar[${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:Summon_Familiar`
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Craft.md
+
+# OgreBotAPI.Craft
+
+## Methods
+
+### `AddLastScribedRecipe`
+
+`OgreBotAPI.Craft:AddLastScribedRecipe[fw, qty=1]`
+
+Adds the recipe you last scribed this session (by the bot or by hand) to the craft setup queue. With nothing scribed yet it prints a warning and adds nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `qty` | int | `1` | How many to craft; 0 or less becomes 1. |
+
+```text
+OgreBotAPI.Craft:AddLastScribedRecipe[${Me.Name},5]
+```
+
+*Was (OldBot):* `OgreCraft:AddLastScribedRecipe`, `OgreCraftAPI:AddLastScribedRecipe`
+
+### `AddRecipe`
+
+`OgreBotAPI.Craft:AddRecipe[fw, nameOrID|lastknownrecipe, qty=1]`
+
+Adds a recipe to the craft setup queue by full name, by part of a name that matches only one recipe (4 letters or more), by recipe ID, or lastknownrecipe for the recipe last scribed this session. A recipe not in your recipe book prints a warning and adds nothing; if the book has not been read yet the add waits and runs once it has.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `nameOrID\|lastknownrecipe` | string |  | The recipe name, its ID (plain digits), or lastknownrecipe. A name may also be passed as several arguments; they are joined with spaces. |
+| `qty` | int | `1` | How many to craft. Read only when it is the last argument and a whole number; 0 or less becomes 1. |
+
+```text
+OgreBotAPI.Craft:AddRecipe[${Me.Name},"Tempered Iron",2]
+```
+
+*Was (OldBot):* `OgreCraft:AddRecipeNameForWho`, `OgreCraftAPI:AddRecipeNameForWho`
+
+### `BuyAllTinkeringRecipes`
+
+`OgreBotAPI.Craft:BuyAllTinkeringRecipes[fw]`
+
+Buys every tinkering recipe book you do not already know or carry from Fizza Cogsworth. It is refused unless you carry at least 3 platinum, are in Steamfont Mountains and are within 10 meters of her, and also while a crafting flow or merchant errand is running.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Craft:BuyAllTinkeringRecipes[${Me.Name}]
+```
+
+### `CompleteNavigation`
+
+`OgreBotAPI.Craft:CompleteNavigation[fw]`
+
+Answers craft's OgreCraft_NavigationRequired event (sent only when the craft setting to use events for movement is on) to say your script has moved the character; craft then checks the distance again and carries on. If no request is waiting it prints a warning.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Craft:CompleteNavigation[${Me.Name}]
+```
+
+### `DeferNavigation`
+
+`OgreBotAPI.Craft:DeferNavigation[fw]`
+
+Answers craft's OgreCraft_NavigationRequired event to say your script will not move the character, so craft uses its own movement. If no request is waiting it prints a warning.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Craft:DeferNavigation[${Me.Name}]
+```
+
+### `ScribeRecipe`
+
+`OgreBotAPI.Craft:ScribeRecipe[fw, name|all=all]`
+
+Scribes recipe scrolls from your bags one at a time, then opens and closes the tradeskill book. A name scribes only scrolls whose full item name matches it in any case (a name with a comma arrives whole), nothing matching prints a line and does nothing, and a call while scribing adds the new scrolls to the run.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+| `name\|all` | string | `all` | The scroll's full item name in any case, or all for every scribeable scroll in your bags. Left empty it scribes all. |
+
+```text
+OgreBotAPI.Craft:ScribeRecipe[${Me.Name},all]
+```
+
+*Was (OldBot):* `OgreCraft:ScribeRecipe`, `OgreCraftAPI:ScribeRecipe`
+
+### `Start`
+
+`OgreBotAPI.Craft:Start[fw]`
+
+Starts crafting the setup queue. It is refused with a console line when you are not in the world, a crafting flow is already running, or the setup queue is empty, and a refused start changes nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Craft:Start[${Me.Name}]
+```
+
+*Was (OldBot):* `OgreCraft:Start`, `OgreCraftAPI:Start`
+
+### `StartLLL`
+
+`OgreBotAPI.Craft:StartLLL[fw]`
+
+Starts low level leveling: rounds of buying recipe books, crafting the highest standard recipe at or below your tradeskill level, and selling or destroying what was made when the panel's settings say so. It stops at tradeskill level 9 or 19, and is refused when a crafting flow is already running or you are not in the world.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Craft:StartLLL[${Me.Name}]
+```
+
+*Was (OldBot):* `OgreCraftAPI:StartLLL`
+
+### `StartQuest`
+
+`OgreBotAPI.Craft:StartQuest[fw]`
+
+Crafts the recipe steps of the quest selected in your journal, one of each per pass, until no craftable step is left. It is refused when no quest is selected, a crafting flow is already running, or you are not in the world, and a refused start changes nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Craft:StartQuest[${Me.Name}]
+```
+
+### `StartTinker`
+
+`OgreBotAPI.Craft:StartTinker[fw]`
+
+Starts auto tinkering: rounds of buying recipe books, crafting the highest-level tinkering recipe you know, and selling or destroying what was made when the panel's settings say so, until tinkering is maxed. It stops if the character has no tinkering skill, and is refused when a crafting flow is already running or you are not in the world.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Craft:StartTinker[${Me.Name}]
+```
+
+### `StartWrits`
+
+`OgreBotAPI.Craft:StartWrits[fw]`
+
+Starts the rush order (writ) run for the number of writs set in the craft settings. It is refused below tradeskill level 20, when a crafting flow is already running, or when you are not in the world, and a refused start changes nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Craft:StartWrits[${Me.Name}]
+```
+
+*Was (OldBot):* `OgreCraftAPI:StartWrits`
+
+### `Stop`
+
+`OgreBotAPI.Craft:Stop[fw]`
+
+Stops the running crafting run (queue, writs, quest, Low Level Leveling or Auto Tinkering) on the characters the for-who names, the same as ISXOgreEQ2.Craft:Stop. With nothing running it drops a pause and prints that nothing was running.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | for-who: which characters this runs on |
+
+```text
+OgreBotAPI.Craft:Stop[igw:${Me.Name}]
+```
