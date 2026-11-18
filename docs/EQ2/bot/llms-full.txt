@@ -1909,6 +1909,8 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Auto Assist** | Switches assisting on. While it is ticked, the bot targets for the first available player on the Assist tab, or the player set by an assist command. Unticked, it does not assist at all.<br>*Auto Target, when it is on, takes over from assisting whatever this box says. 'ogre assist' still shows who you would assist while the box is off.* | off |
 | **Dynamic Assist** | **Not built yet.** The assist command remembers who to assist on its own; this box is not used or updated. | off (not saved) |
 | **Direct Assist Targeting** | Instead of targeting the player you assist (and fighting whatever they have targeted), the bot targets that player's target directly. If that player has no live target, your target is left alone. | off |
+| **Dynamic Direct Assist Targeting** | Works the same as Direct Assist Targeting while it is ticked, and is never saved. The bot ticks it by itself when the game says your target is immune to area attacks cast through an assist, unless 'Do not automatically turn on DAT' is ticked. Untick it to stop. | off (not saved) |
+| **Do not automatically turn on DAT** | When the game says your target is immune to area attacks cast through an assist, the bot normally ticks Dynamic Direct Assist Targeting so its area attacks go at the mob itself. Tick this to stop it doing that. When the bot ticks the box, area attacks wait 1 second while the target switches; when Direct Assist Targeting is already on, or this box is ticked, every area attack is held for 10 seconds instead. | off |
 | **Face mob in combat** | While the bot is running and you are standing still, it turns you to face the mob you are fighting when you are more than 45 degrees off. It only does this within the 'Melee move when less' distance on the Setup tab (40 if blank). If you are on /follow it drops follow for a moment to turn. | off |
 | **Ranged Attack** | When the mob is outside melee reach (or melee is off) and beyond your ranged minimum, the bot switches on ranged auto-attack.<br>*It never turns auto-attack on while you are invisible, stealthed or casting a stealth opener.* | off |
 | **Melee Attack** | When the mob is within melee reach, the bot switches on melee auto-attack, and switches back from ranged to melee when the mob closes in.<br>*It never turns auto-attack on while you are invisible, stealthed or casting a stealth opener.* | off |
@@ -1942,7 +1944,6 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 | **Auto Target when Hated** | When you have no target, or only something you can't fight (a mob's corpse, chest, shiny or NoKill NPC, but not a dead group or raid member, so you can res them), the bot looks about once a second for a mob within 30 meters (and roughly your height) that is attacking someone in your group, and targets it. It never does this while you are assisting someone (Auto Assist). | off |
 | **Disable Mortal Coil Dispel** | Mages: the bot normally dispels the 'Mortal Coil' buff from named mobs in range with your dispel ability. Tick this to stop it.<br>*'No Dispels' on the Settings tab also stops it.* | off |
 | **Wait for Recovery time** | Normally the bot picks the next ability the moment a cast lands, queuing it during the recovery time. Tick this to make it wait out each ability's recovery time (minus 0.2 seconds) first. Items are not affected. | off |
-| **checkbox_settings_allow_specials_to_be_targets** |  |  |
 | **Use reduced stun checks** | The Cast Stack decides you are stunned when you cannot turn, or when your Mining ability is not ready. Tick this to drop the 'cannot turn' test, so being unable to turn alone no longer stops casting. | off |
 | **Dynamic ignore stun checks** | While ticked, the Cast Stack skips its stun tests entirely and tries to cast even if you look stunned.<br>*Meant for encounter scripts, for fights where the game falsely reports a stun.* | off (not saved; clears on reload) |
 | **DoV Raid Debuffs** | When chat says the Destiny of Velious (DoV) raid debuff is about to expire on a mob, the bot re-casts your archetype's DoV raid debuff on it. | off |
@@ -2369,11 +2370,7 @@ Assist tells the bot whose fight to join. Pick people (or aliases such as @Tank)
 
 Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/auto-hunt.md
 
-# Auto-Hunt (not finished)
-
-> **:warning: Not finished**
->
-> OgreBot marks this tab as not finished (its name is struck through). Some options below work and some do not yet - each one says which.
+# Auto-Hunt
 
 Auto-Hunt is a simple grinding mode. The bot looks for a mob near you, targets it and opens the fight with the first ready ability from your Pull Abilities list; your Cast Stack then fights as usual. Pick a saved path under Path and it walks that path between pulls; with none picked it pulls what comes within the scan radius. This tab is marked not finished. To switch it on, tick Auto Hunt or use the OgreConsole command `-autohunt` with hunt or off. It only runs while OgreBot is open with a profile loaded and the bot is not paused.
 
@@ -2430,7 +2427,6 @@ Auto-Hunt is a simple grinding mode. The bot looks for a mob near you, targets i
 | **Campspot** | When the bot finds a mob to pull, the whole group camps at your spot and holds there for the fight. A new pull from the same spot sends nothing. When no mob has been in reach for 1.5 seconds (3 with Delay After Combat), the group is let go and follows you again; turning Auto Hunt off or pausing the bot lets it go too.<br>*It switches 'Allow Camp Spot' on for each toon. The rest of the group is let go with a full LetsGo. A toon more than 125 from your spot is not pulled in: it stands where it is until the group moves on, and one line in the console names it. Only toons on this PC are reached (OgreConsole).* | off |
 | **CS-JO-JI** | Like Campspot, and the casters stay at the camp while the rest of the group may leave it to fight. Campspot wins if both are ticked. | off |
 | **Prebuff** | Before each pull, the bot targets you, turns auto-attack on and waits 3 seconds, so your normal buffs have time to go out. Then it targets the mob.<br>*It does not cast buffs itself; your Cast Stack does that.* | off |
-| **checkbox_autohunt_useirc** |  |  |
 | **Ignore Collision** | Normally the bot skips mobs it cannot see (a wall or hill in the way). Tick this to let it pull those too.<br>*It looks from your eye height to the mob's, the same check your pull ability must pass to be cast.* | off |
 | **Delay After Combat** | With Campspot or CS-JO-JI, the group waits 3 seconds with no mob in reach before it is let go to follow you again, instead of 1.5. | off |
 | **Pause on Exquisite Chest drop** | While an Exquisite chest is lying within 50 of you, the bot stops pulling and holds still, so you can deal with it.<br>*It carries on by itself once the chest is gone.* | off |
@@ -3050,7 +3046,8 @@ Loot decides what the bot does when a loot window opens. Nothing on the left hal
 | **Loot everything** | The bot takes every item in the window. Anything it cannot take stays in the window for you, unless **Close loot window when done** is ticked.<br>*Smart Loot and Loot Distribution still get first pick of each item. A LORE item you already have is not tried; see **Pass LORE items I already have to the group**.* | off |
 | **Smart Loot** | Before anything else, the bot gives each item to the first member of your group or raid (in slot order) whose Smart Loot quota still wants it, or wants an adornment on it. Quotas are set in the Smart Loot window (`ogre smartloot`). | off |
 | **Loot Distribution (see the Loot Distribution tab)** | Items Smart Loot did not hand out go to a Resolve auction first: the group is asked who gains the most Resolve from the item, and the winner gets it. Items nobody wants, or that do not qualify, fall through to the boxes above.<br>*Group only. In a raid nothing is auctioned. Each auction waits up to about 3 seconds for answers.* | off |
-| **Pass LORE items I already have to the group** | A LORE item the bot would take for you, when you already have one in your bags or bank, goes to a group member who does not have one. The bot asks the group once per chest, and only members whose bot answers can be given one, in group order. If everyone who answered has one, the item stays in the chest and the bot moves on.<br>*Group only: in a raid it does nothing. A hand-out that does not go through counts as that member having one, and the next copy goes to the next member. The instance controller's default setup ticks it.* | off |
+| **Pass LORE items I already have to the group** | A LORE item the bot would take for you, when you already have one in your bags or bank, goes to a group member who does not have one. The bot asks the group once per chest, and only members whose bot answers can be given one, in group order. If everyone who answered has one, the item stays in the chest and the bot moves on.<br>*Group only, unless Allow in a raid is ticked. Several copies of one LORE item in a chest: you take one, and the rest are passed. A hand-out that does not go through counts as that member having one, and the next copy goes to the next member. The instance controller's default setup ticks it.* | off |
+| **Allow in a raid** | Pass LORE items also works in a raid. The bot asks the whole raid once per chest, and each copy you cannot take goes to the first raid member, in raid order, whose bot answered and who does not have one. Off: in a raid those copies stay in the chest for you to hand out.<br>*Needs Pass LORE items ticked. Only members whose bot answers can be given one.* | off |
 | **Close loot window when done** | Once the bot has nothing left to do in a Leader Only loot window, about a second later it closes it, whatever is left inside. Leave it off when you are there and want the window to wait for you.<br>*The instance controller's default setup ticks it, so a run loots each chest and moves on. Its no-trade steps turn it off while they run.* | off |
 
 ## Misc Options
@@ -3314,6 +3311,40 @@ Pack Pony sends your Artisan's Pack Pony out to gather harvests by itself. With 
 - The boxes follow your earlier picks, the way the pony's questions do: Conversation 2 shows the replies the pony offers after your Conversation 1 pick (six under 1-59 harvests, five under 60-99, four under 100+), and Conversation 3 is only asked under 100+ harvests. Where a reply is not known (Special Events, Conversation 3 below 100) the boxes read 'placeholder' and can still be picked, in case the game adds one. A ticked box your path does not offer says 'not offered ..., pick another'. The options listed on this page are the ones shown for 100+ harvests, 120-130.
 - The wait timers are kept only while the session runs. After a reload the bot tries again straight away.
 - The harvest ranges in the box names describe what each reply meant in the old bot. The bot clicks the reply by its number (Option 1 = the first reply), so check them in game if the pony's replies change.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/persona.md
+
+# Persona
+
+A persona is one character in one class. This tab lists every class this character is known in and which profile file it uses for each. By default it follows the rules in the Persona window (`ogre persona`). Pick a file here to give this character its own setting for a class.
+
+| Option | What it does | Default |
+|---|---|---|
+| **Restore gear now** | Puts this class's saved gear back on from your bags. This happens by itself after a class change; use it if something got left off. A slot whose saved piece will not go on gets the piece it replaced, or another class's piece for that slot (same archetype first); a slot still empty is an OgreConsole error with a ding. New gear you put on also replaces the old piece for every other class that wore it. |  |
+| **Save gear now** | Saves what this class is wearing now. This also happens by itself each time you zone and before a camp. A slot you emptied keeps its saved piece, so the next restore puts it back, wears a fallback, or warns you; Clear saved gear forgets it. |  |
+| **Clear saved gear** | Forgets this class's saved gear and keeps only what it is wearing now, after you confirm. Use it when you left a slot empty on purpose: a slot that is empty now is forgotten, so a restore will not fill it or warn about it. |  |
+| **Recheck adornments** | Looks at every gear slot now and moves adornments onto any bare piece, from this character's other gear for that slot. A worn piece comes off, gets its adornments, and goes back on. Also finishes a move that was stopped. Runs even when the box below is unticked. |  |
+| **Open Persona window** | Opens the Persona window, where you set which profile file each class uses on this PC. |  |
+| **Do not swap gear when changing personas** | Ticked: a class change leaves your gear as the game left it - nothing is put back on and nothing moves to the gear bags. Restore gear now still works. For this character; saved at once. | unticked (the swap happens) |
+| **Move adornments onto bare gear** | After a class change, before your gear goes on, each bare piece of gear in your bags gets the adornments of this character's other piece for that slot (another class's, same archetype first). They come off that piece and go on this one; one that will not fit goes back. Then the gear is put on. A small window shows the progress and has Stop. For this character; on unless you untick it. | ticked |
+| **Gear bags:** | Which of your six bags hold persona gear, for this character. After a class change, gear the game dumped moves into them. Tick none to leave the gear where it lands. |  |
+| **Classes this character is known in** | One row per class: the file it uses, why, a picker to give this character its own file for that class, and an X to forget that setting and follow the rules again. |  |
+
+
+
+## What you see
+
+- Each row is a class this character has an ability export for, the class it is logged in as now, or a class it already has its own setting for. The class it is logged in as comes first.
+- Beside the class is the file it uses and why: this character (its own setting), name route (an old route for this name alone), rule: all ranger (a rule in the Persona window), rule: all (the rule for every class), or class sample (nothing set, it starts from the sample for that class).
+
+## Good to know
+
+- A change applies the next time that class loads on this character, not to the class it is on right now.
+- A character's own setting beats every rule. Clear puts it back on the rules.
+- The file list is every profile in the Main profiles folder.
 
 
 ---
@@ -3714,35 +3745,6 @@ EQ2Chars is your list of characters. It does two jobs. Every character on it is 
 - The x on a row forgets that character at once, with no confirmation.
 - Only the first 200 matching rows are drawn. Type in the search box to find the rest.
 - The Character, Account and Server boxes are ordinary settings: whatever is left in them is saved in your profile, and in a Save Custom Profile copy. Press Clear Fields before sharing a profile.
-
-
----
-
-Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/persona.md
-
-# Persona
-
-A persona is one character in one class. This tab lists every class this character is known in and which profile file it uses for each. By default it follows the rules in the Persona window (`ogre persona`). Pick a file here to give this character its own setting for a class.
-
-
-
-| Option | What it does |
-|---|---|
-| **Open Persona window** | Opens the Persona window, where you set which profile file each class uses on this PC. |
-| **Classes this character is known in** | One row per class: the file it uses, why, a picker to give this character its own file for that class, and an X to forget that setting and follow the rules again. |
-
-
-
-## What you see
-
-- Each row is a class this character has an ability export for, the class it is logged in as now, or a class it already has its own setting for. The class it is logged in as comes first.
-- Beside the class is the file it uses and why: this character (its own setting), name route (an old route for this name alone), rule: all ranger (a rule in the Persona window), rule: all (the rule for every class), or class sample (nothing set, it starts from the sample for that class).
-
-## Good to know
-
-- A change applies the next time that class loads on this character, not to the class it is on right now.
-- A character's own setting beats every rule. Clear puts it back on the rules.
-- The file list is every profile in the Main profiles folder.
 
 
 ---
@@ -5241,6 +5243,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 >
 > **Good to know**
 >
+> - Zone files are read once: after you add, delete or change one (your custom folder too), press **Reload** at the top, or type `ogre ic reload`. Reopening OgreBot does not read them again. A zone already running keeps the steps it started with.
 > - Closing this window stops a running list, the same as End.
 > - If a zone fails, the group stays in that zone and the list stops.
 > - Every zone file must say how it leaves the zone (a `zoneOut` step). A zone file with a problem still shows in the list, in red and marked "not valid": click it, and the bar under the list says what to fix. It cannot be queued until it is fixed.
@@ -5280,7 +5283,7 @@ The Instance Controller (IC) runs a list of instanced zones for you, one after a
 | **Up** | Goes up one folder in the browse list and clears the selected file.<br>*Disabled at a root's top level.* |  |
 | **search** | Filters the browse list to files whose zone name or path contains the text. Not case-sensitive. It applies about 0.2 seconds after you stop typing.<br>*Not saved, so it clears when the extension reloads.* | empty |
 | **any variant / [Solo] / [Heroic] / ...** | Two jobs. (1) Hides files that do not have this variant. (2) Every zone you queue is tagged with this variant, which decides which instance the zone-in travels to. 'any variant (browse only)' turns the filter off and tags nothing. The choices are every variant found in the loaded zone files. Saved.<br>*With 'any', queuing a file that has 2+ variants pops up a pick-one menu at the row.* | any variant |
-| **Reload** | Re-reads every zone file from the content roots. Prints 'N zone(s) from M file(s) - X skipped, Y warning(s)'. The selected file is cleared if it no longer exists. A zone file with a problem (for example one that does not say how it leaves the zone) is not valid: it shows in the list in red, and clicking it says why (see Write your own zone files).<br>*A queued row whose file vanished fails with 'press Reload' when the row starts.* |  |
+| **Reload** | Re-reads every zone file from the content roots (your custom folder too). IC reads them once, the first time it is used, so a zone file you add, delete or change shows up only after Reload (or `ogre ic reload`) - reopening OgreBot does not read them again, and there is no need to reload ISXOgreX. Prints 'N zone(s) from M file(s) - X skipped, Y warning(s)'. The selected file is cleared if it no longer exists. A zone file with a problem (for example one that does not say how it leaves the zone) is not valid: it shows in the list in red, and clicking it says why (see Write your own zone files).<br>*A queued row whose file vanished fails with 'press Reload' when the row starts.* |  |
 
 
 
@@ -11064,6 +11067,23 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/deve
 - Every root loads. The same file in two roots shows up twice in the IC window: they are separate files, and
   neither replaces the other.
 
+## Loading your changes
+
+IC reads the zone files once, the first time it is used, and keeps that list. A zone file you add, delete, rename or
+edit after that, in any root (your `custom` folder too), does not show up until IC reads the files again:
+
+- press **Reload** in the IC window, or
+- type `ogre ic reload` in the console.
+
+There is no need to reload ISXOgreX or restart the game, and reopening OgreBot does not read the zone files again.
+Reload prints `N zone(s) from M file(s) - X skipped, Y warning(s)`, and a file with a problem shows in the list as not
+valid (see [Check your file](checking.md)).
+
+- Each session keeps its own list. Press Reload in the session whose IC window you use.
+- A zone that is already running keeps the steps it started with. Your change is used the next time that zone starts.
+- Fight files are loaded differently: the bot checks them again at every zone-in and reads a changed one then, or at
+  once with `ogre encounter reload` (see [Run your own fight files](fight-files.md#loading-your-changes)).
+
 ## Your own folders inside custom
 
 `Scripts` is the Scripts folder inside the folder InnerSpace is installed in, so the custom root is
@@ -11907,6 +11927,9 @@ from a similar fight is the easiest start.
 
 The bot reads the fight files when it starts, and again on zone-in when a file has changed. To load them at once,
 type `ogre encounter reload`.
+
+Zone files are not checked on zone-in: after you add, delete or change one, press **Reload** in the IC window (see
+[Where zone files go](where-they-go.md#loading-your-changes)).
 
 On zone-in the console lists the fights this zone has a file for (unless **No Available Setups** is ticked on the
 Settings tab). The `-ShowAvailableSetups` command prints that list any time: if your fight is not on it, the bot

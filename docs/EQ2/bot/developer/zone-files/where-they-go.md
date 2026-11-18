@@ -15,6 +15,23 @@
 - Every root loads. The same file in two roots shows up twice in the IC window: they are separate files, and
   neither replaces the other.
 
+## Loading your changes
+
+IC reads the zone files once, the first time it is used, and keeps that list. A zone file you add, delete, rename or
+edit after that, in any root (your `custom` folder too), does not show up until IC reads the files again:
+
+- press **Reload** in the IC window, or
+- type `ogre ic reload` in the console.
+
+There is no need to reload ISXOgreX or restart the game, and reopening OgreBot does not read the zone files again.
+Reload prints `N zone(s) from M file(s) - X skipped, Y warning(s)`, and a file with a problem shows in the list as not
+valid (see [Check your file](checking.md)).
+
+- Each session keeps its own list. Press Reload in the session whose IC window you use.
+- A zone that is already running keeps the steps it started with. Your change is used the next time that zone starts.
+- Fight files are loaded differently: the bot checks them again at every zone-in and reads a changed one then, or at
+  once with `ogre encounter reload` (see [Run your own fight files](fight-files.md#loading-your-changes)).
+
 ## Your own folders inside custom
 
 `Scripts` is the Scripts folder inside the folder InnerSpace is installed in, so the custom root is

@@ -647,6 +647,9 @@ from a similar fight is the easiest start.
 The bot reads the fight files when it starts, and again on zone-in when a file has changed. To load them at once,
 type `ogre encounter reload`.
 
+Zone files are not checked on zone-in: after you add, delete or change one, press **Reload** in the IC window (see
+[Where zone files go](where-they-go.md#loading-your-changes)).
+
 On zone-in the console lists the fights this zone has a file for (unless **No Available Setups** is ticked on the
 Settings tab). The `-ShowAvailableSetups` command prints that list any time: if your fight is not on it, the bot
 did not match your file to this zone.

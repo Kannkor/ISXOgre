@@ -6,18 +6,18 @@ To convert a Classic script, follow the procedure on the Converting your scripts
 
 ## Read it all
 
-- [Everything in one document](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-full.txt): the entire documentation, 2217 KB. If that is too much to read at once, use the smaller pieces below - together they are the same text.
+- [Everything in one document](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-full.txt): the entire documentation, 2222 KB. If that is too much to read at once, use the smaller pieces below - together they are the same text.
 - [Start here (part 1 of 2)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-start-here-1.txt): 19 KB - Start here
 - [Start here (part 2 of 2)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-start-here-2.txt): 313 KB - Start here
-- [OgreBot (part 1 of 3)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-ogrebot-1.txt): 99 KB - OgreBot; OgreBot - Tabs
-- [OgreBot (part 2 of 3)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-ogrebot-2.txt): 99 KB - OgreBot - Tabs
-- [OgreBot (part 3 of 3)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-ogrebot-3.txt): 63 KB - OgreBot - Tabs
+- [OgreBot (part 1 of 3)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-ogrebot-1.txt): 100 KB - OgreBot; OgreBot - Tabs
+- [OgreBot (part 2 of 3)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-ogrebot-2.txt): 100 KB - OgreBot - Tabs
+- [OgreBot (part 3 of 3)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-ogrebot-3.txt): 64 KB - OgreBot - Tabs
 - [Windows (part 1 of 5)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-1.txt): 70 KB - Windows - Everyday
 - [Windows (part 2 of 5)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-2.txt): 97 KB - Windows - Running content
 - [Windows (part 3 of 5)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-3.txt): 99 KB - Windows - Running content; Windows - Loot and items; Windows - Crafting
 - [Windows (part 4 of 5)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-4.txt): 97 KB - Windows - Groups and accounts; Windows - Tools
 - [Windows (part 5 of 5)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-5.txt): 35 KB - Windows - Tools
-- [Developers (part 1 of 14)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-1.txt): 91 KB - Developers; Developers - Guides; Developers - Guides - Write your own zone files
+- [Developers (part 1 of 14)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-1.txt): 92 KB - Developers; Developers - Guides; Developers - Guides - Write your own zone files
 - [Developers (part 2 of 14)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-2.txt): 90 KB - Developers - Guides - Write your own zone files; Developers - API reference; Developers - API reference - OgreBotAPI
 - [Developers (part 3 of 14)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-3.txt): 86 KB - Developers - API reference - OgreBotAPI
 - [Developers (part 4 of 14)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-4.txt): 98 KB - Developers - API reference - OgreBotAPI
@@ -81,6 +81,7 @@ Each page on its own, as plain Markdown, in menu order:
 - [Other](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/other.md)
 - [Overseer](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/overseer.md)
 - [Pack Pony](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/pack-pony.md)
+- [Persona](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/persona.md)
 - [Post-Cast](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/post-cast.md)
 - [Pre-Cast](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/pre-cast.md)
 - [Pushover](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/pushover.md)
@@ -90,7 +91,6 @@ Each page on its own, as plain Markdown, in menu order:
 - [Admin](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/admin.md)
 - [Debug](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/debug.md)
 - [EQ2Chars](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/eq2chars.md)
-- [Persona](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/persona.md)
 - [Key Binds](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/key-binds.md)
 - [OgreConsole](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/ogreconsole.md)
 - [Relay Groups](https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/relay-groups.md)

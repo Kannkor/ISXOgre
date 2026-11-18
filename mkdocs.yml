@@ -105,6 +105,7 @@ nav:
               - "Other": EQ2/bot/ogrebot/other.md
               - "Overseer": EQ2/bot/ogrebot/overseer.md
               - "Pack Pony": EQ2/bot/ogrebot/pack-pony.md
+              - "Persona": EQ2/bot/ogrebot/persona.md
               - "Post-Cast": EQ2/bot/ogrebot/post-cast.md
               - "Pre-Cast": EQ2/bot/ogrebot/pre-cast.md
               - "Pushover": EQ2/bot/ogrebot/pushover.md
@@ -114,7 +115,6 @@ nav:
               - "Admin": EQ2/bot/ogrebot/admin.md
               - "Debug": EQ2/bot/ogrebot/debug.md
               - "EQ2Chars": EQ2/bot/ogrebot/eq2chars.md
-              - "Persona": EQ2/bot/ogrebot/persona.md
               - "Key Binds": EQ2/bot/ogrebot/key-binds.md
               - "OgreConsole": EQ2/bot/ogrebot/ogreconsole.md
               - "Relay Groups": EQ2/bot/ogrebot/relay-groups.md
