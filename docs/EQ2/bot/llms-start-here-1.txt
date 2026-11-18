@@ -270,6 +270,6 @@ Try the other way of drawing them: choose **Use OgreUltralight.exe** in the wind
 Send these files to Kannkor, from your InnerSpace folder:
 
 ```
-x64\Extensions\ISXDK35\OgreUIRuntime\ISXOgreUIHost.log
-x64\Extensions\ISXDK35\OgreUIRuntime\OgreUltralight\OgreUltralight.log
+Scripts\OgreLogs\ui\ISXOgreUIHost.log
+Scripts\OgreLogs\ui\OgreUltralight.log
 ```

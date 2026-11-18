@@ -18,6 +18,13 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.11.17.003 {#r2026-11-17-003}
+
+*Tuesday, November 17, 2026 at 11:57 PM EST*
+
+- **Changed** · Windows: **Window logs now live in Scripts\OgreLogs\ui.** The logs of OgreBot's windows (ISXOgreUIHost.log, OgreUltralight.log) moved out of x64\Extensions\ISXDK35\OgreUIRuntime into Scripts\OgreLogs\ui. They move the next time you restart the game.
+- **Changed** · Setup: **Log files now live in Scripts\OgreLogs.** OgreBot's log files moved out of x64\Extensions\ISXDK35 into Scripts\OgreLogs: each session's in a folder named after the session, the uplink's in Scripts\OgreLogs\uplink, and OgreCrash.log at the top. The old copies in the extensions folder are removed the first time each part loads.
+
 ## 2026.11.17.002 {#r2026-11-17-002}
 
 *Tuesday, November 17, 2026 at 10:14 PM EST*

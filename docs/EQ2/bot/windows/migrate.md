@@ -1,8 +1,8 @@
+# Migration Assistant
+
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
-
-# Migration Assistant
 
 > **:bulb: In game - the ? button on this window says**
 >
@@ -20,7 +20,7 @@
 > - Your Classic files are only read, never changed.
 > - The InnerSpace profile is the one thing it adds outside the bot: a copy of your EverQuest 2 Client profile whose startup runs `timedcommand 10 ext isxogrex`. Your other profiles are not touched, and a backup of InnerSpace's GameConfiguration.XML is kept next to it (GameConfiguration.before-ISXOgreX.XML).
 > - Each item is copied automatically only once. After that, only Re-run (overwrite) copies it again.
-> - Problems are listed in ISXOgreEQ2.log.
+> - Problems are listed in this session's ISXOgreEQ2 log, in Scripts/OgreLogs/<session> (Scripts/OgreLogs/is1/ISXOgreEQ2.is1.log for is1).
 
 **Open it:** Type `ogre migrate`. It also opens by itself once, a few seconds after the bot loads, when it finds Classic settings that have not been copied yet.
 
@@ -44,21 +44,17 @@ Each box shows one thing that can be copied from Classic and where it stands rig
 | **Cancel** | Backs out of the Overwrite question. Nothing is copied. |
 | **Title bar close (X)** | Closes the window. Copying that is already running keeps going.<br>*The automatic progress view closes by itself about 4 seconds after everything is done.* |
 
-
-
 ## Asking to overwrite
 
 After Re-run (overwrite), the box asks before it replaces anything. This is the only question the assistant ever asks.
 
 [![Asking to overwrite](../assets/migrate/confirm.png)](../assets/migrate/confirm.png "Click for full size")
 
-
 ## The automatic run at load
 
 When the bot loads and finds Classic files for an item that the new bot does not have yet, it copies them without asking and shows this view. There are no buttons here. Profiles can take a moment for a big library and show Running... until they are done. When every item is finished the window closes by itself.
 
 [![The automatic run at load](../assets/migrate/progress.png)](../assets/migrate/progress.png "Click for full size")
-
 
 ## What the window shows
 

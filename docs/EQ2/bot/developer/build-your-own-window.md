@@ -622,7 +622,7 @@ Each of these was checked in game on 2026-10-17 or 2026-10-18.
 | `alert('...')` | No dialog appears. |
 | `localStorage` or `sessionStorage` | Throws `SecurityError: The operation is insecure.` Keep state in your script instead. |
 | `<script src="...">`, `<link rel="stylesheet" href="...">`, `<img src="...">` | Nothing loads, whether the path is a full `file:///` path or a relative one; the UI log says `Not allowed to load local resource: file:///...`. The window has no web address (`about:blank`). Put styles and scripts inline in your file, and images in as inline SVG or `data:` URIs. |
-| `console.log('...')` | Goes to `<InnerSpace folder>\x64\Extensions\ISXDK35\OgreUIRuntime\ISXOgreUIHost.log`, as a line ending `CONSOLE: ...`, not to the InnerSpace console. Every session on the PC writes to that one file. |
+| `console.log('...')` | Goes to `<InnerSpace folder>\Scripts\OgreLogs\ui\ISXOgreUIHost.log`, as a line ending `CONSOLE: ...`, not to the InnerSpace console. Every session on the PC writes to that one file. |
 | A command of 8,192 bytes or more through `ogreCall('cmd', ...)` (the cap is 8,191) | Dropped, with only a line in that same log. |
 | `<select>` | Drawn as a small empty box that cannot be clicked or opened. Use the gallery's dropdown. |
 | `<input type="number">` | No up/down arrows. Only digits can be typed: a letter empties the box. Use a text box, or the gallery's number field or stepper. |

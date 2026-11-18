@@ -269,8 +269,8 @@ Try the other way of drawing them: choose **Use OgreUltralight.exe** in the wind
 Send these files to Kannkor, from your InnerSpace folder:
 
 ```
-x64\Extensions\ISXDK35\OgreUIRuntime\ISXOgreUIHost.log
-x64\Extensions\ISXDK35\OgreUIRuntime\OgreUltralight\OgreUltralight.log
+Scripts\OgreLogs\ui\ISXOgreUIHost.log
+Scripts\OgreLogs\ui\OgreUltralight.log
 ```
 
 
@@ -285,6 +285,13 @@ What changed in OgreBot, release by release, newest first. Every release listed 
 A release is named by the day it was published and its number that day: **2026.10.16.005** is the fifth release on October 16, 2026. Releases with nothing you would notice are not listed, so the numbers can skip.
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
+
+## 2026.11.17.003 {#r2026-11-17-003}
+
+*Tuesday, November 17, 2026 at 11:57 PM EST*
+
+- **Changed** · Windows: **Window logs now live in Scripts\OgreLogs\ui.** The logs of OgreBot's windows (ISXOgreUIHost.log, OgreUltralight.log) moved out of x64\Extensions\ISXDK35\OgreUIRuntime into Scripts\OgreLogs\ui. They move the next time you restart the game.
+- **Changed** · Setup: **Log files now live in Scripts\OgreLogs.** OgreBot's log files moved out of x64\Extensions\ISXDK35 into Scripts\OgreLogs: each session's in a folder named after the session, the uplink's in Scripts\OgreLogs\uplink, and OgreCrash.log at the top. The old copies in the extensions folder are removed the first time each part loads.
 
 ## 2026.11.17.002 {#r2026-11-17-002}
 
@@ -9168,7 +9175,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - Your Classic files are only read, never changed.
 > - The InnerSpace profile is the one thing it adds outside the bot: a copy of your EverQuest 2 Client profile whose startup runs `timedcommand 10 ext isxogrex`. Your other profiles are not touched, and a backup of InnerSpace's GameConfiguration.XML is kept next to it (GameConfiguration.before-ISXOgreX.XML).
 > - Each item is copied automatically only once. After that, only Re-run (overwrite) copies it again.
-> - Problems are listed in ISXOgreEQ2.log.
+> - Problems are listed in this session's ISXOgreEQ2 log, in Scripts/OgreLogs/<session> (Scripts/OgreLogs/is1/ISXOgreEQ2.is1.log for is1).
 
 **Open it:** Type `ogre migrate`. It also opens by itself once, a few seconds after the bot loads, when it finds Classic settings that have not been copied yet.
 
@@ -9187,8 +9194,6 @@ Each box shows one thing that can be copied from Classic and where it stands rig
 | **Overwrite** | Copies the item again from your Classic files and replaces what the new bot has. For profiles, every copied profile file is rewritten. When it finishes, the box shows what was copied.<br>*Anything you changed in the new bot for that item since the first copy is lost.* |
 | **Cancel** | Backs out of the Overwrite question. Nothing is copied. |
 | **Title bar close (X)** | Closes the window. Copying that is already running keeps going.<br>*The automatic progress view closes by itself about 4 seconds after everything is done.* |
-
-
 
 ## Asking to overwrite
 
@@ -10736,7 +10741,7 @@ Each of these was checked in game on 2026-10-17 or 2026-10-18.
 | `alert('...')` | No dialog appears. |
 | `localStorage` or `sessionStorage` | Throws `SecurityError: The operation is insecure.` Keep state in your script instead. |
 | `<script src="...">`, `<link rel="stylesheet" href="...">`, `<img src="...">` | Nothing loads, whether the path is a full `file:///` path or a relative one; the UI log says `Not allowed to load local resource: file:///...`. The window has no web address (`about:blank`). Put styles and scripts inline in your file, and images in as inline SVG or `data:` URIs. |
-| `console.log('...')` | Goes to `<InnerSpace folder>\x64\Extensions\ISXDK35\OgreUIRuntime\ISXOgreUIHost.log`, as a line ending `CONSOLE: ...`, not to the InnerSpace console. Every session on the PC writes to that one file. |
+| `console.log('...')` | Goes to `<InnerSpace folder>\Scripts\OgreLogs\ui\ISXOgreUIHost.log`, as a line ending `CONSOLE: ...`, not to the InnerSpace console. Every session on the PC writes to that one file. |
 | A command of 8,192 bytes or more through `ogreCall('cmd', ...)` (the cap is 8,191) | Dropped, with only a line in that same log. |
 | `<select>` | Drawn as a small empty box that cannot be clicked or opened. Use the gallery's dropdown. |
 | `<input type="number">` | No up/down arrows. Only digits can be typed: a letter empties the box. Use a text box, or the gallery's number field or stepper. |
