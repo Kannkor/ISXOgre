@@ -1,0 +1,1367 @@
+# OgreBot for EverQuest II - API reference: OgreBotAPI (part 4 of 6)
+
+Plain text for AI assistants, generated from the same tables as the API reference pages (https://kannkor.github.io/ISXOgre/EQ2/bot/developer/api/).
+This file is ONE PIECE: OgreBotAPI (part 4 of 6) - OgreBotAPI.IM, OgreBotAPI.Inventory, OgreBotAPI.Loot, OgreBotAPI.Merchant, OgreBotAPI.Movement, OgreBotAPI.Options, OgreBotAPI.Overseer, OgreBotAPI.Paths, OgreBotAPI.Pet, OgreBotAPI.POI.
+How to read an entry, and every file like this one: https://kannkor.github.io/ISXOgre/EQ2/bot/llms-api.txt
+
+== OgreBotAPI.IM ==
+
+${OgreBotAPI.IM.EndWhenFinished}
+  kind: member of OgreBotAPI.IM
+  what: Whether -end is armed, so the Inventory Manager window closes itself once the work has been idle for about 1.5 seconds. Only the console arms it (the -end flag of an `ogre im` line); there is no method for it, and closing the window clears it.
+  returns: bool: TRUE while -end is armed; FALSE otherwise.
+  example: echo ${OgreBotAPI.IM.EndWhenFinished}
+
+${OgreBotAPI.IM.IsOpen}
+  kind: member of OgreBotAPI.IM
+  what: Whether the Inventory Manager window is up on this session - the window is the session, so this is what a script waits on after starting it with -end. It reads FALSE when the UI host is not available, even while modes run from the console.
+  returns: bool: TRUE while the Inventory Manager window really exists; FALSE when it is closed or could not open.
+  example: echo ${OgreBotAPI.IM.IsOpen}
+
+${OgreBotAPI.IM.IsRunning}
+  kind: member of OgreBotAPI.IM
+  what: Whether the Inventory Manager is doing work right now - a mode (depot, sell, destroy, tse, restock, trade, quiver), a chain of them, or a depot withdraw started anywhere. It is FALSE while the window sits open and idle and can be FALSE just before a mode starts, so to wait for work to finish poll IsOpen with -end instead.
+  returns: bool: TRUE while any Inventory Manager mode or chain is working; FALSE when idle.
+  example: echo ${OgreBotAPI.IM.IsRunning}
+
+${OgreBotAPI.IM.Mode}
+  kind: member of OgreBotAPI.IM
+  what: The Inventory Manager mode working right now: depot, sell, destroy, tse, restock, trade, quiver or withdraw (a depot withdraw from anywhere). It reads chain when only a chain is busy between modes, and empty when idle.
+  returns: string: the busy mode's name, "chain", or "" when nothing is running.
+  example: echo ${OgreBotAPI.IM.Mode}
+
+${OgreBotAPI.IM.Status}
+  kind: member of OgreBotAPI.IM
+  what: One line saying what the Inventory Manager is doing, the same line `echo ${OgreBotAPI.IM}` prints. It reads "closed", "open, idle", "open, running sell", "open, running withdraw" or "closed (running headless), running restock", with "; will close when finished (-end)" added while -end is armed.
+  returns: string: the status line, such as "open, idle" or "closed".
+  example: echo ${OgreBotAPI.IM.Status}
+
+OgreBotAPI.IM:Chain[fw, words...]
+  kind: method of OgreBotAPI.IM
+  what: Prints what each -<mode> flag expands to. `reload` reads the chain defaults from disk again.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg words... (string): reload. Optional.
+  example: OgreBotAPI.IM:Chain[all,reload]
+
+OgreBotAPI.IM:Close[fw]
+  kind: method of OgreBotAPI.IM
+  what: Closes the Inventory Manager window, clears a pending -end, and closes the merchant window unless a sell run is using it. It does not stop work that is running - use Stop for that.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.IM:Close[${Me.Name}]
+
+OgreBotAPI.IM:Console[fw, word]
+  kind: method of OgreBotAPI.IM
+  what: The window's activity log: always, running or never sets when the strip shows, and clear empties it. With no word it prints the setting and how many lines it holds.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg word (string): always, running, never or clear. Optional.
+  example: OgreBotAPI.IM:Console[all,running]
+
+OgreBotAPI.IM:Depot[fw, words...]
+  kind: method of OgreBotAPI.IM
+  what: Runs the depot mode, deposits into the nearest house or guild hall depots, and brings the window up; with no flags it runs the line saved on the Depot tab, or warns if nothing is saved. The words after it are read as one `ogre im` line, so `ogre im depot status` is `ogre im status`.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg words... (string): The depot flags, one argument each, such as -harvest all -nearestdepot. `ogre im help` lists them. Optional.
+  example: OgreBotAPI.IM:Depot[all,-harvest,all,-nearestdepot]
+
+OgreBotAPI.IM:Destroy[fw, words...]
+  kind: method of OgreBotAPI.IM
+  what: The destroy mode: with no words, or flags first, it brings the window up and destroys what is on the destroy list; a name or an item id destroys that one item. The other first words are in the param.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg words... (string): stop, status, reload, preview (or plan), list [all], add <name> or remove <name>; or flags; or an item. One argument each. Optional.
+  example: OgreBotAPI.IM:Destroy[all,preview]
+
+OgreBotAPI.IM:End[fw]
+  kind: method of OgreBotAPI.IM
+  what: Stops whatever the Inventory Manager is running and closes the window, the same as `ogre end im` and the window's X. It stops first, so a script polling IsOpen never reads FALSE while work is still going.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.IM:End[all]
+
+OgreBotAPI.IM:Examine[fw, box]
+  kind: method of OgreBotAPI.IM
+  what: Fills the named box of the window with the item in the open item examine window; you still pick the quantity and add it. It warns when no item examine window is open.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg box (string): restock or trade: the tab whose box it fills.
+  example: OgreBotAPI.IM:Examine[all,restock]
+
+OgreBotAPI.IM:Flags[fw, words...]
+  kind: method of OgreBotAPI.IM
+  what: Takes the words no other method spells: a line wholly of mode flags is a chain, run in that order, with -end to close the window when it finishes. Any other line goes to the depot parser, which says what it cannot read.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg words... (string): The line, one argument each.
+  example: OgreBotAPI.IM:Flags[all,-destroy,-tse,-end]
+
+OgreBotAPI.IM:Help[fw]
+  kind: method of OgreBotAPI.IM
+  what: Prints the `ogre im` usage to the console: the depot flags, every other mode, chains, the queue and the settings.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.IM:Help[all]
+
+OgreBotAPI.IM:Open[fw]
+  kind: method of OgreBotAPI.IM
+  what: Opens the Inventory Manager window on the characters named; calling it while the window is up just refreshes it. If the UI host is not available it prints a warning and IsOpen stays FALSE.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.IM:Open[${Me.Name}]
+
+OgreBotAPI.IM:Pane[fw, words...]
+  kind: method of OgreBotAPI.IM
+  what: Builds the editor list for a tab and prints how many rows it holds: sell or destroy, destroy when no name is given. `sell reopen` opens the merchant again first if its window is shut, as the Sell list tab's Refresh button does.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg words... (string): The tab name, then reopen for sell. Optional.
+  example: OgreBotAPI.IM:Pane[all,destroy]
+
+OgreBotAPI.IM:Probe[fw]
+  kind: method of OgreBotAPI.IM
+  what: Prints what the open depot's tier dropdown holds, for checking a depot window against the depot tables. It changes nothing.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.IM:Probe[all]
+
+OgreBotAPI.IM:Queue[fw, mode]
+  kind: method of OgreBotAPI.IM
+  what: Adds a mode to the run queue and brings the window up: it runs when the current work finishes. With no mode it prints what is waiting, and a word that is not a mode is refused.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg mode (string): depot, sell, destroy, tse, restock, trade or quiver. Optional.
+  example: OgreBotAPI.IM:Queue[all,sell]
+
+OgreBotAPI.IM:Reload[fw]
+  kind: method of OgreBotAPI.IM
+  what: Reloads the depot tables from disk: the depot kinds, the ammo rows and the shared resource table.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.IM:Reload[all]
+
+OgreBotAPI.IM:Restock[fw, words...]
+  kind: method of OgreBotAPI.IM
+  what: The restock mode: with no words, or a profile name, it brings the window up and tops up from the depots, and -forwho <expr> runs it only on the characters named. A word short of its arguments is read as a profile name.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg words... (string): A profile, or one of stop, status, reload, list (or profiles), show <profile>, preview (or plan) [profile], set <profile> <qty> <item>, forwho <profile> <who> <item>, drop <profile> <item>. Optional.
+  example: OgreBotAPI.IM:Restock[all,"Raid night",-forwho,${Me.Name}]
+
+OgreBotAPI.IM:Sell[fw, words...]
+  kind: method of OgreBotAPI.IM
+  what: The sell mode: with no words it brings the window up and sells what is on the sell list, opening a nearby merchant if none is open. The other first words are in the param; any other words go to the run.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg words... (string): stop, status, reload, preview (or plan), list [all], add <name> or remove <name>, then its arguments. Optional.
+  example: OgreBotAPI.IM:Sell[all,preview]
+
+OgreBotAPI.IM:Settings[fw, words...]
+  kind: method of OgreBotAPI.IM
+  what: With no words, prints the saved settings; too few words prints the usage and changes nothing. Otherwise it changes one setting, as the param says.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg words... (string): One of: bag <tse|destroy> <1-6|overseer|harvest|sharedtradeskill> <on|off>; tse <option> <on|off|number>; quiver <arrow|bolt|throwing> <name|clear|examine>; depot <flags>; reload. One argument each. Optional.
+  example: OgreBotAPI.IM:Settings[all,tse,minlevel,120]
+
+OgreBotAPI.IM:Status[fw]
+  kind: method of OgreBotAPI.IM
+  what: Prints the session line to the console, then the chain if one runs and one summary line each for depot, sell, destroy, restock and trade. For one line a script can read, use ${OgreBotAPI.IM.Status}.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.IM:Status[all]
+
+OgreBotAPI.IM:Stop[fw]
+  kind: method of OgreBotAPI.IM
+  what: Stops whatever the Inventory Manager is running (the chain, every busy mode, or a depot withdraw still in flight) and leaves the window open. When nothing is running it prints "im: nothing is running." to the console.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.IM:Stop[igw:${Me.Name}]
+
+OgreBotAPI.IM:Trade[fw, words...]
+  kind: method of OgreBotAPI.IM
+  what: The trade mode: with no words it brings the window up and runs the queue. The other first words are in the param.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg words... (string): add <player> <qty|all> <item>, remove <n> (or delete), list, clear, preview (or plan), status or stop, then its arguments. Optional.
+  example: OgreBotAPI.IM:Trade[all,add,Tobbin,5,"Rare Ore"]
+
+OgreBotAPI.IM:Transmute[fw, words...]
+  kind: method of OgreBotAPI.IM
+  what: Brings the window up and transmutes one named item, or an item by id.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg words... (string): The item name or id. A name may be several arguments; they are joined with spaces.
+  example: OgreBotAPI.IM:Transmute[all,"Rusted Greatsword"]
+
+OgreBotAPI.IM:Tse[fw, words...]
+  kind: method of OgreBotAPI.IM
+  what: The transmute, salvage and extract mode: `stop` stops it, and anything else brings the window up and runs. It starts from the options saved on the TSE tab, and flags such as -salvage or -stopafter 5 change that run.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg words... (string): stop, or the run's flags, one argument each. Optional.
+  example: OgreBotAPI.IM:Tse[all,-stopafter,5]
+
+
+== OgreBotAPI.Inventory ==
+
+${OgreBotAPI.Inventory.AdornmentColour[iconId]}
+  kind: member of OgreBotAPI.Inventory
+  what: Looks up the colour of an adornment from its icon id, using the bot's built-in table of known adornment icons.
+  arg iconId (number): the adornment's icon id
+  returns: string - White, Red, Blue, Cyan, Green, Purple or Black. Empty when the icon id is not in the table.
+  example: echo ${OgreBotAPI.Inventory.AdornmentColour[3877]}
+  oldbot: OgreBotAPI.AdornmentIconIDColour, OgreBotAPI.Get_AdornmentColour
+
+${OgreBotAPI.Inventory.AdornToRemoveSlot[adorn]}
+  kind: member of OgreBotAPI.Inventory
+  what: The reverse of AdornToSlot: takes the slot number out of an adornment entry name, so _ADORN_<slot>_<name> becomes _ADORN_<name>. Text that is not in that form comes back unchanged.
+  arg adorn (text): the adornment entry name, _ADORN_<slot>_<name>
+  returns: string - the entry name without the slot, or the input unchanged when it is not in the _ADORN_<slot>_<name> form.
+  example: echo ${OgreBotAPI.Inventory.AdornToRemoveSlot["_ADORN_21_Raid Rune: Void Flow III"]}
+  oldbot: OgreBotAPI.ConvertAdornToRemoveSlot
+
+${OgreBotAPI.Inventory.AdornToSlot[adorn, slot=21]}
+  kind: member of OgreBotAPI.Inventory
+  what: Puts a slot number into an adornment entry name: _ADORN_<name> becomes _ADORN_<slot>_<name>. Text that is not in the _ADORN_<name> form (with no other underscores) comes back unchanged.
+  arg adorn (text): the adornment entry name, _ADORN_<name>
+  arg slot (number, default: 21): the slot number to insert
+  returns: string - the entry name with the slot inserted, or the input unchanged when it is not in the _ADORN_<name> form.
+  example: echo ${OgreBotAPI.Inventory.AdornToSlot["_ADORN_Raid Rune: Void Flow III",21]}
+  oldbot: OgreBotAPI.ConvertAdornToSlot
+
+${OgreBotAPI.Inventory.Count[itemName, exact|contains]}
+  kind: member of OgreBotAPI.Inventory
+  what: Counts how many of an item you are carrying, adding up every stack in your bags and your Harvest Bag. The name match ignores case; it is exact unless you pass contains.
+  arg itemName (item name): the item to count
+  arg exact|contains (text, default: exact): exact = the whole name must match, contains = any item whose name contains the text
+  returns: int - the total quantity on hand. 0 when nothing matches, the name is empty, you are not in the world, or the match word is not exact or contains (that last case also prints a line).
+  example: echo ${OgreBotAPI.Inventory.Count[Ingot,contains]}
+  oldbot: Obj_OgreUtilities.ItemCount, OgreBotAPI.ItemCount
+
+${OgreBotAPI.Inventory.CurrentImmunityRune}
+  kind: member of OgreBotAPI.Inventory
+  what: Names the immunity rune on the belt you are wearing; it only reads your own character. It needs the belt's item details: an empty answer means they are still loading (the read asks the game for them), so ask again shortly - never treat empty as no rune.
+  returns: string - Stun, Stifle, Mez, Fear or Medic for the rune worn. Unknown when the details are loaded and no known rune is on the belt. Empty when the details are not loaded yet or you are not in the world.
+  example: echo ${OgreBotAPI.Inventory.CurrentImmunityRune}
+  oldbot: OgreBotAPI.Get_CurrentImmunityRune
+
+${OgreBotAPI.Inventory.IsAdornmentColour[iconId, colour]}
+  kind: member of OgreBotAPI.Inventory
+  what: TRUE when an adornment icon id is a known icon of the given colour. The colour match ignores case, and a blank colour means White.
+  arg iconId (number): the adornment's icon id
+  arg colour (text, default: White): White, Red, Blue, Cyan, Green, Purple or Black
+  returns: bool - TRUE when the icon is in the table with that colour. FALSE when the colour differs or the icon id is not in the table.
+  example: echo ${OgreBotAPI.Inventory.IsAdornmentColour[3877,White]}
+  oldbot: OgreBotAPI.IsAdornmentColour
+
+${OgreBotAPI.Inventory.PackPonyRunning}
+  kind: member of OgreBotAPI.Inventory
+  what: TRUE while a pack pony run is in progress, whether CheckPackPony or the bot's own pack pony chore started it.
+  returns: bool: TRUE while a pack pony run is in progress; FALSE otherwise.
+  example: echo ${OgreBotAPI.Inventory.PackPonyRunning}
+  oldbot: OgreBotAPI.Get_APIPackPonyRunning, OgreBotAPI.Get_PackPonyRunning, OgreBotAPI.bAPIPackPonyRunning
+
+${OgreBotAPI.Inventory.SlotAvailable[slot name]}
+  kind: member of OgreBotAPI.Inventory
+  what: TRUE when the item worn in the named equipment slot can be used (activated) right now - for example, a clicky cloak on cooldown reads FALSE. It does not tell you whether the slot is empty or can hold an item.
+  arg slot name (text): one of: primary, secondary, head, cloak, chest, shoulders, forearms, hands, legs, feet, left_ring, right_ring, ears, ears2, neck, left_wrist, right_wrist, ranged, ammo, waist, activate1, activate2, event_slot, food, drink (any case)
+  returns: bool - TRUE when the item in that slot is usable now. FALSE when it is not, when the name is not one of the slot names (a warning is printed), or when the slot could not be read.
+  example: echo ${OgreBotAPI.Inventory.SlotAvailable[cloak]}
+  oldbot: OgreBotAPI.EquipmentSlotAvailable
+
+${OgreBotAPI.Inventory.SlotModifier[slot, modifier]}
+  kind: member of OgreBotAPI.Inventory
+  what: Reads one stat modifier from the item equipped in a slot, matching the modifier name without regard to case. It reads the item's detail record, which the game may have to fetch first, so it can return empty until that has loaded.
+  arg slot (slot name or number): the equipment slot, as the game's equipment list accepts it
+  arg modifier (text): the modifier name, e.g. Potency
+  returns: string - the modifier's value. Empty when the item has no such modifier, its details are not loaded yet, or you are not in the world.
+  example: echo ${OgreBotAPI.Inventory.SlotModifier[primary,Potency]}
+  oldbot: OgreBotAPI.Get_EquipmentModifierValue
+
+${OgreBotAPI.Inventory.SlotName[n=1]}
+  kind: member of OgreBotAPI.Inventory
+  what: Turns one of the bot's slot numbers (1 to 22) into the bot's short slot name: primary, secondary, head, chest, shoulders, Forearms, Hands, legs, feet, LRing, RRing, ear, ear2, neck, lwrist, rwrist, ranged, ammo, waist, cloak, Activate1, Activate2.
+  arg n (number, default: 1): the slot number, 1 to 22
+  returns: string - the slot name. Empty when n is outside 1 to 22.
+  example: echo ${OgreBotAPI.Inventory.SlotName[20]}
+  oldbot: OgreBotAPI.Get_SlotNum_To_SlotNames, OgreBotAPI.SlotNum_SlotNames, OgreBotAPI.Slot_SlotNames
+
+${OgreBotAPI.Inventory.SlotNumAvailable[slot number 1-22]}
+  kind: member of OgreBotAPI.Inventory
+  what: The same check as SlotAvailable, with the slot given as a number from 1 to 22 in the bot's own numbering (not the game's equipment index): 1 primary, 2 secondary, 3 head, 4 chest, 5 shoulders, 6 forearms, 7 hands, 8 legs, 9 feet, 10 left_ring, 11 right_ring, 12 ears, 13 ears2, 14 neck, 15 left_wrist, 16 right_wrist, 17 ranged, 18 ammo, 19 waist, 20 cloak, 21 activate1, 22 activate2.
+  arg slot number 1-22 (number): the slot, in the bot's numbering (whole digits only)
+  returns: bool - TRUE when the item in that slot is usable now. FALSE when it is not, when the number is not 1 to 22 (a warning is printed), or when the slot could not be read. event_slot, food and drink have no number; use SlotAvailable for them.
+  example: echo ${OgreBotAPI.Inventory.SlotNumAvailable[20]}
+  oldbot: OgreBotAPI.EquipmentSlotNumAvailable
+
+${OgreBotAPI.Inventory.SlotUIName[n=1]}
+  kind: member of OgreBotAPI.Inventory
+  what: Turns one of the bot's slot numbers (1 to 22) into the slot's name as the game's character window spells it: primary, secondary, head, chest, shoulders, Forearms, Hands, legs, feet, left_ring, right_ring, ears, ears2, neck, left_wrist, right_wrist, ranged, ammo, waist, cloak, Activate1, Activate2.
+  arg n (number, default: 1): the slot number, 1 to 22
+  returns: string - the window's slot name. Empty when n is outside 1 to 22.
+  example: echo ${OgreBotAPI.Inventory.SlotUIName[10]}
+  oldbot: OgreBotAPI.Get_SlotNum_EQ2UIPageSlotNames, OgreBotAPI.SlotNum_EQ2UIPageSlotNames
+
+OgreBotAPI.Inventory:AddEmbargo[fw, linkId, durationSec]
+  kind: method of OgreBotAPI.Inventory
+  what: Stops the bot's casting from using an item, given by its LinkID, for a number of seconds (while item embargo is enabled in the bot's settings). Both arguments are required; a new embargo on the same item only ever extends it, and the signed and unsigned forms of a LinkID both work.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg linkId (number): the item's LinkID, a whole number from -2147483648 to 4294967295
+  arg durationSec (number): how long, in seconds; 0 expires at once
+  example: OgreBotAPI.Inventory:AddEmbargo["all",-1112810742,30]
+  oldbot: OgreBotAPI:ItemEmbargo_AddRotateTimer
+
+OgreBotAPI.Inventory:AutoConsumeFamiliarXP[fw]
+  kind: method of OgreBotAPI.Inventory
+  what: Uses "(Temporary 4 hour) Familiar Experience" from your bags up to 10 times, waiting while you are in combat or moving. Only one temporary auto-consume run (this, mount training or research) runs at a time; a new call replaces the one before.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Inventory:AutoConsumeFamiliarXP[${Me.Name}]
+  oldbot: OgreBotAPI:AutoConsumeTemporaryFamiliarExperience
+
+OgreBotAPI.Inventory:AutoConsumeFoodDrink[fw, value=TRUE]
+  kind: method of OgreBotAPI.Inventory
+  what: Turns auto-consume on or off for the food and drink in your equipped provision slots, flipping only a slot whose setting differs from what you asked. It is queued, with a 1-second pause after.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg value (true/false or word, default: TRUE): TRUE = on, FALSE = off, toggle = flip, report = change nothing; any other word means TRUE
+  example: OgreBotAPI.Inventory:AutoConsumeFoodDrink[igw:${Me.Name},TRUE]
+  oldbot: OgreBotAPI:Change_FoodDrinkAutoConsume, OgreBotAPI:FoodDrink_AutoConsume
+
+OgreBotAPI.Inventory:AutoConsumeMountTraining[fw]
+  kind: method of OgreBotAPI.Inventory
+  what: Checks that mount training is running, then uses "(Temporary 4 hour) Mount Training Reduction" from your bags up to 10 times, waiting while you are in combat or moving. If training is not running nothing is consumed; a new call replaces any temporary auto-consume run already going.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Inventory:AutoConsumeMountTraining[${Me.Name}]
+  oldbot: OgreBotAPI:AutoConsumeTemporaryMountTrainingReduction
+
+OgreBotAPI.Inventory:AutoConsumeResearch[fw]
+  kind: method of OgreBotAPI.Inventory
+  what: Uses "(Temporary 4 hour) Research Reduction" from your bags up to 10 times, waiting while you are in combat or moving. It opens the research window if needed and stops when research is complete or nothing is being researched; a new call replaces any temporary auto-consume run already going.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Inventory:AutoConsumeResearch[${Me.Name}]
+  oldbot: OgreBotAPI:AutoConsumeTemporaryResearchReduction
+
+OgreBotAPI.Inventory:AutoConsumeStatPotions[fw, value=TRUE, potion=""]
+  kind: method of OgreBotAPI.Inventory
+  what: Turns auto-consume on or off for a stat potion in your bags (exact name); with no potion named it uses the bot's configured stat potion. It flips only when the setting differs from what you asked, is queued with a 1-second pause after, and prints a line if the potion is not in your bags.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg value (true/false or word, default: TRUE): TRUE = on, FALSE = off, toggle = flip, report = change nothing; any other word means TRUE
+  arg potion (item name, default: ""): the potion; blank = the configured stat potion
+  example: OgreBotAPI.Inventory:AutoConsumeStatPotions[igw:${Me.Name},TRUE]
+  oldbot: OgreBotAPI:Change_StatPotionsAutoConsume, OgreBotAPI:StatPotions_AutoConsume, OgreBotAPI:Change_PoisonAutoConsume
+
+OgreBotAPI.Inventory:ChangeBeltAdorn[fw, adornType, unequip=TRUE]
+  kind: method of OgreBotAPI.Inventory
+  what: Applies an immunity rune from your bags to your belt; it is queued and refuses while you are moving or in combat. A rune it replaces is accepted back and moved next to where the new rune was.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg adornType (text): Stun, Stifle, Mez, Fear or Medic
+  arg unequip (true/false, default: TRUE): TRUE takes the belt off, applies the rune and puts the belt back on; FALSE applies the rune to the worn belt
+  example: OgreBotAPI.Inventory:ChangeBeltAdorn[${Me.Name},Stun,TRUE]
+  oldbot: OgreBotAPI:ChangeBeltAdorn
+
+OgreBotAPI.Inventory:CheckGear[fw, threshold=100]
+  kind: method of OgreBotAPI.Inventory
+  what: Checks the condition of the item in your primary slot and prints "<name> gear N%" when it is at or below the threshold (and always at 30, 20, 10 and 0). It is queued, waits up to 5 seconds for the item's details to load, and fires the gear-condition event on every check.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg threshold (number, default: 100): the percent at or below which to print; TRUE means 100
+  example: OgreBotAPI.Inventory:CheckGear[igw:${Me.Name},90]
+  oldbot: OgreBotAPI:CheckGear
+
+OgreBotAPI.Inventory:CheckPackPony[fw, forceCheck=FALSE]
+  kind: method of OgreBotAPI.Inventory
+  what: Runs the Artisan's Pack Pony chore now: summons the pony, works through its conversation and dismisses it, pausing the bot for the run (and resuming it after, if it was not already paused). It does not need the pack pony settings enabled, but it waits out the re-check interval unless forced, and prints why if it cannot start (already running, not in the world, no pack pony ability, in combat).
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg forceCheck (true/false, default: FALSE): TRUE = run even within the re-check interval
+  example: OgreBotAPI.Inventory:CheckPackPony[${Me.Name},TRUE]
+  oldbot: OgreBotAPI:CheckPackPony
+
+OgreBotAPI.Inventory:ClearAllEmbargos[fw]
+  kind: method of OgreBotAPI.Inventory
+  what: Removes every item embargo. Ability embargoes are not touched.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Inventory:ClearAllEmbargos["all"]
+
+OgreBotAPI.Inventory:ClearEmbargo[fw, linkId]
+  kind: method of OgreBotAPI.Inventory
+  what: Removes the item embargo on one item, by the same LinkID AddEmbargo took. Does nothing if that item has no embargo.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg linkId (number): the item's LinkID
+  example: OgreBotAPI.Inventory:ClearEmbargo["all",-1112810742]
+
+OgreBotAPI.Inventory:ConsumeFamiliars[fw]
+  kind: method of OgreBotAPI.Inventory
+  what: Goes through each familiar already loose in your bags: one not yet in your collection is added, one you already have is consumed for familiar experience. It does not unpack Familiar Cages - UnpackConsumeFamiliars does both.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Inventory:ConsumeFamiliars[${Me.Name}]
+  oldbot: OgreBotAPI:Consume_Familiars
+
+OgreBotAPI.Inventory:ConsumeList[fw, -fc, -all, -st]
+  kind: method of OgreBotAPI.Inventory
+  what: Runs the bot's Consume Items list once: it uses the first entry that is ready and in your bags, or every one with -all. It skips disabled entries, in-combat-only entries outside combat and entries whose own timer has not run out, and stops if you are dead or moving.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg -fc (flag): force combat: ignore the in-combat-only setting and the in-combat wait between items
+  arg -all (flag): use every eligible entry, not just the first
+  arg -st (flag): skip timers: ignore each item's own timer
+  example: OgreBotAPI.Inventory:ConsumeList[igw:${Me.Name},-all]
+  oldbot: OgreBotAPI:ConsumeItems_ProcessList
+
+OgreBotAPI.Inventory:ConsumeStatusIngots[fw, amount=99999]
+  kind: method of OgreBotAPI.Inventory
+  what: Targets yourself and consumes status ingots - every bag item whose name contains Ingot - by examining each and confirming, until the amount is used. An item that fails twice in a row is skipped (tradeskill ingots match the name too); it is queued, stops if you lose the target, makes at most 250 tries a run, and sends a finished line to every session.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg amount (number, default: 99999): how many to consume; 0 or less means all
+  example: OgreBotAPI.Inventory:ConsumeStatusIngots[${Me.Name},10]
+  oldbot: OgreBotAPI:Consume_Status_Ignots, OgreBotAPI:Consume_Status_Ingots
+
+OgreBotAPI.Inventory:ConsumeStatusTokens[fw, amount=99999]
+  kind: method of OgreBotAPI.Inventory
+  what: Targets yourself and consumes Status Token items, then Status Coin items, by examining each and confirming. Every try counts toward the amount whether or not it consumed one; it is queued, stops if you lose the target, makes at most 250 tries a run, and sends a finished line to every session.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg amount (number, default: 99999): how many tries to make; 0 or less means all
+  example: OgreBotAPI.Inventory:ConsumeStatusTokens[${Me.Name},10]
+  oldbot: OgreBotAPI:Consume_Status_Tokens
+
+OgreBotAPI.Inventory:DestroyItem[fw, itemName, charges=0]
+  kind: method of OgreBotAPI.Inventory
+  what: Destroys an item in your carried bags by name, but only when it has no charges or its charges equal the number you give, so a partly used charged item is kept. It is queued, waits a second for the item's details to load and refuses with a line if they did not arrive; the destroy cannot be undone.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg itemName (item name): the item to destroy
+  arg charges (number, default: 0): the charge count the item must have to be destroyed
+  example: OgreBotAPI.Inventory:DestroyItem[${Me.Name},"Rusty Dagger",0]
+  oldbot: OgreBotAPI:DestroyItem
+
+OgreBotAPI.Inventory:DestroyItemNoChecks[fw, itemName]
+  kind: method of OgreBotAPI.Inventory
+  what: Destroys an item in your carried bags (not the bank) whose name matches exactly, ignoring case - the whole stack, with no charge check. This cannot be undone; use DestroyItem to keep a partly used charged item safe.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg itemName (item name): the item to destroy
+  example: OgreBotAPI.Inventory:DestroyItemNoChecks[${Me.Name},"Rusty Dagger"]
+  oldbot: OgreBotAPI:DestroyItem_NoChecks
+
+OgreBotAPI.Inventory:EquipCharm[fw, slot=1]
+  kind: method of OgreBotAPI.Inventory
+  what: Equips the item set as charm option 1 or 2 in the bot's Equipment settings, finding it in your bags by name. This only asks the game to equip it; the game can still refuse (slot rules, relic limits).
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg slot (number, default: 1): which charm option to equip, 1 or 2
+  example: OgreBotAPI.Inventory:EquipCharm[igw:${Me.Name},2]
+  oldbot: OgreBotAPI:EquipCharm
+
+OgreBotAPI.Inventory:Examine[fw, item=DoesNotExist]
+  kind: method of OgreBotAPI.Inventory
+  what: Opens the examine window for an item in your main bags, matched by exact name. Does nothing when no such item is there.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg item (item name, default: DoesNotExist): the item to examine
+  example: OgreBotAPI.Inventory:Examine[${Me.Name},"Spirit of the Cat"]
+  oldbot: OgreBotAPI:ExamineInventoryItem, Obj_OgreIH:ExamineInventoryItem
+
+OgreBotAPI.Inventory:ExamineAll[fw, item...]
+  kind: method of OgreBotAPI.Inventory
+  what: Examines every carried item whose name contains any of the given texts (main bags, Overseer Bag and Harvest Bag), each stack as many times as its quantity plus two, closing the examine window after each stack. It is queued and reads the bags when it runs; it prints a line if nothing matches.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg item... (item names): one or more name texts to match (contains, any case)
+  example: OgreBotAPI.Inventory:ExamineAll[${Me.Name},Potion]
+  oldbot: OgreBotAPI:ExamineAllOfItem
+
+OgreBotAPI.Inventory:InitAdornmentInfo[fw]
+  kind: method of OgreBotAPI.Inventory
+  what: Fills the adornment icon colour table that AdornmentColour and IsAdornmentColour read. The table is filled automatically, so a script does not normally need this.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Inventory:InitAdornmentInfo[${Me.Name}]
+  oldbot: OgreBotAPI:Initialize_AdornmentInfo
+
+OgreBotAPI.Inventory:RedeemKrono[fw]
+  kind: method of OgreBotAPI.Inventory
+  what: Redeems a Krono from the Krono page of your character window and confirms it, then prints whether it worked and fires the Krono redemption event. With no Krono to redeem it prints a line and stops.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Inventory:RedeemKrono[${Me.Name}]
+  oldbot: OgreBotAPI:RedeemKrono
+
+OgreBotAPI.Inventory:SpewSlotNames[fw]
+  kind: method of OgreBotAPI.Inventory
+  what: Prints one console line per gear slot 1 to 22: the slot number, the bot's name for that number, and the item equipped there (NULL when nothing reads).
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Inventory:SpewSlotNames[${Me.Name}]
+  oldbot: OgreBotAPI:Spew_SlotNum_To_SlotNames
+
+OgreBotAPI.Inventory:Unpack[fw, item, ...]
+  kind: method of OgreBotAPI.Inventory
+  what: Unpacks an item in your bags (exact name), with flags after the item in any order: -qty N unpacks N (1 to 1000), -all keeps going until none is left (up to 1000), and -pick <number | name | lowest> chooses the reward when the window offers a choice (lowest = the choice you hold the fewest of). It is queued and waits out an open reward window; a bad flag is refused with one line before anything is queued.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg item (item name): the item to unpack
+  arg ... (flags): -qty N or -all, and -pick <number | name | lowest>
+  example: OgreBotAPI.Inventory:Unpack[${Me.Name},"Reward Crate",-all,-pick,lowest]
+  oldbot: OgreBotAPI:Unpack, OgreBotAPI:Unpack_EmpyralStones, OgreBotAPI:Unpack_PlanarStones
+
+OgreBotAPI.Inventory:UnpackConsumeFamiliars[fw]
+  kind: method of OgreBotAPI.Inventory
+  what: Unpacks every Familiar Cage in your bags, then goes through each familiar in your bags: one not yet in your collection is added, one you already have is consumed for familiar experience (summoning a familiar if one is needed). A finished line is sent to every session when it is done.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Inventory:UnpackConsumeFamiliars[${Me.Name}]
+  oldbot: OgreBotAPI:Unpack_Consume_Familiars
+
+OgreBotAPI.Inventory:UnpackFamiliars[fw]
+  kind: method of OgreBotAPI.Inventory
+  what: Unpacks every Familiar Cage in your bags, one at a time (up to 20). It is queued, and prints a line if there is no Familiar Cage.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Inventory:UnpackFamiliars[${Me.Name}]
+  oldbot: OgreBotAPI:Unpack_Familiars
+
+OgreBotAPI.Inventory:UpgradeItem[fw]
+  kind: method of OgreBotAPI.Inventory
+  what: Moves the adornments from the old item in bag 1 slot 1 onto the new item in bag 1 slot 2, moves the old item to the end of bag 1 and equips the new one. Both must be for the same slot and the new one must have no adornments; an adornment with no free slot of its colour goes back on the old item.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Inventory:UpgradeItem[${Me.Name}]
+
+OgreBotAPI.Inventory:Use[fw, item, ...]
+  kind: method of OgreBotAPI.Inventory
+  what: Uses an item by name: equipped items (gear, food and drink) are checked first, then your carried bags (exact name, any case). The use is queued and fires when the cast bar is free; an item that is not found prints a line, and an empty name or Nothing does nothing.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg item (item name): the item to use
+  arg ... (any): extra arguments are ignored
+  example: OgreBotAPI.Inventory:Use[${Me.Name},"Spirit of the Cat"]
+  oldbot: OgreBotAPI:UseItem
+
+OgreBotAPI.Inventory:UseOnPlayer[fw, item, player=me, ...]
+  kind: method of OgreBotAPI.Inventory
+  what: Uses an item on another player: it targets that player, uses the item (equipped first, then bags) and puts your old target back. It does nothing if the item is on cooldown, if an effect the item is known to give is already maintained by you, or if the cast bar is busy; an item or player that is not found prints a line.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg item (item name): the item to use
+  arg player (player name or actor id, default: me): who to use it on
+  arg ... (any): extra arguments are ignored
+  example: OgreBotAPI.Inventory:UseOnPlayer[${Me.Name},"Spirit of the Cat",${Target.Name}]
+  oldbot: OgreBotAPI:UseItemOnPlayer
+
+
+== OgreBotAPI.Loot ==
+
+${OgreBotAPI.Loot.ItemCount}
+  kind: member of OgreBotAPI.Loot
+  what: How many distinct item names have a SmartLoot cap in the loaded loot files. It is 0 until the loot files have been loaded.
+  returns: int: the number of capped item names; 0 when nothing is loaded.
+  example: echo ${OgreBotAPI.Loot.ItemCount}
+
+${OgreBotAPI.Loot.Loaded}
+  kind: member of OgreBotAPI.Loot
+  what: TRUE once the SmartLoot item caps file has been read, which happens on every profile load and on :Load or :Reload. Answers about this session only.
+  returns: bool: TRUE when the item caps file (ItemLootData) was read; FALSE before a load or when that file is missing or unreadable.
+  example: echo ${OgreBotAPI.Loot.Loaded}
+
+${OgreBotAPI.Loot.WindowExists}
+  kind: member of OgreBotAPI.Loot
+  what: Whether a loot window is open on this session. With two loot windows open it answers about the topmost one.
+  returns: bool: TRUE when a loot window is open; FALSE when none is.
+  example: echo ${OgreBotAPI.Loot.WindowExists}
+  oldbot: OgreBotAPI.LootWindowExists
+
+${OgreBotAPI.Loot.WindowID}
+  kind: member of OgreBotAPI.Loot
+  what: The id of the open loot window, or 0 when there is none. With two loot windows open it is the topmost one.
+  returns: int64: the loot window id; 0 when no loot window is open.
+  example: echo ${OgreBotAPI.Loot.WindowID}
+  oldbot: OgreBotAPI.Get_LootWindowID
+
+OgreBotAPI.Loot:BuildToonItemsToBeZeroed[fw, toon, item, ...]
+  kind: method of OgreBotAPI.Loot
+  what: Adds character and item pairs to a list of SmartLoot counts to reset to 0, ready for :ProcessToonItemsToBeZeroed. It can be called several times to build a long list, and a character left without an item is dropped with a warning.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg toon (string): the character whose count for the item is reset
+  arg item (string): the item name for that character; colour codes are removed
+  arg ... (string): more character and item pairs, in the same order
+  example: OgreBotAPI.Loot:BuildToonItemsToBeZeroed[${Me.Name},${Me.Name},"Gleaming Crown",${Group[1].Name},"Gleaming Crown"]
+  oldbot: OgreBotAPI:SmartLoot_BuildToonItemsToBeZeroed
+
+OgreBotAPI.Loot:Config[fw, mode=open]
+  kind: method of OgreBotAPI.Loot
+  what: Opens the SmartLoot config panel, or closes it when mode is close. Opening a panel that is already open does nothing, so unsaved edits in it are kept.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg mode (string, default: open): close closes the panel; any other value opens it
+  example: OgreBotAPI.Loot:Config[${Me.Name},close]
+
+OgreBotAPI.Loot:Decide[fw, execute=FALSE]
+  kind: method of OgreBotAPI.Loot
+  what: Works out what SmartLoot would do with every open loot window in turn and prints the plan for each item of a Leader Only one; by default it is a dry run that clicks nothing. With execute it records the counts and assigns or loots for real on the next pulse, and it does nothing but print a line when OgreBot has no profile, is paused or has no loot window open, or for each window that is not Leader Only.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg execute (bool, default: FALSE): execute, force or a true word (TRUE, 1, yes, on) performs the plan; anything else, or nothing, is a dry run
+  example: OgreBotAPI.Loot:Decide[${Me.Name},execute]
+
+OgreBotAPI.Loot:LootAll[fw]
+  kind: method of OgreBotAPI.Loot
+  what: Clicks Loot All on the open loot window. Does nothing when no loot window is open.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Loot:LootAll[${Me.Name}]
+  oldbot: OgreBotAPI:LootWindowLootAll
+
+OgreBotAPI.Loot:Migrate[fw, overwrite=FALSE]
+  kind: method of OgreBotAPI.Loot
+  what: Converts the older XML loot files into the JSON loot store and prints how many files were written, blocked or missing. JSON files that already exist are left alone unless overwrite is given, and the loot data is reloaded when anything was written.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg overwrite (bool, default: FALSE): overwrite, force or a true word (TRUE, 1, yes, on) replaces JSON files that already exist; anything else leaves them alone
+  example: OgreBotAPI.Loot:Migrate[${Me.Name},overwrite]
+
+OgreBotAPI.Loot:ProcessToonItemsToBeZeroed[fw]
+  kind: method of OgreBotAPI.Loot
+  what: Sets every collected character and item count to 0, which makes those characters eligible for the item again, saves the loot counts file and empties the list. It prints how many were reset, and with nothing collected or an unreadable counts file it saves nothing and says so.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Loot:ProcessToonItemsToBeZeroed[${Me.Name}]
+  oldbot: OgreBotAPI:SmartLoot_ProcessToonItemsToBeZeroed
+
+OgreBotAPI.Loot:Reload[fw]
+  kind: method of OgreBotAPI.Loot
+  what: Reads the SmartLoot item caps and per-character loot counts from the saved loot files again and prints the cap count. Use it after editing the loot files by hand.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Loot:Reload[${Me.Name}]
+  oldbot: OgreBotAPI:SmartLoot_ReloadDataFromFile
+
+OgreBotAPI.Loot:ResetLootedActors[fw]
+  kind: method of OgreBotAPI.Loot
+  what: Forgets which actors auto-loot has already looted or opened, so the next scan can try them again. The same reset happens by itself on every zone change.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Loot:ResetLootedActors[${Me.Name}]
+  oldbot: OgreBotAPI:ResetActorsLooted
+
+OgreBotAPI.Loot:SetAutoLootMode[fw, mode]
+  kind: method of OgreBotAPI.Loot
+  what: Sets this character's own auto-loot mode in the game, 0 none, 1 auto-greed or 2 auto-decline; out of the world nothing is sent. A missing mode prints a console line and sends nothing, and any other value sets 0 with a line saying so.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg mode (text): 0, 1 or 2, or the words AN, AG or AD that Loot:SetOptions takes
+  example: OgreBotAPI.Loot:SetAutoLootMode[${Me.Name},1]
+  oldbot: OgreBotAPI:SetAutoLootMode
+
+OgreBotAPI.Loot:SetOptions[fw, token, ...]
+  kind: method of OgreBotAPI.Loot
+  what: Sets the group loot method, rarity and auto-loot mode from short loot words, one per argument and in any order; a kind you do not name is left as it is. The group leader opens the group options window and applies them through the action queue, while anyone else only sets their own auto-loot mode; out of the world nothing is sent.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg token (string): one loot word: method LO, FFA, Lotto, NBG or RR (the long names such as Leader Only or Round Robin work too); rarity All, T, L or F (with or without +); auto-loot AN, AG or AD. An unknown word is ignored with a console warning
+  arg ... (string): more loot words of the same kinds
+  example: OgreBotAPI.Loot:SetOptions[${Me.Name},LO,T+,AN]
+  oldbot: OgreBotAPI:ChangeLootOptions
+
+
+== OgreBotAPI.Merchant ==
+
+OgreBotAPI.Merchant:Buy[fw, item, qty=1]
+  kind: method of OgreBotAPI.Merchant
+  what: With a merchant window already open, buys qty of the named item from the merchant's list, right away, and accepts the purchase prompt if one comes up. No item, no merchant window, or an item the merchant does not carry each get one line.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg item (string): Name of the item on the merchant's list
+  arg qty (int, default: 1): How many to buy
+  example: OgreBotAPI.Merchant:Buy[${Me.Name},"Fishing Bait",20]
+  oldbot: OgreBotAPI:BuyFromMerchant, Obj_OgreIH:BuyFromMerchant
+
+OgreBotAPI.Merchant:OpenAndBuy[fw, merchant, item, qty=1]
+  kind: method of OgreBotAPI.Merchant
+  what: Queued: opens the merchant window by double-clicking the nearest actor whose name contains merchant (unless a merchant window is already open), waits up to 3 seconds for it, buys qty of item and accepts the purchase confirmation. A missing name prints a console line, a window that never opens or an item the merchant does not carry prints a line and buys nothing, and no matching actor stops it silently.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg merchant (string): Name (or part of the name) of the merchant to open
+  arg item (string): Name of the item on the merchant's list
+  arg qty (int, default: 1): How many to buy
+  example: OgreBotAPI.Merchant:OpenAndBuy[${Me.Name},"Provisioner","Fishing Bait",20]
+  oldbot: OgreBotAPI:OpenAndBuyFromMerchant
+
+OgreBotAPI.Merchant:OpenAndBuyXTimes[fw, merchant, item, qty, times]
+  kind: method of OgreBotAPI.Merchant
+  what: Queued: does OpenAndBuy times times in a row - each round opens the merchant if needed, buys qty of item and accepts the confirmation. A missing merchant or item name, or times of 0 or less, prints a console line and nothing runs.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg merchant (string): Name (or part of the name) of the merchant to open
+  arg item (string): Name of the item on the merchant's list
+  arg qty (int): How many to buy each round (1 when blank)
+  arg times (int): How many rounds to buy (1 when blank)
+  example: OgreBotAPI.Merchant:OpenAndBuyXTimes[${Me.Name},"Provisioner","Fishing Bait",100,3]
+  oldbot: OgreBotAPI:OpenAndBuyFromMerchantXTimes
+
+OgreBotAPI.Merchant:Repair[fw, force=FALSE]
+  kind: method of OgreBotAPI.Merchant
+  what: Queued: unless force is TRUE, checks your primary and chest items and stops with "no repair needed" when both are at 100% condition. Otherwise finds a known mender within 10m (prints "no mender within 10m" if none), stops auto-attack, opens it, repairs everything and closes the window.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg force (bool, default: FALSE): TRUE to repair even when primary and chest are already at 100%
+  example: OgreBotAPI.Merchant:Repair[igw:${Me.Name},FALSE]
+  oldbot: OgreBotAPI:RepairGear
+
+OgreBotAPI.Merchant:Sell[fw, item, qty=1]
+  kind: method of OgreBotAPI.Merchant
+  what: With a merchant window already open, sells qty of the named item from your bags, right away. No item, no merchant window, or an item not in the sell list each get one line.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg item (string): Name of the item in your bags
+  arg qty (int, default: 1): How many to sell
+  example: OgreBotAPI.Merchant:Sell[${Me.Name},"Rough Ruby",5]
+  oldbot: OgreBotAPI:SellToMerchant, Obj_OgreIH:SellToMerchant
+
+
+== OgreBotAPI.Movement ==
+
+${OgreBotAPI.Movement.Active}
+  kind: member of OgreBotAPI.Movement
+  what: TRUE while the bot's mover is driving your character anywhere. That includes Movement:ToLoc, Come2Me and Move2Area, but also follow, the camp spot and nav trips.
+  returns: bool: TRUE while a move is in progress; FALSE when the mover is idle.
+  example: echo ${OgreBotAPI.Movement.Active}
+
+${OgreBotAPI.Movement.AllowMovement}
+  kind: member of OgreBotAPI.Movement
+  what: TRUE when no movement block is held, the exact opposite of Blocked with no reason. It does not count the camp spot holds left by Come2Me, Move2Area or JoustIn.
+  returns: bool: TRUE when no block is held; FALSE when at least one is.
+  example: echo ${OgreBotAPI.Movement.AllowMovement}
+  oldbot: Obj_CampSpot.AllowCampSpot, Obj_Movement.AllowCampSpot, Ogre_CampSpot.AllowCampSpot
+
+${OgreBotAPI.Movement.AlreadyFacing[id]}
+  kind: member of OgreBotAPI.Movement
+  what: TRUE when your heading is within 45 degrees of the heading to the actor with this ID. FALSE when you are not in the world or the actor is not known.
+  arg id (int64): The actor ID to measure against (a number, such as ${Target.ID}). A name is not looked up.
+  returns: bool: TRUE when you are roughly facing the actor; FALSE when you are not, are not in the world, or the actor is not known.
+  example: echo ${OgreBotAPI.Movement.AlreadyFacing[${Target.ID}]}
+
+${OgreBotAPI.Movement.BehindLoc[id,dist]}
+  kind: member of OgreBotAPI.Movement
+  what: A point the given distance directly behind the actor, based on the way the actor is facing, at the actor's height. Returns an empty string when the actor is not found.
+  arg id (int64): The actor ID to measure against (a number, such as ${Target.ID}). A name is not looked up.
+  arg dist (float, default: 5): How far from the actor the point is, in meters.
+  returns: string: "x,y,z" behind the actor; "" when the actor is not found.
+  example: echo ${OgreBotAPI.Movement.BehindLoc[${Target.ID},5]}
+
+${OgreBotAPI.Movement.BlockCount}
+  kind: member of OgreBotAPI.Movement
+  what: How many different movement blocks are held right now. Adding the same reason twice counts once.
+  returns: int: the number of distinct block reasons held; 0 when movement is free.
+  example: echo ${OgreBotAPI.Movement.BlockCount}
+  oldbot: Obj_CampSpot.uAllowMovement, Obj_Movement.uAllowMovement, Ogre_CampSpot.uAllowMovement
+
+${OgreBotAPI.Movement.Blocked[reason]}
+  kind: member of OgreBotAPI.Movement
+  what: With a reason, TRUE when that named movement block is held; with the reason left blank, TRUE when any block is held. Reason names are case-sensitive, and the bot's own movers add blocks too while they run.
+  arg reason (string): The block name to check, as given to Movement:Block. Leave it blank to ask whether any block is held.
+  returns: bool: TRUE when the named block (or, with no reason, any block) is held; FALSE otherwise.
+  example: echo ${OgreBotAPI.Movement.Blocked[MyScript]}
+  oldbot: Obj_CampSpot.Disabled, Obj_Movement.Disabled, Ogre_CampSpot.Disabled
+
+${OgreBotAPI.Movement.BlockReasons}
+  kind: member of OgreBotAPI.Movement
+  what: The names of every movement block held right now, so you can see what is stopping a character. This includes blocks the bot's own movers hold while they run.
+  returns: string: the block reasons separated by commas; "" when no block is held.
+  example: echo ${OgreBotAPI.Movement.BlockReasons}
+  oldbot: Obj_CampSpot.sc_ItemsAffectingMovement, Obj_Movement.sc_ItemsAffectingMovement, Ogre_CampSpot.sc_ItemsAffectingMovement
+
+${OgreBotAPI.Movement.Distance2DTo[id]}
+  kind: member of OgreBotAPI.Movement
+  what: The flat distance from you to the actor with this ID, ignoring height (X and Z only). Returns -1 when the ID is 0, is not a number, or no such actor is nearby.
+  arg id (int64): The actor ID to measure against (a number, such as ${Target.ID}). A name is not looked up.
+  returns: float: the ground distance in meters; -1 when the actor is not found.
+  example: echo ${OgreBotAPI.Movement.Distance2DTo[${Target.ID}]}
+
+${OgreBotAPI.Movement.DistanceTo[id]}
+  kind: member of OgreBotAPI.Movement
+  what: The straight-line (3D) distance from you to the actor with this ID. Returns -1 when the ID is 0, is not a number, or no such actor is nearby.
+  arg id (int64): The actor ID to measure against (a number, such as ${Target.ID}). A name is not looked up.
+  returns: float: the distance in meters; -1 when the actor is not found.
+  example: echo ${OgreBotAPI.Movement.DistanceTo[${Target.ID}]}
+
+${OgreBotAPI.Movement.FaceLockActor}
+  kind: member of OgreBotAPI.Movement
+  what: The ID of the actor the face lock is holding you toward.
+  returns: int64: the locked actor's ID; 0 when the lock is on a location, or when no lock is held.
+  example: echo ${OgreBotAPI.Movement.FaceLockActor}
+
+${OgreBotAPI.Movement.FaceLocked}
+  kind: member of OgreBotAPI.Movement
+  what: TRUE while a face lock from Movement:FaceLock or :FaceLockLoc is held on this session. While it is held, nothing else can turn you and movement waits.
+  returns: bool: TRUE while a face lock is held; FALSE when there is none.
+  example: echo ${OgreBotAPI.Movement.FaceLocked}
+
+${OgreBotAPI.Movement.FaceLockRemaining}
+  kind: member of OgreBotAPI.Movement
+  what: How long the current face lock has left before it lets go on its own, in milliseconds.
+  returns: int: milliseconds left on the lock; 0 when no lock is held.
+  example: echo ${OgreBotAPI.Movement.FaceLockRemaining}
+
+${OgreBotAPI.Movement.FrontLoc[id,dist]}
+  kind: member of OgreBotAPI.Movement
+  what: A point the given distance directly in front of the actor, based on the way the actor is facing, at the actor's height. Returns an empty string when the actor is not found.
+  arg id (int64): The actor ID to measure against (a number, such as ${Target.ID}). A name is not looked up.
+  arg dist (float, default: 5): How far from the actor the point is, in meters.
+  returns: string: "x,y,z" in front of the actor; "" when the actor is not found.
+  example: echo ${OgreBotAPI.Movement.FrontLoc[${Target.ID},8]}
+
+${OgreBotAPI.Movement.GettingToGH}
+  kind: member of OgreBotAPI.Movement
+  what: TRUE while a trip started by Movement:GetToGH is waiting in the action queue or running. It goes FALSE on its own once that trip finishes, fails or is removed.
+  returns: bool: TRUE while a guild hall trip is in progress; FALSE otherwise.
+  example: echo ${OgreBotAPI.Movement.GettingToGH}
+  oldbot: OgreBotAPI.GettingToGH
+
+${OgreBotAPI.Movement.GoalDistance}
+  kind: member of OgreBotAPI.Movement
+  what: How far you still are from the goal of the move in progress. A Movement:ToLoc move measures this flat, ignoring height.
+  returns: float: the distance in meters to the current goal; -1 when no move is in progress, or during a straight climb or descent.
+  example: echo ${OgreBotAPI.Movement.GoalDistance}
+
+${OgreBotAPI.Movement.HeadingTo[id]}
+  kind: member of OgreBotAPI.Movement
+  what: The heading, in degrees, you would face to look at the actor with this ID. An unknown ID reads -1.
+  arg id (int64): The actor ID to measure against (a number, such as ${Target.ID}). A name is not looked up.
+  returns: float: a heading in degrees; -1 when the actor is not found.
+  example: echo ${OgreBotAPI.Movement.HeadingTo[${Target.ID}]}
+
+${OgreBotAPI.Movement.LeftLoc[id,dist]}
+  kind: member of OgreBotAPI.Movement
+  what: A point the given distance to the actor's left side, based on the way the actor is facing, at the actor's height. Returns an empty string when the actor is not found.
+  arg id (int64): The actor ID to measure against (a number, such as ${Target.ID}). A name is not looked up.
+  arg dist (float, default: 5): How far from the actor the point is, in meters.
+  returns: string: "x,y,z" to the actor's left; "" when the actor is not found.
+  example: echo ${OgreBotAPI.Movement.LeftLoc[${Target.ID},5]}
+
+${OgreBotAPI.Movement.MyLoc}
+  kind: member of OgreBotAPI.Movement
+  what: Your current location as text, three numbers with two decimals each.
+  returns: string: "x,y,z" - where your character is now.
+  example: echo ${OgreBotAPI.Movement.MyLoc}
+
+${OgreBotAPI.Movement.RightLoc[id,dist]}
+  kind: member of OgreBotAPI.Movement
+  what: A point the given distance to the actor's right side, based on the way the actor is facing, at the actor's height. Returns an empty string when the actor is not found.
+  arg id (int64): The actor ID to measure against (a number, such as ${Target.ID}). A name is not looked up.
+  arg dist (float, default: 5): How far from the actor the point is, in meters.
+  returns: string: "x,y,z" to the actor's right; "" when the actor is not found.
+  example: echo ${OgreBotAPI.Movement.RightLoc[${Target.ID},5]}
+
+${OgreBotAPI.Movement.UseWithoutOgreBot}
+  kind: member of OgreBotAPI.Movement
+  what: Whether movement is allowed while OgreBot is not open, as set by Movement:UseWithoutOgreBot. It starts FALSE in every session.
+  returns: bool: TRUE when movement runs without OgreBot open; FALSE when movement needs OgreBot open.
+  example: echo ${OgreBotAPI.Movement.UseWithoutOgreBot}
+
+OgreBotAPI.Movement:AutoRun[fw]
+  kind: method of OgreBotAPI.Movement
+  what: Presses your autorun key once (Num Lock unless you have bound another), which toggles autorun in the game.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Movement:AutoRun[${Me.Name}]
+  oldbot: OgreBotAPI:AutoRun
+
+OgreBotAPI.Movement:Block[fw, reason]
+  kind: method of OgreBotAPI.Movement
+  what: Adds a named movement block and stops the move in progress. While any block is held the camp spot, follow, new nav trips and queued moves all stay still, but a direct Movement:ToLoc, Come2Me or Move2Area still moves; a blank reason prints a line and adds nothing.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg reason (string): A name for this block, so Movement:Unblock can release exactly this one. Case-sensitive.
+  example: OgreBotAPI.Movement:Block[${Me.Name},MyScript]
+  oldbot: Obj_CampSpot:Disable, Obj_Movement:Disable, Ogre_CampSpot:Disable
+
+OgreBotAPI.Movement:CallGH[fw]
+  kind: method of OgreBotAPI.Movement
+  what: Queues a cast of Call to Guild Hall after a short random wait (0.5 to 3.4 seconds). A Brigand in Safehouse has it cancelled first; does nothing when you are already in the guild hall.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Movement:CallGH[${Me.Name}]
+  oldbot: OgreBotAPI:CallGH, call Obj_OgreUtilities.CallToGH
+
+OgreBotAPI.Movement:ClearBlocks[fw]
+  kind: method of OgreBotAPI.Movement
+  what: Releases every movement block at once, including blocks the bot's own movers hold, which ends a nav trip under way. It does not release the camp spot holds from Come2Me, Move2Area or JoustIn.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Movement:ClearBlocks[${Me.Name}]
+  oldbot: Obj_CampSpot:Clear, Obj_Movement:Clear, Ogre_CampSpot:Clear
+
+OgreBotAPI.Movement:Come2Me[fw, toWho=me, precision=3]
+  kind: method of OgreBotAPI.Movement
+  what: Runs to where the named character is standing at the moment of the call, stopping within the precision; it needs OgreBot open (or Movement:UseWithoutOgreBot) and prints a line when it is not, and a character with Allow Camp Spot off stays put and prints a line. On arrival the character stays there instead of going back to its camp spot until JoustOut or LetsGo, a name that matches nobody here prints a line and does nothing, and after 10 seconds stuck the move stops with one line.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg toWho (string, default: me): Who to run to: a name (part of a name works), an actor ID or an @ alias. Blank means yourself.
+  arg precision (float, default: 3): How close counts as arrived, in meters.
+  example: OgreBotAPI.Movement:Come2Me[${Me.Name},${Group[1].Name},3]
+  oldbot: OgreBotAPI:Come2Me
+
+OgreBotAPI.Movement:Crouch[fw]
+  kind: method of OgreBotAPI.Movement
+  what: Presses your crouch key once (Z unless you have bound another).
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Movement:Crouch[${Me.Name}]
+  oldbot: OgreBotAPI:Crouch, OgreCrouchKey
+
+OgreBotAPI.Movement:Evac[fw, mode=""]
+  kind: method of OgreBotAPI.Movement
+  what: Queues your class evacuation spell when you have one and it is ready (Escape for scouts, Shadowy Elusion for Shadowknights, Depart for Wizards, Verdurous Journey for Wardens). With mode totem, a character without a ready class evac uses a Totem of Escape from its bags instead, and prints a line when it has none or it is on cooldown; without totem it prints one line saying why it did not evacuate.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg mode (string, default: ""): Blank for the class evac only; totem to fall back to a Totem of Escape.
+  example: OgreBotAPI.Movement:Evac[${Me.Name},totem]
+  oldbot: OgreBotAPI:Evac, call Obj_OgreUtilities.CastEvac
+
+OgreBotAPI.Movement:FaceActor[fw, nameOrId]
+  kind: method of OgreBotAPI.Movement
+  what: Turns you to face the actor, found by exact name, actor ID or @ alias. No actor given (0 counts as none) prints an error, an actor that is not here prints a line, and nothing turns while a face lock is held.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg nameOrId (string): The actor's exact name, its actor ID, or an @ alias.
+  example: OgreBotAPI.Movement:FaceActor[${Me.Name},${Target.ID}]
+  oldbot: OgreBotAPI:FaceActor, Obj_OgreIH:FaceActor
+
+OgreBotAPI.Movement:FaceAngle[fw, angle]
+  kind: method of OgreBotAPI.Movement
+  what: Turns you to the heading in degrees (0 is north). A missing angle prints an error, and nothing turns while a face lock is held.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg angle (float): The heading to face, in degrees.
+  example: OgreBotAPI.Movement:FaceAngle[${Me.Name},180]
+  oldbot: OgreBotAPI:FaceAngle, Obj_OgreIH:FaceAngle
+
+OgreBotAPI.Movement:FaceLoc[fw, x, y, z]
+  kind: method of OgreBotAPI.Movement
+  what: Turns you to face the location using X and Z; the height is not used. A missing x or z prints an error, and nothing turns while a face lock is held.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg x (float or name): X of the location, or the whole location as one word: the name of a point of interest in this zone, or x,y,z. An unknown name prints one line and does nothing.
+  arg y (float): Y (height). Ignored - a heading is flat - and kept so a location pastes in as x,y,z (${Me.Loc} as is).
+  arg z (float): Z of the location. Not read when x holds the whole location.
+  example: OgreBotAPI.Movement:FaceLoc[${Me.Name},100,20,-250]
+  oldbot: OgreBotAPI:FaceLoc, Obj_OgreIH:FaceLoc
+
+OgreBotAPI.Movement:FaceLock[fw, nameOrId, ttlSeconds=0]
+  kind: method of OgreBotAPI.Movement
+  what: Turns you to the actor and holds that heading, turning again when you drift more than 45 degrees (at most once a second); while held, nothing else can turn you, movement waits and the game's /follow is stopped. The lock ends after ttlSeconds, on Movement:FaceUnlock, LetsGo, zoning, death or camping, or when the actor is gone, and an actor that is not found takes no lock.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg nameOrId (string): The actor's exact name, its actor ID, or an @ alias.
+  arg ttlSeconds (int, default: 0): How long the lock lasts, in seconds. 0 or blank means 15; the most is 120.
+  example: OgreBotAPI.Movement:FaceLock[${Me.Name},${Target.ID},10]
+
+OgreBotAPI.Movement:FaceLockLoc[fw, x, z, ttlSeconds=0]
+  kind: method of OgreBotAPI.Movement
+  what: Turns you toward the location and holds that heading, the same way Movement:FaceLock does for an actor. A missing x or z prints an error, and the lock ends after ttlSeconds, on Movement:FaceUnlock, LetsGo, zoning, death or camping.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg x (float or name): X of the location to face, or the whole location as one word: the name of a point of interest in this zone, or x,y,z. An unknown name prints one line and does nothing.
+  arg z (float): Z of the location to face. Not read when x holds the whole location.
+  arg ttlSeconds (int, default: 0): How long the lock lasts, in seconds. 0 or blank means 15; the most is 120.
+  example: OgreBotAPI.Movement:FaceLockLoc[${Me.Name},100,-250,10]
+
+OgreBotAPI.Movement:FaceUnlock[fw]
+  kind: method of OgreBotAPI.Movement
+  what: Releases the face lock, so other turns and movement carry on. Does nothing when no lock is held.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Movement:FaceUnlock[${Me.Name}]
+
+OgreBotAPI.Movement:FlyDown[fw]
+  kind: method of OgreBotAPI.Movement
+  what: Holds your fly down key (End unless you have bound another) and keeps holding it until Movement:FlyStop. Use Movement:LandFlyingMount to descend and stop on landing.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Movement:FlyDown[${Me.Name}]
+  oldbot: OgreBotAPI:FlyDown, Obj_OgreIH:FlyDown, call Obj_LICH.FlySwimDown
+
+OgreBotAPI.Movement:FlyStop[fw]
+  kind: method of OgreBotAPI.Movement
+  what: Lets go of both the fly up and fly down keys, whichever one was held.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Movement:FlyStop[${Me.Name}]
+  oldbot: OgreBotAPI:FlyStop, Obj_OgreIH:FlyStop
+
+OgreBotAPI.Movement:FlyUp[fw]
+  kind: method of OgreBotAPI.Movement
+  what: Holds your fly up key (Home unless you have bound another) and keeps holding it until Movement:FlyStop. It only climbs when you are on a flying mount or swimming.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Movement:FlyUp[${Me.Name}]
+  oldbot: OgreBotAPI:FlyUp, Obj_OgreIH:FlyUp, call Obj_LICH.FlySwimUp
+
+OgreBotAPI.Movement:Follow[fw, leader=off, minDistance=8, maxDistance=200, breakWithNoTarget=FALSE, backOffDistance=0]
+  kind: method of OgreBotAPI.Movement
+  what: Follows the leader with the bot's own follow, moving up when farther than minDistance and stopping when the leader is beyond maxDistance; it stops the game's /follow and needs OgreBot open (or Movement:UseWithoutOgreBot) to start. A leader of off, blank or your own name turns follow off, as does off given as the for-who; an unknown leader or bad distances print a line.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg leader (string, default: off): Who to follow: a character name, an actor ID, or off to stop following.
+  arg minDistance (float, default: 8): Follow moves up when the leader is farther than this, in meters. Must be above 0.
+  arg maxDistance (float, default: 200): Follow stops chasing when the leader is this far or farther. Must be above minDistance.
+  arg breakWithNoTarget (bool, default: FALSE): TRUE to turn follow off the first time it needs to move up while you have no target.
+  arg backOffDistance (float, default: 0): Back away from a leader closer than this, in meters. 0 is off; otherwise at least 1 less than minDistance.
+  example: OgreBotAPI.Movement:Follow[${Me.Name},${Group[1].Name},8,200,FALSE,0]
+  oldbot: OgreBotAPI:OFollow
+
+OgreBotAPI.Movement:FollowDistanceDown[fw]
+  kind: method of OgreBotAPI.Movement
+  what: Takes 2 meters off the follow distances: minDistance never goes below 1, and maxDistance is left alone when minDistance hits that floor. A back-off distance shrinks with them and turns off when there is no room left.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Movement:FollowDistanceDown[${Me.Name}]
+  oldbot: OgreBotAPI:OFolDecDistance
+
+OgreBotAPI.Movement:FollowDistanceUp[fw]
+  kind: method of OgreBotAPI.Movement
+  what: Adds 2 meters to both follow distances (and to the back-off distance when one is set).
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Movement:FollowDistanceUp[${Me.Name}]
+  oldbot: OgreBotAPI:OFolIncDistance
+
+OgreBotAPI.Movement:ForceFollow[fw]
+  kind: method of OgreBotAPI.Movement
+  what: Starts the game's /follow on the character named in the OgreBot panel's auto follow setting. It does nothing unless auto follow is ticked and that character is in your group and alive.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Movement:ForceFollow[${Me.Name}]
+  oldbot: OgreBotAPI:ForceFollow
+
+OgreBotAPI.Movement:GetToConcentration[fw, concentration=4]
+  kind: method of OgreBotAPI.Movement
+  what: Cancels your maintained buffs that use concentration, last one first, only until used concentration is down to the given amount, counting what each buff costs. It does nothing when you already use that much or less.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg concentration (int, default: 4): The used concentration to get down to.
+  example: OgreBotAPI.Movement:GetToConcentration[${Me.Name},3]
+  oldbot: OgreBotAPI:GetToConcentration, Obj_OgreIH:GetToConcentration
+
+OgreBotAPI.Movement:GetToGH[fw]
+  kind: method of OgreBotAPI.Movement
+  what: Queues a trip to the guild hall: Call to Guild Hall when it is ready, otherwise Call to Home (or fast travel) to housing and then the house door to the guild hall, picked when the trip starts. It prints a line and does nothing when a trip is already in progress, when you are already in the guild hall, or when no route is ready.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Movement:GetToGH[${Me.Name}]
+  oldbot: OgreBotAPI:GetToGH, call OgreBotAPI.HouseWindowToGH
+
+OgreBotAPI.Movement:JoustIn[fw]
+  kind: method of OgreBotAPI.Movement
+  what: Holds the character where it is instead of going back to its camp spot, unless it was told JoustOff, and resumes a paused follow. It has no effect while no camp spot is set, and JoustOut releases it.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Movement:JoustIn[${Me.Name}]
+  oldbot: OgreBotAPI:JoustIn
+
+OgreBotAPI.Movement:JoustOff[fw]
+  kind: method of OgreBotAPI.Movement
+  what: Makes the character ignore later JoustIn calls, so it does not hold where it is. Left blank the for-who is Casters, not all, and it does nothing while no camp spot is set.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Movement:JoustOff[${Me.Name}]
+  oldbot: OgreBotAPI:JoustOff
+
+OgreBotAPI.Movement:JoustOn[fw]
+  kind: method of OgreBotAPI.Movement
+  what: Makes the character obey JoustIn again. Left blank the for-who is Melee, not all, and it does nothing while no camp spot is set.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Movement:JoustOn[${Me.Name}]
+  oldbot: OgreBotAPI:JoustOn
+
+OgreBotAPI.Movement:JoustOut[fw]
+  kind: method of OgreBotAPI.Movement
+  what: Releases the JoustIn hold, and the hold left by Come2Me or Move2Area, so the character goes back to its camp spot.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Movement:JoustOut[${Me.Name}]
+  oldbot: OgreBotAPI:JoustOut
+
+OgreBotAPI.Movement:Jump[fw]
+  kind: method of OgreBotAPI.Movement
+  what: Presses your jump key once (Space unless you have bound another).
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Movement:Jump[${Me.Name}]
+  oldbot: OgreBotAPI:Jump, Obj_OgreUtilities:Jump, OgreJumpKey
+
+OgreBotAPI.Movement:JumpRoute[fw, start, jump, end, completed="", flag...]
+  kind: method of OgreBotAPI.Movement
+  what: Walks to start, then on to end, pressing jump once when passing within 2 meters of the jump point, and on arrival sets the camp spot to completed (or to end). It runs in the background and gives up after 10 seconds by default; a bad point or flag, or a route already running, prints why.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg start (string): The first point to walk to, as "x,y,z".
+  arg jump (string): Where to jump on the way to end, as "x,y,z".
+  arg end (string): Where the route ends, as "x,y,z".
+  arg completed (string, default: ""): The camp spot to set on arrival, as "x,y,z". Blank, or an X of 0, uses end.
+  arg flag... (string): Optional flags, one per argument, each followed by its value: -JumpDistance meters (default 2), -MaxTimer seconds per try (default 10), -Attempts 1 to 10, -RetryDelay seconds, -AboveY height that counts as success, -RunMode walk or run.
+  example: OgreBotAPI.Movement:JumpRoute[${Me.Name},"100,20,-250","104,20,-246","110,25,-240","",-JumpDistance,1,-MaxTimer,12]
+  oldbot: OgreBotAPI:Set_CampSpotJump_Handle, Obj_CampSpotJump:Handle, Obj_CampSpotJump:HandleAdvanced
+
+OgreBotAPI.Movement:LandFlyingMount[fw]
+  kind: method of OgreBotAPI.Movement
+  what: Queues a landing: holds your fly down key until you are no longer flying, for up to 60 seconds, then lets go of it. Does nothing when you are not on a flying mount.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Movement:LandFlyingMount[${Me.Name}]
+  oldbot: OgreBotAPI:LandFlyingMount
+
+OgreBotAPI.Movement:Move2Area[fw, x, y, z, precision=3]
+  kind: method of OgreBotAPI.Movement
+  what: Runs to the location (X and Z, height ignored) and then stays there instead of going back to its camp spot until JoustOut or LetsGo. Only a character that has a target moves; it needs OgreBot open (or Movement:UseWithoutOgreBot) and prints a line when it is not, a character with Allow Camp Spot off stays put and prints a line, a missing x or z prints an error, and after 10 seconds stuck the move stops with one line.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg x (float or name): X of the location, or the whole location as one word: the name of a point of interest in this zone, or x,y,z. An unknown name prints one line and does nothing.
+  arg y (float): Y (height). Not used: this is a ground move, so you can paste ${Me.Loc} as is.
+  arg z (float): Z of the location. Not read when x holds the whole location.
+  arg precision (float, default: 3): How close counts as arrived, in meters.
+  example: OgreBotAPI.Movement:Move2Area[${Me.Name},100,20,-250,3]
+  oldbot: OgreBotAPI:Move2Area
+
+OgreBotAPI.Movement:Move2AreaNoTarget[fw, x, y, z, precision=3]
+  kind: method of OgreBotAPI.Movement
+  what: The same as Move2Area, but the character moves whether or not it has a target. It runs to X and Z (height ignored) and then stays there instead of going back to its camp spot until JoustOut or LetsGo, a character with Allow Camp Spot off stays put and prints a line, and after 10 seconds stuck the move stops with one line.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg x (float or name): X of the location, or the whole location as one word: the name of a point of interest in this zone, or x,y,z. An unknown name prints one line and does nothing.
+  arg y (float): Y (height). Not used: this is a ground move, so you can paste ${Me.Loc} as is.
+  arg z (float): Z of the location. Not read when x holds the whole location.
+  arg precision (float, default: 3): How close counts as arrived, in meters.
+  example: OgreBotAPI.Movement:Move2AreaNoTarget[${Me.Name},100,20,-250,3]
+  oldbot: OgreBotAPI:Move2AreaNoTarget
+
+OgreBotAPI.Movement:NavStop[fw]
+  kind: method of OgreBotAPI.Movement
+  what: Stops the nav trip under way, unless that trip belongs to an encounter. Does nothing when no trip is running.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Movement:NavStop[${Me.Name}]
+
+OgreBotAPI.Movement:NavTo[fw, x, y, z, mode=walk]
+  kind: method of OgreBotAPI.Movement
+  what: Starts a nav trip over the navmesh to the location, replacing any trip under way; it waits while OgreBot is paused and stops when OgreBot closes. It leaves an encounter's trip alone and prints a line saying so, a missing x, y or z or one that is not a number prints an error, and a trip that cannot start prints why.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg x (float or name): X of the location, or the whole location as one word: the name of a point of interest in this zone, or x,y,z. An unknown name prints one line and does nothing.
+  arg y (float): Y (height) of the location. Not read when x holds the whole location.
+  arg z (float): Z of the location. Not read when x holds the whole location.
+  arg mode (string, default: walk): fly to fly there; any other word walks.
+  example: OgreBotAPI.Movement:NavTo[${Me.Name},100,20,-250,walk]
+  oldbot: call Obj_OgreUtilities.NavTo, call Obj_OgreUtilities.NavToLoc
+
+OgreBotAPI.Movement:SetRunMode[fw, run]
+  kind: method of OgreBotAPI.Movement
+  what: Sets running (TRUE) or walking (FALSE), pressing the game's run toggle only when the current mode is the other one. A blank value, or a word that is not yes or no, prints a line and changes nothing.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg run (bool): TRUE to run, FALSE to walk. Required.
+  example: OgreBotAPI.Movement:SetRunMode[${Me.Name},TRUE]
+  oldbot: OgreBotAPI:RunWalk
+
+OgreBotAPI.Movement:Stand[fw]
+  kind: method of OgreBotAPI.Movement
+  what: Stands you up when you are feigning death. Does nothing otherwise.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Movement:Stand[${Me.Name}]
+  oldbot: OgreBotAPI:Stand
+
+OgreBotAPI.Movement:Stop[fw]
+  kind: method of OgreBotAPI.Movement
+  what: Stops the move in progress right away and lets go of the movement keys. Follow, the camp spot or a nav trip can start a new move on their next pulse, so use Movement:Block to keep a character still.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Movement:Stop[${Me.Name}]
+
+OgreBotAPI.Movement:StopFollow[fw]
+  kind: method of OgreBotAPI.Movement
+  what: Pauses follow (the leader is kept), stops the game's /follow and stops the move in progress right away. LetsGo, JoustIn or a new Movement:Follow resumes follow, and the camp spot still pulls the character back.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Movement:StopFollow[${Me.Name}]
+  oldbot: OgreBotAPI:HoldUp, OgreBotAPI:NoMove
+
+OgreBotAPI.Movement:StopJumpRoute[fw]
+  kind: method of OgreBotAPI.Movement
+  what: Stops the jump route that is running. Does nothing when none is running.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Movement:StopJumpRoute[${Me.Name}]
+  oldbot: Obj_CampSpotJump:Stop
+
+OgreBotAPI.Movement:ToLoc[fw, x, y, z, precision=0]
+  kind: method of OgreBotAPI.Movement
+  what: Runs straight to the location and stops once within the precision, measured flat (X and Z); it returns at once and the move carries on in the background, with OgreBot closed too (Movement:Stop ends it). A missing x, y or z, or one that is not a number, prints an error and does nothing, and the move does not hold the camp spot, so a character with a camp spot can walk back afterwards.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg x (float or name): X of the location, or the whole location as one word: the name of a point of interest in this zone, or x,y,z. An unknown name prints one line and does nothing.
+  arg y (float): Y (height) of the location. Not read when x holds the whole location.
+  arg z (float): Z of the location. Not read when x holds the whole location.
+  arg precision (float, default: 0): How close counts as arrived, in meters. 0 or blank uses 2.
+  example: OgreBotAPI.Movement:ToLoc[${Me.Name},100,20,-250,3]
+
+OgreBotAPI.Movement:Unblock[fw, reason]
+  kind: method of OgreBotAPI.Movement
+  what: Releases the named movement block and leaves any others in place. A reason that is not held does nothing; a blank reason prints a line.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg reason (string): The block name given to Movement:Block. Case-sensitive.
+  example: OgreBotAPI.Movement:Unblock[${Me.Name},MyScript]
+  oldbot: Obj_CampSpot:Enable, Obj_Movement:Enable, Ogre_CampSpot:Enable
+
+OgreBotAPI.Movement:UseWithoutOgreBot[fw, 1|0=0]
+  kind: method of OgreBotAPI.Movement
+  what: Lets Come2Me, Move2Area, follow and the camp spot move the character while OgreBot is not open (1 or TRUE), or puts back the need for OgreBot to be open (0 or FALSE). Left blank it turns the option off, a word that is not yes or no leaves it as it is, and it lasts until the session ends.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg 1|0 (bool, default: 0): 1 or TRUE to allow movement without OgreBot open; 0 or FALSE to require OgreBot.
+  example: OgreBotAPI.Movement:UseWithoutOgreBot[${Me.Name},1]
+
+OgreBotAPI.Movement:Waypoint[fw, x, y, z]
+  kind: method of OgreBotAPI.Movement
+  what: Sends the game's /waypoint command for the location, which shows the in-game waypoint trail to it. A missing x, y or z prints an error and does nothing.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg x (float or name): X of the location, or the whole location as one word: the name of a point of interest in this zone, or x,y,z. An unknown name prints one line and does nothing.
+  arg y (float): Y (height) of the location. Not read when x holds the whole location.
+  arg z (float): Z of the location. Not read when x holds the whole location.
+  example: OgreBotAPI.Movement:Waypoint[${Me.Name},100,20,-250]
+  oldbot: OgreBotAPI:Waypoint
+
+
+== OgreBotAPI.Options ==
+
+${OgreBotAPI.Options.Value[id]}
+  kind: member of OgreBotAPI.Options
+  what: Reads a stored OgreBot option for this character by its control id, matching the id in any case. Needs no for-who; an id the profile does not hold reads the same as an empty value.
+  arg id (string): The option's control id, as saved in the profile
+  returns: string: the option's current value (a checkbox reads TRUE or FALSE); "" when the id is absent, empty, or no id is given
+  example: echo ${OgreBotAPI.Options.Value[checkbox_settings_enable_chatevents]}
+  oldbot: OgreOSA.Enabled, OgreOSA.ScanRadius, OgreOSA.TargetsOnly
+
+OgreBotAPI.Options:LoadProfile[fw, name]
+  kind: method of OgreBotAPI.Options
+  what: Loads the named OgreBot profile for this character, opening OgreBot first if it is not open; Use_UI reloads the current profile. A missing name gets one line and loads nothing.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg name (string): Profile name, or Use_UI for the current profile. Required.
+  example: OgreBotAPI.Options:LoadProfile[${Me.Name},Raid]
+  oldbot: ProfileConfig:LoadProfileForWho, OgreBotAPI:LoadProfile, ProfileConfig:LoadProfile
+
+OgreBotAPI.Options:Revert[fw, source]
+  kind: method of OgreBotAPI.Options
+  what: Puts back every option that scripts, commands or encounters changed since the last revert, then forgets those changes; changes you made yourself in the OgreBot window are never reverted. Prints "options: reverted N" with the source in the console.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg source (string): Which writer's changes to put back: an encounter's key, command for typed and script changes, or all / empty for every source
+  example: OgreBotAPI.Options:Revert[${Me.Name},all]
+  oldbot: OgreBotAPI:RevertOptions, Obj_LICH:HODefaultSettings
+
+OgreBotAPI.Options:Set[fw, silent|loud|verbose="", (id,value)..., silent=FALSE]
+  kind: method of OgreBotAPI.Options
+  what: Writes one or more OgreBot options by control id in the loaded profile, prints each real change in OgreConsole unless silenced, and remembers the old value so Revert can put it back. The write is unsaved until Save, and does nothing when no profile is loaded.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg silent|loud|verbose (string, default: ""): Optional, before an id: silent turns the change lines off, loud or verbose turns them on
+  arg (id,value)... (string): Pairs of control id and new value; a TRUE or FALSE after a value, with more pairs after it, sets silent too
+  arg silent (bool, default: FALSE): A TRUE or FALSE at the very end: TRUE makes the whole call silent
+  example: OgreBotAPI.Options:Set[all,checkbox_settings_enable_chatevents,TRUE]
+  oldbot: OgreBotAPI:ChangeOgreBotUIOption, OgreBotAPI:UplinkOptionChange, Obj_OgreUtilities:Set_EQ2_onQuestOffered
+
+OgreBotAPI.Options:WarnBeforeSave[fw]
+  kind: method of OgreBotAPI.Options
+  what: Shows a warning beside Save in this character's OgreBot window saying the Instance Controller has run and settings may have changed, until a profile is loaded. Save still works while it is up; the Instance Controller sends this to its group itself.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Options:WarnBeforeSave[igw:${Me.Name}]
+
+
+== OgreBotAPI.Overseer ==
+
+OgreBotAPI.Overseer:AddAgents[fw, destroy=TRUE]
+  kind: method of OgreBotAPI.Overseer
+  what: Adds every Overseer agent card in your bags and Overseer bag to your agent collection, one card per pulse, and prints a count of added, duplicate, converted and destroyed cards when done. With destroy TRUE a duplicate is converted when that gives items and destroyed otherwise (one whose item details do not load in time is left); with FALSE duplicates are kept, and a second call while a pass runs is refused with a console warning.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg destroy (bool, default: TRUE): TRUE converts or destroys duplicate cards; FALSE keeps them (any word that is not a yes word counts as FALSE)
+  example: OgreBotAPI.Overseer:AddAgents[igw:${Me.Name},FALSE]
+  oldbot: OgreBotAPI:Overseer_AddAgentsToCollection
+
+OgreBotAPI.Overseer:AutoAddQuests[fw]
+  kind: method of OgreBotAPI.Overseer
+  what: Uses every Overseer mission scroll in your bags and Overseer bag - the same add pass the daily run does, on its own. It is refused with a console warning while the daily run or another add pass is going.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Overseer:AutoAddQuests[igw:${Me.Name}]
+  oldbot: OgreBotAPI:Overseer_AutoAddOverseerQuests
+
+OgreBotAPI.Overseer:BuyMissions[fw, flag...]
+  kind: method of OgreBotAPI.Overseer
+  what: Queues an Overseer mission buy run at the merchant, started on the next pulse; with no flags it uses this character's own Overseer Buy tab, and flags such as -season 3, -colour Blue, -num 2, -amount 5, -replenishonly, -noscribe or -destroy override it, each as its own argument (a first word that is not a flag gets one line and starts nothing, a later unknown word is skipped). It needs OgreBot open with a profile loaded and is refused with a console warning when a buy run is already going, and a second call before the next pulse replaces the first.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg flag... (string): Option flags for the run, one per argument, with a flag's value as the next argument (-season, 3); none uses this character's Overseer Buy tab
+  example: OgreBotAPI.Overseer:BuyMissions[igw:${Me.Name},-replenishonly]
+
+OgreBotAPI.Overseer:CheckQuests[fw]
+  kind: method of OgreBotAPI.Overseer
+  what: Starts the daily Overseer run now instead of waiting for the bot to start it; the run then works through its steps on the pulse. It is refused with a console warning when a run or an add-missions pass is already going or when 'Do not touch overseer at all no matter what' is ticked, and with OgreBot closed it runs on the default options.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Overseer:CheckQuests[igw:${Me.Name}]
+  oldbot: OgreBotAPI:Overseer_CheckQuests
+
+
+== OgreBotAPI.Paths ==
+
+${OgreBotAPI.Paths.Count}
+  kind: member of OgreBotAPI.Paths
+  what: How many saved paths the zone you are in has. It reads 0 in a zone with none, while you are not settled in a zone and while the travel data loads.
+  returns: int: the current zone's saved paths.
+  example: echo ${OgreBotAPI.Paths.Count}
+
+${OgreBotAPI.Paths.Running}
+  kind: member of OgreBotAPI.Paths
+  what: TRUE while a path is being walked on this character, a Paths:Start walk or AutoHunt's. It is FALSE again once the walk finishes, is stopped or ends at a zone.
+  returns: bool: TRUE while a walk is in flight on this character.
+  example: echo ${OgreBotAPI.Paths.Running}
+
+OgreBotAPI.Paths:AddPoint[fw, name, point]
+  kind: method of OgreBotAPI.Paths
+  what: Adds a point to the end of a saved path of the zone you are in, and a new name makes the path, walked by nav with no loop. A POI name is not looked up here, so its POI can come later: Paths:Start checks every point.
+  arg fw (for-who): for-who: this runs only when this character is one it names. Paths are shared by every box on the PC, so a line that reaches several boxes names one, or each box it lands on does it.
+  arg name (string): The path's name, in any case.
+  arg point (string): A POI name, or x,y,z. A script that writes x,y,z without quotes gets the same point.
+  example: OgreBotAPI.Paths:AddPoint[${Me.Name},autohuntpath1,bell]
+  oldbot: OgreBotAPI:AutoHunt_AddPath, OgreBotAPI:AutoHunt_AddPoint
+
+OgreBotAPI.Paths:Clear[fw, name]
+  kind: method of OgreBotAPI.Paths
+  what: Takes every point off a saved path of the zone you are in. The path stays, with its mover and its loop setting.
+  arg fw (for-who): for-who: this runs only when this character is one it names. Paths are shared by every box on the PC, so a line that reaches several boxes names one, or each box it lands on does it.
+  arg name (string): The path's name, in any case.
+  example: OgreBotAPI.Paths:Clear[${Me.Name},autohuntpath1]
+  oldbot: OgreBotAPI:AutoHunt_ClearPoints
+
+OgreBotAPI.Paths:Delete[fw, name]
+  kind: method of OgreBotAPI.Paths
+  what: Deletes a saved path of the zone you are in. An unknown name prints one line and changes nothing.
+  arg fw (for-who): for-who: this runs only when this character is one it names. Paths are shared by every box on the PC, so a line that reaches several boxes names one, or each box it lands on does it.
+  arg name (string): The path's name, in any case.
+  example: OgreBotAPI.Paths:Delete[${Me.Name},autohuntpath1]
+
+OgreBotAPI.Paths:InsertPoint[fw, name, at, point]
+  kind: method of OgreBotAPI.Paths
+  what: Puts a point into a saved path of the zone you are in at a place in the list, and the point at that place and the ones after it move down one. An unknown path, a place outside the list or a point that cannot be one prints one line and changes nothing, and a walk under way keeps the points it had at its Start.
+  arg fw (for-who): for-who: this runs only when this character is one it names. Paths are shared by every box on the PC, so a line that reaches several boxes names one, or each box it lands on does it.
+  arg name (string): The path's name, in any case. It must exist: a place is a place in a list, so this never makes a path.
+  arg at (number): The place the point takes, counted from 1. One past the last point puts it on the end.
+  arg point (string): A POI name, or x,y,z. A script that writes x,y,z without quotes gets the same point.
+  example: OgreBotAPI.Paths:InsertPoint[${Me.Name},autohuntpath1,2,bell]
+
+OgreBotAPI.Paths:MovePoint[fw, name, from, to]
+  kind: method of OgreBotAPI.Paths
+  what: Moves a point of a saved path of the zone you are in to another place in the list, and the points between shift one place. An unknown path or a place outside the list prints one line and changes nothing, and a walk under way keeps the points it had at its Start.
+  arg fw (for-who): for-who: this runs only when this character is one it names. Paths are shared by every box on the PC, so a line that reaches several boxes names one, or each box it lands on does it.
+  arg name (string): The path's name, in any case.
+  arg from (number): The place of the point to move, counted from 1.
+  arg to (number): The place it ends at, counted from 1. Moving a point to the place it holds changes nothing.
+  example: OgreBotAPI.Paths:MovePoint[${Me.Name},autohuntpath1,5,2]
+
+OgreBotAPI.Paths:RemovePoint[fw, name, point]
+  kind: method of OgreBotAPI.Paths
+  what: Takes the first point of that text off a saved path of the zone you are in, so a path that passes a point twice keeps the later one. An unknown path or point prints one line and changes nothing.
+  arg fw (for-who): for-who: this runs only when this character is one it names. Paths are shared by every box on the PC, so a line that reaches several boxes names one, or each box it lands on does it.
+  arg name (string): The path's name, in any case.
+  arg point (string): The point as the path holds it, in any case: a POI name, or x,y,z.
+  example: OgreBotAPI.Paths:RemovePoint[${Me.Name},autohuntpath1,bell]
+  oldbot: OgreBotAPI:AutoHunt_RemovePoint
+
+OgreBotAPI.Paths:Start[fw, name]
+  kind: method of OgreBotAPI.Paths
+  what: Walks a saved path of the zone you are in, point by point, by the path's own mover, in place of any walk under way and through a pause of OgreBot; a point that does not resolve stops it before anything moves, and OgreBot must be open. It waits while something else has the character (a fight, a death, an AutoHunt pull, a movement block) and goes on from the same point, and one line says when it finishes, cannot reach a point, or ends at a zone or OgreBot closing.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg name (string): The path's name, in any case. A path of one point goes there and finishes, looping or not. A path walked by camp spot leaves the camp spot at its last point when it finishes, and no earlier camp spot comes back.
+  example: OgreBotAPI.Paths:Start[${Me.Name},autohuntpath1]
+
+OgreBotAPI.Paths:Stop[fw]
+  kind: method of OgreBotAPI.Paths
+  what: Stops the path being walked, a Paths:Start walk or AutoHunt's: the character stands where it is, and a walk by camp spot has its camp spot cleared. With no walk it prints one line.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Paths:Stop[${Me.Name}]
+
+
+== OgreBotAPI.Pet ==
+
+OgreBotAPI.Pet:Assist[fw]
+  kind: method of OgreBotAPI.Pet
+  what: Sends the game command /pet autoassist right away, which toggles your pet assisting you. There is no check that you have a pet, and nothing happens when not in the world or the for-who does not name this character.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Pet:Assist[igw:${Me.Name}]
+  oldbot: OgreBotAPI:PetAssist
+
+OgreBotAPI.Pet:Attack[fw]
+  kind: method of OgreBotAPI.Pet
+  what: Sends the game command /pet attack right away, so your pet attacks your current target. There is no check that you have a pet, and nothing happens when not in the world or the for-who does not name this character.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Pet:Attack[igw:${Me.Name}]
+  oldbot: OgreBotAPI:PetAttack
+
+OgreBotAPI.Pet:GetLost[fw]
+  kind: method of OgreBotAPI.Pet
+  what: Sends the game command /pet getlost right away, which dismisses your pet. There is no check that you have a pet, and nothing happens when not in the world or the for-who does not name this character.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Pet:GetLost[all]
+  oldbot: OgreBotAPI:PetGetLost
+
+OgreBotAPI.Pet:Off[fw]
+  kind: method of OgreBotAPI.Pet
+  what: Sends the game command /pet backoff right away, so your pet stops attacking. There is no check that you have a pet, and nothing happens when not in the world or the for-who does not name this character.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Pet:Off[igw:${Me.Name}]
+  oldbot: OgreBotAPI:PetOff
+
+
+== OgreBotAPI.POI ==
+
+${OgreBotAPI.POI.Count}
+  kind: member of OgreBotAPI.POI
+  what: How many points of interest the current zone has, shipped and your own together. It reads 0 in a zone with none, while you are not settled in a zone and while the travel data loads.
+  returns: int: the current zone's total. A POI of yours that overrides a shipped one counts once.
+  example: echo ${OgreBotAPI.POI.Count}
+
+${OgreBotAPI.POI.Loc[name]}
+  kind: member of OgreBotAPI.POI
+  what: Where a point of interest of the current zone is, shipped or your own. It reads empty for an unknown name, for a POI that names only an actor, while you are not settled in a zone and while the travel data loads.
+  arg name (string): The POI's name, in any case.
+  returns: string: x,y,z to two decimals, or empty when there is no such location.
+  example: echo ${OgreBotAPI.POI.Loc[bell]}
+
+OgreBotAPI.POI:Add[name, x, y, z, sender]
+  kind: method of OgreBotAPI.POI
+  what: Saves a named point of interest in the zone you are in, where you stand or at x,y,z, for every character on this PC. A shipped name is overridden, a name of your own moves to the new spot, and a refusal prints one line and saves nothing.
+  arg name (string): The name, in any case. It cannot be empty, hold a comma or read as a number.
+  arg x (float): X of the spot. Leave x, y and z out to use where you stand. With any of them given all three are needed, and 0,0,0 is refused.
+  arg y (float): Y (height) of the spot.
+  arg z (float): Z of the spot.
+  arg sender (string): Leave this out in a script. The -POI_Add row fills it with the box that sent the line, and every other box does nothing.
+  example: OgreBotAPI.POI:Add["Quest giver",100,20,-250]
+
+OgreBotAPI.POI:Remove[name]
+  kind: method of OgreBotAPI.POI
+  what: Removes a point of interest of your own from the zone you are in, and a shipped POI it was overriding is back. A shipped POI cannot be removed: that and an unknown name print one line and change nothing.
+  arg name (string): The POI's name, in any case.
+  example: OgreBotAPI.POI:Remove["Quest giver"]
+
+OgreBotAPI.POI:Rename[old, new]
+  kind: method of OgreBotAPI.POI
+  what: Renames a point of interest of your own in the zone you are in. A shipped POI, an unknown name and a new name that another POI here holds each print one line and change nothing.
+  arg old (string): The POI's name now, in any case.
+  arg new (string): The new name. It cannot be empty, hold a comma or read as a number.
+  example: OgreBotAPI.POI:Rename["Quest giver","Quest giver east"]
+

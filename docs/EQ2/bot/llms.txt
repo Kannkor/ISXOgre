@@ -6,7 +6,7 @@ To convert a Classic script, follow the procedure on the Converting your scripts
 
 ## Read it all
 
-- [Everything in one document](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-full.txt): the entire documentation, 2230 KB. If that is too much to read at once, use the smaller pieces below - together they are the same text.
+- [Everything in one document](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-full.txt): the entire documentation, 2231 KB. If that is too much to read at once, use the smaller pieces below - together they are the same text.
 - [Start here (part 1 of 2)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-start-here-1.txt): 19 KB - Start here
 - [Start here (part 2 of 2)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-start-here-2.txt): 320 KB - Start here
 - [OgreBot (part 1 of 3)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-ogrebot-1.txt): 100 KB - OgreBot; OgreBot - Tabs
@@ -31,6 +31,10 @@ To convert a Classic script, follow the procedure on the Converting your scripts
 - [Developers (part 12 of 14)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-12.txt): 87 KB - Developers - API reference - Commands
 - [Developers (part 13 of 14)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-13.txt): 76 KB - Developers - API reference - Commands
 - [Developers (part 14 of 14)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-14.txt): 84 KB - Developers - API reference - Commands; Developers - API reference
+
+## The API reference, as plain text
+
+- [API reference for assistants](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-api.txt): every member, method, command and event, one entry each (what it does, its arguments, what it returns, an example), no tables or links. That index lists its files: everything in one, or pieces of up to 100 KB.
 
 Each page on its own, as plain Markdown, in menu order:
 

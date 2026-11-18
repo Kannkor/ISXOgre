@@ -12256,6 +12256,8 @@ Every member, method, command and event a script or a user can reach, one row ea
 
 **What is not here.** `${Me}`, `${Target}`, `${Zone}`, `${Group[1]}` and the like in the examples are ISXEQ2's own objects, not the bot's. The examples are LavishScript, the InnerSpace script language; `wait 10` waits one second. New to it? Start with [Your first script](../script-basics.md).
 
+**For an AI assistant.** Point it at [https://kannkor.github.io/ISXOgre/EQ2/bot/llms-api.txt](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-api.txt): this whole reference as plain text, one entry per member, method, command and event, with no tables or links. That file says how to read an entry and lists the rest: everything in one file, or pieces of up to 100 KB.
+
 ## OgreBotAPI
 
 - [OgreBotAPI](ogrebotapi/OgreBotAPI.md)

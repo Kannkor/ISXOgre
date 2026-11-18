@@ -1,0 +1,1028 @@
+# OgreBot for EverQuest II - API reference: Commands (part 1 of 3)
+
+Plain text for AI assistants, generated from the same tables as the API reference pages (https://kannkor.github.io/ISXOgre/EQ2/bot/developer/api/).
+This file is ONE PIECE: Commands (part 1 of 3) - ogre commands, ISXOgreX console commands.
+How to read an entry, and every file like this one: https://kannkor.github.io/ISXOgre/EQ2/bot/llms-api.txt
+
+== ogre commands ==
+
+What a user types in the game's chat box (or a script runs): ogre <word> ...
+
+ogre abilitydetails [name or id]
+  kind: ogre command (typed in the game's chat box or a script)
+  what: Show every field your ability export holds for an ability, with a search
+  arg <name or id> (text, default: the window opens with nothing picked): An ability's name or ID: a base name picks the rank the bot uses, a rank's full name or an ID picks exactly that rank, and the search box is filled in with it.
+  example: ogre abilitydetails Kick
+
+ogre account
+  kind: ogre command (typed in the game's chat box or a script)
+  what: Show this session's account and access level
+  example: ogre account
+
+ogre ae
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre abilityefficiency
+  what: Score your abilities as damage / (cast + recovery) into a report file
+  example: ogre ae
+
+ogre afk [0|on|off]
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre antiafk
+  what: Keep the session alive (bare = silent; 0 = noisy; off = stop)
+  arg 0 (word, default: bare `ogre afk` turns it on silent): Turn the keepalive on in noisy mode: it prints a line each time it sends its /who all (every 10 to 15 minutes).
+  arg on (word): Turn the keepalive on and keep the silent or noisy choice it already has.
+  arg off (word): Stop the keepalive (the same as `ogre end afk`); invite accepting is not changed.
+  arg invites (word, default: off at load): `invites on` or `invites off`: auto-accept group invites from names on your characters list; separate from the keepalive.
+  example: ogre afk off
+
+ogre analysis [scan|monitor|taps|export|import|end]
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre anal
+  what: Watch actors, record what changes and when, and diff two of them
+  arg scan (word, default: bare `ogre analysis` opens the window): Scan the zone's actors; add `<member>=<value>` terms (`<member><<value>` and `<member>><value>` too) to keep only matching ones, none reuses the window's terms or scans everything.
+  arg monitor (word): `monitor on|off|clear|list`, or `monitor add <id|target|cursor>` / `monitor remove <id>`: pick the actors to watch and record their changes.
+  arg taps (word): `taps on` or `taps off`: log the choice and reward windows that appear (any word but off turns them on).
+  arg export (word): `export [<name>]`: save what was recorded to a file.
+  arg import (word): `import <name|path>`: load a saved session back in.
+  arg end (word): Stop sampling, the taps and any scan, then close the window (the same as `ogre end analysis`).
+  arg panel (word): Open the window.
+  arg close (word): Close the window only; recording goes on.
+  arg status (word): Print what is monitored, the sample count, the scan and the taps.
+  arg rate (word): `rate <ms>`: how often monitored actors are sampled, 100 to 10000 ms.
+  arg sessions (word): List the saved sessions you can import.
+  example: ogre analysis monitor add target
+
+ogre assist
+  kind: ogre command (typed in the game's chat box or a script)
+  what: Show who this toon is assisting right now, and why
+  example: ogre assist
+
+ogre atb
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre autotargetbalance
+  what: Open OgreBot at the AutoTarget tab (Balance generator)
+  example: ogre atb
+
+ogre autologin
+  kind: ogre command (typed in the game's chat box or a script)
+  what: Open the auto-login config panel
+  example: ogre autologin
+
+ogre bgrender [on|off|draw <ms>|hz <n>|force on|off|hold <name>|release <name>|clear]
+  kind: ogre command (typed in the game's chat box or a script)
+  what: Skip drawing while this client is in the background (once a second; full drawing when active)
+  arg on (word, default: off at load; bare `ogre bgrender` prints the status): Turn background render skipping on.
+  arg off (word): Turn it off - full drawing again (the same as `ogre end bgrender`).
+  arg draw (word): Set how often a background client still draws a frame, the `<ms>` after it.
+  arg <ms> (number, default: 1000): The background draw interval in milliseconds; 0 means never draw in the background.
+  arg hz (word): Set the background loop cap, the `<n>` after it.
+  arg <n> (number, default: 100): Loops per second while in the background; 0 means no cap.
+  arg hold (word): `hold <name>`: keep every frame drawn until that name is released (for scripts that need the screen drawn).
+  arg release (word): `release <name>`: drop that hold.
+  arg clear (word): Drop every hold.
+  example: ogre bgrender on
+
+ogre bot [<toon>] [-s <server>] [-c <class>]
+  kind: ogre command (typed in the game's chat box or a script)
+  what: Load OgreBot (logs <toon> in first if given, on that server and as that class if given)
+  arg <toon> (name, default: OgreBot loads on the character you are on now): Log this character in first, then load OgreBot.
+  arg -s (flag): Log in on the server named next (`-server` works too); needed when the character is on more than one server and none is the default.
+  arg <server> (name, default: the character's default server): The server for `-s`; `ogre login -?` lists the short forms.
+  arg -c (flag): Log in as the class named next (`-class` works too).
+  arg <class> (name, default: whatever class it was): The class for `-c`.
+  example: ogre bot Mytoon
+
+ogre buycrate [-r|-h|-all]
+  kind: ogre command (typed in the game's chat box or a script)
+  what: Buy this zone's heroic/raid crates (-r raid, -h heroic, -all)
+  arg -r (flag, default: with no flag both crates are bought): Buy only the raid crate (`-raid` works too).
+  arg -h (flag): Buy only the heroic crate (`-heroic` works too).
+  arg -all (flag, default: on): Buy both the heroic and the raid crate.
+  example: ogre buycrate -r
+
+ogre buyfuel [amount]
+  kind: ogre command (typed in the game's chat box or a script)
+  what: Buy the EXAMINED fuel up to <amount> in the guild fuel depot
+  arg <amount> (number, default: 90000): Buy the examined fuel until the guild Fuel Depot holds this many.
+  example: ogre buyfuel 50000
+
+ogre buyoverseermissions [flags] | stop | status
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre bom
+  what: Buy Overseer missions from the Administrator agent
+  arg -season (flag, default: bare = the options on this character's Overseer Buy tab): `-season <n>`: only missions of season 1 to 7 (`-s` works too).
+  arg -colour (flag, default: any colour): `-colour <name>`: only Blue, Yellow, Purple or Green missions (`-c` / `-color` work too).
+  arg -num (flag, default: 10): `-num <n>`: how many different missions to buy (`-n` works too).
+  arg -amount (flag, default: 10): `-amount <n>`: how many of each to buy, at most 20 (`-a` works too).
+  arg -replenishonly (flag, default: off): Only top up missions you already have (`-r` / `-ro` work too).
+  arg -noscribe (flag, default: scribe is on): Do not scribe the bought missions (`-scribe` turns it back on).
+  arg -destroy (flag, default: off): Destroy the copies left over after scribing (`-nodestroy` turns it off).
+  arg -gettogh (flag, default: off): Go to the guild hall when the run finishes (`-gh`; `-nogettogh` / `-nogh` turn it off).
+  arg stop (word): Stop a running buy (`abort` works too).
+  arg status (word): Print how the buy run is going.
+  example: ogre buyoverseermissions -num 5 -amount 2
+
+ogre camp [charselect]
+  kind: ogre command (typed in the game's chat box or a script)
+  what: Camp out to login+exit ('charselect' stays at char select)
+  arg charselect (word, default: camps to the login screen, then exits the game): Camp to character select and stay there (`cs` / `select` work too).
+  example: ogre camp charselect
+
+ogre chatcmd [off|status|debug [on|off]|reloadauth|test <chattype> <speaker> [message]]
+  kind: ogre command (typed in the game's chat box or a script)
+  what: Run the commands your own characters send you in chat
+  arg off (word, default: bare `ogre chatcmd` turns it on): Stop running commands sent to you in chat (the same as `ogre end chatcmd`).
+  arg status (word): Print whether it is on, how many names it trusts, and how many lines it ran or rejected.
+  arg reloadauth (word): Re-read the names of your own characters whose chat lines it will obey.
+  example: ogre chatcmd status
+
+ogre cm [-small|-large]
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre collection, ogre collections
+  what: Add collectibles from your collectible depot to your collections
+  arg -small (flag, default: the nearest Collectible Depot, else your Personal Collectible Stash): Use the Collectible Depot (the small one) only.
+  arg -large (flag): Use the Collectible Depot (Large) only.
+  arg -inventory (flag, default: off): Add the collectibles in your bags instead of a depot (`1` / `-1` work too).
+  example: ogre cm -large
+
+ogre codexinspect <Name[,Name...]|reset>
+  kind: ogre command (typed in the game's chat box or a script)
+  what: Inspect group/raid members and upload their gear to eq2codex.com
+  arg <Name[,Name...]> (text, default: bare prints the status and the usage): Inspect these group or raid members (names split by commas) and upload their gear to eq2codex.com.
+  arg reset (word): Reset your active raid on eq2codex.com.
+  arg status (word): Print how the upload pass is going (`?` works too).
+  example: ogre codexinspect Alpha,Bravo
+
+ogre codextoon [status]
+  kind: ogre command (typed in the game's chat box or a script)
+  what: Upload your own gear/stat snapshot to eq2codex.com
+  arg status (word, default: bare uploads your own gear and stats now): Print the upload status instead of uploading (`?` works too).
+  example: ogre codextoon
+
+ogre commandpacks
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre packs
+  what: Re-read the console's commands, including command packs (Scripts/OgreExternal)
+  example: ogre commandpacks
+
+ogre commands
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre help
+  what: Open the Commands panel: every ogre command, searchable and runnable
+  example: ogre commands
+
+ogre console
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre oc, ogre ogreconsole
+  what: Open the OgreConsole window
+  example: ogre console
+
+ogre contentbuilder
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre icbuilder
+  what: Build and edit Instance Controller zone files and fight files as boxes: every step and its options, checked as you go
+  example: ogre contentbuilder
+
+ogre craft [status|start|writs|tinker|lll|stop|end|minimize|scan|add|set|shop|?]
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre craft2
+  what: Open the crafting panel
+  arg status (word, default: bare `ogre craft` opens the panel and turns on craft reactions): Print what crafting is doing, how many are crafted and the last error.
+  arg start (word): Craft what is in the queue.
+  arg writs (word): Run the writ flow.
+  arg tinker (word): Run auto tinkering.
+  arg lll (word): Run low level leveling.
+  arg stop (word): Stop the run; the panel stays open.
+  arg end (word): Stop everything and close the window (the same as `ogre end craft`).
+  arg minimize (word): Roll the window up to its title bar; crafting goes on, bare `ogre craft` brings it back.
+  arg scan (word): Re-read your recipe book.
+  arg add (word): `add <recipe name|id|lastknownrecipe> [<quantity>]`: put a recipe in the queue; a trailing whole number is the quantity (default 1), lastknownrecipe is the last one you scribed.
+  arg set (word): `set <key> <value>`: change one craft setting (saved a second later).
+  arg shop (word): `shop books`, `shop sell <name>...` or `shop destroy <name>...`: run one merchant errand by hand (not while a craft runs).
+  arg ? (word): Print the word list (`help` works too).
+  arg pause (word): `pause` or `pause on` pauses the run; `pause off` resumes it.
+  arg clear (word): Empty the queue.
+  arg queue (word): List what is in the queue.
+  arg quest (word): Craft the recipe steps of your current quest until none is left.
+  arg save (word): Save the craft settings now.
+  arg reload (word): Re-read the craft settings and the data files.
+  example: ogre craft writs
+
+ogre craftgm [<range>] | scan [<range>] | start [<range>] | queue [<range>] | status | stop | end | close  [depot|nodepot]
+  kind: ogre command (typed in the game's chat box or a script)
+  what: Open the Grandmaster crafting panel ((Master) scrolls -> (Grandmaster) crafts)
+  arg <range> (text, default: bare opens the panel and does nothing else): A level (`131`), a range (`131-135` or `131 135`), or `all`; on its own it opens the panel with the range filled in and scans nothing.
+  arg scan (word): `scan [<range>]`: open the panel and find the (Master) scrolls to craft, crafting nothing.
+  arg start (word): `start [<range>]`: open the panel and scan, queue and craft the (Grandmaster) recipes.
+  arg queue (word): `queue [<range>]`: scan and replace the Craft queue with the (Grandmaster) recipes, then stop; never uses the Scroll Depot.
+  arg status (word): Print the state; does not touch the panel.
+  arg stop (word): Stop a run; the panel stays as it is.
+  arg end (word): Stop a run and close the panel (the same as `ogre end craftgm`).
+  arg close (word): The same as end.
+  arg depot (word, default: as last set (off to start)): Also pull scrolls from the Scroll Depot; sticks, and works with any word that takes a range.
+  arg nodepot (word): Use your bags only (`bagsonly` works too); sticks.
+  example: ogre craftgm start 131-135 depot
+
+ogre craftingmats [-<expansion> -<category> ...] | ogre craftingmats plan|help|end
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre cmats
+  what: Edit the crafting-mats lists; with flags, pull a craft's mats from the harvest depot
+  arg -<expansion> (flag, default: with only a category, Visions of Vetrovia): Which list to pull from: -vov, -cd, -mm, -pop or -ka (any list file's key); several may be given.
+  arg -<category> (flag, default: the list's own line (signature; for -ka daily and weekly)): -sig (or -s), -daily (or -d) or -weekly (or -w).
+  arg plan (word): `plan [-<expansion> -<category> ...]`: print the shopping list and stop, without the depot (`preview` and `-plan` work too).
+  arg help (word): Print the usage (`?` works too).
+  arg end (word): Stop a pull and close the editor (the same as `ogre end craftingmats`).
+  arg panel (word, default: bare `ogre craftingmats` opens the editor): Open the list editor (`config` / `edit` work too).
+  example: ogre craftingmats -vov -sig
+
+ogre craftlite
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre cl
+  what: Cast crafting reactions only (no panel, no queue)
+  example: ogre craftlite
+
+ogre dets [m|target] [-noinfo]
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre detrimentals
+  what: Dump your detrimentals, with Name and Description (a server read each; -noinfo skips them)
+  arg m (word, default: your own detrimentals): Dump your maintained effects instead (`maintained` works too).
+  arg target (word): Dump your target's effects instead (`t` works too).
+  arg -noinfo (flag, default: Name and Description are read (one server read each)): Skip the Name and Description - a cheap dump with the icon pair only.
+  example: ogre dets target -noinfo
+
+ogre effecttracker [on|off|npc on|merge|status|end]
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre oet
+  what: Capture what every detrimental and NPC effect says it does, into the shared zone dataset
+  arg on (word, default: bare opens the window): Start capturing your detrimental effects.
+  arg off (word): Stop both captures (players and NPCs); the window stays open.
+  arg npc (word): `npc on` or `npc off`: also capture NPC effects.
+  arg merge (word): Merge every character's captures for the zone you are in into the zone's one dataset file.
+  arg status (word): Print what is armed and how much was captured.
+  arg end (word): Stop both captures and close the window (the same as `ogre end effecttracker`).
+  arg panel (word): Open the window.
+  arg close (word): Close the window only.
+  arg reload (word): Re-read the capture files from disk; anything not yet saved is dropped.
+  arg describe (word, default: on): `describe on` or `describe off`: read each new effect's info once from the server (off loses only the Description).
+  arg closewindow (word): `closewindow [all]`: close one leftover examine window, or all of them.
+  example: ogre effecttracker on
+
+ogre encounter [reload|debug comms|steps on|off|sequences]
+  kind: ogre command (typed in the game's chat box or a script)
+  what: Encounter authoring: reload the json from disk, toggle the debug echoes, list live sequences
+  arg reload (word, default: bare prints the word list): Re-read the encounter json from disk and swap it in; a line follows with the loaded, scanned and error counts.
+  arg debug (word): `debug comms on|off` or `debug steps on|off`: console echo for comms or step changes; `debug` alone prints the current switches.
+  arg sequences (word): List every live sequence: its step, how long it has been there and what holds it (`seq` works too).
+  example: ogre encounter reload
+
+ogre examine [on|off|reset]
+  kind: ogre command (typed in the game's chat box or a script)
+  what: Examine each NEW detrimental signature once and report it
+  arg on (word, default: bare turns it on): Examine each new detrimental once and report its Name and Description (`start` works too).
+  arg off (word): Stop examining (`stop` works too; the same as `ogre end examine`).
+  arg reset (word): Forget the ones already seen, so each is examined again (`clear` works too).
+  arg status (word): Print whether it is on and what it has seen.
+  example: ogre examine reset
+
+ogre experiment [-<stat> <n>]... | items | run <row> ...
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre experimentui
+  what: Boost item stats on the tradeskill Experiment tab
+  arg -<stat> (flag, default: bare prints the status and the usage): A stat to boost on the item already selected on the Experiment tab: -potency (or -p), -critbonus (or -cb), or any other option's label.
+  arg <n> (number): How many times to boost the stat before it; a count of 0 or less adds nothing.
+  arg items (word): List the item rows on the Experiment tab.
+  arg run (word): `run <row> -<stat> <n> ...`: the same boost on item row `<row>` from `items`.
+  arg stop (word): Stop and put the window size back (`off` works too; the same as `ogre end experiment`).
+  arg status (word): Print the state and the usage.
+  example: ogre experiment -potency 3
+
+ogre export [flags]
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre abilityexport
+  what: Open the export panel (-start runs it now, -default uses defaults)
+  arg -default (flag, default: the current saved options): Use the default options for this run only; the saved ones are not changed.
+  arg -start (flag, default: bare opens the options panel): Run the export now, without the options panel.
+  arg -stop (flag): Stop an export that is running.
+  example: ogre export -default -start
+
+ogre find <name> [-rorr]
+  kind: ogre command (typed in the game's chat box or a script)
+  what: Watch for named actors and waypoint them when they spawn
+  arg <name> (name, default: bare prints the usage and the built-in options): Watch for actors with exactly this name (any case); each word is one name, and the list replaces the old one and does one scan now.
+  arg -rorr (flag): Watch for the four Renewal of Ro researchers.
+  arg -add (flag): `-add <name>`: add a name to the list.
+  arg -remove (flag): `-remove <name>`: take a name off the list.
+  arg -clear (flag): Empty the list.
+  arg -list (flag): Print the list.
+  arg -on (flag): Start watching.
+  arg -off (flag): Stop watching (the same as `ogre end find`).
+  arg -scan (flag): Look for the listed names now.
+  arg -status (flag): Print whether it is watching and how many names.
+  arg -panel (flag): Open the window.
+  example: ogre find Gorenaire
+
+ogre forwhogroups [list|panel|reload]
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre fwg
+  what: Name a set of toons once, then select them all with one *Team:<group> for-who token
+  arg list (word, default: bare prints the groups): Print every group and its toons.
+  arg panel (word): Open the editor where you name groups (`config` works too).
+  arg reload (word): Re-read the groups from disk (`refresh` works too).
+  arg close (word): Close the editor (the same as `ogre end forwhogroups`).
+  example: ogre forwhogroups panel
+
+ogre getquest [list|reload|status|off]
+  kind: ogre command (typed in the game's chat box or a script)
+  what: Hail the configured NPC for this zone and pick up its quest (you must be standing next to them)
+  arg list (word, default: bare hails this zone's NPC and takes the quest): Print which areas are loaded and for which zones.
+  arg reload (word): Re-read the data files (refused while a run is going).
+  arg status (word): Print the run's state and counts.
+  arg off (word): Stop a run (`stop` works too; the same as `ogre end getquest`).
+  example: ogre getquest status
+
+ogre ghtohouse [flags]
+  kind: ogre command (typed in the game's chat box or a script)
+  what: Move the guild-hall depots into your house ones (-all, -scroll, ...)
+  arg -all (flag, default: no depot = refused): Move all eight shared depots (harvest, ammo, adorn, food, lore, potion, collectible, fuel); not scroll.
+  arg -harvest (flag): Move the harvest depot (`-h` works too).
+  arg -ammo (flag): Move the ammo depot.
+  arg -adorn (flag): Move the adornment depot.
+  arg -food (flag): Move the food and drink depot.
+  arg -lore (flag): Move the lore and legend depot.
+  arg -potion (flag): Move the poison, potion and totem depot.
+  arg -collectible (flag): Move the collectible depot (`-collect` / `-c` work too).
+  arg -fuel (flag): Move the fuel depot.
+  arg -scroll (flag): Move the scroll depot (only this direction has one).
+  arg -no<depot> (flag): Turn one depot back off, e.g. `-nofuel` after `-all` (also `-nh`, `-nc`).
+  arg <owner> (name, default: your own house): Whose house to deposit into.
+  example: ogre ghtohouse -all -scroll
+
+ogre heartstone [on|off|now]
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre hs
+  what: Rekindle a guild-hall Heartstone (always-on; arms itself at zone-in)
+  arg on (word, default: on; bare prints the status): Turn the Heartstone rekindler on.
+  arg off (word): Turn it off (the same as `ogre end heartstone`).
+  arg now (word): Try a rekindle on the next pulse, or look for a Heartstone if it has not found one yet.
+  example: ogre heartstone now
+
+ogre hideeffects [panel|clear|end]
+  kind: ogre command (typed in the game's chat box or a script)
+  what: Hide the listed junk effects on your character (plain `ogre hideeffects` runs it now)
+  arg panel (word, default: bare runs it now): Open the editor for the list of effects to hide (`config` works too).
+  arg clear (word): Un-hide every effect the client is hiding.
+  arg end (word): Stop a run and close the window (the same as `ogre end hideeffects`); hidden effects stay hidden.
+  arg run (word): Hide the listed effects on your character now.
+  arg list (word): Have the client print what it is hiding, in the EQ2 chat window.
+  arg delete (word): `delete <id>`: un-hide one effect (`del` works too).
+  arg reload (word): Re-read the effect list files.
+  arg reset (word): Delete your own edits so the list is back to what shipped.
+  arg status (word): Print what is loaded, what applies to this character and how the last run went.
+  example: ogre hideeffects panel
+
+ogre hl [off|status|interval <ms>]
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre harvestlite
+  what: Collect resource nodes already in reach (no walking)
+  arg off (word, default: bare turns it on): Stop collecting (the same as `ogre end hl`).
+  arg status (word): Print whether it is on and what it has done.
+  arg interval (word): Set how often it looks for nodes in reach, the `<ms>` after it.
+  arg <ms> (number, default: 500): The pass interval in milliseconds, 250 to 10000.
+  example: ogre hl interval 1000
+
+ogre housetogh [flags]
+  kind: ogre command (typed in the game's chat box or a script)
+  what: Move your house depots into the guild-hall ones (-all, -harvest, ...)
+  arg -all (flag, default: no depot = refused): Move all eight depots (harvest, ammo, adorn, food, lore, potion, collectible, fuel).
+  arg -harvest (flag): Move the harvest depot (`-h` works too).
+  arg -ammo (flag): Move the ammo depot.
+  arg -adorn (flag): Move the adornment depot.
+  arg -food (flag): Move the food and drink depot.
+  arg -lore (flag): Move the lore and legend depot.
+  arg -potion (flag): Move the poison, potion and totem depot.
+  arg -collectible (flag): Move the collectible depot (`-collect` / `-c` work too).
+  arg -fuel (flag): Move the fuel depot.
+  arg -no<depot> (flag): Turn one depot back off, e.g. `-nofuel` after `-all` (also `-nh`, `-nc`).
+  arg <owner> (name, default: your own house): Whose house to take from.
+  example: ogre housetogh -all -nofuel
+
+ogre ic [status|list|run|check|pause|end|options] | ogre ic -<option>[=off] ...
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre icx, ogre instancecontroller
+  what: Open the instance controller - run zones from a queue (doc 28)
+  arg status (word, default: bare opens the window): Print the run's state as text.
+  arg list (word): `list [<filter>]`: every loaded zone file, or those whose zone or path holds the filter.
+  arg run (word): `run <tier> <relative/path.json>`: run that one zone file (not the list); tier is default, test or custom.
+  arg check (word): `check [<zone>]`: which files claim the zone (no zone = the one you are in) and whether it is available.
+  arg pause (word): Pause the run.
+  arg end (word): Close the instance controller out (the same as `ogre end ic` and the window's X).
+  arg options (word): `options` lists every option; `options -<option>[=on|off] ...` sets them.
+  arg -<option> (flag, default: a bare -option means on): Set any option of the window, e.g. `-loop`, `-haltAtEnd=off`, `-maxwait=30`; several at once.
+  arg resume (word): Resume a paused run.
+  arg stop (word): End the run (the window's End button).
+  arg runlist (word): `runlist [<row>]`: run the queue from the top, or from row `<row>`.
+  arg queue (word): `queue` lists it; `queue add <zone name>`, `queue add <tier> <path.json>`, `queue startat <row> <N>` (start that row at step N) or `queue clear`.
+  arg wipe (word): Declare a wipe now and start recovering.
+  arg reload (word): Re-read the zone files (the window's Reload).
+  arg refresh (word): Refresh the zone lock table.
+  arg panel (word): Open the window.
+  example: ogre ic -loop -haltAtEnd=off
+
+ogre im [-depot -sell -destroy -tse -end] | depot|sell|destroy|tse|restock|trade <args> | chain | status | stop | close
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre inventorymanager
+  what: Inventory manager - the window is the session; runs depot/sell/destroy/tse/restock/trade
+  arg -depot (flag, default: bare opens the window): In a chain: deposit to depots. Chain flags run in order: -depot, -sell, -destroy, -tse, -restock, -trade.
+  arg -sell (flag): In a chain: sell to the merchant.
+  arg -destroy (flag): In a chain: destroy the listed items.
+  arg -tse (flag): In a chain: consume items for tradeskill experience.
+  arg -end (flag): Close the window once the chain is done.
+  arg depot (word): `depot <depot flags>`: deposit into house or guild-hall depots; `ogre im help` lists the flags.
+  arg sell (word): Sell; `sell preview|list|add|remove|status|stop|reload` too.
+  arg destroy (word): Destroy the list, or `destroy <name>` for one item; `destroy preview|list|add|remove|status|stop` too.
+  arg tse (word): Consume items for tradeskill experience; `tse -stopafter <n>` stops after that many.
+  arg restock (word): `restock [<profile>]` buys up to a profile; `restock list|show <profile>|preview|stop` too.
+  arg trade (word): Run the trade queue; `trade add <player> <qty|all> <item>`, `trade list|remove <n>|clear|preview`.
+  arg chain (word): Show what each chain flag does.
+  arg status (word): Print what the window and each mode is doing.
+  arg stop (word): Stop whatever mode or chain is running.
+  arg close (word): Close the window only.
+  arg end (word): Stop and close the window (the same as `ogre end im`).
+  arg queue (word): `queue <mode>`: run that mode when the current one finishes; `queue` alone shows what waits.
+  arg console (word): `console [always|running|never|clear]`: the activity log strip.
+  arg settings (word): Print the saved options; `settings bag ...` and `settings tse <option> <value>` change them.
+  arg transmute (word): `transmute <name>`: transmute that item.
+  arg reload (word): Re-read the data files.
+  arg help (word): Print the full usage (`?` works too).
+  example: ogre im -depot -sell -end
+
+ogre config
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre options, ogre config
+  what: Open Ogre Options (account, UI scale, theme, per-game options)
+  example: ogre config
+
+ogre irc
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre ogreirc
+  what: Connect to IRC (`ogre end irc` disconnects). `irc <message>` sends.
+  example: ogre irc
+
+ogre keys
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre keyboard, ogre kbd
+  what: Dump the keyboard state (Shift stuck? run it while it happens and send the lines)
+  example: ogre keys
+
+ogre lag [report [s]|dump [s]|on|off|overhead|budget <ms> <ms>|minutes <1-60>|clear|close]
+  kind: ogre command (typed in the game's chat box or a script)
+  what: Every frame of the last few minutes - what it cost and what ran in it; find and open the FPS dips
+  arg report (word, default: bare opens the window): Print a report of the last `<s>` seconds: the FPS dips and what caused them.
+  arg <s> (number, default: 60 for report; everything recorded for dump): How many seconds back report or dump looks.
+  arg dump (word): Save the last `<s>` seconds of frames to a file (the save itself costs one frame).
+  arg on (word, default: on): Record every frame (saved).
+  arg off (word): Stop recording; frames already recorded are kept.
+  arg overhead (word): Measure and print what the recorder itself costs.
+  arg budget (word, default: 25 and 33.3 ms): `budget <ms> <ms>`: the two frame budgets the report counts against; the second must be above the first.
+  arg minutes (word, default: 5): `minutes <1-60>`: how many minutes of frames are kept; it starts again empty.
+  arg clear (word): Throw away the recorded frames.
+  arg close (word): Close the window (the same as `ogre end lag`).
+  example: ogre lag report 30
+
+ogre leveltransmuting [on|off|status|end]
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre lt
+  what: Buy transmuter's stones from Barnaby, then transmute them, for transmuting skill-ups
+  arg on (word, default: bare opens the panel): Start: buy transmuter's stones from Barnaby (travelling there if needed), transmute them, and repeat.
+  arg <count> (number, default: 60): For `on`: stones to hold per merchant visit, 1 to 800.
+  arg <rounds> (number, default: 20): For `on`: stop after this many rounds, 1 to 500; there is no unlimited mode.
+  arg off (word): Stop the run.
+  arg status (word): Print the run's phase and round count.
+  arg end (word): Stop and close the panel (the same as `ogre end leveltransmuting`).
+  arg panel (word): Open the panel (`gui` / `ui` work too).
+  example: ogre leveltransmuting on 60 20
+
+ogre login <toon> [-s <server>] [-c <class>]
+  kind: ogre command (typed in the game's chat box or a script)
+  what: Log a character in (does not load OgreBot). 'ogre login -?' lists the server short forms
+  arg <toon> (name): The character to log in; nothing happens without it.
+  arg -s (flag, default: the character's default row): Log in on this server, a full name or a short form such as `ab`; it matters only for a name on more than one server.
+  arg -c (flag, default: logs in whatever class it was): Log in as this class; a character already in the world as another class camps and comes back as it.
+  arg -? (flag): List the server short forms instead of logging in.
+  example: ogre login Mytoon -s ab
+
+ogre mbc <from> <to>
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre movebagcontents
+  what: Move a bag's contents into another bag (bags 1-6)
+  arg <from> (number): The bag (1-6) to empty.
+  arg <to> (number): The bag (1-6) to move its items into.
+  example: ogre mbc 2 5
+
+ogre mcp
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre ogremcp
+  what: Open the Master Control Panel
+  example: ogre mcp
+
+ogre mc [list | #<n>|<recipe> [count]]
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre mc
+  what: Buy limited recipes from a merchant, then craft them
+  arg list (word): Scan the targeted merchant and number the limited recipes it sells.
+  arg <recipe> (text): Part of a recipe name: each round buys it if you do not know it, scribes it, summons the station and crafts 3.
+  arg #<n> (word): Use row `<n>` from the last `ogre mc list` instead of a name.
+  arg <count> (number, default: 1): After the recipe: how many rounds to run (1-999).
+  arg stop (word): Abandon the run (the same as `ogre end mc`).
+  arg status (word, default: this is what no word does): Say what it is doing and what the last scan found, then the usage.
+  arg help (word): Show the usage.
+  example: ogre mc ferrite bracelet 4
+
+ogre mesh <destination>
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre ogretravelmesh
+  what: Travel to a destination across the zone-network mesh
+  arg <destination> (text): The zone to travel to; the whole rest of the line is one name, spaces and all.
+  example: ogre mesh Qeynos Harbor
+
+ogre migrate
+  kind: ogre command (typed in the game's chat box or a script)
+  what: Review migration status and re-run any item
+  example: ogre migrate
+
+ogre move
+  kind: ogre command (typed in the game's chat box or a script)
+  what: NOT PORTED YET - comes with the new movement and navigation
+  example: ogre move
+
+ogre moveincombat
+  kind: ogre command (typed in the game's chat box or a script)
+  what: NOT PORTED YET - comes with the new movement and navigation
+  example: ogre moveincombat
+
+ogre movent
+  kind: ogre command (typed in the game's chat box or a script)
+  what: NOT PORTED YET - comes with the new movement and navigation
+  example: ogre movent
+
+ogre nav -loc \"x,y,z\" [flags]
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre navigate
+  what: Walk somewhere over the baked navmesh (`ogre nav -help` for the flags)
+  arg -loc (flag): Walk to these coordinates: x,y,z as one quoted word or three words (Y is up).
+  arg -precision (flag): Stop within this many units of the spot; it stays set for the session.
+  arg -fly (flag, default: auto: flies only on a long detour): Fly this trip.
+  arg -nofly (flag, default: auto: flies only on a long detour): Never fly this trip.
+  arg -nodoors (flag, default: doors are opened): Do not open doors on the way.
+  arg -doors (flag): Open doors on the way again.
+  arg -on (flag): Let nav move this character.
+  arg -off (flag): Stop nav from moving this character at all.
+  arg -set (flag): Change one nav setting: `-set <key> <value>` (arrive, lookmax, avoid, doortries and more). `-set` alone lists the keys.
+  arg -reset (flag): Put every nav setting back to its default, or only `<key>` when you name one.
+  arg -panel (flag): Open the nav window now and on every trip.
+  arg -nopanel (flag): Close the nav window and stop it opening on each trip.
+  arg stop (word): Stop the trip; the nav window stays open.
+  arg end (word): Stop the trip and close the nav window (the same as `ogre end nav`).
+  arg status (word): Say what nav is doing, which mesh is loaded and any setting you changed.
+  arg panel (word): Open the nav window.
+  arg help (word, default: this is what no word does): Show the flags.
+  example: ogre nav -loc "100,20,-300" -precision 3
+
+ogre navlib
+  kind: ogre command (typed in the game's chat box or a script)
+  what: NOT PORTED YET - comes with the new navigation
+  example: ogre navlib
+
+ogre npccast [monitor [target|named|all|off|copy]|status|zone|capture|reload|import|end]
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre npccastmonitoring
+  what: Log what mobs cast (spell name + ability id) to copy or send; watch named mobs' casts - interrupt them or run your own commands
+  arg monitor (word): Start the cast monitor: each cast is logged with mob, spell name, ability id and cast time, ready to copy.
+  arg target (word, default: the monitor's default): After `monitor`: watch your target and its target (these casts come with the spell name).
+  arg named (word): After `monitor`: also watch every named mob nearby.
+  arg all (word): After `monitor`: also watch every NPC nearby.
+  arg off (word): After `monitor`: stop the monitor (it saves its list).
+  arg copy (word): After `monitor`: put the logged casts on the clipboard.
+  arg watch (word): Add a mob to the watch list: `watch <mob name>`, every word after it is the name.
+  arg unwatch (word): Take a mob off the watch list: `unwatch <mob name>`.
+  arg clear (word): Clear the watches you added; the zone's and the fights' own stay.
+  arg radius (word): Set the scan radius for this zone: `radius <n>`.
+  arg status (word): Show the scan counters, the watch list and what is being cast now.
+  arg zone (word): Show the cast data loaded for this zone.
+  arg capture (word): Add the spell your target is casting right now to your own copy of this zone's file.
+  arg reload (word): Re-read this zone's cast files.
+  arg import (word): Copy the shipped OgreBot Classic custom cast files into your own folder, never over a file you already have.
+  arg end (word): Stop the monitor and close the window (the same as `ogre end npccast`); the watch list keeps running.
+  example: ogre npccast monitor named
+
+ogre oau [minLevel]
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre abilityupgrades, ogre ogreabilityupgrades
+  what: Report which Scroll Depot scrolls upgrade an ability you know
+  arg <minLevel> (number, default: 121): Ignore scrolls below this level (1-1000).
+  example: ogre oau 125
+
+ogre osa
+  kind: ogre command (typed in the game's chat box or a script)
+  what: Open the On-Screen Assistant
+  example: ogre osa
+
+ogre overflow
+  kind: ogre command (typed in the game's chat box or a script)
+  what: Move overflow-window items into your bags
+  example: ogre overflow
+
+ogre overseer [status|stop]
+  kind: ogre command (typed in the game's chat box or a script)
+  what: Run the daily Overseer missions
+  arg run (word, default: this is what no word does): Run the daily Overseer missions now.
+  arg stop (word): Stop the run (the same as `ogre end overseer`).
+  arg status (word): Say what the run is doing, how many it started and finished, and when the next run may start.
+  example: ogre overseer status
+
+ogre patch [status|revert-ext]
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre patcher, ogre update
+  what: Check for and apply updates (status: the release you are on; revert-ext: undo a core self-update)
+  arg status (word): Say which release you are on.
+  arg revert-ext (word): Undo a core self-update.
+  arg mesh (word): The navmesh download setting; with no word after it, a summary of the meshes.
+  arg all (word): After `mesh`: every mesh downloads in the background.
+  arg ondemand (word): After `mesh`: a zone's mesh downloads when you need it.
+  arg off (word): After `mesh`: no meshes download.
+  arg ignore (word): The files the patcher never writes; with no word after it, the list.
+  arg add (word): After `ignore`: add `<path>` to that list.
+  arg remove (word): After `ignore`: take `<path>` off that list.
+  arg list (word): After `ignore`: show the list.
+  arg <path> (text): After `ignore add` or `ignore remove`: a path from the InnerSpace folder, such as Scripts/Ogre/EQ2/x.json.
+  example: ogre patch mesh ondemand
+
+ogre paths [<path>]
+  kind: ogre command (typed in the game's chat box or a script)
+  what: This zone's points of interest and saved paths: add them, order them, walk them, import OgreBot Classic's
+  arg <path> (text, default: opens the window): Open the window on this saved path of the current zone; the whole rest of the line is one name.
+  example: ogre paths Bank Run
+
+ogre perf [seconds] [nothreads] | stop | status
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre fps
+  what: Measure the frame rate and what uses each frame - run it while it lags and paste the report
+  arg <seconds> (number, default: 10): How long to measure (3-120 seconds); the report prints when it ends.
+  arg nothreads (word, default: the thread sampler runs): Measure without the thread sampler.
+  arg stop (word): Stop early and print the report now, or cancel one that has not started (the same as `ogre end perf`).
+  arg status (word): Say whether it is measuring and how long is left.
+  example: ogre perf 30
+
+ogre persona [<class>]
+  kind: ogre command (typed in the game's chat box or a script)
+  what: Change this character's class, or with no class open the window to say which profile file each class uses on this PC; one character's own setting is on OgreBot's Persona tab
+  arg <class> (name, default: opens the Persona window): Change this character to that class; it camps and comes back as it (you must be in the world).
+  example: ogre persona ranger
+
+ogre potcb [on|off|status|reset|interval <ms>|end]
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre cbpot
+  what: Track Potency / Crit Bonus / Fervor during fights - min, max, average and time at cap
+  arg on (word): Start sampling.
+  arg off (word): Stop sampling and close the window.
+  arg status (word): Print every figure to the console.
+  arg reset (word): Clear the history and keep sampling.
+  arg interval (word): Set how often it samples; with no number, say the current one.
+  arg <ms> (number, default: 200): After `interval`: the time between samples, 50-10000 ms.
+  arg end (word): Stop sampling and always close the window (the same as `ogre end potcb`).
+  arg help (word): Show the usage.
+  example: ogre potcb interval 500
+
+ogre pulse [report|on|off|reset|ceiling <us>|slice <section> <us>|jobtest on|off]
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre pulsebudget
+  what: Tune the per-frame time slice each resumable section gets
+  arg report (word): Print the budget report: every resumable section, its number and its slice.
+  arg on (word): Turn the shared frame ceiling on and reset the counters.
+  arg off (word): Turn the shared frame ceiling off; each section keeps its own slice.
+  arg reset (word): Reset the counters.
+  arg ceiling (word): Set the shared frame ceiling to `<us>` microseconds (0 = none).
+  arg slice (word): Set one section's time per frame: `slice <section> <us>` (0 = finish it in one frame).
+  arg <section> (text): After `slice`: a section's name or its number from `ogre pulse report`.
+  arg <us> (number): After `ceiling` or `slice`: the time in microseconds.
+  arg close (word): Close the Pulse Budget window; the budget keeps running.
+  example: ogre pulse ceiling 2000
+
+ogre pulseprof [report [n] [reads]|reset|on|off|overhead|scans [n|reset|on|off]]
+  kind: ogre command (typed in the game's chat box or a script)
+  what: Frame time and native reads per pulse subsystem
+  arg report (word): Print the top subsystems by frame time.
+  arg <n> (number, default: 20): After `report` or `scans`: how many rows to print.
+  arg reads (word): After `report <n>`: break the rows down by native reads instead of time.
+  arg reset (word): Reset the counters.
+  arg on (word): Start profiling, counters reset.
+  arg off (word): Stop profiling; the counters freeze (the same as `ogre end pulseprof`).
+  arg overhead (word): Measure what the profiler itself costs.
+  arg scans (word): Report actor lookups by call site; `scans on`, `scans off` and `scans reset` switch or clear that count.
+  example: ogre pulseprof report 10 reads
+
+ogre pushover <message> [-title T] [-priority N] | status|reload
+  kind: ogre command (typed in the game's chat box or a script)
+  what: Send a push notification through Pushover.net
+  arg <message> (text): The text to send; every word that is not a flag is part of the message.
+  arg -title (flag, default: the title in your Pushover settings): The notification's title (the next word).
+  arg -priority (flag, default: the priority in your Pushover settings): The priority, -2 to 2; 2 is an emergency that repeats until seen.
+  arg -sound (flag, default: the sound in your Pushover settings): The sound to play (the next word).
+  arg -device (flag, default: the device in your Pushover settings): Send to this one device (the next word).
+  arg -retry (flag, default: the retry in your Pushover settings): For priority 2: how often to repeat it, in seconds.
+  arg -expire (flag, default: the expire in your Pushover settings): For priority 2: when to stop repeating it, in seconds.
+  arg status (word, default: this is what no word does): Say whether Pushover is set up, and the usage; with more words after it, the whole line is a message.
+  arg reload (word): Re-read your Pushover settings; with more words after it, the whole line is a message.
+  example: ogre pushover Raid is ready -title EQ2 -priority 1
+
+ogre quest [1]
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre questhelper, ogre qh
+  what: Watch for quest NPCs and dialogs and do the clicking (1 = always take reply 1)
+  arg on (word, default: this is what no word does): Start watching for quest NPCs and dialogs; `on 1` is the same as `1`.
+  arg 1 (word): Start watching and always take reply 1.
+  arg off (word): Stop (the same as `ogre end quest`).
+  arg status (word): Show its state, counters and what it last did.
+  arg list (word): Show what the reply table holds.
+  arg reload (word): Re-read the reply table.
+  arg help (word): Show the usage.
+  example: ogre quest 1
+
+ogre questcompare
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre qc, ogre compare
+  what: Show whether your group is on the same step of a quest as you (`ogre end questcompare` closes it)
+  arg close (word): Close the window (also `off`, or `ogre end questcompare`).
+  example: ogre questcompare
+
+ogre quiver
+  kind: ogre command (typed in the game's chat box or a script)
+  what: Refill your quiver/pouch from your bags, then the ammo depot
+  example: ogre quiver
+
+ogre radar [on|off|<verb>]
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre r
+  what: Show what is around you - nearby actors on a panel (`ogre end radar` to stop)
+  arg on (word, default: this is what no word does): Start scanning and open the panel.
+  arg off (word): Stop scanning and close the panel (the same as `ogre end radar`).
+  arg toggle (word): Turn it on if it is off, off if it is on.
+  arg panel (word): Open or close only the panel: `panel on` or `panel off`; scanning is not changed.
+  arg click (word): `click on` lets the mouse pass through the panel to the game; `click off` makes the panel take it again.
+  arg settings (word): Open the settings drawer, even when the panel lets the mouse through.
+  arg uireset (word): Put the panel's look back to its defaults when you cannot reach it (press Save in the drawer to keep it).
+  arg radius (word): The display radius, 5-500 game units; with no number, say the current one.
+  arg rate (word): Refreshes per second, 0-60; with no number, say the current one.
+  arg cap (word): Draw only the nearest `<n>` blips, 0-5000 (0 = all); with no number, say the current one.
+  arg <n> (number): After `radius`, `rate` or `cap`: the new value.
+  arg status (word): Show the radar's settings and state.
+  arg help (word): List the radar's words.
+  example: ogre radar radius 100
+
+ogre refine [start|stop|plan|raw|rare|bags|rewards]
+  kind: ogre command (typed in the game's chat box or a script)
+  what: Refine the Raw/Rare resources in your carried bags
+  arg status (word, default: this is what no word does): Show its state, settings and the usage.
+  arg start (word): Refine once over the chosen bags.
+  arg stop (word): Stop the run (the same as `ogre end refine`).
+  arg plan (word): A dry run: list what would be refined and what is skipped; nothing is refined.
+  arg raw (word, default: on): Refine Raw resources: `raw on` or `raw off`.
+  arg rare (word, default: off): Refine Rare resources: `rare on` or `rare off`.
+  arg rewards (word, default: off): Accept reward windows during a run: `rewards on` or `rewards off`. It accepts any reward window, a quest's too.
+  arg on (word): After `raw`, `rare` or `rewards`: turn it on.
+  arg off (word): After `raw`, `rare` or `rewards`: turn it off.
+  arg bags (word, default: bags 1 and 2): Which carried bags to refine: bag numbers (1,2,3 or 1 2 3), `all` or `none`.
+  arg reload (word): Re-read the resource table.
+  example: ogre refine bags 1,2,3
+
+ogre reloadbot
+  kind: ogre command (typed in the game's chat box or a script)
+  what: Reload OgreBot if it is running (does nothing if it is not)
+  example: ogre reloadbot
+
+ogre replenishnames [show|reload]
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre staples
+  what: The fallback food/drink/potion names the *_Replenish depot verbs use - yours, in a file
+  arg show (word, default: this is what no word does): Print the fallback potion, food and drink names in use.
+  arg reload (word): Re-read your names file, then print them.
+  example: ogre replenishnames reload
+
+ogre safefall [on|off|panel|end]
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre levelsafefall
+  what: Level Safe Fall: fly up, drop, remount, repeat
+  arg status (word, default: this is what no word does): Show the trainer's state and the usage.
+  arg on (word): Start: mount, climb, dismount, fall, repeat.
+  arg <ticks> (number, default: 30): After `on`: the flight time in tenths of a second (5-600); it grows by 5 every 100 rounds.
+  arg off (word): Stop the trainer.
+  arg panel (word): Open the Safe Fall window.
+  arg end (word): Stop and close the window (the same as `ogre end safefall`).
+  arg help (word): Show the usage.
+  example: ogre safefall on 40
+
+ogre sessions [on|off]
+  kind: ogre command (typed in the game's chat box or a script)
+  what: The uplink's session watch: on/off until the uplink restarts (the saved switch is in ogre config); bare: list every session it hears
+  arg on (word): Turn the uplink's session watch on until the uplink restarts.
+  arg off (word): Turn it off until the uplink restarts.
+  example: ogre sessions on
+
+ogre smalldepottobigdepot [-type]
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre sd2bd
+  what: Empty a guild-hall depot into its (Large) twin
+  arg -harvest (flag, default: this is the default type): Empty the Harvesting Supply Depot into its (Large) twin.
+  arg -adorn (flag): Empty the Adornment Depot instead.
+  arg -ammo (flag): Empty the ammo depot instead.
+  arg -scroll (flag): Empty the Scroll Depot instead.
+  arg -collectible (flag): Empty the collectible depot instead.
+  arg -food (flag): Empty the Food & Drink Depot instead.
+  arg -fuel (flag): Empty the fuel depot instead.
+  arg -lore (flag): Empty the Lore & Legend Depot instead.
+  arg -potion (flag): Empty the Poison, Potion, & Totem Depot instead.
+  arg -donotdeposit (flag, default: deposits): When your bags fill, stop instead of putting them into the large depot.
+  example: ogre smalldepottobigdepot -adorn
+
+ogre smartloot
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre sl
+  what: Open the SmartLoot quota editor
+  example: ogre smartloot
+
+ogre tags
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre tagtimers
+  what: Open the Tag Timers window: every Embargo and Allow tag on this character
+  example: ogre tags
+
+ogre taskrunner [-list <list>|run <list>|start|stop|end|status|panel|lists]
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre tr, ogre packpony, ogre pony
+  what: Cycle characters through their scheduled chores
+  arg -list (flag): Start this session on a list: `-list <list>` (the classic spelling of `run`).
+  arg run (word): Start this session on a list: `run <list>`.
+  arg <list> (name): After `-list`, `run` or `plan`: the list's name.
+  arg once (word, default: the list's own setting): After the list: go through it once.
+  arg loop (word, default: the list's own setting): After the list: keep going round it.
+  arg stagger (word, default: the stagger setting): After the list: turn stagger on for this run.
+  arg nostagger (word, default: the stagger setting): After the list: turn stagger off for this run.
+  arg start (word): Cycle every configured character; only when no lists are set up.
+  arg stop (word): Stop the run; the window stays open.
+  arg end (word): Stop the run and close the window (the same as `ogre end taskrunner`).
+  arg status (word): Print the run's state.
+  arg close (word): Close the Lists window.
+  arg lists (word): Show the lists and their characters.
+  arg reload (word): Re-read the task files (refused while a character is mid-batch).
+  arg plan (word, default: this session's list): Show what is due, character by character; nothing runs.
+  arg now (word): Check what is due right away instead of waiting.
+  arg clear (word, default: every character): Clear error and back-off records: all, one `<toon>`, or one `<task>` of that character.
+  arg <toon> (name): After `clear`: the character.
+  arg <task> (name): After `clear <toon>`: the task.
+  example: ogre taskrunner run mylist loop
+
+ogre tempadorns [<profile> | list | end]
+  kind: ogre command (typed in the game's chat box or a script)
+  what: Pick the temporary adornment for each gear piece and save it as a profile; `ogre tempadorns <profile>` applies one
+  arg <profile> (name, default: opens the window): Apply this saved profile: each gear piece it names gets its temporary adornment.
+  arg list (word): Print the saved profiles.
+  arg end (word): Close the window (the same as `ogre end tempadorns`).
+  example: ogre tempadorns CBOC
+
+ogre tour
+  kind: ogre command (typed in the game's chat box or a script)
+  what: Open the new-user tour
+  example: ogre tour
+
+ogre trackshiny [colour]
+  kind: ogre command (typed in the game's chat box or a script)
+  what: Watch for a coloured shiny and waypoint it
+  arg <colour> (name, default: Purple): Watch the whole zone for shinies of this colour and waypoint them: White, Green, Purple, Red, BlueShimmer or Blue.
+  arg -off (flag): Stop watching (also `ogre end trackshiny`).
+  arg -colours (flag): List the colours.
+  arg -interval (flag): How often to look, in ms (250-30000): `-interval <ms>`.
+  arg -status (flag): Show what it is watching for and what it found.
+  arg -panel (flag): Open the Watcher window.
+  example: ogre trackshiny Blue
+
+ogre trade [count]
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre tradeit
+  what: Trade the EXAMINED item to your target (default 12 stacks)
+  arg <count> (number, default: 12): How many stacks of the examined item to put in the trade with your target.
+  example: ogre trade 5
+
+ogre travel [fast|spire|druid|bell|map|end]
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre travelhelper
+  what: Open the Travel Helper: list a fast-travel, spire, druid-ring or bell map's destinations and send the group to one
+  arg fast (word): Open the window and list the fast-travel destinations.
+  arg spire (word): Open the window and list the wizard spire destinations.
+  arg druid (word): Open the window and list the druid ring destinations.
+  arg bell (word): Open the window and list the bell destinations.
+  arg map (word): Open the window and list the destinations of the travel map you have open.
+  arg end (word): Stop a list and close the window (the same as `ogre end travel`).
+  arg help (word): Show the usage.
+  example: ogre travel spire
+
+ogre travelsurvey [-r <radius>] [-all]
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre tsurvey
+  what: Record every actor near you into the travel survey (for building the zone corpus)
+  arg -r (flag, default: 200): Record actors within this many units: `-r <radius>`.
+  arg -all (flag): Record every actor the client holds, however far.
+  example: ogre travelsurvey -r 300
+
+ogre version
+  kind: ogre command (typed in the game's chat box or a script)
+  what: Which OgreBot release you are on (the name the What's new page uses) and when the core was built
+  example: ogre version
+
+ogre watcher
+  kind: ogre command (typed in the game's chat box or a script)
+  what: Open the Watcher window (Find Actor + Track Shiny)
+  example: ogre watcher
+
+ogre windowreset
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre resetwindows
+  what: Open Reset UI Windows - put windows back where they started
+  example: ogre windowreset
+
+ogre zone [force <name>|end]
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre reset, ogre zonereset
+  what: Open the zone-reuse resetter (OldBot's `zone` / `reset`)
+  arg list (word): Refresh and print the zone table (the Zone Reuse window opens and closes).
+  arg force (word): Force-reset one zone, `force <zone name>`; this spends one of your reset charges.
+  arg add (word): Add one zone to the reset queue: `add <zone name>`.
+  arg addfilter (word): Add many zones to the queue at once: `resettable` (the default), `noraid` or `notlocked`.
+  arg queue (word): Show the reset queue.
+  arg clear (word): Empty the reset queue.
+  arg reset (word): Reset the timers of every zone in the queue.
+  arg fleet (word): After `reset`: do it for the characters picked in the For Who window too.
+  arg status (word): Show the counters and what it is doing.
+  arg end (word): Stop what it was asked to do and close the window (the same as `ogre end zone`).
+  arg help (word): Show the usage.
+  arg -zone (flag): Reset one zone's timer: `-zone <name>`, every word up to the next flag is the name.
+  arg -force (flag): With `-zone`: force-reset it, which spends a charge.
+  arg -all (flag): Reset every resettable zone; raid zones are skipped.
+  arg -allowraid (flag): With `-all`: include raid zones.
+  arg -fleet (flag): Do it for the characters picked in the For Who window too.
+  example: ogre zone add Kralet Penumbra: The Hive Mind
+
+
+== ISXOgreX console commands ==
+
+Sent as `oc !c <command> <who> ...` to the sessions on this PC, this one included; the for-who in <who> picks which act. `oc !ci` does the same without showing the line.
+
+oc !c -auth <nick>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: IRC only: authorizes an IRC nick to send this hub commands.
+  arg nick (string): The IRC nick to authorize
+  example: irc !c -auth SomeNick
+
+oc !c -authlist
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: IRC only: says which IRC nicks are authorized.
+  example: irc !c -authlist
+
+oc !c -KillSession <target>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: IRC only, authorized senders only: ends one InnerSpace session on this PC, or all of them.
+  arg target (string): The session name (is1, is2, ...) or all
+  example: irc !c -KillSession is3
+
+oc !c -LaunchAutoLogin <profile>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: From IRC, authorised senders only: runs an auto-login profile.
+  arg profile (one): The auto-login profile to run.
+  example: irc !c -LaunchAutoLogin MyProfile
+
+oc !c -List_AutoLoginProfiles
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: From IRC, authorised senders only: lists the auto-login profiles. -details adds each row, -profile <name> shows one.
+  example: irc !c -List_AutoLoginProfiles
+
+oc !c -List_Sessions
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: IRC only, authorized senders only: lists this PC's InnerSpace sessions.
+  example: irc !c -List_Sessions
+
+oc !c -LoadCharacter <toon>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: From IRC, authorised senders only: logs one toon in, using the first auto-login profile that holds it.
+  arg toon (one): The toon, or toon:isN to name the session.
+  example: irc !c -LoadCharacter MyToon
+
+oc !c -unauth <nick>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: IRC only: removes an IRC nick from the authorized list.
+  arg nick (string): The IRC nick to remove
+  example: irc !c -unauth SomeNick
+
+oc !c -unauthall
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: IRC only: clears the authorized list.
+  example: irc !c -unauthall
+

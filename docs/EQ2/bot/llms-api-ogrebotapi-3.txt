@@ -1,0 +1,1159 @@
+# OgreBot for EverQuest II - API reference: OgreBotAPI (part 3 of 6)
+
+Plain text for AI assistants, generated from the same tables as the API reference pages (https://kannkor.github.io/ISXOgre/EQ2/bot/developer/api/).
+This file is ONE PIECE: OgreBotAPI (part 3 of 6) - OgreBotAPI.Comms, OgreBotAPI.Comms.GroupQuery, OgreBotAPI.Consumables, OgreBotAPI.Craft, OgreBotAPI.Cures, OgreBotAPI.Debug, OgreBotAPI.Encounter, OgreBotAPI.Events, OgreBotAPI.ForWho, OgreBotAPI.HOs.
+How to read an entry, and every file like this one: https://kannkor.github.io/ISXOgre/EQ2/bot/llms-api.txt
+
+== OgreBotAPI.Comms ==
+
+${OgreBotAPI.Comms.Dispatched}
+  kind: member of OgreBotAPI.Comms
+  what: How many received events at least one of the bot's own handlers acted on. Events no handler wants, and events dropped by for-who, are not counted.
+  returns: int64: events handled
+  example: echo ${OgreBotAPI.Comms.Dispatched}
+
+${OgreBotAPI.Comms.Errors}
+  kind: member of OgreBotAPI.Comms
+  what: How many received events were thrown away as unreadable: bad base64, bad JSON, not an event, a newer envelope version, no name, or a name unfit for a script event. For-who drops and a full inbox are not counted here.
+  returns: int64: unreadable events
+  example: echo ${OgreBotAPI.Comms.Errors}
+
+${OgreBotAPI.Comms.GroupQuery[fw,question...]}
+  kind: member of OgreBotAPI.Comms
+  what: With arguments, starts a groupQuery on this session and returns it - every read of this form asks again; with no arguments it is the handle whose .Last, .Done[id] and .Result[id] read queries. Answers come over this PC's relay group only, so group or raid members on other PCs show as missing, and a bad question prints a groupQuery error.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg question... (string): one JSON object, or -key,value pairs: -question (itemCount, abilityReady, slotResolve or LavishScript["${...}"]), -item, -ability or -slot, -compare with -value, -sendTo (default igw:<me>), -limitMs (default 3000), -askAgainIfBlank
+  returns: groupquery object: its text is the new query id (read .Done and .Result on it); NULL when the for-who does not name this character or the question is refused. With no arguments: the handle with .Last, .Done[id], .Result[id]
+  returns object: OgreBotAPI.Comms.GroupQuery (its members and methods are listed under it)
+  example: echo ${OgreBotAPI.Comms.GroupQuery[all,-question,itemCount,-item,"Mechanized Platinum Repository of Reconstruction"]}
+  oldbot: OgreBotAPI.Ask, OgreBotAPI.Ask_AllFalse, OgreBotAPI.Ask_AllTrue
+
+${OgreBotAPI.Comms.Query_Active[id]}
+  kind: member of OgreBotAPI.Comms
+  what: TRUE while a query is still collecting replies, before its timeout. An empty id reads the last query (Query_Last); an unknown or cleared id reads FALSE.
+  arg id (string): the query id from Query_Last; empty = the last query
+  returns: bool: TRUE while the query is collecting replies; FALSE once it is done, or for an unknown id
+  example: echo ${OgreBotAPI.Comms.Query_Active[${OgreBotAPI.Comms.Query_Last}]}
+
+${OgreBotAPI.Comms.Query_Count[id]}
+  kind: member of OgreBotAPI.Comms
+  what: How many characters have replied to a query; an unknown id reads 0. Only in-world sessions on this PC answer, and this session answers its own question.
+  arg id (string): the query id from Query_Last; empty = the last query
+  returns: int: replies so far (final once Query_Done); 0 for an unknown id
+  example: echo ${OgreBotAPI.Comms.Query_Count[${OgreBotAPI.Comms.Query_Last}]}
+
+${OgreBotAPI.Comms.Query_Done[id]}
+  kind: member of OgreBotAPI.Comms
+  what: TRUE once a query's timeout has passed and its tally is final. The tally stays readable for 60 seconds after that, then the query is forgotten and this reads FALSE again.
+  arg id (string): the query id from Query_Last; empty = the last query
+  returns: bool: TRUE when the query has finished; FALSE while it runs, after it is forgotten, or for an unknown id
+  example: echo ${OgreBotAPI.Comms.Query_Done[${OgreBotAPI.Comms.Query_Last}]}
+
+${OgreBotAPI.Comms.Query_Json[id]}
+  kind: member of OgreBotAPI.Comms
+  what: Every reply to a query as one JSON object of responder name to raw answer: the item count, seconds until the ability is ready, the equipped item name, or the expression's text. An empty id reads the last query.
+  arg id (string): the query id from Query_Last; empty = the last query
+  returns: string: JSON such as {"Name1":"5","Name2":"0"}; {} when nobody replied or the id is unknown
+  example: echo ${OgreBotAPI.Comms.Query_Json[${OgreBotAPI.Comms.Query_Last}]}
+
+${OgreBotAPI.Comms.Query_Last}
+  kind: member of OgreBotAPI.Comms
+  what: The id of the last query this session started with Comms:Query; the bot's own group, loot and quest questions do not change it, and a refused :Query leaves the previous id in place.
+  returns: string: the query id; empty before any query started
+  example: echo ${OgreBotAPI.Comms.Query_Last}
+
+${OgreBotAPI.Comms.Query_TrueCount[id]}
+  kind: member of OgreBotAPI.Comms
+  what: How many replies to a query answered TRUE: has the item, ability ready, slot filled, or the expression read true. An empty id reads the last query; an unknown id reads 0.
+  arg id (string): the query id from Query_Last; empty = the last query
+  returns: int: TRUE replies so far; 0 for an unknown id
+  example: echo ${OgreBotAPI.Comms.Query_TrueCount[${OgreBotAPI.Comms.Query_Last}]}
+
+${OgreBotAPI.Comms.Queued}
+  kind: member of OgreBotAPI.Comms
+  what: How many received events are waiting to be handled right now. They are handled on the next pulse, so this is normally 0.
+  returns: int64: events waiting
+  example: echo ${OgreBotAPI.Comms.Queued}
+
+${OgreBotAPI.Comms.Received}
+  kind: member of OgreBotAPI.Comms
+  what: How many events this session has received from its relay group since it loaded or since the last ResetStats, counting its own events and events its for-who then dropped. It stays 0 when the uplink's OgreConsoleHub is not loaded, because then nothing comes back.
+  returns: int64: events received
+  example: echo ${OgreBotAPI.Comms.Received}
+
+${OgreBotAPI.Comms.Stats}
+  kind: member of OgreBotAPI.Comms
+  what: This session's comms counters as one line: received, queued, handled, dropped by for-who, sent, and errors by kind. It is a local read that sends nothing, and echo ${OgreBotAPI.Comms} prints the same line.
+  returns: string: the counter line, e.g. recv=12 q=0 proc=12 disp=10 nosub=2 refired=12 cfwdrop=0 emit=5 err[b64=0 json=0 type=0 ver=0 name=0 refname=0] of=0 tid[recv=... pulse=...]
+  example: echo ${OgreBotAPI.Comms.Stats}
+
+${OgreBotAPI.Comms.UplinkName}
+  kind: member of OgreBotAPI.Comms
+  what: Inner Space's uplink name for this PC, read from ${InnerSpace.Uplink}. A local read; every session on the PC reads the same text.
+  returns: string: the value of ${InnerSpace.Uplink}
+  example: echo ${OgreBotAPI.Comms.UplinkName}
+  oldbot: GetInfoOb.UplinkName, OgreBotAPI.UplinkName
+
+OgreBotAPI.Comms:AddAnnounce[fw, ability, to, text]
+  kind: method of OgreBotAPI.Comms
+  what: Adds a row to this character's Announce tab and saves it in the loaded profile like a panel edit; from then on, casting the ability sends text to the to place (group or raid chat, a tell to the target, a game command, or a console command). An unknown ability or place, empty text, a duplicate row or no loaded profile is refused with a console line, and nothing announces while the Announce tab is switched off.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg ability (string): the ability's name (any rank) or id, from this character's ability export
+  arg to (string): where to announce: Group, Raid, Tell To Target, In-Game Command or Execute In Console (any case)
+  arg text (string): the announce text; everything after to is joined back with commas, so it need not be quoted
+  example: OgreBotAPI.Comms:AddAnnounce[${Me.Name},Rescue,Group,"Rescue on *Target*"]
+  oldbot: OgreBotAPI:Announce_AddEntry
+
+OgreBotAPI.Comms:Broadcast[fw, text, -tab name..., -sound ding|alarm]
+  kind: method of OgreBotAPI.Comms
+  what: Sends the text to every session in this PC's relay group, this one included; each shows "[Notify] <sender>: <text>" in its OgreConsole (and the -tab tab) and plays the -sound. fw picks which sessions send, not who receives; it never leaves the PC, and with no OgreConsoleHub in the uplink nobody shows it, not even this session.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg text (string): the line to show; commas in it are kept
+  arg -tab name... (string): followed by an OgreConsole tab name - each receiver also puts the line in that tab; may be repeated
+  arg -sound ding|alarm (string): followed by ding or alarm - each receiver plays that sound; a bare -sound is ding
+  example: OgreBotAPI.Comms:Broadcast[${Me.Name},"Named is up",-sound,alarm]
+  oldbot: OgreBotAPI:Message_Relay
+
+OgreBotAPI.Comms:ConversationBubble[fw, num=1]
+  kind: method of OgreBotAPI.Comms
+  what: Clicks reply number num in the NPC conversation window open on this session; needs a character in the world. When no conversation is open or it has no such reply nothing is clicked, and only the log file says so.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg num (int, default: 1): which reply to click, counting from 1 as SpewConversationBubbles numbers them
+  example: OgreBotAPI.Comms:ConversationBubble[igw:${Me.Name},2]
+  oldbot: OgreBotAPI:ConversationBubble, OgreBotAPI:OptNum, call Obj_OgreUtilities.DoConversation
+
+OgreBotAPI.Comms:Emit[fw, name, cfw="", dest="", ev=1, dataJson=""]
+  kind: method of OgreBotAPI.Comms
+  what: Sends a named event to every session in this session's relay group on this PC, this one included; each session whose for-who matches cfw runs its handlers and fires the script event OgreComms_<name> with the event JSON. It never leaves the PC and needs OgreConsoleHub in the uplink - without it nothing arrives anywhere and, a few seconds on, a "comms egress is BLIND" warning prints; an empty name gets a refusal line and invalid dataJson is refused (log file only).
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg name (string): the event name (required); letters, digits and _ up to 64 characters, or no OgreComms_ script event fires
+  arg cfw (string, default: ""): for-who checked by each receiving session; empty = every session. A session not in the world (login screen, character select, zoning) takes in only what needs no game - messages, tag changes, group and key-bind updates - and throws momentary requests (casts, script events) away; a changed MCP file is kept once and read when it reaches the world; the OgreComms_ script event fires only in the world
+  arg dest (string, default: ""): the relay group to deliver to; empty = this session's relay group (Relay Groups tab)
+  arg ev (int, default: 1): the data version number stamped on the event
+  arg dataJson (string, default: ""): a JSON value carried as the event's data; must be valid JSON
+  example: OgreBotAPI.Comms:Emit[${Me.Name},MyEvent]
+
+OgreBotAPI.Comms:ExecuteEvent[fw, name, ...]
+  kind: method of OgreBotAPI.Comms
+  what: Runs Event["name"]:Execute[...] on this session with the remaining arguments joined by commas, as written (not quoted). Local only - nothing is sent; needs a character in the world.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg name (string): the LavishScript event to fire
+  arg ... (string): arguments passed to the event, in order
+  example: OgreBotAPI.Comms:ExecuteEvent[${Me.Name},MyScript_Pull,${Target.ID}]
+  oldbot: OgreBotAPI:ExecuteEvent_JSON, OgreBotAPI:ExecuteEvent
+
+OgreBotAPI.Comms:GroupQuery[fw, question...]
+  kind: method of OgreBotAPI.Comms
+  what: Starts a groupQuery: asks group or raid members a question and judges the answers; read the id from ${OgreBotAPI.Comms.GroupQuery.Last} and the result JSON from .Result[id], which also fires OgreEvent_GroupQueryDone. Answers come over this PC's relay group only, so members on other PCs show as missing, and a bad question prints a groupQuery error to the console.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg question... (string): one JSON object, or -key,value pairs: -question (itemCount, abilityReady, slotResolve or LavishScript["${...}"]), -item, -ability or -slot, -compare with -value, -sendTo (default igw:<me>), -limitMs (default 3000), -askAgainIfBlank
+  example: OgreBotAPI.Comms:GroupQuery[${Me.Name},-question,abilityReady,-ability,Rescue,-sendTo,igw:${Me.Name}]
+
+OgreBotAPI.Comms:Ingest[fw, wire]
+  kind: method of OgreBotAPI.Comms
+  what: Hands a base64 event envelope to this session's comms receiver as if it had arrived from the relay group; it is handled on the next pulse. Nothing is sent anywhere, and unreadable input only adds to Errors.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg wire (string): the base64-encoded event envelope JSON
+  example: OgreBotAPI.Comms:Ingest[${Me.Name},eyJ2IjoxLCJmcm9tIjoiaXMxIiwiZGVzdGluYXRpb24iOiJvZ3JlX2V2ZXJxdWVzdDIiLCJ0eXBlIjoiZXZlbnQiLCJhcmdzIjp7Im5hbWUiOiJNeUV2ZW50IiwiZXYiOjF9fQ==]
+
+OgreBotAPI.Comms:InjectChat[fw, chat=Nothing]
+  kind: method of OgreBotAPI.Comms
+  what: Feeds the text into this session's own chat handling as a raid-chat line from the bot's built-in speaker OgreIRCSession, on the next pulse, so chat triggers and chat commands act on it. Nothing is said in game or sent anywhere; needs a character in the world.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg chat (string, default: Nothing): the chat text to inject
+  example: OgreBotAPI.Comms:InjectChat[${Me.Name},"burn now"]
+  oldbot: OgreBotAPI:InjectChat
+
+OgreBotAPI.Comms:IrcAuthIfInRaid[nick, toon]
+  kind: method of OgreBotAPI.Comms
+  what: If toon is in this character's raid, tells this PC's IRC bridge to accept commands from the IRC nick nick, marked as learned through the raid so IrcRaidUnauth can take it back. There is no for-who - every in-world session checks and prints a line saying whether toon is in its raid; nothing happens if the IRC bridge is not loaded in the uplink.
+  arg nick (string): the IRC nick to accept, as written
+  arg toon (string): the character whose raid membership decides it
+  example: OgreBotAPI.Comms:IrcAuthIfInRaid[${Me.Name}_IRC,${Group[1].Name}]
+  oldbot: OgreBotAPI:OgreIRC_AuthIfInRaid
+
+OgreBotAPI.Comms:IrcConnect[fw]
+  kind: method of OgreBotAPI.Comms
+  what: Loads the IRC bridge (OgreIRCHub) in this PC's uplink if it is not loaded and connects it to IRC with the saved settings; already connected = no change. It prints "irc: connecting" either way, and if the settings file cannot be read the bridge says so and does not connect.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Comms:IrcConnect[${Me.Name}]
+
+OgreBotAPI.Comms:IrcDisconnect[fw]
+  kind: method of OgreBotAPI.Comms
+  what: Asks this PC's IRC bridge to disconnect from IRC; the bridge stays loaded and idle. It prints "irc: asking the uplink OgreIRCHub to disconnect (it stays loaded)." and the bridge reports the result on the uplink.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Comms:IrcDisconnect[${Me.Name}]
+
+OgreBotAPI.Comms:IrcRaidAuth[fw]
+  kind: method of OgreBotAPI.Comms
+  what: Asks, over IRC, every IRC bridge whose PC has a character in this raid to accept commands from each other's nicks; characters outside the raid take no part. Needs a character in a raid and IRC connected - otherwise it prints why and asks nothing.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Comms:IrcRaidAuth[${Me.Name}]
+
+OgreBotAPI.Comms:IrcRaidCheck[fw, ask, toon]
+  kind: method of OgreBotAPI.Comms
+  what: Answers this PC's IRC bridge: if toon is in this character's raid, it reports this character's name back for question number ask. It says nothing when toon is not in the raid, when ask is not all digits, or out of the world; the bridge calls this itself.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg ask (int): the bridge's question number (digits only)
+  arg toon (string): the character that asked; must be a plain name
+  example: OgreBotAPI.Comms:IrcRaidCheck[all,12,${Group[1].Name}]
+
+OgreBotAPI.Comms:IrcRaidUnauth[fw]
+  kind: method of OgreBotAPI.Comms
+  what: Asks, over IRC, every IRC bridge in this raid to drop the nicks it accepted through the raid; nicks accepted any other way stay. Needs a character in a raid and IRC connected - otherwise it prints why and asks nothing.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Comms:IrcRaidUnauth[${Me.Name}]
+
+OgreBotAPI.Comms:IrcReload[fw]
+  kind: method of OgreBotAPI.Comms
+  what: Makes this PC's IRC bridge re-read its settings and reconnect with them, but only if it is connected - an idle bridge stays idle. It prints "irc: reloading the uplink hub config."; a settings file that does not read is only written to the bridge's log.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Comms:IrcReload[${Me.Name}]
+
+OgreBotAPI.Comms:LogStats[fw]
+  kind: method of OgreBotAPI.Comms
+  what: Prints the Stats counter line to this session's console and writes it to the log file. Local only.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Comms:LogStats[all]
+
+OgreBotAPI.Comms:Message[fw, text, -tab name..., -sound ding|alarm]
+  kind: method of OgreBotAPI.Comms
+  what: Prints "[Message] <text>" in this session's OgreConsole (the Inner Space console when OgreConsole is not available); nothing goes to other sessions, IRC or game chat. -tab also puts it in that OgreConsole tab and -sound plays the sound here; an unknown sound name warns and plays nothing, and an empty text does nothing.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg text (string): the line to show; commas in it are kept
+  arg -tab name... (string): followed by an OgreConsole tab name - the line also lands in that tab; may be repeated
+  arg -sound ding|alarm (string): followed by ding or alarm - plays that sound with the line; a bare -sound is ding
+  example: OgreBotAPI.Comms:Message[${Me.Name},"Pull in 10 seconds",-sound,ding]
+  oldbot: OgreBotAPI:Message, OgreBotAPI:Message_NT
+
+OgreBotAPI.Comms:Pushover[fw, message..., -title t, -priority n]
+  kind: method of OgreBotAPI.Comms
+  what: Sends a push notification through the Pushover service from this session; every word that is not a flag becomes the message. Not configured (no app token or user key), switched off in the profile, or no message = nothing sent and a warning, and -sound, -device, -retry and -expire are accepted but ignored.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg message... (string): the notification text; unflagged words are joined with spaces
+  arg -title t (string): followed by the notification title
+  arg -priority n (int, default: 0): followed by a Pushover priority, -2 to 2
+  example: OgreBotAPI.Comms:Pushover[${Me.Name},"Raid wiped",-title,EQ2,-priority,1]
+  oldbot: OgreBotAPI:Pushover, Obj_Pushover.PushoverSendMsg, Obj_Pushover
+
+OgreBotAPI.Comms:Query[fw, kind, cfw="", timeoutMs=0, paramsJson=""]
+  kind: method of OgreBotAPI.Comms
+  what: Asks every in-world session in this PC's relay group a typed question and tallies the replies; read the new id from Query_Last, then Query_Count, Query_TrueCount and Query_Json once Query_Done. Sessions on other PCs never answer (it does not use IRC), with no OgreConsoleHub in the uplink nobody answers, not even this session, and an unknown kind or one of the bot's own (lootBid, questSteps) is refused (log file only).
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg kind (string): the question: itemCount, abilityReady, slotResolve or eval (required)
+  arg cfw (string, default: ""): for-who checked by each session before it answers; empty = every session
+  arg timeoutMs (int, default: 0): how long to collect replies in milliseconds; 0 or less = 3000, capped at 60000
+  arg paramsJson (string, default: ""): the question's JSON: itemCount {"item":"name"}, abilityReady {"ability":"name or id"}, slotResolve {"slot":"slot name or number"}, eval {"expr":"a LavishScript expression"}; missing or wrong = nobody answers
+  example: OgreBotAPI.Comms:Query[${Me.Name},itemCount,all,5000,{"item":"Mechanized Platinum Repository of Reconstruction"}]
+
+OgreBotAPI.Comms:Query_Clear[fw, id=""]
+  kind: method of OgreBotAPI.Comms
+  what: Forgets a query and its tally on this session; its Query_* reads go back to FALSE, 0 and {}. Leave id empty for the last Comms:Query - an unknown id does nothing.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg id (string, default: ""): the query id to forget; empty = the last query (the word last itself is not recognised)
+  example: OgreBotAPI.Comms:Query_Clear[${Me.Name}]
+
+OgreBotAPI.Comms:ReportVersion[fw, compareTo]
+  kind: method of OgreBotAPI.Comms
+  what: Says this character's bot version in IRC: "VERSION: <name> (<version>)" when compareTo is empty, else "SAME: <name> (<version>)" or "DIFFERENT: <name> - Mine: <version> Requested: <compareTo>". Needs a character in the world; while IRC is not connected the IRC bridge holds the line and sends it once it connects.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg compareTo (string): the version to compare against; empty = just report the version
+  example: OgreBotAPI.Comms:ReportVersion[all,""]
+
+OgreBotAPI.Comms:ResetStats[fw]
+  kind: method of OgreBotAPI.Comms
+  what: Zeroes this session's comms counters (Stats, Received, Dispatched, Errors) and restarts the silent-hub warning's clock. Local only; prints nothing.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Comms:ResetStats[all]
+
+OgreBotAPI.Comms:SendTell[fw, target, message]
+  kind: method of OgreBotAPI.Comms
+  what: Sends an in-game /tell from this character to target, in game chat; needs a character in the world. If target or message contains NULL the tell is not sent and an "Unable to send" line goes to IRC instead (the IRC bridge holds it until IRC connects).
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg target (string): the character to send the tell to
+  arg message (string): the tell's text; commas in it are kept
+  example: OgreBotAPI.Comms:SendTell[${Me.Name},${Group[1].Name},"Ready when you are"]
+  oldbot: OgreBotAPI:Send_Tell
+
+OgreBotAPI.Comms:SpewConversationBubbles[fw]
+  kind: method of OgreBotAPI.Comms
+  what: Prints the replies the open NPC conversation window offers to this session's console, numbered the way ConversationBubble clicks them. With no conversation open it prints "no conversation window open."
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Comms:SpewConversationBubbles[${Me.Name}]
+  oldbot: OgreBotAPI:ConversationBubbleSpew
+
+OgreBotAPI.Comms:SpewRelayGroup[fw]
+  kind: method of OgreBotAPI.Comms
+  what: Sends "<name>: OgreRelayGroup: <group>" to every session in this PC's relay group, naming the relay group this session uses now. Same path as Broadcast - nobody shows it without OgreConsoleHub in the uplink - and it needs a character in the world.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Comms:SpewRelayGroup[all]
+  oldbot: OgreBotAPI:Spew_RelayGroup
+
+OgreBotAPI.Comms:TTS[fw, text]
+  kind: method of OgreBotAPI.Comms
+  what: Speaks the text aloud on this PC through Inner Space (uplink speak). An empty for-who means is1, not all, so by default only session is1 speaks; empty text does nothing.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg text (string): the words to speak
+  example: OgreBotAPI.Comms:TTS[${Me.Name},"Tank is low"]
+  oldbot: OgreBotAPI:TTS
+
+
+== OgreBotAPI.Comms.GroupQuery ==
+
+${OgreBotAPI.Comms.GroupQuery.Done[id]}
+  kind: member of OgreBotAPI.Comms.GroupQuery
+  what: Whether a group query has finished. With no id it reads the query this object was started as, else the last one; an id from another session matches nothing.
+  arg id (string): The query id from Last (like gq:is1:4); blank reads the bound or last query
+  returns: bool: TRUE once the query has finished; FALSE while it runs, for an id this session did not start, and again 60 seconds after it finished, when the result is dropped.
+  example: echo ${OgreBotAPI.Comms.GroupQuery.Done[${OgreBotAPI.Comms.GroupQuery.Last}]}
+
+${OgreBotAPI.Comms.GroupQuery.Last}
+  kind: member of OgreBotAPI.Comms.GroupQuery
+  what: The id of the last group query this session started, from ${OgreBotAPI.Comms.GroupQuery[fw,...]} or OgreBotAPI.Comms:GroupQuery. Pass it to Done and Result to read that query.
+  returns: string: the id, like gq:is1:4; "" when this session has not started one.
+  example: echo ${OgreBotAPI.Comms.GroupQuery.Last}
+
+${OgreBotAPI.Comms.GroupQuery.Result[id]}
+  kind: member of OgreBotAPI.Comms.GroupQuery
+  what: The result of a finished group query, as JSON. With no id it reads the query this object was started as, else the last one; the result stays readable for 60 seconds after the query finishes.
+  arg id (string): The query id from Last (like gq:is1:4); blank reads the bound or last query
+  returns: string: the result JSON once finished; "" while it runs, for an id this session did not start, and after the 60 seconds are up.
+  example: echo ${OgreBotAPI.Comms.GroupQuery.Result[${OgreBotAPI.Comms.GroupQuery.Last}]}
+
+
+== OgreBotAPI.Consumables ==
+
+OgreBotAPI.Consumables:AddMercenaries[fw]
+  kind: method of OgreBotAPI.Consumables
+  what: Queues, for every item in your bags, Overseer bag and harvest bag whose name contains "Mercenary: ", an examine that answers the "What would you like to do?" dialog with its first choice and closes the examine window. It echoes how many it is adding, or that there are none.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Consumables:AddMercenaries[${Me.Name}]
+  oldbot: OgreBotAPI:Mercenary_AddMercenaries
+
+OgreBotAPI.Consumables:CheckFamiliar[fw]
+  kind: method of OgreBotAPI.Consumables
+  what: Summons your familiar at once with summon_familiar, unless your Summon Familiar buff is already maintained. After a summon it ignores further calls for 2 seconds.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Consumables:CheckFamiliar[all]
+  oldbot: OgreBotAPI:Check_Familiar
+
+OgreBotAPI.Consumables:CheckMercenaryTraining[fw]
+  kind: method of OgreBotAPI.Consumables
+  what: Queues a check that resumes your mercenary if needed, opens Persona on the Mercenary tab and starts training when the button is enabled (it reports training already running or max level instead), then closes Persona, and suspends the mercenary again only when this check summoned it. It refuses in a full group of 6, reports every step to the console, and a new call replaces an earlier one.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Consumables:CheckMercenaryTraining[${Me.Name}]
+  oldbot: OgreBotAPI:CheckMercenaryTraining
+
+OgreBotAPI.Consumables:CheckMountTraining[fw]
+  kind: method of OgreBotAPI.Consumables
+  what: Queues a check that opens Persona on the Mounts tab and starts training your current mount when the Start Training button is showing, answering the confirm popup (it declines when the popup says training will be carried over from another mount), then closes Persona. You must be on a mount that is not a flight transport or it stops with a console line, and a new call replaces an earlier one.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Consumables:CheckMountTraining[${Me.Name}]
+  oldbot: OgreBotAPI:CheckMountTraining
+
+OgreBotAPI.Consumables:CoV[fw, travel=Teleport, toon, allowSameZone=FALSE]
+  kind: method of OgreBotAPI.Consumables
+  what: Uses Call of the Veteran to bring up the veteran reward porter (or uses one already within 15, or a selection window already open), then picks the travel option and the named group or raid member in its two popups. It is skipped with a console line when you are in combat, name yourself, the member is not in your group (raid when you are in one), the member is already in your zone without allowSameZone, or there is no porter, no open window and the item is not ready.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg travel (string, default: Teleport): the option to pick in the first popup, matched by its label in any case; the default takes you to the member, Summon brings the member to you
+  arg toon (string): the group or raid member to pick in the second popup, by full name; blank echoes that no toon was named and does nothing
+  arg allowSameZone (bool, default: FALSE): TRUE goes ahead even when the member is already in your zone; FALSE skips that case
+  example: OgreBotAPI.Consumables:CoV[${Me.Name},Summon,${Group[1].Name}]
+  oldbot: OgreBotAPI:CoV
+
+OgreBotAPI.Consumables:DrinkAlcohol[fw, item]
+  kind: method of OgreBotAPI.Consumables
+  what: Drinks the named item from your bags at once, using the game's drink_alcohol command on it. With no item named it says so on the console, and so does an item that is not in your bags.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg item (string, default: ""): the item's full name (case does not matter); it must be in your bags, not the bank; required
+  example: OgreBotAPI.Consumables:DrinkAlcohol[${Me.Name},"Flask of Ale"]
+  oldbot: OgreBotAPI:Drink_Alcohol
+
+OgreBotAPI.Consumables:MountDown[fw]
+  kind: method of OgreBotAPI.Consumables
+  what: Queues a forced dismount: sit, toggle summon_mount once, then stand, about 3 seconds in all. It does nothing if you are moving when its turn comes, and with one line if you are not mounted.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Consumables:MountDown[all]
+  oldbot: OgreBotAPI:Force_MountOff
+
+OgreBotAPI.Consumables:MountUp[fw]
+  kind: method of OgreBotAPI.Consumables
+  what: Queues a forced mount-up: sit, toggle summon_mount, stand, then toggle summon_mount again, about 4 seconds in all. It does nothing if you are moving when its turn comes, and with one line if you are already mounted.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Consumables:MountUp[all]
+  oldbot: OgreBotAPI:Force_MountOn
+
+OgreBotAPI.Consumables:RekindleHeartstone[fw]
+  kind: method of OgreBotAPI.Consumables
+  what: Applies the Rekindle Bond verb at once to the nearest actor whose name contains "Heartstone". Nothing happens, with no message, when there is none or it is more than 6 away.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Consumables:RekindleHeartstone[${Me.Name}]
+  oldbot: OgreBotAPI:Heartstone_RekindleBond
+
+OgreBotAPI.Consumables:ReplenishFoodDrink[fw]
+  kind: method of OgreBotAPI.Consumables
+  what: Opens the nearest Food & Drink Depot (it must be within 11) and tops your equipped food and drink up to stacks of 100, equipping a bag copy into the slot before and after the pull, then closes the depot window. It uses the names in your Food and Drink slots, or the configured fallback names when a slot is empty, runs in the background over a few seconds, and only one depot run can be in flight at a time (a second call echoes that it is busy).
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Consumables:ReplenishFoodDrink[igw:${Me.Name}]
+  oldbot: OgreBotAPI:FoodDrink_Replenish, OgreBotAPI:Get_FoodDrink
+
+OgreBotAPI.Consumables:ReplenishStatPotions[fw, potion=""]
+  kind: method of OgreBotAPI.Consumables
+  what: Opens the nearest Poison, Potion, & Totem Depot (it must be within 11) and pulls one potion until your bags hold 100 of it, then closes the depot window. Each step reports to the console (already stocked, depot out, depot low, no depot nearby), and only one depot run can be in flight at a time.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg potion (string, default: ""): the potion's name as the depot lists it; blank uses the statPotion name from replenish-names.json (your OgreSave/EQ2/Replenish/custom copy wins over the shipped one)
+  example: OgreBotAPI.Consumables:ReplenishStatPotions[${Me.Name},"Planar Elixir of intellect"]
+  oldbot: OgreBotAPI:Get_StatPotions, OgreBotAPI:StatPotions_Replenish, OgreBotAPI:Get_Poisons
+
+OgreBotAPI.Consumables:ScrollOf[fw, name=Prowess, cancelIfDurationLessThan=0, useBest=FALSE]
+  kind: method of OgreBotAPI.Consumables
+  what: Keeps one scroll buff up: if a buff of that family is already maintained it does nothing (or cancels and recasts it when it has fewer than cancelIfDurationLessThan minutes left), otherwise it casts the family's ability already in your spellbook, or scribes one from your bags first when none is, and checks that it landed. It is queued, reports each outcome to the console, and a new call replaces one still running.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg name (string, default: Prowess): the scroll family, any case: Prowess, forcelink, Pain, painlink, Power or powerlink; anything else is refused with a console warning
+  arg cancelIfDurationLessThan (int, default: 0): minutes; a maintained buff of the family with less time left than this is cancelled and recast, 0 leaves any maintained one alone
+  arg useBest (bool, default: FALSE): only used when none of the family is in your spellbook yet: TRUE scribes the first bag scroll found from the bottom of the family's scroll list, FALSE from the top
+  example: OgreBotAPI.Consumables:ScrollOf[igw:${Me.Name},Prowess,10,TRUE]
+  oldbot: OgreBotAPI:ScrollOf
+
+OgreBotAPI.Consumables:SummonFamiliar[fw]
+  kind: method of OgreBotAPI.Consumables
+  what: Sends summon_familiar at once, with no check of whether a familiar is already out. Use CheckFamiliar to summon only when needed.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Consumables:SummonFamiliar[${Me.Name}]
+  oldbot: OgreBotAPI:Summon_Familiar
+
+
+== OgreBotAPI.Craft ==
+
+OgreBotAPI.Craft:AddLastScribedRecipe[fw, qty=1]
+  kind: method of OgreBotAPI.Craft
+  what: Adds the recipe you last scribed this session (by the bot or by hand) to the craft setup queue. With nothing scribed yet it prints a warning and adds nothing.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg qty (int, default: 1): How many to craft; 0 or less becomes 1.
+  example: OgreBotAPI.Craft:AddLastScribedRecipe[${Me.Name},5]
+  oldbot: OgreCraft:AddLastScribedRecipe, OgreCraftAPI:AddLastScribedRecipe
+
+OgreBotAPI.Craft:AddRecipe[fw, nameOrID|lastknownrecipe, qty=1]
+  kind: method of OgreBotAPI.Craft
+  what: Adds a recipe to the craft setup queue by full name, by part of a name that matches only one recipe (4 letters or more), by recipe ID, or lastknownrecipe for the recipe last scribed this session. A recipe not in your recipe book prints a warning and adds nothing; if the book has not been read yet the add waits and runs once it has.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg nameOrID|lastknownrecipe (string): The recipe name, its ID (plain digits), or lastknownrecipe. A name may also be passed as several arguments; they are joined with spaces.
+  arg qty (int, default: 1): How many to craft. Read only when it is the last argument and a whole number; 0 or less becomes 1.
+  example: OgreBotAPI.Craft:AddRecipe[${Me.Name},"Tempered Iron",2]
+  oldbot: OgreCraft:AddRecipeNameForWho, OgreCraftAPI:AddRecipeNameForWho
+
+OgreBotAPI.Craft:BuyAllTinkeringRecipes[fw]
+  kind: method of OgreBotAPI.Craft
+  what: Buys every tinkering recipe book you do not already know or carry from Fizza Cogsworth. It is refused unless you carry at least 3 platinum, are in Steamfont Mountains and are within 10 meters of her, and also while a crafting flow or merchant errand is running.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Craft:BuyAllTinkeringRecipes[${Me.Name}]
+
+OgreBotAPI.Craft:CompleteNavigation[fw]
+  kind: method of OgreBotAPI.Craft
+  what: Answers craft's OgreCraft_NavigationRequired event (sent only when the craft setting to use events for movement is on) to say your script has moved the character; craft then checks the distance again and carries on. If no request is waiting it prints a warning.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Craft:CompleteNavigation[${Me.Name}]
+
+OgreBotAPI.Craft:DeferNavigation[fw]
+  kind: method of OgreBotAPI.Craft
+  what: Answers craft's OgreCraft_NavigationRequired event to say your script will not move the character, so craft uses its own movement. If no request is waiting it prints a warning.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Craft:DeferNavigation[${Me.Name}]
+
+OgreBotAPI.Craft:ScribeRecipe[fw, name|all=all]
+  kind: method of OgreBotAPI.Craft
+  what: Scribes recipe scrolls from your bags one at a time, then opens and closes the tradeskill book. A name scribes only scrolls whose full item name matches it in any case (a name with a comma arrives whole), nothing matching prints a line and does nothing, and a call while scribing adds the new scrolls to the run.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg name|all (string, default: all): The scroll's full item name in any case, or all for every scribeable scroll in your bags. Left empty it scribes all.
+  example: OgreBotAPI.Craft:ScribeRecipe[${Me.Name},all]
+  oldbot: OgreCraft:ScribeRecipe, OgreCraftAPI:ScribeRecipe
+
+OgreBotAPI.Craft:Start[fw]
+  kind: method of OgreBotAPI.Craft
+  what: Starts crafting the setup queue. It is refused with a console line when you are not in the world, a crafting flow is already running, or the setup queue is empty, and a refused start changes nothing.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Craft:Start[${Me.Name}]
+  oldbot: OgreCraft:Start, OgreCraftAPI:Start
+
+OgreBotAPI.Craft:StartLLL[fw]
+  kind: method of OgreBotAPI.Craft
+  what: Starts low level leveling: rounds of buying recipe books, crafting the highest standard recipe at or below your tradeskill level, and selling or destroying what was made when the panel's settings say so. It stops at tradeskill level 9 or 19, and is refused when a crafting flow is already running or you are not in the world.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Craft:StartLLL[${Me.Name}]
+  oldbot: OgreCraftAPI:StartLLL
+
+OgreBotAPI.Craft:StartQuest[fw]
+  kind: method of OgreBotAPI.Craft
+  what: Crafts the recipe steps of the quest selected in your journal, one of each per pass, until no craftable step is left. It is refused when no quest is selected, a crafting flow is already running, or you are not in the world, and a refused start changes nothing.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Craft:StartQuest[${Me.Name}]
+
+OgreBotAPI.Craft:StartTinker[fw]
+  kind: method of OgreBotAPI.Craft
+  what: Starts auto tinkering: rounds of buying recipe books, crafting the highest-level tinkering recipe you know, and selling or destroying what was made when the panel's settings say so, until tinkering is maxed. It stops if the character has no tinkering skill, and is refused when a crafting flow is already running or you are not in the world.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Craft:StartTinker[${Me.Name}]
+
+OgreBotAPI.Craft:StartWrits[fw]
+  kind: method of OgreBotAPI.Craft
+  what: Starts the rush order (writ) run for the number of writs set in the craft settings. It is refused below tradeskill level 20, when a crafting flow is already running, or when you are not in the world, and a refused start changes nothing.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Craft:StartWrits[${Me.Name}]
+  oldbot: OgreCraftAPI:StartWrits
+
+OgreBotAPI.Craft:Stop[fw]
+  kind: method of OgreBotAPI.Craft
+  what: Stops the running crafting run (queue, writs, quest, Low Level Leveling or Auto Tinkering) on the characters the for-who names, the same as ISXOgreEQ2.Craft:Stop. With nothing running it drops a pause and prints that nothing was running.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Craft:Stop[igw:${Me.Name}]
+
+
+== OgreBotAPI.Cures ==
+
+${OgreBotAPI.Cures.CurseCalled[victim]}
+  kind: member of OgreBotAPI.Cures
+  what: TRUE while a cure-curse call is open for that character, made by RequestCurse or by Request with kind curse. With no argument it asks about you, and any asks whether a call is open for anyone.
+  arg victim (character name): who to ask about; blank means you; any means anyone
+  returns: bool: TRUE while a cure-curse call is open (a call lasts at most 8 seconds); FALSE otherwise, and FALSE out of world when no name is given.
+  example: echo ${OgreBotAPI.Cures.CurseCalled[${Group[1].Name}]}
+  oldbot: Obj_CureCurseCalled.CastCureCurse
+
+${OgreBotAPI.Cures.CursedID[-archetype X...,-uncurable,-uncurableonly,-GroupOnly]}
+  kind: member of OgreBotAPI.Cures
+  what: The actor ID of the first cursed member found, searching the raid when you are in one and otherwise the group with you first. By default only curable curses count; 0 when nobody matches.
+  arg -archetype X... (flag + word): only members of this archetype: fighter, priest, mage or scout, any case. Repeat the switch to allow more than one archetype.
+  arg -uncurable (flag): also accept a member whose curse cannot be cured
+  arg -uncurableonly (flag): accept only a member whose curse cannot be cured
+  arg -GroupOnly (flag): search your group even when you are in a raid
+  returns: int64: the actor ID of the first matching member; 0 when nobody matches.
+  example: echo ${OgreBotAPI.Cures.CursedID[-archetype,priest,-uncurable]}
+  oldbot: Obj_CureCurseCalled.GetID_CursedMember, Obj_CureCurseCalled.GetID_GroupCursedMember, Obj_CureCurseCalled.GetID_RaidCursedMember
+
+${OgreBotAPI.Cures.Detrimental[main,back,actorId,field]}
+  kind: member of OgreBotAPI.Cures
+  what: One field of a detrimental, found by its main and backdrop icon IDs, on you or another actor, as a number. The default field, exists, reads 1 or 0; a detrimental that is not there reads 0.
+  arg main (int, default: 0): the detrimental's main icon ID
+  arg back (int, default: 0): the detrimental's backdrop icon ID
+  arg actorId (int64, default: 0): whose effects to look at: 0 or your own ID is you. Any other actor ID reads only that actor's first 10 effects, and there duration and maxduration always read 0.
+  arg field (text, default: exists): exists, iseffectinfoavailable, id, mainiconid, backdropiconid, currentincrements, duration or maxduration, any case. Any other word is read from the effect's examine info, and text such as Name reads 0 here - use DetrimentalText. cancel removes the detrimental from you and reads 0.
+  returns: float: the field's value; exists reads 1 or 0; 0 when the detrimental is not found or the field is text.
+  example: echo ${OgreBotAPI.Cures.Detrimental[279,315,${Target.ID},exists]}
+  oldbot: GetInfoOb.CurrentIncrements, GetInfoOb.CurrentIncrements_ref, GetInfoOb.DetrimentalInfo
+
+${OgreBotAPI.Cures.DetrimentalText[main,back,actorId,field]}
+  kind: member of OgreBotAPI.Cures
+  what: The same read as Detrimental, returned as text, so examine-info fields such as Name and Description can be read. Reads "" when the detrimental is not found.
+  arg main (int, default: 0): the detrimental's main icon ID
+  arg back (int, default: 0): the detrimental's backdrop icon ID
+  arg actorId (int64, default: 0): whose effects to look at: 0 or your own ID is you. Any other actor ID reads only that actor's first 10 effects, and there duration and maxduration always read 0.
+  arg field (text, default: exists): exists (1 or 0), iseffectinfoavailable, id, mainiconid, backdropiconid, currentincrements, duration, maxduration, or an examine-info field such as Name or Description. Examine-info text can be empty on the first read, so wait for iseffectinfoavailable to read 1. cancel removes the detrimental from you and reads "".
+  returns: string: the field's value; "" when the detrimental is not found.
+  example: echo ${OgreBotAPI.Cures.DetrimentalText[279,315,0,exists]}
+  oldbot: GetInfoOb.DottedDescription_ref, GetInfoOb.DottedName_ref, OgreBotAPI.DetrimentalInfo_String
+
+${OgreBotAPI.Cures.GroupCurses}
+  kind: member of OgreBotAPI.Cures
+  what: How many living group members, you included, have a curse that can be cured. Uncurable curses are not counted here - GroupUncurable counts those.
+  returns: int: the number of living group members with a curable curse; 0 when nobody has one.
+  example: echo ${OgreBotAPI.Cures.GroupCurses}
+  oldbot: GetInfoOb.CursesInGroup, GroupCureOb.NumOfPCsCursed, Obj_CureCurseCalled.GroupCurseCount
+
+${OgreBotAPI.Cures.GroupUncurable}
+  kind: member of OgreBotAPI.Cures
+  what: How many group members, you included, carry a curse that cannot be cured. Curable curses are not counted.
+  returns: int: the number of group members with an uncurable curse; 0 when nobody has one.
+  example: echo ${OgreBotAPI.Cures.GroupUncurable}
+  oldbot: OgreBotAPI.Get_GroupUncurableCurseCount
+
+${OgreBotAPI.Cures.GroupUncurableIDs}
+  kind: member of OgreBotAPI.Cures
+  what: The actor IDs of the group members, you included, who carry an uncurable curse, as a JSON array sorted lowest first. Reads [] when there are none.
+  returns: string: a JSON array of actor IDs, for example [1234,5678]; [] when nobody has an uncurable curse.
+  example: echo ${OgreBotAPI.Cures.GroupUncurableIDs}
+  oldbot: OgreBotAPI.Get_GroupUncurableCurses_JSON
+
+${OgreBotAPI.Cures.HaveSickness}
+  kind: member of OgreBotAPI.Cures
+  what: TRUE while you have revive sickness (the detrimental with main icon 279 and backdrop icon 315). FALSE out of world.
+  returns: bool: TRUE when you have revive sickness; FALSE when you do not or out of world.
+  example: echo ${OgreBotAPI.Cures.HaveSickness}
+  oldbot: OgreBotAPI.HaveSickness
+
+${OgreBotAPI.Cures.PotionAvailable[type]}
+  kind: member of OgreBotAPI.Cures
+  what: TRUE when you carry a Cure <type> potion that is ready to use. It does not check whether you are afflicted.
+  arg type (text): arcane, elemental, noxious or trauma, matched as part of the item name. Any other word answers FALSE.
+  returns: bool: TRUE when a ready potion of that type is in your bags; FALSE when not, when it is still cooling down, when type is not one of the four, or out of world.
+  example: echo ${OgreBotAPI.Cures.PotionAvailable[noxious]}
+
+${OgreBotAPI.Cures.PotionNeeded}
+  kind: member of OgreBotAPI.Cures
+  what: The cure type to drink a potion for right now: the first of arcane, elemental, noxious and trauma that is ticked in the cure potion settings, is on you, and has a ready Cure <type> potion in your bags. Reads "" when none qualifies or out of world.
+  returns: string: arcane, elemental, noxious or trauma; "" when no potion is both needed and ready.
+  example: echo ${OgreBotAPI.Cures.PotionNeeded}
+
+${OgreBotAPI.Cures.RaidCursedIDs}
+  kind: member of OgreBotAPI.Cures
+  what: The actor IDs of every raid member with a curse, curable or not, as a JSON array sorted lowest first. Out of a raid it lists the group members with a curse, curable or not.
+  returns: string: a JSON array of actor IDs, for example [1234,5678]; [] when nobody matches or out of world.
+  example: echo ${OgreBotAPI.Cures.RaidCursedIDs}
+  oldbot: Obj_CureCurseCalled.ic_CursedToons, OgreBotAPI.Get_RaidCurableOrUncurableCurses_JSON
+
+${OgreBotAPI.Cures.RaidCurses}
+  kind: member of OgreBotAPI.Cures
+  what: How many raid members are alive and have a curse that can be cured. Out of a raid it gives the group count, the same as GroupCurses.
+  returns: int: the number of living raid members with a curable curse (the group count when not in a raid); 0 when nobody has one.
+  example: echo ${OgreBotAPI.Cures.RaidCurses}
+  oldbot: OgreBotAPI.Get_RaidCurseCount, OgreBotAPI.NumRaidWithCurses
+
+${OgreBotAPI.Cures.RaidUncurable}
+  kind: member of OgreBotAPI.Cures
+  what: How many raid members carry a curse that cannot be cured. Out of a raid it gives the group count, the same as GroupUncurable, and it reads 0 out of world.
+  returns: int: the number of raid members with an uncurable curse (the group count when not in a raid); 0 when nobody has one or out of world.
+  example: echo ${OgreBotAPI.Cures.RaidUncurable}
+  oldbot: OgreBotAPI.Get_RaidUncurableCurseCount
+
+${OgreBotAPI.Cures.RaidUncurableIDs}
+  kind: member of OgreBotAPI.Cures
+  what: The actor IDs of the raid members who carry an uncurable curse, as a JSON array sorted lowest first. Out of a raid it lists your group instead; [] when there are none or out of world.
+  returns: string: a JSON array of actor IDs, for example [1234,5678]; [] when nobody has an uncurable curse or out of world.
+  example: echo ${OgreBotAPI.Cures.RaidUncurableIDs}
+  oldbot: OgreBotAPI.Get_RaidUncurableCurses_JSON
+
+${OgreBotAPI.Cures.Uncurable[type,-GroupOnly]}
+  kind: member of OgreBotAPI.Cures
+  what: The actor ID of the first member whose affliction of this type cannot be cured: the raid when you are in one, else the group with you first, else just you. 0 when nobody has one or out of world.
+  arg type (text, default: Cursed): the affliction to check, as the game names it: Cursed, Arcane, Noxious, Elemental or Trauma. Blank means Cursed.
+  arg -GroupOnly (flag): search your group even when you are in a raid
+  returns: int64: the actor ID of the first member with an uncurable affliction of that type; 0 when nobody has one or out of world.
+  example: echo ${OgreBotAPI.Cures.Uncurable[Cursed,-GroupOnly]}
+  oldbot: OgreBotAPI.Get_Uncurable
+
+OgreBotAPI.Cures:CancelDetrimental[fw, mainId, backdropId]
+  kind: method of OgreBotAPI.Cures
+  what: Cancels the detrimental with this main and backdrop icon ID on each matching character. Prints a console line when there is no such detrimental, and does nothing when both IDs are 0.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg mainId (int): the detrimental's main icon ID
+  arg backdropId (int): the detrimental's backdrop icon ID
+  example: OgreBotAPI.Cures:CancelDetrimental[igw:${Me.Name},279,315]
+  oldbot: OgreBotAPI:CancelDetrimental, GetInfoOb:CancelEffect, GetInfoOb:CancelEffect_ref
+
+OgreBotAPI.Cures:CancelRequests[fw, victimOrTag]
+  kind: method of OgreBotAPI.Cures
+  what: Cancels, on each character the for-who matches, every curse, cure and group-cure request whose victim or -tag is the given name (any letter case). Says how many went when any did.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg victimOrTag (text): the toon the requests were for, or the -tag they were given; a blank one is refused with one console line
+  example: OgreBotAPI.Cures:CancelRequests[igw:${Me.Name},${Group[1].Name}]
+
+OgreBotAPI.Cures:ItemCure[fw, type]
+  kind: method of OgreBotAPI.Cures
+  what: Drinks a cure potion now on each matching character, if a ready one is in their bags. With a type it drinks that potion whether or not you are afflicted or the type is ticked; with no type, or any, it drinks the one PotionNeeded names.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg type (text): arcane, elemental, noxious or trauma; blank or any drinks whatever the cure potion settings need. Any other word prints a console line and does nothing.
+  example: OgreBotAPI.Cures:ItemCure[igw:${Me.Name},trauma]
+  oldbot: OgreBotAPI:AutoItemCure
+
+OgreBotAPI.Cures:ReplenishPotions[fw, all|arcane|elemental|noxious|trauma]
+  kind: method of OgreBotAPI.Cures
+  what: Tops up cure potions, up to a full stack, from a Poison, Potion, & Totem Depot within 11 meters, on each matching character. A type is restocked only if one of its potions is already in your bags; a blank or unknown type prints a console line and does nothing.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg all|arcane|elemental|noxious|trauma (word): all four cure types, or just one of them, any case
+  example: OgreBotAPI.Cures:ReplenishPotions[igw:${Me.Name},all]
+  oldbot: OgreBotAPI:CurePotions_Replenish, OgreBotAPI:Get_CurePotions
+
+OgreBotAPI.Cures:Request[fw, victim, kinds...]
+  kind: method of OgreBotAPI.Cures
+  what: Records a cure request for the victim on each character the for-who matches, and their cure casting serves it. A request lasts 8 seconds unless -AutoRemove says otherwise, and is not sent anywhere else, so use oc !c to reach other characters.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg victim (character name): who to cure; a blank one is refused with one console line
+  arg kinds... (words): which cures: arcane (a), noxious (n), elemental (e), trauma (t), curse, confrontfear or sickness, one per argument or comma-separated. None means the four basic kinds (arcane, noxious, elemental, trauma). Then the options -AutoRemove <seconds> (how long the request lasts, 1 to 600, default 8) and -tag <name> (a name Cures:CancelRequests can cancel it by). Any other word refuses the whole request with one console line naming it. confrontfear and sickness are kept only on a dirge.
+  example: OgreBotAPI.Cures:Request[igw:${Me.Name},${Group[1].Name},noxious,trauma,-AutoRemove,20]
+  oldbot: OgreBotAPI:AutoCure, Obj_CureCalled:AutoAdd, Obj_CurseCalled:AutoAdd
+
+OgreBotAPI.Cures:RequestCurse[fw, victim, options...]
+  kind: method of OgreBotAPI.Cures
+  what: Records a cure-curse request for the victim on each character the for-who matches, for their cure casting to serve. The request lasts 8 seconds unless -AutoRemove says otherwise, and is not sent anywhere else; a blank victim, or a word it does not know, refuses it with one console line.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg victim (character name): who to cure of the curse; a blank one is refused with one console line
+  arg options... (words): -AutoRemove <seconds> (how long the request lasts, 1 to 600, default 8) and -tag <name> (a name Cures:CancelRequests can cancel it by). Any other word refuses the request with one console line naming it.
+  example: OgreBotAPI.Cures:RequestCurse[igw:${Me.Name},${Group[1].Name},-AutoRemove,20]
+  oldbot: OgreBotAPI:AutoCurse, OgreBotAPI:Cursed, Obj_CureCurseCalled:Add
+
+OgreBotAPI.Cures:RequestGroup[fw]
+  kind: method of OgreBotAPI.Cures
+  what: Asks each matching character to cast its class group cure within the next 2 seconds, when that ability is ready and someone in the group, you included, has an arcane, noxious, elemental or trauma detrimental. Curses are not group cured.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Cures:RequestGroup[igw:${Me.Name}]
+  oldbot: OgreBotAPI:GroupCure
+
+OgreBotAPI.Cures:RequestGroupWatch[fw, words...]
+  kind: method of OgreBotAPI.Cures
+  what: Watches for a group cure on each matching character: the class group cure goes out as soon as it is ready and enough of the group, you included, carry one of the named kinds, each counted on its own (curses are not group cured). The watch lasts 8 seconds unless -AutoRemove says otherwise, and several can run at once.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg words... (words): kinds: arcane (a), noxious (n), elemental (e), trauma (t), one per argument or comma-separated; none means any of the four. Options: -count <n> (at least n of you and the group carry the kind, 1 to 6, default 1), -AutoRemove <seconds> (how long to watch, 1 to 600, default 8), -tag <name> (a name Cures:CancelRequests can cancel it by). Any other word refuses the request with one console line naming it.
+  example: OgreBotAPI.Cures:RequestGroupWatch[igw:${Me.Name},arcane,trauma,-count,3]
+  oldbot: OgreBotAPI:AutoGroupCure
+
+OgreBotAPI.Cures:RequestItem[fw, type]
+  kind: method of OgreBotAPI.Cures
+  what: Queues a potion cure on each matching character, drunk once the cast bar is free; a potion only ever cures the one who drinks it. The request waits up to 8 seconds for a ready potion.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg type (text): arcane, elemental, noxious or trauma. Blank or any picks the needed type when the request is served. Any other word prints a console line and queues nothing.
+  example: OgreBotAPI.Cures:RequestItem[igw:${Me.Name},arcane]
+
+OgreBotAPI.Cures:SetEnabled[fw, on=TRUE]
+  kind: method of OgreBotAPI.Cures
+  what: Turns cures on or off on each matching character: the Disable CS_Cure setting and, for a Templar, Warden, Mystic or Monk, that class's cure ability in the Cast Stack. At character select it prints a line and changes nothing.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg on (bool, default: TRUE): TRUE turns cures on, FALSE turns them off. Off also unticks Enable Auto Cure Potions and cancels the running class ability (Mana Cure, Tranquility, Ancestral Balm or Will of the Heavens). The 'Use these while stunned / stifled / rooted' option is left as you set it. A word that is not yes or no changes nothing.
+  example: OgreBotAPI.Cures:SetEnabled[igw:${Me.Name},FALSE]
+  oldbot: OgreBotAPI:Enable_Cures, OgreBotAPI:Disable_Cures
+
+
+== OgreBotAPI.Debug ==
+
+${OgreBotAPI.Debug.CheckVersion[fw,compareTo]}
+  kind: member of OgreBotAPI.Debug
+  what: Compares this session's version with compareTo and returns a one-line verdict that names the character. It returns "" when the for-who does not match this character or the character is not in the world.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg compareTo (string): the version to compare with, as ${ISXOgreEQ2.Version} gives it; blank just reports this session's version
+  returns: string: "SAME: <name> (<version>)" when they match; "DIFFERENT: <name> - Mine: <version> Requested: <compareTo>" when they do not; "VERSION: <name> (<version>)" when compareTo is blank; "" when the for-who does not match or the character is not in the world
+  example: echo ${OgreBotAPI.Debug.CheckVersion[all,${ISXOgreEQ2.Version}]}
+  oldbot: OgreBotAPI.CheckVersion
+
+${OgreBotAPI.Debug.DebugPrefix}
+  kind: member of OgreBotAPI.Debug
+  what: A time-stamped prefix for your own debug lines: the current time followed by ": OgreBot:". The bot does not add it to anything for you, :DebugEcho included.
+  returns: string: "<time>: OgreBot:", for example "14:03:22: OgreBot:"
+  example: echo ${OgreBotAPI.Debug.DebugPrefix} checking loot
+  oldbot: OgreBotAPI.DebugMessage, OgreBotDebug.Prefix
+
+OgreBotAPI.Debug:BroadcastStat[fw, type, value, where=oc]
+  kind: method of OgreBotAPI.Debug
+  what: Reads one fact about this character, sends "<name> --> <label> <value>" to where `where` says and fires the OgreEvent_SpewStats event with the same data. An unknown type or stat sends a "SpewStat:" error line instead, and faction, currency and recipe open a game window, so their answer comes a moment later.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg type (string): what to report: stat, item, missingitem, abilityready, abilityidready, abilityidcd, marked, faction, currency, recipe or ascension (a leading - is allowed); quest and missingquest answer with a not-yet error
+  arg value (string): what to look up for that type: a stat key such as potency or haste, an item name, an ability id, a faction name or all, a currency name (eth and loyalty are short names), or a recipe name; leave blank for marked and ascension. An item you have none of sends nothing
+  arg where (string, default: oc): where the line goes: oc (the Ogre console on every session), irc, or event (no line, only the event); any other word goes to oc
+  example: OgreBotAPI.Debug:BroadcastStat[all,stat,potency,oc]
+  oldbot: OgreBotAPI.SpewStat, OgreBotAPI:Get_Faction
+
+OgreBotAPI.Debug:DebugEcho[fw, a, b]
+  kind: method of OgreBotAPI.Debug
+  what: Echoes a and b, joined by a space, to this session's console, but only while debug mode is on (see :SetDebugMode). With debug mode off, which is the default, it prints nothing.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg a (string): the first part of the line
+  arg b (string): the second part, printed after a space
+  example: OgreBotAPI.Debug:DebugEcho[${Me.Name},"Target:",${Target.Name}]
+
+OgreBotAPI.Debug:Echo[fw, text, text2=""]
+  kind: method of OgreBotAPI.Debug
+  what: Echoes text and text2, joined by a space, to this session's console. Only characters the for-who matches print it, and it works out of the world too.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg text (string): the first part of the line
+  arg text2 (string, default: ""): the second part, printed after a space
+  example: OgreBotAPI.Debug:Echo[${Me.Name},"Pull ready","waiting on tank"]
+  oldbot: OgreBotAPI:Echo, OgreBotDebug:Echo
+
+OgreBotAPI.Debug:SetDebugMode[fw, on=TRUE]
+  kind: method of OgreBotAPI.Debug
+  what: Turns debug mode on or off; while it is on, :DebugEcho prints its lines. Debug mode starts off, and a word that is not a yes/no word leaves it as it is.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg on (bool, default: TRUE): TRUE turns debug mode on, FALSE turns it off
+  example: OgreBotAPI.Debug:SetDebugMode[all,TRUE]
+  oldbot: OgreBotAPI:SetDebugMode
+
+OgreBotAPI.Debug:SpewInternalVariables[fw]
+  kind: method of OgreBotAPI.Debug
+  what: Echoes every internal variable as "name -> value" to this session's console, in name order. These are the values stored with OgreBotAPI.Vars:SetInternal; an empty store prints nothing.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Debug:SpewInternalVariables[${Me.Name}]
+  oldbot: OgreBotAPI:Spew_InternalVariables
+
+OgreBotAPI.Debug:SpewResearchWindow[fw]
+  kind: method of OgreBotAPI.Debug
+  what: Queues a job that opens the Knowledge window's research page if it is not up, broadcasts every row to every session as "<label> -> <status>", then closes the window if it opened it. It needs the character in the world, and with no rows it echoes a note to the console instead.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Debug:SpewResearchWindow[${Me.Name}]
+  oldbot: OgreBotAPI:Spew_BoZ_Research
+
+OgreBotAPI.Debug:SpewSubscriptionStatus[fw]
+  kind: method of OgreBotAPI.Debug
+  what: Reads the game's All Access membership status from the tooltip of the Marketplace window's All Access button and broadcasts it to every session as Good, Need to claim, Need more time, Not a member or Unknown, followed by the tooltip text. It does not open the window, and a tooltip it cannot read reports as Unknown.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Debug:SpewSubscriptionStatus[all]
+  oldbot: OgreBotAPI:SpewSubscriptionStatus
+
+OgreBotAPI.Debug:SpewVariables[fw]
+  kind: method of OgreBotAPI.Debug
+  what: Echoes every script variable as "name -> value" to this session's console, in name order. These are the values stored with OgreBotAPI.Vars:Set; an empty store prints nothing.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Debug:SpewVariables[${Me.Name}]
+  oldbot: OgreBotAPI:Spew_Variables
+
+
+== OgreBotAPI.Encounter ==
+
+OgreBotAPI.Encounter:List[fw]
+  kind: method of OgreBotAPI.Encounter
+  what: Prints in this character's console the encounter coding for the current zone: one line per fight with its named mobs, (DISABLED) when switched off, and its file. With none it prints "No encounter coding for this zone"; the Settings tab's No Available Setups box does not silence it.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Encounter:List[${Me.Name}]
+  oldbot: OgreBotAPI:DisplayAvailableSetups
+
+
+== OgreBotAPI.Events ==
+
+OgreBotAPI.Events:AddChatEntry[fw, text, oc, ding, code]
+  kind: method of OgreBotAPI.Events
+  what: Adds a row to the Chat Events tab of the loaded profile: when a line in the chat window contains text (any case), it announces in OgreConsole (oc), plays the ding sound (ding) and runs code as a command, in that order, with no arguments passed to the code. The row is unsaved until Save, only fires while the tab is ticked on the Settings tab (it warns if not), a blank text or an identical enabled row is refused with a console line, and every session's console is told it was added.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg text (string): Text to watch for - matched as a case-insensitive substring of each incoming chat-window line
+  arg oc (bool): TRUE to send `<name> -> <kind> event -> (<text>) found -> <match>` to OgreConsole when it fires
+  arg ding (bool): TRUE to play the ding sound when it fires
+  arg code (string): A command line to run when it fires (run on the next frame, may be empty); any extra arguments after it are joined back on with commas
+  example: OgreBotAPI.Events:AddChatEntry[igw:${Me.Name},"tells you",TRUE,TRUE,"echo got a tell"]
+  oldbot: OgreBotAPI:ChatEvent_AddEntry
+
+OgreBotAPI.Events:AddDespawnEntry[fw, text, oc, ding, code]
+  kind: method of OgreBotAPI.Events
+  what: Adds a row to the Despawn Events tab of the loaded profile: when an actor despawns whose name contains text (case-sensitive), it announces in OgreConsole (oc), plays the ding sound (ding) and runs code as a command, in that order, with no arguments passed to the code. The row is unsaved until Save, only fires while the tab is ticked on the Settings tab (it warns if not), a blank text or an identical enabled row is refused with a console line, and every session's console is told it was added.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg text (string): Text to watch for - matched as a case-sensitive substring of the despawning actor's name
+  arg oc (bool): TRUE to send `<name> -> <kind> event -> (<text>) found -> <match>` to OgreConsole when it fires
+  arg ding (bool): TRUE to play the ding sound when it fires
+  arg code (string): A command line to run when it fires (run on the next frame, may be empty); any extra arguments after it are joined back on with commas
+  example: OgreBotAPI.Events:AddDespawnEntry[${Me.Name},"a cursed spirit",TRUE,FALSE,"echo spirit is gone"]
+  oldbot: OgreBotAPI:DespawnEvent_AddEntry
+
+OgreBotAPI.Events:AddSpawnEntry[fw, text, oc, ding, code]
+  kind: method of OgreBotAPI.Events
+  what: Adds a row to the Spawn Events tab of the loaded profile: when an actor spawns whose name contains text (case-sensitive), it announces in OgreConsole (oc), plays the ding sound (ding) and runs code as a command, in that order, with no arguments passed to the code. The row is unsaved until Save, only fires while the tab is ticked on the Settings tab (it warns if not), a blank text or an identical enabled row is refused with a console line, and every session's console is told it was added.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg text (string): Text to watch for - matched as a case-sensitive substring of the spawning actor's name
+  arg oc (bool): TRUE to send `<name> -> <kind> event -> (<text>) found -> <match>` to OgreConsole when it fires
+  arg ding (bool): TRUE to play the ding sound when it fires
+  arg code (string): A command line to run when it fires (run on the next frame, may be empty); any extra arguments after it are joined back on with commas
+  example: OgreBotAPI.Events:AddSpawnEntry[${Me.Name},"a cursed spirit",TRUE,TRUE,"echo spirit is up"]
+  oldbot: OgreBotAPI:SpawnEvent_AddEntry
+
+OgreBotAPI.Events:RemoveChatEntry[fw, text=all]
+  kind: method of OgreBotAPI.Events
+  what: Removes every Chat Events row whose text equals text (any case, disabled rows included), or every row for all, and tells every session's console which rows went. The change is unsaved until Save; no match, no loaded profile or a text passed but empty each print a console line and remove nothing.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg text (string, default: all): The watch text of the rows to remove, or all for every row
+  example: OgreBotAPI.Events:RemoveChatEntry[igw:${Me.Name},"tells you"]
+  oldbot: OgreBotAPI:ChatEvent_RemoveEntry
+
+OgreBotAPI.Events:RemoveDespawnEntry[fw, text=all]
+  kind: method of OgreBotAPI.Events
+  what: Removes every Despawn Events row whose text equals text (any case, disabled rows included), or every row for all, and tells every session's console which rows went. The change is unsaved until Save; no match, no loaded profile or a text passed but empty each print a console line and remove nothing.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg text (string, default: all): The watch text of the rows to remove, or all for every row
+  example: OgreBotAPI.Events:RemoveDespawnEntry[${Me.Name},all]
+  oldbot: OgreBotAPI:DespawnEvent_RemoveEntry
+
+OgreBotAPI.Events:RemoveSpawnEntry[fw, text=all]
+  kind: method of OgreBotAPI.Events
+  what: Removes every Spawn Events row whose text equals text (any case, disabled rows included), or every row for all, and tells every session's console which rows went. The change is unsaved until Save; no match, no loaded profile or a text passed but empty each print a console line and remove nothing.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg text (string, default: all): The watch text of the rows to remove, or all for every row
+  example: OgreBotAPI.Events:RemoveSpawnEntry[${Me.Name},"a cursed spirit"]
+  oldbot: OgreBotAPI:SpawnEvent_RemoveEntry
+
+
+== OgreBotAPI.ForWho ==
+
+${OgreBotAPI.ForWho.Alias[name]}
+  kind: member of OgreBotAPI.ForWho
+  what: Returns the character name an alias points to right now, or "" when it names nobody present. It reads @me, @Tank, @Healer1 to @Healer3, @DPS1 to @DPS3, @Bard, @Enchanter, @Fighter / @Priest / @Mage / @Scout with an optional rank, @PCTarget, @NPCsTarget, *<your alias> (only while the OgreBot enable-aliases setting is on and you are in the world) and *Team:<group> (its first member present); a plain character name or class word returns "".
+  arg name (string): the alias to resolve, with its @ or * (any case)
+  returns: string: the character name the alias resolves to; "" when it resolves to nobody, is not an alias, or no argument is given.
+  example: echo ${OgreBotAPI.ForWho.Alias[@Healer1]}
+  oldbot: OgreBotAPI.Get_Alias, GetInfoOb.Alias
+
+${OgreBotAPI.ForWho.AliasesJSON}
+  kind: member of OgreBotAPI.ForWho
+  what: Returns the loaded OgreBot profile's own alias list as JSON text, one object per row with its starred name, For (what it points to) and, when set, NR (no raid) and a disabled marker. Returns "[]" when no OgreBot profile is loaded or it has no aliases.
+  returns: string: a JSON array of alias rows; "[]" when there are none or no profile is loaded.
+  example: echo ${OgreBotAPI.ForWho.AliasesJSON}
+  oldbot: OgreBotAPI.Get_Aliases_JSON
+
+${OgreBotAPI.ForWho.Me[expr]}
+  kind: member of OgreBotAPI.ForWho
+  what: Answers whether a call with this for-who would run on this character - the same test every OgreBotAPI method makes on its first argument. While zoning or at character select it answers from what it already knows: words that need a live read (id:, a bare actor id, eval_num_me:, @PCTarget, @NPCsTarget, *aliases) do not match, and group words use your last settled zone.
+  arg expr (string): a for-who expression, one word with no spaces or commas. | separates alternatives (any one group matching is enough), + joins words that must all match, and a leading - or ! negates a word. Words, any case: all, auto, @all, @group, @raid (everyone); me, @me; a character name; your InnerSpace session name (is1); an archetype fighter, priest, mage, scout, or healer, melee, caster (plurals too), and not<archetype> such as notfighter; a class or subclass (predator, ranger); an ascension class (geomancer); g1 to g4 (your raid group); groups:<digits> (your raid group number appears in the digits); groupleader; igw:<name> (that character is you or in your group), with irw: also counting the raid, igzw: / irzw: also needing them in your zone, and a bn ending (igwbn:, irzwbn:) leaving yourself out; not:<name>; id:<actor id> or a bare actor id; ToonFlagged:<n>; eval_num_me:<member><op><value> with op < <= > >= = or ==; @Tank, @Healer1 to @Healer3, @DPS1 to @DPS3, @Bard, @Enchanter; @Fighter, @Priest, @Mage, @Scout with an optional rank (@Scout2); @PCTarget, @NPCsTarget; *<alias> (your own aliases) and *Team:<group>. A word that is none of these simply does not match.
+  returns: int: 1 when the expression selects this character; 0 when it does not, including an empty expression (an empty for-who on a method means all); NULL with no argument.
+  example: echo ${OgreBotAPI.ForWho.Me[igw:${Me.Name}+healer]}
+  oldbot: GetInfoOb.CommandForMe, GetInfoOb.CommandForMe_Check, GetInfoOb.CommandForMe_Eval_Me
+
+${OgreBotAPI.ForWho.Member[expr,name]}
+  kind: member of OgreBotAPI.ForWho
+  what: Answers whether a for-who expression selects a given member of your group or raid, using the same words as ForWho.Me with that member in your place. The member must be in your current group or raid; g1 to g4, groups:, groupleader, session names and ascension words never match a member, and eval_num_me: only reads Health, HealthPct, Power and PowerPct.
+  arg expr (string): a for-who expression, the same grammar and words as ForWho.Me
+  arg name (string): the group or raid member to test, by character name (any case)
+  returns: int: 1 when the expression selects that member; 0 when it does not, when the name is not in your group or raid, or when you are not in the world; NULL with fewer than two arguments.
+  example: echo ${OgreBotAPI.ForWho.Member[priest,${Group[1].Name}]}
+
+OgreBotAPI.ForWho:AddAlias[fw, alias, value, noRaid=FALSE]
+  kind: method of OgreBotAPI.ForWho
+  what: Adds a row to the loaded OgreBot profile's alias list, so *<alias> names the first character present that value matches: you, a group member by name, a raid member by name, then whoever of you, the group and the raid first fits value as a class word. Several rows may share one name (the first that resolves wins) but an exact repeat is refused with a warning; with no OgreBot profile loaded nothing happens and one console line says so, and the change is kept in memory until the profile is saved.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg alias (string): the alias name; a leading * is added when you leave it off
+  arg value (string): what the alias points to: a character name or a class word (archetype, class or subclass)
+  arg noRaid (bool, default: FALSE): TRUE = only you and your group count, raid members are not matched
+  example: OgreBotAPI.ForWho:AddAlias[${Me.Name},MainHealer,${Group[1].Name},TRUE]
+  oldbot: OgreBotAPI:Alias_AddEntry
+
+OgreBotAPI.ForWho:ChangeAlias[fw, from, to, silent=FALSE]
+  kind: method of OgreBotAPI.ForWho
+  what: Points the first alias row named from at to instead (a blank to clears it, so the alias names nobody), and announces the change in the Ogre console unless silent is TRUE. When no alias of that name exists nothing changes and one console line says so (not when silent); with no OgreBot profile loaded nothing happens and one console line says so.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg from (string): the alias to change (with or without its *)
+  arg to (string): the new character name or class word it points to
+  arg silent (bool, default: FALSE): TRUE = make the change without the Ogre console announce
+  example: OgreBotAPI.ForWho:ChangeAlias[${Me.Name},MainHealer,Templar]
+  oldbot: OgreBotAPI:Alias_ChangeEntry
+
+OgreBotAPI.ForWho:ForceUpdate[fw]
+  kind: method of OgreBotAPI.ForWho
+  what: Drops the cached alias answers, so the next *alias is worked out against the group and raid as they are now. The cache lasts about a second and every alias edit already drops it, so this matters only straight after the group changes.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.ForWho:ForceUpdate[all]
+  oldbot: OgreBotAPI:ForceAliasUpdate
+
+OgreBotAPI.ForWho:RemoveAlias[fw, name|all]
+  kind: method of OgreBotAPI.ForWho
+  what: Removes the first alias row with that name from the loaded OgreBot profile, or every alias row when the name is all or blank. With no OgreBot profile loaded nothing happens and one console line says so; the change is kept in memory until the profile is saved.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg name|all (string): the alias to remove (with or without its *), or all to clear the whole list
+  example: OgreBotAPI.ForWho:RemoveAlias[${Me.Name},MainHealer]
+  oldbot: OgreBotAPI:Alias_RemoveEntry
+
+OgreBotAPI.ForWho:RenameAlias[fw, from, to, silent=FALSE]
+  kind: method of OgreBotAPI.ForWho
+  what: Renames the first alias row named from to to (stars added when missing), keeping what it points to, and announces it in the Ogre console unless silent is TRUE. The row keeps its place and its no-raid and disabled settings; a blank name, no alias named from or a to name already taken gets one line and renames nothing, and with no OgreBot profile loaded nothing happens.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg from (string): the alias to rename (with or without its *)
+  arg to (string): the new alias name (with or without its *)
+  arg silent (bool, default: FALSE): TRUE = rename without the Ogre console announce
+  example: OgreBotAPI.ForWho:RenameAlias[${Me.Name},MainHealer,BackupHealer]
+  oldbot: OgreBotAPI:Alias_ChangeEntryAlias
+
+
+== OgreBotAPI.HOs ==
+
+${OgreBotAPI.HOs.DoEnabled}
+  kind: member of OgreBotAPI.HOs
+  what: TRUE while this character is running OgreBot's solo HO (started with DoSetup or DoSetEnabled); session only, never saved, and FALSE after a reload. It turns FALSE when the HO count is reached, the timeout runs out, the target dies or goes away, DoSetEnabled[...,FALSE] is called, or another group member takes over the solo HO.
+  returns: bool: TRUE when the solo HO is running on this character; FALSE otherwise.
+  example: echo ${OgreBotAPI.HOs.DoEnabled}
+  oldbot: OgreBotAPI.DoHO_Get_Enabled
+
+${OgreBotAPI.HOs.DoHOerID}
+  kind: member of OgreBotAPI.HOs
+  what: The actor ID of the OTHER group member who is running the solo HO, as that character announced it. Session only; 0 when this character is the one running it, or nobody is.
+  returns: int64: the other HO'er's actor ID; 0 when it is this character or nobody.
+  example: echo ${OgreBotAPI.HOs.DoHOerID}
+  oldbot: OgreBotAPI.DoHO_Get_HOerID
+
+${OgreBotAPI.HOs.DoPrimed}
+  kind: member of OgreBotAPI.HOs
+  what: TRUE once the solo HO has made its first full setup pass on this character (the group's HO settings set, stale casts cancelled, the HO'er announced); a later enable while primed only turns this character's own HO settings back on. Session only, and cleared by DoReset, by a disable, and when another session takes over.
+  returns: bool: TRUE when the solo HO setup has been applied; FALSE otherwise.
+  example: echo ${OgreBotAPI.HOs.DoPrimed}
+  oldbot: OgreBotAPI.DoHO_Get_Primed
+
+${OgreBotAPI.HOs.DoTargetID}
+  kind: member of OgreBotAPI.HOs
+  what: The actor ID given to DoSetup with -TargetID, the mob the solo HO is aimed at; 0 when no target was given, or after DoReset or a new DoSetup without one. Session only - note the casing: DoTargetID.
+  returns: int64: the solo HO's target actor ID; 0 when none is set.
+  example: echo ${OgreBotAPI.HOs.DoTargetID}
+  oldbot: OgreBotAPI.DoHo_Get_TargetID
+
+${OgreBotAPI.HOs.MyArchetypeStart}
+  kind: member of OgreBotAPI.HOs
+  what: TRUE when the starter window is up and the heroic opportunity's centre icon is this character's own archetype, so the starter in progress is ours. FALSE when no starter is showing or it belongs to another archetype.
+  returns: bool: TRUE when the starter showing is this character's archetype; FALSE otherwise, including when no heroic opportunity is up.
+  example: echo ${OgreBotAPI.HOs.MyArchetypeStart}
+  oldbot: OgreBotAPI:MyArchetypeHOStart
+
+${OgreBotAPI.HOs.MyWheelTimeRemaining}
+  kind: member of OgreBotAPI.HOs
+  what: Seconds left on the HO timer, but only while the wheel is up and it is this character's archetype's wheel. Returns 0 when no heroic opportunity is up, it is still in the starter phase, or the wheel belongs to another archetype.
+  returns: float: seconds left on this character's archetype's wheel; 0 otherwise.
+  example: echo ${OgreBotAPI.HOs.MyWheelTimeRemaining}
+  oldbot: OgreBotAPI:MyArchetypeWheelTimeRemaining
+
+${OgreBotAPI.HOs.StarterClass}
+  kind: member of OgreBotAPI.HOs
+  what: Which archetype's starter is up, from the starter window's centre icon, in lower case: fighter, priest, mage or scout. Empty when the starter window is not showing or no heroic opportunity is up.
+  returns: string: fighter, priest, mage or scout; "" when no starter is showing.
+  example: echo ${OgreBotAPI.HOs.StarterClass}
+  oldbot: OgreBotAPI.HO_Starter_Class
+
+${OgreBotAPI.HOs.StarterClassAvailable[class]}
+  kind: member of OgreBotAPI.HOs
+  what: TRUE when the starter chain currently offers an icon that the given archetype can use. FALSE when the starter window is not up, no heroic opportunity is up, or class is not fighter, priest, mage or scout (any case).
+  arg class (string, default: my archetype): Archetype to check: fighter, priest, mage or scout (any case). Blank or left out means this character's own archetype.
+  returns: bool: TRUE when that archetype has an icon on the starter chain now; FALSE otherwise, including when no heroic opportunity is up.
+  example: echo ${OgreBotAPI.HOs.StarterClassAvailable[scout]}
+  oldbot: OgreBotAPI.HO_Starter_Class_Available
+
+${OgreBotAPI.HOs.StarterVisible}
+  kind: member of OgreBotAPI.HOs
+  what: TRUE while the HO starter window (the chain of icons before the wheel) is showing. FALSE when no heroic opportunity is up or it has moved on to the wheel.
+  returns: bool: TRUE when the starter window is up; FALSE otherwise, including when no heroic opportunity is up.
+  example: echo ${OgreBotAPI.HOs.StarterVisible}
+  oldbot: OgreBotAPI.HO_Starter_Visible
+
+${OgreBotAPI.HOs.TargetID}
+  kind: member of OgreBotAPI.HOs
+  what: The actor ID the bot recorded as the HO target: set when this character's bot casts an HO start, and when another group member's bot announces one. Returns 0 when no heroic opportunity is up or that actor no longer exists.
+  returns: int64: the HO target's actor ID; 0 when no heroic opportunity is up, the actor is gone, or no start has been recorded.
+  example: echo ${OgreBotAPI.HOs.TargetID}
+  oldbot: OgreBotAPI.HO_TargetID
+
+${OgreBotAPI.HOs.Visible}
+  kind: member of OgreBotAPI.HOs
+  what: TRUE while a heroic opportunity is up in any phase (starter, wheel or finishing); FALSE when none is up or out of world. The HO reads are refreshed at most every 250 ms, so a value can be up to a quarter second old.
+  returns: bool: TRUE when a heroic opportunity is up; FALSE when none is up or not in world.
+  example: echo ${OgreBotAPI.HOs.Visible}
+  oldbot: OgreBotAPI.HO_Visible
+
+${OgreBotAPI.HOs.WheelClassAvailable[class]}
+  kind: member of OgreBotAPI.HOs
+  what: TRUE when the wheel currently has a step the given archetype can complete right now. FALSE when the wheel is not up, no heroic opportunity is up, or class is not fighter, priest, mage or scout (any case).
+  arg class (string, default: my archetype): Archetype to check: fighter, priest, mage or scout (any case). Blank or left out means this character's own archetype.
+  returns: bool: TRUE when that archetype has a completable step on the wheel now; FALSE otherwise, including when no heroic opportunity is up.
+  example: echo ${OgreBotAPI.HOs.WheelClassAvailable[mage]}
+  oldbot: OgreBotAPI.HO_Class_Available, OgreBotAPI.HO_Wheel_Class_Available
+
+${OgreBotAPI.HOs.WheelName}
+  kind: member of OgreBotAPI.HOs
+  what: The heroic opportunity name shown on the wheel, read from the HO window itself. Empty when no heroic opportunity is up; it can also be empty or stale during the starter phase, so check WheelVisible first.
+  returns: string: the wheel's HO name; "" when no heroic opportunity is up.
+  example: echo ${OgreBotAPI.HOs.WheelName}
+  oldbot: OgreBotAPI.HO_Wheel_Name
+
+${OgreBotAPI.HOs.WheelVisible}
+  kind: member of OgreBotAPI.HOs
+  what: TRUE while the HO wheel is showing. FALSE when no heroic opportunity is up or it is still in the starter phase.
+  returns: bool: TRUE when the wheel is up; FALSE otherwise, including when no heroic opportunity is up.
+  example: echo ${OgreBotAPI.HOs.WheelVisible}
+  oldbot: OgreBotAPI.HO_Wheel_Visible
+
+OgreBotAPI.HOs:Advance[fw]
+  kind: method of OgreBotAPI.HOs
+  what: Takes one turn on an open wheel, casting each of this character's abilities once for the wheel steps its archetype can complete now; it follows "Offensive Only" and "HO - Change Target", works while the bot is paused, and suits scripts that keep "HO Wheel" off and drive the wheel themselves. It does nothing with no heroic opportunity or wheel up, no step for this archetype, "Last to Complete" on while other archetypes still have steps, "HO - allow unknown target" off with no known HO target, or within 1 second of the last advance.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.HOs:Advance[igw:${Me.Name}]
+  oldbot: OgreBotAPI:HO_Advance, OgreBotAPI:HO_Wheel_Advance
+
+OgreBotAPI.HOs:AllowIcon[fw, icon]
+  kind: method of OgreBotAPI.HOs
+  what: Adds an HO icon ID to the allow list; while the list has any icon, cast stack abilities that carry a different HO icon are skipped (abilities with no HO icon are not affected, the disable list wins over it, and the bot's own HO starter and wheel casts are not steered). Session only - never saved to the profile, kept until cleared, LetsGo or the extension reloads.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg icon (int): HO icon ID: fighter 0-5, priest 12-17, mage 24-29, scout 36-41. Required; an icon already in the list does nothing. A missing icon, or a word that is not a whole number, is refused with a console line and changes nothing.
+  example: OgreBotAPI.HOs:AllowIcon[${Me.Name},25]
+  oldbot: OgreBotAPI:Set_Allow_HOICon
+
+OgreBotAPI.HOs:CancelStarter[fw]
+  kind: method of OgreBotAPI.HOs
+  what: Cancels the HO starter window right away by sending the game's cancel HO starter command. Does nothing when no heroic opportunity is up or the starter window is not showing (a running wheel is never cancelled).
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.HOs:CancelStarter[${Me.Name}]
+  oldbot: OgreBotAPI:HO_Cancel_Starter
+
+OgreBotAPI.HOs:ClearAllowIcon[fw, icon]
+  kind: method of OgreBotAPI.HOs
+  what: Removes one HO icon ID from the allow list (session only). When the list becomes empty, no ability is skipped for its HO icon by this list.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg icon (int): HO icon ID to remove from the allow list. Required; an icon not in the list does nothing. A missing icon, or a word that is not a whole number, is refused with a console line and changes nothing.
+  example: OgreBotAPI.HOs:ClearAllowIcon[${Me.Name},25]
+  oldbot: OgreBotAPI:Clear_Allow_HOICon
+
+OgreBotAPI.HOs:ClearAllowIcons[fw]
+  kind: method of OgreBotAPI.HOs
+  what: Empties the HO icon allow list (session only), so the cast stack no longer skips abilities for being outside it. The disable list is not touched.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.HOs:ClearAllowIcons[igw:${Me.Name}]
+  oldbot: OgreBotAPI:Clear_Allow_HOICons
+
+OgreBotAPI.HOs:ClearDisableIcon[fw, icon]
+  kind: method of OgreBotAPI.HOs
+  what: Removes one HO icon ID from the disable list, so abilities with that icon can be cast again (subject to the allow list). Session only; an icon not in the list does nothing.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg icon (int): HO icon ID to remove from the disable list. Required. A missing icon, or a word that is not a whole number, is refused with a console line and changes nothing.
+  example: OgreBotAPI.HOs:ClearDisableIcon[${Me.Name},14]
+  oldbot: OgreBotAPI:Clear_Disable_HOICon
+
+OgreBotAPI.HOs:ClearDisableIcons[fw]
+  kind: method of OgreBotAPI.HOs
+  what: Empties the HO icon disable list (session only). The allow list is not touched, and the per-icon disable checkboxes in the profile are a separate setting and stay as they are.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.HOs:ClearDisableIcons[igw:${Me.Name}]
+  oldbot: OgreBotAPI:Clear_Disable_HOICons
+
+OgreBotAPI.HOs:DisableIcon[fw, icon]
+  kind: method of OgreBotAPI.HOs
+  what: Adds an HO icon ID to the disable list, so cast stack abilities that carry that HO icon are skipped even if the icon is also in the allow list; the bot's own HO starter and wheel casts are not steered. Session only - never saved to the profile, kept until cleared, LetsGo or the extension reloads.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg icon (int): HO icon ID: fighter 0-5, priest 12-17, mage 24-29, scout 36-41. Required. A missing icon, or a word that is not a whole number, is refused with a console line and changes nothing.
+  example: OgreBotAPI.HOs:DisableIcon[${Me.Name},14]
+  oldbot: OgreBotAPI:Set_Disable_HOICon
+
+OgreBotAPI.HOs:DoReset[fw]
+  kind: method of OgreBotAPI.HOs
+  what: Clears this character's solo HO record (session only): target, HO count and completions, the leave-open and cast stack options, the other HO'er's ID and the primed flag. It does not turn the solo HO on or off, change the timeout, or change any settings.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.HOs:DoReset[${Me.Name}]
+  oldbot: OgreBotAPI:DoHO_Reset
+
+OgreBotAPI.HOs:DoSetEnabled[fw, on=TRUE, option...]
+  kind: method of OgreBotAPI.HOs
+  what: Turns OgreBot's solo HO on or off on this character without clearing its record (use DoSetup to set the target and count); calling it with the state it already has does nothing unless -Force, and a value that is not a yes/no word does nothing. On/off is session only, and the settings it writes are profile options in memory, kept on disk only if the profile is saved before they are put back.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg on (bool, default: TRUE): TRUE to run the solo HO here: makes this character the HO'er, tells the rest of the group to stand down, cancels another archetype's starter if one is up, writes the group's HO settings, cancels group casts with more than 0.5 seconds left, holds the first start for -DelayStart seconds (default 1) and extends the timeout to at least 25 seconds (or sets it to -TimeOut n). FALSE to stop it: puts back this character's HO settings and asks the group to put back theirs.
+  arg option... (flags): Any of -Force (run even if already in that state), -NoEnable / -PrimeOnly / -NoStart (set the group up but leave this character's HO settings off), -NoHoAbilities (on FALSE, keep HO abilities disabled on the rest of the group), -TimeOut n, -DelayStart n. Unknown words are ignored.
+  example: OgreBotAPI.HOs:DoSetEnabled[${Me.Name},FALSE]
+  oldbot: OgreBotAPI:DoHO_Set_Enable
+
+OgreBotAPI.HOs:DoSetup[fw, option...]
+  kind: method of OgreBotAPI.HOs
+  what: Starts OgreBot's solo HO with this character as the one who starts it (no HO needs to be up): it clears the previous record, starts a 25 second timeout and enables it as DoSetEnabled[fw,TRUE,...] with the same options, turning HO Start, Starter and Wheel off for the group and on for this character and setting the group's HO helper settings. It ends after -NumHOsToComplete completions (default 1), on timeout, or when the -TargetID mob dies or goes away, and every session then puts back the HO settings it had; the record is session only, and the changed HO settings are profile options in memory, written to disk only if the profile is saved while they are changed.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg option... (flags): Any of -TargetID id, -NumHOsToComplete n, -TimeOut n (instead of 25 seconds), -LeaveStartOpen, -LeaveWheelOpen, -AllowCastStack (keep this character's cast stack on), -NoModifyOptions (change no settings), -Force (when the solo HO is already running, apply the settings again instead of only recording the new options), -NoEnable, -DelayStart n, -NoHoAbilities, in any order; the DoSetEnabled options work here too. Unknown words are ignored.
+  example: OgreBotAPI.HOs:DoSetup[${Me.Name},-TargetID,${Target.ID},-NumHOsToComplete,1,-TimeOut,30]
+  oldbot: OgreBotAPI:DoHO_Setup
+
+OgreBotAPI.HOs:RestoreSetUpFor[fw]
+  kind: method of OgreBotAPI.HOs
+  what: Puts "Heroic Surge (ROC Adorn)" back to the value SetUpFor remembered, quietly, and forgets it. Does nothing if SetUpFor was not called since the last restore, or the extension was reloaded in between.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.HOs:RestoreSetUpFor[igw:${Me.Name}]
+  oldbot: OgreBotAPI:Restore_SetUpFor_HOs
+
+OgreBotAPI.HOs:SetUpFor[fw]
+  kind: method of OgreBotAPI.HOs
+  what: Readies a fight that needs HOs controlled, with or without an HO up: remembers the current "Heroic Surge (ROC Adorn)" setting (only on the first call before a RestoreSetUpFor), then turns it off quietly so the adornment cannot start or advance HOs on its own. The remembered value is session only; the setting itself is a profile option changed in memory, so saving the profile before RestoreSetUpFor keeps it off on disk.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.HOs:SetUpFor[igw:${Me.Name}]
+  oldbot: OgreBotAPI:SetUpFor_HOs
+
+OgreBotAPI.HOs:Start[fw, -ActorID id, -SkipTimer]
+  kind: method of OgreBotAPI.HOs
+  what: Casts this character's archetype HO starter ability (Fighting Chance, Lucky Break, Divine Providence or Arcane Augur) once, immediately, even while the bot is paused, and tells the group which actor the HO is on. Nothing happens within 1 second of the last start unless -SkipTimer is given, or when the ability is not ready, out of range or the cast bar is busy - call it again to retry.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg -ActorID id (flag + number): Start the HO on this actor ID instead of the current target; -TargetID id is the same flag. Without it the cast goes at the current target and does nothing while any heroic opportunity is already up. With it, nothing happens if that actor is gone or a wheel is already running, and if another archetype's starter is up it is cancelled and the cast goes on the actor once the starter closes and the ability is ready (giving up after about 8 seconds).
+  arg -SkipTimer (flag): Ignore the 1 second wait after the last start.
+  example: OgreBotAPI.HOs:Start[${Me.Name},-ActorID,${Target.ID}]
+  oldbot: OgreBotAPI:HO_Start
+
+OgreBotAPI.HOs:Starter[fw]
+  kind: method of OgreBotAPI.HOs
+  what: Takes one turn on an open starter chain, casting this character's abilities for the starter icons its archetype is offered; it follows "HO - Change Target" and works while the bot is paused. It does nothing when no heroic opportunity or starter window is up, this archetype has no icon in the chain, "HO - allow unknown target" is off and no HO target is known, or within 1 second of the last starter cast.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.HOs:Starter[igw:${Me.Name}]
+  oldbot: OgreBotAPI:HO_Starter, OgreBotAPI:HO_Starter_Advance
+
