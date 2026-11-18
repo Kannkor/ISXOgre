@@ -846,6 +846,23 @@ echo ${OgreBotAPI.CastStack.TagEmbargoRemaining[Stuns]}
 
 ## Methods
 
+### `AddEntry`
+
+`OgreBotAPI.CastStack:AddEntry[fw, name, where, options...]`
+
+Adds a row to the cast stack at the place you name, with any of its options. It takes effect at once, and is kept in the profile only when you Save.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `name` | text |  | The ability's name (or id), or Item:&lt;item name> for an item row. |
+| `where` | text |  | top, bottom, or the row number the new row gets (1 to one past the last row). |
+| `options...` | key, value pairs |  | Key, value pairs, as many as you like: Type, Target, Named, RD, Tag, ETag, ATag, EType, AType, ID, DT, MAX, IE, IAE, RIE, Conc, disabled, RW&lt;, HP&lt;, HP>, MP&lt;, MP>, N_HP&lt;, N_HP>, Aggro&lt;, Aggro>, Fervor&lt;, Fervor>, D&lt;, D>, Sav, % and #, the same options the Cast Stack window sets; all of them go on or none do, and a refusal prints why. A yes/no option takes TRUE or FALSE (FALSE unticks it). A number option takes a number, and having it at all is the condition. Type is one of the Cast Stack's types (Buff, CA, Heal ...); EType and AType are Both, Trigger Only or Listen Only. Type must be one of them. |
+
+```text
+OgreBotAPI.CastStack:AddEntry[${Me.Name},"Item:Eye of the Siren",bottom,Type,Buff,Target,Mailmanx]
+```
+
 ### `ClearAllAllows`
 
 `OgreBotAPI.CastStack:ClearAllAllows[fw]`
@@ -911,6 +928,22 @@ OgreBotAPI.CastStack:ClearEmbargo[igw:${Me.Name},Stuns]
 ```
 
 *Was (OldBot):* `OgreBotAPI:AbilityTag_ResetAbilityTagEmbargo`
+
+### `ClearEntryOption`
+
+`OgreBotAPI.CastStack:ClearEntryOption[fw, row, keys...]`
+
+Removes options from a cast stack row, as blanking a field or unticking a box in the window does. It takes effect at once, and is kept in the profile only when you Save.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `row` | number or text |  | The row: its number as the Cast Stack shows it (1 is the top row), or its name when exactly one row has that name (case-insensitive). An item row's name is Item:&lt;item name>. |
+| `keys...` | option names |  | The options to remove, by the same names SetEntryOption takes. One the row does not have is fine; an unknown name removes nothing and prints why. |
+
+```text
+OgreBotAPI.CastStack:ClearEntryOption[${Me.Name},"Battle Tactics",HP<,RD]
+```
 
 ### `ClearItemCache`
 
@@ -1019,6 +1052,22 @@ Reloads this session's cast stack from the OgreBot profile already open, includi
 OgreBotAPI.CastStack:LoadFromProfile[${Me.Name}]
 ```
 
+### `MoveEntry`
+
+`OgreBotAPI.CastStack:MoveEntry[fw, row, to]`
+
+Moves a cast stack row up or down one place, to the top or bottom, or to a row number. It takes effect at once, and is kept in the profile only when you Save.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `row` | number or text |  | The row: its number as the Cast Stack shows it (1 is the top row), or its name when exactly one row has that name (case-insensitive). An item row's name is Item:&lt;item name>. |
+| `to` | text |  | up, down, top, bottom, or the row number it moves to. |
+
+```text
+OgreBotAPI.CastStack:MoveEntry[${Me.Name},"Item:Eye of the Siren",top]
+```
+
 ### `ReloadRangeExtenders`
 
 `OgreBotAPI.CastStack:ReloadRangeExtenders[fw]`
@@ -1031,6 +1080,21 @@ Re-reads the per-zone range extender file, OgreSave/EQ2/OgreBot/Encounters/Range
 
 ```text
 OgreBotAPI.CastStack:ReloadRangeExtenders[${Me.Name}]
+```
+
+### `RemoveEntry`
+
+`OgreBotAPI.CastStack:RemoveEntry[fw, row]`
+
+Removes a row from the cast stack. It takes effect at once, and is kept in the profile only when you Save.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `row` | number or text |  | The row: its number as the Cast Stack shows it (1 is the top row), or its name when exactly one row has that name (case-insensitive). An item row's name is Item:&lt;item name>. |
+
+```text
+OgreBotAPI.CastStack:RemoveEntry[${Me.Name},5]
 ```
 
 ### `SetEntry`
@@ -1071,6 +1135,22 @@ OgreBotAPI.CastStack:SetEntryByTag[igw:${Me.Name},AE,toggle,TRUE]
 ```
 
 *Was (OldBot):* `OgreBotAPI:ChangeCastStackListBoxItemByTag`, `ChangeCastStackListBoxItemByTag`
+
+### `SetEntryOption`
+
+`OgreBotAPI.CastStack:SetEntryOption[fw, row, options...]`
+
+Sets one or more options on a cast stack row. It takes effect at once, and is kept in the profile only when you Save.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `row` | number or text |  | The row: its number as the Cast Stack shows it (1 is the top row), or its name when exactly one row has that name (case-insensitive). An item row's name is Item:&lt;item name>. |
+| `options...` | key, value pairs |  | Key, value pairs, as many as you like: Type, Target, Named, RD, Tag, ETag, ATag, EType, AType, ID, DT, MAX, IE, IAE, RIE, Conc, disabled, RW&lt;, HP&lt;, HP>, MP&lt;, MP>, N_HP&lt;, N_HP>, Aggro&lt;, Aggro>, Fervor&lt;, Fervor>, D&lt;, D>, Sav, % and #, the same options the Cast Stack window sets; all of them go on or none do, and a refusal prints why. A yes/no option takes TRUE or FALSE (FALSE unticks it). A number option takes a number, and having it at all is the condition. Type is one of the Cast Stack's types (Buff, CA, Heal ...); EType and AType are Both, Trigger Only or Listen Only. |
+
+```text
+OgreBotAPI.CastStack:SetEntryOption[${Me.Name},3,HP<,50,Named,TRUE]
+```
 
 ### `TestCast`
 
@@ -2358,196 +2438,3 @@ OgreBotAPI.Consumables:SummonFamiliar[${Me.Name}]
 ```
 
 *Was (OldBot):* `OgreBotAPI:Summon_Familiar`
-
-
----
-
-Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Craft.md
-
-# OgreBotAPI.Craft
-
-## Methods
-
-### `AddLastScribedRecipe`
-
-`OgreBotAPI.Craft:AddLastScribedRecipe[fw, qty=1]`
-
-Adds the recipe you last scribed this session (by the bot or by hand) to the craft setup queue. With nothing scribed yet it prints a warning and adds nothing.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
-| `qty` | int | `1` | How many to craft; 0 or less becomes 1. |
-
-```text
-OgreBotAPI.Craft:AddLastScribedRecipe[${Me.Name},5]
-```
-
-*Was (OldBot):* `OgreCraft:AddLastScribedRecipe`, `OgreCraftAPI:AddLastScribedRecipe`
-
-### `AddRecipe`
-
-`OgreBotAPI.Craft:AddRecipe[fw, nameOrID|lastknownrecipe, qty=1]`
-
-Adds a recipe to the craft setup queue by full name, by part of a name that matches only one recipe (4 letters or more), by recipe ID, or lastknownrecipe for the recipe last scribed this session. A recipe not in your recipe book prints a warning and adds nothing; if the book has not been read yet the add waits and runs once it has.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
-| `nameOrID\|lastknownrecipe` | string |  | The recipe name, its ID (plain digits), or lastknownrecipe. A name may also be passed as several arguments; they are joined with spaces. |
-| `qty` | int | `1` | How many to craft. Read only when it is the last argument and a whole number; 0 or less becomes 1. |
-
-```text
-OgreBotAPI.Craft:AddRecipe[${Me.Name},"Tempered Iron",2]
-```
-
-*Was (OldBot):* `OgreCraft:AddRecipeNameForWho`, `OgreCraftAPI:AddRecipeNameForWho`
-
-### `BuyAllTinkeringRecipes`
-
-`OgreBotAPI.Craft:BuyAllTinkeringRecipes[fw]`
-
-Buys every tinkering recipe book you do not already know or carry from Fizza Cogsworth. It is refused unless you carry at least 3 platinum, are in Steamfont Mountains and are within 10 meters of her, and also while a crafting flow or merchant errand is running.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
-
-```text
-OgreBotAPI.Craft:BuyAllTinkeringRecipes[${Me.Name}]
-```
-
-### `CompleteNavigation`
-
-`OgreBotAPI.Craft:CompleteNavigation[fw]`
-
-Answers craft's OgreCraft_NavigationRequired event (sent only when the craft setting to use events for movement is on) to say your script has moved the character; craft then checks the distance again and carries on. If no request is waiting it prints a warning.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
-
-```text
-OgreBotAPI.Craft:CompleteNavigation[${Me.Name}]
-```
-
-### `DeferNavigation`
-
-`OgreBotAPI.Craft:DeferNavigation[fw]`
-
-Answers craft's OgreCraft_NavigationRequired event to say your script will not move the character, so craft uses its own movement. If no request is waiting it prints a warning.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
-
-```text
-OgreBotAPI.Craft:DeferNavigation[${Me.Name}]
-```
-
-### `ScribeRecipe`
-
-`OgreBotAPI.Craft:ScribeRecipe[fw, name|all=all]`
-
-Scribes recipe scrolls from your bags one at a time, then opens and closes the tradeskill book. A name scribes only scrolls whose full item name matches it in any case (a name with a comma arrives whole), nothing matching prints a line and does nothing, and a call while scribing adds the new scrolls to the run.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
-| `name\|all` | string | `all` | The scroll's full item name in any case, or all for every scribeable scroll in your bags. Left empty it scribes all. |
-
-```text
-OgreBotAPI.Craft:ScribeRecipe[${Me.Name},all]
-```
-
-*Was (OldBot):* `OgreCraft:ScribeRecipe`, `OgreCraftAPI:ScribeRecipe`
-
-### `Start`
-
-`OgreBotAPI.Craft:Start[fw]`
-
-Starts crafting the setup queue. It is refused with a console line when you are not in the world, a crafting flow is already running, or the setup queue is empty, and a refused start changes nothing.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
-
-```text
-OgreBotAPI.Craft:Start[${Me.Name}]
-```
-
-*Was (OldBot):* `OgreCraft:Start`, `OgreCraftAPI:Start`
-
-### `StartLLL`
-
-`OgreBotAPI.Craft:StartLLL[fw]`
-
-Starts low level leveling: rounds of buying recipe books, crafting the highest standard recipe at or below your tradeskill level, and selling or destroying what was made when the panel's settings say so. It stops at tradeskill level 9 or 19, and is refused when a crafting flow is already running or you are not in the world.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
-
-```text
-OgreBotAPI.Craft:StartLLL[${Me.Name}]
-```
-
-*Was (OldBot):* `OgreCraftAPI:StartLLL`
-
-### `StartQuest`
-
-`OgreBotAPI.Craft:StartQuest[fw]`
-
-Crafts the recipe steps of the quest selected in your journal, one of each per pass, until no craftable step is left. It is refused when no quest is selected, a crafting flow is already running, or you are not in the world, and a refused start changes nothing.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
-
-```text
-OgreBotAPI.Craft:StartQuest[${Me.Name}]
-```
-
-### `StartTinker`
-
-`OgreBotAPI.Craft:StartTinker[fw]`
-
-Starts auto tinkering: rounds of buying recipe books, crafting the highest-level tinkering recipe you know, and selling or destroying what was made when the panel's settings say so, until tinkering is maxed. It stops if the character has no tinkering skill, and is refused when a crafting flow is already running or you are not in the world.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
-
-```text
-OgreBotAPI.Craft:StartTinker[${Me.Name}]
-```
-
-### `StartWrits`
-
-`OgreBotAPI.Craft:StartWrits[fw]`
-
-Starts the rush order (writ) run for the number of writs set in the craft settings. It is refused below tradeskill level 20, when a crafting flow is already running, or when you are not in the world, and a refused start changes nothing.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
-
-```text
-OgreBotAPI.Craft:StartWrits[${Me.Name}]
-```
-
-*Was (OldBot):* `OgreCraftAPI:StartWrits`
-
-### `Stop`
-
-`OgreBotAPI.Craft:Stop[fw]`
-
-Stops the running crafting run (queue, writs, quest, Low Level Leveling or Auto Tinkering) on the characters the for-who names, the same as ISXOgreEQ2.Craft:Stop. With nothing running it drops a pause and prints that nothing was running.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
-
-```text
-OgreBotAPI.Craft:Stop[igw:${Me.Name}]
-```

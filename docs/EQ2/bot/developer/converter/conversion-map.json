@@ -127,8 +127,6 @@
   "OgreBotAPI.Actors.MobID": "[name]",
   "OgreBotAPI.Actors.NPCsWithin": "[distance]",
   "OgreBotAPI.Actors:ApplyVerb": "[fw,actor,verb]",
-  "OgreBotAPI.Actors:ApplyVerbID": "[fw,actorId,verb]",
-  "OgreBotAPI.Actors:ApplyVerbIDQueued": "[fw,actorId,verb,waitDs=40]",
   "OgreBotAPI.Actors:ApplyVerbQueued": "[fw,actor,verb,waitDs=40]",
   "OgreBotAPI.Actors:Click": "[fw,nameOrId,...]",
   "OgreBotAPI.Actors:ClickQueued": "[fw,nameOrId,...]",
@@ -255,10 +253,12 @@
   "OgreBotAPI.CastStack": null,
   "OgreBotAPI.CastStack.TagAllowRemaining": "[tag]",
   "OgreBotAPI.CastStack.TagEmbargoRemaining": "[tag]",
+  "OgreBotAPI.CastStack:AddEntry": "[fw,name,where,options...]",
   "OgreBotAPI.CastStack:ClearAllAllows": "[fw]",
   "OgreBotAPI.CastStack:ClearAllEmbargos": "[fw]",
   "OgreBotAPI.CastStack:ClearAllow": "[fw,tag]",
   "OgreBotAPI.CastStack:ClearEmbargo": "[fw,tag]",
+  "OgreBotAPI.CastStack:ClearEntryOption": "[fw,row,keys...]",
   "OgreBotAPI.CastStack:ClearItemCache": "[fw]",
   "OgreBotAPI.CastStack:Dump": "[fw]",
   "OgreBotAPI.CastStack:ExamineItems": "[fw]",
@@ -266,9 +266,12 @@
   "OgreBotAPI.CastStack:Import": "[fw,path,profile=\"\"]",
   "OgreBotAPI.CastStack:Load": "[fw,path]",
   "OgreBotAPI.CastStack:LoadFromProfile": "[fw]",
+  "OgreBotAPI.CastStack:MoveEntry": "[fw,row,to]",
   "OgreBotAPI.CastStack:ReloadRangeExtenders": "[fw]",
+  "OgreBotAPI.CastStack:RemoveEntry": "[fw,row]",
   "OgreBotAPI.CastStack:SetEntry": "[fw,ability,TRUE|FALSE|toggle,silent=FALSE]",
   "OgreBotAPI.CastStack:SetEntryByTag": "[fw,tag,TRUE|FALSE|toggle,partial=FALSE,silent=FALSE]",
+  "OgreBotAPI.CastStack:SetEntryOption": "[fw,row,options...]",
   "OgreBotAPI.CastStack:TestCast": "[fw,ability=\"\"]",
   "OgreBotAPI.CastStack:Tick": "[fw]",
   "OgreBotAPI.Client": null,
@@ -877,8 +880,6 @@
   "-AltarOfTheAncients",
   "-Apply_Verb",
   "-ApplyVerb",
-  "-ApplyVerbID",
-  "-ApplyVerbIDQueued",
   "-ApplyVerbQueued",
   "-ArcannaseEffigyOfRebirth",
   "-AReward",
@@ -1721,34 +1722,6 @@
    ]
   ],
   "-applyverb": [
-   [
-    "forwho",
-    false
-   ],
-   [
-    "string",
-    false
-   ],
-   [
-    "string",
-    false
-   ]
-  ],
-  "-applyverbid": [
-   [
-    "forwho",
-    false
-   ],
-   [
-    "string",
-    false
-   ],
-   [
-    "string",
-    false
-   ]
-  ],
-  "-applyverbidqueued": [
    [
     "forwho",
     false
@@ -9280,10 +9253,10 @@
     "value": "all",
     "when": "always"
    },
-   "howToFix": "Write `OgreBotAPI.Actors:ApplyVerbID` instead of `OgreBotAPI:ApplyVerbID`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it.",
+   "howToFix": "Write `OgreBotAPI.Actors:ApplyVerb` instead of `OgreBotAPI:ApplyVerbID`; the arguments changed: The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it.",
    "id": "OgreBotAPI:ApplyVerbID",
-   "newForm": "OgreBotAPI.Actors:ApplyVerbID",
-   "newSignature": "[fw,actorId,verb]",
+   "newForm": "OgreBotAPI.Actors:ApplyVerb",
+   "newSignature": "[fw,actor,verb]",
    "note": "The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it.",
    "oldCall": "OgreBotAPI:ApplyVerbID",
    "oldKinds": [
@@ -9299,17 +9272,17 @@
    "argsCheck": "same-count",
    "argsNeeded": 3,
    "example": {
-    "after": "OgreBotAPI.Actors:ApplyVerbID[\"${_CommandForWho}\",${_ActorID},\"${_Verb}\"]",
+    "after": "OgreBotAPI.Actors:ApplyVerb[\"${_CommandForWho}\",${_ActorID},\"${_Verb}\"]",
     "before": "OgreBotAPI:ApplyVerbIDForWho[\"${_CommandForWho}\",${_ActorID},\"${_Verb}\"]"
    },
    "forWhoInsert": {
     "value": "all",
     "when": "noArgs"
    },
-   "howToFix": "Write `OgreBotAPI.Actors:ApplyVerbID` instead of `OgreBotAPI:ApplyVerbIDForWho`. New arguments: `[fw,actorId,verb]`.",
+   "howToFix": "Write `OgreBotAPI.Actors:ApplyVerb` instead of `OgreBotAPI:ApplyVerbIDForWho`. New arguments: `[fw,actor,verb]`.",
    "id": "OgreBotAPI:ApplyVerbIDForWho",
-   "newForm": "OgreBotAPI.Actors:ApplyVerbID",
-   "newSignature": "[fw,actorId,verb]",
+   "newForm": "OgreBotAPI.Actors:ApplyVerb",
+   "newSignature": "[fw,actor,verb]",
    "oldCall": "OgreBotAPI:ApplyVerbIDForWho",
    "oldKinds": [
     "m"
@@ -9327,10 +9300,10 @@
     "value": "all",
     "when": "noArgs"
    },
-   "howToFix": "Write `OgreBotAPI.Actors:ApplyVerbIDQueued` instead of `OgreBotAPI:ApplyVerbIDQueuedForWho`. New arguments: `[fw,actorId,verb,waitDs=40]`.",
+   "howToFix": "Write `OgreBotAPI.Actors:ApplyVerbQueued` instead of `OgreBotAPI:ApplyVerbIDQueuedForWho`. New arguments: `[fw,actor,verb,waitDs=40]`.",
    "id": "OgreBotAPI:ApplyVerbIDQueuedForWho",
-   "newForm": "OgreBotAPI.Actors:ApplyVerbIDQueued",
-   "newSignature": "[fw,actorId,verb,waitDs=40]",
+   "newForm": "OgreBotAPI.Actors:ApplyVerbQueued",
+   "newSignature": "[fw,actor,verb,waitDs=40]",
    "oldCall": "OgreBotAPI:ApplyVerbIDQueuedForWho",
    "oldKinds": [
     "f",
@@ -32865,9 +32838,9 @@
    "surface": "console"
   },
   {
-   "howToFix": "The ForWho row is gone; write `-ApplyVerbID` with the same arguments - the for-who stays first. An MCP button is converted for you.",
+   "howToFix": "The ForWho row is gone; write `-ApplyVerb` with the same arguments - the for-who stays first, and the actor id goes where a name would. An MCP button is converted for you.",
    "id": "console:-ApplyVerbIDForWho",
-   "newForm": "-ApplyVerbID",
+   "newForm": "-ApplyVerb",
    "oldCall": "-ApplyVerbIDForWho",
    "oldKinds": [
     "verb"
@@ -32878,9 +32851,9 @@
    "surface": "console"
   },
   {
-   "howToFix": "The ForWho row is gone; write `-ApplyVerbIDQueued` with the same arguments - the for-who stays first. An MCP button is converted for you.",
+   "howToFix": "The ForWho row is gone; write `-ApplyVerbQueued` with the same arguments - the for-who stays first, and the actor id goes where a name would. An MCP button is converted for you.",
    "id": "console:-ApplyVerbIDQueuedForWho",
-   "newForm": "-ApplyVerbIDQueued",
+   "newForm": "-ApplyVerbQueued",
    "oldCall": "-ApplyVerbIDQueuedForWho",
    "oldKinds": [
     "verb"

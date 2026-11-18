@@ -1833,7 +1833,7 @@ A console command is sent as `oc !c <command> <who> ...` - typed in the console,
 
 - [`ogre` commands](ogre.md) - 94 commands
 - [Console commands: ISXOgreX](console-isxogrex.md) - 9 commands
-- [Console commands: A-B](console-a-b.md) - 48 commands
+- [Console commands: A-B](console-a-b.md) - 46 commands
 - [Console commands: C](console-c.md) - 72 commands
 - [Console commands: D-N](console-d-n.md) - 88 commands
 - [Console commands: O-R](console-o-r.md) - 65 commands

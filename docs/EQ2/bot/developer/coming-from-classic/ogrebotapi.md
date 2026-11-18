@@ -160,9 +160,9 @@ Old names whose job is now in `OgreBotAPI.Actors`.
 | `OgreBotAPI:AltarOfTheAncients` | does nothing | `OgreBotAPI.Actors:ClickQueued` `[fw,nameOrId,...]` | ✏️ Renamed |  |
 | `OgreBotAPI:ApplyVerb` | does nothing | `OgreBotAPI.Actors:ApplyVerb` `[fw,actor,verb]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. |
 | `OgreBotAPI:ApplyVerbForWho` | does nothing | `OgreBotAPI.Actors:ApplyVerb` `[fw,actor,verb]` | ✏️ Renamed |  |
-| `OgreBotAPI:ApplyVerbID` | does nothing | `OgreBotAPI.Actors:ApplyVerbID` `[fw,actorId,verb]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. |
-| `OgreBotAPI:ApplyVerbIDForWho` | does nothing | `OgreBotAPI.Actors:ApplyVerbID` `[fw,actorId,verb]` | ✏️ Renamed |  |
-| `OgreBotAPI:ApplyVerbIDQueuedForWho` | does nothing | `OgreBotAPI.Actors:ApplyVerbIDQueued` `[fw,actorId,verb,waitDs=40]` | ✏️ Renamed |  |
+| `OgreBotAPI:ApplyVerbID` | does nothing | `OgreBotAPI.Actors:ApplyVerb` `[fw,actor,verb]` | ⚠️ Arguments changed | The for-who is now argument 0 - the Classic call had none (it acted on the session running it). Put `all` first: a script's own call only runs on the session running it, so that keeps it. |
+| `OgreBotAPI:ApplyVerbIDForWho` | does nothing | `OgreBotAPI.Actors:ApplyVerb` `[fw,actor,verb]` | ✏️ Renamed |  |
+| `OgreBotAPI:ApplyVerbIDQueuedForWho` | does nothing | `OgreBotAPI.Actors:ApplyVerbQueued` `[fw,actor,verb,waitDs=40]` | ✏️ Renamed |  |
 | `OgreBotAPI:ApplyVerbQueuedForWho` | does nothing | `OgreBotAPI.Actors:ApplyVerbQueued` `[fw,actor,verb,waitDs=40]` | ✏️ Renamed |  |
 | `OgreBotAPI.CursorActor_Tooltip_Text` | reads NULL | — | ⛔ Removed | Classic's read the mouse-over actor bubble text off the HUD. Delete the call - the new bot has nothing in its place. |
 | `OgreBotAPI.CursorActor_Tooltip_Visible` | reads NULL | — | ⛔ Removed | Classic's read whether that bubble was shown. Delete the call - the new bot has nothing in its place. |

@@ -286,6 +286,14 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.11.17.002 {#r2026-11-17-002}
+
+*Tuesday, November 17, 2026 at 10:14 PM EST*
+
+- **New** · Bot: **Scripts can add, change, move and remove Cast Stack rows.** OgreBotAPI.CastStack has five new methods: AddEntry, SetEntryOption, ClearEntryOption, RemoveEntry and MoveEntry. A script can add a row anywhere, set or clear any option the Cast Stack window has, and move or remove a row by its number or name. Changes show in the window at once and are kept when you Save.
+- **Changed** · Console: **ApplyVerb takes an actor id; ApplyVerbID is gone.** -ApplyVerb and -ApplyVerbQueued, and OgreBotAPI.Actors:ApplyVerb and :ApplyVerbQueued, now take the actor's id as well as its name or a type word, so -ApplyVerbID and -ApplyVerbIDQueued (and their Actors methods) are removed. Saved MCP buttons are switched over for you, and the script converter turns old calls into the new ones.
+- **Fixed** · Bot: **A worn clicky is no longer used again while its buff is up.** A worn item on a Cast Stack row (a charm or a shield, by its name) was used every time its reuse came up, even with its buff still running, because the bot could not read what the item does. It now reads the worn item, and an item's buff counts as up only by what it applies when activated, so a shield's always-on protection no longer counts as its buff.
+
 ## 2026.11.17.001 {#r2026-11-17-001}
 
 *Tuesday, November 17, 2026 at 2:57 PM EST*
@@ -14282,67 +14290,30 @@ echo ${OgreBotAPI.Actors.NPCsWithin[10]}
 
 `OgreBotAPI.Actors:ApplyVerb[fw, actor, verb]`
 
-Applies a verb at once to the nearest actor whose name contains the text, or of that type when the text is a type word, using the game's apply_verb command. A blank actor or verb gets one line, and so does an actor that does not match.
+Applies a verb at once to the actor whose id you give, else the nearest one whose name contains the text, or of that type when the text is a type word, using the game's apply_verb command. A blank actor or verb gets one line, and so does an actor that does not match.
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
 | `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
-| `actor` | string |  | the actor's name or part of it, any case, or a type word: npc, namednpc, nokillnpc, pc, special, chest, resource, door |
+| `actor` | string |  | the actor's name or part of it, any case, its actor id, or a type word: npc, namednpc, nokillnpc, pc, special, chest, resource, door |
 | `verb` | string |  | the verb as it shows on the actor's right-click menu |
 
 ```text
 OgreBotAPI.Actors:ApplyVerb[igw:${Me.Name},"Strange Device","Use"]
 ```
 
-*Was (OldBot):* `OgreBotAPI:ApplyVerbForWho`, `OgreBotAPI:ApplyVerb`
-
-### `ApplyVerbID`
-
-`OgreBotAPI.Actors:ApplyVerbID[fw, actorId, verb]`
-
-Applies a verb at once to the actor with this id, using the game's apply_verb command. A blank id or verb gets one line, and so does an id that is not a live actor.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
-| `actorId` | int64 |  | the actor's id |
-| `verb` | string |  | the verb as it shows on the actor's right-click menu |
-
-```text
-OgreBotAPI.Actors:ApplyVerbID[${Me.Name},${Target.ID},"Use"]
-```
-
-*Was (OldBot):* `OgreBotAPI:ApplyVerbIDForWho`, `OgreBotAPI:ApplyVerbID`
-
-### `ApplyVerbIDQueued`
-
-`OgreBotAPI.Actors:ApplyVerbIDQueued[fw, actorId, verb, waitDs=40]`
-
-Queues a verb on the actor with this id, then waits out the cast it starts: at its turn it waits up to 5 seconds for a free cast bar, applies the verb once, and holds the cast bar until that cast ends or waitDs runs out. A blank id or verb, or an id that is not a live actor, gets one line and queues nothing, and an actor gone by its turn is dropped with a console line.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
-| `actorId` | int64 |  | the actor's id |
-| `verb` | string |  | the verb as it shows on the actor's right-click menu |
-| `waitDs` | int | `40` | the longest wait for the cast to end, in tenths of a second |
-
-```text
-OgreBotAPI.Actors:ApplyVerbIDQueued[${Me.Name},${Target.ID},"Use",60]
-```
-
-*Was (OldBot):* `OgreBotAPI:ApplyVerbIDQueuedForWho`
+*Was (OldBot):* `OgreBotAPI:ApplyVerbForWho`, `OgreBotAPI:ApplyVerbIDForWho`, `OgreBotAPI:ApplyVerb`
 
 ### `ApplyVerbQueued`
 
 `OgreBotAPI.Actors:ApplyVerbQueued[fw, actor, verb, waitDs=40]`
 
-Queues a verb on the nearest actor whose name contains the text, or of that type when the text is a type word, then waits out the cast it starts, exactly as ApplyVerbIDQueued does. The actor is looked up when you call it; a blank actor or verb, or no match, gets one line and queues nothing, and one gone by its turn is dropped with a console line.
+Queues a verb on the actor whose id you give, else the nearest one whose name contains the text, or of that type when the text is a type word, then waits out the cast it starts, exactly as ApplyVerbIDQueued does. The actor is looked up when you call it; a blank actor or verb, or no match, gets one line and queues nothing, and one gone by its turn is dropped with a console line.
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
 | `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
-| `actor` | string |  | the actor's name or part of it, any case, or a type word: npc, namednpc, nokillnpc, pc, special, chest, resource, door |
+| `actor` | string |  | the actor's name or part of it, any case, its actor id, or a type word: npc, namednpc, nokillnpc, pc, special, chest, resource, door |
 | `verb` | string |  | the verb as it shows on the actor's right-click menu |
 | `waitDs` | int | `40` | the longest wait for the cast to end, in tenths of a second |
 
@@ -14350,7 +14321,7 @@ Queues a verb on the nearest actor whose name contains the text, or of that type
 OgreBotAPI.Actors:ApplyVerbQueued[igw:${Me.Name},"Strange Device","Use"]
 ```
 
-*Was (OldBot):* `OgreBotAPI:ApplyVerbQueuedForWho`
+*Was (OldBot):* `OgreBotAPI:ApplyVerbIDQueuedForWho`, `OgreBotAPI:ApplyVerbQueuedForWho`
 
 ### `Click`
 
@@ -16245,6 +16216,23 @@ echo ${OgreBotAPI.CastStack.TagEmbargoRemaining[Stuns]}
 
 ## Methods
 
+### `AddEntry`
+
+`OgreBotAPI.CastStack:AddEntry[fw, name, where, options...]`
+
+Adds a row to the cast stack at the place you name, with any of its options. It takes effect at once, and is kept in the profile only when you Save.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `name` | text |  | The ability's name (or id), or Item:&lt;item name> for an item row. |
+| `where` | text |  | top, bottom, or the row number the new row gets (1 to one past the last row). |
+| `options...` | key, value pairs |  | Key, value pairs, as many as you like: Type, Target, Named, RD, Tag, ETag, ATag, EType, AType, ID, DT, MAX, IE, IAE, RIE, Conc, disabled, RW&lt;, HP&lt;, HP>, MP&lt;, MP>, N_HP&lt;, N_HP>, Aggro&lt;, Aggro>, Fervor&lt;, Fervor>, D&lt;, D>, Sav, % and #, the same options the Cast Stack window sets; all of them go on or none do, and a refusal prints why. A yes/no option takes TRUE or FALSE (FALSE unticks it). A number option takes a number, and having it at all is the condition. Type is one of the Cast Stack's types (Buff, CA, Heal ...); EType and AType are Both, Trigger Only or Listen Only. Type must be one of them. |
+
+```text
+OgreBotAPI.CastStack:AddEntry[${Me.Name},"Item:Eye of the Siren",bottom,Type,Buff,Target,Mailmanx]
+```
+
 ### `ClearAllAllows`
 
 `OgreBotAPI.CastStack:ClearAllAllows[fw]`
@@ -16310,6 +16298,22 @@ OgreBotAPI.CastStack:ClearEmbargo[igw:${Me.Name},Stuns]
 ```
 
 *Was (OldBot):* `OgreBotAPI:AbilityTag_ResetAbilityTagEmbargo`
+
+### `ClearEntryOption`
+
+`OgreBotAPI.CastStack:ClearEntryOption[fw, row, keys...]`
+
+Removes options from a cast stack row, as blanking a field or unticking a box in the window does. It takes effect at once, and is kept in the profile only when you Save.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `row` | number or text |  | The row: its number as the Cast Stack shows it (1 is the top row), or its name when exactly one row has that name (case-insensitive). An item row's name is Item:&lt;item name>. |
+| `keys...` | option names |  | The options to remove, by the same names SetEntryOption takes. One the row does not have is fine; an unknown name removes nothing and prints why. |
+
+```text
+OgreBotAPI.CastStack:ClearEntryOption[${Me.Name},"Battle Tactics",HP<,RD]
+```
 
 ### `ClearItemCache`
 
@@ -16418,6 +16422,22 @@ Reloads this session's cast stack from the OgreBot profile already open, includi
 OgreBotAPI.CastStack:LoadFromProfile[${Me.Name}]
 ```
 
+### `MoveEntry`
+
+`OgreBotAPI.CastStack:MoveEntry[fw, row, to]`
+
+Moves a cast stack row up or down one place, to the top or bottom, or to a row number. It takes effect at once, and is kept in the profile only when you Save.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `row` | number or text |  | The row: its number as the Cast Stack shows it (1 is the top row), or its name when exactly one row has that name (case-insensitive). An item row's name is Item:&lt;item name>. |
+| `to` | text |  | up, down, top, bottom, or the row number it moves to. |
+
+```text
+OgreBotAPI.CastStack:MoveEntry[${Me.Name},"Item:Eye of the Siren",top]
+```
+
 ### `ReloadRangeExtenders`
 
 `OgreBotAPI.CastStack:ReloadRangeExtenders[fw]`
@@ -16430,6 +16450,21 @@ Re-reads the per-zone range extender file, OgreSave/EQ2/OgreBot/Encounters/Range
 
 ```text
 OgreBotAPI.CastStack:ReloadRangeExtenders[${Me.Name}]
+```
+
+### `RemoveEntry`
+
+`OgreBotAPI.CastStack:RemoveEntry[fw, row]`
+
+Removes a row from the cast stack. It takes effect at once, and is kept in the profile only when you Save.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `row` | number or text |  | The row: its number as the Cast Stack shows it (1 is the top row), or its name when exactly one row has that name (case-insensitive). An item row's name is Item:&lt;item name>. |
+
+```text
+OgreBotAPI.CastStack:RemoveEntry[${Me.Name},5]
 ```
 
 ### `SetEntry`
@@ -16470,6 +16505,22 @@ OgreBotAPI.CastStack:SetEntryByTag[igw:${Me.Name},AE,toggle,TRUE]
 ```
 
 *Was (OldBot):* `OgreBotAPI:ChangeCastStackListBoxItemByTag`, `ChangeCastStackListBoxItemByTag`
+
+### `SetEntryOption`
+
+`OgreBotAPI.CastStack:SetEntryOption[fw, row, options...]`
+
+Sets one or more options on a cast stack row. It takes effect at once, and is kept in the profile only when you Save.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `row` | number or text |  | The row: its number as the Cast Stack shows it (1 is the top row), or its name when exactly one row has that name (case-insensitive). An item row's name is Item:&lt;item name>. |
+| `options...` | key, value pairs |  | Key, value pairs, as many as you like: Type, Target, Named, RD, Tag, ETag, ATag, EType, AType, ID, DT, MAX, IE, IAE, RIE, Conc, disabled, RW&lt;, HP&lt;, HP>, MP&lt;, MP>, N_HP&lt;, N_HP>, Aggro&lt;, Aggro>, Fervor&lt;, Fervor>, D&lt;, D>, Sav, % and #, the same options the Cast Stack window sets; all of them go on or none do, and a refusal prints why. A yes/no option takes TRUE or FALSE (FALSE unticks it). A number option takes a number, and having it at all is the condition. Type is one of the Cast Stack's types (Buff, CA, Heal ...); EType and AType are Both, Trigger Only or Listen Only. |
+
+```text
+OgreBotAPI.CastStack:SetEntryOption[${Me.Name},3,HP<,50,Named,TRUE]
+```
 
 ### `TestCast`
 
@@ -35929,7 +35980,7 @@ A console command is sent as `oc !c <command> <who> ...` - typed in the console,
 
 - [`ogre` commands](ogre.md) - 94 commands
 - [Console commands: ISXOgreX](console-isxogrex.md) - 9 commands
-- [Console commands: A-B](console-a-b.md) - 48 commands
+- [Console commands: A-B](console-a-b.md) - 46 commands
 - [Console commands: C](console-c.md) - 72 commands
 - [Console commands: D-N](console-d-n.md) - 88 commands
 - [Console commands: O-R](console-o-r.md) - 65 commands
@@ -38095,12 +38146,12 @@ oc !c -AltarOfTheAncients ${Me.Name}
 
 Also: `-Apply_Verb`
 
-Apply a verb to an actor by name [Actor name] [case sensitive verb] - on the toons the for-who names. Note - This is an advanced button.
+Apply a verb to an actor by name or actor id [Actor name or id] [case sensitive verb] - on the toons the for-who names. Note - This is an advanced button.
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
 | `who` | forwho | `auto` | Who acts - leave blank to use the For Who window. |
-| `actorname` | string | `All` | The actor's name or part of it, any case, or a type word: npc, namednpc, nokillnpc, pc, special, chest, resource, door |
+| `actorname` | string | `All` | The actor's name or part of it, any case, its actor id, or a type word: npc, namednpc, nokillnpc, pc, special, chest, resource, door |
 | `verb` | string | `All` | verb - case sensitive |
 
 Runs: `OgreBotAPI.Actors:ApplyVerb`
@@ -38109,52 +38160,16 @@ Runs: `OgreBotAPI.Actors:ApplyVerb`
 oc !c -ApplyVerb igw:${Me.Name} "${Target.Name}" Use
 ```
 
-## `-ApplyVerbID`
-
-`-ApplyVerbID <who> <actorid> <verb>`
-
-Apply a verb to an actor by its ID [Actor ID] [case sensitive verb] - on the toons the for-who names. Note - This is an advanced button.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `who` | forwho | `auto` | Who acts - leave blank to use the For Who window. |
-| `actorid` | string | `0` | Actor ID |
-| `verb` | string | `All` | verb - case sensitive |
-
-Runs: `OgreBotAPI.Actors:ApplyVerbID`
-
-```text
-oc !c -ApplyVerbID igw:${Me.Name} ${Target.ID} Use
-```
-
-## `-ApplyVerbIDQueued`
-
-`-ApplyVerbIDQueued <who> <actorid> <verb>`
-
-Apply a verb to an actor by its ID, then wait out the cast it starts [Actor ID] [case sensitive verb] - on the toons the for-who names. Waits its turn in the action queue, then up to 5 seconds for a free cast bar. Note - This is an advanced button.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `who` | forwho | `auto` | Who acts - leave blank to use the For Who window. |
-| `actorid` | string | `0` | Actor ID |
-| `verb` | string | `All` | verb - case sensitive |
-
-Runs: `OgreBotAPI.Actors:ApplyVerbIDQueued`
-
-```text
-oc !c -ApplyVerbIDQueued igw:${Me.Name} ${Target.ID} Use
-```
-
 ## `-ApplyVerbQueued`
 
 `-ApplyVerbQueued <who> <actorname> <verb>`
 
-Apply a verb to an actor by name, then wait out the cast it starts [Actor name] [case sensitive verb] - on the toons the for-who names. Waits its turn in the action queue, then up to 5 seconds for a free cast bar. Note - This is an advanced button.
+Apply a verb to an actor by name or actor id, then wait out the cast it starts [Actor name or id] [case sensitive verb] - on the toons the for-who names. Waits its turn in the action queue, then up to 5 seconds for a free cast bar. Note - This is an advanced button.
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
 | `who` | forwho | `auto` | Who acts - leave blank to use the For Who window. |
-| `actorname` | string | `All` | The actor's name or part of it, any case, or a type word: npc, namednpc, nokillnpc, pc, special, chest, resource, door |
+| `actorname` | string | `All` | The actor's name or part of it, any case, its actor id, or a type word: npc, namednpc, nokillnpc, pc, special, chest, resource, door |
 | `verb` | string | `All` | verb - case sensitive |
 
 Runs: `OgreBotAPI.Actors:ApplyVerbQueued`

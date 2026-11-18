@@ -2165,12 +2165,12 @@ oc !c -AltarOfTheAncients ${Me.Name}
 
 Also: `-Apply_Verb`
 
-Apply a verb to an actor by name [Actor name] [case sensitive verb] - on the toons the for-who names. Note - This is an advanced button.
+Apply a verb to an actor by name or actor id [Actor name or id] [case sensitive verb] - on the toons the for-who names. Note - This is an advanced button.
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
 | `who` | forwho | `auto` | Who acts - leave blank to use the For Who window. |
-| `actorname` | string | `All` | The actor's name or part of it, any case, or a type word: npc, namednpc, nokillnpc, pc, special, chest, resource, door |
+| `actorname` | string | `All` | The actor's name or part of it, any case, its actor id, or a type word: npc, namednpc, nokillnpc, pc, special, chest, resource, door |
 | `verb` | string | `All` | verb - case sensitive |
 
 Runs: `OgreBotAPI.Actors:ApplyVerb`
@@ -2179,52 +2179,16 @@ Runs: `OgreBotAPI.Actors:ApplyVerb`
 oc !c -ApplyVerb igw:${Me.Name} "${Target.Name}" Use
 ```
 
-## `-ApplyVerbID`
-
-`-ApplyVerbID <who> <actorid> <verb>`
-
-Apply a verb to an actor by its ID [Actor ID] [case sensitive verb] - on the toons the for-who names. Note - This is an advanced button.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `who` | forwho | `auto` | Who acts - leave blank to use the For Who window. |
-| `actorid` | string | `0` | Actor ID |
-| `verb` | string | `All` | verb - case sensitive |
-
-Runs: `OgreBotAPI.Actors:ApplyVerbID`
-
-```text
-oc !c -ApplyVerbID igw:${Me.Name} ${Target.ID} Use
-```
-
-## `-ApplyVerbIDQueued`
-
-`-ApplyVerbIDQueued <who> <actorid> <verb>`
-
-Apply a verb to an actor by its ID, then wait out the cast it starts [Actor ID] [case sensitive verb] - on the toons the for-who names. Waits its turn in the action queue, then up to 5 seconds for a free cast bar. Note - This is an advanced button.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `who` | forwho | `auto` | Who acts - leave blank to use the For Who window. |
-| `actorid` | string | `0` | Actor ID |
-| `verb` | string | `All` | verb - case sensitive |
-
-Runs: `OgreBotAPI.Actors:ApplyVerbIDQueued`
-
-```text
-oc !c -ApplyVerbIDQueued igw:${Me.Name} ${Target.ID} Use
-```
-
 ## `-ApplyVerbQueued`
 
 `-ApplyVerbQueued <who> <actorname> <verb>`
 
-Apply a verb to an actor by name, then wait out the cast it starts [Actor name] [case sensitive verb] - on the toons the for-who names. Waits its turn in the action queue, then up to 5 seconds for a free cast bar. Note - This is an advanced button.
+Apply a verb to an actor by name or actor id, then wait out the cast it starts [Actor name or id] [case sensitive verb] - on the toons the for-who names. Waits its turn in the action queue, then up to 5 seconds for a free cast bar. Note - This is an advanced button.
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
 | `who` | forwho | `auto` | Who acts - leave blank to use the For Who window. |
-| `actorname` | string | `All` | The actor's name or part of it, any case, or a type word: npc, namednpc, nokillnpc, pc, special, chest, resource, door |
+| `actorname` | string | `All` | The actor's name or part of it, any case, its actor id, or a type word: npc, namednpc, nokillnpc, pc, special, chest, resource, door |
 | `verb` | string | `All` | verb - case sensitive |
 
 Runs: `OgreBotAPI.Actors:ApplyVerbQueued`

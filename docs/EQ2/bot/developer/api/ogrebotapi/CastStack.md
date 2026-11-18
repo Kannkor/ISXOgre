@@ -44,6 +44,23 @@ echo ${OgreBotAPI.CastStack.TagEmbargoRemaining[Stuns]}
 
 ## Methods
 
+### `AddEntry`
+
+`OgreBotAPI.CastStack:AddEntry[fw, name, where, options...]`
+
+Adds a row to the cast stack at the place you name, with any of its options. It takes effect at once, and is kept in the profile only when you Save.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `name` | text |  | The ability's name (or id), or Item:&lt;item name> for an item row. |
+| `where` | text |  | top, bottom, or the row number the new row gets (1 to one past the last row). |
+| `options...` | key, value pairs |  | Key, value pairs, as many as you like: Type, Target, Named, RD, Tag, ETag, ATag, EType, AType, ID, DT, MAX, IE, IAE, RIE, Conc, disabled, RW&lt;, HP&lt;, HP>, MP&lt;, MP>, N_HP&lt;, N_HP>, Aggro&lt;, Aggro>, Fervor&lt;, Fervor>, D&lt;, D>, Sav, % and #, the same options the Cast Stack window sets; all of them go on or none do, and a refusal prints why. A yes/no option takes TRUE or FALSE (FALSE unticks it). A number option takes a number, and having it at all is the condition. Type is one of the Cast Stack's types (Buff, CA, Heal ...); EType and AType are Both, Trigger Only or Listen Only. Type must be one of them. |
+
+```text
+OgreBotAPI.CastStack:AddEntry[${Me.Name},"Item:Eye of the Siren",bottom,Type,Buff,Target,Mailmanx]
+```
+
 ### `ClearAllAllows`
 
 `OgreBotAPI.CastStack:ClearAllAllows[fw]`
@@ -109,6 +126,22 @@ OgreBotAPI.CastStack:ClearEmbargo[igw:${Me.Name},Stuns]
 ```
 
 *Was (OldBot):* `OgreBotAPI:AbilityTag_ResetAbilityTagEmbargo`
+
+### `ClearEntryOption`
+
+`OgreBotAPI.CastStack:ClearEntryOption[fw, row, keys...]`
+
+Removes options from a cast stack row, as blanking a field or unticking a box in the window does. It takes effect at once, and is kept in the profile only when you Save.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `row` | number or text |  | The row: its number as the Cast Stack shows it (1 is the top row), or its name when exactly one row has that name (case-insensitive). An item row's name is Item:&lt;item name>. |
+| `keys...` | option names |  | The options to remove, by the same names SetEntryOption takes. One the row does not have is fine; an unknown name removes nothing and prints why. |
+
+```text
+OgreBotAPI.CastStack:ClearEntryOption[${Me.Name},"Battle Tactics",HP<,RD]
+```
 
 ### `ClearItemCache`
 
@@ -217,6 +250,22 @@ Reloads this session's cast stack from the OgreBot profile already open, includi
 OgreBotAPI.CastStack:LoadFromProfile[${Me.Name}]
 ```
 
+### `MoveEntry`
+
+`OgreBotAPI.CastStack:MoveEntry[fw, row, to]`
+
+Moves a cast stack row up or down one place, to the top or bottom, or to a row number. It takes effect at once, and is kept in the profile only when you Save.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `row` | number or text |  | The row: its number as the Cast Stack shows it (1 is the top row), or its name when exactly one row has that name (case-insensitive). An item row's name is Item:&lt;item name>. |
+| `to` | text |  | up, down, top, bottom, or the row number it moves to. |
+
+```text
+OgreBotAPI.CastStack:MoveEntry[${Me.Name},"Item:Eye of the Siren",top]
+```
+
 ### `ReloadRangeExtenders`
 
 `OgreBotAPI.CastStack:ReloadRangeExtenders[fw]`
@@ -229,6 +278,21 @@ Re-reads the per-zone range extender file, OgreSave/EQ2/OgreBot/Encounters/Range
 
 ```text
 OgreBotAPI.CastStack:ReloadRangeExtenders[${Me.Name}]
+```
+
+### `RemoveEntry`
+
+`OgreBotAPI.CastStack:RemoveEntry[fw, row]`
+
+Removes a row from the cast stack. It takes effect at once, and is kept in the profile only when you Save.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `row` | number or text |  | The row: its number as the Cast Stack shows it (1 is the top row), or its name when exactly one row has that name (case-insensitive). An item row's name is Item:&lt;item name>. |
+
+```text
+OgreBotAPI.CastStack:RemoveEntry[${Me.Name},5]
 ```
 
 ### `SetEntry`
@@ -269,6 +333,22 @@ OgreBotAPI.CastStack:SetEntryByTag[igw:${Me.Name},AE,toggle,TRUE]
 ```
 
 *Was (OldBot):* `OgreBotAPI:ChangeCastStackListBoxItemByTag`, `ChangeCastStackListBoxItemByTag`
+
+### `SetEntryOption`
+
+`OgreBotAPI.CastStack:SetEntryOption[fw, row, options...]`
+
+Sets one or more options on a cast stack row. It takes effect at once, and is kept in the profile only when you Save.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `row` | number or text |  | The row: its number as the Cast Stack shows it (1 is the top row), or its name when exactly one row has that name (case-insensitive). An item row's name is Item:&lt;item name>. |
+| `options...` | key, value pairs |  | Key, value pairs, as many as you like: Type, Target, Named, RD, Tag, ETag, ATag, EType, AType, ID, DT, MAX, IE, IAE, RIE, Conc, disabled, RW&lt;, HP&lt;, HP>, MP&lt;, MP>, N_HP&lt;, N_HP>, Aggro&lt;, Aggro>, Fervor&lt;, Fervor>, D&lt;, D>, Sav, % and #, the same options the Cast Stack window sets; all of them go on or none do, and a refusal prints why. A yes/no option takes TRUE or FALSE (FALSE unticks it). A number option takes a number, and having it at all is the condition. Type is one of the Cast Stack's types (Buff, CA, Heal ...); EType and AType are Both, Trigger Only or Listen Only. |
+
+```text
+OgreBotAPI.CastStack:SetEntryOption[${Me.Name},3,HP<,50,Named,TRUE]
+```
 
 ### `TestCast`
 

@@ -18,6 +18,14 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.11.17.002 {#r2026-11-17-002}
+
+*Tuesday, November 17, 2026 at 10:14 PM EST*
+
+- **New** · Bot: **Scripts can add, change, move and remove Cast Stack rows.** OgreBotAPI.CastStack has five new methods: AddEntry, SetEntryOption, ClearEntryOption, RemoveEntry and MoveEntry. A script can add a row anywhere, set or clear any option the Cast Stack window has, and move or remove a row by its number or name. Changes show in the window at once and are kept when you Save.
+- **Changed** · Console: **ApplyVerb takes an actor id; ApplyVerbID is gone.** -ApplyVerb and -ApplyVerbQueued, and OgreBotAPI.Actors:ApplyVerb and :ApplyVerbQueued, now take the actor's id as well as its name or a type word, so -ApplyVerbID and -ApplyVerbIDQueued (and their Actors methods) are removed. Saved MCP buttons are switched over for you, and the script converter turns old calls into the new ones.
+- **Fixed** · Bot: **A worn clicky is no longer used again while its buff is up.** A worn item on a Cast Stack row (a charm or a shield, by its name) was used every time its reuse came up, even with its buff still running, because the bot could not read what the item does. It now reads the worn item, and an item's buff counts as up only by what it applies when activated, so a shield's always-on protection no longer counts as its buff.
+
 ## 2026.11.17.001 {#r2026-11-17-001}
 
 *Tuesday, November 17, 2026 at 2:57 PM EST*

@@ -105,67 +105,30 @@ echo ${OgreBotAPI.Actors.NPCsWithin[10]}
 
 `OgreBotAPI.Actors:ApplyVerb[fw, actor, verb]`
 
-Applies a verb at once to the nearest actor whose name contains the text, or of that type when the text is a type word, using the game's apply_verb command. A blank actor or verb gets one line, and so does an actor that does not match.
+Applies a verb at once to the actor whose id you give, else the nearest one whose name contains the text, or of that type when the text is a type word, using the game's apply_verb command. A blank actor or verb gets one line, and so does an actor that does not match.
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
 | `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
-| `actor` | string |  | the actor's name or part of it, any case, or a type word: npc, namednpc, nokillnpc, pc, special, chest, resource, door |
+| `actor` | string |  | the actor's name or part of it, any case, its actor id, or a type word: npc, namednpc, nokillnpc, pc, special, chest, resource, door |
 | `verb` | string |  | the verb as it shows on the actor's right-click menu |
 
 ```text
 OgreBotAPI.Actors:ApplyVerb[igw:${Me.Name},"Strange Device","Use"]
 ```
 
-*Was (OldBot):* `OgreBotAPI:ApplyVerbForWho`, `OgreBotAPI:ApplyVerb`
-
-### `ApplyVerbID`
-
-`OgreBotAPI.Actors:ApplyVerbID[fw, actorId, verb]`
-
-Applies a verb at once to the actor with this id, using the game's apply_verb command. A blank id or verb gets one line, and so does an id that is not a live actor.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
-| `actorId` | int64 |  | the actor's id |
-| `verb` | string |  | the verb as it shows on the actor's right-click menu |
-
-```text
-OgreBotAPI.Actors:ApplyVerbID[${Me.Name},${Target.ID},"Use"]
-```
-
-*Was (OldBot):* `OgreBotAPI:ApplyVerbIDForWho`, `OgreBotAPI:ApplyVerbID`
-
-### `ApplyVerbIDQueued`
-
-`OgreBotAPI.Actors:ApplyVerbIDQueued[fw, actorId, verb, waitDs=40]`
-
-Queues a verb on the actor with this id, then waits out the cast it starts: at its turn it waits up to 5 seconds for a free cast bar, applies the verb once, and holds the cast bar until that cast ends or waitDs runs out. A blank id or verb, or an id that is not a live actor, gets one line and queues nothing, and an actor gone by its turn is dropped with a console line.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
-| `actorId` | int64 |  | the actor's id |
-| `verb` | string |  | the verb as it shows on the actor's right-click menu |
-| `waitDs` | int | `40` | the longest wait for the cast to end, in tenths of a second |
-
-```text
-OgreBotAPI.Actors:ApplyVerbIDQueued[${Me.Name},${Target.ID},"Use",60]
-```
-
-*Was (OldBot):* `OgreBotAPI:ApplyVerbIDQueuedForWho`
+*Was (OldBot):* `OgreBotAPI:ApplyVerbForWho`, `OgreBotAPI:ApplyVerbIDForWho`, `OgreBotAPI:ApplyVerb`
 
 ### `ApplyVerbQueued`
 
 `OgreBotAPI.Actors:ApplyVerbQueued[fw, actor, verb, waitDs=40]`
 
-Queues a verb on the nearest actor whose name contains the text, or of that type when the text is a type word, then waits out the cast it starts, exactly as ApplyVerbIDQueued does. The actor is looked up when you call it; a blank actor or verb, or no match, gets one line and queues nothing, and one gone by its turn is dropped with a console line.
+Queues a verb on the actor whose id you give, else the nearest one whose name contains the text, or of that type when the text is a type word, then waits out the cast it starts, exactly as ApplyVerbIDQueued does. The actor is looked up when you call it; a blank actor or verb, or no match, gets one line and queues nothing, and one gone by its turn is dropped with a console line.
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
 | `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
-| `actor` | string |  | the actor's name or part of it, any case, or a type word: npc, namednpc, nokillnpc, pc, special, chest, resource, door |
+| `actor` | string |  | the actor's name or part of it, any case, its actor id, or a type word: npc, namednpc, nokillnpc, pc, special, chest, resource, door |
 | `verb` | string |  | the verb as it shows on the actor's right-click menu |
 | `waitDs` | int | `40` | the longest wait for the cast to end, in tenths of a second |
 
@@ -173,7 +136,7 @@ Queues a verb on the nearest actor whose name contains the text, or of that type
 OgreBotAPI.Actors:ApplyVerbQueued[igw:${Me.Name},"Strange Device","Use"]
 ```
 
-*Was (OldBot):* `OgreBotAPI:ApplyVerbQueuedForWho`
+*Was (OldBot):* `OgreBotAPI:ApplyVerbIDQueuedForWho`, `OgreBotAPI:ApplyVerbQueuedForWho`
 
 ### `Click`
 
