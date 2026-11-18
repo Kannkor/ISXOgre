@@ -60,7 +60,7 @@ Debug holds switches that make the bot explain itself. Each box turns on extra l
 
 | Option | What it does | Default |
 |---|---|---|
-| **Evaluate every cast-order entry vs the live game state - what each would do right now (dry-run, never casts)** | One row per Cast Stack entry, in order: its number, its name, then 'WOULD CAST' in green (with the target), or the reason it would be skipped, such as 'recast delay still active' or 'no valid target'. Switched-off entries are greyed. The last column sums up the entry's settings. | empty until you press Evaluate |
+| **Evaluate every cast-order entry vs the live game state - what each would do right now (dry-run, never casts)** | One row per Cast Stack entry, in order: its number, its name, then 'WOULD CAST' in green (with the target), or the reason it would be skipped, such as 'recast delay still active' or 'no valid target'. When the entry has a target, it shows how far away that target is and, for an ability, the reach it must be under (the target's size, plus the ability's range, plus your own size). It also says 'sight blocked' when the line of sight to the target is blocked. Hover the numbers to see each part. Switched-off entries are greyed. The last column sums up the entry's settings. | empty until you press Evaluate |
 
 
 

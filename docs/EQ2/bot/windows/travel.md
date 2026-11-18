@@ -11,15 +11,16 @@
 > **What you can do here**
 >
 > - **Fast Travel, Wizard Spire, Druid Rings, Bell** - this character opens that map (standing by the spire, ring or bell for those three), reads every destination and lists them. The map closes again.
+> - **Not near a spire, ring or bell?** The list is every destination Ogre knows for that network, and the window says so. Pick one and your group travels as usual - this character does not need to be there. A character whose own map does not offer it says so in its console.
 > - **Open Travel Map** - lists the travel map you already have open, and leaves it open.
 > - **Double-click a destination**, or select it and press **Travel** - everyone in the Master Control Panel's For Who window travels there. Each opens their own map and clicks that exact destination.
-> - **Filter** - type part of a name to shorten the list.
+> - **Filter** - type part of a name to shorten the list. **Enter** picks the destination when only one is left.
 > - **Keep list open after travelling** - leave this window up after you pick.
 >
 > **Good to know**
 >
 > - If the For Who window was never set, everyone travels.
-> - Spire, ring and bell travel needs that object within reach of every character you send.
+> - Spire, ring and bell travel needs that object within reach of every character you send - but not of the character who picks.
 > - With Open Travel Map, everyone you send must have their own map open too.
 
 **Open it:** Type `ogre travel`. Add a method to open it straight on that list: `ogre travel fast`, `ogre travel spire`, `ogre travel druid`, `ogre travel bell` or `ogre travel map`. A Master Control Panel button migrated from the old bot's Travel Helper opens it too. `ogre end travel` (or the window's X) stops a list that is being read, closes the map it opened, and closes the window.
@@ -52,8 +53,8 @@ The list shows every destination the map offers, in the map's order. Type in the
 
 | Control | What it does |
 |---|---|
-| **Filter destinations** | Shows only the destinations whose name contains what you type. |
-| **Destination list** | Click a destination to select it. Double-click it to travel there. |
+| **Filter destinations** | Shows only the destinations whose name contains what you type. Enter picks the destination when only one is left (or the selected one). |
+| **Destination list** | Click a destination to select it. Double-click it to travel there. Away from a spire, ring or bell, it lists every destination Ogre knows for that network (from its travel data) and says so: each character you send picks it on its own map. |
 | **Travel** | Sends everyone in the For Who window to the selected destination.<br>*Each character opens its own map and clicks exactly that destination - the whole name, not part of it.* |
 | **Keep list open after travelling** | Leaves this window open after you send the group. Off, it closes once you pick. |
 

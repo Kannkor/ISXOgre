@@ -27,7 +27,7 @@ OgreConsole is the window where Ogre shows messages from all your characters. Th
 | Option | What it does | Default |
 |---|---|---|
 | **Connect to IRC** | Connects to IRC each time this profile loads, and when you press 'Save OgreIRC information'. This box is saved per character profile, unlike the IRC details below.<br>*Unticking it never disconnects. By hand: `ogre irc` connects, `ogre end irc` disconnects.* | off |
-| **Uplink name:** | **Not built yet.** It is saved, but the IRC link always runs on this PC's own uplink. | empty |
+| **Uplink name:** | Which PC's IRC link this PC uses: the InnerSpace name of that PC's uplink (InnerSpace's Remote name). Blank = this PC's own. On a second PC whose uplink is connected to the first, name the first: its IRC commands and MCP IRC buttons go out through the first PC's link, and it reads that link's connected state, with no IRC connection of its own. | empty (this PC's own uplink) |
 | **Server:** | The IRC server address to connect to. Required. | empty |
 | **Server port:** | The server's port. 6667 unless your server says otherwise. | 6667 (used when blank or invalid) |
 | **Server password:** | The server's password, if it has one. Leave blank if not.<br>*Shown as plain text on screen.* | empty |
