@@ -23,6 +23,8 @@ described is outlined in **pink** in its picture.
 
 ## Where to start
 
+- Installing the bot? Start with [Installing and first start](install.md): one download, sign in, and the bot
+  fetches the rest.
 - New to the bot? Read [The basics](basics.md) first. It covers the window buttons every window shares.
 - Setting up a character: [OgreBot](ogrebot/index.md), then its [Settings](ogrebot/settings.md) and
   [Cast Stack](ogrebot/cast-stack.md) tabs.
@@ -33,6 +35,134 @@ described is outlined in **pink** in its picture.
 
 Every window has a **?** in its title bar. Click it for a short explanation of that window. The
 **Full documentation** button in that box opens this guide.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/install.md
+
+# Installing and first start
+
+This page takes you from nothing to a running bot: download one file, sign in, and let the bot fetch the rest. It
+takes a few minutes. After that, the bot keeps itself up to date every time it loads.
+
+## Before you start
+
+- **InnerSpace** and **ISXEQ2**, installed and working. InnerSpace must run as 64-bit, which is its default.
+- **Your OgreBot username and password.** They are the same as for OgreBot Classic. You got them in the
+  **Welcome to ISXOgre** email when you subscribed. No subscription yet? See
+  [How to Subscribe](../about/pricing.md#how-to-subscribe).
+- **Your PC's clock set right.** Sign-in is refused when the clock is off by more than 10 minutes.
+- **InnerSpace in a folder Windows lets you write to.** The bot saves its settings and downloads inside the
+  InnerSpace folder. A folder under `Program Files` can stop it from saving.
+
+## Step 1: Start one game session
+
+Close every EverQuest 2 session first. Then start **one**, with an InnerSpace profile that loads nothing by itself,
+such as InnerSpace's own **EverQuest 2 Client** profile.
+
+> **:bulb: Why only one?**
+>
+> When the bot updates itself it reloads in every session on the PC. A profile that loads OgreBot Classic by itself
+> also gets in the way of the first install.
+
+## Step 2: Download ISXOgreX
+
+Open the InnerSpace console (the **`~`** key) and paste this line:
+
+```
+httpget -file "${LavishScript.HomeDirectory}/x64/Extensions/ISXDK35/ISXOgreX.dll" https://cluster1.ogregaming.com/eq2/download_isxogrex.php
+```
+
+Wait until the console says it succeeded.
+
+> **:bulb: Or download it in your browser**
+>
+> [Download ISXOgreX.dll](https://cluster1.ogregaming.com/eq2/download_isxogrex.php) and save it into your
+> InnerSpace folder, in `x64\Extensions\ISXDK35\`. The file must be named exactly `ISXOgreX.dll`.
+
+This one file is all you download by hand. It fetches everything else itself.
+
+## Step 3: Load it and sign in
+
+In the console, type:
+
+```
+ext isxogrex
+```
+
+A window called **OgreX - Login** opens. Enter your OgreBot **Username** and **Password** and click **Login**. They
+are saved on this PC, so you only do this once. The console then says `authenticated`.
+
+If sign-in fails, the console says why: see [If something goes wrong](#if-something-goes-wrong).
+
+## Step 4: The first download
+
+The bot now downloads the rest of itself: about 1,500 files, a little over 100 MB. The console counts them off as
+they arrive: first how many files there are to get, then a line every few files saying how far it has got, for
+example `patch: downloading 300 of 1544`. You do not have to watch it, and you can close the console while it works:
+the welcome window below opens by itself when everything is in. When the new files are in, the extension reloads itself once. That is
+normal. It signs in again by itself, and then the bot's windows open.
+
+**The maps download afterwards.** The maps the bot uses to move and fly around zones are large, about 14 GB in all.
+They download in the background after the bot has loaded, and the console says so:
+`navmesh: downloading ... in the background - the bot is ready to use`. You can play while they download.
+
+## Step 5: The welcome tour
+
+When the download is done, the **Welcome to OgreBot** window opens and plays a short animation of an ogre smashing
+its way in. It ends on **Start the tour**. Click it for a short tour of how every Ogre window works: resizing, the
+right-click menu on the title bar, saving a window's place, and the settings. Click **Got it** at the end. You can
+skip both: press and hold **Hold to skip** for 3 seconds during the animation, or close the tour.
+
+Right after the tour, the **Migration Assistant** opens for a moment and closes itself. It adds an InnerSpace profile
+called **Everquest 2 ISXOgreX** that loads the bot by itself next time. If you used OgreBot Classic on this PC, it also
+copies your Classic settings into the new bot: see [Migration Assistant](windows/migrate.md).
+
+## Step 6: Log in and open the bot
+
+Log your character in to the world the usual way. Then type:
+
+```
+ogre
+```
+
+OgreBot starts, and its small window appears: see [OgreBot's small window](windows/ogremini.md). Click
+**Show Main** for the big window.
+
+**The first time on each character**, the bot asks to export your abilities: a box says there is no ability export and
+offers **Run export now**. Click it. The bot needs the export to know what your character can cast, and it stays
+paused until the export is done.
+
+## Step 7: Save your characters
+
+Open the **EQ2Chars** tab in the big OgreBot window and add each of your characters, with its game account and
+password if you want the bot to log it in for you. See [EQ2Chars](ogrebot/eq2chars.md).
+
+From then on, `ogre <name>` logs that character in from character select and starts the bot, for example
+`ogre Brutus`. Until a character is on the list, `ogre <name>` only says it is not a known character.
+
+## Next time
+
+Start your session with the **Everquest 2 ISXOgreX** profile. The bot loads, signs in and updates by itself. Then
+type `ogre <name>` at character select, or `ogre` once you are in the world.
+
+## If something goes wrong
+
+| The console says | What to do |
+|---|---|
+| `login failed - invalid credentials. Re-enter them in the login box.` | Your username or password is wrong. Type them again in the login window. They are case-sensitive. |
+| `your OgreBot subscription is not active - adapter not loaded.` | Your account has no active OgreBot subscription. |
+| `login failed - ... Sync this machine's clock ...` | Set your PC's clock right (Windows Settings, Time & language, **Sync now**), then type `ext isxogrex` again. |
+| `login failed - ... too many machines or IPs for your subscription.` | Your account is signed in on more PCs than it allows. |
+| `cannot reach the OgreGaming server. Retrying in ...` | The bot tries again by itself. If it keeps failing, check your internet connection and firewall. |
+| No Ogre windows appear | See [No Ogre windows](no-ogre-windows.md). |
+
+## Next steps
+
+- [The basics](basics.md): the window buttons every Ogre window shares.
+- [OgreBot](ogrebot/index.md): the main window, then its [Setup](ogrebot/setup.md) and
+  [Cast Stack](ogrebot/cast-stack.md) tabs.
 
 
 ---
@@ -1899,7 +2029,7 @@ Settings covers the bot's everyday conveniences outside combat. 'Pop up windows'
 |---|---|---|
 | **Do not send pet to attack** | The bot stops sending your pet at the mob it is fighting, and stops re-aiming the pet when it drifts onto another mob. Your mercenary is handled separately (see Disable Merc Support).<br>*Encounter files can tick this during a fight.* | off |
 | **Cure Curse in Reverse Order** | **Not built yet.**  | off |
-| **X abilities to group cure** | **Not built yet.**  | off |
+| **X abilities to group cure** | While you cast something that is not a cure, cancel it when a group cure on your Cast Stack would cast right now (someone in your group has a detriment it removes, and it is ready), and cast that cure next. | off |
 | **Disable Group/Raid Cures in CS** | The bot will not choose a group or raid cure when a script or command asks it for an ability, or when it picks an HO ability. The 'cure while stunned' feature on the Other tab also skips group cures. The normal Cast Stack rotation is NOT affected by this box.<br>*Despite 'in CS' (in Cast Stack) in the label, Cure entries on your Cast Stack still cast.* | off |
 | **Disable Single Target Cures in CS** | The bot will not choose a player cure when a script or command asks it for an ability, or when it picks an HO ability. The 'cure while stunned' feature on the Other tab also skips single-target cures. The normal Cast Stack rotation is NOT affected by this box.<br>*Some encounter setups tick this expecting it to stop Cast Stack cures; it does not.* | off |
 | **Enable Selective Single Target Cures** | Single-target Cure entries on your Cast Stack only cure the types ticked below (Arcane, Elemental, Noxious, Trauma). If none of the ticked types is one that cure removes, or nothing is ticked, that cure is not cast at all. Curse cures are not affected.<br>*While on, the bot also stops choosing player cures for script/command ability requests and HO picks.* | off |
@@ -7208,7 +7338,8 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 >
 > - **Recipes** tab: filter your recipe book, pick a recipe, set a Quantity and **Add Recipe** (or double-click).
 > - **Start Queue** crafts the setup queue. **Stop** ends any run. **Pause** holds it.
-> - **Queues** tab: change amounts, and save or load named queues.
+> - **Queues** tab: change amounts, see what the setup queue needs, and save or load named queues.
+> - **Queue window** opens the queue in its own window, so you can watch it while you pick recipes.
 > - **Crafting Options** and **Navigation**: quality, power, buying, movement.
 > - **Writs**, **Auto Tinkering** and **Low Level Leveling** tabs each have their own Start button.
 >
@@ -7451,7 +7582,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > **What you can do here**
 >
 > - **All levels**, or untick it and set a recipe **Level** range.
-> - **Also pull from Scroll Depot** withdraws matching scrolls from the depot first, in batches that fit your bags.
+> - **Also pull from Scroll Depot** withdraws matching scrolls from every Scroll Depot within reach first (either size, nearest first), in batches that fit your bags.
 > - **Scan** shows what would be crafted. **Start** queues it and crafts it. **Stop** ends the run.
 > - **Queue only** puts the recipes in Ogre Craft's queue and stops, so you can save the queue, check the materials or change it. It never uses the Scroll Depot, and the Craft window opens on the queue.
 >
@@ -7459,7 +7590,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 >
 > - Each batch, and Queue only, empties Ogre Craft's setup queue before it adds its recipes, so anything already there is cleared, not crafted.
 > - With the depot box ticked, Scan only looks in the depot; Start withdraws. Withdrawn scrolls are never put back.
-> - It never walks - stand at the Scroll Depot for a depot run.
+> - It never walks - stand at your Scroll Depots for a depot run.
 > - Closing the window (the X) or `ogre end craftgm` stops a run, then closes.
 
 **Open it:** Type `ogre craftgm`. `ogre craftgm 131-135` opens it with that level range already filled in (it does not scan). `ogre end craftgm` stops a run and closes the window.
@@ -7488,7 +7619,7 @@ Once a Scan or Start has run with the box ticked (ticking it alone does not show
 
 | Control | What it does | Default |
 |---|---|---|
-| **Also pull from Scroll Depot** | Before looking in your bags, withdraw (Master) scrolls that your range admits from the Scroll Depot, as many as fit in your free bag slots. After crafting those it goes back for the next batch, until the depot has none left or nothing more fits.<br>*Stand next to the Scroll Depot - it never walks. Scrolls withdrawn and not crafted stay in your bags; it never puts them back. The setting stays as you left it for the next run.* | off |
+| **Also pull from Scroll Depot** | Before looking in your bags, withdraw (Master) scrolls that your range admits from every Scroll Depot within reach, either size, nearest first, as many as fit in your free bag slots. A depot with nothing for you, or one that does not open, is passed over. After crafting those it goes back for the next batch, until the depots have none left or nothing more fits.<br>*Stand next to your Scroll Depots - it never walks. Scrolls withdrawn and not crafted stay in your bags; it never puts them back. The setting stays as you left it for the next run.* | off |
 
 
 
@@ -7496,7 +7627,7 @@ Once a Scan or Start has run with the box ticked (ticking it alone does not show
 
 | Control | What it does |
 |---|---|
-| **Scan** | Looks through your bags and fills the table with what the range would craft. It queues and crafts nothing.<br>*With Also pull from Scroll Depot ticked, Scan also opens the Scroll Depot and shows what a Start would withdraw - it withdraws nothing.* |
+| **Scan** | Looks through your bags and fills the table with what the range would craft. It queues and crafts nothing.<br>*With Also pull from Scroll Depot ticked, Scan also opens each Scroll Depot within reach and shows what a Start would withdraw - it withdraws nothing.* |
 | **Start** | Scans, adds every admitted Grandmaster recipe to the Ogre Craft setup queue (one craft per scroll held), starts the craft queue and watches it to the end.<br>*Refused if an Ogre Craft run is already going. Each batch empties the setup queue just before it adds its recipes, so anything you queued yourself is not crafted with it. Recipes you have not learned are skipped and marked 'not in your recipe book'.* |
 | **Queue only** | Scans, then replaces the Ogre Craft setup queue with every admitted Grandmaster recipe (one craft per scroll held) and stops. Nothing is crafted, and the Craft window opens on the queue so you can save it, check the materials or change it.<br>*Never uses the Scroll Depot, whatever the depot box says - it builds the list from your bags. Refused if an Ogre Craft run is already going. Recipes you have not learned are skipped and marked 'not in your recipe book'.* |
 | **Stop** | Stops the run. If this window started the craft queue, that is stopped too; a craft run somebody else started is left alone.<br>*Only active while a run is going. The window stays open.* |
@@ -7521,7 +7652,7 @@ One row per (Master) scroll found: the scroll, the Grandmaster recipe it becomes
 - Each batch Start crafts empties Ogre Craft's setup queue first, so anything you had waiting there is cleared, not crafted. Stop never empties it.
 - With the Scroll Depot box ticked, Scan only looks in the depot; Start withdraws. Withdrawn scrolls are never put back.
 - Withdrawn scrolls that are not crafted (not learned, out of range) stay in your bags.
-- It never walks: stand at the Scroll Depot for a depot run. If it is not nearby the run stops and does nothing (it does not quietly fall back to bags only).
+- It never walks: stand at your Scroll Depots for a depot run. It uses every one within reach, nearest first. If none is nearby, or none of them opens, the run stops and does nothing (it does not quietly fall back to bags only).
 - A range typed backwards (e.g. 135 to 131) is refused - the run does not start. A blank or 0 box is filled in for you instead (Level becomes 1, to becomes the Level value).
 - The run has no time limit while crafting; use Stop if it is stuck.
 
@@ -11590,7 +11721,7 @@ combat, then goes on.
 | `groupWithin` | `10` | How close to the spot everyone must be before going on. |
 | `spotLimitMs` | `30000` | Time allowed per spot. Fights, pauses and deaths do not count. |
 | `onSpotTimeout` | `"retry"` | When a spot takes too long: `"retry"` it once, then fail; `"fail"`; or `"proceed"` to the next spot. |
-| `waitForCombat` | `true` | Hold at each spot while anything is fighting the group. `false` to not hold, or the keys of [`waitForCombat`](#waitforcombat). |
+| `waitForCombat` | `true` | Stop for aggro. `true`: on a `nav` leg, aggro on the way gathers the group on the leader and holds until it is clear, then the leg goes on; at each spot (`nav` and `campspot`) the walk holds while anything is fighting the group. `false`: the walk never stops for aggro - the bots still fight, the walk does not wait for them. Or the keys of [`waitForCombat`](#waitforcombat). |
 | `fly` | `false` | With `nav`: fly where it can. |
 | `waitForStragglers` | `true` | With `nav`: wait for anyone who falls far behind on the way. |
 | `exitOnActorAggro` | | An actor's name. The walk ends the moment it is fighting the group. |

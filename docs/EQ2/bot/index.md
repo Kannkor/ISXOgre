@@ -16,6 +16,8 @@ described is outlined in **pink** in its picture.
 
 ## Where to start
 
+- Installing the bot? Start with [Installing and first start](install.md): one download, sign in, and the bot
+  fetches the rest.
 - New to the bot? Read [The basics](basics.md) first. It covers the window buttons every window shares.
 - Setting up a character: [OgreBot](ogrebot/index.md), then its [Settings](ogrebot/settings.md) and
   [Cast Stack](ogrebot/cast-stack.md) tabs.

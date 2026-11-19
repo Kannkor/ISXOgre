@@ -287,7 +287,7 @@ combat, then goes on.
 | `groupWithin` | `10` | How close to the spot everyone must be before going on. |
 | `spotLimitMs` | `30000` | Time allowed per spot. Fights, pauses and deaths do not count. |
 | `onSpotTimeout` | `"retry"` | When a spot takes too long: `"retry"` it once, then fail; `"fail"`; or `"proceed"` to the next spot. |
-| `waitForCombat` | `true` | Hold at each spot while anything is fighting the group. `false` to not hold, or the keys of [`waitForCombat`](#waitforcombat). |
+| `waitForCombat` | `true` | Stop for aggro. `true`: on a `nav` leg, aggro on the way gathers the group on the leader and holds until it is clear, then the leg goes on; at each spot (`nav` and `campspot`) the walk holds while anything is fighting the group. `false`: the walk never stops for aggro - the bots still fight, the walk does not wait for them. Or the keys of [`waitForCombat`](#waitforcombat). |
 | `fly` | `false` | With `nav`: fly where it can. |
 | `waitForStragglers` | `true` | With `nav`: wait for anyone who falls far behind on the way. |
 | `exitOnActorAggro` | | An actor's name. The walk ends the moment it is fighting the group. |

@@ -12,7 +12,8 @@
 >
 > - **Recipes** tab: filter your recipe book, pick a recipe, set a Quantity and **Add Recipe** (or double-click).
 > - **Start Queue** crafts the setup queue. **Stop** ends any run. **Pause** holds it.
-> - **Queues** tab: change amounts, and save or load named queues.
+> - **Queues** tab: change amounts, see what the setup queue needs, and save or load named queues.
+> - **Queue window** opens the queue in its own window, so you can watch it while you pick recipes.
 > - **Crafting Options** and **Navigation**: quality, power, buying, movement.
 > - **Writs**, **Auto Tinkering** and **Low Level Leveling** tabs each have their own Start button.
 >

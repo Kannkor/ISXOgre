@@ -11,7 +11,7 @@
 > **What you can do here**
 >
 > - **All levels**, or untick it and set a recipe **Level** range.
-> - **Also pull from Scroll Depot** withdraws matching scrolls from the depot first, in batches that fit your bags.
+> - **Also pull from Scroll Depot** withdraws matching scrolls from every Scroll Depot within reach first (either size, nearest first), in batches that fit your bags.
 > - **Scan** shows what would be crafted. **Start** queues it and crafts it. **Stop** ends the run.
 > - **Queue only** puts the recipes in Ogre Craft's queue and stops, so you can save the queue, check the materials or change it. It never uses the Scroll Depot, and the Craft window opens on the queue.
 >
@@ -19,7 +19,7 @@
 >
 > - Each batch, and Queue only, empties Ogre Craft's setup queue before it adds its recipes, so anything already there is cleared, not crafted.
 > - With the depot box ticked, Scan only looks in the depot; Start withdraws. Withdrawn scrolls are never put back.
-> - It never walks - stand at the Scroll Depot for a depot run.
+> - It never walks - stand at your Scroll Depots for a depot run.
 > - Closing the window (the X) or `ogre end craftgm` stops a run, then closes.
 
 **Open it:** Type `ogre craftgm`. `ogre craftgm 131-135` opens it with that level range already filled in (it does not scan). `ogre end craftgm` stops a run and closes the window.
@@ -57,7 +57,7 @@ Once a Scan or Start has run with the box ticked (ticking it alone does not show
 
 | Control | What it does | Default |
 |---|---|---|
-| **Also pull from Scroll Depot** | Before looking in your bags, withdraw (Master) scrolls that your range admits from the Scroll Depot, as many as fit in your free bag slots. After crafting those it goes back for the next batch, until the depot has none left or nothing more fits.<br>*Stand next to the Scroll Depot - it never walks. Scrolls withdrawn and not crafted stay in your bags; it never puts them back. The setting stays as you left it for the next run.* | off |
+| **Also pull from Scroll Depot** | Before looking in your bags, withdraw (Master) scrolls that your range admits from every Scroll Depot within reach, either size, nearest first, as many as fit in your free bag slots. A depot with nothing for you, or one that does not open, is passed over. After crafting those it goes back for the next batch, until the depots have none left or nothing more fits.<br>*Stand next to your Scroll Depots - it never walks. Scrolls withdrawn and not crafted stay in your bags; it never puts them back. The setting stays as you left it for the next run.* | off |
 
 
 
@@ -67,7 +67,7 @@ Once a Scan or Start has run with the box ticked (ticking it alone does not show
 
 | Control | What it does |
 |---|---|
-| **Scan** | Looks through your bags and fills the table with what the range would craft. It queues and crafts nothing.<br>*With Also pull from Scroll Depot ticked, Scan also opens the Scroll Depot and shows what a Start would withdraw - it withdraws nothing.* |
+| **Scan** | Looks through your bags and fills the table with what the range would craft. It queues and crafts nothing.<br>*With Also pull from Scroll Depot ticked, Scan also opens each Scroll Depot within reach and shows what a Start would withdraw - it withdraws nothing.* |
 | **Start** | Scans, adds every admitted Grandmaster recipe to the Ogre Craft setup queue (one craft per scroll held), starts the craft queue and watches it to the end.<br>*Refused if an Ogre Craft run is already going. Each batch empties the setup queue just before it adds its recipes, so anything you queued yourself is not crafted with it. Recipes you have not learned are skipped and marked 'not in your recipe book'.* |
 | **Queue only** | Scans, then replaces the Ogre Craft setup queue with every admitted Grandmaster recipe (one craft per scroll held) and stops. Nothing is crafted, and the Craft window opens on the queue so you can save it, check the materials or change it.<br>*Never uses the Scroll Depot, whatever the depot box says - it builds the list from your bags. Refused if an Ogre Craft run is already going. Recipes you have not learned are skipped and marked 'not in your recipe book'.* |
 | **Stop** | Stops the run. If this window started the craft queue, that is stopped too; a craft run somebody else started is left alone.<br>*Only active while a run is going. The window stays open.* |
@@ -95,7 +95,7 @@ One row per (Master) scroll found: the scroll, the Grandmaster recipe it becomes
 - Each batch Start crafts empties Ogre Craft's setup queue first, so anything you had waiting there is cleared, not crafted. Stop never empties it.
 - With the Scroll Depot box ticked, Scan only looks in the depot; Start withdraws. Withdrawn scrolls are never put back.
 - Withdrawn scrolls that are not crafted (not learned, out of range) stay in your bags.
-- It never walks: stand at the Scroll Depot for a depot run. If it is not nearby the run stops and does nothing (it does not quietly fall back to bags only).
+- It never walks: stand at your Scroll Depots for a depot run. It uses every one within reach, nearest first. If none is nearby, or none of them opens, the run stops and does nothing (it does not quietly fall back to bags only).
 - A range typed backwards (e.g. 135 to 131) is refused - the run does not start. A blank or 0 box is filled in for you instead (Level becomes 1, to becomes the Level value).
 - The run has no time limit while crafting; use Stop if it is stuck.
 
