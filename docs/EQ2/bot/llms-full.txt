@@ -92,7 +92,8 @@ ext isxogrex
 ```
 
 A window called **OgreX - Login** opens. Enter your OgreBot **Username** and **Password** and click **Login**. They
-are saved on this PC, so you only do this once. The console then says `authenticated`.
+are in the **Welcome to ISXOgre** email you got when you subscribed, and they are the same as for OgreBot Classic.
+Copy and paste them: they are case-sensitive. They are saved on this PC, so you only do this once. The console then says `authenticated`.
 
 If sign-in fails, the console says why: see [If something goes wrong](#if-something-goes-wrong).
 
