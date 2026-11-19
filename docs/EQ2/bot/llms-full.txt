@@ -391,6 +391,19 @@ Smart App Control is a Windows 11 security setting that blocks programs and file
 - **If it blocked `OgreUltralight.exe`:** draw the windows inside the game instead. Choose **Draw them in the game** in the window that opened, or type `ogre ui exe off`, then restart the game.
 - **If it blocked Ogre's window files:** drawing them in `OgreUltralight.exe` will most likely be blocked too. Turning Smart App Control off is the fix: open **Windows Security**, then **App & browser control**, then **Smart App Control settings**, and choose **Off**. On some versions of Windows, Smart App Control cannot be turned back on without resetting Windows, so read what Windows says before you choose.
 
+## "a file Ogre's windows need is missing" or "OgreUltralight.exe could not start - a file it needs is missing"
+
+Ogre's windows need a few files beside them, among them Microsoft's Visual C++ runtime files, which the bot brings
+with it. One of them is not there. Drawing the windows the other way will not help: both ways need the same files.
+
+- **Restart the game.** Each time the bot loads it checks its files and downloads any that are missing.
+- **If it comes back,** your antivirus may be removing the file. Look in its quarantine or history for a file from your
+  InnerSpace folder's `x64\Extensions\ISXDK35\OgreUIRuntime\` folder, restore it, and allow that folder.
+- When `OgreUltralight.exe` is the one that failed, Windows also shows its own box naming the missing file. That name
+  helps if you send the files below.
+
+
+
 ## "Windows would not load Ogre's window files into the game" or "did not start inside the game"
 
 Try the other way of drawing them: choose **Use OgreUltralight.exe** in the window that opened, or type `ogre ui exe on`, then restart the game. If that does not help either, send the files below.
