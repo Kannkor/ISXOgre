@@ -29,7 +29,7 @@ Right-click a window's title bar for this menu:
 | Item | What it does |
 |---|---|
 | **Help** | The same as the **?** button. |
-| **Save Position** | Remembers where the window is and how big it is. It opens there next time. It is dimmed while the window is locked: unlock the window to save its position. |
+| **Save Position** | Remembers where the window is and how big it is. It opens there next time. Save it while it is minimized and it opens minimized every time; save it again while it is open to stop that. It is dimmed while the window is locked: unlock the window to save its position. |
 | **Lock / Unlock** | Stops the window from being moved or resized, or allows it again. Like the padlock, it is remembered for next time. |
 | **Minimize / Restore** | The same as the **▼ / ▲** button. |
 | **Reset** | Puts the window back where it first opened, at its first size, turns off Lock and Pin to back, sets Console back to use default, and restores it if it was minimized. |

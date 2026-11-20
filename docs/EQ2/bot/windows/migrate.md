@@ -6,7 +6,7 @@
 
 > **:bulb: In game - the ? button on this window says**
 >
-> Copies your OgreBot Classic settings into the new bot: logins, Inventory Manager settings and lists, OgreBot profiles, IRC settings, MCP buttons and saved AutoTarget lists. It also adds an InnerSpace game profile, **Everquest 2 ISXOgreX**, under each InnerSpace game that runs EverQuest2.exe (whatever you named it) - launch a session with it and the new bot loads by itself.
+> Copies your OgreBot Classic settings into the new bot: logins, Inventory Manager settings and lists, OgreBot profiles, IRC settings, MCP buttons, saved AutoTarget lists and effect tracker recordings. It also adds an InnerSpace game profile, **Everquest 2 ISXOgreX**, under each InnerSpace game that runs EverQuest2.exe (whatever you named it) - launch a session with it and the new bot loads by itself.
 >
 > **What you can do here**
 >
@@ -28,7 +28,7 @@
 
 ## What it is for
 
-The Migration Assistant copies your Classic settings into the new bot: logins, Inventory Manager settings and lists, OgreBot profiles, IRC settings, MCP buttons and saved AutoTarget lists. It also adds an InnerSpace game profile, **Everquest 2 ISXOgreX**, that loads the new bot by itself. You do not have to do anything. When the bot loads, every item that has Classic files but nothing in the new bot yet is copied automatically, and this window pops up to show the progress, then closes itself. Your old Classic files are only read, never changed. Open it yourself with `ogre migrate` to see the status of each item and to copy an item again, replacing what the new bot has.
+The Migration Assistant copies your Classic settings into the new bot: logins, Inventory Manager settings and lists, OgreBot profiles, IRC settings, MCP buttons, saved AutoTarget lists and effect tracker recordings. It also adds an InnerSpace game profile, **Everquest 2 ISXOgreX**, that loads the new bot by itself. You do not have to do anything. When the bot loads, every item that has Classic files but nothing in the new bot yet is copied automatically, and this window pops up to show the progress, then closes itself. Your old Classic files are only read, never changed. Open it yourself with `ogre migrate` to see the status of each item and to copy an item again, replacing what the new bot has.
 
 ## The item boxes
 

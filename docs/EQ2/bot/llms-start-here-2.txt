@@ -18,6 +18,21 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.11.20.001 {#r2026-11-20-001}
+
+*Friday, November 20, 2026 at 1:16 AM EST*
+
+- **New** · Windows: **A new MCP starts with basic buttons.** A new install's MCP now has Let's Go, Hold Up, Camp Spot, Follow Me, Pause and Resume on every page, and a Basics page with Use Flag, Repair, Zone Reset, Special, Rescue and Intercept Me. If you migrate your OgreBot Classic MCP before changing them, your Classic buttons replace them without asking.
+- **New** · Windows: **Save Position can make a window open minimized.** Save Position now also remembers whether the window is minimized. Minimize a window, then right-click its title bar and choose Save Position, and it opens minimized every time from then on. Save it again while it is open and it goes back to opening normally.
+- **Changed** · Bot: **Effect tracker recordings are kept in OgreSave.** The effect tracker now saves its recordings in OgreSave\EQ2\EffectTracker instead of OgreBot Classic's EQ2OgreCommon folders, and its ignore list comes with the bot. The Migration Assistant copies your existing recordings over once.
+- **Changed** · Bot: **The bot reads OgreBot Classic's folders only to migrate.** Loot caps, key binds, uplinks, Ogre Craft settings and MCP buttons are taken from your Classic files once, by migration, and from then on only from the new bot's own files. Tradeskill exports are now saved in OgreSave\EQ2\Craft\TSExports. A loot file that cannot be read now says so instead of quietly using old Classic data.
+- **Changed** · Windows: **Auto-Login's Start can run changes you have not saved.** In the Auto-Login window, Start now runs the profile as it is in the window, so you can change a profile, click Start, and close the window without saving. The saved profile stays exactly as it was, and a profile you have not saved yet can be started too. With no changes, Start runs the saved profile as before.
+- **Changed** · Setup: **Your OgreBot Classic login is copied once only.** The bot copies your login from OgreBot Classic the first time it starts, and after that only uses its own saved login. If you clear your login in the bot, it asks you for it again instead of bringing back the old Classic one.
+- **Fixed** · Bot: **Buying Overseer missions works on a new install.** `ogre bom` stopped with "could not load the mission database" on a PC that never ran OgreBot Classic, because the mission list came from Classic's folders. The list now comes with the bot.
+- **Fixed** · Bot: **Dragoon's Reflexes and Superior Guard are no longer broken by the bot's own combat arts.** While a warrior's Dragoon's Reflexes (on TLE servers) or a monk's Superior Guard is up, the cast stack now holds its offensive abilities, as the old bot did, so the bot no longer cancels the buff by casting a combat art right after it. A guardian's Block holds them the same way. An ability you fire yourself from a button still goes through.
+- **Fixed** · Bot: **Melee and Ranged Attack wait for the "% to attack" health again.** With Melee Attack or Ranged Attack ticked, the bot turned auto-attack on as soon as the target was in reach, even at 100% health, ignoring the "% to attack" setting. It now waits until the target is at or below that health, as the old bot did, unless the health check is set to be ignored.
+- **Fixed** · Setup: **All your Classic AutoTarget lists come over.** The Migration Assistant now copies every saved AutoTarget list from OgreBot Classic, including zones that only had a list in the SavedTargets folder. The bot then reads your lists from OgreSave only.
+
 ## 2026.11.19.004 {#r2026-11-19-004}
 
 *Thursday, November 19, 2026 at 10:07 PM EST*

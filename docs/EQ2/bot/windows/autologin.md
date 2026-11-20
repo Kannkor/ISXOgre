@@ -16,12 +16,12 @@
 > - **Settings** - the game to launch and the pauses between launches and logins (in tenths of a second).
 > - **ISBoxer character sets** - if you launch with ISBoxer, pick the set for each PC. Start launches them first, then logs your characters into the sessions they opened, and launches only a session that is still missing. Leave a PC empty if it doesn't use ISBoxer.
 > - **Save** the profile, **Delete** the one selected in the list, or make a **Desktop shortcut** that runs it.
-> - **Start** runs the selected saved profile. Tick **Dry run** to only list what it would do.
+> - **Start** runs the profile as it is in this window. Tick **Dry run** to only list what it would do.
 >
 > **Good to know**
 >
 > - Saving over an existing profile needs **Overwrite** ticked.
-> - Start runs the saved profile, so Save first.
+> - Start never saves. Changes you have not saved are used for that one run only: close the window and the saved profile is as it was.
 > - No passwords are stored; characters must be in your saved account list - on another PC, in that PC's list.
 > - Another PC needs Ogre installed. One that can't be reached has its rows skipped.
 

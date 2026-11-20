@@ -24,6 +24,7 @@
 > - A colour is kept however you close the picker; **Reset** takes a custom colour off. The gear's **Reset all colours** takes every page's and button's colours off at once.
 > - A button needs a name - use **Clear button** to remove one.
 > - A button with **Ask when pressed** asks for its values before it sends. A new MCP's **Inputs** page is full of them.
+> - A new install starts with the basics: Let's Go, Hold Up, Camp Spot, Follow Me, Pause and Resume on every page, and a **Basics** page.
 
 **Open it:** Press **Alt** and the backtick key together to open or close it, or type `ogre mcp` (close with `ogre end mcp`). `ogre mcp` does nothing if the MCP is already open. Tick **Enable OgreMCP** (OgreBot, Settings tab, On Load) to open it every time a profile loads.
 
@@ -229,6 +230,34 @@ The Layout drawer. Changes show at once and are saved. They change the buttons, 
 - If OgreMCP.json is damaged, the MCP opens with a few sample buttons and leaves the file alone so you can repair it. Fix or restore it before changing anything in the MCP - any change saves over it.
 - Buttons from the old OgreBot MCP can be brought over from the Migration window ('Migrate your MCP buttons').
 - A button with **Ask when pressed** ticked opens the [Ask](mcpask.md) window instead of sending at once, and so does a key assigned to it (the MCP must be open for that). A new MCP has an **Inputs** page of them; an existing one gets them from **Ready-made** in [Build command](mcpbuild.md).
+
+### The buttons a new install starts with
+
+A new install's MCP starts with a few basic buttons. Change, move or clear them like any other button. If you migrate your OgreBot Classic MCP before you change anything here, your Classic buttons replace these without asking. After a change, the migration asks first.
+
+**On every page (the static block):**
+
+| Button | What it does |
+|---|---|
+| **Let's Go** | Lifts Hold Up and the camp spot, so the characters move freely again. |
+| **Hold Up** | Stops following and moving. The camp spot still pulls a character back. |
+| **Camp Spot** | Each character sets its camp spot where it stands. |
+| **Follow Me** | The characters follow the one you pressed it on. |
+| **Pause** | Pauses the bots. |
+| **Resume** | Resumes the bots. |
+
+**The Basics page:**
+
+| Button | What it does |
+|---|---|
+| **Use Flag** | Uses a flag from a guild strategist. |
+| **Repair** | Repairs your gear at a repairer or a repair bot. |
+| **Zone Reset** | Opens the [Zone Resetter](zonereset.md) on this character. |
+| **Special** | Clicks the nearest special. |
+| **Rescue** | The fighters in your group cast Rescue on their target. |
+| **Intercept Me** | The other fighters in your group cast Intercept on you. |
+
+Every button except Zone Reset, Rescue and Intercept Me goes to the characters picked in For Who. The **Inputs** page holds the ready-made **Ask when pressed** buttons.
 
 ### Switching pages
 

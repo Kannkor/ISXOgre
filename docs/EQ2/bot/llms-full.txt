@@ -330,7 +330,7 @@ Right-click a window's title bar for this menu:
 | Item | What it does |
 |---|---|
 | **Help** | The same as the **?** button. |
-| **Save Position** | Remembers where the window is and how big it is. It opens there next time. It is dimmed while the window is locked: unlock the window to save its position. |
+| **Save Position** | Remembers where the window is and how big it is. It opens there next time. Save it while it is minimized and it opens minimized every time; save it again while it is open to stop that. It is dimmed while the window is locked: unlock the window to save its position. |
 | **Lock / Unlock** | Stops the window from being moved or resized, or allows it again. Like the padlock, it is remembered for next time. |
 | **Minimize / Restore** | The same as the **▼ / ▲** button. |
 | **Reset** | Puts the window back where it first opened, at its first size, turns off Lock and Pin to back, sets Console back to use default, and restores it if it was minimized. |
@@ -429,6 +429,21 @@ What changed in OgreBot, release by release, newest first. Every release listed 
 A release is named by the day it was published and its number that day: **2026.10.16.005** is the fifth release on October 16, 2026. Releases with nothing you would notice are not listed, so the numbers can skip.
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
+
+## 2026.11.20.001 {#r2026-11-20-001}
+
+*Friday, November 20, 2026 at 1:16 AM EST*
+
+- **New** · Windows: **A new MCP starts with basic buttons.** A new install's MCP now has Let's Go, Hold Up, Camp Spot, Follow Me, Pause and Resume on every page, and a Basics page with Use Flag, Repair, Zone Reset, Special, Rescue and Intercept Me. If you migrate your OgreBot Classic MCP before changing them, your Classic buttons replace them without asking.
+- **New** · Windows: **Save Position can make a window open minimized.** Save Position now also remembers whether the window is minimized. Minimize a window, then right-click its title bar and choose Save Position, and it opens minimized every time from then on. Save it again while it is open and it goes back to opening normally.
+- **Changed** · Bot: **Effect tracker recordings are kept in OgreSave.** The effect tracker now saves its recordings in OgreSave\EQ2\EffectTracker instead of OgreBot Classic's EQ2OgreCommon folders, and its ignore list comes with the bot. The Migration Assistant copies your existing recordings over once.
+- **Changed** · Bot: **The bot reads OgreBot Classic's folders only to migrate.** Loot caps, key binds, uplinks, Ogre Craft settings and MCP buttons are taken from your Classic files once, by migration, and from then on only from the new bot's own files. Tradeskill exports are now saved in OgreSave\EQ2\Craft\TSExports. A loot file that cannot be read now says so instead of quietly using old Classic data.
+- **Changed** · Windows: **Auto-Login's Start can run changes you have not saved.** In the Auto-Login window, Start now runs the profile as it is in the window, so you can change a profile, click Start, and close the window without saving. The saved profile stays exactly as it was, and a profile you have not saved yet can be started too. With no changes, Start runs the saved profile as before.
+- **Changed** · Setup: **Your OgreBot Classic login is copied once only.** The bot copies your login from OgreBot Classic the first time it starts, and after that only uses its own saved login. If you clear your login in the bot, it asks you for it again instead of bringing back the old Classic one.
+- **Fixed** · Bot: **Buying Overseer missions works on a new install.** `ogre bom` stopped with "could not load the mission database" on a PC that never ran OgreBot Classic, because the mission list came from Classic's folders. The list now comes with the bot.
+- **Fixed** · Bot: **Dragoon's Reflexes and Superior Guard are no longer broken by the bot's own combat arts.** While a warrior's Dragoon's Reflexes (on TLE servers) or a monk's Superior Guard is up, the cast stack now holds its offensive abilities, as the old bot did, so the bot no longer cancels the buff by casting a combat art right after it. A guardian's Block holds them the same way. An ability you fire yourself from a button still goes through.
+- **Fixed** · Bot: **Melee and Ranged Attack wait for the "% to attack" health again.** With Melee Attack or Ranged Attack ticked, the bot turned auto-attack on as soon as the target was in reach, even at 100% health, ignoring the "% to attack" setting. It now waits until the target is at or below that health, as the old bot did, unless the health check is set to be ignored.
+- **Fixed** · Setup: **All your Classic AutoTarget lists come over.** The Migration Assistant now copies every saved AutoTarget list from OgreBot Classic, including zones that only had a list in the SavedTargets folder. The bot then reads your lists from OgreSave only.
 
 ## 2026.11.19.004 {#r2026-11-19-004}
 
@@ -4591,6 +4606,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - A colour is kept however you close the picker; **Reset** takes a custom colour off. The gear's **Reset all colours** takes every page's and button's colours off at once.
 > - A button needs a name - use **Clear button** to remove one.
 > - A button with **Ask when pressed** asks for its values before it sends. A new MCP's **Inputs** page is full of them.
+> - A new install starts with the basics: Let's Go, Hold Up, Camp Spot, Follow Me, Pause and Resume on every page, and a **Basics** page.
 
 **Open it:** Press **Alt** and the backtick key together to open or close it, or type `ogre mcp` (close with `ogre end mcp`). `ogre mcp` does nothing if the MCP is already open. Tick **Enable OgreMCP** (OgreBot, Settings tab, On Load) to open it every time a profile loads.
 
@@ -4772,6 +4788,34 @@ The Layout drawer. Changes show at once and are saved. They change the buttons, 
 - If OgreMCP.json is damaged, the MCP opens with a few sample buttons and leaves the file alone so you can repair it. Fix or restore it before changing anything in the MCP - any change saves over it.
 - Buttons from the old OgreBot MCP can be brought over from the Migration window ('Migrate your MCP buttons').
 - A button with **Ask when pressed** ticked opens the [Ask](mcpask.md) window instead of sending at once, and so does a key assigned to it (the MCP must be open for that). A new MCP has an **Inputs** page of them; an existing one gets them from **Ready-made** in [Build command](mcpbuild.md).
+
+### The buttons a new install starts with
+
+A new install's MCP starts with a few basic buttons. Change, move or clear them like any other button. If you migrate your OgreBot Classic MCP before you change anything here, your Classic buttons replace these without asking. After a change, the migration asks first.
+
+**On every page (the static block):**
+
+| Button | What it does |
+|---|---|
+| **Let's Go** | Lifts Hold Up and the camp spot, so the characters move freely again. |
+| **Hold Up** | Stops following and moving. The camp spot still pulls a character back. |
+| **Camp Spot** | Each character sets its camp spot where it stands. |
+| **Follow Me** | The characters follow the one you pressed it on. |
+| **Pause** | Pauses the bots. |
+| **Resume** | Resumes the bots. |
+
+**The Basics page:**
+
+| Button | What it does |
+|---|---|
+| **Use Flag** | Uses a flag from a guild strategist. |
+| **Repair** | Repairs your gear at a repairer or a repair bot. |
+| **Zone Reset** | Opens the [Zone Resetter](zonereset.md) on this character. |
+| **Special** | Clicks the nearest special. |
+| **Rescue** | The fighters in your group cast Rescue on their target. |
+| **Intercept Me** | The other fighters in your group cast Intercept on you. |
+
+Every button except Zone Reset, Rescue and Intercept Me goes to the characters picked in For Who. The **Inputs** page holds the ready-made **Ask when pressed** buttons.
 
 ### Switching pages
 
@@ -7994,12 +8038,12 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - **Settings** - the game to launch and the pauses between launches and logins (in tenths of a second).
 > - **ISBoxer character sets** - if you launch with ISBoxer, pick the set for each PC. Start launches them first, then logs your characters into the sessions they opened, and launches only a session that is still missing. Leave a PC empty if it doesn't use ISBoxer.
 > - **Save** the profile, **Delete** the one selected in the list, or make a **Desktop shortcut** that runs it.
-> - **Start** runs the selected saved profile. Tick **Dry run** to only list what it would do.
+> - **Start** runs the profile as it is in this window. Tick **Dry run** to only list what it would do.
 >
 > **Good to know**
 >
 > - Saving over an existing profile needs **Overwrite** ticked.
-> - Start runs the saved profile, so Save first.
+> - Start never saves. Changes you have not saved are used for that one run only: close the window and the saved profile is as it was.
 > - No passwords are stored; characters must be in your saved account list - on another PC, in that PC's list.
 > - Another PC needs Ogre installed. One that can't be reached has its rows skipped.
 
@@ -9387,7 +9431,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 
 > **:bulb: In game - the ? button on this window says**
 >
-> Copies your OgreBot Classic settings into the new bot: logins, Inventory Manager settings and lists, OgreBot profiles, IRC settings, MCP buttons and saved AutoTarget lists. It also adds an InnerSpace game profile, **Everquest 2 ISXOgreX**, under each InnerSpace game that runs EverQuest2.exe (whatever you named it) - launch a session with it and the new bot loads by itself.
+> Copies your OgreBot Classic settings into the new bot: logins, Inventory Manager settings and lists, OgreBot profiles, IRC settings, MCP buttons, saved AutoTarget lists and effect tracker recordings. It also adds an InnerSpace game profile, **Everquest 2 ISXOgreX**, under each InnerSpace game that runs EverQuest2.exe (whatever you named it) - launch a session with it and the new bot loads by itself.
 >
 > **What you can do here**
 >
@@ -9407,7 +9451,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 
 ## What it is for
 
-The Migration Assistant copies your Classic settings into the new bot: logins, Inventory Manager settings and lists, OgreBot profiles, IRC settings, MCP buttons and saved AutoTarget lists. It also adds an InnerSpace game profile, **Everquest 2 ISXOgreX**, that loads the new bot by itself. You do not have to do anything. When the bot loads, every item that has Classic files but nothing in the new bot yet is copied automatically, and this window pops up to show the progress, then closes itself. Your old Classic files are only read, never changed. Open it yourself with `ogre migrate` to see the status of each item and to copy an item again, replacing what the new bot has.
+The Migration Assistant copies your Classic settings into the new bot: logins, Inventory Manager settings and lists, OgreBot profiles, IRC settings, MCP buttons, saved AutoTarget lists and effect tracker recordings. It also adds an InnerSpace game profile, **Everquest 2 ISXOgreX**, that loads the new bot by itself. You do not have to do anything. When the bot loads, every item that has Classic files but nothing in the new bot yet is copied automatically, and this window pops up to show the progress, then closes itself. Your old Classic files are only read, never changed. Open it yourself with `ogre migrate` to see the status of each item and to copy an item again, replacing what the new bot has.
 
 ## The item boxes
 
