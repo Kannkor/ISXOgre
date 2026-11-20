@@ -10,6 +10,12 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.11.20.002 {#r2026-11-20-002}
+
+*Friday, November 20, 2026 at 2:39 AM EST*
+
+- **New** · Bot: **Cast Stack has a Savagery "less than" condition.** A Beastlord's cast stack entries now have a Savagery < box beside Savagery ≥, to cast an ability only while your Savagery is below a level. For example, Savagery < 6 skips an ability once your Savagery is full.
+
 ## 2026.11.20.001 {#r2026-11-20-001}
 
 *Friday, November 20, 2026 at 1:16 AM EST*
