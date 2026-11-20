@@ -430,6 +430,12 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.11.19.003 {#r2026-11-19-003}
+
+*Thursday, November 19, 2026 at 8:46 PM EST*
+
+- **Fixed** · Bot: **A slower PC no longer stays at a low frame rate after entering the world.** On a slower PC, the bot's one-time learning of the game's windows could keep the game at about 12 frames a second and start over every minute. It now does far less work, and if it ever runs too long it stops and tries again at the next zone instead of starting over.
+
 ## 2026.11.19.002 {#r2026-11-19-002}
 
 *Thursday, November 19, 2026 at 7:41 PM EST*
