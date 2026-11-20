@@ -368,6 +368,7 @@ A character listed here has its own setting for a class that has a rule shown ab
 
 - A row with no rule says what happens instead: another rule that still applies, or that it starts from the class sample.
 - The footer shows what the last button did.
+- **missing** beside a file: the rule names a profile file that is no longer in the Main profiles folder. A character the rule is for can't open OgreBot until you pick another file or **Clear** the rule.
 
 ## Good to know
 
@@ -375,6 +376,20 @@ A character listed here has its own setting for a class that has a rule shown ab
 - With every server shown, a character with its own setting counts as overriding the All rule too.
 - A character's own setting wins over any rule here. It is set on the Persona tab in OgreBot.
 - Every character on this PC shares these rules (OgreSave/EQ2/OgreBot/Profiles/Routing.json).
+
+## Profile not found
+
+When OgreBot can't open for a character because one of these rules names a profile file that isn't there any more, a small **Profile not found** window opens.
+
+![The Profile not found window](../assets/routefix/window.png)
+
+It says which rule it is (for one character, for every character of a class, or for every character), which file is missing, and which profile the character will use instead.
+
+- **Fix it and open OgreBot** removes just that rule, then opens OgreBot the way you asked for it. No file is deleted.
+- **Open the Persona window** opens this window, so you can pick a different file yourself.
+- **Not now** closes it. OgreBot stays closed.
+
+If the next rule also names a missing file, the window comes back for that one.
 
 
 ---

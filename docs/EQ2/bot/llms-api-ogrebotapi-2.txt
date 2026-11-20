@@ -871,7 +871,7 @@ OgreBotAPI.CastStack:MoveEntry[fw, row, to]
 
 OgreBotAPI.CastStack:ReloadRangeExtenders[fw]
   kind: method of OgreBotAPI.CastStack
-  what: Re-reads the per-zone range extender file, OgreSave/EQ2/OgreBot/Encounters/RangeExtenders.json, at once and prints how many zones and entries it loaded, or a warning. The file lists, per zone, detrimental effects that change your ability range; nothing is saved.
+  what: Re-reads the per-zone range extender file, Ogre/EQ2/Encounters/RangeExtenders.json (it comes with the bot), at once and prints how many zones and entries it loaded, or a warning. The file lists, per zone, detrimental effects that change your ability range; nothing is saved.
   arg fw (for-who): for-who: this runs only when this character is one it names
   example: OgreBotAPI.CastStack:ReloadRangeExtenders[${Me.Name}]
 

@@ -1072,7 +1072,7 @@ OgreBotAPI.CastStack:MoveEntry[${Me.Name},"Item:Eye of the Siren",top]
 
 `OgreBotAPI.CastStack:ReloadRangeExtenders[fw]`
 
-Re-reads the per-zone range extender file, OgreSave/EQ2/OgreBot/Encounters/RangeExtenders.json, at once and prints how many zones and entries it loaded, or a warning. The file lists, per zone, detrimental effects that change your ability range; nothing is saved.
+Re-reads the per-zone range extender file, Ogre/EQ2/Encounters/RangeExtenders.json (it comes with the bot), at once and prints how many zones and entries it loaded, or a warning. The file lists, per zone, detrimental effects that change your ability range; nothing is saved.
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|

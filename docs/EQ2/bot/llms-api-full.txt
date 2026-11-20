@@ -1969,7 +1969,7 @@ OgreBotAPI.CastStack:MoveEntry[fw, row, to]
 
 OgreBotAPI.CastStack:ReloadRangeExtenders[fw]
   kind: method of OgreBotAPI.CastStack
-  what: Re-reads the per-zone range extender file, OgreSave/EQ2/OgreBot/Encounters/RangeExtenders.json, at once and prints how many zones and entries it loaded, or a warning. The file lists, per zone, detrimental effects that change your ability range; nothing is saved.
+  what: Re-reads the per-zone range extender file, Ogre/EQ2/Encounters/RangeExtenders.json (it comes with the bot), at once and prints how many zones and entries it loaded, or a warning. The file lists, per zone, detrimental effects that change your ability range; nothing is saved.
   arg fw (for-who): for-who: this runs only when this character is one it names
   example: OgreBotAPI.CastStack:ReloadRangeExtenders[${Me.Name}]
 
@@ -8879,7 +8879,7 @@ ${ISXOgreEQ2.IC.Paused}
 
 ${ISXOgreEQ2.IC.RunId}
   kind: member of ISXOgreEQ2.IC
-  what: The id of the current or last run, a short hex text that is new each time a zone file starts. The run's values are also saved as OgreSave/EQ2/IC/runs/<RunId>.json.
+  what: The id of the current or last run, a short hex text that is new each time a zone file starts. The run's values are also saved as OgreSave/EQ2/IC/runs/<RunId>.json; each run start deletes the ones over 7 days old.
   returns: string: the current or last run's id; "" before any zone has started.
   example: echo ${ISXOgreEQ2.IC.RunId}
 

@@ -102,7 +102,7 @@ echo ${ISXOgreEQ2.IC.Paused}
 
 `${ISXOgreEQ2.IC.RunId}`
 
-The id of the current or last run, a short hex text that is new each time a zone file starts. The run's values are also saved as OgreSave/EQ2/IC/runs/&lt;RunId>.json.
+The id of the current or last run, a short hex text that is new each time a zone file starts. The run's values are also saved as OgreSave/EQ2/IC/runs/&lt;RunId>.json; each run start deletes the ones over 7 days old.
 
 **Returns:** string: the current or last run's id; "" before any zone has started.
 

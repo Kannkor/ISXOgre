@@ -10,6 +10,16 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.11.19.004 {#r2026-11-19-004}
+
+*Thursday, November 19, 2026 at 10:07 PM EST*
+
+- **Fixed** · Bot: **OgreBot offers a one-click fix when a profile rule names a missing file.** If one of your profile rules names a profile file that has been renamed or deleted, OgreBot used to not open at all, with only a line in the console. A Profile not found window now says which rule and file it is and offers Fix it and open OgreBot, or the Persona window. The Persona window also marks such a rule as missing.
+- **Fixed** · Bot: **Zone range extenders come with the bot.** The list of zones where an effect changes your ability range now comes with the bot. Before, only a few test PCs had it, so on every other PC those effects were ignored and the console said it could not read RangeExtenders.json.
+- **Fixed** · Instance Controller: **Old Instance Controller run files are cleaned up.** Every zone the Instance Controller started left a small file in OgreSave/EQ2/IC/runs, and none was ever deleted, so the folder kept growing. Each zone start now deletes the ones more than 7 days old. Only the Instance Controller's own run files are touched; anything else in that folder is left alone.
+- **Fixed** · Navigation: **Flying works in three more zones.** Three zones in Freeport and Qeynos were missing the file flying needs, so the bot said flight was unavailable there. They now come with it.
+- **Fixed** · Navigation: **Travel remembers what your characters can use on a new install.** On a new install the bot could not save what it learned about your account's travel features and guild hall amenities, and said "travel: could not save" each time. It now creates the folder it saves into.
+
 ## 2026.11.19.003 {#r2026-11-19-003}
 
 *Thursday, November 19, 2026 at 8:46 PM EST*
