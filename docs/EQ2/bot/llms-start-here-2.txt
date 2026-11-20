@@ -18,6 +18,12 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.11.19.002 {#r2026-11-19-002}
+
+*Thursday, November 19, 2026 at 7:41 PM EST*
+
+- **Fixed** · Bot: **No stutter the first time you enter the world.** The first time a character enters the world on a PC, and once after each game update, the bot learns where the game keeps its windows. It now spreads that work thinly over the frames. Before, it could drop a slower PC to about 5 frames a second for half a minute.
+
 ## 2026.11.19.001 {#r2026-11-19-001}
 
 *Thursday, November 19, 2026 at 6:09 PM EST*
