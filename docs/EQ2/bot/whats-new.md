@@ -10,6 +10,15 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.11.20.003 {#r2026-11-20-003}
+
+*Friday, November 20, 2026 at 5:04 PM EST*
+
+- **New** · Bot: **Cast Stack entries can be limited to solo, group or raid.** Each cast stack entry has three new "Use when" boxes: Solo / Duo (1-2 players), Group (3+) and Raid. Tick one or more to use that entry only there, and leave them all empty to use it everywhere as before. A mercenary does not count as a player, and in a raid only the Raid box applies.
+- **New** · Bot: **Cast Stack has a "Named Or Epic NPC" option.** Cast stack entries have a new Named Or Epic NPC box under Named NPCs Only. With it ticked, the entry is used only when your target is a named NPC or an epic NPC.
+- **Fixed** · Bot: **Overseer never starts a quest with only equipment.** The Overseer could put a piece of Overseer equipment into a quest as its only "agent", and the game refused the start with "An agent is required to use this Overseer Equipment." The bot now asks the game which entries are equipment, and always places a real agent before any equipment. It also remembers new equipment it finds, so the list keeps up with new items.
+- **Fixed** · Other: **Writing Ogre's logs can no longer slow the game.** Ogre wrote its log files on the game's own thread, so a program working on those files at the same time could cost frames. That could be a folder sync tool such as Syncthing or OneDrive, or a virus scanner. Ogre now writes its logs in the background, so the game never waits for the disk.
+
 ## 2026.11.20.002 {#r2026-11-20-002}
 
 *Friday, November 20, 2026 at 2:39 AM EST*

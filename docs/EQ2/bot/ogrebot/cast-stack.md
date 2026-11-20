@@ -60,4 +60,6 @@ The Cast Stack is the bot's main casting list. Every turn the bot walks the Cast
 - The Disable CS_ boxes on the Settings tab switch whole Types off without touching this list.
 - Edits apply to the running bot straight away, but only Save (top of the window) writes them to your profile. Reload throws unsaved edits away.
 - '+ separator' lines are only for your eyes; the bot skips them.
+- 'Use when' limits an entry to where you are: Solo / Duo (1-2) is a group of 1 or 2 players, Group (3+) is 3 or more, Raid is any raid whatever its groups. A mercenary does not count as a player. Tick more than one to allow more than one; none ticked means the entry is used everywhere.
+- 'Named Or Epic NPC' (under Named NPCs Only) casts only at a named or an epic target. 'Force NamedCA' on the Settings tab counts every target as named.
 

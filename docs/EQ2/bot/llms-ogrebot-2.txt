@@ -8,6 +8,44 @@ Index of every page and of every file like this one: https://kannkor.github.io/I
 
 ---
 
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/announce.md
+
+# Announce
+
+Announce says something, or runs a command, whenever one of your abilities goes off. Each row is an ability, where to send it (Group, Raid, a tell to the target, an in-game command or a console command) and the text. In the text, *Target* becomes the name of whoever the ability was cast on and *Ability* becomes the ability's name. Nothing is announced unless 'Enable Announce Tab' on the Settings tab is ticked.
+
+| Option | What it does | Default |
+|---|---|---|
+| **Full Ability list** | All of this character's abilities. Click one to choose it for the next announce; its name appears next to the Add button. |  |
+| **Announces** | Your announce rows, shown as ability, destination and text. Every switched-on row whose ability matches goes out, at any rank.<br>*Click a row to edit it, double-click to switch it off.* | empty |
+
+
+
+## Announce
+
+| Control | What it does | Default |
+|---|---|---|
+| **Announce To** | Where the text goes. Group: group chat. Raid: raid chat. Tell To Target: a tell to the player the ability was cast on. In-Game Command: runs the text as a game command, so it must start with /. Execute In Console: runs the text as a console command. | Group |
+| **Text to announce** | What to say or run. *Target* becomes the target's name and *Ability* the ability's name. | empty |
+| **Add** | Adds a row for the ability you clicked, with this destination and text. When you are editing a row it says Update and saves your changes to that row instead. |  |
+
+
+
+## Good to know
+
+- To add a row: click an ability in the Full Ability list (its name shows next to Add), pick 'Announce To', type the text, then press Add or Enter.
+- Click a saved row to load it back into the form; the button then says Update, and Cancel leaves it unchanged. Double-click a row to switch it off, and the x removes it. The list is shown A to Z.
+- Instant abilities announce when the bot casts them. Abilities with a cast time announce when they appear on your cast bar, which includes casts you make by hand.
+- For a cast you made by hand the bot does not know the target, so a row that uses *Target* or 'Tell To Target' is skipped for it.
+- *Target* and *Ability* work in capitals or small letters. A text that contains NULL or ${ once they are filled in is not sent.
+- A 'Tell To Target' row only goes out when the target is a player in your zone. A tell to an NPC, a pet or a mercenary is skipped.
+- 'In-Game Command' text must start with / (for example `/shout *Ability* is up!`). 'Execute In Console' text must NOT start with /; it runs as a console command, for example an `oc` line.
+- Group rows only go out while you are grouped, Raid rows only while you are in a raid.
+- Only abilities are listed, not items.
+
+
+---
+
 Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/ascension.md
 
 # Ascension
@@ -1075,38 +1113,3 @@ Post-Cast casts one thing right AFTER another has finished. Each row says 'after
 - A row that points at itself is ignored, and a post-cast never sets off another post-cast or a pre-cast.
 - 'Disable Post-Cast tab' on the Settings tab switches this whole tab off. While a script has 'Dynamic Ignore Encounter CAs' or 'Dynamic Ignore PBAE CAs' ticked, post-casts of that kind are skipped too.
 - In 'Post-casts setup', drag a row to change the order, double-click a row to switch it off, and the x removes it.
-
-
----
-
-Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/pre-cast.md
-
-# Pre-Cast
-
-Pre-Cast casts one thing right BEFORE another. Each row says 'when the Cast Stack is about to cast B, cast A first'. A can be an ability or an item; B is the ability that sets it off. A pre-cast is optional: if A is not ready, B is cast anyway. Several rows can share the same B; they go one at a time, top to bottom, and then B goes out.
-
-| Option | What it does | Default |
-|---|---|---|
-| **1. Cast THIS  (ability or item)** | Pick what the bot should cast first. Click an ability or item to select it for the next row. A row is skipped, without a message, while the ability is not in this character's ability export - run an export after you learn it. |  |
-| **2. ...before this is cast** | Pick the ability that sets it off. When the Cast Stack is about to cast this ability, the pick from list 1 goes first. |  |
-| **Pre-casts setup** | Your pre-cast rows, shown as 'what to cast   On: what it goes before'. Rows for the same ability fire top to bottom, one at a time, then that ability is cast.<br>*Double-click a row to switch it off. Drag to reorder.* | empty |
-
-
-
-## Pre-Cast
-
-| Control | What it does |
-|---|---|
-| **Add** | Saves your two picks as a new row at the end of 'Pre-casts setup'. It stays greyed out until you have picked one entry in each list. |
-
-
-
-## Good to know
-
-- To add a row, click the thing to cast in list 1, click the ability it goes before in list 2, then press Add under 'Pre-casts setup'. The text next to Add shows your two picks.
-- Only casts the Cast Stack chooses get pre-casts. Casts from scripts, commands or other bot features do not.
-- Names match any rank: 'Assault' also matches 'Assault XIII'.
-- An ability must be ready to be pre-cast. Items are not checked for readiness; the bot just tries them.
-- A row that points at itself (the same ability in both lists) is ignored.
-- 'Disable Pre-Cast tab' on the Settings tab switches this whole tab off. While a script has 'Dynamic Ignore Encounter CAs' or 'Dynamic Ignore PBAE CAs' ticked, pre-casts of that kind are skipped too.
-- In 'Pre-casts setup', drag a row to change the order, double-click a row to switch it off, and the x removes it.
