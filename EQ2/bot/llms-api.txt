@@ -1,0 +1,168 @@
+# OgreBot for EverQuest II - API reference, plain text for AI assistants
+
+> Every public member, method, command and event of the new OgreBot (in beta testing): what it does, its arguments, what it returns and a real example. 2060 entries, generated from the same tables as https://kannkor.github.io/ISXOgre/EQ2/bot/developer/api/ (the same text, without the website's tables and links). The rest of the documentation for assistants: https://kannkor.github.io/ISXOgre/EQ2/bot/llms.txt
+
+## How to read an entry
+
+Each entry is the call form on its own line, then indented `key: value` lines:
+  kind      member / method of <object>, ogre command, console command, or event
+  what      what it does
+  arg X     one line per argument, in order: (type, default) and what it means; an argument with a default is optional
+  returns   what a member hands back; "returns object" = a member whose value is an object listed under its own heading
+  example   a real call (LavishScript, the InnerSpace script language; `wait 10` waits one second)
+  more      a page with the details
+  oldbot    the OgreBot Classic name(s) it replaced
+
+A member is read as ${Object.Member} and may take [arguments]; a method is a line of its own, Object:Method[arguments] - to read a result, use a member. A first argument `fw` is the for-who: the call runs only when this character is one it names (all, me, a name, igw:${Me.Name} = my whole group, igwbn:${Me.Name} = my group without me, fighter, ...). A script's call never reaches another session; to make other characters act, send the console command with oc !c. ${Me}, ${Target}, ${Zone}, ${Group[1]} in the examples are ISXEQ2's own objects, not the bot's.
+
+## The files
+
+- https://kannkor.github.io/ISXOgre/EQ2/bot/llms-api-full.txt - everything in one file, 1034 KB. Too much for some assistants to read at once: the pieces below are the same text.
+- https://kannkor.github.io/ISXOgre/EQ2/bot/llms-api-ogrebotapi-1.txt - OgreBotAPI (part 1 of 6), 84 KB: OgreBotAPI, OgreBotAPI.Abilities, OgreBotAPI.Access, OgreBotAPI.Actors, OgreBotAPI.Assist, OgreBotAPI.AutoHunt
+- https://kannkor.github.io/ISXOgre/EQ2/bot/llms-api-ogrebotapi-2.txt - OgreBotAPI (part 2 of 6), 82 KB: OgreBotAPI.AutoTarget, OgreBotAPI.Bot, OgreBotAPI.CampSpot, OgreBotAPI.CastStack, OgreBotAPI.Client, OgreBotAPI.Combat
+- https://kannkor.github.io/ISXOgre/EQ2/bot/llms-api-ogrebotapi-3.txt - OgreBotAPI (part 3 of 6), 95 KB: OgreBotAPI.Comms, OgreBotAPI.Comms.GroupQuery, OgreBotAPI.Consumables, OgreBotAPI.Craft, OgreBotAPI.Cures, OgreBotAPI.Debug, OgreBotAPI.Encounter, OgreBotAPI.Events, OgreBotAPI.ForWho, OgreBotAPI.HOs
+- https://kannkor.github.io/ISXOgre/EQ2/bot/llms-api-ogrebotapi-4.txt - OgreBotAPI (part 4 of 6), 98 KB: OgreBotAPI.IM, OgreBotAPI.Inventory, OgreBotAPI.Loot, OgreBotAPI.Merchant, OgreBotAPI.Movement, OgreBotAPI.Options, OgreBotAPI.Overseer, OgreBotAPI.Paths, OgreBotAPI.Pet, OgreBotAPI.POI
+- https://kannkor.github.io/ISXOgre/EQ2/bot/llms-api-ogrebotapi-5.txt - OgreBotAPI (part 5 of 6), 100 KB: OgreBotAPI.Position, OgreBotAPI.Quest, OgreBotAPI.Roster, OgreBotAPI.Session, OgreBotAPI.TempAdorns, OgreBotAPI.Travel, OgreBotAPI.Util, OgreBotAPI.Vars, OgreBotAPI.Windows
+- https://kannkor.github.io/ISXOgre/EQ2/bot/llms-api-ogrebotapi-6.txt - OgreBotAPI (part 6 of 6), 11 KB: OgreBotAPI.Zone
+- https://kannkor.github.io/ISXOgre/EQ2/bot/llms-api-isxogrex.txt - ISXOgreX, 37 KB: ISXOgreX, ISXOgreX.Auth, ISXOgreX.Console, ISXOgreX.Login, ISXOgreX.Options, ISXOgreX.Patch, ISXOgreX.UI, ISXOgreX.UI.Window, ogretimer
+- https://kannkor.github.io/ISXOgre/EQ2/bot/llms-api-isxogreeq2-1.txt - ISXOgreEQ2 (part 1 of 3), 99 KB: ISXOgreEQ2, ISXOgreEQ2.AbilityDetails, ISXOgreEQ2.AbilityEfficiency, ISXOgreEQ2.AbilityUpgrades, ISXOgreEQ2.Analysis, ISXOgreEQ2.AntiAfk, ISXOgreEQ2.Auth, ISXOgreEQ2.AutoLogin, ISXOgreEQ2.BgRender, ISXOgreEQ2.Chat, ISXOgreEQ2.ChatCmd, ISXOgreEQ2.Class, ISXOgreEQ2.Codex, ISXOgreEQ2.Collection, ISXOgreEQ2.Commands, ISXOgreEQ2.ContentBuilder, ISXOgreEQ2.Craft, ISXOgreEQ2.CraftGm, ISXOgreEQ2.CraftingMats
+- https://kannkor.github.io/ISXOgre/EQ2/bot/llms-api-isxogreeq2-2.txt - ISXOgreEQ2 (part 2 of 3), 95 KB: ISXOgreEQ2.DepotTransfer, ISXOgreEQ2.Det, ISXOgreEQ2.EffectTracker, ISXOgreEQ2.Encounter, ISXOgreEQ2.Events, ISXOgreEQ2.Experiment, ISXOgreEQ2.Export, ISXOgreEQ2.ForWhoGroups, ISXOgreEQ2.Game, ISXOgreEQ2.GetQuest, ISXOgreEQ2.HarvestLite, ISXOgreEQ2.Heartstone, ISXOgreEQ2.HideEffects, ISXOgreEQ2.HUDs, ISXOgreEQ2.IC, ISXOgreEQ2.InvOps, ISXOgreEQ2.Lag, ISXOgreEQ2.LevelTransmuting, ISXOgreEQ2.LootScan, ISXOgreEQ2.MCP, ISXOgreEQ2.MerchantCraft, ISXOgreEQ2.MerchantOps, ISXOgreEQ2.Migrate, ISXOgreEQ2.Nav, ISXOgreEQ2.NpcCast
+- https://kannkor.github.io/ISXOgre/EQ2/bot/llms-api-isxogreeq2-3.txt - ISXOgreEQ2 (part 3 of 3), 93 KB: ISXOgreEQ2.OgreBot, ISXOgreEQ2.OSA, ISXOgreEQ2.Overseer, ISXOgreEQ2.PackPony, ISXOgreEQ2.Paths, ISXOgreEQ2.Perf, ISXOgreEQ2.Persona, ISXOgreEQ2.PotCb, ISXOgreEQ2.PulseBudget, ISXOgreEQ2.PulseProf, ISXOgreEQ2.Pushover, ISXOgreEQ2.QuestCompare, ISXOgreEQ2.QuestHelper, ISXOgreEQ2.Queue, ISXOgreEQ2.Quiver, ISXOgreEQ2.Radar, ISXOgreEQ2.Refine, ISXOgreEQ2.ReplenishNames, ISXOgreEQ2.SafeFall, ISXOgreEQ2.Scheduler, ISXOgreEQ2.Spawn, ISXOgreEQ2.TagTimers, ISXOgreEQ2.Targeting, ISXOgreEQ2.TaskRunner, ISXOgreEQ2.Tour, ISXOgreEQ2.Travel, ISXOgreEQ2.TravelMesh, ISXOgreEQ2.Watcher, ISXOgreEQ2.WindowReactions, ISXOgreEQ2.ZoneReset
+- https://kannkor.github.io/ISXOgre/EQ2/bot/llms-api-commands-1.txt - Commands (part 1 of 3), 61 KB: ogre commands, ISXOgreX console commands
+- https://kannkor.github.io/ISXOgre/EQ2/bot/llms-api-commands-2.txt - Commands (part 2 of 3), 96 KB: ISXOgreEQ2 console commands (-AbilityEmbargo to -LoadProfile)
+- https://kannkor.github.io/ISXOgre/EQ2/bot/llms-api-commands-3.txt - Commands (part 3 of 3), 78 KB: ISXOgreEQ2 console commands (-LogToonIn to -ZoneResetAll)
+- https://kannkor.github.io/ISXOgre/EQ2/bot/llms-api-events.txt - Events, 14 KB: ISXOgreX events, ISXOgreEQ2 events
+
+## Which file has which object
+
+  OgreBotAPI -> llms-api-ogrebotapi-1.txt
+  OgreBotAPI.Abilities -> llms-api-ogrebotapi-1.txt
+  OgreBotAPI.Access -> llms-api-ogrebotapi-1.txt
+  OgreBotAPI.Actors -> llms-api-ogrebotapi-1.txt
+  OgreBotAPI.Assist -> llms-api-ogrebotapi-1.txt
+  OgreBotAPI.AutoHunt -> llms-api-ogrebotapi-1.txt
+  OgreBotAPI.AutoTarget -> llms-api-ogrebotapi-2.txt
+  OgreBotAPI.Bot -> llms-api-ogrebotapi-2.txt
+  OgreBotAPI.CampSpot -> llms-api-ogrebotapi-2.txt
+  OgreBotAPI.CastStack -> llms-api-ogrebotapi-2.txt
+  OgreBotAPI.Client -> llms-api-ogrebotapi-2.txt
+  OgreBotAPI.Combat -> llms-api-ogrebotapi-2.txt
+  OgreBotAPI.Comms -> llms-api-ogrebotapi-3.txt
+  OgreBotAPI.Comms.GroupQuery -> llms-api-ogrebotapi-3.txt
+  OgreBotAPI.Consumables -> llms-api-ogrebotapi-3.txt
+  OgreBotAPI.Craft -> llms-api-ogrebotapi-3.txt
+  OgreBotAPI.Cures -> llms-api-ogrebotapi-3.txt
+  OgreBotAPI.Debug -> llms-api-ogrebotapi-3.txt
+  OgreBotAPI.Encounter -> llms-api-ogrebotapi-3.txt
+  OgreBotAPI.Events -> llms-api-ogrebotapi-3.txt
+  OgreBotAPI.ForWho -> llms-api-ogrebotapi-3.txt
+  OgreBotAPI.HOs -> llms-api-ogrebotapi-3.txt
+  OgreBotAPI.IM -> llms-api-ogrebotapi-4.txt
+  OgreBotAPI.Inventory -> llms-api-ogrebotapi-4.txt
+  OgreBotAPI.Loot -> llms-api-ogrebotapi-4.txt
+  OgreBotAPI.Merchant -> llms-api-ogrebotapi-4.txt
+  OgreBotAPI.Movement -> llms-api-ogrebotapi-4.txt
+  OgreBotAPI.Options -> llms-api-ogrebotapi-4.txt
+  OgreBotAPI.Overseer -> llms-api-ogrebotapi-4.txt
+  OgreBotAPI.Paths -> llms-api-ogrebotapi-4.txt
+  OgreBotAPI.Pet -> llms-api-ogrebotapi-4.txt
+  OgreBotAPI.POI -> llms-api-ogrebotapi-4.txt
+  OgreBotAPI.Position -> llms-api-ogrebotapi-5.txt
+  OgreBotAPI.Quest -> llms-api-ogrebotapi-5.txt
+  OgreBotAPI.Roster -> llms-api-ogrebotapi-5.txt
+  OgreBotAPI.Session -> llms-api-ogrebotapi-5.txt
+  OgreBotAPI.TempAdorns -> llms-api-ogrebotapi-5.txt
+  OgreBotAPI.Travel -> llms-api-ogrebotapi-5.txt
+  OgreBotAPI.Util -> llms-api-ogrebotapi-5.txt
+  OgreBotAPI.Vars -> llms-api-ogrebotapi-5.txt
+  OgreBotAPI.Windows -> llms-api-ogrebotapi-5.txt
+  OgreBotAPI.Zone -> llms-api-ogrebotapi-6.txt
+  ISXOgreX -> llms-api-isxogrex.txt
+  ISXOgreX.Auth -> llms-api-isxogrex.txt
+  ISXOgreX.Console -> llms-api-isxogrex.txt
+  ISXOgreX.Login -> llms-api-isxogrex.txt
+  ISXOgreX.Options -> llms-api-isxogrex.txt
+  ISXOgreX.Patch -> llms-api-isxogrex.txt
+  ISXOgreX.UI -> llms-api-isxogrex.txt
+  ISXOgreX.UI.Window -> llms-api-isxogrex.txt
+  ogretimer -> llms-api-isxogrex.txt
+  ISXOgreEQ2 -> llms-api-isxogreeq2-1.txt
+  ISXOgreEQ2.AbilityDetails -> llms-api-isxogreeq2-1.txt
+  ISXOgreEQ2.AbilityEfficiency -> llms-api-isxogreeq2-1.txt
+  ISXOgreEQ2.AbilityUpgrades -> llms-api-isxogreeq2-1.txt
+  ISXOgreEQ2.Analysis -> llms-api-isxogreeq2-1.txt
+  ISXOgreEQ2.AntiAfk -> llms-api-isxogreeq2-1.txt
+  ISXOgreEQ2.Auth -> llms-api-isxogreeq2-1.txt
+  ISXOgreEQ2.AutoLogin -> llms-api-isxogreeq2-1.txt
+  ISXOgreEQ2.BgRender -> llms-api-isxogreeq2-1.txt
+  ISXOgreEQ2.Chat -> llms-api-isxogreeq2-1.txt
+  ISXOgreEQ2.ChatCmd -> llms-api-isxogreeq2-1.txt
+  ISXOgreEQ2.Class -> llms-api-isxogreeq2-1.txt
+  ISXOgreEQ2.Codex -> llms-api-isxogreeq2-1.txt
+  ISXOgreEQ2.Collection -> llms-api-isxogreeq2-1.txt
+  ISXOgreEQ2.Commands -> llms-api-isxogreeq2-1.txt
+  ISXOgreEQ2.ContentBuilder -> llms-api-isxogreeq2-1.txt
+  ISXOgreEQ2.Craft -> llms-api-isxogreeq2-1.txt
+  ISXOgreEQ2.CraftGm -> llms-api-isxogreeq2-1.txt
+  ISXOgreEQ2.CraftingMats -> llms-api-isxogreeq2-1.txt
+  ISXOgreEQ2.DepotTransfer -> llms-api-isxogreeq2-2.txt
+  ISXOgreEQ2.Det -> llms-api-isxogreeq2-2.txt
+  ISXOgreEQ2.EffectTracker -> llms-api-isxogreeq2-2.txt
+  ISXOgreEQ2.Encounter -> llms-api-isxogreeq2-2.txt
+  ISXOgreEQ2.Events -> llms-api-isxogreeq2-2.txt
+  ISXOgreEQ2.Experiment -> llms-api-isxogreeq2-2.txt
+  ISXOgreEQ2.Export -> llms-api-isxogreeq2-2.txt
+  ISXOgreEQ2.ForWhoGroups -> llms-api-isxogreeq2-2.txt
+  ISXOgreEQ2.Game -> llms-api-isxogreeq2-2.txt
+  ISXOgreEQ2.GetQuest -> llms-api-isxogreeq2-2.txt
+  ISXOgreEQ2.HarvestLite -> llms-api-isxogreeq2-2.txt
+  ISXOgreEQ2.Heartstone -> llms-api-isxogreeq2-2.txt
+  ISXOgreEQ2.HideEffects -> llms-api-isxogreeq2-2.txt
+  ISXOgreEQ2.HUDs -> llms-api-isxogreeq2-2.txt
+  ISXOgreEQ2.IC -> llms-api-isxogreeq2-2.txt
+  ISXOgreEQ2.InvOps -> llms-api-isxogreeq2-2.txt
+  ISXOgreEQ2.Lag -> llms-api-isxogreeq2-2.txt
+  ISXOgreEQ2.LevelTransmuting -> llms-api-isxogreeq2-2.txt
+  ISXOgreEQ2.LootScan -> llms-api-isxogreeq2-2.txt
+  ISXOgreEQ2.MCP -> llms-api-isxogreeq2-2.txt
+  ISXOgreEQ2.MerchantCraft -> llms-api-isxogreeq2-2.txt
+  ISXOgreEQ2.MerchantOps -> llms-api-isxogreeq2-2.txt
+  ISXOgreEQ2.Migrate -> llms-api-isxogreeq2-2.txt
+  ISXOgreEQ2.Nav -> llms-api-isxogreeq2-2.txt
+  ISXOgreEQ2.NpcCast -> llms-api-isxogreeq2-2.txt
+  ISXOgreEQ2.OgreBot -> llms-api-isxogreeq2-3.txt
+  ISXOgreEQ2.OSA -> llms-api-isxogreeq2-3.txt
+  ISXOgreEQ2.Overseer -> llms-api-isxogreeq2-3.txt
+  ISXOgreEQ2.PackPony -> llms-api-isxogreeq2-3.txt
+  ISXOgreEQ2.Paths -> llms-api-isxogreeq2-3.txt
+  ISXOgreEQ2.Perf -> llms-api-isxogreeq2-3.txt
+  ISXOgreEQ2.Persona -> llms-api-isxogreeq2-3.txt
+  ISXOgreEQ2.PotCb -> llms-api-isxogreeq2-3.txt
+  ISXOgreEQ2.PulseBudget -> llms-api-isxogreeq2-3.txt
+  ISXOgreEQ2.PulseProf -> llms-api-isxogreeq2-3.txt
+  ISXOgreEQ2.Pushover -> llms-api-isxogreeq2-3.txt
+  ISXOgreEQ2.QuestCompare -> llms-api-isxogreeq2-3.txt
+  ISXOgreEQ2.QuestHelper -> llms-api-isxogreeq2-3.txt
+  ISXOgreEQ2.Queue -> llms-api-isxogreeq2-3.txt
+  ISXOgreEQ2.Quiver -> llms-api-isxogreeq2-3.txt
+  ISXOgreEQ2.Radar -> llms-api-isxogreeq2-3.txt
+  ISXOgreEQ2.Refine -> llms-api-isxogreeq2-3.txt
+  ISXOgreEQ2.ReplenishNames -> llms-api-isxogreeq2-3.txt
+  ISXOgreEQ2.SafeFall -> llms-api-isxogreeq2-3.txt
+  ISXOgreEQ2.Scheduler -> llms-api-isxogreeq2-3.txt
+  ISXOgreEQ2.Spawn -> llms-api-isxogreeq2-3.txt
+  ISXOgreEQ2.TagTimers -> llms-api-isxogreeq2-3.txt
+  ISXOgreEQ2.Targeting -> llms-api-isxogreeq2-3.txt
+  ISXOgreEQ2.TaskRunner -> llms-api-isxogreeq2-3.txt
+  ISXOgreEQ2.Tour -> llms-api-isxogreeq2-3.txt
+  ISXOgreEQ2.Travel -> llms-api-isxogreeq2-3.txt
+  ISXOgreEQ2.TravelMesh -> llms-api-isxogreeq2-3.txt
+  ISXOgreEQ2.Watcher -> llms-api-isxogreeq2-3.txt
+  ISXOgreEQ2.WindowReactions -> llms-api-isxogreeq2-3.txt
+  ISXOgreEQ2.ZoneReset -> llms-api-isxogreeq2-3.txt
+  ogre commands -> llms-api-commands-1.txt
+  ISXOgreX console commands -> llms-api-commands-1.txt
+  ISXOgreEQ2 console commands (-AbilityEmbargo to -LoadProfile) -> llms-api-commands-2.txt
+  ISXOgreEQ2 console commands (-LogToonIn to -ZoneResetAll) -> llms-api-commands-3.txt
+  ISXOgreX events -> llms-api-events.txt
+  ISXOgreEQ2 events -> llms-api-events.txt

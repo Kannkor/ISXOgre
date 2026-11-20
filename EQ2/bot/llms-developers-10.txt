@@ -1,0 +1,3400 @@
+# OgreBot for EverQuest II - documentation, Developers (part 10 of 14)
+
+OgreBot is in beta testing. For OgreBot Classic see https://kannkor.github.io/ISXOgre/EQ2/
+This file is ONE PIECE of the documentation: Developers (part 10 of 14) - Developers - API reference - ISXOgreEQ2.
+The entire documentation in one document: https://kannkor.github.io/ISXOgre/EQ2/bot/llms-full.txt
+Index of every page and of every file like this one: https://kannkor.github.io/ISXOgre/EQ2/bot/llms.txt
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/MCP.md
+
+# ISXOgreEQ2.MCP
+
+## Members
+
+### `ForWho`
+
+`${ISXOgreEQ2.MCP.ForWho}`
+
+The for-who text MCP buttons and bound keys use on this session, from the For Who picker or MCP:SetForWho. A button with its own for-who still uses its own.
+
+**Returns:** string: the for-who text in force on this session; all when nothing has been picked (everyone).
+
+```text
+echo ${ISXOgreEQ2.MCP.ForWho}
+```
+
+### `IrcConnected`
+
+`${ISXOgreEQ2.MCP.IrcConnected}`
+
+Whether this session last heard that the IRC link is up. It starts FALSE on a new session and stays FALSE until the IRC hub reports in; while FALSE, MCP buttons that send over IRC go through OgreConsole instead.
+
+**Returns:** bool: TRUE when the IRC hub last reported the link connected; FALSE when it reported it down or has not reported yet.
+
+```text
+echo ${ISXOgreEQ2.MCP.IrcConnected}
+```
+
+## Methods
+
+### `AddBind`
+
+`ISXOgreEQ2.MCP:AddBind[key,buttonId,name,event]`
+
+Links a keyboard key or mouse button (an InnerSpace key name such as G600-G9) to an MCP button, so pressing it runs MCP:Fire on that button. The bind is saved to Scripts/OgreSave/EQ2/OgreMCPBinds.json, armed at once, and every EQ2 session on this PC picks it up; a bind with the same name is replaced, and a button id that has no command yet only prints a note.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `key` | string |  | The InnerSpace key name to bind, such as G600-G9 or F13. |
+| `buttonId` | string |  | The MCP button to run, as MCP:Buttons lists it. |
+| `name` | string | `MCP_<key>_<buttonId> with every other character turned into _` | A name for the bind, used by MCP:RemoveBind. |
+| `event` | string | `press` | release fires when the key is let go; anything else fires on press. |
+
+```text
+ISXOgreEQ2.MCP:AddBind[G600-G9,static:0_0,G9Heal,press]
+```
+
+### `Buttons`
+
+`ISXOgreEQ2.MCP:Buttons`
+
+Prints every configured MCP button to the console with its id, label, page and command, so you can find the id to give MCP:Fire or MCP:AddBind. With no saved layout it prints a line saying there are no buttons yet.
+
+```text
+ISXOgreEQ2.MCP:Buttons
+```
+
+### `Close`
+
+`ISXOgreEQ2.MCP:Close`
+
+Closes the Master Control Panel together with its For Who, Build command and Assign keys windows. It also cancels a key test that is still waiting for a press.
+
+```text
+ISXOgreEQ2.MCP:Close
+```
+
+### `Fire`
+
+`ISXOgreEQ2.MCP:Fire[buttonId]`
+
+Runs an MCP button by its id, exactly as clicking it would: the button's command is read from the saved layout at that moment and sent with the button's own for-who, or this session's For Who when the button has none. A missing id, no saved layout, or a button with no command prints one console line and sends nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `buttonId` | string |  | The button's id as MCP:Buttons lists it: btn:&lt;id> (follows the button when it moves), static:&lt;row>_&lt;col> or page:&lt;page>:&lt;row>_&lt;col>. |
+
+```text
+ISXOgreEQ2.MCP:Fire[static:0_0]
+```
+
+### `FixHoistOrder`
+
+`ISXOgreEQ2.MCP:FixHoistOrder`
+
+Repairs buttons that an older MCP:Migrate wrote with some arguments in the wrong order, touching only the affected buttons and writing OgreMCP.json.bak first. It runs once per file (a second call prints that it is already done), prints how many buttons were fixed or need checking by hand, and has every EQ2 session on this PC reload when anything changed.
+
+```text
+ISXOgreEQ2.MCP:FixHoistOrder
+```
+
+### `ListBinds`
+
+`ISXOgreEQ2.MCP:ListBinds`
+
+Prints every saved key bind to the console: its name, key, press or release, the button it runs, and whether it is disabled.
+
+```text
+ISXOgreEQ2.MCP:ListBinds
+```
+
+### `Migrate`
+
+`ISXOgreEQ2.MCP:Migrate[overwrite]`
+
+Converts the old OgreBot MCP buttons (Scripts/EQ2OgreBot/MCP/MCPCustomSettings.xml) into the new panel's Scripts/OgreSave/EQ2/OgreMCP.json and prints a summary; button types with no command equivalent come across as label only. It refuses to replace an existing OgreMCP.json unless you pass overwrite, and on success every EQ2 session on this PC reloads the panel.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `overwrite` | string | `off - an existing file is kept` | The word overwrite (or 1, TRUE, yes, on) replaces an existing OgreMCP.json, discarding its current layout. |
+
+```text
+ISXOgreEQ2.MCP:Migrate
+```
+
+### `Open`
+
+`ISXOgreEQ2.MCP:Open`
+
+Opens the Master Control Panel (MCP), the window of buttons that send commands to your characters, with its saved layout; the same as `ogre mcp`, and alt+backtick toggles it. Calling it while the panel is already open does nothing; if the in-game UI host is not running or a panel file cannot be read, nothing opens and one console line says which, and a missing command catalog opens the builder empty with a line.
+
+```text
+ISXOgreEQ2.MCP:Open
+```
+
+### `Reload`
+
+`ISXOgreEQ2.MCP:Reload`
+
+Re-reads Scripts/OgreSave/EQ2/OgreMCP.json and updates an open panel to match, which is how a change saved on one session shows up on the others. It is skipped when the file is exactly what this session just saved, or when the file is not valid JSON.
+
+```text
+ISXOgreEQ2.MCP:Reload
+```
+
+### `ReloadBinds`
+
+`ISXOgreEQ2.MCP:ReloadBinds`
+
+Re-reads Scripts/OgreSave/EQ2/OgreMCPBinds.json, removes this session's live key binds and arms the saved ones again. Adding or removing a bind on any session runs this on every EQ2 session on the PC.
+
+```text
+ISXOgreEQ2.MCP:ReloadBinds
+```
+
+### `RemoveBind`
+
+`ISXOgreEQ2.MCP:RemoveBind[name]`
+
+Removes a saved key bind by name, disarms it and tells every EQ2 session on this PC to drop it. An unknown name prints a console line and changes nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `name` | string |  | The bind's name as MCP:ListBinds shows it. |
+
+```text
+ISXOgreEQ2.MCP:RemoveBind[G9Heal]
+```
+
+### `Send`
+
+`ISXOgreEQ2.MCP:Send[message,-tab,tab,-rg,group,-cfw,who]`
+
+With arguments it sends message exactly as ISXOgreX.Console:Send does (a leading !c or !ci makes it a command, anything else is a chat line). With no arguments it sends the button just clicked on this session, once, through the same route a click uses, and otherwise the console input box line.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `message` | string | `the button just clicked, or the input box line` | The literal line to send; a leading !c or !ci makes it a command. Leave out every argument for the button just clicked, or the console input box line. |
+| `-tab` | switch | `(none)` | Also show the line in the console tab named by the next argument; may be given more than once. |
+| `tab` | string | `(none)` | The console tab name that follows -tab. |
+| `-rg` | switch | `(none)` | Send to the relay group named by the next argument instead of the bot's own relay group. |
+| `group` | string | `the bot's relay group` | The relay group name that follows -rg. |
+| `-cfw` | switch | `(none)` | Give the command a for-who, used by its commands whose own for-who is left as auto. |
+| `who` | for-who | `everyone` | [for-who](../ogrebotapi/ForWho.md): this runs only when this character is one it names - the value that follows -cfw. |
+
+```text
+ISXOgreEQ2.MCP:Send["!c -pause","-cfw","igw:${Me.Name}"]
+```
+
+### `SetForWho`
+
+`ISXOgreEQ2.MCP:SetForWho[value]`
+
+Sets the For Who that MCP buttons and bound keys use on this session only, held in memory (not saved, not shared, back to everyone after a restart). With a value it sets that as a custom For Who and shows it in the picker (spaces are removed; all or an empty value clears it back to everyone); with no value it takes the choice the For Who picker just made.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `value` | string | `(none) - the picker's choice` | The for-who text to use, such as igw:&lt;name> or several names joined with \|. Leave it out to take the For Who picker's current choice. |
+
+```text
+ISXOgreEQ2.MCP:SetForWho[igw:${Me.Name}]
+```
+
+### `Toggle`
+
+`ISXOgreEQ2.MCP:Toggle`
+
+Opens the Master Control Panel when it is closed and closes it when it is open. This is what alt+backtick runs.
+
+```text
+ISXOgreEQ2.MCP:Toggle
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/MerchantCraft.md
+
+# ISXOgreEQ2.MerchantCraft
+
+## Methods
+
+### `Help`
+
+`ISXOgreEQ2.MerchantCraft:Help`
+
+Prints the `ogre mc` usage lines to the console and does nothing else. It is what `ogre mc help` runs.
+
+```text
+ISXOgreEQ2.MerchantCraft:Help
+```
+
+### `List`
+
+`ISXOgreEQ2.MerchantCraft:List`
+
+Reads the recipes your TARGETED merchant sells and prints them numbered, for use with Start["#n"]. It is refused with a console warning when a run is already going, you are not in the world, the target is not a merchant within 9 m, or you lack the Summon Crafting Stations ability.
+
+```text
+ISXOgreEQ2.MerchantCraft:List
+```
+
+### `Start`
+
+`ISXOgreEQ2.MerchantCraft:Start[words...]`
+
+The engine behind `ogre mc <recipe> [count]`: for each round it buys the recipe from your targeted merchant (only if you do not know it), scribes it, summons the crafting station it needs, empties the craft engine's setup queue and crafts it 3 times. It has the same refusals as List and also refuses with no recipe or while a craft run is going; on a recipe not yet cached it MAKES A SERVER CALL (`.ToRecipeInfo`, to learn the crafting device), and only when the craft panel's "Allow recipe-info server call" option is on, which it is by default.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `words...` | string |  | a partial recipe name (one or more words, first match wins) or "#n" for row n of List's numbering, then an optional trailing whole number = rounds (1 to 999, default 1; each round is 3 crafts) |
+
+```text
+ISXOgreEQ2.MerchantCraft:Start[ferrite,bracelet,4]
+```
+
+### `Status`
+
+`ISXOgreEQ2.MerchantCraft:Status`
+
+Prints the merchant-craft state (running or idle, the current recipe and round, how many recipes the last scan found) and then the usage lines to the console. It is what bare `ogre mc` and `ogre mc status` run.
+
+```text
+ISXOgreEQ2.MerchantCraft:Status
+```
+
+### `Stop`
+
+`ISXOgreEQ2.MerchantCraft:Stop`
+
+Abandons the merchant-craft run and prints "mc: stopped.", or "mc: nothing is running." when idle. It does not stop a craft queue the run already started, and a summoned station stays.
+
+```text
+ISXOgreEQ2.MerchantCraft:Stop
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/MerchantOps.md
+
+# ISXOgreEQ2.MerchantOps
+
+## Members
+
+### `Running`
+
+`${ISXOgreEQ2.MerchantOps.Running}`
+
+TRUE while a buyfuel or buycrate run is in progress. Only one runs at a time; starting another is refused with a busy warning.
+
+**Returns:** bool: TRUE while a fuel or crate purchase run is going; FALSE when idle.
+
+```text
+echo ${ISXOgreEQ2.MerchantOps.Running}
+```
+
+### `Status`
+
+`${ISXOgreEQ2.MerchantOps.Status}`
+
+One line naming the running merchant run and its progress, or "idle". It is the same text `${ISXOgreEQ2.MerchantOps}` returns.
+
+**Returns:** string: "idle", "buyfuel '&lt;fuel>' (round n)" or "buycrate (done/total)".
+
+```text
+echo ${ISXOgreEQ2.MerchantOps.Status}
+```
+
+## Methods
+
+### `BuyCrate`
+
+`ISXOgreEQ2.MerchantOps:BuyCrate[flags...]`
+
+The engine behind `ogre buycrate`: targets and opens this zone's crate merchant (who must be nearby), buys one of each chosen heroic and raid crate, accepts the purchase prompt and closes the merchant. Only exp17_dun_fordel_midst and exp18_rgn_svarni_expanse have one (Svarni sells no heroic crate), and anywhere else, or when nothing matches the flags, the call is refused with a warning.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `flags...` | string | `-all` | -r/-raid for the raid crate, -h/-heroic for the heroic crate, -all for both; read left to right, so `-raid -all` buys both and `-all -raid` only the raid crate; unknown words are ignored |
+
+```text
+ISXOgreEQ2.MerchantOps:BuyCrate[-h]
+```
+
+### `BuyFuel`
+
+`ISXOgreEQ2.MerchantOps:BuyFuel[amount]`
+
+The engine behind `ogre buyfuel`: at the guild hall Fuel Depot (within 11 m) it counts how much of the fuel you have EXAMINED the depot holds, buys the shortfall from the merchant titled Guild Fuel Merchant and deposits it, repeating for at most 10 rounds. It is refused when nothing is examined, a run is already going or you are not in the world, and stops with a console warning when the depot is missing, too far or does not open.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `amount` | int | `90000` | how much of the fuel the depot should end up holding; missing, not a whole number, or 0 or less uses 90000 |
+
+```text
+ISXOgreEQ2.MerchantOps:BuyFuel[20000]
+```
+
+### `Stop`
+
+`ISXOgreEQ2.MerchantOps:Stop`
+
+Stops a running buyfuel or buycrate and prints "merchant: stopped."; does nothing when idle. Open depot or merchant windows are left as they are.
+
+```text
+ISXOgreEQ2.MerchantOps:Stop
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Migrate.md
+
+# ISXOgreEQ2.Migrate
+
+## Methods
+
+### `Cancel`
+
+`ISXOgreEQ2.Migrate:Cancel[task]`
+
+Backs out of a pending overwrite confirmation for one task, putting its row back to its normal state. It does nothing when that task is not waiting for a confirmation or the name is unknown.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `task` | string |  | the task whose confirmation to cancel: accounts, imsettings, imlists, profiles, irc, mcp or isprofile |
+
+```text
+ISXOgreEQ2.Migrate:Cancel[profiles]
+```
+
+### `Close`
+
+`ISXOgreEQ2.Migrate:Close`
+
+Closes the Migration Assistant window and cancels its pending auto-close. Nothing that has already run is undone.
+
+```text
+ISXOgreEQ2.Migrate:Close
+```
+
+### `Open`
+
+`ISXOgreEQ2.Migrate:Open`
+
+Opens the Migration Assistant window (the same as `ogre migrate`), listing each migration task with its status and a re-run button. Before it opens it silently runs any task whose old file exists and whose new file does not, and when the window is already up it does nothing.
+
+```text
+ISXOgreEQ2.Migrate:Open
+```
+
+### `RequestRerun`
+
+`ISXOgreEQ2.Migrate:RequestRerun[task]`
+
+Puts one task's row in the Migration Assistant into its overwrite confirmation state, the same as clicking its re-run button; it reads and writes no files. It only does so when that task's old source data exists, otherwise nothing changes.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `task` | string |  | the task to ask about: accounts, imsettings, imlists, profiles, irc, mcp or isprofile |
+
+```text
+ISXOgreEQ2.Migrate:RequestRerun[accounts]
+```
+
+### `Run`
+
+`ISXOgreEQ2.Migrate:Run[task,overwrite]`
+
+Runs one migration task now, copying old OgreBot data into the new store (your old XML files are kept); the isprofile task instead asks InnerSpace to add its game profile and ignores overwrite. Without overwrite a task whose new file already exists is not rewritten and its row asks you to confirm instead, an unknown task name does nothing, and the result shows in the Migration Assistant window and the log.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `task` | string |  | the task to run: accounts, imsettings, imlists, profiles, irc, mcp or isprofile |
+| `overwrite` | string |  | the word overwrite (any case) to replace data that already exists; anything else, or leaving it out, keeps existing data |
+
+```text
+ISXOgreEQ2.Migrate:Run[irc]
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Nav.md
+
+# ISXOgreEQ2.Nav
+
+## Members
+
+### `NavActive`
+
+`${ISXOgreEQ2.Nav.NavActive}`
+
+TRUE while a nav trip is in progress - planning its route, waiting for this zone's navmesh, or moving. A paused trip still counts as in progress.
+
+**Returns:** bool: TRUE while a trip is planning, waiting for its navmesh or moving; FALSE when idle or once the last trip has ended (Arrived, Stopped, Failed).
+
+```text
+echo ${ISXOgreEQ2.Nav.NavActive}
+```
+
+### `NavDistance`
+
+`${ISXOgreEQ2.Nav.NavDistance}`
+
+Straight-line distance from the character to the trip's destination, refreshed every pulse while it moves, on foot or flying. It is -1 when idle, while a trip is still planning or waiting for its navmesh, and after a trip ends.
+
+**Returns:** float: distance in game units to the destination; -1 when no trip is moving.
+
+```text
+echo ${ISXOgreEQ2.Nav.NavDistance}
+```
+
+### `NavMeshOn`
+
+`${ISXOgreEQ2.Nav.NavMeshOn}`
+
+TRUE unless nav has been switched off with Nav:Set[mesh,off] or `ogre nav -off`. While it is off, new trips are refused; the switch is not saved and starts TRUE each time the extension loads.
+
+**Returns:** bool: TRUE when nav is allowed to move this character; FALSE when it is switched off.
+
+```text
+echo ${ISXOgreEQ2.Nav.NavMeshOn}
+```
+
+### `NavMeshPolys`
+
+`${ISXOgreEQ2.Nav.NavMeshPolys}`
+
+How many walkable polygons the loaded navmesh has. It is 0 when no mesh is loaded in this zone yet.
+
+**Returns:** int: polygon count of the loaded mesh; 0 when none is loaded.
+
+```text
+echo ${ISXOgreEQ2.Nav.NavMeshPolys}
+```
+
+### `NavMeshTiles`
+
+`${ISXOgreEQ2.Nav.NavMeshTiles}`
+
+How many tiles the loaded navmesh has. It is 0 when no mesh is loaded in this zone yet.
+
+**Returns:** int: tile count of the loaded mesh; 0 when none is loaded.
+
+```text
+echo ${ISXOgreEQ2.Nav.NavMeshTiles}
+```
+
+### `NavMeshZone`
+
+`${ISXOgreEQ2.Nav.NavMeshZone}`
+
+Name of the navmesh that is loaded - the zone's short name in lower case, or the base zone's name when this zone is a copy that uses it. It is "" until a mesh is loaded in this zone (see NavOnMap).
+
+**Returns:** string: the loaded mesh's zone name; "" when none is loaded.
+
+```text
+echo ${ISXOgreEQ2.Nav.NavMeshZone}
+```
+
+### `NavOnMap`
+
+`${ISXOgreEQ2.Nav.NavOnMap}`
+
+TRUE when a navmesh is loaded right now, so nav can plan a route without waiting. The mesh loads on the first trip or route request in a zone and is set aside on every zone change, so this reads FALSE after zoning until something asks for a route.
+
+**Returns:** bool: TRUE when a navmesh is loaded; FALSE when none is loaded yet in this zone.
+
+```text
+echo ${ISXOgreEQ2.Nav.NavOnMap}
+```
+
+### `NavOnMesh`
+
+`${ISXOgreEQ2.Nav.NavOnMesh}`
+
+TRUE while the current trip is driven over a navmesh route. It is FALSE when idle, while a trip still waits for its navmesh or plans its first route, and once a trip ends.
+
+**Returns:** bool: TRUE while a trip is driven over a navmesh route; FALSE otherwise.
+
+```text
+echo ${ISXOgreEQ2.Nav.NavOnMesh}
+```
+
+### `NavReason`
+
+`${ISXOgreEQ2.Nav.NavReason}`
+
+Plain words about the trip: while it plans or moves, what the plan is doing; once it has ended or while it waits for a navmesh, why. It is empty before the first trip, and reads "already there" when a trip was asked for the spot the character already stands on.
+
+**Returns:** string: the plan in force, or why the last trip ended; "" before any trip.
+
+```text
+echo ${ISXOgreEQ2.Nav.NavReason}
+```
+
+### `NavState`
+
+`${ISXOgreEQ2.Nav.NavState}`
+
+The trip's state as one word; Arrived, Stopped and Failed stay until the next trip starts, and a paused trip still reads Moving. Stopped means somebody ended the trip on purpose, Failed means nav gave up - NavReason says why.
+
+**Returns:** string: a state word such as Idle, Planning, WaitingForMesh, Moving, Arrived, Stopped or Failed.
+
+```text
+echo ${ISXOgreEQ2.Nav.NavState}
+```
+
+### `NavWaypoint`
+
+`${ISXOgreEQ2.Nav.NavWaypoint}`
+
+The waypoint on the current route the character is heading for, counted from 1 (the first point after the start) up to NavWaypoints on the last leg. It is 0 when no route is being walked, a finished trip included.
+
+**Returns:** int: the waypoint being walked to, 1 to NavWaypoints; 0 when no route is being walked.
+
+```text
+echo ${ISXOgreEQ2.Nav.NavWaypoint}
+```
+
+### `NavWaypoints`
+
+`${ISXOgreEQ2.Nav.NavWaypoints}`
+
+How many waypoints the current route has after its start point, so NavWaypoint reaches it on the last leg. It is 0 when no route is being walked, a finished trip included.
+
+**Returns:** int: number of waypoints after the start; 0 when no route is being walked.
+
+```text
+echo ${ISXOgreEQ2.Nav.NavWaypoints}
+```
+
+## Methods
+
+### `End`
+
+`ISXOgreEQ2.Nav:End`
+
+Ends the trip under way and closes the nav window, the same as `ogre end nav`, `ogre nav end` or the window's X. It prints "nav: stopped (...)" only when a trip was under way.
+
+```text
+ISXOgreEQ2.Nav:End
+```
+
+### `Flags`
+
+`ISXOgreEQ2.Nav:Flags[flag...]`
+
+Runs the `ogre nav -<flag> ...` line: -loc x,y,z (or -to) starts a trip and applies -precision, -nodoors/-doors and -reset with it (it ignores -set, -on/-off and -panel/-nopanel on the same line), while a line without -loc takes -set key value, -reset [key], -on/-off, -panel/-nopanel, -stop, -status or -help. With no flag it prints a warning and a bad or unknown flag prints an error naming it; -precision and -nodoors stay in force after the trip.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `flag...` | string |  | The flags and their values, one per argument; a -loc point may be one "x,y,z" argument or three. |
+
+```text
+ISXOgreEQ2.Nav:Flags[-loc,${Me.X},${Me.Y},${Math.Calc[${Me.Z}+30]},-precision,3]
+```
+
+### `Help`
+
+`ISXOgreEQ2.Nav:Help`
+
+Prints the `ogre nav` command help to the console, one line at a time. This is bare `ogre nav` or `ogre nav help`.
+
+```text
+ISXOgreEQ2.Nav:Help
+```
+
+### `Open`
+
+`ISXOgreEQ2.Nav:Open`
+
+Opens the nav panel (trip state with Stop and Pause buttons) now; if the window cannot open it prints "nav panel: &lt;reason>". This is `ogre nav panel`.
+
+```text
+ISXOgreEQ2.Nav:Open
+```
+
+### `Set`
+
+`ISXOgreEQ2.Nav:Set[key,value]`
+
+Changes one nav setting for this session (not saved) and prints "nav: &lt;key> = &lt;value>"; an unknown key, or a value the setting refuses, prints an error and changes nothing. The key is case-insensitive, and `mesh` (alias `on`) never refuses: a yes word switches nav on and any other value switches it off.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `key` | string |  | The setting's name, such as arrive, finalarrive, doors or avoid. |
+| `value` | string |  | The new value - a number for distances and counts, on or off for switches. |
+
+```text
+ISXOgreEQ2.Nav:Set[arrive,4]
+```
+
+### `Status`
+
+`ISXOgreEQ2.Nav:Status`
+
+Prints what nav is doing to the console - state, reason, paused, waypoint progress, the loaded mesh and every setting changed from its default. This is `ogre nav status`.
+
+```text
+ISXOgreEQ2.Nav:Status
+```
+
+### `Stop`
+
+`ISXOgreEQ2.Nav:Stop`
+
+Ends the trip under way (NavState becomes Stopped) and prints "nav: stopped"; the nav panel stays open. With no trip under way it changes nothing but still prints the line - this is `ogre nav stop`.
+
+```text
+ISXOgreEQ2.Nav:Stop
+```
+
+### `To`
+
+`ISXOgreEQ2.Nav:To[x,y,z]`
+
+Starts a trip that moves the character to the point, replacing any trip already under way; it returns at once and the route is planned over the next frames (watch NavState). A missing value, or one that is not a number, prints an error and starts nothing, and a refusal (not in world, movement held by another system, no navmesh) prints "nav: &lt;reason>".
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `x` | float |  | X of the destination. |
+| `y` | float |  | Y of the destination - Y is up in EQ2. |
+| `z` | float |  | Z of the destination. |
+
+```text
+ISXOgreEQ2.Nav:To[${Me.X},${Me.Y},${Math.Calc[${Me.Z}+30]}]
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/NpcCast.md
+
+# ISXOgreEQ2.NpcCast
+
+## Methods
+
+### `Capture`
+
+`ISXOgreEQ2.NpcCast:Capture`
+
+Asks for the cast your target is casting right now to be captured, the window's Capture button.
+
+```text
+ISXOgreEQ2.NpcCast:Capture
+```
+
+### `Clear`
+
+`ISXOgreEQ2.NpcCast:Clear`
+
+Empties your script watch list. Watches from zone data and encounters stay.
+
+```text
+ISXOgreEQ2.NpcCast:Clear
+```
+
+### `End`
+
+`ISXOgreEQ2.NpcCast:End`
+
+Stops the Monitor and closes the window, the same as `ogre end npccast` and the window's X. The watch list is left alone.
+
+```text
+ISXOgreEQ2.NpcCast:End
+```
+
+### `Import`
+
+`ISXOgreEQ2.NpcCast:Import`
+
+Copies the shipped OldBot conversions into your own NPC cast data, never overwriting a file you have.
+
+```text
+ISXOgreEQ2.NpcCast:Import
+```
+
+### `Monitor`
+
+`ISXOgreEQ2.NpcCast:Monitor[word]`
+
+The Monitor: starts it on a set of mobs, stops it, or acts on its rows. No word starts it on your target, and any word it does not know prints its status.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `word` | string |  | target, named, all or on start it; off or stop stop it; copy and clear act on its rows; status prints its state. Optional. |
+
+```text
+ISXOgreEQ2.NpcCast:Monitor[named]
+```
+
+### `Open`
+
+`ISXOgreEQ2.NpcCast:Open`
+
+Opens the NPC Cast Monitoring window, the same as bare `ogre npccast`.
+
+```text
+ISXOgreEQ2.NpcCast:Open
+```
+
+### `Radius`
+
+`ISXOgreEQ2.NpcCast:Radius[n]`
+
+Sets the scan radius for the script watch list. With no value it prints one warning and changes nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `n` | int |  | The radius in meters; required. |
+
+```text
+ISXOgreEQ2.NpcCast:Radius[80]
+```
+
+### `Reload`
+
+`ISXOgreEQ2.NpcCast:Reload`
+
+Asks for the zone data to be read from disk again.
+
+```text
+ISXOgreEQ2.NpcCast:Reload
+```
+
+### `Status`
+
+`ISXOgreEQ2.NpcCast:Status`
+
+Prints the Monitor's state, the scan counters and the watch list to the console, with who holds each watch and whether it is casting.
+
+```text
+ISXOgreEQ2.NpcCast:Status
+```
+
+### `Unwatch`
+
+`ISXOgreEQ2.NpcCast:Unwatch[name]`
+
+Takes a mob off your script watch list. With no name it prints one warning and changes nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `name` | string |  | The mob's name; several words are joined into one name; required. |
+
+```text
+ISXOgreEQ2.NpcCast:Unwatch["Ancient Guardian"]
+```
+
+### `Watch`
+
+`ISXOgreEQ2.NpcCast:Watch[name]`
+
+Adds a mob to your script watch list. With no name it prints one warning and changes nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `name` | string |  | The mob's name; several words are joined into one name; required. |
+
+```text
+ISXOgreEQ2.NpcCast:Watch["Ancient Guardian"]
+```
+
+### `Zone`
+
+`ISXOgreEQ2.NpcCast:Zone`
+
+Prints what the zone data says for this zone to the console.
+
+```text
+ISXOgreEQ2.NpcCast:Zone
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/OgreBot.md
+
+# ISXOgreEQ2.OgreBot
+
+## Members
+
+### `Character`
+
+`${ISXOgreEQ2.OgreBot.Character}`
+
+The character whose OgreBot profile is loaded.
+
+**Returns:** string: the character name; empty when nothing is loaded.
+
+```text
+echo ${ISXOgreEQ2.OgreBot.Character}
+```
+
+### `Count`
+
+`${ISXOgreEQ2.OgreBot.Count}`
+
+How many single control values the loaded profile holds (checkboxes, text boxes, combo boxes). List sections such as the Cast Stack are not counted.
+
+**Returns:** int: the number of stored control values; 0 when nothing is loaded.
+
+```text
+echo ${ISXOgreEQ2.OgreBot.Count}
+```
+
+### `Dirty`
+
+`${ISXOgreEQ2.OgreBot.Dirty}`
+
+TRUE when the loaded profile has changes that are not saved to disk yet. Only Save writes them; closing OgreBot, Reload, or loading another profile drops them.
+
+**Returns:** bool: TRUE when there are unsaved changes; FALSE when there are none or nothing is loaded.
+
+```text
+echo ${ISXOgreEQ2.OgreBot.Dirty}
+```
+
+### `IsReady`
+
+`${ISXOgreEQ2.OgreBot.IsReady}`
+
+TRUE when OgreBot is up: its main window or mini toolbar is open AND a profile is loaded - the check the bot's own features use before they act, and what ${OgreBotAPI.Combat.IsReady} reads too.
+
+**Returns:** bool: TRUE when a window is open and a profile is loaded; FALSE otherwise.
+
+```text
+echo ${ISXOgreEQ2.OgreBot.IsReady}
+```
+
+### `Loaded`
+
+`${ISXOgreEQ2.OgreBot.Loaded}`
+
+TRUE while an OgreBot profile is loaded for this session. Closing OgreBot unloads the profile, so this goes FALSE on close.
+
+**Returns:** bool: TRUE when a profile is loaded; FALSE when none is.
+
+```text
+echo ${ISXOgreEQ2.OgreBot.Loaded}
+```
+
+### `PanelVisible`
+
+`${ISXOgreEQ2.OgreBot.PanelVisible}`
+
+TRUE when the OgreBot main window or the mini toolbar is open, whether or not a profile is loaded. Use IsReady to ask whether the bot can run.
+
+**Returns:** bool: TRUE when either window is open; FALSE when both are closed.
+
+```text
+echo ${ISXOgreEQ2.OgreBot.PanelVisible}
+```
+
+### `Profile`
+
+`${ISXOgreEQ2.OgreBot.Profile}`
+
+The name of the loaded OgreBot profile, in the spelling stored in the profile file.
+
+**Returns:** string: the profile name; empty when nothing is loaded.
+
+```text
+echo ${ISXOgreEQ2.OgreBot.Profile}
+```
+
+### `Value`
+
+`${ISXOgreEQ2.OgreBot.Value[id]}`
+
+The stored value of one OgreBot window control, read from the loaded profile in memory (unsaved changes included). The id must match exactly; OgreBotAPI.Options.Value is the case-insensitive version.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `id` | string |  | the control id (the same id the profile saves it under), for example checkbox_settings_enablealiases |
+
+**Returns:** string: the control's value as text; empty when the id is not stored, no id is given, or nothing is loaded.
+
+```text
+echo ${ISXOgreEQ2.OgreBot.Value[checkbox_settings_enablealiases]}
+```
+
+## Methods
+
+### `Alias`
+
+`ISXOgreEQ2.OgreBot:Alias[verb,arg1,arg2,arg3,arg4]`
+
+Edits the loaded profile's custom aliases in memory (Save keeps them) and refreshes the Aliases tab and Target list; names get a leading * if they lack one, and add refuses only the same name with the same For. Verbs are display (print what each alias resolves to now), add or edit (name,For,NoRaid), del (name), delat or toggle (index), editat (index,name,For,NoRaid) and move (from,to) with 0-based indexes, it does nothing with no profile loaded, and OgreBotAPI.ForWho:AddAlias and RemoveAlias use this same editor.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `verb` | string |  | display, add, edit, del, delat, editat, toggle or move |
+| `arg1` | string |  | the alias name (add, edit, del) or a 0-based row index (delat, editat, toggle, move) |
+| `arg2` | string |  | the For value (add, edit; an empty one on edit clears it), the new name (editat) or the target index (move) |
+| `arg3` | string |  | No-Raid as a yes/no word (add, edit) or the For value (editat) |
+| `arg4` | bool |  | editat only: No-Raid |
+
+```text
+ISXOgreEQ2.OgreBot:Alias[add,Healer,${Group[1].Name},FALSE]
+```
+
+### `Close`
+
+`ISXOgreEQ2.OgreBot:Close`
+
+Closes OgreBot entirely: both windows close, the profile is unloaded (unsaved changes are dropped with a warning in the console), travel routes stop, and follow and camp spots are cleared unless OgreBotAPI.Movement:UseWithoutOgreBot is on. It is the same close as the X on either window, `ogre end bot` and OgreBotAPI.Bot:End.
+
+```text
+ISXOgreEQ2.OgreBot:Close
+```
+
+### `CreateProfile`
+
+`ISXOgreEQ2.OgreBot:CreateProfile[name]`
+
+Makes a new profile from the current settings, unsaved changes included, writes it to disk and switches to it. It fails with a console line when the name is already used (case does not matter).
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `name` | string |  | the new profile's name; a b64: prefix marks a base64 name |
+
+```text
+ISXOgreEQ2.OgreBot:CreateProfile[Solo]
+```
+
+### `DeleteProfile`
+
+`ISXOgreEQ2.OgreBot:DeleteProfile[name]`
+
+Deletes a named profile from the character's profile file on disk. It refuses, with a console line, the loaded profile, the default profile, the last remaining profile and a name that does not exist.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `name` | string |  | the profile name (case does not matter); a b64: prefix marks a base64 name |
+
+```text
+ISXOgreEQ2.OgreBot:DeleteProfile[Solo]
+```
+
+### `Dump`
+
+`ISXOgreEQ2.OgreBot:Dump[path]`
+
+Writes every stored control value of the loaded profile (unsaved changes included) to a JSON file and prints the count and path. List sections such as the Cast Stack are not included, and the file is overwritten each time.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `path` | string |  | the file to write |
+
+```text
+ISXOgreEQ2.OgreBot:Dump["${LavishScript.HomeDirectory}/ogrebot_values.json"]
+```
+
+### `List`
+
+`ISXOgreEQ2.OgreBot:List[section,op,arg1,arg2]`
+
+Edits one list section of the loaded profile (the Cast Stack or any other ordered list tab) in memory; Save keeps it, and a Cast Stack edit reaches the running cast stack at once. Ops are add (entry), insert or update (index,entry), del or toggle (index) and move (from,to), with 0-based indexes and each entry as base64-encoded JSON; it does not refresh the open window and does nothing with no profile loaded.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `section` | string |  | the profile section name, for example CastStack |
+| `op` | string |  | add, insert, update, del, move or toggle |
+| `arg1` | string |  | the base64 JSON entry (add) or a 0-based row index (every other op) |
+| `arg2` | string |  | the base64 JSON entry (insert, update) or the target index (move) |
+
+```text
+ISXOgreEQ2.OgreBot:List[CastStack,toggle,0]
+```
+
+### `LoadProfile`
+
+`ISXOgreEQ2.OgreBot:LoadProfile[name]`
+
+Switches to another named profile of the loaded character and refreshes the cast stack and window; if OgreBot is not open it opens it with that profile. Unsaved changes to the current profile are dropped, with one warning line unless you named the profile already loaded, a name that is not found prints a line and keeps the current profile, and OgreBotAPI.Options:LoadProfile calls this.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `name` | string |  | the profile name (case does not matter); a b64: prefix marks a base64 name |
+
+```text
+ISXOgreEQ2.OgreBot:LoadProfile[Raid]
+```
+
+### `Open`
+
+`ISXOgreEQ2.OgreBot:Open[character,profile]`
+
+Loads the character's profile from disk and opens the OgreBot main window and mini toolbar with it, then scans gear and inventory for the Items tab. Calling it while OgreBot is open loads the profile again and drops unsaved changes with one warning line; unlike the `ogre` command it leaves the pause state as it was, and a failed load (no character, profile not found) prints a line and changes nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `character` | string | `${Me.Name}` | the character whose profile to load |
+| `profile` | string | `the character's default profile` | the profile name to load |
+
+```text
+ISXOgreEQ2.OgreBot:Open[${Me.Name},Group]
+```
+
+### `OpenMini`
+
+`ISXOgreEQ2.OgreBot:OpenMini`
+
+Opens the OgreBot mini toolbar on its own, without loading a profile, and prints a line. If the mini toolbar is already open it does nothing.
+
+```text
+ISXOgreEQ2.OgreBot:OpenMini
+```
+
+### `RefreshTargets`
+
+`ISXOgreEQ2.OgreBot:RefreshTargets`
+
+Re-reads which aliases and targets resolve right now and sends them to the OgreBot window's Target dropdown. It does nothing when the main window is closed.
+
+```text
+ISXOgreEQ2.OgreBot:RefreshTargets
+```
+
+### `Reload`
+
+`ISXOgreEQ2.OgreBot:Reload`
+
+Reads the loaded profile again from disk, dropping unsaved changes with one warning line, and refreshes the cast stack and the open window. It does nothing when no profile is loaded; OgreBotAPI.Bot:Reload is a different call that restarts the whole bot.
+
+```text
+ISXOgreEQ2.OgreBot:Reload
+```
+
+### `ReloadKeyBinds`
+
+`ISXOgreEQ2.OgreBot:ReloadKeyBinds`
+
+Reads the shared key binds file again (forward, backward and the other movement keys) and prints the new forward and backward keys. Another EQ2 session on this PC sends it after a key is changed.
+
+```text
+ISXOgreEQ2.OgreBot:ReloadKeyBinds
+```
+
+### `ReloadUi`
+
+`ISXOgreEQ2.OgreBot:ReloadUi`
+
+Reloads the in-game window pages from disk, then reopens the OgreBot main window and mini toolbar if they were open, with the same profile and settings. Nothing in the bot is reloaded or reset; this is what `ogre ui reload` runs.
+
+```text
+ISXOgreEQ2.OgreBot:ReloadUi
+```
+
+### `Research`
+
+`ISXOgreEQ2.OgreBot:Research[mode]`
+
+Runs the Ability Research check: it opens the Knowledge window and, with go or run, claims finished research and starts the next ability from the saved priority list, then closes the window. With no mode or any other word it only reads the window and says what it would do (trace also logs each window read), and a call while a check is running is ignored.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `mode` | string | `preview` | go or run for the real run, trace for a logged preview; anything else is a preview |
+
+```text
+ISXOgreEQ2.OgreBot:Research[go]
+```
+
+### `Save`
+
+`ISXOgreEQ2.OgreBot:Save`
+
+Writes the loaded profile's changes to disk and prints each file it wrote. With nothing loaded or nothing changed it prints that and writes nothing.
+
+```text
+ISXOgreEQ2.OgreBot:Save
+```
+
+### `SaveProfileAs`
+
+`ISXOgreEQ2.OgreBot:SaveProfileAs[name]`
+
+Overwrites another profile with the current settings, unsaved changes included, and switches to it. It fails with a console line when that profile does not exist or is the loaded one.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `name` | string |  | the profile to overwrite; a b64: prefix marks a base64 name |
+
+```text
+ISXOgreEQ2.OgreBot:SaveProfileAs[Solo]
+```
+
+### `ScanItems`
+
+`ISXOgreEQ2.OgreBot:ScanItems`
+
+Asks for a scan of equipped gear, inventory and adornments on the next pulse, to fill the Items tab's source list. The request is dropped when no profile is loaded or the in-game UI is not ready, and opening OgreBot already runs one.
+
+```text
+ISXOgreEQ2.OgreBot:ScanItems
+```
+
+### `SetDefault`
+
+`ISXOgreEQ2.OgreBot:SetDefault[name]`
+
+Makes a named profile the one this character loads by default, and writes that to the profile file at once. It fails with a console line when nothing is loaded or the profile does not exist.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `name` | string |  | the profile name (case does not matter); a b64: prefix marks a base64 name |
+
+```text
+ISXOgreEQ2.OgreBot:SetDefault[Group]
+```
+
+### `UplinkConnect`
+
+`ISXOgreEQ2.OgreBot:UplinkConnect`
+
+Connects this PC's uplink to every PC on the Uplink Info list except this one, spaced out, and prints how many it did (or that there is nothing to do). A second connect or disconnect from the same session within 3 seconds is ignored and only written to the log.
+
+```text
+ISXOgreEQ2.OgreBot:UplinkConnect
+```
+
+### `UplinkDisconnect`
+
+`ISXOgreEQ2.OgreBot:UplinkDisconnect`
+
+Disconnects this PC's uplink from every PC on the Uplink Info list except this one, and prints how many it did (or that there is nothing to do). A second connect or disconnect from the same session within 3 seconds is ignored and only written to the log.
+
+```text
+ISXOgreEQ2.OgreBot:UplinkDisconnect
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/OSA.md
+
+# ISXOgreEQ2.OSA
+
+## Methods
+
+### `Close`
+
+`ISXOgreEQ2.OSA:Close`
+
+Closes the On-Screen Assistant window and stops its NPC scan, including an open that is still being retried. It does not untick the Enable On-Screen Assistant setting, so the window opens again only when that setting is next switched on (or at the next load while it is ticked).
+
+```text
+ISXOgreEQ2.OSA:Close
+```
+
+### `Open`
+
+`ISXOgreEQ2.OSA:Open`
+
+Opens the On-Screen Assistant (OSA) window, the same as `ogre osa`: a live list of the NPCs around you, named NPCs first and then by distance, up to 35 rows, refreshed about 5 times a second within the Settings scan radius (50 until a value is set, at most 200). It does nothing while the window is already up, and it does not tick the Enable On-Screen Assistant setting, which opens and closes the window by itself whenever it changes.
+
+```text
+ISXOgreEQ2.OSA:Open
+```
+
+### `Target`
+
+`ISXOgreEQ2.OSA:Target[id]`
+
+Targets the actor with the given ID at once by sending the `target <id>` command, which is what clicking a row in the OSA window does. A call with no ID prints a line and targets nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `id` | int |  | ID of the actor to target |
+
+```text
+ISXOgreEQ2.OSA:Target[${Target.Target.ID}]
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Overseer.md
+
+# ISXOgreEQ2.Overseer
+
+## Methods
+
+### `BuyMissions`
+
+`ISXOgreEQ2.Overseer:BuyMissions[flag...]`
+
+Starts a run that buys Overseer missions at the merchant on this session, using this character's Overseer Buy tab with any flags overriding it: -season N, -colour C, -num N, -amount N (at most 20), -replenishonly, -scribe or -noscribe, -destroy or -nodestroy, -gettogh or -nogettogh (go to the guild hall when done); unknown words are skipped. Refused with a console line when OgreBot is not open with a profile, a buy run is already going, or the first argument is not a -flag - the same run OgreBotAPI.Overseer:BuyMissions queues with a for-who.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `flag...` | string |  | Optional flags, one per argument, each value as its own argument after its flag; none uses the Overseer Buy tab as saved |
+
+```text
+ISXOgreEQ2.Overseer:BuyMissions[-season,2,-amount,5]
+```
+
+### `BuyMissionsStatus`
+
+`ISXOgreEQ2.Overseer:BuyMissionsStatus`
+
+Prints whether the Overseer mission buy run is idle or, if running, the phase it is in.
+
+```text
+ISXOgreEQ2.Overseer:BuyMissionsStatus
+```
+
+### `BuyMissionsStop`
+
+`ISXOgreEQ2.Overseer:BuyMissionsStop`
+
+Aborts the Overseer mission buy run in progress and prints the reason. Prints "nothing running." when idle; same as `ogre end buyoverseermissions`.
+
+```text
+ISXOgreEQ2.Overseer:BuyMissionsStop
+```
+
+### `Run`
+
+`ISXOgreEQ2.Overseer:Run`
+
+Starts a manual Overseer run on this session now, skipping the 60-minute throttle; it uses OgreBot's Overseer tab when OgreBot is open, and the defaults (complete finished quests, add bag missions, start mishaps and new quests, take rewards) when it is not. Refused with a console line when any argument is passed, a run is already going, a bag-mission add is busy, or 'Do not touch overseer at all no matter what' is ticked - the same run as OgreBotAPI.Overseer:CheckQuests and `ogre overseer`.
+
+```text
+ISXOgreEQ2.Overseer:Run
+```
+
+### `Status`
+
+`ISXOgreEQ2.Overseer:Status`
+
+Prints the Overseer run's current phase, whether it is running, and how many quests it has started and completed. When idle after a run it also prints roughly how many seconds until the next automatic run is allowed.
+
+```text
+ISXOgreEQ2.Overseer:Status
+```
+
+### `Stop`
+
+`ISXOgreEQ2.Overseer:Stop`
+
+Ends the Overseer run in progress on this session and prints "run aborted", or prints "nothing to stop" when idle. Same as `ogre end overseer`.
+
+```text
+ISXOgreEQ2.Overseer:Stop
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/PackPony.md
+
+# ISXOgreEQ2.PackPony
+
+## Methods
+
+### `Start`
+
+`ISXOgreEQ2.PackPony:Start[word,word]`
+
+Sends the pack pony out and unloads it, once. An unknown word refuses the whole line and nothing starts; a run that cannot start says why.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `word` | string |  | nodismiss leaves the pony summoned afterwards. Optional. |
+| `word` | string |  | nopause does not pause OgreBot for the run. Optional. |
+
+```text
+ISXOgreEQ2.PackPony:Start[nodismiss]
+```
+
+### `Status`
+
+`ISXOgreEQ2.PackPony:Status`
+
+Prints whether a run is going, its phase, and how the last run ended.
+
+```text
+ISXOgreEQ2.PackPony:Status
+```
+
+### `Stop`
+
+`ISXOgreEQ2.PackPony:Stop`
+
+Abandons a run in progress and cleans up after it. With no run it says so.
+
+```text
+ISXOgreEQ2.PackPony:Stop
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Paths.md
+
+# ISXOgreEQ2.Paths
+
+## Methods
+
+### `End`
+
+`ISXOgreEQ2.Paths:End`
+
+Closes the Points of Interest and Paths window, which is what `ogre end paths` and the window's X do. A path being walked goes on.
+
+```text
+ISXOgreEQ2.Paths:End
+```
+
+### `Open`
+
+`ISXOgreEQ2.Paths:Open[path]`
+
+Opens the Points of Interest and Paths window (the same as `ogre paths`), on a saved path of the zone you are in when you name one: this is the one way to open it, from a panel, a button or a script. A window already open comes to the front on that path, a path this zone does not have prints one line and the window opens with nothing picked, and without the Ogre UI desktop it prints a warning.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `path` | string | `none (nothing picked)` | The path to open on, in any case. A name with spaces may be quoted or written as several words. Leave it out to open the window with nothing picked. |
+
+```text
+ISXOgreEQ2.Paths:Open["North Loop"]
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Perf.md
+
+# ISXOgreEQ2.Perf
+
+## Methods
+
+### `Measure`
+
+`ISXOgreEQ2.Perf:Measure[seconds,nothreads]`
+
+Measures the frame rate and what uses each frame for a number of seconds, then prints a report to the console and the log file - the same as ogre perf. The capture starts on the next frame; if one is already running, or a word other than a number or nothreads is given, it prints a line and measures nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `seconds` | int | `10` | how long to measure, 3 to 120 (values outside are clamped) |
+| `nothreads` | string | `""` | the word nothreads turns off the per-thread breakdown; it may come before or after the seconds |
+
+```text
+ISXOgreEQ2.Perf:Measure[30]
+```
+
+### `Status`
+
+`ISXOgreEQ2.Perf:Status`
+
+Prints one console line saying whether a measurement is idle, about to start, or running with the seconds done and left - the same as ogre perf status.
+
+```text
+ISXOgreEQ2.Perf:Status
+```
+
+### `Stop`
+
+`ISXOgreEQ2.Perf:Stop`
+
+Ends a running measurement early and prints the report for what was measured, or cancels one that has not started yet - the same as ogre perf stop. With nothing running it prints that nothing is being measured.
+
+```text
+ISXOgreEQ2.Perf:Stop
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Persona.md
+
+# ISXOgreEQ2.Persona
+
+## Methods
+
+### `Close`
+
+`ISXOgreEQ2.Persona:Close`
+
+Closes the Persona window, the same as `ogre end persona` or the window's X.
+
+```text
+ISXOgreEQ2.Persona:Close
+```
+
+### `Open`
+
+`ISXOgreEQ2.Persona:Open`
+
+Opens the Persona window, the same as bare `ogre persona`; already open, it does nothing. Given a word it does not open: changing class with this command is not built yet, so it prints one line saying so.
+
+```text
+ISXOgreEQ2.Persona:Open
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/PotCb.md
+
+# ISXOgreEQ2.PotCb
+
+## Methods
+
+### `End`
+
+`ISXOgreEQ2.PotCb:End`
+
+Stops the Potency / Crit Bonus / Fervor sampler if it runs and always closes its panel, keeping the history. This is what `ogre end potcb` and the panel's X do.
+
+```text
+ISXOgreEQ2.PotCb:End
+```
+
+### `Help`
+
+`ISXOgreEQ2.PotCb:Help`
+
+Prints the `ogre potcb` usage to the console: open, on / off, status, reset and interval.
+
+```text
+ISXOgreEQ2.PotCb:Help
+```
+
+### `Interval`
+
+`ISXOgreEQ2.PotCb:Interval[ms]`
+
+Sets how often the sampler reads Potency, Crit Bonus and Fervor, held between 50 and 10000 ms (a negative is 50), and prints the new value. With no value it prints the current interval; a value that is not a number keeps the interval in force and says so.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `ms` | int |  | Sampling interval in milliseconds, 50 to 10000 (the sampler starts at 200). Optional: leave it out to print the current interval. |
+
+```text
+ISXOgreEQ2.PotCb:Interval[500]
+```
+
+### `Off`
+
+`ISXOgreEQ2.PotCb:Off`
+
+Stops the Potency / Crit Bonus / Fervor sampler and closes its panel, keeping the recorded history. If it was not sampling it prints "potcb: not running." and leaves the panel open.
+
+```text
+ISXOgreEQ2.PotCb:Off
+```
+
+### `On`
+
+`ISXOgreEQ2.PotCb:On`
+
+Starts the Potency / Crit Bonus / Fervor sampler, which reads the three stats every interval (default 200 ms) while you are in world, and prints one line saying so. Does nothing if it is already sampling, and does not open the panel.
+
+```text
+ISXOgreEQ2.PotCb:On
+```
+
+### `Open`
+
+`ISXOgreEQ2.PotCb:Open`
+
+Opens the Potency / Crit Bonus / Fervor tracker panel, starting the sampler first if it was stopped (the same as bare `ogre potcb`). If the panel is already up it stays as it is, and without the Ogre UI desktop it prints a warning while sampling still starts.
+
+```text
+ISXOgreEQ2.PotCb:Open
+```
+
+### `Reset`
+
+`ISXOgreEQ2.PotCb:Reset`
+
+Clears every recorded Potency / Crit Bonus / Fervor figure and the sampled time, then prints "potcb: history cleared". The sampler stays on or off as it was.
+
+```text
+ISXOgreEQ2.PotCb:Reset
+```
+
+### `Status`
+
+`ISXOgreEQ2.PotCb:Status`
+
+Prints every Potency / Crit Bonus / Fervor figure to the console: running or stopped and time sampled, then per stat the current value and peak, the in-combat min / avg / max, time at cap, time at peak and combat time by tenth of the peak, and the overall min / avg / max. It also warns when readings were skipped because a stat showed no number.
+
+```text
+ISXOgreEQ2.PotCb:Status
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/PulseBudget.md
+
+# ISXOgreEQ2.PulseBudget
+
+## Methods
+
+### `Ceiling`
+
+`ISXOgreEQ2.PulseBudget:Ceiling[us]`
+
+Sets the shared frame ceiling and saves it; below 0 reads as 0. With no value it prints one warning and changes nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `us` | float |  | The ceiling in microseconds; 0 means none. |
+
+```text
+ISXOgreEQ2.PulseBudget:Ceiling[4000]
+```
+
+### `Close`
+
+`ISXOgreEQ2.PulseBudget:Close`
+
+Closes the Pulse Budget window, the same as `ogre end pulse`. The budget keeps running.
+
+```text
+ISXOgreEQ2.PulseBudget:Close
+```
+
+### `JobTest`
+
+`ISXOgreEQ2.PulseBudget:JobTest[state]`
+
+A test mode for this session only: every pulse job pauses at every checkpoint, so state that does not survive a frame shows up at once. It is never saved.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `state` | string |  | on or 1 turns it on; any other word turns it off. Required. |
+
+```text
+ISXOgreEQ2.PulseBudget:JobTest[on]
+```
+
+### `Off`
+
+`ISXOgreEQ2.PulseBudget:Off`
+
+Turns the shared frame ceiling off and saves it. Each section still keeps its own slice.
+
+```text
+ISXOgreEQ2.PulseBudget:Off
+```
+
+### `On`
+
+`ISXOgreEQ2.PulseBudget:On`
+
+Turns the shared frame ceiling on, resets the counters and saves it.
+
+```text
+ISXOgreEQ2.PulseBudget:On
+```
+
+### `Open`
+
+`ISXOgreEQ2.PulseBudget:Open`
+
+Opens the Pulse Budget window, the same as bare `ogre pulse`.
+
+```text
+ISXOgreEQ2.PulseBudget:Open
+```
+
+### `Report`
+
+`ISXOgreEQ2.PulseBudget:Report`
+
+Prints the per-section table to the console.
+
+```text
+ISXOgreEQ2.PulseBudget:Report
+```
+
+### `Reset`
+
+`ISXOgreEQ2.PulseBudget:Reset`
+
+Resets the counters.
+
+```text
+ISXOgreEQ2.PulseBudget:Reset
+```
+
+### `Slice`
+
+`ISXOgreEQ2.PulseBudget:Slice[section,us]`
+
+Sets how long a resumable section may run per frame and saves it; a slice paces the work and never skips any of it. A missing section or value prints one warning, and a section nothing matches prints another.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `section` | string |  | The section's name, or its number from :Report. |
+| `us` | float |  | Microseconds per frame; 0 lets it run to completion. |
+
+```text
+ISXOgreEQ2.PulseBudget:Slice[3,200]
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/PulseProf.md
+
+# ISXOgreEQ2.PulseProf
+
+## Methods
+
+### `Help`
+
+`ISXOgreEQ2.PulseProf:Help`
+
+Prints the `ogre pulseprof` usage to the console, the same as bare `ogre pulseprof`.
+
+```text
+ISXOgreEQ2.PulseProf:Help
+```
+
+### `Off`
+
+`ISXOgreEQ2.PulseProf:Off`
+
+Turns the profiler off: no overhead, and the counters stay frozen. `ogre end pulseprof` is this.
+
+```text
+ISXOgreEQ2.PulseProf:Off
+```
+
+### `On`
+
+`ISXOgreEQ2.PulseProf:On`
+
+Turns the profiler on and resets the counters.
+
+```text
+ISXOgreEQ2.PulseProf:On
+```
+
+### `Overhead`
+
+`ISXOgreEQ2.PulseProf:Overhead`
+
+Prints what the profiler itself costs to the console.
+
+```text
+ISXOgreEQ2.PulseProf:Overhead
+```
+
+### `Report`
+
+`ISXOgreEQ2.PulseProf:Report[count,reads]`
+
+Prints the top subsystems by frame time to the console, with their native read counts.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `count` | int |  | How many rows. Optional: 20 when left out. |
+| `reads` | string |  | The word reads breaks the rows down by reads instead. Optional. |
+
+```text
+ISXOgreEQ2.PulseProf:Report[40,reads]
+```
+
+### `Reset`
+
+`ISXOgreEQ2.PulseProf:Reset`
+
+Resets the counters.
+
+```text
+ISXOgreEQ2.PulseProf:Reset
+```
+
+### `Scans`
+
+`ISXOgreEQ2.PulseProf:Scans[what]`
+
+Actor lookups by call site and by filter: prints the report, or controls it with reset, on or off.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `what` | string |  | A number of rows for the report, or reset, on or off. Optional: 20 rows when left out. |
+
+```text
+ISXOgreEQ2.PulseProf:Scans[reset]
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Pushover.md
+
+# ISXOgreEQ2.Pushover
+
+## Methods
+
+### `Message`
+
+`ISXOgreEQ2.Pushover:Message[words]`
+
+Queues a notification, the same as `ogre pushover <message>`. With no words it prints one warning and sends nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `words` | string |  | The message text, then any of -title, -priority, -sound, -device, -retry and -expire, each taking the next word; one argument each; required. |
+
+```text
+ISXOgreEQ2.Pushover:Message["raid is up","-title","Raid Night"]
+```
+
+### `Reload`
+
+`ISXOgreEQ2.Pushover:Reload`
+
+Re-reads your Pushover credentials file and prints the status line. With words after it, it sends them as a message that starts with reload.
+
+```text
+ISXOgreEQ2.Pushover:Reload
+```
+
+### `Status`
+
+`ISXOgreEQ2.Pushover:Status`
+
+Prints whether Pushover is configured and how many messages wait, then the usage, the same as bare `ogre pushover`; the keys are never printed in full. With words after it, it sends them as a message that starts with status.
+
+```text
+ISXOgreEQ2.Pushover:Status
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/QuestCompare.md
+
+# ISXOgreEQ2.QuestCompare
+
+## Methods
+
+### `Close`
+
+`ISXOgreEQ2.QuestCompare:Close`
+
+Closes the Quest Compare window, the same as `ogre end questcompare`.
+
+```text
+ISXOgreEQ2.QuestCompare:Close
+```
+
+### `Open`
+
+`ISXOgreEQ2.QuestCompare:Open`
+
+Opens the Quest Compare window, the same as bare `ogre questcompare`.
+
+```text
+ISXOgreEQ2.QuestCompare:Open
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/QuestHelper.md
+
+# ISXOgreEQ2.QuestHelper
+
+## Methods
+
+### `Help`
+
+`ISXOgreEQ2.QuestHelper:Help`
+
+Prints the `ogre quest` usage lines (start, stop, status, list, reload) to the console.
+
+```text
+ISXOgreEQ2.QuestHelper:Help
+```
+
+### `List`
+
+`ISXOgreEQ2.QuestHelper:List`
+
+Prints what the loaded reply table holds: the total rule count, the rules that apply in every zone, the rules in each zone's own list, and the counts of ignored objects and chat captures. A zone that has its own list does not also use the every-zone rules.
+
+```text
+ISXOgreEQ2.QuestHelper:List
+```
+
+### `Off`
+
+`ISXOgreEQ2.QuestHelper:Off`
+
+Stops the quest helper and prints its hail, object-click and reply counts, which add up across every run this session. When it is not running it prints 'questhelper: not running.' instead.
+
+```text
+ISXOgreEQ2.QuestHelper:Off
+```
+
+### `On`
+
+`ISXOgreEQ2.QuestHelper:On[option1]`
+
+Starts the quest helper (`ogre quest`), which runs until QuestHelper:Off and about every half second answers an open NPC conversation from its reply table (or takes the only reply), otherwise hails a non-attackable NPC within 10 units that has a quest to give, update or complete, otherwise double-clicks an interactable object within 5 units that is not on its ignore list and is not a way out of the zone (a name with the word zone, teleporter or exit), logging every hail and click with its zone. It does nothing while you are moving, out of the world or in a guild hall, the hail goes through the bot's queued Hail action, and it prints one line when it starts (or says it is already running).
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `option1` | int | `none` | Optional. 1 = always click reply 1 and ignore the reply table; leave it out to use the table. Any other value is refused with one line and nothing starts. Calling On again while it runs switches this mode. |
+
+```text
+ISXOgreEQ2.QuestHelper:On[1]
+```
+
+### `Reload`
+
+`ISXOgreEQ2.QuestHelper:Reload`
+
+Re-reads the reply table from the shipped files (Scripts/Ogre/EQ2/QuestHelper/default) and your own (Scripts/OgreSave/EQ2/QuestHelper/custom), warns about each file that fails to load, and prints the rule count. If no file loads at all, the table already in use is kept and the line says so instead of a loaded count.
+
+```text
+ISXOgreEQ2.QuestHelper:Reload
+```
+
+### `Status`
+
+`ISXOgreEQ2.QuestHelper:Status`
+
+Prints the quest helper's state to the console: running or stopped, whether it always takes reply 1, your zone, what it last did, how long since it last acted, its hail, object-click and reply counts for this run (they start from 0 at each start), and how many reply rules are loaded.
+
+```text
+ISXOgreEQ2.QuestHelper:Status
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Queue.md
+
+# ISXOgreEQ2.Queue
+
+## Members
+
+### `Blocking`
+
+`${ISXOgreEQ2.Queue.Blocking}`
+
+Why the most urgent waiting entry cannot start yet, as a line like seq=5 CastAbility prio=100 age=900ms: resource busy: CastBar, or starved by a higher-priority haltQueue entry. Empty when nothing is waiting or the next entry is free to start.
+
+**Returns:** string: the reason line; empty when nothing is held up
+
+```text
+echo ${ISXOgreEQ2.Queue.Blocking}
+```
+
+### `Count`
+
+`${ISXOgreEQ2.Queue.Count}`
+
+Number of entries in the action queue, running plus waiting.
+
+**Returns:** int: entries running plus waiting; 0 when the queue is empty
+
+```text
+echo ${ISXOgreEQ2.Queue.Count}
+```
+
+### `Enqueue`
+
+`${ISXOgreEQ2.Queue.Enqueue[priority,kind,arg0,arg1,ttlstart,ttlmax]}`
+
+Adds an entry exactly like ISXOgreEQ2.Queue:Add and returns its seq, the id you pass to Status, IsDone and Remove. Reading the member is what adds the entry, so every read queues another one, and an unknown kind (ApplyVerbCastBar and DialogChoices included) or a flow name that is not registered adds nothing and returns 0.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `priority` | int | `100` | Higher runs first; 0 means the default 100 |
+| `kind` | string |  | What to do, any case: CastAbility, CastItem, ClickCastBar, RawCommand, Movement or Flow. ApplyVerbCastBar and DialogChoices are not kinds here; OgreBotAPI.Actors:ApplyVerbIDQueued queues an apply-verb |
+| `arg0` | string |  | Depends on kind: RawCommand the console command, CastAbility the ability id or name, CastItem the item name, ClickCastBar the actor id, Movement x,y,z with an optional precision, Flow the flow name |
+| `arg1` | string |  | Depends on kind: CastAbility the target name (empty = current target), CastItem the equip slot (empty = the bag item by name), ClickCastBar the wait in tenths of a second (empty = 4 seconds), Flow its arguments |
+| `ttlstart` | int | `0` | Milliseconds the entry may wait to start before it is dropped with status Expired; 0 = no limit |
+| `ttlmax` | int | `0` | Milliseconds the entry may run before it is stopped with status Aborted; 0 = no limit |
+
+**Returns:** int64: the new entry's seq (1 and up); 0 when the kind is unknown
+
+```text
+echo ${ISXOgreEQ2.Queue.Enqueue[100,RawCommand,"echo queued"]}
+```
+
+### `Entry`
+
+`${ISXOgreEQ2.Queue.Entry[index]}`
+
+One queue entry as a readable line, such as seq=12 prio=100 RawCommand waiting age=40ms arg0=echo hi, where seq is the entry's id. The index counts from 1, running entries first and then waiting ones, each sorted by priority then by the order they were added.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `index` | int |  | Position in the queue counting from 1: running entries first, then waiting ones, highest priority first |
+
+**Returns:** string: the entry line; empty when the index is 0, past the end or missing
+
+```text
+echo ${ISXOgreEQ2.Queue.Entry[1]}
+```
+
+### `EntryJSON`
+
+`${ISXOgreEQ2.Queue.EntryJSON[index]}`
+
+One queue entry as a JSON object with seq, priority, kind, status (running or waiting), holds, haltQueue, haltCastStack, ageMs, blocked, arg0, arg1 and label. Same index as Entry, counting from 1, so a loop from 1 to Count reads the whole queue.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `index` | int |  | Position in the queue counting from 1: running entries first, then waiting ones, highest priority first |
+
+**Returns:** string: the entry as a JSON object; {} when the index is 0, past the end or missing
+
+```text
+echo ${ISXOgreEQ2.Queue.EntryJSON[1]}
+```
+
+### `InFlight`
+
+`${ISXOgreEQ2.Queue.InFlight}`
+
+Whether any queue entry is running right now.
+
+**Returns:** bool: TRUE when at least one entry is running; FALSE when none is
+
+```text
+echo ${ISXOgreEQ2.Queue.InFlight}
+```
+
+### `IsDone`
+
+`${ISXOgreEQ2.Queue.IsDone[seq]}`
+
+Whether the queue entry with that seq has finished in any way (Done, Failed, Expired, Aborted or Removed), so a wait loop never hangs on a failed entry; read Status for how it ended. A seq that finished and has since been forgotten also reads TRUE, while a seq never issued reads FALSE.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `seq` | int64 |  | The entry's id, from Enqueue or the seq= field of Entry and Spew |
+
+**Returns:** bool: TRUE when the entry has finished, however it ended; FALSE while it is waiting or running, or when the seq was never issued
+
+```text
+echo ${ISXOgreEQ2.Queue.IsDone[1]}
+```
+
+### `Status`
+
+`${ISXOgreEQ2.Queue.Status[seq]}`
+
+The state of the queue entry with that seq. Unknown means the seq was never issued or finished too long ago to remember (only the most recent 256 are kept).
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `seq` | int64 |  | The entry's id, from Enqueue or the seq= field of Entry and Spew |
+
+**Returns:** string: Pending, InFlight, Done, Failed, Expired, Aborted, Removed or Unknown
+
+```text
+echo ${ISXOgreEQ2.Queue.Status[1]}
+```
+
+## Methods
+
+### `Add`
+
+`ISXOgreEQ2.Queue:Add[priority,kind,arg0,arg1,ttlstart,ttlmax]`
+
+Adds an action to the priority queue, which runs it on its turn once the cast bar or movement it needs is free (highest priority first, even while OgreBot is paused), and prints an Add seq=N line to the console. Waiting and running entries are dropped on a zone change or when OgreBot ends, a Flow lives as its registered flow does, with that flow's holds and halts, and a flow name that is not registered gets one line; use the Enqueue member instead when you need the seq back.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `priority` | int | `100` | Higher runs first; 0 means the default 100 |
+| `kind` | string |  | What to do, any case: CastAbility, CastItem, ClickCastBar, RawCommand, Movement or Flow. ApplyVerbCastBar and DialogChoices are not kinds here; OgreBotAPI.Actors:ApplyVerbIDQueued queues an apply-verb |
+| `arg0` | string |  | Depends on kind: RawCommand the console command, CastAbility the ability id or name, CastItem the item name, ClickCastBar the actor id, Movement x,y,z with an optional precision, Flow the flow name |
+| `arg1` | string |  | Depends on kind: CastAbility the target name (empty = current target), CastItem the equip slot (empty = the bag item by name), ClickCastBar the wait in tenths of a second (empty = 4 seconds), Flow its arguments |
+| `ttlstart` | int | `0` | Milliseconds the entry may wait to start before it is dropped with status Expired; 0 = no limit |
+| `ttlmax` | int | `0` | Milliseconds the entry may run before it is stopped with status Aborted; 0 = no limit. For a Flow it can only shorten the flow's own limit |
+
+```text
+ISXOgreEQ2.Queue:Add[100,RawCommand,"echo queued"]
+```
+
+### `Remove`
+
+`ISXOgreEQ2.Queue:Remove[seq]`
+
+Removes the waiting queue entry with that seq (its Status becomes Removed) and prints the result to the console. A running entry is not removed, and an unknown or missing seq only prints that there is no such entry.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `seq` | int64 |  | The entry's id, from Enqueue or the seq= field of Entry and Spew |
+
+```text
+ISXOgreEQ2.Queue:Remove[1]
+```
+
+### `Spew`
+
+`ISXOgreEQ2.Queue:Spew`
+
+Prints every queue entry to the console, running entries then waiting ones, one line each starting with its seq, then a line on how to remove one. Prints empty - 0 entries when the queue is empty.
+
+```text
+ISXOgreEQ2.Queue:Spew
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Quiver.md
+
+# ISXOgreEQ2.Quiver
+
+## Members
+
+### `Running`
+
+`${ISXOgreEQ2.Quiver.Running}`
+
+TRUE while a quiver refill is moving ammo out of your bags, or while the ammo depot pull it started is still running. A depot errand started by something else does not count.
+
+**Returns:** bool: TRUE while either half of a quiver refill runs; FALSE when idle.
+
+```text
+echo ${ISXOgreEQ2.Quiver.Running}
+```
+
+### `Status`
+
+`${ISXOgreEQ2.Quiver.Status}`
+
+Progress of a quiver refill: the bag half with its count, then the ammo depot pull while that runs.
+
+**Returns:** string: "idle", "filling from bags (done/total)", "arming the depot pull" or "pulling ammo from the depot".
+
+```text
+echo ${ISXOgreEQ2.Quiver.Status}
+```
+
+## Methods
+
+### `Refill`
+
+`ISXOgreEQ2.Quiver:Refill`
+
+The engine behind `ogre quiver` and the quiver step of the Inventory Manager chain: moves matching ammo from your bags into the equipped quiver or pouch (1 s apart, 2 s in combat), then, in a guild hall, tops it up from the ammo depot, warning and stopping when no ammo container is equipped or the ammo kind cannot be told. To tell arrows, bolts or thrown ammo it makes ONE SERVER CALL (the equipped ranged weapon's `.ToItemInfo.SubType`, only when that item's info is already available), then falls back to what is in the container, then to the container's name.
+
+```text
+ISXOgreEQ2.Quiver:Refill
+```
+
+### `Stop`
+
+`ISXOgreEQ2.Quiver:Stop`
+
+Stops both halves of a quiver refill, the bag moves and the ammo depot pull it started, and prints "quiver: stopped.". Prints nothing when neither half is running; it is the same stop `ogre end quiver` uses.
+
+```text
+ISXOgreEQ2.Quiver:Stop
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Radar.md
+
+# ISXOgreEQ2.Radar
+
+## Methods
+
+### `Budget`
+
+`ISXOgreEQ2.Radar:Budget[n,ms]`
+
+The read budget: how many actors a pulse may read their slow fields, and how old a slow field may get. With no argument it prints both; an age out of range is refused, but the actor count is still written.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `n` | int |  | Actors per pulse, 0-5000. Optional. |
+| `ms` | int |  | The oldest a slow field may get, 0-600000 ms. Optional. |
+
+```text
+ISXOgreEQ2.Radar:Budget[60,3000]
+```
+
+### `Cap`
+
+`ISXOgreEQ2.Radar:Cap[n]`
+
+Draws only the nearest n blips, where 0 means no cap; it bounds what is drawn, not what is read. With no argument it prints the cap, and out of range is refused.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `n` | int |  | The cap, 0-5000. Optional. |
+
+```text
+ISXOgreEQ2.Radar:Cap[200]
+```
+
+### `CfgPath`
+
+`ISXOgreEQ2.Radar:CfgPath`
+
+Prints the path of the radar's settings file.
+
+```text
+ISXOgreEQ2.Radar:CfgPath
+```
+
+### `CfgSave`
+
+`ISXOgreEQ2.Radar:CfgSave`
+
+Writes the settings the panel left in the host store to the radar's settings file, and says whether it worked. The Save button sends this.
+
+```text
+ISXOgreEQ2.Radar:CfgSave
+```
+
+### `Chunk`
+
+`ISXOgreEQ2.Radar:Chunk[n]`
+
+Spreads a refresh over frames: n actors a frame, 0 to 500, where 0 means the whole refresh on one frame. With no argument it prints it.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `n` | int |  | Actors per frame, 0-500. Optional. |
+
+```text
+ISXOgreEQ2.Radar:Chunk[50]
+```
+
+### `Click`
+
+`ISXOgreEQ2.Radar:Click[word]`
+
+on lets the mouse pass through the panel to the game; off captures it again. A click-through panel can never be clicked back, so this is the way out.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `word` | string |  | on or off (any yes or no word). With neither it prints the usage. |
+
+```text
+ISXOgreEQ2.Radar:Click[off]
+```
+
+### `Dump`
+
+`ISXOgreEQ2.Radar:Dump[n]`
+
+Prints the first n blips of the last snapshot to the console.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `n` | int |  | How many. 10 when absent. |
+
+```text
+ISXOgreEQ2.Radar:Dump[25]
+```
+
+### `Fields`
+
+`ISXOgreEQ2.Radar:Fields[word]`
+
+full reads level, health and con on the slow budget; lean stops reading them, so they stop updating. It is not saved, and any other word prints the usage.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `word` | string |  | lean or full. |
+
+```text
+ISXOgreEQ2.Radar:Fields[lean]
+```
+
+### `Help`
+
+`ISXOgreEQ2.Radar:Help`
+
+Prints every radar word to the console, the same as `ogre radar help`.
+
+```text
+ISXOgreEQ2.Radar:Help
+```
+
+### `LoadTest`
+
+`ISXOgreEQ2.Radar:LoadTest[range,labels,glide]`
+
+Panel only: widens the zoom so that many blips are really drawn, for measuring a loaded panel.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `range` | int |  | The range to draw. 400 when absent. |
+| `labels` | string |  | on to draw labels. Optional. |
+| `glide` | string |  | on to glide. Optional. |
+
+```text
+ISXOgreEQ2.Radar:LoadTest[800,on,on]
+```
+
+### `MaxRate`
+
+`ISXOgreEQ2.Radar:MaxRate[n]`
+
+Never refreshes faster than n a second, where 0 means no ceiling and a number outside 0-240 is clamped. Without the number it prints the usage.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `n` | int |  | The ceiling. Required. |
+
+```text
+ISXOgreEQ2.Radar:MaxRate[30]
+```
+
+### `Off`
+
+`ISXOgreEQ2.Radar:Off`
+
+Stops scanning and closes the panel, the same as `ogre end radar` and the panel's X.
+
+```text
+ISXOgreEQ2.Radar:Off
+```
+
+### `On`
+
+`ISXOgreEQ2.Radar:On`
+
+Starts scanning and opens the panel, the same as bare `ogre radar`. On a radar already on and open it says nothing.
+
+```text
+ISXOgreEQ2.Radar:On
+```
+
+### `Panel`
+
+`ISXOgreEQ2.Radar:Panel[word]`
+
+The panel only, scanning left as it is: on opens it, off closes it, reload reads radar.html and radar.js from disk again. Any other word prints the usage.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `word` | string |  | on, off or reload. |
+
+```text
+ISXOgreEQ2.Radar:Panel[reload]
+```
+
+### `Parity`
+
+`ISXOgreEQ2.Radar:Parity`
+
+Prints every field of every blip in the last snapshot, one line each sorted by id, so two captures compare as a line diff. It reads the snapshot only.
+
+```text
+ISXOgreEQ2.Radar:Parity
+```
+
+### `Perf`
+
+`ISXOgreEQ2.Radar:Perf[word]`
+
+Prints the radar's cost report to the console. With reset it clears the counters, so the next report covers from now.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `word` | string |  | reset. Optional. |
+
+```text
+ISXOgreEQ2.Radar:Perf
+```
+
+### `Push`
+
+`ISXOgreEQ2.Radar:Push[word]`
+
+off stops handing snapshots to the panel while refreshes still run, so Perf shows the data cost alone; on hands them over again.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `word` | string |  | on or off (any yes or no word). With neither it prints the usage. |
+
+```text
+ISXOgreEQ2.Radar:Push[off]
+```
+
+### `Quest`
+
+`ISXOgreEQ2.Radar:Quest[word]`
+
+on makes the radar read UpdatesMyQuest for the panel's quest-only filter and off stops it, so it costs nothing unless it is used. With no argument it prints the setting.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `word` | string |  | on or off. Optional. |
+
+```text
+ISXOgreEQ2.Radar:Quest[on]
+```
+
+### `QuestNpc`
+
+`ISXOgreEQ2.Radar:QuestNpc[word]`
+
+on makes the radar find quest NPCs for the panel's quest NPC filter and off stops it. With no argument it prints the setting.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `word` | string |  | on or off. Optional. |
+
+```text
+ISXOgreEQ2.Radar:QuestNpc[on]
+```
+
+### `Radius`
+
+`ISXOgreEQ2.Radar:Radius[n]`
+
+Sets the display radius in game units; the panel applies it, so no game read is saved. With no argument it prints the radius, and out of range is refused.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `n` | int |  | The radius, 5-500. Optional. |
+
+```text
+ISXOgreEQ2.Radar:Radius[150]
+```
+
+### `Rate`
+
+`ISXOgreEQ2.Radar:Rate[hz]`
+
+Sets refreshes per second, where 0 means every pulse. With no argument it prints the rate, and out of range is refused.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `hz` | int |  | The rate, 0-60. Optional. |
+
+```text
+ISXOgreEQ2.Radar:Rate[20]
+```
+
+### `Reload`
+
+`ISXOgreEQ2.Radar:Reload`
+
+Reads radar.html and radar.js from disk again and redraws the panel, with no rebuild and no client restart.
+
+```text
+ISXOgreEQ2.Radar:Reload
+```
+
+### `Scan`
+
+`ISXOgreEQ2.Radar:Scan`
+
+Forces one refresh on the next pulse, ignoring the rate.
+
+```text
+ISXOgreEQ2.Radar:Scan
+```
+
+### `Settings`
+
+`ISXOgreEQ2.Radar:Settings`
+
+Opens the panel's settings drawer and forces mouse capture on while it is open, so it works on a click-through or borderless panel.
+
+```text
+ISXOgreEQ2.Radar:Settings
+```
+
+### `Shake`
+
+`ISXOgreEQ2.Radar:Shake[word,rotate]`
+
+Panel only: synthetic blip motion every tick, no running required. on starts it, anything else stops it; a second argument of on rotates as well.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `word` | string |  | on or off (any yes or no word). With neither it prints the usage. |
+| `rotate` | string |  | on to rotate too. Optional. |
+
+```text
+ISXOgreEQ2.Radar:Shake[on,on]
+```
+
+### `Status`
+
+`ISXOgreEQ2.Radar:Status`
+
+Prints the radar's state to the console: scanning, panel, push, radius, rate, fields, chunk and cap, what the rate really works out to, where the actors come from, the last snapshot and the settings file.
+
+```text
+ISXOgreEQ2.Radar:Status
+```
+
+### `Target`
+
+`ISXOgreEQ2.Radar:Target[id]`
+
+Targets an actor through the targeting arbiter on the radar's next pulse: what a blip click sends. No id prints the usage; an id that reads as 0 is refused.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `id` | string |  | The actor id. Required. |
+
+```text
+ISXOgreEQ2.Radar:Target[12345]
+```
+
+### `TestPattern`
+
+`ISXOgreEQ2.Radar:TestPattern[word]`
+
+A pink dot orbits the scope on the panel's own clock, with no game data, so the eye can judge the panel's smoothness alone.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `word` | string |  | on or off (any yes or no word). With neither it prints the usage. |
+
+```text
+ISXOgreEQ2.Radar:TestPattern[on]
+```
+
+### `Toggle`
+
+`ISXOgreEQ2.Radar:Toggle`
+
+Turns the radar on with its panel if it is off, and off if it is on.
+
+```text
+ISXOgreEQ2.Radar:Toggle
+```
+
+### `TypeLive`
+
+`ISXOgreEQ2.Radar:TypeLive[word]`
+
+on reads Type every pass, so a corpse draws as a corpse on the next refresh; off puts Type on the slow budget. With no argument it prints the setting.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `word` | string |  | on or off. Optional. |
+
+```text
+ISXOgreEQ2.Radar:TypeLive[on]
+```
+
+### `UiDump`
+
+`ISXOgreEQ2.Radar:UiDump[word]`
+
+Prints what the panel itself reports: draw rate, render cost and JS errors, or says it has published nothing. With reset it clears the panel's held peaks.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `word` | string |  | reset. Optional. |
+
+```text
+ISXOgreEQ2.Radar:UiDump
+```
+
+### `UiEcho`
+
+`ISXOgreEQ2.Radar:UiEcho[words]`
+
+Prints its words to the console: the panel's way of putting a value where a redirect can capture it.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `words` | string |  | What to print, joined with spaces. |
+
+```text
+ISXOgreEQ2.Radar:UiEcho[hello]
+```
+
+### `UiReset`
+
+`ISXOgreEQ2.Radar:UiReset`
+
+Puts the panel's look back to its defaults, for a look that left nothing on screen to click. It is not saved until you press Save in the drawer.
+
+```text
+ISXOgreEQ2.Radar:UiReset
+```
+
+### `Verify`
+
+`ISXOgreEQ2.Radar:Verify`
+
+Compares the held actor index against a fresh scan and names any drift on the console; on drift it rebuilds the index and clears the radar's field cache. The Verify button sends this.
+
+```text
+ISXOgreEQ2.Radar:Verify
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Refine.md
+
+# ISXOgreEQ2.Refine
+
+## Methods
+
+### `Bags`
+
+`ISXOgreEQ2.Refine:Bags[bags...]`
+
+Sets which carried bags (1 to 6) a refine run scans - bags 1 and 2 by default - and echoes the new list. A missing list is refused with a console line, anything that is not bag numbers, all or none prints the usage line and changes nothing, and the setting is not saved.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `bags...` | string |  | bag numbers 1 to 6, as separate arguments or one list such as 1,2,5; each digit is one bag, so 12 means bags 1 and 2; or all / none |
+
+```text
+ISXOgreEQ2.Refine:Bags[1,2,3]
+```
+
+### `Plan`
+
+`ISXOgreEQ2.Refine:Plan`
+
+A dry run: scans the selected bags with the current settings and prints each item a run would refine (bag, slot, quantity, name) and why the others were skipped. Nothing is refined, and out of the world it only prints a warning.
+
+```text
+ISXOgreEQ2.Refine:Plan
+```
+
+### `Rare`
+
+`ISXOgreEQ2.Refine:Rare[value]`
+
+Turns refining of Rare resources on or off (off by default) and echoes the new setting. A missing value is refused with a console line, a value that is not on or off prints the usage line, and the setting is not saved.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `value` | string |  | on or off (1 / 0 and true / false also work) |
+
+```text
+ISXOgreEQ2.Refine:Rare[off]
+```
+
+### `Raw`
+
+`ISXOgreEQ2.Refine:Raw[value]`
+
+Turns refining of Raw resources on or off (on by default) and echoes the new setting. A missing value is refused with a console line, a value that is not on or off prints the usage line, and the setting is not saved.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `value` | string |  | on or off (1 / 0 and true / false also work) |
+
+```text
+ISXOgreEQ2.Refine:Raw[on]
+```
+
+### `Reload`
+
+`ISXOgreEQ2.Refine:Reload`
+
+Re-reads the refiner's resource list now: the shipped files under Ogre/EQ2/Refine/default plus your own under OgreSave/EQ2/Refine/custom. It echoes how many resources loaded, and a warning for any file it could not read or when no files were found.
+
+```text
+ISXOgreEQ2.Refine:Reload
+```
+
+### `Rewards`
+
+`ISXOgreEQ2.Refine:Rewards[value]`
+
+When on, every reward window that appears while a refine run is in progress is accepted automatically - including ones unrelated to refining, such as a quest reward. Off by default; a missing value is refused with a console line, and the setting is not saved.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `value` | string |  | on or off (1 / 0 and true / false also work) |
+
+```text
+ISXOgreEQ2.Refine:Rewards[off]
+```
+
+### `Start`
+
+`ISXOgreEQ2.Refine:Start`
+
+Starts one background pass over the selected carried bags: for each Raw or Rare resource on the refiner's list (provisioner resources skipped) it uses your Refine ability, refines the item until the stack is gone or a try limit is reached, and answers the refine confirm window itself while the run lasts. It refuses with a console line when a run is already going, you are not in the world, the resource list is empty, you lack the Refine ability, or Raw and Rare are both off.
+
+```text
+ISXOgreEQ2.Refine:Start
+```
+
+### `Status`
+
+`ISXOgreEQ2.Refine:Status`
+
+Prints the refiner's state to the console: how many resources its list holds, whether Raw and Rare are on, which bags it scans, whether reward windows are auto-accepted, and the progress of a run in flight, then the usage line. The same as `ogre refine` or `ogre refine status`.
+
+```text
+ISXOgreEQ2.Refine:Status
+```
+
+### `Stop`
+
+`ISXOgreEQ2.Refine:Stop`
+
+Stops a refine run in progress, the same as `ogre end refine`. When nothing is running it prints "refine: not running." to the console.
+
+```text
+ISXOgreEQ2.Refine:Stop
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/ReplenishNames.md
+
+# ISXOgreEQ2.ReplenishNames
+
+## Methods
+
+### `Reload`
+
+`ISXOgreEQ2.ReplenishNames:Reload`
+
+Re-reads both replenish name files now, warning in the console about any problem it finds, then prints the same report as ReplenishNames:Show. A changed file is picked up on its next use anyway, so this is only needed to see the result straight away.
+
+```text
+ISXOgreEQ2.ReplenishNames:Reload
+```
+
+### `Show`
+
+`ISXOgreEQ2.ReplenishNames:Show`
+
+Prints the fallback potion, food and drink names the replenish options use when nothing better is set, plus where the shipped file and your own file (OgreSave/EQ2/Replenish/custom/replenish-names.json) live. The files are re-read first when either has changed since the last read.
+
+```text
+ISXOgreEQ2.ReplenishNames:Show
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/SafeFall.md
+
+# ISXOgreEQ2.SafeFall
+
+## Methods
+
+### `End`
+
+`ISXOgreEQ2.SafeFall:End`
+
+Stops the trainer and closes the window, the same as `ogre end safefall` and the window's X. It takes no arguments.
+
+```text
+ISXOgreEQ2.SafeFall:End
+```
+
+### `Help`
+
+`ISXOgreEQ2.SafeFall:Help`
+
+Prints the `ogre safefall` usage to the console.
+
+```text
+ISXOgreEQ2.SafeFall:Help
+```
+
+### `Off`
+
+`ISXOgreEQ2.SafeFall:Off`
+
+Stops the trainer on the next tick and leaves the window up. It takes no arguments.
+
+```text
+ISXOgreEQ2.SafeFall:Off
+```
+
+### `On`
+
+`ISXOgreEQ2.SafeFall:On[ticks]`
+
+Arms the trainer: on the next tick it flies up, falls and repeats, gaining flight time as it goes. Already running, it restarts; a bad value prints why and the usage.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `ticks` | int |  | Flight time in tenths of a second, 5 to 600. Optional: 30 when left out. |
+
+```text
+ISXOgreEQ2.SafeFall:On[45]
+```
+
+### `Open`
+
+`ISXOgreEQ2.SafeFall:Open`
+
+Opens the Safe Fall Trainer window. It takes no arguments.
+
+```text
+ISXOgreEQ2.SafeFall:Open
+```
+
+### `Status`
+
+`ISXOgreEQ2.SafeFall:Status`
+
+Prints the trainer's state and usage to the console, the same as bare `ogre safefall`. It takes no arguments.
+
+```text
+ISXOgreEQ2.SafeFall:Status
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Scheduler.md
+
+# ISXOgreEQ2.Scheduler
+
+## Members
+
+### `Active`
+
+`${ISXOgreEQ2.Scheduler.Active[key]}`
+
+Whether a timer with this key still has a fire pending. Keys ignore case; a one-shot timer reads FALSE once it has fired.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `key` | string |  | the timer's key (its event name unless it was armed with -key) |
+
+**Returns:** bool: TRUE when a fire is still pending for this key; FALSE when there is no such timer.
+
+```text
+echo ${ISXOgreEQ2.Scheduler.Active[MyTimerEvent]}
+```
+
+### `Count`
+
+`${ISXOgreEQ2.Scheduler.Count}`
+
+How many keyed timers are pending in the scheduler. The encounter engine's timers live in the same table, so they count too.
+
+**Returns:** int: number of pending keyed timers.
+
+```text
+echo ${ISXOgreEQ2.Scheduler.Count}
+```
+
+### `Remaining`
+
+`${ISXOgreEQ2.Scheduler.Remaining[key]}`
+
+Milliseconds until the next fire of the timer with this key. Reads 0 when there is no such timer or it is due now.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `key` | string |  | the timer's key (its event name unless it was armed with -key) |
+
+**Returns:** int64: milliseconds to the next fire; 0 when there is no such timer or it is due.
+
+```text
+echo ${ISXOgreEQ2.Scheduler.Remaining[MyTimerEvent]}
+```
+
+## Methods
+
+### `Cancel`
+
+`ISXOgreEQ2.Scheduler:Cancel[key]`
+
+Stops the timer with this key before it fires again. Keys ignore case, and a key with no timer does nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `key` | string |  | the timer's key (its event name unless it was armed with -key) |
+
+```text
+ISXOgreEQ2.Scheduler:Cancel[MyTimerEvent]
+```
+
+### `ClearNonPersistent`
+
+`ISXOgreEQ2.Scheduler:ClearNonPersistent`
+
+Cancels every script and encounter timer that was not armed with -persistent, and leaves the bot's own pending delayed casts and actions. Finishing a zone clears every non-persistent timer, the bot's included.
+
+```text
+ISXOgreEQ2.Scheduler:ClearNonPersistent
+```
+
+### `FireEvent`
+
+`ISXOgreEQ2.Scheduler:FireEvent[delay,eventName,payload,-persistent,-key]`
+
+Fires the LavishScript event eventName once after the delay, always with exactly one argument (the payload, or an empty string). Arming a key that is already pending replaces that timer, and unless -persistent is given the timer is dropped when you finish zoning; a bad delay such as 30x fires nothing and warns on the console.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `delay` | string |  | how long to wait: a whole number of milliseconds, or a number with ms, s, m or h (30s, 1.5s, 2m) |
+| `eventName` | string |  | the LavishScript event to fire |
+| `payload` | string | `""` | the one argument passed to the event; the first extra word not starting with a dash |
+| `-persistent` | switch | `off` | keep the timer across zoning |
+| `-key` | switch | `the event name` | -key &lt;k>: the timer's key, case-insensitive |
+
+```text
+ISXOgreEQ2.Scheduler:FireEvent[5s,MyTimerEvent,hello]
+```
+
+### `FireEventEvery`
+
+`ISXOgreEQ2.Scheduler:FireEventEvery[interval,eventName,repeats,payload,-persistent,-key]`
+
+Fires the LavishScript event eventName every interval, repeats times, always with exactly one argument (the payload, or an empty string); a missing, 0 or negative repeats means forever. Re-arming a pending key replaces it, and unless -persistent is given the timer is dropped when you finish zoning; a bad interval fires nothing and warns on the console.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `interval` | string |  | time between fires: a whole number of milliseconds, or a number with ms, s, m or h; the first fire comes one interval after the call |
+| `eventName` | string |  | the LavishScript event to fire |
+| `repeats` | int | `forever` | how many times to fire; 0 or less fires until cancelled |
+| `payload` | string | `""` | the one argument passed to the event; the first extra word not starting with a dash |
+| `-persistent` | switch | `off` | keep the timer across zoning |
+| `-key` | switch | `the event name` | -key &lt;k>: the timer's key, case-insensitive |
+
+```text
+ISXOgreEQ2.Scheduler:FireEventEvery[10s,MyTimerEvent,6,tick]
+```
+
+### `Spew`
+
+`ISXOgreEQ2.Scheduler:Spew`
+
+Prints every pending keyed timer to the console, the encounter engine's included: a count line, then one line per timer with its key, event, milliseconds to the next fire, how many times it has fired, and whether it is persistent.
+
+```text
+ISXOgreEQ2.Scheduler:Spew
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Spawn.md
+
+# ISXOgreEQ2.Spawn
+
+## Members
+
+### `ChestId`
+
+`${ISXOgreEQ2.Spawn.ChestId}`
+
+The actor ID of the Exquisite Chest that spawned in this zone, taken from the spawn feed. It goes back to 0 when that chest despawns or you zone.
+
+**Returns:** int64: the chest's actor ID; 0 when there is none.
+
+```text
+echo ${ISXOgreEQ2.Spawn.ChestId}
+```
+
+### `DespawnsDispatched`
+
+`${ISXOgreEQ2.Spawn.DespawnsDispatched}`
+
+The number of despawn events handed on to the bot's internal listeners since the extension loaded.
+
+**Returns:** int64: despawn events dispatched.
+
+```text
+echo ${ISXOgreEQ2.Spawn.DespawnsDispatched}
+```
+
+### `Dispatched`
+
+`${ISXOgreEQ2.Spawn.Dispatched}`
+
+The total number of spawn and despawn events handed on to the bot's internal listeners since the extension loaded. It is SpawnsDispatched plus DespawnsDispatched.
+
+**Returns:** int64: spawn plus despawn events dispatched.
+
+```text
+echo ${ISXOgreEQ2.Spawn.Dispatched}
+```
+
+### `HasChest`
+
+`${ISXOgreEQ2.Spawn.HasChest}`
+
+Whether an Exquisite Chest is up in this zone, the same test as ChestId being non-zero.
+
+**Returns:** bool: TRUE when ChestId is not 0; FALSE otherwise.
+
+```text
+echo ${ISXOgreEQ2.Spawn.HasChest}
+```
+
+### `IsLive`
+
+`${ISXOgreEQ2.Spawn.IsLive[id]}`
+
+Whether the actor ID is in the live set: seen spawning (or present when the zone settled) and not yet despawned. The set is wiped when you zone and filled again once the new zone settles, so it can read FALSE for a moment after zoning.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `<id>` | int64 |  | The actor ID to test. |
+
+**Returns:** bool: TRUE when that actor is live; FALSE when it is not, or when no ID is given.
+
+```text
+echo ${ISXOgreEQ2.Spawn.IsLive[${Target.ID}]}
+```
+
+### `LiveCount`
+
+`${ISXOgreEQ2.Spawn.LiveCount}`
+
+How many actor IDs are in the live set for this zone. It drops to 0 while zoning and refills once the new zone settles.
+
+**Returns:** int: the number of live actors tracked.
+
+```text
+echo ${ISXOgreEQ2.Spawn.LiveCount}
+```
+
+### `OnSpawnDelay`
+
+`${ISXOgreEQ2.Spawn.OnSpawnDelay}`
+
+How long after an actor spawns the delayed spawn event EQ2_ActorSpawned_Delayed fires for it (only if it is still live). The default is 1000 ms and the most is 60000; SetOnSpawnDelay changes it for this session only.
+
+**Returns:** int: the delay in milliseconds.
+
+```text
+echo ${ISXOgreEQ2.Spawn.OnSpawnDelay}
+```
+
+### `Received`
+
+`${ISXOgreEQ2.Spawn.Received}`
+
+The total number of actor spawn and despawn events received from the game since the extension loaded. It is a diagnostic counter and is not reset by zoning.
+
+**Returns:** int64: spawn plus despawn events received.
+
+```text
+echo ${ISXOgreEQ2.Spawn.Received}
+```
+
+### `SpawnsDispatched`
+
+`${ISXOgreEQ2.Spawn.SpawnsDispatched}`
+
+The number of spawn events handed on to the bot's internal listeners since the extension loaded.
+
+**Returns:** int64: spawn events dispatched.
+
+```text
+echo ${ISXOgreEQ2.Spawn.SpawnsDispatched}
+```
+
+### `Subscribers`
+
+`${ISXOgreEQ2.Spawn.Subscribers}`
+
+How many internal listeners are attached to the spawn feed. It counts spawn, despawn and delayed-spawn listeners together.
+
+**Returns:** int: the number of attached listeners.
+
+```text
+echo ${ISXOgreEQ2.Spawn.Subscribers}
+```
+
+## Methods
+
+### `DelayStatus`
+
+`ISXOgreEQ2.Spawn:DelayStatus`
+
+Prints the delayed spawn event's state to the console: the delay, the per-drain cap, what is waiting and ready, and the counters since the last zone-in.
+
+```text
+ISXOgreEQ2.Spawn:DelayStatus
+```
+
+### `ResetOnSpawnDelay`
+
+`ISXOgreEQ2.Spawn:ResetOnSpawnDelay`
+
+Puts the delay before EQ2_ActorSpawned_Delayed back to the default of 1000 ms and prints the value to the console.
+
+```text
+ISXOgreEQ2.Spawn:ResetOnSpawnDelay
+```
+
+### `SetOnSpawnCap`
+
+`ISXOgreEQ2.Spawn:SetOnSpawnCap`
+
+Sets how many due spawns one drain may emit, for this session only, held between 1 and 5000 (0 or a negative is 1), and prints the value in force to the console. A value that is not a number keeps the cap and says so; with no value it prints one warning and changes nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `<k>` | int |  | The per-drain cap, 1 to 5000. |
+
+```text
+ISXOgreEQ2.Spawn:SetOnSpawnCap[25]
+```
+
+### `SetOnSpawnDelay`
+
+`ISXOgreEQ2.Spawn:SetOnSpawnDelay[<ms>]`
+
+Sets the delay before EQ2_ActorSpawned_Delayed fires, for this session only (it is not saved), and prints the value in force to the console. More than 60000 ms is held at 60000; a value that is not a whole number of 0 or more is refused with a warning and the delay is unchanged.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `<ms>` | int |  | The delay in milliseconds, 0 to 60000. |
+
+```text
+ISXOgreEQ2.Spawn:SetOnSpawnDelay[1500]
+```
+
+### `Status`
+
+`ISXOgreEQ2.Spawn:Status`
+
+Prints the spawn consumer's counters to the console: spawns and despawns seen, duplicate and unknown ids, the live actor count, the chest id and the router's subscribers and throughput.
+
+```text
+ISXOgreEQ2.Spawn:Status
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/TagTimers.md
+
+# ISXOgreEQ2.TagTimers
+
+## Methods
+
+### `Close`
+
+`ISXOgreEQ2.TagTimers:Close`
+
+Closes the Tag Timers window, the same as `ogre end tags` or its X, and does nothing while it is closed. A ticked Show Tag Timers window box stays ticked and opens it again on the next profile load.
+
+```text
+ISXOgreEQ2.TagTimers:Close
+```
+
+### `Open`
+
+`ISXOgreEQ2.TagTimers:Open`
+
+Opens the Tag Timers window, the same as `ogre tags`, and does nothing while it is already up. The Show Tag Timers window box on the Tags tab opens it with the profile.
+
+```text
+ISXOgreEQ2.TagTimers:Open
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Targeting.md
+
+# ISXOgreEQ2.Targeting
+
+## Members
+
+### `ActiveList`
+
+`${ISXOgreEQ2.Targeting.ActiveList}`
+
+The name of the saved auto-target list last loaded or saved into the working list, like OgreBotAPI.AutoTarget.ListName. Reading it also refreshes the saved-list catalogue for the current zone.
+
+**Returns:** string: the saved-list name; "" when none is loaded or when not in the world.
+
+```text
+echo ${ISXOgreEQ2.Targeting.ActiveList}
+```
+
+### `AssistId`
+
+`${ISXOgreEQ2.Targeting.AssistId}`
+
+The assist decision as one number, read fresh on each call - the same call as OgreBotAPI.Assist.TargetID. It answers even when the Auto Assist box is off.
+
+**Returns:** int64: greater than 0 is the ID this character would target; 0 when it picks its own target; -1 when its current target should be left alone; NULL when not in the world.
+
+```text
+echo ${ISXOgreEQ2.Targeting.AssistId}
+```
+
+### `Enabled`
+
+`${ISXOgreEQ2.Targeting.Enabled}`
+
+Whether either targeting engine is switched on: the Auto Assist box or the auto-target box. This is not OgreBotAPI.AutoTarget.Enabled, which reads only the auto-target box.
+
+**Returns:** bool: TRUE when the Auto Assist box or the auto-target box is ticked; FALSE when both are off.
+
+```text
+echo ${ISXOgreEQ2.Targeting.Enabled}
+```
+
+### `InControl`
+
+`${ISXOgreEQ2.Targeting.InControl}`
+
+Whether this character picks its own target instead of following someone else's - the same call as OgreBotAPI.Assist.InControl. With the Auto Assist box off it reads TRUE.
+
+**Returns:** bool: TRUE when this character picks its own target; FALSE when it follows another player, and FALSE when not in the world.
+
+```text
+echo ${ISXOgreEQ2.Targeting.InControl}
+```
+
+### `SavedList`
+
+`${ISXOgreEQ2.Targeting.SavedList[index]}`
+
+The name of one saved auto-target list for the current zone, counting from 1 in file order, the same as OgreBotAPI.AutoTarget.SavedName.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `index` | int |  | Which saved list, counting from 1. 0, or text that is not a number, reads empty. |
+
+**Returns:** string: the saved list's name; "" when index is 0 or past the count, when no index is given, or when not in the world.
+
+```text
+echo ${ISXOgreEQ2.Targeting.SavedList[1]}
+```
+
+### `SavedListCount`
+
+`${ISXOgreEQ2.Targeting.SavedListCount}`
+
+The number of saved auto-target lists for the current zone, like OgreBotAPI.AutoTarget.SavedCount. Unlike that member it reloads the zone's catalogue first when the zone has changed, so it never shows the previous zone.
+
+**Returns:** int: the number of saved lists; 0 when the zone has none or when not in the world.
+
+```text
+echo ${ISXOgreEQ2.Targeting.SavedListCount}
+```
+
+## Methods
+
+### `ClearList`
+
+`ISXOgreEQ2.Targeting:ClearList`
+
+Empties the working auto-target list and blanks ActiveList - OgreBotAPI.AutoTarget:Clear without the for-who. Auto-target then falls back to the profile's own AutoTarget entries (nothing to pick if it has none) until a list is loaded or entries are added, and saved lists on disk are not touched.
+
+```text
+ISXOgreEQ2.Targeting:ClearList
+```
+
+### `LoadList`
+
+`ISXOgreEQ2.Targeting:LoadList[<name>]`
+
+Replaces the working auto-target list with the saved list of that name for the current zone (the name is matched ignoring case) - OgreBotAPI.AutoTarget:LoadSaved without the for-who. If the zone has no list by that name, or you are not in the world, nothing changes and nothing is printed.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `<name>` | string |  | The saved list's name. |
+
+```text
+ISXOgreEQ2.Targeting:LoadList[Trash]
+```
+
+### `Status`
+
+`ISXOgreEQ2.Targeting:Status`
+
+Prints the assist state to this character's console, the same as `ogre assist`: the Auto Assist, auto-target and direct targeting boxes, the decision and why, the assist anchor, each assist-list entry with their target, and your own target. Prints nothing when not in the world.
+
+```text
+ISXOgreEQ2.Targeting:Status
+```
+
+### `Target`
+
+`ISXOgreEQ2.Targeting:Target[id]`
+
+Queues a one-time retarget to the actor ID, issued on the next pulse even while OgreBot is paused; it beats auto-target and assist but yields to a target lock or a manual target. It is skipped when that is already your target or is you, and does nothing without an ID.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `id` | int64 |  | The actor ID to target. |
+
+```text
+ISXOgreEQ2.Targeting:Target[${Target.ID}]
+```
+
+### `Tick`
+
+`ISXOgreEQ2.Targeting:Tick`
+
+Runs the assist and auto-target decision now and queues any retarget for the next pulse; it never targets during the call. The bot already does this on its own every 250 ms, and with auto-target on and entries to pick from each call can run a nearby-actor scan, so a script rarely needs it.
+
+```text
+ISXOgreEQ2.Targeting:Tick
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/TaskRunner.md
+
+# ISXOgreEQ2.TaskRunner
+
+## Methods
+
+### `Clear`
+
+`ISXOgreEQ2.TaskRunner:Clear[toon,task]`
+
+Clears error and backoff records and saves them. Last-completed stamps are left alone.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `toon` | string |  | Only this character. Optional: with none, every character. |
+| `task` | string |  | Only this task. Optional. |
+
+```text
+ISXOgreEQ2.TaskRunner:Clear[Bob,packpony]
+```
+
+### `Close`
+
+`ISXOgreEQ2.TaskRunner:Close`
+
+Closes the Lists window and leaves a run going. :End stops it too.
+
+```text
+ISXOgreEQ2.TaskRunner:Close
+```
+
+### `End`
+
+`ISXOgreEQ2.TaskRunner:End`
+
+Stops a run and closes the Lists window, the same as `ogre end taskrunner` and the window's X.
+
+```text
+ISXOgreEQ2.TaskRunner:End
+```
+
+### `Lists`
+
+`ISXOgreEQ2.TaskRunner:Lists`
+
+Prints the configured lists and their characters to the console.
+
+```text
+ISXOgreEQ2.TaskRunner:Lists
+```
+
+### `Now`
+
+`ISXOgreEQ2.TaskRunner:Now`
+
+Scans for due work now rather than at the next interval. Only while the runner is idle.
+
+```text
+ISXOgreEQ2.TaskRunner:Now
+```
+
+### `Open`
+
+`ISXOgreEQ2.TaskRunner:Open`
+
+Opens the TaskRunner Lists window, the same as bare `ogre taskrunner`.
+
+```text
+ISXOgreEQ2.TaskRunner:Open
+```
+
+### `Plan`
+
+`ISXOgreEQ2.TaskRunner:Plan[list]`
+
+Prints what is due to the console.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `list` | string |  | Only this list. Optional: with none, the list this session runs. |
+
+```text
+ISXOgreEQ2.TaskRunner:Plan[daily]
+```
+
+### `Reload`
+
+`ISXOgreEQ2.TaskRunner:Reload`
+
+Reads the config again. Refused while a batch is in flight; if the list you are on is gone, the run stops.
+
+```text
+ISXOgreEQ2.TaskRunner:Reload
+```
+
+### `Run`
+
+`ISXOgreEQ2.TaskRunner:Run[list,options]`
+
+Starts this session on one list, the same as `ogre taskrunner run <list>` and `ogre taskrunner -list <list>`. An unknown option, or no list, prints one warning and nothing starts.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `list` | string |  | The list's name, after an optional -list or -l; required. |
+| `options` | string |  | once or loop, stagger or nostagger, with or without a leading dash, one argument each. Optional. |
+
+```text
+ISXOgreEQ2.TaskRunner:Run[daily,once]
+```
+
+### `Start`
+
+`ISXOgreEQ2.TaskRunner:Start`
+
+Starts cycling all configured characters. Refused while a batch is in flight, when the config is off, with no characters, or when lists exist and none was named: use :Run then.
+
+```text
+ISXOgreEQ2.TaskRunner:Start
+```
+
+### `Status`
+
+`ISXOgreEQ2.TaskRunner:Status`
+
+Prints what the runner is doing to the console.
+
+```text
+ISXOgreEQ2.TaskRunner:Status
+```
+
+### `Stop`
+
+`ISXOgreEQ2.TaskRunner:Stop`
+
+Stops a run and leaves the window up.
+
+```text
+ISXOgreEQ2.TaskRunner:Stop
+```

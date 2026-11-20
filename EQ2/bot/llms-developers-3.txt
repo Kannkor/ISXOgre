@@ -1,0 +1,2164 @@
+# OgreBot for EverQuest II - documentation, Developers (part 3 of 14)
+
+OgreBot is in beta testing. For OgreBot Classic see https://kannkor.github.io/ISXOgre/EQ2/
+This file is ONE PIECE of the documentation: Developers (part 3 of 14) - Developers - API reference - OgreBotAPI.
+The entire documentation in one document: https://kannkor.github.io/ISXOgre/EQ2/bot/llms-full.txt
+Index of every page and of every file like this one: https://kannkor.github.io/ISXOgre/EQ2/bot/llms.txt
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Abilities.md
+
+# OgreBotAPI.Abilities
+
+## Members
+
+### `CanCastOn`
+
+`${OgreBotAPI.Abilities.CanCastOn[ability,target]}`
+
+Tells you whether you could cast an ability on a target right now, and if not, why. It runs the bot's own castability check (range measured edge to edge, power, cooldown, position, stealth, line of sight, target type), so a script never has to rebuild it.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `ability` | ability name or id |  | the ability to check |
+| `target` | actor name or id |  | who to cast it on; blank = yourself |
+
+**Returns:** string: "eligible" when it can be cast now. Otherwise the reason: "no ability given", "unresolved" (ability not found), "no valid target" (also when not in the world), "no target", "target gone", "cannot target self", "wrong target type", "target type unreadable", "ability not known", "on cooldown", "just cast this line", "not enough power", "not flanking", "not behind", "position unreadable", "requires stealth", "moving", "distance unreadable", "out of range", "line of sight unknown" or "line of sight blocked".
+
+```text
+echo ${OgreBotAPI.Abilities.CanCastOn["Intercept",${Target.ID}]}
+```
+
+### `CancelCurrentCast`
+
+`${OgreBotAPI.Abilities.CancelCurrentCast}`
+
+Reads the cancel-current-cast flag that :SetCancelCurrentCast raises. It stays TRUE until the next cast starts or ends, then clears itself.
+
+**Returns:** bool: TRUE while a cancel of the current cast is pending, FALSE otherwise.
+
+```text
+echo ${OgreBotAPI.Abilities.CancelCurrentCast}
+```
+
+### `Count`
+
+`${OgreBotAPI.Abilities.Count}`
+
+The number of usable abilities in the loaded export: one per ability line, the highest rank your level allows.
+
+**Returns:** int: the number of usable abilities, one per line. 0 when no export is loaded.
+
+```text
+echo ${OgreBotAPI.Abilities.Count}
+```
+
+### `FindCastableHOIconAbilityID`
+
+`${OgreBotAPI.Abilities.FindCastableHOIconAbilityID[iconId,options...]}`
+
+Finds an ability you own that matches a heroic opportunity icon and can be cast now, and gives its id without casting it. Your "no stuns"-style settings are honoured; -offensive keeps only hostile abilities, and -ActorID &lt;id> (or -HOTarget &lt;id>) checks against that actor instead of your current NPC target.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `iconId` | number | `0` | the heroic opportunity icon id |
+| `options...` | text |  | -offensive, -ActorID &lt;id> or -HOTarget &lt;id>, and the -No options, each on top of your settings boxes: -NoStun, -NoDaze, -NoFear, -NoStifle, -NoInterrupt, -NoDispel, -NoRoot, -NoSnare, -NoCures, -NoGroupCures, -NoForceTargets, -NoThreatIncreases, -NoThreatDecreases. The console names any other option once, and it is ignored. |
+
+**Returns:** int64: the id of the ability to cast. 0 when nothing you own matches the icon or can be cast now.
+
+```text
+echo ${OgreBotAPI.Abilities.FindCastableHOIconAbilityID[3,-offensive]}
+```
+
+*Was (OldBot):* `OgreBotAPI.Get_HOIconAbility`
+
+### `FindCastableID`
+
+`${OgreBotAPI.Abilities.FindCastableID[query...]}`
+
+Picks an ability that is ready now by its properties instead of its name and gives its id without casting it; all terms have to match. Your "no stuns"-style settings still rule abilities out, except for the property you searched on, and a bad query is reported in the console.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `query...` | text |  | query terms, each member, comparison, value (such as "IsInterrupt","=","TRUE"), plus options such as -NPCRequired or -ActorID &lt;id> that check against a target |
+
+**Returns:** int64: the id of the matching ability (fastest cast time wins). 0 when nothing matches, when the query is refused, or when no export is loaded.
+
+```text
+echo ${OgreBotAPI.Abilities.FindCastableID["IsInterrupt","=","TRUE","-NPCRequired"]}
+```
+
+*Was (OldBot):* `OgreBotAPI.Get_AbilityTypeID`, `OgreBotAPI.Get_AbilityTypeID_Ref`, `OgreBotAPI.Get_AbilityVia`
+
+### `FindCastableInterruptID`
+
+`${OgreBotAPI.Abilities.FindCastableInterruptID[actor]}`
+
+Picks the interrupt you would use right now (an interrupt that is not beneficial, ready, and usable on the target; fastest cast time wins) and gives its id without casting it. With no actor it checks against your current NPC target; a bad query is reported in the console.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `actor` | actor name or id |  | who to interrupt; blank = current NPC target |
+
+**Returns:** int64: the id of the interrupt to cast. 0 when you have none usable right now.
+
+```text
+echo ${OgreBotAPI.Abilities.FindCastableInterruptID}
+```
+
+*Was (OldBot):* `OgreBotAPI.Get_InterruptID`
+
+### `HaveMaintained`
+
+`${OgreBotAPI.Abilities.HaveMaintained[name...]}`
+
+Checks your maintained window for any of the names you give; names match partially and ignore case by default. An ability id is turned into the full name of the rank you hold.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `name...` | ability name or id |  | maintained names or ability ids to look for; put -exact (or TRUE) before names that must match exactly and -partial (or FALSE) to switch back |
+
+**Returns:** bool: TRUE when any of the names is in your maintained window, FALSE when none is.
+
+```text
+echo ${OgreBotAPI.Abilities.HaveMaintained[-exact,"Sprint"]}
+```
+
+*Was (OldBot):* `OgreBotAPI.HaveMaintained`
+
+### `ID`
+
+`${OgreBotAPI.Abilities.ID[name]}`
+
+Looks an ability up in your loaded export and gives its id. A short name ("Assault"), any rank's full name ("Assault X") or any rank's id all give the best rank you can use now; name matching ignores case.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `name` | ability name or id |  | the ability to look up |
+
+**Returns:** int64: the id of the best usable rank. A number that is not in your export comes back unchanged. 0 when the name matches nothing or no export is loaded.
+
+```text
+echo ${OgreBotAPI.Abilities.ID["Sprint"]}
+```
+
+*Was (OldBot):* `Abilities.Ability`, `Abilities.GetIndexBy`, `Abilities.GetIndexByID`
+
+### `Info`
+
+`${OgreBotAPI.Abilities.Info[nameOrId, field]}`
+
+Reads one field of an ability from your loaded export, for the best rank you can use. Flags the export leaves out (false flags are omitted) read as empty, not FALSE.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `nameOrId` | ability name or id |  | the ability to read |
+| `field` | text |  | export field name, e.g. Name or CastingTime |
+
+**Returns:** string: the field's value as text (TRUE/FALSE for flags). Empty when the ability or the field is not found, or no export is loaded.
+
+```text
+echo ${OgreBotAPI.Abilities.Info["Sprint",CastingTime]}
+```
+
+*Was (OldBot):* `OgreBotAPI.Get_AbilityInfo`, `SpellOb.AllowRaid`, `SpellOb.CastingTime`
+
+### `InfoRaw`
+
+`${OgreBotAPI.Abilities.InfoRaw[nameOrId]}`
+
+Gives the whole export record of an ability (best rank you can use) as JSON, for reading several fields at once with jsonvalue.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `nameOrId` | ability name or id |  | the ability to read |
+
+**Returns:** string: the record as a JSON object. {} when the ability is not found or no export is loaded.
+
+```text
+echo ${OgreBotAPI.Abilities.InfoRaw["Assault"]}
+```
+
+*Was (OldBot):* `OgreBotAPI.Get_AbilityInfo_RawData`
+
+### `Loaded`
+
+`${OgreBotAPI.Abilities.Loaded}`
+
+Tells you whether an ability export is loaded for this character. Name lookups (casting by name, Info, ShortName and the rest) need a loaded export.
+
+**Returns:** bool: TRUE when an ability export is loaded, FALSE when none is.
+
+```text
+echo ${OgreBotAPI.Abilities.Loaded}
+```
+
+### `RawCount`
+
+`${OgreBotAPI.Abilities.RawCount}`
+
+The number of entries in the loaded export before it is reduced to one rank per line, so every rank of every ability counts.
+
+**Returns:** int: the total number of entries in the export file. 0 when no export is loaded.
+
+```text
+echo ${OgreBotAPI.Abilities.RawCount}
+```
+
+### `Ready`
+
+`${OgreBotAPI.Abilities.Ready[fw,ability,actor]}`
+
+Asks whether an ability is ready. Without an actor it checks only that the ability is off cooldown; with an actor it runs the full can-I-cast-this-on-them check (range, power, position, line of sight, target type), the same check as CanCastOn.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `ability` | ability name or id |  | the ability to check |
+| `actor` | actor name or id |  | who you would cast it on; blank = cooldown only |
+
+**Returns:** bool: TRUE when the ability is ready (and castable on the actor, if one is given). FALSE when it is not, when the ability or actor cannot be found, when you are not in the world, or when the for-who does not include this character.
+
+```text
+echo ${OgreBotAPI.Abilities.Ready[all,"Assault"]}
+```
+
+*Was (OldBot):* `OgreBotAPI.AbilityReady`
+
+### `ScrollMaintainedDuration`
+
+`${OgreBotAPI.Abilities.ScrollMaintainedDuration[name]}`
+
+Gives the time left on the first maintained effect whose name ends with the text you give (case ignored). With no text it looks for Painlink.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `name` | text | `Painlink` | end of the maintained effect's name |
+
+**Returns:** int: seconds remaining on that maintained effect. -1 when none matches.
+
+```text
+echo ${OgreBotAPI.Abilities.ScrollMaintainedDuration[Painlink]}
+```
+
+*Was (OldBot):* `OgreBotAPI.ScrollOf_Get_MaintainedDuration`
+
+### `ShortName`
+
+`${OgreBotAPI.Abilities.ShortName[nameOrId]}`
+
+Gives the line name of an ability, without its rank: "Assault X" or an Assault id gives "Assault". Reads your loaded export.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `nameOrId` | ability name or id |  | the ability to name |
+
+**Returns:** string: the ability line name. Empty when the ability is not found or no export is loaded.
+
+```text
+echo ${OgreBotAPI.Abilities.ShortName["Sprint"]}
+```
+
+*Was (OldBot):* `OgreBotAPI.Get_AbilityShortName`, `SpellOb.AbilityName`, `SpellOb.GetAbilityShortName`
+
+## Methods
+
+### `AbilityDetails`
+
+`OgreBotAPI.Abilities:AbilityDetails[fw, name or id]`
+
+Opens the Ability Details window, which shows what your export holds for an ability, and selects the one you name. It also opens at character select.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `name or id` | ability name or id |  | the ability to select; blank selects nothing |
+
+```text
+OgreBotAPI.Abilities:AbilityDetails[${Me.Name},"Assault"]
+```
+
+*Was (OldBot):* `OgreBotAPI:SpewAbility`
+
+### `AddEmbargo`
+
+`OgreBotAPI.Abilities:AddEmbargo[fw, id, durationSec]`
+
+Embargoes an ability: the cast stack skips it for that many seconds while the Enable Ability Embargo setting is ticked. Both the ability and the duration are required (an error is printed otherwise); 0 seconds expires at once.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `id` | ability name or id |  | the ability to embargo |
+| `durationSec` | number |  | embargo length in seconds |
+
+```text
+OgreBotAPI.Abilities:AddEmbargo[all,"Assault",30]
+```
+
+*Was (OldBot):* `OgreBotAPI:AbilityEmbargo_AddRotateTimer`
+
+### `AnnounceCasted`
+
+`OgreBotAPI.Abilities:AnnounceCasted[fw, caster, seconds]`
+
+Tells the bot sessions that a caster has put up a cast-while-moving effect: every session (this one too) in the caster's group lets its rotation cast while moving for that many seconds. A blank caster, or seconds that are missing, 0 or less, or not a number, is refused with a console line and nothing is sent.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `caster` | player name |  | who cast the effect (required) |
+| `seconds` | number |  | how long the effect lasts, more than 0 (required) |
+
+```text
+OgreBotAPI.Abilities:AnnounceCasted[all,${Me.Name},30]
+```
+
+*Was (OldBot):* `OgreBotAPI:CastedCastOnTheMove`
+
+### `AnnounceCasting`
+
+`OgreBotAPI.Abilities:AnnounceCasting[fw, seconds]`
+
+Like AnnounceCasted with you as the caster: every session in your group (this one too) lets its rotation cast while moving for that many seconds. Seconds that are missing, 0 or less, or not a number are refused with a console line and nothing is sent.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `seconds` | number |  | how long the effect lasts, more than 0 (required) |
+
+```text
+OgreBotAPI.Abilities:AnnounceCasting[${Me.Name},30]
+```
+
+*Was (OldBot):* `OgreBotAPI:CastingCastOnTheMove`
+
+### `CancelCasting`
+
+`OgreBotAPI.Abilities:CancelCasting[fw, except..., -HOAbility, -HOAbilityUI, -CastTime s, -CastAbility ability, -CastAbilityOnPlayer ability player, -CastHOAbilityIconID iconId, -CastAbilityOnNPC ability mob, -UnlessCasting ability]`
+
+Cancels the spell you are casting, unless it is one of the abilities you name (any rank) or a guard option says to keep it. -CastAbility, -CastAbilityOnPlayer, -CastAbilityOnNPC and -CastHOAbilityIconID queue that cast first; any other -option cancels nothing (a warning is printed once).
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `except...` | ability name or id |  | abilities never to cancel |
+| `-HOAbility` | flag |  | cancel only an ability that has a heroic opportunity icon |
+| `-HOAbilityUI` | flag |  | cancel a heroic opportunity ability only when your settings disable it |
+| `-CastTime s` | flag + number |  | cancel only when at least s seconds of the cast remain |
+| `-CastAbility ability` | flag + ability name or id |  | queue this ability first, then cancel |
+| `-CastAbilityOnPlayer ability player` | flag + ability + player |  | queue this ability on that player first, then cancel |
+| `-CastHOAbilityIconID iconId` | flag + number |  | queue the ability with this heroic opportunity icon id first, then cancel |
+| `-CastAbilityOnNPC ability mob` | flag + ability + mob name or id |  | queue this ability on that mob first, then cancel |
+| `-UnlessCasting ability` | flag + ability name or id |  | the same as naming the ability plainly: never cancel it |
+
+```text
+OgreBotAPI.Abilities:CancelCasting[all,-CastTime,0.5,-HOAbilityUI]
+```
+
+*Was (OldBot):* `OgreBotAPI:CancelCasting`
+
+### `CancelGroupWaterBreathing`
+
+`OgreBotAPI.Abilities:CancelGroupWaterBreathing[fw]`
+
+Cancels your class's group water-breathing maintained buff. Skipped (noted in the log) when your class has none.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+
+```text
+OgreBotAPI.Abilities:CancelGroupWaterBreathing[igw:${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:CancelGroupWaterBreathing`, `Obj_OgreIH:CancelGroupWaterBreathing`
+
+### `CancelInvis`
+
+`OgreBotAPI.Abilities:CancelInvis[fw]`
+
+Breaks invisibility: if you are invisible and Transmute is ready, it casts Transmute and presses Esc half a second later to close its window. Does nothing when you are not invisible or Transmute is not ready.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+
+```text
+OgreBotAPI.Abilities:CancelInvis[igw:${Me.Name}]
+```
+
+*Was (OldBot):* `call OgreBotAPI.CancelInvis`
+
+### `CancelMaintained`
+
+`OgreBotAPI.Abilities:CancelMaintained[ability...]`
+
+Cancels each maintained ability you list on this character. It takes no for-who: every argument is an ability name or id, and a short name cancels whichever rank is up.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `ability...` | ability name or id |  | maintained abilities to cancel |
+
+```text
+OgreBotAPI.Abilities:CancelMaintained["Sprint"]
+```
+
+*Was (OldBot):* `OgreBotAPI:CancelMaintained`
+
+### `CancelMaintainedFor`
+
+`OgreBotAPI.Abilities:CancelMaintainedFor[fw, ability...]`
+
+Cancels each maintained ability you list, on the characters the for-who names. A short name cancels whichever rank is up.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `ability...` | ability name or id |  | maintained abilities to cancel |
+
+```text
+OgreBotAPI.Abilities:CancelMaintainedFor[igw:${Me.Name},"Sprint"]
+```
+
+*Was (OldBot):* `OgreBotAPI:CancelMaintainedForWho`
+
+### `CancelOnCast`
+
+`OgreBotAPI.Abilities:CancelOnCast[fw, abilityName]`
+
+Runs your Cancel On Cast list as if you had just cast this ability: any row that ability triggers cancels its maintained buff, held until combat ends when the row says so.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `abilityName` | ability name or id |  | the ability to treat as just cast |
+
+```text
+OgreBotAPI.Abilities:CancelOnCast[${Me.Name},"Assault"]
+```
+
+### `Cast`
+
+`OgreBotAPI.Abilities:Cast[fw, ability, calledFrom=OgreBotAPI]`
+
+Queues a cast of an ability at your current target; it is asynchronous and goes off when the cast bar is free. Nothing is queued when the ability cannot be found or is not ready.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `ability` | ability name or id |  | the ability to cast |
+| `calledFrom` | text | `OgreBotAPI` | label shown in the cast debug log |
+
+```text
+OgreBotAPI.Abilities:Cast[${Me.Name},"Sprint"]
+```
+
+*Was (OldBot):* `OgreBotAPI:CastAbility`, `call Obj_OgreUtilities.CastAbilityID`
+
+### `CastBulwark`
+
+`OgreBotAPI.Abilities:CastBulwark[fw]`
+
+Casts Bulwark of Order right now: queues it ahead of the rotation, cancels any other cast in progress, and tries again a second later if it has not gone off. If the ability is missing from your export or not ready, it broadcasts a notice (at most every 30 seconds) and does nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+
+```text
+OgreBotAPI.Abilities:CastBulwark[igw:${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:CastBulwarkImmediately`
+
+### `CastGroupWaterBreathing`
+
+`OgreBotAPI.Abilities:CastGroupWaterBreathing[fw]`
+
+Casts your class's group water-breathing ability through :Cast. Skipped (noted in the log) when your class has none or your export does not have it.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+
+```text
+OgreBotAPI.Abilities:CastGroupWaterBreathing[igw:${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:CastGroupWaterBreathing`, `Obj_OgreIH:CastGroupWaterBreathing`
+
+### `CastHOIcon`
+
+`OgreBotAPI.Abilities:CastHOIcon[fw, iconId, calledFrom=CastHOIcon]`
+
+Casts an ability you own that matches a heroic opportunity icon and can be cast now (the same pick as FindCastableHOIconAbilityID), through :Cast. No icon id is refused with a console line; -2, or an icon no ready ability matches, does nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `iconId` | number |  | the heroic opportunity icon id (required); -2 casts nothing |
+| `calledFrom` | text | `CastHOIcon` | label for the cast log |
+
+```text
+OgreBotAPI.Abilities:CastHOIcon[${Me.Name},5]
+```
+
+*Was (OldBot):* `OgreBotAPI:CastHOIconID`
+
+### `CastInSeconds`
+
+`OgreBotAPI.Abilities:CastInSeconds[fw, ability, delay, calledFrom=OgreBotAPI]`
+
+Casts an ability after a delay by running :Cast when the time is up, so the ready check happens then. A bare number is seconds; "500ms" or "2m" style values are also accepted, and a bad delay is reported in the console.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `ability` | ability name or id |  | the ability to cast |
+| `delay` | number or duration |  | how long to wait; bare number = seconds |
+| `calledFrom` | text | `OgreBotAPI` | label for the cast log |
+
+```text
+OgreBotAPI.Abilities:CastInSeconds[${Me.Name},"Sprint",5]
+```
+
+*Was (OldBot):* `OgreBotAPI:CastAbilityInSeconds`
+
+### `CastInterrupt`
+
+`OgreBotAPI.Abilities:CastInterrupt[fw, mobNameOrId="", calledFrom=Cast_Interrupt]`
+
+Casts an interrupt at a mob: it picks a non-beneficial interrupt usable on that mob right now and, unless you are already casting an interrupt, cancels your current cast first. With no mob it uses your current NPC target (a name must match exactly); the console says when there is no mob or no interrupt available.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `mobNameOrId` | actor name or id | `""` | the mob to interrupt; blank = current NPC target |
+| `calledFrom` | text | `Cast_Interrupt` | label for the cast log |
+
+```text
+OgreBotAPI.Abilities:CastInterrupt[igw:${Me.Name},${Target.ID}]
+```
+
+*Was (OldBot):* `OgreBotAPI:Cast_Interrupt`
+
+### `CastNoChecks`
+
+`OgreBotAPI.Abilities:CastNoChecks[fw, ability, calledFrom=OgreBotAPI]`
+
+Queues a cast of an ability at your current target without checking first that it is ready. The cast is still dropped if the ability is not ready by the time it reaches the cast bar.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `ability` | ability name or id |  | the ability to cast |
+| `calledFrom` | text | `OgreBotAPI` | label for the cast log |
+
+```text
+OgreBotAPI.Abilities:CastNoChecks[${Me.Name},"Sprint",MyScript]
+```
+
+*Was (OldBot):* `OgreBotAPI:CastAbilityNoChecks`
+
+### `CastNoExport`
+
+`OgreBotAPI.Abilities:CastNoExport[fw, ability, calledFrom=CastAbilityNoExport]`
+
+Queues a cast of an ability at your current target, like :Cast, but checks only that you have the ability and it is off cooldown. Asynchronous: it goes off when the cast bar is free.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `ability` | ability name or id |  | the ability to cast |
+| `calledFrom` | text | `CastAbilityNoExport` | label for the cast log |
+
+```text
+OgreBotAPI.Abilities:CastNoExport[${Me.Name},${OgreBotAPI.Abilities.ID["Sprint"]}]
+```
+
+*Was (OldBot):* `OgreBotAPI:CastAbilityNoExport`
+
+### `CastOnNPC`
+
+`OgreBotAPI.Abilities:CastOnNPC[fw, ability, mob=target]`
+
+Targets a mob, waits until it is your target, casts the ability at it and puts your target back. Nothing is cast if the mob is not given or cannot be found, you are dead, or the ability is not ready.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `ability` | ability name or id |  | the ability to cast |
+| `mob` | actor name or id |  | the mob to cast on, by name or id; required |
+
+```text
+OgreBotAPI.Abilities:CastOnNPC[${Me.Name},"Assault",${Target.ID}]
+```
+
+*Was (OldBot):* `OgreBotAPI:CastAbilityOnNPC`
+
+### `CastOnPlayer`
+
+`OgreBotAPI.Abilities:CastOnPlayer[fw, ability, player=me, calledFrom=AbilityExportCastFromUplinkOnPlayer]`
+
+Queues a cast of an ability on a named player without changing your target, after checking that it can be cast on them (ready, power, range, line of sight and the rest - the same check as CanCastOn); when it cannot, nothing is cast and the reason goes to the log file. The player can be a name or a role alias such as @Healer1, defaults to you, and must be you or in your group or raid; calledFrom is the label shown in the cast debug log.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `ability` | ability name or id |  | the ability to cast |
+| `player` | player name or alias | `me` | who to cast it on |
+| `calledFrom` | text | `AbilityExportCastFromUplinkOnPlayer` | label for the cast log |
+
+```text
+OgreBotAPI.Abilities:CastOnPlayer[igw:${Me.Name},"Intercept",${Target.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:CastAbilityOnPlayer`
+
+### `CastOnPlayerInSeconds`
+
+`OgreBotAPI.Abilities:CastOnPlayerInSeconds[fw, ability, player, seconds, calledFrom=OgreBotAPI]`
+
+Casts an ability on a player after a delay by running :CastOnPlayer when the time is up. A bare number is seconds ("500ms" style values also work); with no player it uses the sending character.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `ability` | ability name or id |  | the ability to cast |
+| `player` | player name or alias |  | who to cast it on |
+| `seconds` | number or duration |  | how long to wait; bare number = seconds |
+| `calledFrom` | text | `OgreBotAPI` | label for the cast log |
+
+```text
+OgreBotAPI.Abilities:CastOnPlayerInSeconds[${Me.Name},"Intercept",${Target.Name},3]
+```
+
+*Was (OldBot):* `OgreBotAPI:CastAbilityOnPlayerInSeconds`
+
+### `CastOnPlayerNoChecks`
+
+`OgreBotAPI.Abilities:CastOnPlayerNoChecks[fw, ability, player, calledFrom=OgreBotAPI]`
+
+Queues a cast of an ability on a named player without the checks CastOnPlayer makes first (ready, power, range, line of sight); it is still dropped if not ready when it reaches the cast bar. The player defaults to you and must be you or in your group or raid.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `ability` | ability name or id |  | the ability to cast |
+| `player` | player name or alias |  | who to cast it on; blank = you |
+| `calledFrom` | text | `OgreBotAPI` | label for the cast log |
+
+```text
+OgreBotAPI.Abilities:CastOnPlayerNoChecks[${Me.Name},"Intercept",${Target.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:CastAbilityOnPlayerNoChecks`
+
+### `CastRescue`
+
+`OgreBotAPI.Abilities:CastRescue[fw, calledFrom=CastRescue, ...opts]`
+
+Casts a rescue: an ability that raises your threat position, or, if you have none, a force-target ability (-NoForceTargets skips that fallback). It checks against your current NPC target unless -TargetID &lt;id> (or -ActorID &lt;id>) names one; other words are added to the ability query.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `calledFrom` | text | `CastRescue` | label for the cast log |
+| `...opts` | text |  | -NoForceTargets, -NPCRequired, -TargetID &lt;id> / -ActorID &lt;id>, or extra query terms |
+
+```text
+OgreBotAPI.Abilities:CastRescue[${Me.Name},MyScript,-NoForceTargets]
+```
+
+*Was (OldBot):* `OgreBotAPI:CastRescue`
+
+### `Clear`
+
+`OgreBotAPI.Abilities:Clear[fw]`
+
+Unloads the ability export. Until you :Load again, Loaded is FALSE and anything that looks an ability up by name finds nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+
+```text
+OgreBotAPI.Abilities:Clear[${Me.Name}]
+```
+
+### `ClearAllEmbargos`
+
+`OgreBotAPI.Abilities:ClearAllEmbargos[fw]`
+
+Removes every ability embargo. Item embargoes are not touched.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+
+```text
+OgreBotAPI.Abilities:ClearAllEmbargos[igw:${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:AbilityEmbargo_ResetAllAbilityEmbargos`
+
+### `ClearEmbargo`
+
+`OgreBotAPI.Abilities:ClearEmbargo[fw, ability]`
+
+Removes the embargo on one ability. Does nothing when the ability cannot be found or is not embargoed; item embargoes are not touched.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `ability` | ability name or id |  | the ability to release |
+
+```text
+OgreBotAPI.Abilities:ClearEmbargo[${Me.Name},"Sprint"]
+```
+
+*Was (OldBot):* `OgreBotAPI:AbilityEmbargo_ResetAbilityEmbargo`
+
+### `DispellNPC`
+
+`OgreBotAPI.Abilities:DispellNPC[fw, mob, op]`
+
+Queues a dispel on a mob that runs as soon as your cast bar is free, and each call queues another. Characters with no dispel for the chosen op do nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `mob` | actor name or id |  | the mob to dispel (required) |
+| `op` | text |  | how to dispel: any (your class dispel, else a dispel item; the default), ability or spell (class dispel only), item (dispel item only) |
+
+```text
+OgreBotAPI.Abilities:DispellNPC[igw:${Me.Name},${Target.ID},any]
+```
+
+### `Dump`
+
+`OgreBotAPI.Abilities:Dump[fw, path]`
+
+Writes the loaded ability list (one usable rank per line) to a file as JSON, replacing the file if it exists. Nothing is written when no path is given.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `path` | text |  | file to write the JSON to |
+
+```text
+OgreBotAPI.Abilities:Dump[${Me.Name},"abilities.json"]
+```
+
+### `FindAndCast`
+
+`OgreBotAPI.Abilities:FindAndCast[fw, query...]`
+
+Picks an ability by its properties and casts it: the same query as FindCastableID (terms like "IsInterrupt","=","TRUE" plus options such as -NPCRequired). A refused query is reported in the console; if nothing matches, nothing is cast.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `query...` | text |  | query terms (member, comparison, value) and options |
+
+```text
+OgreBotAPI.Abilities:FindAndCast["all","IsInterrupt","=","TRUE","-NPCRequired"]
+```
+
+*Was (OldBot):* `OgreBotAPI:CastAbility_Via`
+
+### `Load`
+
+`OgreBotAPI.Abilities:Load[fw, toon=me, level=myLevel]`
+
+Loads a character's ability export and keeps, for each ability line, the highest rank at or below the level, then prints a loaded or failed line to the console. Outside the world you must give both toon and level.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `toon` | text | `me` | character whose export to load; left out = your own name (must be given outside the world) |
+| `level` | number | `myLevel` | highest ability level to keep; left out = your own level (must be given outside the world) |
+
+```text
+OgreBotAPI.Abilities:Load[${Me.Name}]
+```
+
+### `Rebuff`
+
+`OgreBotAPI.Abilities:Rebuff[fw]`
+
+Cancels every maintained buff from your export that lasts until cancelled (links such as Powerlink are kept), so the rotation casts them again fresh. The recast only happens while the bot is casting.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+
+```text
+OgreBotAPI.Abilities:Rebuff[igw:${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:Rebuff`
+
+### `SetAOEsDisabled`
+
+`OgreBotAPI.Abilities:SetAOEsDisabled[fw, disable=TRUE, -verbose, -allowcounters, -AllowEncounters, -aggressive]`
+
+Stops (TRUE) or allows (FALSE) AE casting: it sets the ignore-PBAE, ignore-encounter-nukes and ignore-counter-abilities options, casts Singular Focus (Focus Offensive on a Guardian) and cancels class buffs that proc AEs; FALSE cancels the focus buff instead. -allowcounters keeps counter abilities and counter buffs, -AllowEncounters leaves encounter nukes on while disabling, -verbose announces the setting changes, and -aggressive does nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `disable` | true/false | `TRUE` | TRUE stops AEs, FALSE allows them |
+| `-verbose` | flag |  | announce the setting changes |
+| `-allowcounters` | flag |  | leave counter abilities and counter buffs alone |
+| `-AllowEncounters` | flag |  | keep encounter nukes when disabling |
+| `-aggressive` | flag |  | accepted, does nothing |
+
+```text
+OgreBotAPI.Abilities:SetAOEsDisabled[igw:${Me.Name},TRUE,-allowcounters]
+```
+
+*Was (OldBot):* `OgreBotAPI:Set_DisableAllAOEs`
+
+### `SetCancelCurrentCast`
+
+`OgreBotAPI.Abilities:SetCancelCurrentCast[fw, on=TRUE]`
+
+TRUE asks the bot to abort the cast it has in progress and raises the CancelCurrentCast flag; FALSE lowers the flag and withdraws an abort not yet acted on. The flag clears itself at the next cast start or end.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `on` | true/false | `TRUE` | TRUE cancels, FALSE withdraws |
+
+```text
+OgreBotAPI.Abilities:SetCancelCurrentCast[igw:${Me.Name},TRUE]
+```
+
+*Was (OldBot):* `OgreBotAPI:CancelCurrentCast`
+
+### `SetDispellsEnabled`
+
+`OgreBotAPI.Abilities:SetDispellsEnabled[fw, on=TRUE]`
+
+Turns the bot's dispel casting on or off through the "no dispels" setting. A value that is not a yes/no word changes nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `on` | true/false | `TRUE` | TRUE enables dispels, FALSE disables them |
+
+```text
+OgreBotAPI.Abilities:SetDispellsEnabled[igw:${Me.Name},FALSE]
+```
+
+*Was (OldBot):* `OgreBotAPI:Enable_Dispells`, `OgreBotAPI:Disable_Dispells`
+
+### `SetInterruptsEnabled`
+
+`OgreBotAPI.Abilities:SetInterruptsEnabled[fw, on=TRUE]`
+
+Turns the bot's interrupt casting on or off through the "no interrupts" setting; a value that is not a yes/no word changes nothing. Enabling also turns Daring Advance back on in the cast stack, and disabling on a Rogue turns Daring Advance off and cancels it.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `on` | true/false | `TRUE` | TRUE enables interrupts, FALSE disables them |
+
+```text
+OgreBotAPI.Abilities:SetInterruptsEnabled[igw:${Me.Name},FALSE]
+```
+
+*Was (OldBot):* `OgreBotAPI:Enable_Interrupts`, `OgreBotAPI:Disable_Interrupts`
+
+### `SetStunsEnabled`
+
+`OgreBotAPI.Abilities:SetStunsEnabled[fw, on=TRUE]`
+
+Turns the bot's stun casting on or off through the "no stuns" setting; a value that is not a yes/no word changes nothing. Enabling also turns Blessed Weapon back on in the cast stack, and disabling on a Paladin turns Blessed Weapon off and cancels it.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `on` | true/false | `TRUE` | TRUE enables stuns, FALSE disables them |
+
+```text
+OgreBotAPI.Abilities:SetStunsEnabled[igw:${Me.Name},FALSE]
+```
+
+*Was (OldBot):* `OgreBotAPI:Disable_Stuns`, `OgreBotAPI:Enable_Stuns`
+
+### `SetUpForDispells`
+
+`OgreBotAPI.Abilities:SetUpForDispells[fw, on=TRUE]`
+
+Sets the cast stack up for a dispel fight: TRUE turns the Absorb Magic, Tease and Cuss entries on, FALSE turns them back off. Nothing is cancelled either way, and a value that is not a yes/no word changes nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `on` | true/false | `TRUE` | TRUE sets up, FALSE resets |
+
+```text
+OgreBotAPI.Abilities:SetUpForDispells[igw:${Me.Name},TRUE]
+```
+
+*Was (OldBot):* `OgreBotAPI:SetUpFor_Dispells`, `OgreBotAPI:ResetFor_Dispells`
+
+### `TrackerAdd`
+
+`OgreBotAPI.Abilities:TrackerAdd[fw, ability]`
+
+Adds an ability to the Ability Tracker watch list in the open profile (an id is stored as its name). The change is not saved until you save the profile; the console says if it is already on the list.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `ability` | ability name or id |  | the ability to watch |
+
+```text
+OgreBotAPI.Abilities:TrackerAdd[${Me.Name},"Sprint"]
+```
+
+*Was (OldBot):* `OgreBotAPI:AbilityTracker_Add`
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Access.md
+
+# OgreBotAPI.Access
+
+## Members
+
+### `UnauthPCsNearMe`
+
+`${OgreBotAPI.Access.UnauthPCsNearMe[dist]}`
+
+TRUE when another player character closer to you than dist is not one of the characters saved in your accounts list (EQ2Chars), matched by name ignoring case. Your own character never counts, a nearby player whose name has not loaded counts as not yours, and a dist that is not a number reads as 0, which is always FALSE.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `dist` | float | `999` | range from you; a player counts only when strictly closer than this |
+
+**Returns:** bool: TRUE when at least one player character within dist is not one of your saved characters; FALSE when no other player is within dist or every one of them is yours.
+
+```text
+echo ${OgreBotAPI.Access.UnauthPCsNearMe[200]}
+```
+
+*Was (OldBot):* `OgreBotAPI.UnauthPCsNearMe`
+
+## Methods
+
+### `SetLevel`
+
+`OgreBotAPI.Access:SetLevel[fw, value, silent=FALSE]`
+
+Sets this session's access level to value at once, clamped between 0 and the highest level your account has; asking for more than that uses your highest level and prints a warning. The new level is announced in the console only when it actually changed, and silent TRUE hides both the warning and the announcement; it also works at the character select screen.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `value` | int |  | the level to set; below 0 becomes 0, above your highest level becomes your highest level, and a value that is not a number counts as 0 |
+| `silent` | bool | `FALSE` | TRUE hides the over-the-maximum warning and the level-changed announcement |
+
+```text
+OgreBotAPI.Access:SetLevel[${Me.Name},0]
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Actors.md
+
+# OgreBotAPI.Actors
+
+## Members
+
+### `CountByName`
+
+`${OgreBotAPI.Actors.CountByName[name,...]}`
+
+Counts the actors around you with this name, an exact match in any case unless -partial is given. Optional flags narrow it by distance and type, and the count is 0 when nothing matches.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `name` | string |  | the actor name to count; case does not matter |
+| `...` | flags |  | any of: -partial (or -substring) to count names that contain the text; -distance F to count only actors within F (999 or more means no limit, the default); -Type S to count only actors whose Type is S, any case |
+
+**Returns:** int: how many actors match; 0 when none do.
+
+```text
+echo ${OgreBotAPI.Actors.CountByName["a gnoll",-partial,-distance,30]}
+```
+
+*Was (OldBot):* `OgreBotAPI.GetActorCountByName`
+
+### `CountByType`
+
+`${OgreBotAPI.Actors.CountByType[type,-distance,distance]}`
+
+Counts the actors of one Type (NPC, NamedNPC, PC, Corpse and so on, any case), optionally only those within a distance; the type may be a lone word or follow -Type, and each flag and its value are separate arguments. With no type given it counts Type Special, and PC never counts you, because your own Type is Me.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `type` | string | `Special` | the actor Type to count, any case; -Type and then the type works the same |
+| `-distance` | string |  | the word -distance, when a distance follows it |
+| `distance` | float | `999` | count only actors within this distance; 999 or more means no limit |
+
+**Returns:** int: how many actors of that type are in range; 0 when none are.
+
+```text
+echo ${OgreBotAPI.Actors.CountByType[NPC,-distance,20]}
+```
+
+*Was (OldBot):* `OgreBotAPI.GetActorCountByType`
+
+### `IsPC`
+
+`${OgreBotAPI.Actors.IsPC[actorType]}`
+
+Tells you whether an actor Type word means a player character. Pass the actor's Type, not its name or id.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `actorType` | string |  | an actor's Type, such as the value of ${Target.Type} |
+
+**Returns:** bool: TRUE when the type is Me or PC (any case); FALSE for anything else.
+
+```text
+echo ${OgreBotAPI.Actors.IsPC[${Target.Type}]}
+```
+
+*Was (OldBot):* `OgreBotAPI.IsAPC`
+
+### `MobID`
+
+`${OgreBotAPI.Actors.MobID[name]}`
+
+Returns the id of the nearest actor whose name matches exactly, in any case. A number is handed back only when that actor is here, and the usual target words (@ aliases, pet:&lt;owner>, a class word for a group or raid member) are understood too.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `name` | string |  | the actor's full name, or an actor id |
+
+**Returns:** int64: the actor id; 0 when no actor matches, the name is blank or that id is not here.
+
+```text
+echo ${OgreBotAPI.Actors.MobID["a goblin scout"]}
+```
+
+*Was (OldBot):* `GetInfoOb.ActorToID`, `GetInfoOb.GetMobID`, `Obj_OgreIH.Get_NPC_ID`
+
+### `NPCsWithin`
+
+`${OgreBotAPI.Actors.NPCsWithin[distance]}`
+
+Counts the living NPCs and named NPCs within the distance, aggro or not, measured edge to edge: your own model size and each mob's size widen the reach, as an area spell around you does. A distance of 0 or less counts nothing and prints a console warning.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `distance` | float |  | the radius around you, above 0 |
+
+**Returns:** int: how many living NPCs and named NPCs are in reach; 0 when none are, when the distance is not above 0, or when the actor list is not ready yet.
+
+```text
+echo ${OgreBotAPI.Actors.NPCsWithin[10]}
+```
+
+*Was (OldBot):* `OgreBotAPI.NPCsWithinRange`
+
+## Methods
+
+### `ApplyVerb`
+
+`OgreBotAPI.Actors:ApplyVerb[fw, actor, verb]`
+
+Applies a verb at once to the actor whose id you give, else the nearest one whose name contains the text, or of that type when the text is a type word, using the game's apply_verb command. A blank actor or verb gets one line, and so does an actor that does not match.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `actor` | string |  | the actor's name or part of it, any case, its actor id, or a type word: npc, namednpc, nokillnpc, pc, special, chest, resource, door |
+| `verb` | string |  | the verb as it shows on the actor's right-click menu |
+
+```text
+OgreBotAPI.Actors:ApplyVerb[igw:${Me.Name},"Strange Device","Use"]
+```
+
+*Was (OldBot):* `OgreBotAPI:ApplyVerbForWho`, `OgreBotAPI:ApplyVerbIDForWho`, `OgreBotAPI:ApplyVerb`
+
+### `ApplyVerbQueued`
+
+`OgreBotAPI.Actors:ApplyVerbQueued[fw, actor, verb, waitDs=40]`
+
+Queues a verb on the actor whose id you give, else the nearest one whose name contains the text, or of that type when the text is a type word, then waits out the cast it starts, exactly as ApplyVerbIDQueued does. The actor is looked up when you call it; a blank actor or verb, or no match, gets one line and queues nothing, and one gone by its turn is dropped with a console line.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `actor` | string |  | the actor's name or part of it, any case, its actor id, or a type word: npc, namednpc, nokillnpc, pc, special, chest, resource, door |
+| `verb` | string |  | the verb as it shows on the actor's right-click menu |
+| `waitDs` | int | `40` | the longest wait for the cast to end, in tenths of a second |
+
+```text
+OgreBotAPI.Actors:ApplyVerbQueued[igw:${Me.Name},"Strange Device","Use"]
+```
+
+*Was (OldBot):* `OgreBotAPI:ApplyVerbIDQueuedForWho`, `OgreBotAPI:ApplyVerbQueuedForWho`
+
+### `Click`
+
+`OgreBotAPI.Actors:Click[fw, nameOrId, ...]`
+
+Double-clicks an actor at once: an id as given, or else the nearest interactable actor whose name contains the text (or matches it exactly when the third argument is TRUE). Nothing happens, with no message, when no actor is found.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `nameOrId` | string |  | an actor id, or a name to search for among interactable actors |
+| `...` | bool |  | exact: TRUE matches the whole name (any case) instead of any name containing it; default FALSE |
+
+```text
+OgreBotAPI.Actors:Click[${Me.Name},"Strange Lever"]
+```
+
+*Was (OldBot):* `OgreBotAPI:Actor_Click`, `call Obj_OgreUtilities.HandleClickActor`
+
+### `ClickQueued`
+
+`OgreBotAPI.Actors:ClickQueued[fw, nameOrId, ...]`
+
+Queues a double-click on an actor found the same way as Click, then waits out the cast the click starts. At its turn it waits up to 5 seconds for a free cast bar, clicks once, and holds the cast bar until that cast ends or the wait runs out; an actor gone by then is dropped with a console line.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `nameOrId` | string |  | an actor id, or a name to search for among interactable actors |
+| `...` | bool, int |  | exact, then waitDs: exact TRUE matches the whole name instead of any name containing it (default FALSE); waitDs is the longest wait for the cast to end, in tenths of a second (default 40) |
+
+```text
+OgreBotAPI.Actors:ClickQueued[${Me.Name},"Ancient Altar",FALSE,60]
+```
+
+*Was (OldBot):* `OgreBotAPI:Actor_ClickQueued`, `OgreBotAPI:AltarOfTheAncients`, `OgreBotAPI:TargetAndDoubleClickActor`
+
+### `Hail`
+
+`OgreBotAPI.Actors:Hail[fw, nameOrId]`
+
+Queues a hail: target the actor, face it, then hail, about 0.3 seconds apart, and the hail is abandoned if the target does not change to that actor within 1 second. A blank or 0 hails the nearest nokill NPC within 10 (nothing happens when there is none); a name that finds nobody, or an id that is not here, says so on the console and hails nobody.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `nameOrId` | string |  | an actor id, a name (any actor whose name contains it, nearest first), an @ alias or pet:&lt;owner>; blank or 0 uses the nokill NPC fallback |
+
+```text
+OgreBotAPI.Actors:Hail[${Me.Name},${Target.ID}]
+```
+
+*Was (OldBot):* `OgreBotAPI:HailNPC`, `call Obj_OgreUtilities.DoHail`, `call Obj_OgreUtilities.DoHailID`
+
+### `SetCastMonitoring`
+
+`OgreBotAPI.Actors:SetCastMonitoring[fw, -watch "<mob>" ..., -unwatch "<mob>, -clear, -radius N]`
+
+Adds or removes the mob names this script asks NPC cast monitoring to watch, or sets the scan radius, for this zone; -watch and -radius also tick NPC Cast Monitoring, and watched mobs in range raise OgreEvent_CastMonitoring_CastingStarted and OgreEvent_CastMonitoring_CastingEnded. Flags run in the order written with one console line each, watches added by the zone or an encounter are never touched, and one bad flag refuses the whole call.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `-watch "<mob>" ...` | string |  | -watch followed by a mob name to watch, matched as a whole name in any case; repeat the pair for more mobs; it ends at the next zone or when NPC Cast Monitoring is unticked, and the tick stays |
+| `-unwatch "<mob>` | string |  | -unwatch followed by a mob name to stop watching (only a watch a script added) |
+| `-clear` | flag |  | drops every watch scripts added |
+| `-radius N` | int |  | -radius followed by the scan radius, a whole number from 5 to 500 (default 50); it beats the zone's own radius and ends at the next zone or when NPC Cast Monitoring is unticked |
+
+```text
+OgreBotAPI.Actors:SetCastMonitoring[${Me.Name},-watch,"a ravenous gnoll",-radius,60]
+```
+
+*Was (OldBot):* `OgreBotAPI:NPC_CastMonitoring`
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Assist.md
+
+# OgreBotAPI.Assist
+
+## Members
+
+### `InControl`
+
+`${OgreBotAPI.Assist.InControl}`
+
+Whether this character picks its own target instead of following someone else's. With the Auto Assist box off nobody drives this character, so it reads TRUE.
+
+**Returns:** bool: TRUE when auto-target is on, the Auto Assist box is off, you are the assist anchor, or no assist rule names anyone to follow; FALSE when you follow another player, and FALSE when not in the world.
+
+```text
+echo ${OgreBotAPI.Assist.InControl}
+```
+
+*Was (OldBot):* `OgreBotAPI.InControlOfAssisting`
+
+### `IsAssisting`
+
+`${OgreBotAPI.Assist.IsAssisting}`
+
+The exact opposite of InControl: whether this character follows someone else's target. It reads FALSE whenever the Auto Assist box is off.
+
+**Returns:** bool: TRUE when the Auto Assist box is on and you follow another player's target; FALSE when you pick your own target, and FALSE when not in the world.
+
+```text
+echo ${OgreBotAPI.Assist.IsAssisting}
+```
+
+*Was (OldBot):* `GetInfoOb.IsAssisting`, `OgreBotAPI.IsAssisting`
+
+### `TargetID`
+
+`${OgreBotAPI.Assist.TargetID}`
+
+The assist decision as one number: who this character would take its target from right now. It is read fresh on each call and reports the decision even when the Auto Assist box is off or auto-target is on.
+
+**Returns:** int64: greater than 0 is the ID to target (with Direct Assist Targeting on, the assisted player's target; otherwise the assisted player, which is your own ID when you are the anchor); 0 when you pick your own target; -1 when your current target should be left alone (Direct Assist Targeting on and the player you assist has no live target); NULL when not in the world.
+
+```text
+echo ${OgreBotAPI.Assist.TargetID}
+```
+
+*Was (OldBot):* `OgreBotAPI.GetAssistID`
+
+## Methods
+
+### `Anchor`
+
+`OgreBotAPI.Assist:Anchor[fw, who=me]`
+
+Sets who this character takes its kill target from: a group or raid member's name or alias, an actor ID, blank for yourself, or off to clear it (the literal word me is looked up as a name and sets nothing). It does not target anything itself - the bot retargets on its pulse while Auto Assist is ticked, a name not in your group or raid sets nothing and says so in the console, and the anchor clears when you zone into a different zone.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `who` | string | `me` | The player to assist: a name, an alias, an actor ID, or off to clear the anchor; blank anchors on yourself |
+
+```text
+OgreBotAPI.Assist:Anchor[igw:${Me.Name},${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:AssistForWho`, `OgreBotAPI:Assist`
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/AutoHunt.md
+
+# OgreBotAPI.AutoHunt
+
+## Members
+
+### `Active`
+
+`${OgreBotAPI.AutoHunt.Active}`
+
+TRUE when AutoHunt is switched on in Hunt mode. It reflects the mode only, so it stays TRUE while the hunt sits idle because OgreBot is closed or the bot is paused.
+
+**Returns:** bool: TRUE when the mode is Hunt; FALSE when it is Off.
+
+```text
+echo ${OgreBotAPI.AutoHunt.Active}
+```
+
+### `AllowMovement`
+
+`${OgreBotAPI.AutoHunt.AllowMovement}`
+
+TRUE when AutoHunt is letting this character move: a camp spot pulls again and the path picked on the Auto-Hunt tab walks on. It is FALSE while it holds position because a safety check tripped or a mob or an add is being dealt with, and TRUE while the character flies, since AutoHunt holds nothing in the air; it is updated on each hunt tick, and it reads FALSE after the mode is set to Off.
+
+**Returns:** bool: TRUE when AutoHunt has released its hold on movement; FALSE when it is holding position or AutoHunt is Off.
+
+```text
+echo ${OgreBotAPI.AutoHunt.AllowMovement}
+```
+
+### `FreezeReason`
+
+`${OgreBotAPI.AutoHunt.FreezeReason}`
+
+Which safety check stopped the hunt on its last tick, or None when it was safe or the character was flying (the checks are not read in the air). It is not cleared when the mode is set to Off, so it can still show the last reason after AutoHunt is turned off.
+
+**Returns:** string: None, Aggro, Dead, LowHP, LowMana or ExquisiteChest. Only the first check that tripped is named, and a group or raid member who is not in the zone counts as Dead or LowHP when those checks are on.
+
+```text
+echo ${OgreBotAPI.AutoHunt.FreezeReason}
+```
+
+### `LastAction`
+
+`${OgreBotAPI.AutoHunt.LastAction}`
+
+What AutoHunt decided to do on its last tick. It reads None after the mode is set to Off and keeps the last value while the hunt sits idle.
+
+**Returns:** string: None, Walk, HoldPosition, MoveGroupToCamp, Prebuff, AcquireTarget, Pull or Cleanup. Walk means no mob is in reach, or the character is flying and AutoHunt pulls nothing in the air, so the character may walk on. None while the character is dead: AutoHunt holds as it stands.
+
+```text
+echo ${OgreBotAPI.AutoHunt.LastAction}
+```
+
+### `Mode`
+
+`${OgreBotAPI.AutoHunt.Mode}`
+
+The AutoHunt mode this character is in: Off or Hunt. It starts as Off when the extension loads and is not saved, and it still reads Hunt while the hunt sits idle because OgreBot is closed or the bot is paused.
+
+**Returns:** string: Off or Hunt.
+
+```text
+echo ${OgreBotAPI.AutoHunt.Mode}
+```
+
+### `PullTargetID`
+
+`${OgreBotAPI.AutoHunt.PullTargetID}`
+
+The actor ID of the mob the last Hunt tick picked to pull, or 0 when none was found in the scan radius or the character is flying (no pull in the air); a different answer counts only after it has held for 0.3 seconds. It is 0 after the mode is set to Off, and an add already attacking the group is handled first but is not shown here.
+
+**Returns:** int64: the actor ID picked to pull on the last tick; 0 when there was none.
+
+```text
+echo ${OgreBotAPI.AutoHunt.PullTargetID}
+```
+
+### `SafetyTripped`
+
+`${OgreBotAPI.AutoHunt.SafetyTripped}`
+
+TRUE when one of the AutoHunt safety checks (aggro, dead, low health, low power, exquisite chest) stopped the hunt on its last tick. It keeps the last tick's value while the hunt sits idle and reads FALSE after the mode is set to Off.
+
+**Returns:** bool: TRUE when a safety check that is ticked in the AutoHunt settings tripped on the last tick; FALSE when all were clear, the character was flying (the checks are not read in the air) or AutoHunt is Off.
+
+```text
+echo ${OgreBotAPI.AutoHunt.SafetyTripped}
+```
+
+## Methods
+
+### `SetCheckHP`
+
+`OgreBotAPI.AutoHunt:SetCheckHP[fw, n]`
+
+Sets the AutoHunt Check HP threshold in the loaded OgreBot profile: with Check HP ticked, the hunt holds position while any group or raid member (this character included) is below n percent health, and a member who is not in the zone counts too; it does not tick the checkbox, and 0 never trips. A missing value or no loaded profile prints a line and sets nothing, a value outside 0 to 100 or a word is stored clamped with a line saying so, and the change is kept only when the profile is saved.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `n` | int |  | Health percent; the hunt holds when a member is below it. 0 never trips; outside 0 to 100 it is clamped. |
+
+```text
+OgreBotAPI.AutoHunt:SetCheckHP[igw:${Me.Name},60]
+```
+
+*Was (OldBot):* `OgreBotAPI:AutoHunt_CheckHP`
+
+### `SetCheckMana`
+
+`OgreBotAPI.AutoHunt:SetCheckMana[fw, n]`
+
+Sets the AutoHunt Check Mana threshold in the loaded OgreBot profile: with Check Mana ticked, the hunt holds position while any group or raid member in the zone (this character included) is below n percent power; it does not tick the checkbox, and 0 never trips. A missing value or no loaded profile prints a line and sets nothing, a value outside 0 to 100 or a word is stored clamped with a line saying so, and the change is kept only when the profile is saved.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `n` | int |  | Power percent; the hunt holds when a member is below it. 0 never trips; outside 0 to 100 it is clamped. |
+
+```text
+OgreBotAPI.AutoHunt:SetCheckMana[igw:${Me.Name},30]
+```
+
+*Was (OldBot):* `OgreBotAPI:AutoHunt_CheckMana`
+
+### `SetMode`
+
+`OgreBotAPI.AutoHunt:SetMode[fw, off|hunt]`
+
+Sets the AutoHunt mode on each matching character: off stops it, ends its walk, releases its hold on the camp spot and lets go a group it holds at a camp, and hunt tells the rest of its group to follow it, then picks a mob in the scan radius (an add on the group first), targets it, uses the first ready ability or item from the AutoHunt pull list and walks the path picked on the Auto-Hunt tab between pulls. The mode is not saved, and an unknown word, or hunt while OgreBot is not open, sets Off and echoes why to the console.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `off\|hunt` | string |  | The mode, any case: off or hunt. Blank means off, and any other word, movement, on and grind included, sets Off. Hunt sends the follow once, as an OgreFollow through OgreConsole, so only characters on this PC get it; off leaves them following. With the Campspot or CS-JO-JI option a pull camps the whole group at this character's spot, a new pull from the same spot sends nothing, and the group is let go (a LetsGo, and this character's own camp cleared) once no mob has been in reach for 1.5 seconds, or at once when the bot is paused or the mode goes off. In the air it pulls, targets and holds nothing (a pull it was working ends, and one console line says so as it takes off), and while it is dead it holds everything as it is. |
+
+```text
+OgreBotAPI.AutoHunt:SetMode[${Me.Name},hunt]
+```
+
+*Was (OldBot):* `OgreBotAPI:AutoHunt_SetMode`
+
+### `SetScanRadius`
+
+`OgreBotAPI.AutoHunt:SetScanRadius[fw, n]`
+
+Sets the AutoHunt scan radius in the loaded OgreBot profile, the distance Hunt mode searches for a mob to pull; 0 means the longest reach among your enabled pull abilities (35 when none has a reach on file). A missing value or no loaded profile prints a line and sets nothing, a negative or a word is stored as 0 with a line saying so, and the change is kept only when the profile is saved.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `n` | int |  | Scan radius in game units; 0 uses the longest reach among your pull abilities. |
+
+```text
+OgreBotAPI.AutoHunt:SetScanRadius[igw:${Me.Name},50]
+```
+
+*Was (OldBot):* `OgreBotAPI:AutoHunt_ScanRadius`
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/AutoTarget.md
+
+# OgreBotAPI.AutoTarget
+
+## Members
+
+### `Active`
+
+`${OgreBotAPI.AutoTarget.Active}`
+
+TRUE when the master checkbox is on, no Suppress reason is held, the working list has at least one entry, and the scanner may scan now: out of combat that needs Out Of Combat Scanning on or something hating you. It reads FALSE whenever nothing would be picked.
+
+**Returns:** bool: TRUE when enabled, not suppressed, the list is not empty and the scanner may scan now; FALSE otherwise.
+
+```text
+echo ${OgreBotAPI.AutoTarget.Active}
+```
+
+### `Count`
+
+`${OgreBotAPI.AutoTarget.Count}`
+
+The number of entries in the working list - the list auto-target picks from right now.
+
+**Returns:** int: the number of entries; 0 when the list is empty.
+
+```text
+echo ${OgreBotAPI.AutoTarget.Count}
+```
+
+*Was (OldBot):* `Ob_AutoTarget.Items`
+
+### `Enabled`
+
+`${OgreBotAPI.AutoTarget.Enabled}`
+
+Reads the master auto-target checkbox from the profile. When it is off, auto-target never picks a target, whatever the list holds.
+
+**Returns:** bool: TRUE when the auto-target checkbox is ticked; FALSE when it is unticked or was never set.
+
+```text
+echo ${OgreBotAPI.AutoTarget.Enabled}
+```
+
+*Was (OldBot):* `OgreBotAPI.AutoTarget_Enabled`
+
+### `Entry`
+
+`${OgreBotAPI.AutoTarget.Entry[n]}`
+
+The working-list entry at position n, counting from 1, as JSON text with its fields: ActorName, MinHPToTarget, CheckCollision, AggroOnGroupOnly, MaxHPToTarget, AggroOnNonFighterOnly, AggroOnNotMe, and KeepLast when set.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `n` | int |  | Position in the working list, 1 = top. |
+
+**Returns:** string: the entry as a JSON object; "{}" when n is out of range.
+
+```text
+echo ${OgreBotAPI.AutoTarget.Entry[1]}
+```
+
+*Was (OldBot):* `Ob_AutoTarget.AggroOnGroupOnly`, `Ob_AutoTarget.AggroOnGroupOnlyOrderedItem`, `Ob_AutoTarget.AggroOnNonFighterOnly`
+
+### `EntryName`
+
+`${OgreBotAPI.AutoTarget.EntryName[n]}`
+
+The name of the working-list entry at position n, counting from 1 at the top.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `n` | int |  | Position in the working list, 1 = top. |
+
+**Returns:** string: that entry's actor name; "" when n is out of range.
+
+```text
+echo ${OgreBotAPI.AutoTarget.EntryName[1]}
+```
+
+*Was (OldBot):* `Ob_AutoTarget.ActorName`, `Ob_AutoTarget.ActorNameOrderedItem`, `Ob_AutoTarget.OrderedItem`
+
+### `HasActor`
+
+`${OgreBotAPI.AutoTarget.HasActor[name]}`
+
+Asks whether the working list has an entry with exactly this name, case not mattering. It compares entry names only - it does not test whether an entry would match a nearby actor.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `name` | string |  | The entry name to look for (case does not matter). |
+
+**Returns:** bool: TRUE when an entry's name equals the given name; FALSE when none does or no name is given.
+
+```text
+echo ${OgreBotAPI.AutoTarget.HasActor["a gnoll guard"]}
+```
+
+*Was (OldBot):* `Ob_AutoTarget.HasActor`
+
+### `JSON`
+
+`${OgreBotAPI.AutoTarget.JSON}`
+
+The whole working list as JSON text, top entry first, each entry with the same fields Entry shows.
+
+**Returns:** string: a JSON array of entries; "[]" when the list is empty.
+
+```text
+echo ${OgreBotAPI.AutoTarget.JSON}
+```
+
+*Was (OldBot):* `Ob_AutoTarget.Ob_AutoTargetList`
+
+### `ListName`
+
+`${OgreBotAPI.AutoTarget.ListName}`
+
+The name of the saved list or built-in list the working list is: set by LoadSaved, Save and LoadPreset. It is blank after Clear, and after any entry is added, changed or removed, since the list then matches no saved list.
+
+**Returns:** string: the saved-list or built-in list name; "" when none.
+
+```text
+echo ${OgreBotAPI.AutoTarget.ListName}
+```
+
+### `OutOfCombatScanning`
+
+`${OgreBotAPI.AutoTarget.OutOfCombatScanning}`
+
+Reads the out-of-combat scanning checkbox. When it is off, auto-target only looks for a target while you are in combat or something hates you.
+
+**Returns:** bool: TRUE when out-of-combat scanning is ticked; FALSE when it is unticked or was never set (unset counts as off).
+
+```text
+echo ${OgreBotAPI.AutoTarget.OutOfCombatScanning}
+```
+
+### `PresetCount`
+
+`${OgreBotAPI.AutoTarget.PresetCount}`
+
+The number of built-in lists LoadPreset can load. There are two today: Named and AddsThenNamed.
+
+**Returns:** int: the number of built-in lists.
+
+```text
+echo ${OgreBotAPI.AutoTarget.PresetCount}
+```
+
+### `PresetName`
+
+`${OgreBotAPI.AutoTarget.PresetName[n]}`
+
+The name of built-in list n, counting from 1.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `n` | int |  | Which built-in list, 1 = first. |
+
+**Returns:** string: the built-in list's name; "" when n is out of range.
+
+```text
+echo ${OgreBotAPI.AutoTarget.PresetName[1]}
+```
+
+### `SavedCount`
+
+`${OgreBotAPI.AutoTarget.SavedCount}`
+
+The number of saved lists for the zone (lists are kept per zone), loading the current zone's lists first. Reads 0 out of the world.
+
+**Returns:** int: the number of saved lists; 0 when the zone has none.
+
+```text
+echo ${OgreBotAPI.AutoTarget.SavedCount}
+```
+
+### `SavedName`
+
+`${OgreBotAPI.AutoTarget.SavedName[n]}`
+
+The name of saved list n for the zone, counting from 1, in file order, from the same lists as SavedCount. Reads "" out of the world.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `n` | int |  | Which saved list, 1 = first. |
+
+**Returns:** string: the saved list's name; "" when n is out of range.
+
+```text
+echo ${OgreBotAPI.AutoTarget.SavedName[1]}
+```
+
+### `ScanHeight`
+
+`${OgreBotAPI.AutoTarget.ScanHeight}`
+
+Reads the scan height setting as stored - the largest height difference an actor may have from you and still be picked (it must be less than this). An unset or 0 value reads 0 here, but auto-target then uses 5.
+
+**Returns:** int: the stored scan height; 0 when unset.
+
+```text
+echo ${OgreBotAPI.AutoTarget.ScanHeight}
+```
+
+### `ScanRadius`
+
+`${OgreBotAPI.AutoTarget.ScanRadius}`
+
+Reads the scan radius setting as stored. An unset or 0 value reads 0 here, but auto-target then scans 50.
+
+**Returns:** int: the stored scan radius; 0 when unset.
+
+```text
+echo ${OgreBotAPI.AutoTarget.ScanRadius}
+```
+
+### `Suppressed`
+
+`${OgreBotAPI.AutoTarget.Suppressed[key]}`
+
+Asks whether auto-targeting is paused by Suppress. With no key it asks whether any reason is holding it; with a key it asks about that reason only (case does not matter).
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `key` | string |  | Optional. The reason name given to Suppress; leave it out to ask about any reason. |
+
+**Returns:** bool: TRUE when the reason (or, with no key, any reason) is holding targeting paused; FALSE otherwise.
+
+```text
+echo ${OgreBotAPI.AutoTarget.Suppressed[myscript]}
+```
+
+*Was (OldBot):* `OgreBotAPI.AutoTarget_Disabled`
+
+### `WhenHated`
+
+`${OgreBotAPI.AutoTarget.WhenHated}`
+
+Reads the auto-target-when-hated checkbox. When it is on and the character has nothing to fight, the bot about once a second targets an NPC within 30 that is attacking the group, and says so in the console.
+
+**Returns:** bool: TRUE when the checkbox is ticked; FALSE when it is unticked or was never set.
+
+```text
+echo ${OgreBotAPI.AutoTarget.WhenHated}
+```
+
+## Methods
+
+### `AddActor`
+
+`OgreBotAPI.AutoTarget:AddActor[fw, name, minHP=0, checkCollision=FALSE, aggroOnGroupOnly=TRUE, maxHP=0, aggroOnNonFighterOnly=FALSE, aggroOnNotMe=FALSE, keepLast=FALSE]`
+
+Adds one entry to the working list (with no name it does nothing, and the same name can be added twice) and blanks ListName; auto-target tries entries top-down and takes the first entry that matches anything, keeping your current target if it matches. The working list lasts for this session only (it survives zoning) - use Save to keep it.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `name` | string |  | What to target: part of an actor name (matches any actor whose name contains it, case not mattering), NPC (any normal NPC), NamedNPC or Named (any named NPC), or a number for an actor ID. |
+| `minHP` | int | `0` | Only pick the actor while its health is at least this percent; 0 = no limit. |
+| `checkCollision` | bool | `FALSE` | TRUE to only pick actors you have a clear line to. |
+| `aggroOnGroupOnly` | bool | `TRUE` | TRUE to only pick actors whose target is in your group. A word that is not yes/no keeps the default, TRUE. |
+| `maxHP` | int | `0` | Only pick the actor while its health is below this percent; 0 = no limit. |
+| `aggroOnNonFighterOnly` | bool | `FALSE` | TRUE to only pick actors targeting a player who is not a fighter. |
+| `aggroOnNotMe` | bool | `FALSE` | TRUE to skip actors that are targeting you. |
+| `keepLast` | bool | `FALSE` | TRUE to keep this entry at the bottom: later adds go in above it. |
+
+```text
+OgreBotAPI.AutoTarget:AddActor[igw:${Me.Name},"a gnoll guard",0,FALSE,TRUE]
+```
+
+*Was (OldBot):* `OgreBotAPI:AutoTarget_AddActor`, `Ob_AutoTarget:AddActor`
+
+### `Clear`
+
+`OgreBotAPI.AutoTarget:Clear[fw]`
+
+Empties the working list and blanks ListName. Saved lists on disk are not touched.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+
+```text
+OgreBotAPI.AutoTarget:Clear[igw:${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:AutoTarget_Clear`, `OgreBotAPI:AutoTarget_ClearActors`, `Ob_AutoTarget:Clear`
+
+### `DeleteSaved`
+
+`OgreBotAPI.AutoTarget:DeleteSaved[fw, name]`
+
+Deletes a saved list from the current zone's file on disk; a blank name, or one that is not found, deletes nothing and says so on the console. The working list is not touched, but ListName is blanked when it named that list; it needs the character in the world.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `name` | string |  | The saved list to delete, matched whole, case not mattering. |
+
+```text
+OgreBotAPI.AutoTarget:DeleteSaved[${Me.Name},"Trash"]
+```
+
+*Was (OldBot):* `Ob_AutoTarget:DeleteList`
+
+### `LoadPreset`
+
+`OgreBotAPI.AutoTarget:LoadPreset[fw, name]`
+
+Replaces the working list with a built-in list, reading nothing from disk, and sets ListName to it. An unknown name prints a message to the Inner Space console and leaves the list as it was.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `name` | string |  | The built-in list's name (see PresetName): Named (any named NPC) or AddsThenNamed (normal NPCs first, then the named), matched whole, case not mattering. |
+
+```text
+OgreBotAPI.AutoTarget:LoadPreset[igw:${Me.Name},AddsThenNamed]
+```
+
+### `LoadSaved`
+
+`OgreBotAPI.AutoTarget:LoadSaved[fw, name]`
+
+Replaces the working list with a saved list for the current zone and sets ListName. A blank name, or a name the zone has no list for, changes nothing and says so on the console; it needs the character in the world.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `name` | string |  | The saved list's name (see SavedName), matched whole, case not mattering. |
+
+```text
+OgreBotAPI.AutoTarget:LoadSaved[igw:${Me.Name},"Trash"]
+```
+
+*Was (OldBot):* `OgreBotAPI:LoadAutoTargetList`, `Ob_AutoTarget:LoadListFromSaveList`, `Ob_AutoTarget:LoadListFromSaveListForWho`
+
+### `Release`
+
+`OgreBotAPI.AutoTarget:Release[fw, reason]`
+
+Releases the pause held under this reason name (case does not matter); a blank reason gets one line and a name that is not held does nothing. Targeting resumes only when no other reason is still held.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `reason` | string |  | The reason name given to Suppress. |
+
+```text
+OgreBotAPI.AutoTarget:Release[${Me.Name},myscript]
+```
+
+*Was (OldBot):* `OgreBotAPI:AutoTarget_Enable`
+
+### `RemoveActor`
+
+`OgreBotAPI.AutoTarget:RemoveActor[fw, name]`
+
+Removes every working-list entry whose name is exactly this name, case not mattering. Nothing happens when no entry matches or the name is blank.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `name` | string |  | The entry name to remove (whole name, case does not matter). |
+
+```text
+OgreBotAPI.AutoTarget:RemoveActor[igw:${Me.Name},"a gnoll guard"]
+```
+
+*Was (OldBot):* `OgreBotAPI:AutoTarget_RemoveActor`, `Ob_AutoTarget:RemoveActor`
+
+### `Save`
+
+`OgreBotAPI.AutoTarget:Save[fw, name]`
+
+Saves the working list to disk as a named list for the current zone and sets ListName; an existing list whose name matches, case not mattering, is replaced and moves to the end. A blank name, or a write that fails, saves nothing and says so on the console; it needs the character in the world.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `name` | string |  | The name to save the list under, kept as you typed it. |
+
+```text
+OgreBotAPI.AutoTarget:Save[${Me.Name},"Trash"]
+```
+
+*Was (OldBot):* `Ob_AutoTarget:SaveList`
+
+### `SetEnabled`
+
+`OgreBotAPI.AutoTarget:SetEnabled[fw, bool=TRUE]`
+
+Turns the master auto-target checkbox on or off and prints the change to the OgreConsole when the value changes. The change goes to this profile's setting (the same one the panel shows) and reaches disk the next time the profile is saved; nothing is written when no profile is loaded.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `bool` | bool | `TRUE` | TRUE to turn auto-target on, FALSE to turn it off. Blank turns it on; a word that is not yes/no leaves it as it is. |
+
+```text
+OgreBotAPI.AutoTarget:SetEnabled[igw:${Me.Name},TRUE]
+```
+
+*Was (OldBot):* `ogre autotarget`
+
+### `SetOutOfCombatScanning`
+
+`OgreBotAPI.AutoTarget:SetOutOfCombatScanning[fw, bool=TRUE]`
+
+Turns out-of-combat scanning on or off and prints the change to the OgreConsole when the value changes. The change goes to this profile's setting (the same one the panel shows) and reaches disk the next time the profile is saved; nothing is written when no profile is loaded.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `bool` | bool | `TRUE` | TRUE to let auto-target look for targets out of combat, FALSE to wait for combat or aggro. Blank turns it on; a word that is not yes/no leaves it as it is. |
+
+```text
+OgreBotAPI.AutoTarget:SetOutOfCombatScanning[igw:${Me.Name},TRUE]
+```
+
+### `SetScanHeight`
+
+`OgreBotAPI.AutoTarget:SetScanHeight[fw, n=5]`
+
+Silently sets the largest height difference an actor may have from you and still be picked. The change goes to this profile's setting (the same one the panel shows) and reaches disk the next time the profile is saved; nothing is written when no profile is loaded.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `n` | int | `5` | The scan height (the actor's height difference must be less than this). 0 or a non-number is treated as 5. |
+
+```text
+OgreBotAPI.AutoTarget:SetScanHeight[igw:${Me.Name},10]
+```
+
+*Was (OldBot):* `OgreBotAPI:AutoTarget_SetScanHeight`
+
+### `SetScanRadius`
+
+`OgreBotAPI.AutoTarget:SetScanRadius[fw, n=50]`
+
+Silently sets how far auto-target looks for targets. The change goes to this profile's setting (the same one the panel shows) and reaches disk the next time the profile is saved; nothing is written when no profile is loaded.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `n` | int | `50` | The scan radius. A non-number stores 0, which auto-target treats as 50. |
+
+```text
+OgreBotAPI.AutoTarget:SetScanRadius[igw:${Me.Name},40]
+```
+
+*Was (OldBot):* `OgreBotAPI:AutoTarget_SetScanRadius`
+
+### `SetWhenHated`
+
+`OgreBotAPI.AutoTarget:SetWhenHated[fw, bool=TRUE]`
+
+Turns auto-target-when-hated on or off and prints the change to the OgreConsole when the value changes. The change goes to this profile's setting (the same one the panel shows) and reaches disk the next time the profile is saved; nothing is written when no profile is loaded.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `bool` | bool | `TRUE` | TRUE to target an NPC attacking the group when you have nothing to fight, FALSE to stop. Blank turns it on; a word that is not yes/no leaves it as it is. |
+
+```text
+OgreBotAPI.AutoTarget:SetWhenHated[${Me.Name},TRUE]
+```
+
+### `Suppress`
+
+`OgreBotAPI.AutoTarget:Suppress[fw, reason]`
+
+Pauses automatic targeting under a reason name and holds the current target without touching the master checkbox; a direct target command still works, and a blank reason gets one line. Each reason lasts for this session only, until Release is called with the same name (case does not matter), LetsGo runs or you change zones.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `reason` | string |  | A name for this pause, so it can be released on its own. |
+
+```text
+OgreBotAPI.AutoTarget:Suppress[${Me.Name},myscript]
+```
+
+*Was (OldBot):* `OgreBotAPI:AutoTarget_Disable`
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/Bot.md
+
+# OgreBotAPI.Bot
+
+## Members
+
+### `Paused`
+
+`${OgreBotAPI.Bot.Paused}`
+
+TRUE while the bot is paused, whether by Pause, the mini toolbar's pause button or a camp in progress. The bot starts out paused, so this is also TRUE before OgreBot has been loaded.
+
+**Returns:** bool: TRUE when the bot is paused or has not been loaded yet; FALSE when it is running.
+
+```text
+echo ${OgreBotAPI.Bot.Paused}
+```
+
+*Was (OldBot):* `OgreBotAPI.Paused`
+
+### `ScriptBaseName`
+
+`${OgreBotAPI.Bot.ScriptBaseName[path,removeExtension]}`
+
+Returns the last part of a script path with its folders removed; back slashes count as forward slashes. A trailing .iss (any case) is removed unless removeExtension is FALSE.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `path` | string |  | The script path or file name. |
+| `removeExtension` | bool | `TRUE` | TRUE strips a trailing .iss; FALSE keeps it. A word that is not a yes word reads as FALSE. |
+
+**Returns:** string: the file name, without .iss unless removeExtension is FALSE; the whole text when it has no slash.
+
+```text
+echo ${OgreBotAPI.Bot.ScriptBaseName["${LavishScript.HomeDirectory}/Scripts/EQ2OgreBot/OgreBotDev.iss"]}
+```
+
+*Was (OldBot):* `OgreBotAPI.Get_ScriptBaseName`
+
+## Methods
+
+### `CampToDesktop`
+
+`OgreBotAPI.Bot:CampToDesktop[fw, loginOnly=FALSE]`
+
+Queues a camp out: it stops following, pauses the bot for the camp and camps to the login screen, then closes the session unless loginOnly is TRUE. It refuses with a console line while you are in combat mode, and if the camp fails the bot's run state is put back.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `loginOnly` | bool | `FALSE` | TRUE stops at the login screen and keeps the session open; FALSE camps out and then closes the session. |
+
+```text
+OgreBotAPI.Bot:CampToDesktop[${Me.Name},TRUE]
+```
+
+*Was (OldBot):* `OgreBotAPI:CampToDesktop`
+
+### `End`
+
+`OgreBotAPI.Bot:End[fw]`
+
+Closes OgreBot on the next frame, the same as typing ogre end bot. Closing also clears the no-offensive, no-defensive and threat ignore settings.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+
+```text
+OgreBotAPI.Bot:End[all]
+```
+
+*Was (OldBot):* `OgreBotAPI:End_Bot`
+
+### `EndScript`
+
+`OgreBotAPI.Bot:EndScript[fw, script]`
+
+Ends a running script on each selected character, matched by its file name with folders and .iss removed, and shows the name in OgreConsole. Does nothing when no script of that name is running, and needs the character in the world.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `script` | string |  | The script's name or path. Only the file name counts, with .iss removed. |
+
+```text
+OgreBotAPI.Bot:EndScript[all,"MyScripts/hello"]
+```
+
+### `ExitClient`
+
+`OgreBotAPI.Bot:ExitClient[fw, seconds=30]`
+
+Queues an exit of this game client: a message box warns that the client closes in the given number of seconds, and clicking OK on it cancels. If the time runs out with the box still open, the session is closed with the character still in the world (no camp).
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `seconds` | int | `30` | Seconds to wait before the exit. Anything that is not a whole number of at least 1 uses the default. |
+
+```text
+OgreBotAPI.Bot:ExitClient[${Me.Name},60]
+```
+
+*Was (OldBot):* `OgreBotAPI:ExitClient`
+
+### `Load`
+
+`OgreBotAPI.Bot:Load[fw]`
+
+Starts OgreBot on the next frame, the same as typing ogre: it opens resumed with its main window hidden. Unlike Reload it also runs when OgreBot is not running, and on a running bot it reopens it the way Reload does.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+
+```text
+OgreBotAPI.Bot:Load[igw:${Me.Name}]
+```
+
+### `OgreCommand`
+
+`OgreBotAPI.Bot:OgreCommand[fw, cmd...]`
+
+Runs an Ogre sub-command (ogre, the name, then each remaining argument quoted) on each selected character, and shows the line it ran in OgreConsole. Needs the character in the world; with no command name it says so in OgreConsole and runs nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `cmd...` | string |  | The sub-command name, then its arguments. Each argument is passed on as its own quoted argument. |
+
+```text
+OgreBotAPI.Bot:OgreCommand[igw:${Me.Name},quiver]
+```
+
+*Was (OldBot):* `OgreBotAPI:OgreCommand`
+
+### `OnDeactivate`
+
+`OgreBotAPI.Bot:OnDeactivate[fw]`
+
+Releases the Alt key, so an Alt held down when the game window lost focus does not stay stuck. When Alt reads as pressed it first prints a line saying so to the console.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+
+```text
+OgreBotAPI.Bot:OnDeactivate[${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:OnDeactivate`
+
+### `Pause`
+
+`OgreBotAPI.Bot:Pause[fw]`
+
+Pauses the bot so it stops casting and its other automatic actions until Resume. Takes effect at once and also works while zoning.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+
+```text
+OgreBotAPI.Bot:Pause[igw:${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:Pause`, `Obj_OgreIH:Pause`
+
+### `RawCommand`
+
+`OgreBotAPI.Bot:RawCommand[fw, cmd...]`
+
+Runs the arguments as one console command line on each selected character, and shows the line in OgreConsole. Needs the character in the world; an argument holding a space is quoted again, and an empty line runs nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `cmd...` | string |  | The command and its arguments, joined by single spaces into one line. |
+
+```text
+OgreBotAPI.Bot:RawCommand[all,echo,hello]
+```
+
+*Was (OldBot):* `OgreBotAPI:RawCommand`
+
+### `Reload`
+
+`OgreBotAPI.Bot:Reload[fw]`
+
+Reloads OgreBot on the next frame: it reopens resumed with its main window hidden, and the no-offensive, no-defensive and threat ignore settings are cleared. Does nothing on a session where OgreBot is not running - it never starts the bot (Load does that).
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+
+```text
+OgreBotAPI.Bot:Reload[igw:${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:Reload_Bot`
+
+### `Resume`
+
+`OgreBotAPI.Bot:Resume[fw]`
+
+Resumes a paused bot so it acts again. Takes effect at once and also works while zoning.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+
+```text
+OgreBotAPI.Bot:Resume[igw:${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:Resume`, `Obj_OgreIH:Resume`
+
+### `RunScript`
+
+`OgreBotAPI.Bot:RunScript[fw, script, args...]`
+
+Runs a script on each selected character, passing each later argument as its own quoted parameter, and shows the line in OgreConsole. It refuses with an OgreConsole line when the script is not found or a script of the same name is already running, and needs the character in the world.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `script` | string |  | The script path, relative to the Scripts folder; the .iss ending is optional. A path containing a colon is used as it is. |
+| `args...` | string |  | The script's parameters. Every argument after script is passed on, each as its own quoted parameter. |
+
+```text
+OgreBotAPI.Bot:RunScript[${Me.Name},"MyScripts/hello","126","TRUE"]
+```
+
+### `SetUpFor`
+
+`OgreBotAPI.Bot:SetUpFor[fw, what="", restart=TRUE]`
+
+Sets up for an encounter on the next pulse: the fight of the named mob given in what, or with what blank the nearest or engaged named in this zone. Needs the character in the world; a name no encounter owns prints a warning to the console.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `what` | string | `""` | The named mob whose encounter to set up. Blank picks the nearest or engaged named in this zone. |
+| `restart` | bool | `TRUE` | TRUE re-runs a setup that is already running; FALSE only sets up an encounter that is not running yet. |
+
+```text
+OgreBotAPI.Bot:SetUpFor[igw:${Me.Name},"${Target.Name}",TRUE]
+```
+
+*Was (OldBot):* `OgreBotAPI:SetUpFor`

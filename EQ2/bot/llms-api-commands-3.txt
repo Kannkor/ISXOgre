@@ -1,0 +1,1335 @@
+# OgreBot for EverQuest II - API reference: Commands (part 3 of 3)
+
+Plain text for AI assistants, generated from the same tables as the API reference pages (https://kannkor.github.io/ISXOgre/EQ2/bot/developer/api/).
+This file is ONE PIECE: Commands (part 3 of 3) - ISXOgreEQ2 console commands (-LogToonIn to -ZoneResetAll).
+How to read an entry, and every file like this one: https://kannkor.github.io/ISXOgre/EQ2/bot/llms-api.txt
+
+== ISXOgreEQ2 console commands (-LogToonIn to -ZoneResetAll) ==
+
+oc !c -LogToonIn <who> <name> <server> <class>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Logs a character in on one box: from the login screen, from character select, or from the world on another character (it camps first). Name the box by its InnerSpace session or its character, and at character select or the login screen by the character it last played: oc !c -LogToonIn MyToon MyToon logs MyToon back in after a zone dropped it to character select.
+  arg who (string): The box: its InnerSpace session name or its character's name (at character select, the character it last played). all and groups pick no box.
+  arg name (string): The character to log in. It needs a saved login on this PC.
+  arg server (string): The server, for a character saved on more than one. Blank uses its default. A short form works: ior, md.
+  arg class (string): The class to log in as, like ranger. Blank logs in whatever class it was.
+  runs: OgreBotAPI.Session:LogToonIn
+  example: oc !c -LogToonIn ${Me.Name} ${Group[1].Name}
+
+oc !c -LootAll <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Clicks Loot All on the loot window of the matched toons. It does nothing on a toon with no loot window open.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Loot:LootAll
+  example: oc !c -LootAll ${Me.Name}
+
+oc !c -MakeLeader <who> <name>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Makes someone else the group leader.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg name (string, default: ${Me.Name}): Person to make group leader. Leave blank for youself
+  runs: OgreBotAPI.Roster:MakeLeader
+  example: oc !c -MakeLeader ${Me.Name} ${Group[1].Name}
+
+oc !c -MarkToon <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Marks each selected character (the same as setting flag 24).
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Roster:Mark
+  example: oc !c -MarkToon ${Me.Name}
+
+oc !c -Mentor <who> <mentorwho>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Tells [Bots] to mentor a specific player.
+  arg who (forwho, default: auto): Who acts - leave blank to use the For Who window.
+  arg mentorwho (string, default: ${Me.Name}): Toonname to mentor
+  runs: OgreBotAPI.Roster:Mentor
+  example: oc !c -Mentor igw:${Me.Name} ${Me.Name}
+
+oc !c -Mercenary_AddMercenaries <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Adds every Mercenary item in your bags, Overseer bag and harvest bag.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Consumables:AddMercenaries
+  example: oc !c -Mercenary_AddMercenaries ${Me.Name}
+
+oc !c -Message <who> <text>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Display a message on this session's console.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg text (string): Message text to display.
+  runs: OgreBotAPI.Comms:Message
+  example: oc !c -Message igw:${Me.Name} "Pulling in 5"
+
+oc !c -Message_Relay <who> <text>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Broadcast a message to every session's console across the fleet (including this one).
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg text (string): Message text to broadcast.
+  runs: OgreBotAPI.Comms:Broadcast
+  example: oc !c -Message_Relay ${Me.Name} "Ready check"
+
+oc !c -Move2Area <who> <x> <y> <z> <precision>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  also: -MoveToArea
+  what: Tells [Bots] to move to a specific area.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg x (string, default: ${Me.X}): X coordinate (paste ${Me.X}), or the name of a point of interest in this zone
+  arg y (float, default: ${Me.Y}): Y/height - IGNORED (2D ground move); pass ${Me.Y} for game-order convenience
+  arg z (float, default: ${Me.Z}): Z coordinate (paste ${Me.Z})
+  arg precision (float, default: 3): Arrival precision
+  runs: OgreBotAPI.Movement:Move2Area
+  example: oc !c -Move2Area igw:${Me.Name} ${Me.X} ${Me.Y} ${Me.Z} 3
+
+oc !c -MoveToAreaNoTarget <who> <x> <y> <z> <precision>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  also: -Move2AreaNoTarget
+  what: Walks to the given X and Z (Y is ignored) and stops within the precision distance, whether or not the toon has a target. A toon on a campspot stays there until -joustout or -letsgo; nothing moves if X or Z is missing or OgreBot is not open.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg x (string, default: ${Me.X}): X coordinate (paste ${Me.X}), or the name of a point of interest in this zone
+  arg y (float, default: ${Me.Y}): Y/height - IGNORED (2D ground move)
+  arg z (float, default: ${Me.Z}): Z coordinate (paste ${Me.Z})
+  arg precision (float, default: 3): Arrival precision
+  runs: OgreBotAPI.Movement:Move2AreaNoTarget
+  example: oc !c -MoveToAreaNoTarget igw:${Me.Name} ${Me.X} ${Me.Y} ${Me.Z} 3
+
+oc !c -NavStop <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  also: -nav-stop, -nav_stop
+  what: Stops the nav trip under way, unless it belongs to an encounter (`ogre nav stop` ends any trip).
+  arg who (forwho, default: auto): Who navs - leave blank to use the For Who window.
+  runs: OgreBotAPI.Movement:NavStop
+  example: oc !c -NavStop igw:${Me.Name}
+
+oc !c -NavTo <who> <x> <y> <z> <fly>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  also: -nav-to, -nav_to
+  what: Nav (the mesh router) to an x y z, or to a point of interest in this zone. It waits while OgreBot is paused and stops when OgreBot closes. It leaves an encounter's trip alone.
+  arg who (forwho, default: auto): Who navs - leave blank to use the For Who window.
+  arg x (string): X, or the name of a point of interest in this zone
+  arg y (float)
+  arg z (float)
+  arg fly (string, default: nofly): fly flies the trip; nofly walks it.
+  runs: OgreBotAPI.Movement:NavTo
+  example: oc !c -NavTo igw:${Me.Name} 120.5 -14 380.25 nofly
+
+oc !c -NoTarget <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Clears everyones target. Useful to stop come2me.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI:NoTarget
+  example: oc !c -NoTarget igw:${Me.Name}
+
+oc !c -ofol--- <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  also: -OFolDecDistance, -ofol--
+  what: Decreases the distance of OgreFollow.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Movement:FollowDistanceDown
+  example: oc !c -ofol--- igw:${Me.Name}
+
+oc !c -OFolIncDistance <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  also: -ofol++, -ofol-++
+  what: Widens the toon's OgreFollow distances by 2: the minimum and maximum follow distance, and the back-off distance when one is set. Use -ofol--- to narrow them again.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Movement:FollowDistanceUp
+  example: oc !c -OFolIncDistance igw:${Me.Name}
+
+oc !c -OgreBotAPI <who> <apicall> <args>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Call a flat OgreBotAPI verb: the for-who is passed FIRST (every flat verb gates on it), then the rest as ONE argument.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg apicall (string)
+  arg args (rest)
+  runs: OgreBotAPI:${apicall}
+  example: oc !c -OgreBotAPI igw:${Me.Name} NoTarget
+
+oc !c -OgreBotToggleConsoleWindow <who> <value>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Toggles the OgreConsole window.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg value (string, default: TOGGLE): Value
+  runs: OgreBotAPI.Windows:ToggleConsole
+  example: oc !c -OgreBotToggleConsoleWindow ${Me.Name} TOGGLE
+
+oc !c -OgreCommandOB_AP <who> <scriptname> <args>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: NOTE: Uses all parameters. Can not stack this command. Does an OgreCommand ForWho. Parameter 3+ = Parameters.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg scriptname (string): command name
+  arg args (rest)
+  runs: OgreBotAPI.Bot:OgreCommand
+  example: oc !c -OgreCommandOB_AP igw:${Me.Name} tempadorns
+
+oc !c -OgreConsole_Show <who> <value>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Opens the OgreConsole window when value is TRUE or blank; any other value, such as FALSE, closes it. It works before the character is in the world.
+  arg who (forwho, default: auto): Who acts - leave blank to use the For Who window.
+  arg value (string, default: TRUE)
+  runs: OgreBotAPI.Windows:ShowConsole
+  example: oc !c -OgreConsole_Show all TRUE
+
+oc !c -OgreCraft_AddLastScribedRecipe <who> <iquantity>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Queue the recipe you scribed most recently.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg iquantity (string, default: 1): Quantity
+  runs: OgreBotAPI.Craft:AddLastScribedRecipe
+  example: oc !c -OgreCraft_AddLastScribedRecipe ${Me.Name} 5
+
+oc !c -OgreCraft_AddRecipe <who> <iquantity> <recipename>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Add a recipe to the craft queue: its name (the rest of the line - names have spaces), its ID, or lastknownrecipe (the recipe you scribed last).
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg iquantity (int64, default: 1): How many to craft
+  arg recipename (string): Recipe name (quote a name with spaces), recipe ID, or lastknownrecipe
+  runs: OgreBotAPI.Craft:AddRecipe
+  example: oc !c -OgreCraft_AddRecipe ${Me.Name} 10 lastknownrecipe
+
+oc !c -OgreCraft_CompleteNavigation <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Scripters: tell a waiting craft that your script moved it (it re-checks the distance).
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Craft:CompleteNavigation
+  example: oc !c -OgreCraft_CompleteNavigation ${Me.Name}
+
+oc !c -OgreCraft_CraftQueue <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Start crafting the queue.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Craft:Start
+  example: oc !c -OgreCraft_CraftQueue ${Me.Name}
+
+oc !c -OgreCraft_DeferNavigation <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Scripters: hand a waiting craft walk back to craft (it moves itself).
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Craft:DeferNavigation
+  example: oc !c -OgreCraft_DeferNavigation ${Me.Name}
+
+oc !c -OgreCraft_ScribeRecipe <who> <recipename>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Scribe scribeable scrolls in your bags (blank/all = every one).
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg recipename (string, default: all): Scroll name (quote a name with spaces) OR all
+  runs: OgreBotAPI.Craft:ScribeRecipe
+  example: oc !c -OgreCraft_ScribeRecipe ${Me.Name} all
+
+oc !c -OgreCraft_StartLLL <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Start Low Level Leveling - the Low Level Leveling tab settings.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Craft:StartLLL
+  example: oc !c -OgreCraft_StartLLL ${Me.Name}
+
+oc !c -OgreCraft_StartQuest <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Craft the current quest’s recipe steps - one of each per pass, re-reading the quest, until none is pending.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Craft:StartQuest
+  example: oc !c -OgreCraft_StartQuest ${Me.Name}
+
+oc !c -OgreCraft_StartTinker <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Start Auto Tinkering - the Auto Tinkering tab settings.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Craft:StartTinker
+  example: oc !c -OgreCraft_StartTinker ${Me.Name}
+
+oc !c -OgreCraft_StartWrits <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Start crafting writs (rush orders) - the Writs tab settings.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Craft:StartWrits
+  example: oc !c -OgreCraft_StartWrits ${Me.Name}
+
+oc !c -OgreCraft_Stop <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Stop the crafting run (queue, writs, quest, Low Level Leveling or Auto Tinkering). With nothing running it says so and drops a pause.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Craft:Stop
+  example: oc !c -OgreCraft_Stop ${Me.Name}
+
+oc !c -ogrefollow <who> <whotofollow> <mindistance> <maxdistance> <breakonfollow> <backoffdistance>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  also: -ofollow, -ofol
+  what: Ogre Follow Default.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg whotofollow (string, default: ${Me.Name}): Who to follow
+  arg mindistance (float, default: 8): Min Distance
+  arg maxdistance (float, default: 200): Max Distance
+  arg breakonfollow (bool, default: FALSE): Break on follow
+  arg backoffdistance (float, default: 0): Back off distance - back up while closer than this to the one you follow (0 = off)
+  runs: OgreBotAPI.Movement:Follow
+  example: oc !c -ogrefollow igw:${Me.Name} ${Me.Name} 8 200 FALSE 0
+
+oc !c -OgreZoneForceReset <who> <zonename>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: FORCE resets one zone lockout. SPENDS ONE OF YOUR LIMITED RESET CHARGES and cannot be undone.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg zonename (string): Exact zone name as the Zone Reuse window shows it.
+  runs: OgreBotAPI.Zone:ForceReset
+  example: oc !c -OgreZoneForceReset ${Me.Name} "${Zone.Name}"
+
+oc !c -OK_Button <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Presses OK to a pop up that has OK.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Windows:OK
+  example: oc !c -OK_Button igw:${Me.Name}
+
+oc !c -OpenAndBuyFromMerchant <who> <merchantname> <itemname> <value>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Opens the nearest merchant whose name contains the merchant name (when no merchant window is open), then buys the quantity of the item and accepts the purchase confirmation. Runs in the action queue, and prints a console line when the window never opens or the merchant does not sell the item.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg merchantname (string)
+  arg itemname (string)
+  arg value (string, default: 1)
+  runs: OgreBotAPI.Merchant:OpenAndBuy
+  example: oc !c -OpenAndBuyFromMerchant ${Me.Name} ${Target.Name} "Bundle of Arrows" 1
+
+oc !c -OpenAndBuyFromMerchantXTimes <who> <merchantname> <itemname> <value> <timestobuy>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Same as -OpenAndBuyFromMerchant, repeated timestobuy times. A blank merchant or item name, or a count below 1, is refused with a console line.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg merchantname (string)
+  arg itemname (string)
+  arg value (string, default: 1)
+  arg timestobuy (string, default: 1)
+  runs: OgreBotAPI.Merchant:OpenAndBuyXTimes
+  example: oc !c -OpenAndBuyFromMerchantXTimes ${Me.Name} ${Target.Name} "Bundle of Arrows" 1 5
+
+oc !c -Overseer_AddAgentsToCollection <who> <destroy>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Adds Agents to your overseer collection. Destroys if duplicates.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg destroy (string, default: TRUE): Destroy if duplicate. TRUE or FALSE
+  runs: OgreBotAPI.Overseer:AddAgents
+  example: oc !c -Overseer_AddAgentsToCollection ${Me.Name} TRUE
+
+oc !c -Overseer_AutoAddOverseerQuests <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Uses the Overseer mission scrolls in your bags to add their quests to your Overseer quest list.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Overseer:AutoAddQuests
+  example: oc !c -Overseer_AutoAddOverseerQuests ${Me.Name}
+
+oc !c -Overseer_BuyMissions <who> <args>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  also: -BuyOverseerMissions
+  what: Buys Overseer missions from the merchant you are standing at (or a nearby Administrator Agent), then scribes them. Each character uses its own Overseer tab options unless you pass flags.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg args (rest): Optional overrides: -s <season 1-7> -c <Any|Blue|Yellow|Purple|Green> -n <different recipes> -a <of each, max 20> -noscribe -destroy -replenishonly
+  runs: OgreBotAPI.Overseer:BuyMissions
+  example: oc !c -Overseer_BuyMissions igw:${Me.Name}
+
+oc !c -Overseer_CheckQuests <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Runs Overseer scan.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Overseer:CheckQuests
+  example: oc !c -Overseer_CheckQuests ${Me.Name}
+
+oc !c -PackPony <who> <forcecheck>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Checks your packpony based off Ogrebot packpony tab. ** Ogre keeps track of when it was run last. TRUE makes it run again no matter what.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg forcecheck (string, default: FALSE): Force it to run
+  runs: OgreBotAPI.Inventory:CheckPackPony
+  example: oc !c -PackPony igw:${Me.Name} TRUE
+
+oc !c -Path <who> <name>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Walks a saved path of the zone you are in, point by point. It runs while OgreBot is paused, and waits through a fight or a death. A point that does not resolve stops it before anything moves.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg name (string): The path's name, in any case. IE: autohuntpath1
+  runs: OgreBotAPI.Paths:Start
+  example: oc !c -Path igw:${Me.Name} autohuntpath1
+
+oc !c -PathStop <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Stops the path being walked. The toon stands where it is.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Paths:Stop
+  example: oc !c -PathStop igw:${Me.Name}
+
+oc !c -pause <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Pauses all the bots.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Bot:Pause
+  example: oc !c -pause igw:${Me.Name}
+
+oc !c -PetAssist <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Sends the game's pet autoassist command, so the pet assists its owner.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Pet:Assist
+  example: oc !c -PetAssist igw:${Me.Name}
+
+oc !c -petattack <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  also: -PetOn, -pet_on, -pet-on, -pet-attack, -pet_attack
+  what: Everyone does a pet attack command.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Pet:Attack
+  example: oc !c -petattack igw:${Me.Name}
+
+oc !c -PetGetLost <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Sends the game's pet get lost command, dismissing the toon's pet.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Pet:GetLost
+  example: oc !c -PetGetLost igw:${Me.Name}
+
+oc !c -PetOff <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  also: -pet_off, -pet-off
+  what: Everyone does a pet back off command.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Pet:Off
+  example: oc !c -PetOff igw:${Me.Name}
+
+oc !c -POI_Add <name> <x> <y> <z> <sender>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Saves a named point of interest in the zone you are in, where you stand or at x y z. The name then works with -TravelMesh and wherever a location does. Only the box that sends the line saves it, and every box on this PC can use it.
+  arg name (string): The name. It cannot be empty, hold a comma or read as a number. IE: "Quest giver"
+  arg x (string): X, or leave blank for where you stand
+  arg y (string): Y
+  arg z (string): Z
+  arg sender (string, default: ${Me.Name}): The box that saves it. Leave this out: it is the box that sent the line.
+  runs: OgreBotAPI.POI:Add
+  example: oc !c -POI_Add "Quest giver"
+
+oc !c -Poison_AutoConsume <who> <value> <potion>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Modifies Poison AutoConsume based on Parameter 2 input.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg value (string, default: TRUE): Value. Options are: TRUE. FALSE. TOGGLE. REPORT
+  arg potion (string): Poison name: Cerebral Caustic Poison, or Cerebral Hemotoxin for an assassin or brigand. Left blank, the configured stat potion is used instead.
+  runs: OgreBotAPI.Inventory:AutoConsumeStatPotions
+  example: oc !c -Poison_AutoConsume igw:${Me.Name} TRUE "Cerebral Caustic Poison"
+
+oc !c -Poison_Replenish <who> <potion>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Replenishes Poison from the depot.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg potion (string): Poison name: Cerebral Caustic Poison, or Cerebral Hemotoxin for an assassin or brigand. Left blank, the configured stat potion is pulled instead.
+  runs: OgreBotAPI.Consumables:ReplenishStatPotions
+  example: oc !c -Poison_Replenish igw:${Me.Name} "Cerebral Caustic Poison"
+
+oc !c -PortalToGuildHall <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  also: -ToGuild
+  what: Relays to use Magic Door to Guild Hall
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Travel:ToGuildHall
+  example: oc !c -PortalToGuildHall igw:${Me.Name}
+
+oc !c -ProvingGrounds_Exit <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Exits Proving Grounds. If in a match will exit the match. If in the lobby will exit the lobby.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Windows:ProvingGroundsExit
+  example: oc !c -ProvingGrounds_Exit igw:${Me.Name}
+
+oc !c -ProvingGrounds_Scoreboard_Close <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Closes the Proving Grounds scoreboard.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Windows:ProvingGroundsScoreboardClose
+  example: oc !c -ProvingGrounds_Scoreboard_Close igw:${Me.Name}
+
+oc !c -Pushover <who> <args>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Sends a Pushover notification using the Pushover keys saved on this PC; every word that is not a flag becomes the message, and -title <text> and -priority <number> are read. -sound, -device, -retry and -expire are accepted but ignored with a console note, and nothing is sent when no message is given, the keys are not set up, or Pushover's disable-all box is ticked.
+  arg who (forwho, default: is1): Who to target - leave blank to use the For Who window.
+  arg args (rest)
+  runs: OgreBotAPI.Comms:Pushover
+  example: oc !c -Pushover ${Me.Name} -title Raid "Named is up"
+
+oc !c -Question <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Collects the nearest `?` shiny within 10 meters. The harvest-node twin is -Resource.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Session:CollectShiny
+  example: oc !c -Question ${Me.Name}
+
+oc !c -RaidAuth <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Authorizes everyone in your raid to each other on their IRC bridges, and nobody outside it. Your bridge asks once; each PC in the raid answers once with -AIIR. Anyone in the raid may ask.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window. Several characters on one PC still ask only once.
+  runs: OgreBotAPI.Comms:IrcRaidAuth
+  example: oc !c -RaidAuth ${Me.Name}
+
+oc !c -RaidInvite <who> <invitewho>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Meant to send a raid invite to invitewho, but today it sends a group invite exactly like -Invite, because the raidinvite TRUE it passes is never read. A player already in the group or raid is skipped.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg invitewho (string)
+  runs: OgreBotAPI.Roster:RaidInvite
+  example: oc !c -RaidInvite ${Me.Name} ${Target.Name} TRUE
+
+oc !c -RaidUnauth <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Every IRC bridge in your raid removes the nicks it authorized through Auth raid (or -AIIR) and says who. Nicks authorized by hand and the bridge's own nick stay.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window. Several characters on one PC still ask only once.
+  runs: OgreBotAPI.Comms:IrcRaidUnauth
+  example: oc !c -RaidUnauth ${Me.Name}
+
+oc !c -RawCommandOB_AP <who> <args>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  also: -RawCommandRequiresOgreBot_AllParams, -RawCommand
+  what: Runs the rest of the line as a console command on each matched toon, exactly as typed, and shows it in the OgreConsole. OgreBot does not need to be running.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg args (rest)
+  runs: OgreBotAPI.Bot:RawCommand
+  example: oc !c -RawCommandOB_AP igw:${Me.Name} eq2execute pet getlost
+
+oc !c -Rebuff <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  also: -FullRebuff
+  what: Tells [Bots] to cancel all buffs. Only cancels abilities in your spell book.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Abilities:Rebuff
+  example: oc !c -Rebuff igw:${Me.Name}
+
+oc !c -RedeemKrono <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  also: -ConsumeKrono, -Krono
+  what: Redeems a Krono.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Inventory:RedeemKrono
+  example: oc !c -RedeemKrono ${Me.Name}
+
+oc !c -Reload_Bot <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  also: -ReloadBot
+  what: Reloads Ogrebot.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Bot:Reload
+  example: oc !c -Reload_Bot all
+
+oc !c -ReloadOgreIRC <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Reloads the IRC config on the uplink and reconnects if already connected.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Comms:IrcReload
+  example: oc !c -ReloadOgreIRC all
+
+oc !c -RemoveNoOffensiveOn <who> <mobname>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Removes a mob name from the no-offensive list.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg mobname (string, default: DoesNotExist)
+  runs: OgreBotAPI.Combat:RemoveNoOffensive
+  example: oc !c -RemoveNoOffensiveOn igw:${Me.Name} "${Target.Name}"
+
+oc !c -RepairGear <who> <force>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  also: -Repair
+  what: Uses a repairer or repair bot. Parameter 1 - Forwho. Parameter 2 - Force Repair. Default FALSE.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg force (string, default: FALSE)
+  runs: OgreBotAPI.Merchant:Repair
+  example: oc !c -RepairGear igw:${Me.Name} FALSE
+
+oc !c -ReplyDialog <who> <choice>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Makes a choice in the replydialog window
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg choice (string, default: 1): Choice
+  runs: OgreBotAPI.Windows:Reply
+  example: oc !c -ReplyDialog igw:${Me.Name} 2
+
+oc !c -ReplyDialogClose <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Closes the reply dialog (the NPC conversation window) if one is open. Does nothing when none is open.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Windows:ReplyClose
+  example: oc !c -ReplyDialogClose igw:${Me.Name}
+
+oc !c -Res <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Turns ressing back on: unchecks Disable CS_Res, so the Cast Stack's Res entries run again.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Session:Res
+  example: oc !c -Res igw:${Me.Name}
+
+oc !c -Research_Material_Check <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Examines each Research Material item in your bags (Advancement, Companion, Mount, Tradeskill, Upgrade and General) and picks the first research option it offers. A type that shows No Eligible Research is skipped with a console line.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Util:CheckResearchMaterials
+  example: oc !c -Research_Material_Check ${Me.Name}
+
+oc !c -ResetActorsLooted <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Ogrebot only tries to loot each chest once. This will reset it.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Loot:ResetLootedActors
+  example: oc !c -ResetActorsLooted igw:${Me.Name}
+
+oc !c -ResetCameraAngle <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Resets your Camera Angle.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Client:ResetCamera
+  example: oc !c -ResetCameraAngle igw:${Me.Name}
+
+oc !c -ResetZone <who> <zonename>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Resets the reuse timer of the named zone, first loading the Zone Reuse window if the toon has no zone data yet. It runs as a short queued action; a blank zone name does nothing.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg zonename (string)
+  runs: OgreBotAPI.Zone:ResetZone
+  example: oc !c -ResetZone igw:${Me.Name} "${Zone.Name}"
+
+oc !c -Resource <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Clicks the nearest Resource.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Session:Harvest
+  example: oc !c -Resource ${Me.Name}
+
+oc !c -ResStone <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Priests cast their resurrection stone spell. Other classes do nothing.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Session:ResStone
+  example: oc !c -ResStone igw:${Me.Name}
+
+oc !c -resume <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Resumes all the bots.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Bot:Resume
+  example: oc !c -resume igw:${Me.Name}
+
+oc !c -Revive <who> <option> <exactmatch>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Presses Revive on the death window, or picks a revive point first.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg option (string, default: 0): Where to revive: 0 = the death window's default Revive button; a row number; or the revive point's name, e.g. Entrance (a point the window does not list = the last revive point it lists, said with the points it has)
+  arg exactmatch (string, default: FALSE): TRUE = the name must equal the revive point's name; FALSE = the point's name contains it
+  runs: OgreBotAPI.Session:Revive
+  example: oc !c -Revive igw:${Me.Name} 0 FALSE
+
+oc !c -Run <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Sets running. Presses the run toggle only if the character is walking.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Movement:SetRunMode
+  example: oc !c -Run igw:${Me.Name}
+
+oc !c -RunScriptOB <who> <scriptname> <args>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  also: -RunScriptRequiresOgreBot, -rsob
+  what: Runs a script ForWho. Parameter 3+ = Parameters.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg scriptname (string): ScriptName
+  arg args (rest)
+  runs: OgreBotAPI.Bot:RunScript
+  example: oc !c -RunScriptOB igw:${Me.Name} MyScript arg1
+
+oc !c -Scribe_Empyral <who> <namefilter>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  also: -Scribe
+  what: Scribes Empyral books in your inventory.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg namefilter (string, default: Empyral): Only scribe scribeable items whose name contains this. "*" = everything scribeable.
+  runs: OgreBotAPI:Scribe_Empyral
+  example: oc !c -Scribe_Empyral igw:${Me.Name} Empyral
+
+oc !c -ScrollOf <who> <name> <value> <usebest>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Uses a Scroll Of ___. Example: Scroll of Prowess. For best success use 'Thaumic Scroll of _____'.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg name (string, default: Prowess): Scroll Name. Shortform of Prowess or Pain or Power or PowerLink is acceptable
+  arg value (int64, default: 0): If duration less than this cancel it first. Leave blank or 0 to disable
+  arg usebest (string, default: FALSE)
+  runs: OgreBotAPI.Consumables:ScrollOf
+  example: oc !c -ScrollOf ${Me.Name} Prowess 0 TRUE
+
+oc !c -Select_Window_AP <who> <args>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Picks an option in the select window on screen by number or exact text (-substring matches part of it), then clicks OK. -test selects without OK, -reportonly only reports the option number, -spew lists the options, and with no select window open it prints a line and does nothing.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg args (rest)
+  runs: OgreBotAPI.Windows:Select
+  example: oc !c -Select_Window_AP ${Me.Name} -substring Heroic
+
+oc !c -Select_Window_Spew_AP <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Lists the options of the select window on screen to the console, numbered from 1.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Windows:SelectSpew
+  example: oc !c -Select_Window_Spew_AP ${Me.Name}
+
+oc !c -Select_Zone_Version <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Presses OK in the select zone version window. Designed specifically for BoL Heroics.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Zone:SelectVersion
+  example: oc !c -Select_Zone_Version igw:${Me.Name}
+
+oc !c -SellToMerchant <who> <itemname> <value>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Sells the quantity (default 1) of the named item from your inventory to the merchant window that is already open. No item, no merchant window, or an item not in its sell list each get one line.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg itemname (string)
+  arg value (string, default: 1)
+  runs: OgreBotAPI.Merchant:Sell
+  example: oc !c -SellToMerchant ${Me.Name} "Rusty Dagger" 1
+
+oc !c -Set_Allow_HOICon <who> <variablename>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Adds an HO icon id to the allow list: while that list has any entry, the cast stack casts only those Heroic Opportunity abilities whose icon is on it. Abilities with no HO icon are not affected, and left blank it adds icon 0.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg variablename (int64)
+  runs: OgreBotAPI.HOs:AllowIcon
+  example: oc !c -Set_Allow_HOICon ${Me.Name} 12
+
+oc !c -Set_CameraPitch <who> <pitch>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  also: -SetCameraPitch
+  what: Pitches the camera from -75 to 75 (0 is level), switching to third person to do it. Out-of-range values are refused, and a request while one is still running is dropped.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg pitch (string, default: 0)
+  runs: OgreBotAPI.Client:SetCameraPitch
+  example: oc !c -Set_CameraPitch ${Me.Name} 30
+
+oc !c -Set_CampSpotJump_Handle <who> <start> <jump> <end> <completed> <args>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Walk a short route and jump once on the way: start, jump, end, completed (blank = end). Flags: -JumpDistance N, -MaxTimer seconds, -Attempts N, -RetryDelay seconds, -AboveY N, -RunMode walk|run.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg start (string)
+  arg jump (string)
+  arg end (string)
+  arg completed (string)
+  arg args (rest)
+  runs: OgreBotAPI.Movement:JumpRoute
+  example: oc !c -Set_CampSpotJump_Handle ${Me.Name} 100,20,300 110,20,310 120,22,320 125,22,325 -JumpDistance 3
+
+oc !c -Set_Disable_HOICon <who> <variablename>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Adds an HO icon id to the disable list, so the cast stack never casts a Heroic Opportunity ability with that icon. Left blank it adds icon 0.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg variablename (int64)
+  runs: OgreBotAPI.HOs:DisableIcon
+  example: oc !c -Set_Disable_HOICon ${Me.Name} 24
+
+oc !c -Set_DisableAllAOEs_AllParams <who> <args>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: TRUE (default) stops AE casting: it ticks the ignore PBAE, encounter nuke and counter-ability boxes, casts your single-target focus ability and cancels your class's AE-proccing buffs, while FALSE unticks the boxes and cancels the focus. -allowcounters keeps counter abilities and buffs, -AllowEncounters leaves the encounter nuke box alone, and -verbose announces each change.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg args (rest)
+  runs: OgreBotAPI.Abilities:SetAOEsDisabled
+  example: oc !c -Set_DisableAllAOEs_AllParams igw:${Me.Name} TRUE -allowcounters
+
+oc !c -set_Internalvariable <who> <variablename> <variablevalue>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Stores the value under the name in the bot's internal variable store on this session, read back with ${OgreBotAPI.Vars.GetInternal[name]}. A blank name does nothing.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg variablename (string)
+  arg variablevalue (string)
+  runs: OgreBotAPI.Vars:SetInternal
+  example: oc !c -set_Internalvariable ${Me.Name} PullCount 3
+
+oc !c -set_variable <who> <variablename> <variablevalue>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Stores the value under the name in the script variable store on this session, read back with ${OgreBotAPI.Vars.Get[name]}. A blank name does nothing.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg variablename (string)
+  arg variablevalue (string)
+  runs: OgreBotAPI.Vars:Set
+  example: oc !c -set_variable igw:${Me.Name} Phase 2
+
+oc !c -SetAccessLevel <who> <value> <silent>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Set this session's access level (0 up to your account's level).
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg value (string, default: 0)
+  arg silent (string, default: FALSE)
+  runs: OgreBotAPI.Access:SetLevel
+  example: oc !c -SetAccessLevel ${Me.Name} 0
+
+oc !c -SetAutoLootMode <who> <value>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Sets this character's own auto-loot mode through the game's /setautolootmode: 0 none, 1 auto greed, 2 auto decline. A blank value sends 0.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg value (string): 0 (none), 1 (greed) or 2 (decline), or AN, AG or AD
+  runs: OgreBotAPI.Loot:SetAutoLootMode
+  example: oc !c -SetAutoLootMode igw:${Me.Name} 1
+
+oc !c -SetCS_BehindNPC <who> <nameorid> <distance> <skipifaggro>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Moves your camp spot to a point behind an NPC, distance away from it. A blank NPC means your NPC target, and skipifaggro TRUE leaves the camp spot alone while you hold that NPC's aggro.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg nameorid (string): The NPC to position on (a name or an actor id) - leave blank for your NPC target: your target, or your target's target
+  arg distance (string, default: 3)
+  arg skipifaggro (string, default: FALSE)
+  runs: OgreBotAPI.CampSpot:SetLocBehindActor
+  example: oc !c -SetCS_BehindNPC igw:${Me.Name} ${Target.ID} 4 FALSE
+
+oc !c -SetCS_InFrontNPC <who> <nameorid> <distance> <skipifaggro>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Moves your camp spot to a point in front of an NPC, distance away from it. A blank NPC means your NPC target, and skipifaggro TRUE leaves the camp spot alone while you hold that NPC's aggro.
+  arg who (forwho, default: fighter): Who to target - leave blank to use the For Who window.
+  arg nameorid (string): The NPC to position on (a name or an actor id) - leave blank for your NPC target: your target, or your target's target
+  arg distance (string, default: 3)
+  arg skipifaggro (string, default: FALSE)
+  runs: OgreBotAPI.CampSpot:SetLocInFrontOfActor
+  example: oc !c -SetCS_InFrontNPC ${Me.Name} ${Target.ID} 3 TRUE
+
+oc !c -SetCS_NPC <who> <angle> <nameorid> <distance> <skipifaggro>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Moves your camp spot to a point at an angle around an NPC, measured from the way it faces: angle 0 is the -SetCS_BehindNPC side and 180 the -SetCS_InFrontNPC side. Unlike those two, the distance also adds the NPC's body size, so the same distance lands further out.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg angle (string, default: 0)
+  arg nameorid (string): The NPC to position on (a name or an actor id) - leave blank for your NPC target: your target, or your target's target
+  arg distance (string, default: 3)
+  arg skipifaggro (string, default: FALSE)
+  runs: OgreBotAPI.CampSpot:SetLocAtAngleFromActor
+  example: oc !c -SetCS_NPC igw:${Me.Name} 90 ${Target.ID} 5 FALSE
+
+oc !c -SetCS_PositionNPC <who> <nameorid> <distance> <skipifaggro>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Moves your camp spot next to an NPC by role: fighters take a spot in front of it, everyone else a spot behind it, distance away. A blank NPC means your NPC target, and skipifaggro TRUE leaves the camp spot alone while you hold that NPC's aggro.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg nameorid (string): The NPC to position on (a name or an actor id) - leave blank for your NPC target: your target, or your target's target
+  arg distance (string, default: 3)
+  arg skipifaggro (string, default: FALSE)
+  runs: OgreBotAPI.CampSpot:SetLocByRole
+  example: oc !c -SetCS_PositionNPC igw:${Me.Name} ${Target.ID} 3 FALSE
+
+oc !c -SetNoDefensive <who> <trueorfalse>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: TRUE (default) turns on the no-defensive switch, which stops the bot casting beneficial abilities. FALSE turns it off, clearing every reason anything set it for.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg trueorfalse (bool, default: TRUE)
+  runs: OgreBotAPI.Combat:SetNoDefensive
+  example: oc !c -SetNoDefensive igw:${Me.Name} TRUE
+
+oc !c -SetNoOffensive <who> <value> <reason>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Toggle the global no-offensive latch (stops ALL offensive - casts and auto-attack). TRUE = on, FALSE = off; optional reason key.
+  arg who (forwho, default: auto): Who to target - blank uses the For Who window.
+  arg value (string, default: TRUE): TRUE to stop offensive, FALSE to allow.
+  arg reason (string): Optional reason key (blank = 'manual'). FALSE + blank clears all reasons.
+  runs: OgreBotAPI.Combat:SetNoOffensive
+  example: oc !c -SetNoOffensive igw:${Me.Name} TRUE mezzed
+
+oc !c -SetNoReqBowAbilities <who> <value>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Sets the no-bow-abilities flag (default TRUE), read back with ${OgreBotAPI.Combat.NoReqBowAbilities}. A word that is not TRUE or FALSE leaves it unchanged.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg value (string, default: TRUE)
+  runs: OgreBotAPI.Combat:SetNoReqBowAbilities
+  example: oc !c -SetNoReqBowAbilities igw:${Me.Name} TRUE
+
+oc !c -SetUpFor <who> <chat> <restart>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Sets up for an encounter: the named mob given, or with it blank the nearest or engaged named in this zone.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg chat (string): Name of the mob to set up for, for example Dagrin. Blank uses the nearest or engaged named in this zone.
+  arg restart (bool, default: TRUE): TRUE: a setup already running starts again from the top, like pressing the setup button. FALSE: a setup already running is left alone (how the Instance Controller calls it).
+  runs: OgreBotAPI.Bot:SetUpFor
+  example: oc !c -SetUpFor igw:${Me.Name} "${Target.Name}" TRUE
+
+oc !c -ShareAllMissions <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Shares all mission quests. Only shares if everyone in group is nearby.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Quest:ShareAllMissions
+  example: oc !c -ShareAllMissions ${Me.Name}
+
+oc !c -ShareMission <who> <value>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Shares a mission quest. Only shares if everyone in group is nearby.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg value (string): Quest name
+  runs: OgreBotAPI.Quest:ShareMission
+  example: oc !c -ShareMission ${Me.Name} "Zone Mission"
+
+oc !c -ShareQuest <who> <value>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Shares a quest. This has very limited checks.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg value (string): Quest name
+  runs: OgreBotAPI.Quest:ShareQuest
+  example: oc !c -ShareQuest ${Me.Name} "A Lost Shipment"
+
+oc !c -ShareQuestsForZone <who> <value>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Toon will share any quests for their current zone. You can specify a name to have them share instead of group leader. Use ${Me.Name} for the character pressing the MCP button.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg value (string)
+  runs: OgreBotAPI.Zone:ShareQuestsForZone
+  example: oc !c -ShareQuestsForZone igw:${Me.Name} ${Me.Name}
+
+oc !c -ShowAvailableSetups <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  also: -Show_Available_Set_ups
+  what: Prints the encounter coding for the current zone in the console, one line per fight.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Encounter:List
+  example: oc !c -ShowAvailableSetups ${Me.Name}
+
+oc !c -ShowWikiForQuest <who> <questname>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Opens wiki for a quest.
+  arg who (forwho, default: is1): Who to target - leave blank to use the For Who window.
+  arg questname (string): Questname. If blank uses your currently active quest
+  runs: OgreBotAPI.Quest:ShowWiki
+  example: oc !c -ShowWikiForQuest ${Me.Name} "A Lost Shipment"
+
+oc !c -SmartLoot_ReloadDataFromFile <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Re-reads the smart loot data (item loot limits and each character's loot counts) from file on the matched toons. While loot hand-outs are still in progress, the character counts wait until they finish.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Loot:Reload
+  example: oc !c -SmartLoot_ReloadDataFromFile all
+
+oc !c -Special <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  also: -SpecialForWho
+  what: Clicks the nearest special.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI:Special
+  example: oc !c -Special igw:${Me.Name}
+
+oc !c -SpecialZoneSpecific <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  also: -SpecialZS
+  what: Clicks the nearest special that is specifically coded for that zone. If one doesn't exist - clicks the nearest special.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Zone:SpecialZoneSpecific
+  example: oc !c -SpecialZoneSpecific igw:${Me.Name}
+
+oc !c -Spew_BoZ_Research <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Opens the research window if it is not up, waits for it to fill, broadcasts every row as label -> status, then closes the window. It is queued behind other actions, and prints a console line when the window has no rows.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Debug:SpewResearchWindow
+  example: oc !c -Spew_BoZ_Research ${Me.Name}
+
+oc !c -Spew_MissionTimerInfo_AP <who> <args>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Queues a read of the quest journal's Mission Timers tab and posts one OgreConsole line per mission whose name contains any of your search words, with its reset time and whether it is completed. With no search word it prints only a note asking for one.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg args (rest)
+  runs: OgreBotAPI.Quest:SpewMissionTimers
+  example: oc !c -Spew_MissionTimerInfo_AP igw:${Me.Name} Weekly
+
+oc !c -Spew_RelayGroup <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  also: -RelayGroups_Spew
+  what: Sends this session's relay group name to every session in this PC's relay group, shown in OgreConsole.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Comms:SpewRelayGroup
+  example: oc !c -Spew_RelayGroup all
+
+oc !c -SpewFlags <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Posts one OgreConsole line per flag this character holds, as '<name> Flagged <number>', and nothing when it holds none. A marked character also lists flag 24, because the mark is kept as flag 24.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Roster:SpewFlags
+  example: oc !c -SpewFlags igw:${Me.Name}
+
+oc !c -SpewStat <who> <type> <value> <where>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  also: -SpewStats
+  what: Displays a specific stat for all your toons.
+  arg who (forwho, default: auto): Who to report - blank uses the For Who window.
+  arg type (string, default: -stat): What kind of stat to report.
+  arg value (string): The stat key / item name / ability name or id (blank for -marked).
+  arg where (string, default: oc): Where to report.
+  runs: OgreBotAPI.Debug:BroadcastStat
+  example: oc !c -SpewStat all -stat potency oc
+
+oc !c -SpewSubscriptionStatus <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  also: -SubscriptionStatus, -SubStatus
+  what: Reads the All-Access button's tooltip in the marketplace window and broadcasts it with a verdict: Good, Need to claim, Need more time, Not a member or Unknown. It opens no window, so it reports Unknown until the marketplace page has been shown.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Debug:SpewSubscriptionStatus
+  example: oc !c -SpewSubscriptionStatus all
+
+oc !c -stand <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: If you are FD you will stand up.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Movement:Stand
+  example: oc !c -stand igw:${Me.Name}
+
+oc !c -StatPotions_AutoConsume <who> <value> <potion>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Modifies stat potions AutoConsume based on Parameter 2 input.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg value (string, default: TRUE): Value. Options are: TRUE. FALSE. TOGGLE. REPORT
+  arg potion (string): Optional. Potion name. Leave blank for the configured stat potion (Planar Elixir of intellect).
+  runs: OgreBotAPI.Inventory:AutoConsumeStatPotions
+  example: oc !c -StatPotions_AutoConsume igw:${Me.Name} TOGGLE
+
+oc !c -StatPotions_Replenish <who> <potion>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Replenishes stat potions from the depot.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg potion (string): Optional. Potion name. Leave blank for the configured stat potion (Planar Elixir of intellect).
+  runs: OgreBotAPI.Consumables:ReplenishStatPotions
+  example: oc !c -StatPotions_Replenish igw:${Me.Name}
+
+oc !c -StopRes <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Turns ressing off: checks Disable CS_Res, so the Cast Stack's Res entries are skipped.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Session:StopRes
+  example: oc !c -StopRes igw:${Me.Name}
+
+oc !c -Summon_Familiar <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Summons your familiar.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Consumables:SummonFamiliar
+  example: oc !c -Summon_Familiar igw:${Me.Name}
+
+oc !c -Target <who> <targetwho>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Targets an actor once. Takes part of a name; me targets yourself.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg targetwho (string, default: ${Me.Name}): Target Name
+  runs: OgreBotAPI:Target
+  example: oc !c -Target igw:${Me.Name} ${Group[1].Name}
+
+oc !c -targetlock <who> <target>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  also: -TargetLock
+  what: Lock targeting to one target (a priority override above auto-target/assist) until cleared. Numeric = actor ID; 'clear'/'0'/'off' releases.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg target (string, default: 0): Target name or actor ID; 'clear'/'0'/'off' to release the lock.
+  runs: OgreBotAPI:TargetLock
+  example: oc !c -targetlock igw:${Me.Name} ${Target.ID}
+
+oc !c -Tell <who> <target> <message>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: The toons named by the first argument (a for-who; left out, the For Who window) send an in-game /tell of message to target. A missing target or message is refused with one console line, and a target or message that contains NULL is not sent - a line on IRC says so instead.
+  arg who (forwho, default: auto): Who sends the tell - leave blank to use the For Who window.
+  arg target (string): The toon to send the tell to
+  arg message (string): The message (quote it when it has spaces)
+  runs: OgreBotAPI.Comms:SendTell
+  example: oc !c -Tell ${Me.Name} ${Group[1].Name} "Ready when you are"
+
+oc !c -TempAdorns <who> <profile>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Applies a saved temp-adornment profile: each gear piece it names gets its temporary adornment, even one that still has it. `ogre tempadorns` opens the window that makes and saves profiles (CBOC, Pot and HP come ready-made).
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg profile (string): The profile to apply - its name as saved in the Temp Adornments window (`ogre tempadorns list` prints them)
+  runs: OgreBotAPI.TempAdorns:Apply
+  example: oc !c -TempAdorns igw:${Me.Name} CBOC FALSE
+
+oc !c -ThreatFighterIgnoreList_Add <who> <args>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Adds one or more player names to the threat fighter ignore list: a fighter on it is not counted as a fighter tanking when the bot checks its while-a-fighter-is-tanking limits on force-target and threat-position-increase abilities.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg args (rest)
+  runs: OgreBotAPI.Combat:ThreatIgnoreAdd
+  example: oc !c -ThreatFighterIgnoreList_Add igw:${Me.Name} ${Group[1].Name}
+
+oc !c -ThreatFighterIgnoreList_Clear <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Empties the threat fighter ignore list.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Combat:ThreatIgnoreClear
+  example: oc !c -ThreatFighterIgnoreList_Clear igw:${Me.Name}
+
+oc !c -ThreatFighterIgnoreList_Remove <who> <args>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Removes one or more player names from the threat fighter ignore list.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg args (rest)
+  runs: OgreBotAPI.Combat:ThreatIgnoreRemove
+  example: oc !c -ThreatFighterIgnoreList_Remove igw:${Me.Name} ${Group[1].Name}
+
+oc !c -Timer <who> <time> <slot> <message> <minupdatetimer>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  also: -OnScreenTimer
+  what: Puts a raid timer on-screen. Enter no parameters to see an example!
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg time (string, default: 30): Duration in seconds
+  arg slot (string, default: 1): Slot number. Valid options: 1-10
+  arg message (string, default: Timer:): Message. The timer will be at the end of this message
+  arg minupdatetimer (string, default: 1)
+  runs: OgreBotAPI.Util:OnScreenTimer
+  example: oc !c -Timer all 60 2 Burn: 1
+
+oc !c -ToggleMainWindow <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  also: -Main
+  what: Toggles the main window. Same as pressing Show Main or Hide Main.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Windows:ToggleMain
+  example: oc !c -ToggleMainWindow igw:${Me.Name}
+
+oc !c -ToggleZoneReset <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Loads the Zone Reuse window and reads its table, so the zone reset timers are known and ${OgreBotAPI.Zone.ResetZoneData} can answer. Despite the name it is not a toggle: the window ends closed.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Zone:ResetUpdateInfo
+  example: oc !c -ToggleZoneReset igw:${Me.Name}
+
+oc !c -ToonMarked <who> <where>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Reports who is marked.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg where (string, default: oc)
+  runs: OgreBotAPI.Roster:SpewMarked
+  example: oc !c -ToonMarked igw:${Me.Name} oc
+
+oc !c -Travel <who> <value> <exactmatch> <multiplezoneoption>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  also: -TravelMap
+  what: Clicks a location on the Travel map. IE: When you click a bell. Commas do not work. Use text before or after it. Such as 'the Scourge Wastes'.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg value (string): Name of where you want to go. IE: Qeynos
+  arg exactmatch (string, default: FALSE): Exact match
+  arg multiplezoneoption (string, default: LAST_ENTRY): If multiple zones which zone to go to
+  runs: OgreBotAPI.Travel:Travel
+  example: oc !c -Travel igw:${Me.Name} Qeynos FALSE LAST_ENTRY
+
+oc !c -TravelBell <who> <value> <exactmatch> <multiplezoneoption>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Attempts to click on a bell and clicks a location on the Travel map. Commas do not work. Use text before or after it. Such as 'the Scourge Wastes'.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg value (string): Name of where you want to go. IE: Qeynos
+  arg exactmatch (string, default: FALSE): Exact match
+  arg multiplezoneoption (string, default: LAST_ENTRY): If multiple zones which zone to go to
+  runs: OgreBotAPI.Travel:Bell
+  example: oc !c -TravelBell igw:${Me.Name} Qeynos FALSE LAST_ENTRY
+
+oc !c -TravelDruid <who> <value> <exactmatch> <multiplezoneoption>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Attempts to click on a Druid bush and clicks a location on the Travel map. Commas do not work. Use text before or after it. Such as 'the Scourge Wastes'.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg value (string): Name of where you want to go. IE: Qeynos
+  arg exactmatch (string, default: FALSE): Exact match
+  arg multiplezoneoption (string, default: LAST_ENTRY): If multiple zones which zone to go to
+  runs: OgreBotAPI.Travel:Druid
+  example: oc !c -TravelDruid igw:${Me.Name} Antonica FALSE LAST_ENTRY
+
+oc !c -TravelMesh <who> <destination> <poi>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Plans a route from the zone you are in to the destination zone and travels it, hop by hop. Quote a destination of more than one word: "Qeynos Harbor". The optional point of interest is a named spot inside the destination zone to finish at.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg destination (string): Zone to travel to. IE: Antonica
+  arg poi (string): Optional point of interest in the destination zone. IE: "Druid Rings"
+  runs: OgreBotAPI.Travel:Mesh
+  example: oc !c -TravelMesh igw:${Me.Name} Antonica "Druid Rings"
+
+oc !c -TravelMeshFeatures <who> <flag> <value>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: With no flag: prints the account travel features known for this character and scans any that are unanswered. With a flag and TRUE or FALSE: sets that feature by hand, and it is never re-scanned.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg flag (string): Optional feature flag to set. IE: roc_friends_and_family
+  arg value (string): TRUE or FALSE - only with a flag
+  runs: OgreBotAPI.Travel:MeshFeatures
+  example: oc !c -TravelMeshFeatures ${Me.Name} roc_friends_and_family TRUE
+
+oc !c -TravelMeshGroup <who> <destination> <poi>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Sends your whole group to the destination zone. Every member plans their own route from wherever they are, with staggered starts. Run it on ONE character - it tells the rest of the group itself.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg destination (string): Zone to travel to. IE: Antonica
+  arg poi (string): Optional point of interest in the destination zone. IE: "Druid Rings"
+  runs: OgreBotAPI.Travel:MeshGroup
+  example: oc !c -TravelMeshGroup ${Me.Name} Antonica
+
+oc !c -TravelMeshPreview <who> <destination>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Prints the route the travel mesh would take to the destination zone, one line per hop. Moves nothing.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg destination (string): Zone to plan a route to. IE: Antonica
+  runs: OgreBotAPI.Travel:MeshPreview
+  example: oc !c -TravelMeshPreview ${Me.Name} Antonica
+
+oc !c -TravelMeshStop <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Stops the travel mesh route in progress.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Travel:MeshStop
+  example: oc !c -TravelMeshStop igw:${Me.Name}
+
+oc !c -TravelSpires <who> <value> <exactmatch> <multiplezoneoption>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  also: -TravelSpire
+  what: Attempts to click on a Spire and clicks a location on the Travel map. Commas do not work. Use text before or after it. Such as 'the Scourge Wastes'.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg value (string): Name of where you want to go. IE: Qeynos
+  arg exactmatch (bool, default: FALSE): Exact match
+  arg multiplezoneoption (string, default: LAST_ENTRY): If multiple zones which zone to go to
+  runs: OgreBotAPI.Travel:Spires
+  example: oc !c -TravelSpires igw:${Me.Name} Antonica FALSE LAST_ENTRY
+
+oc !c -TTS <who> <message>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Speaks the message aloud through InnerSpace text-to-speech on this PC. A blank message does nothing.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg message (string)
+  runs: OgreBotAPI.Comms:TTS
+  example: oc !c -TTS ${Me.Name} "Named is up"
+
+oc !c -UnflagAll <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Removes all Flags designation from characters.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Roster:UnflagAll
+  example: oc !c -UnflagAll igw:${Me.Name}
+
+oc !c -UnflagToon <who> <value>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Removes a Flag designation from characters.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg value (string, default: 1): Flag # from 1 to 24
+  runs: OgreBotAPI.Roster:Unflag
+  example: oc !c -UnflagToon ${Me.Name} 3
+
+oc !c -UnmarkToon <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Removes the mark (flag 24) from each selected character.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Roster:Unmark
+  example: oc !c -UnmarkToon ${Me.Name}
+
+oc !c -Unmentor <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Tells [Bots] to unmentor.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Roster:Unmentor
+  example: oc !c -Unmentor igw:${Me.Name}
+
+oc !c -Unpack <who> <itemname> <args>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Unpack an item in your bags. After the item, in any order: -qty N unpacks N of them, -all keeps going until none is left, and -pick <number | name | lowest> says which reward to take when the window offers a choice (lowest = the one you have fewest of in your bags). A reward window that is already open is waited out first, up to 10 seconds.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg itemname (string): The item to unpack, by its full name. Put it in quotes when it has spaces.
+  arg args (rest): Optional: -qty <N> or -all, and -pick <number | name | lowest>
+  runs: OgreBotAPI.Inventory:Unpack
+  example: oc !c -Unpack ${Me.Name} "Overseer Reward Crate" -all
+
+oc !c -Unpack_Consume_Familiars <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Unpacks and adds Familiars to collection if possible otherwise consumes for experience.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Inventory:UnpackConsumeFamiliars
+  example: oc !c -Unpack_Consume_Familiars igw:${Me.Name}
+
+oc !c -Unpack_Familiars <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Unpacks Familiars.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Inventory:UnpackFamiliars
+  example: oc !c -Unpack_Familiars igw:${Me.Name}
+
+oc !c -UpgradeItem <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Upgrades a piece of gear: put the old item in bag 1 slot 1 and the new one in bag 1 slot 2. The old item's adornments are moved onto the new one, the old item goes to the end of bag 1, and the new one is equipped. Both must be for the same slot, and the new one must have no adornments yet.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Inventory:UpgradeItem
+  example: oc !c -UpgradeItem ${Me.Name}
+
+oc !c -UplinkOptionChange <who> <object> <value> <silent>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  also: -UplinkOption, -Uplinkoption_change, -UO
+  what: Changes an OgreBot option in the loaded profile: object is the control id, value the new value. The change is unsaved until the profile is saved. Note: TRUE is not the same as true.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg object (string)
+  arg value (string, default: TRUE)
+  arg silent (bool, default: FALSE)
+  runs: OgreBotAPI.Options:Set
+  example: oc !c -UplinkOptionChange all checkbox_autotarget_enabled TRUE FALSE
+
+oc !c -UplinkOptionSilent <who> <args>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  also: -UOS
+  what: Same as -UplinkOptionChange, but never announces the change. Param 1 = For who; the rest are (control id, value) pairs.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg args (rest)
+  runs: OgreBotAPI.Options:Set
+  example: oc !c -UplinkOptionSilent all checkbox_autotarget_enabled FALSE
+
+oc !c -UseFlag <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Uses a flag from a guild strategist.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI:UseFlag
+  example: oc !c -UseFlag igw:${Me.Name}
+
+oc !c -UseItem <who> <abilityname>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  also: -Use_Item
+  what: Tells [Bots] to Use a specific [Item]. Note - Item names must be exact.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg abilityname (string, default: Nothing): Item to be used
+  runs: OgreBotAPI.Inventory:Use
+  example: oc !c -UseItem igw:${Me.Name} "Totem of the Otter"
+
+oc !c -UseItemOnPlayer <who> <abilityname> <onplayer>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  also: -useitemon, -Use_Item_On_Player
+  what: Tells [Bots] to Use a specific [Item]. Note - Item names must be exact.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg abilityname (string, default: Nothing): Item to be used
+  arg onplayer (string, default: ${Me.Name}): Use item on this player
+  runs: OgreBotAPI.Inventory:UseOnPlayer
+  example: oc !c -UseItemOnPlayer igw:${Me.Name} "Totem of the Otter" ${Group[1].Name}
+
+oc !c -Walk <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Sets walking. Presses the run toggle only if the character is running.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Movement:SetRunMode
+  example: oc !c -Walk igw:${Me.Name}
+
+oc !c -WarnBeforeSave <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Marks that the Instance Controller has run on these characters, so the OgreBot window warns before saving the profile (cleared when a profile is loaded).
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Options:WarnBeforeSave
+  example: oc !c -WarnBeforeSave igw:${Me.Name}
+
+oc !c -Waypoint <who> <x> <y> <z>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Sets the game's waypoint (the in-game /waypoint trail) to the x y z location. All three numbers are required; if one is missing it prints an error and does nothing.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg x (string): X, or the name of a point of interest in this zone
+  arg y (string)
+  arg z (string)
+  runs: OgreBotAPI.Movement:Waypoint
+  example: oc !c -Waypoint ${Me.Name} 125.5 -10.2 340.8
+
+oc !c -Zone <who>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  what: Will attempt to zone you.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  runs: OgreBotAPI.Zone:Zone
+  example: oc !c -Zone igw:${Me.Name}
+
+oc !c -ZoneDoor <who> <dooroption>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  also: -Door, -DoorX, -ZoneDoorOption, -ZoneDoorForWho, -DoorForWho, -DoorXForWho, -ZoneDoorOptionForWho
+  what: When zoning and you have the option to select which zone this will select the one you use as a parameter.
+  arg who (forwho, default: auto): Who acts - leave blank to use the For Who window.
+  arg dooroption (string, default: 1): option to choose
+  runs: OgreBotAPI.Travel:ZoneDoorFor
+  example: oc !c -ZoneDoor igw:${Me.Name} 1
+
+oc !c -ZoneResetAll <who> <ballowraid>
+  kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
+  also: -resetzoneall
+  what: Resets every resettable zone. WARNING: There is no confirmation of any sort. It resets every single zone available.
+  arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
+  arg ballowraid (string, default: FALSE)
+  runs: OgreBotAPI.Zone:ResetAll
+  example: oc !c -ZoneResetAll igw:${Me.Name} FALSE
+

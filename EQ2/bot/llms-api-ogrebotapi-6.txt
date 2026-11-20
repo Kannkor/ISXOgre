@@ -1,0 +1,157 @@
+# OgreBot for EverQuest II - API reference: OgreBotAPI (part 6 of 6)
+
+Plain text for AI assistants, generated from the same tables as the API reference pages (https://kannkor.github.io/ISXOgre/EQ2/bot/developer/api/).
+This file is ONE PIECE: OgreBotAPI (part 6 of 6) - OgreBotAPI.Zone.
+How to read an entry, and every file like this one: https://kannkor.github.io/ISXOgre/EQ2/bot/llms-api.txt
+
+== OgreBotAPI.Zone ==
+
+${OgreBotAPI.Zone.CityRestrictions}
+  kind: member of OgreBotAPI.Zone
+  what: TRUE in one of the bot's 17 city zones, such as The City of Freeport or Qeynos Province District, unless Allow City Casting is ticked. FALSE out of world.
+  returns: bool: TRUE in a listed city with Allow City Casting unticked; FALSE otherwise or out of world.
+  example: echo ${OgreBotAPI.Zone.CityRestrictions}
+  oldbot: OgreBotAPI.CityRestrictions
+
+${OgreBotAPI.Zone.CleanName[name]}
+  kind: member of OgreBotAPI.Zone
+  what: The same cleaned name as Name, made safe for file and setting names: spaces become underscores and the characters , [ ] : ' and ` are removed. Reads "" out of world when no name is passed.
+  arg name (text, default: ${Zone.Name}): a zone name to clean; blank means the zone you are in
+  returns: string: the cleaned zone name with underscores for spaces; "" out of world when no name is given.
+  example: echo ${OgreBotAPI.Zone.CleanName}
+  oldbot: OgreBotAPI.CleanZoneName, Ogre_Instance_Controller.CleanZoneName
+
+${OgreBotAPI.Zone.InGuildHall}
+  kind: member of OgreBotAPI.Zone
+  what: TRUE when the zone's short name contains guildhall, except the Island of Mara Estate (guildhall_mara). FALSE out of world.
+  returns: bool: TRUE in a guild hall; FALSE elsewhere or out of world.
+  example: echo ${OgreBotAPI.Zone.InGuildHall}
+  oldbot: GetInfoOb.InGuildHallZone, Obj_OgreUtilities.InGuildHallZone, OgreBotAPI.InGuildHallZone
+
+${OgreBotAPI.Zone.InHouse}
+  kind: member of OgreBotAPI.Zone
+  what: TRUE when you look to be inside a house: not in a guild hall, and a Magic Door to the Guild Hall or a market bulletin board is in the zone. It is a guess from those two objects; FALSE out of world.
+  returns: bool: TRUE when either object is in the zone and it is not a guild hall; FALSE otherwise or out of world.
+  example: echo ${OgreBotAPI.Zone.InHouse}
+  oldbot: GetInfoOb.InHouseZone, OgreBotAPI.InHouseZone
+
+${OgreBotAPI.Zone.InHouseAccess}
+  kind: member of OgreBotAPI.Zone
+  what: TRUE in one of the eight zones the bot treats as house-access zones: Antonica, Halas, the two Qeynos zones, Timorous Deep, Greater Faydark, Neriak and Freeport. This is the outdoor zone, not the house itself; FALSE out of world.
+  returns: bool: TRUE when the zone's short name is antonica, halas, qeynos_combined01, qeynos_combined02, exp04_rgn_timorous_deep, exp03_rgn_greater_faydark, neriak or freeport_combined; FALSE otherwise or out of world.
+  example: echo ${OgreBotAPI.Zone.InHouseAccess}
+  oldbot: GetInfoOb.InHouseAccessZone, OgreBotAPI.InHouseAccessZone
+
+${OgreBotAPI.Zone.InInstance}
+  kind: member of OgreBotAPI.Zone
+  what: TRUE when the zone name contains a [ (instances are named like that, such as [Heroic] or [Solo]) and you are not in a guild hall. FALSE out of world.
+  returns: bool: TRUE in an instance; FALSE in an open zone, a guild hall, or out of world.
+  example: echo ${OgreBotAPI.Zone.InInstance}
+  oldbot: GetInfoOb.InAInstance, OgreBotAPI.InInstance
+
+${OgreBotAPI.Zone.Name[name]}
+  kind: member of OgreBotAPI.Zone
+  what: The zone name with colour codes and the trailing instance number removed. Every trailing digit and space is stripped, so a name that really ends in a number loses it; "" out of world when no name is passed.
+  arg name (text, default: ${Zone.Name}): a zone name to clean; blank means the zone you are in
+  returns: string: the cleaned zone name; "" out of world when no name is given.
+  example: echo ${OgreBotAPI.Zone.Name}
+  oldbot: OgreBotAPI.ZoneName
+
+${OgreBotAPI.Zone.ResetReady}
+  kind: member of OgreBotAPI.Zone
+  what: TRUE once the Zone Reuse table has been read at least once and no re-read is asked for or running. Wait for it after ResetUpdateInfo before reading ResetZoneData.
+  returns: bool: TRUE when the table is in and not being re-read; FALSE before the first read or while a re-read is pending.
+  example: echo ${OgreBotAPI.Zone.ResetReady}
+  oldbot: OgreBotAPI.ZoneReset_IsReady
+
+${OgreBotAPI.Zone.ResetUpdating}
+  kind: member of OgreBotAPI.Zone
+  what: TRUE while a Zone Reuse re-read is asked for or running.
+  returns: bool: TRUE while a re-read is pending or running; FALSE otherwise.
+  example: echo ${OgreBotAPI.Zone.ResetUpdating}
+  oldbot: OgreBotAPI.ZoneReset_IsUpdating
+
+${OgreBotAPI.Zone.ResetZoneData[zone,field]}
+  kind: member of OgreBotAPI.Zone
+  what: One zone's entry from the Zone Reuse window, as last read by ResetUpdateInfo. A zone that is not in the table reads FALSE, and an unknown field prints a console line and reads FALSE.
+  arg zone (text): the zone name exactly as the Zone Reuse window shows it, any case
+  arg field (text): blank reads TRUE when the zone has an entry; otherwise ZoneName, IsSet (TRUE when its timer state is known), Resettable, TimeLeft (seconds) or TextTimeLeft
+  returns: bool, int64 or string by field: TRUE/FALSE for blank, IsSet and Resettable; seconds for TimeLeft; text for ZoneName and TextTimeLeft. FALSE when the zone is not in the table.
+  example: echo ${OgreBotAPI.Zone.ResetZoneData["${OgreBotAPI.Zone.Name}",Resettable]}
+  oldbot: OgreBotAPI.ZoneReset_Get_ZoneData
+
+OgreBotAPI.Zone:ChampionsResetter[fw, zone]
+  kind: method of OgreBotAPI.Zone
+  what: Resets one zone with your Champion's Zone Lockout Reset item: examines it, then picks the zone in the window it opens. Prints a console line when the item is not in your bags, is on cooldown, or does not list the zone.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg zone (text): the zone name as the item's window lists it
+  example: OgreBotAPI.Zone:ChampionsResetter[${Me.Name},"${OgreBotAPI.Zone.Name}"]
+  oldbot: OgreBotAPI:Champions_Zone_Resetter
+
+OgreBotAPI.Zone:ChangeZoneTo[fw, toWho]
+  kind: method of OgreBotAPI.Zone
+  what: When the group member is in another instance of your zone, sends the game's /zone_to_group_member_zone command for them on this character. A name that is not in your group or a different zone prints a console line; nothing happens when they share your instance.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg toWho (character name): the group member whose instance to join
+  example: OgreBotAPI.Zone:ChangeZoneTo[${Me.Name},${Group[1].Name}]
+  oldbot: OgreBotAPI:ChangeZoneTo, Obj_OgreIH:ChangeZoneTo
+
+OgreBotAPI.Zone:ForceReset[fw, zone]
+  kind: method of OgreBotAPI.Zone
+  what: Presses Force Reset in the Zone Reuse window for one named zone, which uses up one of your limited force-reset charges. A blank zone prints a console line and does nothing.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg zone (text): the zone name as the Zone Reuse window shows it
+  example: OgreBotAPI.Zone:ForceReset[${Me.Name},"${OgreBotAPI.Zone.Name}"]
+
+OgreBotAPI.Zone:ResetAll[fw, allowRaid=FALSE]
+  kind: method of OgreBotAPI.Zone
+  what: Runs the game's reset_all_zone_timers command on each matching character. In a raid it does nothing unless allowRaid is TRUE.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg allowRaid (bool, default: FALSE): TRUE to reset even while in a raid
+  example: OgreBotAPI.Zone:ResetAll[igw:${Me.Name},FALSE]
+  oldbot: OgreBotAPI:ZoneResetAll
+
+OgreBotAPI.Zone:ResetUpdateInfo[fw]
+  kind: method of OgreBotAPI.Zone
+  what: Asks the bot to re-read the Zone Reuse window, which it opens and closes to do so. Asking again while a re-read is pending does nothing extra; ResetUpdating and ResetReady follow it.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Zone:ResetUpdateInfo[${Me.Name}]
+  oldbot: OgreBotAPI:ToggleZoneReuse, Obj_OgreUtilities:ZoneReset_PopulateInternalMemory, OgreBotAPI:ZoneReset_UpdateInfo
+
+OgreBotAPI.Zone:ResetZone[fw, zone]
+  kind: method of OgreBotAPI.Zone
+  what: Resets the lockout timer for one zone on each matching character, opening the Zone Reuse window first when the bot has no zone data yet. A blank zone prints a console line and does nothing.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg zone (text): the zone name as the Zone Reuse window shows it
+  example: OgreBotAPI.Zone:ResetZone[igw:${Me.Name},"${OgreBotAPI.Zone.Name}"]
+  oldbot: OgreBotAPI:ResetZone
+
+OgreBotAPI.Zone:SelectVersion[fw]
+  kind: method of OgreBotAPI.Zone
+  what: Clicks the OK button of the game's select zone version window on each matching character. When the window is not open it prints a console line instead.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Zone:SelectVersion[igw:${Me.Name}]
+  oldbot: OgreBotAPI:Select_Zone_Version
+
+OgreBotAPI.Zone:ShareQuestsForZone[fw, zone=""]
+  kind: method of OgreBotAPI.Zone
+  what: Shares, one at a time after the group has gathered, the Hot Zones missions in your journal that belong to this zone. It works only while you are in that zone, and with for-who all only the group leader shares.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg zone (text, default: ""): the zone the missions are for; blank means the zone you are in. Another zone prints a console line and shares nothing.
+  example: OgreBotAPI.Zone:ShareQuestsForZone[all]
+  oldbot: OgreBotAPI:ShareQuestsForZone, OgreBotAPI:CheckToShareQuest
+
+OgreBotAPI.Zone:SpecialZoneSpecific[fw]
+  kind: method of OgreBotAPI.Zone
+  what: The Special button: in zones with a known puzzle it clicks the puzzle object in reach (a clock, door, brazier, rope, zip line or orb) or hands the press to that zone's fight. Anywhere else it double-clicks the nearest interactable object of a special type.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Zone:SpecialZoneSpecific[igw:${Me.Name}]
+  oldbot: OgreBotAPI:SpecialZoneSpecific, call Obj_OgreIH.ZoneSpecialwait, call Object_Instance_Inherit.ZoneSpecialwait
+
+OgreBotAPI.Zone:Zone[fw]
+  kind: method of OgreBotAPI.Zone
+  what: Double-clicks the nearest zone exit on each matching character: an object named with exit, else with zone_, else the nearest door, else a NoKill NPC within 30 meters. Does nothing in a guild hall.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Zone:Zone[igw:${Me.Name}]
+  oldbot: OgreBotAPI:Zone
+

@@ -1,0 +1,1840 @@
+# OgreBot for EverQuest II - documentation, Developers (part 11 of 14)
+
+OgreBot is in beta testing. For OgreBot Classic see https://kannkor.github.io/ISXOgre/EQ2/
+This file is ONE PIECE of the documentation: Developers (part 11 of 14) - Developers - API reference - ISXOgreEQ2; Developers - API reference; Developers - API reference - Commands.
+The entire documentation in one document: https://kannkor.github.io/ISXOgre/EQ2/bot/llms-full.txt
+Index of every page and of every file like this one: https://kannkor.github.io/ISXOgre/EQ2/bot/llms.txt
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Tour.md
+
+# ISXOgreEQ2.Tour
+
+## Methods
+
+### `Close`
+
+`ISXOgreEQ2.Tour:Close`
+
+Closes the New User Tour window, and its intro if that is still playing. The tour is not marked as seen, so it opens by itself again on the next load.
+
+```text
+ISXOgreEQ2.Tour:Close
+```
+
+### `Done`
+
+`ISXOgreEQ2.Tour:Done`
+
+Marks the New User Tour finished: prints 'tour: completed', saves it as seen so it no longer opens on load, and closes the window, then starts the Migration Assistant's automatic run, which copies any OldBot settings files that have no new copy yet and shows a progress window only when something is copied. A call when the tour is not open does nothing.
+
+```text
+ISXOgreEQ2.Tour:Done
+```
+
+### `Open`
+
+`ISXOgreEQ2.Tour:Open`
+
+Opens the New User Tour, the same as `ogre tour`: a short walkthrough of three window controls (drag to resize, right-click the title bar, Save Position), which also opens by itself on first load until it has been finished or skipped. It hides the InnerSpace console if that is showing and prints 'tour opened', and it does nothing while the tour is already up.
+
+```text
+ISXOgreEQ2.Tour:Open
+```
+
+### `Skip`
+
+`ISXOgreEQ2.Tour:Skip`
+
+Skips the New User Tour: prints 'tour: skipped', saves it as seen so it no longer opens on load, closes the window and, like Tour:Done, starts the Migration Assistant's automatic run of any OldBot settings not yet copied. A call when the tour is not open does nothing.
+
+```text
+ISXOgreEQ2.Tour:Skip
+```
+
+### `Step`
+
+`ISXOgreEQ2.Tour:Step[step]`
+
+Called by the tour window when it moves to a new step, and all it does is print 'tour: advanced to step N' to the console. Nothing is saved and the tour window does not change, so a script has no reason to call it.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `step` | int | `0` | the step number to print (the tour has steps 1 to 3); text that is not a number prints 0 |
+
+```text
+ISXOgreEQ2.Tour:Step[2]
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Travel.md
+
+# ISXOgreEQ2.Travel
+
+## Methods
+
+### `End`
+
+`ISXOgreEQ2.Travel:End`
+
+Stops a list it is opening and reading and closes the window, the same as `ogre end travel` and the window's X. A pick already sent is the group's travel and goes on.
+
+```text
+ISXOgreEQ2.Travel:End
+```
+
+### `Help`
+
+`ISXOgreEQ2.Travel:Help`
+
+Prints the `ogre travel` usage to the console.
+
+```text
+ISXOgreEQ2.Travel:Help
+```
+
+### `Open`
+
+`ISXOgreEQ2.Travel:Open[method]`
+
+Opens the Travel Helper window, and with a method also lists that map's destinations. An unknown method prints a warning and still opens the window.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `method` | string |  | fast, spire, druid, bell or map. Optional: leave it out to only open the window. |
+
+```text
+ISXOgreEQ2.Travel:Open[spire]
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/TravelMesh.md
+
+# ISXOgreEQ2.TravelMesh
+
+## Members
+
+### `TMActive`
+
+`${ISXOgreEQ2.TravelMesh.TMActive}`
+
+TRUE while a travel route is running on this character. It reads FALSE while idle, after arriving or giving up, and while a Go is still waiting for a zone to finish loading.
+
+**Returns:** bool: TRUE when a route is running; FALSE otherwise
+
+```text
+echo ${ISXOgreEQ2.TravelMesh.TMActive}
+```
+
+### `TMBias`
+
+`${ISXOgreEQ2.TravelMesh.TMBias[kind]}`
+
+The cost multiplier the planner uses for one kind of hop (door, bell, spire, druid, map, amenity or item): 1 is neutral, below 1 prefers it, above 1 avoids it, 0 or less forbids it. Every kind starts at 1.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `kind` | string |  | the hop kind: door, bell, spire, druid, map, amenity or item |
+
+**Returns:** float: the multiplier for that kind; -1 when the kind is unknown or missing
+
+```text
+echo ${ISXOgreEQ2.TravelMesh.TMBias[bell]}
+```
+
+### `TMCurrentHop`
+
+`${ISXOgreEQ2.TravelMesh.TMCurrentHop}`
+
+A one-line description of the hop in progress: the kind (door, bell, spire, druid, map, amenity or item), the from and to zone short names, and the travel action and destination label when there is one. Empty when no hop is in progress, including after arrival.
+
+**Returns:** string: the current hop's description; empty when there is none
+
+```text
+echo ${ISXOgreEQ2.TravelMesh.TMCurrentHop}
+```
+
+### `TMDataErrors`
+
+`${ISXOgreEQ2.TravelMesh.TMDataErrors}`
+
+How many travel data files had a problem at the last load, counting files that were skipped and files that loaded with a warning. It reads 0 until the travel data has loaded.
+
+**Returns:** int: the number of problem files; 0 when the data loaded cleanly
+
+```text
+echo ${ISXOgreEQ2.TravelMesh.TMDataErrors}
+```
+
+### `TMDataErrorText`
+
+`${ISXOgreEQ2.TravelMesh.TMDataErrorText}`
+
+The problem report from the last load, one line per file: its path, which layer it came from (default or custom) and the message. Empty when every file loaded cleanly, or until the travel data has loaded.
+
+**Returns:** string: the problem report, one file per line; empty when clean
+
+```text
+echo ${ISXOgreEQ2.TravelMesh.TMDataErrorText}
+```
+
+### `TMEdges`
+
+`${ISXOgreEQ2.TravelMesh.TMEdges}`
+
+How many zone-to-zone connections (doors, zone lines, guild hall amenities, travel items and so on) the loaded travel data holds. It reads 0 until the travel data has loaded.
+
+**Returns:** int: the number of connections in the travel data
+
+```text
+echo ${ISXOgreEQ2.TravelMesh.TMEdges}
+```
+
+### `TMFeatures`
+
+`${ISXOgreEQ2.TravelMesh.TMFeatures}`
+
+One line per account feature the travel data can require (the expansion Friends and Family features), with this character's answer: YES or no, and whether it was scanned or set by you, or unanswered. A no from a scan is checked again after a week, a YES or your own answer is kept, and the lines are read by the travel engine about once a second while you are in the world.
+
+**Returns:** string: one line per account feature
+
+```text
+echo ${ISXOgreEQ2.TravelMesh.TMFeatures}
+```
+
+### `TMGoal`
+
+`${ISXOgreEQ2.TravelMesh.TMGoal}`
+
+The short zone name of the destination of the current or last route, such as antonica. Empty before any route has started.
+
+**Returns:** string: the destination zone short name; empty before the first route
+
+```text
+echo ${ISXOgreEQ2.TravelMesh.TMGoal}
+```
+
+### `TMHop`
+
+`${ISXOgreEQ2.TravelMesh.TMHop}`
+
+The number of the hop the route is on, counting from 1. It reads 1 before any route has run and one more than TMHops once the route has arrived.
+
+**Returns:** int: the current hop number, 1-based
+
+```text
+echo ${ISXOgreEQ2.TravelMesh.TMHop}
+```
+
+### `TMHops`
+
+`${ISXOgreEQ2.TravelMesh.TMHops}`
+
+How many hops the current plan has. After a re-plan this is the hop count of the new plan for the rest of the trip, not the original total.
+
+**Returns:** int: the hop count of the current plan; 0 before any route
+
+```text
+echo ${ISXOgreEQ2.TravelMesh.TMHops}
+```
+
+### `TMParty`
+
+`${ISXOgreEQ2.TravelMesh.TMParty}`
+
+For the current or last route: the route id, how many group members it counted, and either "everyone is here" or the names of members not yet in this zone and settled. It is empty before any route has started, and read by the travel engine about once a second while you are in the world.
+
+**Returns:** string: the group status line; empty before the first route
+
+```text
+echo ${ISXOgreEQ2.TravelMesh.TMParty}
+```
+
+### `TMReason`
+
+`${ISXOgreEQ2.TravelMesh.TMReason}`
+
+Why the last route stopped, or what its last step reported, such as "stopped by request" or "replaced by a new route". Empty while a route runs normally.
+
+**Returns:** string: the stop reason or last step message; empty when there is none
+
+```text
+echo ${ISXOgreEQ2.TravelMesh.TMReason}
+```
+
+### `TMReplans`
+
+`${ISXOgreEQ2.TravelMesh.TMReplans}`
+
+How many times the current route has re-planned around a hop that failed. A route gives up after 3 re-plans.
+
+**Returns:** int: the re-plan count for the current or last route
+
+```text
+echo ${ISXOgreEQ2.TravelMesh.TMReplans}
+```
+
+### `TMRoute`
+
+`${ISXOgreEQ2.TravelMesh.TMRoute}`
+
+The whole current plan as text, one numbered hop per line in the same form as TMCurrentHop. It still holds the last plan after the route ends.
+
+**Returns:** string: the plan, one hop per line; empty before any route
+
+```text
+echo ${ISXOgreEQ2.TravelMesh.TMRoute}
+```
+
+### `TMStagger`
+
+`${ISXOgreEQ2.TravelMesh.TMStagger}`
+
+The start delay in milliseconds per group member for group travel, so members do not all set off at once. The default is 10000, and 0 means everybody starts at once.
+
+**Returns:** int: milliseconds of start delay per group member
+
+```text
+echo ${ISXOgreEQ2.TravelMesh.TMStagger}
+```
+
+### `TMState`
+
+`${ISXOgreEQ2.TravelMesh.TMState}`
+
+The step the route is on: idle, hop-start, walk, wait-for-group, ride, act, verify, done or failed. It keeps done or failed after a route ends until the next route starts.
+
+**Returns:** string: the current route step name
+
+```text
+echo ${ISXOgreEQ2.TravelMesh.TMState}
+```
+
+### `TMValidate`
+
+`${ISXOgreEQ2.TravelMesh.TMValidate}`
+
+A health check of the loaded travel data, one issue per line. Empty when no issues are found, or until the travel data has loaded.
+
+**Returns:** string: the issues, one per line; empty when there are none
+
+```text
+echo ${ISXOgreEQ2.TravelMesh.TMValidate}
+```
+
+### `TMZones`
+
+`${ISXOgreEQ2.TravelMesh.TMZones}`
+
+How many zones the loaded travel data knows. It reads 0 until the travel data has loaded.
+
+**Returns:** int: the number of zones in the travel data
+
+```text
+echo ${ISXOgreEQ2.TravelMesh.TMZones}
+```
+
+## Methods
+
+### `Go`
+
+`ISXOgreEQ2.TravelMesh:Go[destination,poi]`
+
+Starts a route like OgreBotAPI.Travel:Mesh, from your current zone to the destination, walking and using doors, zone lines, bells, spires, druid rings, the fast-travel map, guild hall amenities and travel items in your bags as needed; it replaces a running route, whoever started it, only when the new one can be planned. Problems (no destination, unknown destination with suggestions, current zone not in the travel data, no route) are echoed to the console, a Go made while zoning waits for the zone to settle, and the route moves with OgreBot closed too - TravelMesh:Stop ends it.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `destination` | string |  | the zone to travel to - its display name, an alias or its short name, any case |
+| `poi` | string | `none` | optional point of interest in the destination zone to finish at; one the zone data does not list is reported and the trip still goes to the zone |
+
+```text
+ISXOgreEQ2.TravelMesh:Go[Antonica,"Druid Rings"]
+```
+
+### `GoGroup`
+
+`ISXOgreEQ2.TravelMesh:GoGroup[destination,poi]`
+
+Like OgreBotAPI.Travel:MeshGroup: starts your own route as Go does, then sends -TravelMesh for the same destination to the rest of your group through OgreConsole, so each member plans its own route from where it stands, with starts staggered by TMStagger. If your own route cannot be planned the error is echoed and nothing is sent; the other members' copies run as OgreBot routes, so they are stopped with -TravelMeshStop.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `destination` | string |  | the zone to travel to - its display name, an alias or its short name, any case |
+| `poi` | string | `none` | optional point of interest in the destination zone to finish at; one the zone data does not list is reported and the trip still goes to the zone |
+
+```text
+ISXOgreEQ2.TravelMesh:GoGroup[Antonica]
+```
+
+### `Preview`
+
+`ISXOgreEQ2.TravelMesh:Preview[destination]`
+
+Plans a route from your current zone to the destination and prints it to the console without moving: a summary line with the hop count and rough time in seconds, then one numbered hop per line. An unknown destination prints an "unknown destination" line with suggestions, and no destination prints an error.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `destination` | string |  | the zone to plan to - its display name, an alias or its short name, any case |
+
+```text
+ISXOgreEQ2.TravelMesh:Preview[Antonica]
+```
+
+### `Reload`
+
+`ISXOgreEQ2.TravelMesh:Reload`
+
+Re-reads the travel data from Ogre/EQ2/Travel/default and your own OgreSave/EQ2/Travel/custom files and echoes a summary of zones, connections, files and errors. Any running route is stopped first, whoever started it; if the first load has not finished within 5 seconds it says so and changes nothing.
+
+```text
+ISXOgreEQ2.TravelMesh:Reload
+```
+
+### `ScanFeatures`
+
+`ISXOgreEQ2.TravelMesh:ScanFeatures`
+
+Runs the game's show_account_features command to answer this character's unanswered or expired account features, and echoes a status line. Each feature is scanned at most once per session, a scan also starts by itself when a route is planned, and when nothing is scanned (out of the world included) the line says every feature is already answered.
+
+```text
+ISXOgreEQ2.TravelMesh:ScanFeatures
+```
+
+### `SetBias`
+
+`ISXOgreEQ2.TravelMesh:SetBias[kind,multiplier]`
+
+Sets how much the planner likes one kind of hop: 1 is neutral, below 1 prefers it, above 1 avoids it, 0 or less forbids it, and the new value is echoed. It applies to the next plan and is not saved; a multiplier that is not a number sets the normal bias of 1 and says so.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `kind` | string |  | the hop kind: door, bell, spire, druid, map, amenity or item; anything else is refused with a console error |
+| `multiplier` | float |  | the cost multiplier: 1 neutral, below 1 prefer, above 1 avoid, 0 or less forbid; a word is 1 |
+
+```text
+ISXOgreEQ2.TravelMesh:SetBias[druid,0.5]
+```
+
+### `SetFeature`
+
+`ISXOgreEQ2.TravelMesh:SetFeature[flag,value]`
+
+Saves your own answer for one account feature for this character in OgreSave/EQ2/Travel/account-features.json; it is permanent and never scanned over, and the answer is echoed. A feature name the travel data does not use is refused with a line naming the ones it does, a blank value prints an error, and a word that is not yes or no leaves the feature as it is and says so.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `flag` | string |  | the account feature name as TMFeatures shows it, such as roc_friends_and_family, in any case |
+| `value` | bool |  | TRUE, 1, yes or on means this character has the feature; FALSE, 0, no or off means it does not |
+
+```text
+ISXOgreEQ2.TravelMesh:SetFeature[roc_friends_and_family,TRUE]
+```
+
+### `SetStagger`
+
+`ISXOgreEQ2.TravelMesh:SetStagger[ms]`
+
+Sets the start delay in milliseconds per group member for group travel (0 = everybody at once) and echoes it. A negative number is stored as 0, a value that is not a number counts as 0, and the setting is not saved.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `ms` | int |  | milliseconds of start delay per group member; 0 starts everybody at once |
+
+```text
+ISXOgreEQ2.TravelMesh:SetStagger[5000]
+```
+
+### `Stop`
+
+`ISXOgreEQ2.TravelMesh:Stop[-force]`
+
+Cancels a route started with this object's Go or GoGroup, including one still waiting for a zone to settle. A route someone else started is refused with one line naming the owner and how to stop it, and -force stops it anyway.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `-force` | switch |  | stop the route whoever started it |
+
+```text
+ISXOgreEQ2.TravelMesh:Stop
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Watcher.md
+
+# ISXOgreEQ2.Watcher
+
+## Methods
+
+### `End`
+
+`ISXOgreEQ2.Watcher:End`
+
+Turns off both the name watch (Find) and the shiny watch (TrackShiny), closes the Watcher window and prints which of them were on; the off state is saved, so they stay off on the next load. This is what `ogre end watcher` and the window's close button do.
+
+```text
+ISXOgreEQ2.Watcher:End
+```
+
+### `Find`
+
+`ISXOgreEQ2.Watcher:Find[word...]`
+
+Watches for actors by exact name, case not mattering (`ogre find`): given names it replaces the watch list, arms and checks the zone once, then each time a watched name spawns it prints where, broadcasts '&lt;you>: APPEARED: &lt;name>' to your bot sessions and sets an in-game waypoint on it, and it prints when one despawns (these alerts are skipped in a guild hall). A first word that is an option does that instead (-add or -remove &lt;name>, -clear, -list, -on, -off, -scan, -status, -panel opens the Watcher window, -rorr adds the four Renewal of Ro researchers to the names), no words prints the usage, and the list and armed state are saved and restored on the next load.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `word...` | string | `none (prints the usage)` | the names to watch (quote a name that has spaces), or one option first followed by its value |
+
+```text
+ISXOgreEQ2.Watcher:Find[${Target.Name}]
+```
+
+### `TrackShiny`
+
+`ISXOgreEQ2.Watcher:TrackShiny[word...]`
+
+Watches for shiny harvest nodes of one colour within 100 units, every 500 ms by default (`ogre trackshiny`): when it finds one it did not just announce, it prints '&lt;colour> shiny!', broadcasts it to your bot sessions and sets an in-game waypoint on it. No word arms it on Purple, a colour name (White, Green, Purple, Red, BlueShimmer, Blue) arms that colour and an unknown one is refused with the list, the options are -off, -status, -colours (or -colors), -interval &lt;ms> (held to 250..30000) and -panel, and the settings are saved and restored on the next load.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `word...` | string | `Purple` | a colour to watch for, or one option first followed by its value |
+
+```text
+ISXOgreEQ2.Watcher:TrackShiny[Red]
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/WindowReactions.md
+
+# ISXOgreEQ2.WindowReactions
+
+## Methods
+
+### `Status`
+
+`ISXOgreEQ2.WindowReactions:Status`
+
+Prints the window reaction counters to the console: loot, choice and quest-offer windows seen, acted on and deferred, then how each loot window is being read. It makes no game read.
+
+```text
+ISXOgreEQ2.WindowReactions:Status
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/ZoneReset.md
+
+# ISXOgreEQ2.ZoneReset
+
+## Methods
+
+### `Add`
+
+`ISXOgreEQ2.ZoneReset:Add[zone]`
+
+Adds one zone to the reset queue and prints how many it holds.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `zone` | string |  | The zone's name; several words are joined into one name; required. |
+
+```text
+ISXOgreEQ2.ZoneReset:Add["The Feerrott"]
+```
+
+### `AddFilter`
+
+`ISXOgreEQ2.ZoneReset:AddFilter[filter]`
+
+Adds every zone the filter picks from the last read to the reset queue and prints how many.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `filter` | string |  | resettable, noraid or notlocked. Optional: anything else reads as resettable. |
+
+```text
+ISXOgreEQ2.ZoneReset:AddFilter[resettable]
+```
+
+### `Clear`
+
+`ISXOgreEQ2.ZoneReset:Clear`
+
+Empties the reset queue.
+
+```text
+ISXOgreEQ2.ZoneReset:Clear
+```
+
+### `Dump`
+
+`ISXOgreEQ2.ZoneReset:Dump`
+
+Prints the zone table from the last read to the console.
+
+```text
+ISXOgreEQ2.ZoneReset:Dump
+```
+
+### `End`
+
+`ISXOgreEQ2.ZoneReset:End`
+
+Stops what this tool asked for, drops what it had queued to run, and closes the window, the same as `ogre end zone` and the window's X. A reset that an Instance Controller run or a script asked for carries on.
+
+```text
+ISXOgreEQ2.ZoneReset:End
+```
+
+### `Flags`
+
+`ISXOgreEQ2.ZoneReset:Flags[flags]`
+
+The flag form, the same as `ogre zone -zone ...`; -all with -force is refused. -h prints the usage.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `flags` | string |  | -zone names one zone and takes every word up to the next flag, -force force resets it and spends a charge, -all resets every resettable zone, -allowRaid includes raid zones, -fleet goes to the For Who selection; one argument each; required. |
+
+```text
+ISXOgreEQ2.ZoneReset:Flags[-zone,"The Feerrott"]
+```
+
+### `Force`
+
+`ISXOgreEQ2.ZoneReset:Force[zone]`
+
+Force resets one zone, which SPENDS one of your limited reset charges and cannot be undone. With no zone it prints one warning and does nothing, and it is refused while a flow runs.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `zone` | string |  | The zone's name; several words are joined into one name; required. |
+
+```text
+ISXOgreEQ2.ZoneReset:Force["The Feerrott"]
+```
+
+### `Help`
+
+`ISXOgreEQ2.ZoneReset:Help`
+
+Prints the `ogre zone` words and flags to the console.
+
+```text
+ISXOgreEQ2.ZoneReset:Help
+```
+
+### `List`
+
+`ISXOgreEQ2.ZoneReset:List`
+
+Reads the Zone Reuse window again; it opens and closes. Refused while a flow runs.
+
+```text
+ISXOgreEQ2.ZoneReset:List
+```
+
+### `Open`
+
+`ISXOgreEQ2.ZoneReset:Open`
+
+Opens the Zone Resetter window, which reads the Zone Reuse window, the same as bare `ogre zone`.
+
+```text
+ISXOgreEQ2.ZoneReset:Open
+```
+
+### `Queue`
+
+`ISXOgreEQ2.ZoneReset:Queue`
+
+Prints the reset queue to the console.
+
+```text
+ISXOgreEQ2.ZoneReset:Queue
+```
+
+### `Reset`
+
+`ISXOgreEQ2.ZoneReset:Reset[word]`
+
+Resets the timer of every zone in the queue. Refused while a flow runs.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `word` | string |  | fleet also sends it to the For Who window's selection. Optional. |
+
+```text
+ISXOgreEQ2.ZoneReset:Reset[fleet]
+```
+
+### `Status`
+
+`ISXOgreEQ2.ZoneReset:Status`
+
+Prints the flow state, zone and queue counts and counters to the console.
+
+```text
+ISXOgreEQ2.ZoneReset:Status
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogrex.md
+
+# ISXOgreX
+
+The core extension: `${ISXOgreX}` and the objects under it.
+
+## ISXOgreX
+
+### Members
+
+#### `Auth`
+
+`${ISXOgreX.Auth}`
+
+The login status object. Read its members: Authenticated, AccessLevel, Username and Status.
+
+All of it: [ISXOgreX.Auth](#isxogrexauth)
+
+**Returns:** ogrexauth: the login status object; as text it reads ISXOgreX.Auth.
+
+```text
+echo ${ISXOgreX.Auth.Status}
+```
+
+#### `Console`
+
+`${ISXOgreX.Console}`
+
+The Ogre console object. It has no members of its own; call its methods, such as ISXOgreX.Console:Toggle.
+
+All of it: [ISXOgreX.Console](#isxogrexconsole)
+
+**Returns:** ogrexconsole: the console object (methods only); as text it reads ISXOgreX.Console.
+
+```text
+echo ${ISXOgreX.Console}
+```
+
+#### `Login`
+
+`${ISXOgreX.Login}`
+
+The login box object. ISXOgreX.Login:Show opens the login box, and ISXOgreX.Login:Submit[username,password] saves a login and logs in again with it.
+
+All of it: [ISXOgreX.Login](#isxogrexlogin)
+
+**Returns:** ogrexlogin: the login box object (methods only); as text it reads ISXOgreX.Login.
+
+```text
+echo ${ISXOgreX.Login}
+```
+
+#### `Options`
+
+`${ISXOgreX.Options}`
+
+The Ogre options window object. Its methods are Open, Save, Close and Ready (fill the open window's fields again).
+
+All of it: [ISXOgreX.Options](#isxogrexoptions)
+
+**Returns:** ogrexoptions: the options window object (methods only); as text it reads ISXOgreX.Options.
+
+```text
+echo ${ISXOgreX.Options}
+```
+
+#### `Patch`
+
+`${ISXOgreX.Patch}`
+
+The patcher object: its members report the patcher's state and its methods run the patcher's commands. See the ISXOgreX.Patch rows.
+
+All of it: [ISXOgreX.Patch](#isxogrexpatch)
+
+**Returns:** ogrexpatch: the patcher object; as text it reads ISXOgreX.Patch.
+
+```text
+echo ${ISXOgreX.Patch}
+```
+
+#### `Release`
+
+`${ISXOgreX.Release}`
+
+The name of the release this PC was last patched to, the same name the What's new page uses. It is empty when this PC has never been patched or the last release had no name.
+
+**Returns:** string: the release name (like 2026.10.16.005); empty when there is none.
+
+```text
+echo ${ISXOgreX.Release}
+```
+
+#### `UI`
+
+`${ISXOgreX.UI}`
+
+The in-game UI object: windows, their values and the UI store. See the ISXOgreX.UI rows for its members and methods.
+
+All of it: [ISXOgreX.UI](#isxogrexui)
+
+**Returns:** ogrexui: the in-game UI object; as text it reads ISXOgreX.UI.
+
+```text
+echo ${ISXOgreX.UI}
+```
+
+#### `Version`
+
+`${ISXOgreX.Version}`
+
+The build date of the loaded core extension. It is not the release name - use Release for that.
+
+**Returns:** string: the core's build date as yyyymmdd.
+
+```text
+echo ${ISXOgreX.Version}
+```
+
+### Methods
+
+#### `ReloadExtension`
+
+`ISXOgreX:ReloadExtension[reason]`
+
+Reloads this session's core (the game adapter reloads under it) when the core or adapter file on disk is newer than the one this session loaded; otherwise it prints that this session already runs the files on disk. It does nothing while a patch run is in progress on this session, and nothing before the patcher has started.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `reason` | string | `another session on this PC patched` | Text shown in the reload message, saying why the reload was asked for. |
+
+```text
+ISXOgreX:ReloadExtension["files updated"]
+```
+
+#### `ShowVersion`
+
+`ISXOgreX:ShowVersion`
+
+Prints the release this PC was patched to and the core's build date to the InnerSpace console, with a link to what changed. When this PC was never patched it says so, and when the release has no name it shows the release id instead.
+
+```text
+ISXOgreX:ShowVersion
+```
+
+## ISXOgreX.Auth
+
+### Members
+
+#### `AccessLevel`
+
+`${ISXOgreX.Auth.AccessLevel}`
+
+The access level name the Ogre server sent for this account at login. Before a login reply arrives it reads a default value.
+
+**Returns:** string: the access level name from the server; a default value before a login reply arrives or when the server sent none.
+
+```text
+echo ${ISXOgreX.Auth.AccessLevel}
+```
+
+#### `Authenticated`
+
+`${ISXOgreX.Auth.Authenticated}`
+
+Whether this session's login to the Ogre server succeeded. It is FALSE while the login is still waiting for the server.
+
+**Returns:** bool: TRUE when the login succeeded; FALSE when it has not started, is waiting, failed, or no login is saved.
+
+```text
+echo ${ISXOgreX.Auth.Authenticated}
+```
+
+#### `Status`
+
+`${ISXOgreX.Auth.Status}`
+
+Where this session's login stands, as one word.
+
+**Returns:** string: idle (not started), pending (waiting for the server), authenticated, failed, or nocreds (no saved login).
+
+```text
+echo ${ISXOgreX.Auth.Status}
+```
+
+#### `Username`
+
+`${ISXOgreX.Auth.Username}`
+
+The account name of the saved login this session logs in with. It is filled from the saved login before the server answers, so use Authenticated to know whether the login succeeded.
+
+**Returns:** string: the saved login's account name; empty when no login is saved.
+
+```text
+echo ${ISXOgreX.Auth.Username}
+```
+
+## ISXOgreX.Login
+
+### Methods
+
+#### `Show`
+
+`ISXOgreX.Login:Show`
+
+Opens the small Windows login box where you type your Ogre account username and password; if it is already open it is brought to the front instead. Its Login button saves what you typed and logs in, and Cancel just closes it (the Account tab of Ogre Options is the usual place for this - the box is the fallback when that window cannot load).
+
+```text
+ISXOgreX.Login:Show
+```
+
+#### `Submit`
+
+`ISXOgreX.Login:Submit[username,password]`
+
+Saves the given Ogre account username and password on this PC, closes the login box if it is open and logs in again on the next frame - even when you are already logged in. With either argument missing or blank nothing is saved and one console warning says so.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `username` | string |  | Your Ogre account name. |
+| `password` | string |  | Your Ogre account password. |
+
+```text
+ISXOgreX.Login:Submit["MyOgreAccount","MyOgrePassword"]
+```
+
+## ISXOgreX.Options
+
+### Methods
+
+#### `Close`
+
+`ISXOgreX.Options:Close`
+
+Closes the Ogre Options window without saving anything.
+
+```text
+ISXOgreX.Options:Close
+```
+
+#### `Open`
+
+`ISXOgreX.Options:Open`
+
+Opens the Ogre Options window and fills its fields from the saved settings. If the window is already open it does nothing, so what you typed in it stays (the same as `ogre config`).
+
+```text
+ISXOgreX.Options:Open
+```
+
+#### `Save`
+
+`ISXOgreX.Options:Save`
+
+Saves the values the Ogre Options window's Save button hands over (this is the call that button makes): UI scale, the console setting, session watch, navmesh downloads and your Ogre login, which tries to log in again if you are not logged in. The window's status line then shows 'Saved.', 'Saved - logging in...' or 'Save FAILED', or 'Save failed (no data)' or 'Save failed (bad JSON)' when nothing usable was handed over.
+
+```text
+ISXOgreX.Options:Save
+```
+
+## ISXOgreX.Console
+
+### Methods
+
+#### `Clear`
+
+`ISXOgreX.Console:Clear`
+
+Clears the Ogre console's output and the lines it keeps on this session. New lines show as normal afterwards.
+
+```text
+ISXOgreX.Console:Clear
+```
+
+#### `Close`
+
+`ISXOgreX.Console:Close`
+
+Closes the Ogre console window on this session. It stays closed until opened again, even if the UI reloads.
+
+```text
+ISXOgreX.Console:Close
+```
+
+#### `Open`
+
+`ISXOgreX.Console:Open`
+
+Opens the Ogre console window on this session. Opening a console that is already open does nothing.
+
+```text
+ISXOgreX.Console:Open
+```
+
+#### `ReloadSchema`
+
+`ISXOgreX.Console:ReloadSchema[game]`
+
+Reads the console command lists again from disk on this session: the common list, the game's list and any command packs. A missing file just leaves its commands out, and pack problems are shown in the console's Commands tab.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `game` | string | `everquest2` | The game id whose command list to load, such as everquest2 or pantheon. |
+
+```text
+ISXOgreX.Console:ReloadSchema[everquest2]
+```
+
+#### `Send`
+
+`ISXOgreX.Console:Send[message,-tab,tab,-rg,group,-cfw,who,-kind,kind]`
+
+Sends message through the uplink to every session in the relay group: a message starting !c or !ci is a command that each session parses, anything else is a chat line. With no arguments it sends the line typed in the console's input box instead.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `message` | string | `the input box line` | The literal line to send; a leading !c or !ci makes it a command. Leave out every argument to send the input box line. |
+| `-tab` | switch | `(none)` | Also show the line in the console tab named by the next argument; may be given more than once. |
+| `tab` | string | `(none)` | The console tab name that follows -tab. |
+| `-rg` | switch | `(none)` | Send to the relay group named by the next argument instead of the bot's own relay group. |
+| `group` | string | `the bot's relay group` | The relay group name that follows -rg. |
+| `-cfw` | switch | `(none)` | Give a command a for-who, used by its commands whose own for-who is left as auto. |
+| `who` | for-who | `all` | [for-who](ogrebotapi/ForWho.md): this runs only when this character is one it names, for the commands in the line that leave theirs as auto. |
+| `-kind` | switch | `(none)` | Show a chat line as a status line of the kind named by the next argument; ignored for a command. |
+| `kind` | string | `(none)` | error, warn or system; the line then shows only in its -tab tabs and All, in that kind's colour. |
+
+```text
+ISXOgreX.Console:Send["Pulling now",-tab,Raid]
+```
+
+#### `Sessions`
+
+`ISXOgreX.Console:Sessions[mode]`
+
+With on or off, turns the uplink's session watch (it says when a session freezes, recovers or closes) on or off until the uplink restarts. With no argument it prints the sessions the uplink has heard from to this session's console; any other word prints the usage.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `mode` | string | `(none - print the table)` | on or off to switch the watch; leave it out to print the session table. |
+
+```text
+ISXOgreX.Console:Sessions[on]
+```
+
+#### `SetOption`
+
+`ISXOgreX.Console:SetOption[key,value]`
+
+Saves one console setting to the console's settings file (the same as the console's settings panel). It does nothing with fewer than two arguments, and an unknown key is ignored with nothing on screen.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `key` | string |  | hide_on_load, send_to_irc, show_timestamps, verb_trace, or a colour key starting color_. |
+| `value` | string |  | 1 or true (lower case) for on, anything else (TRUE included) for off; for a color_ key, a hex colour of up to six digits. |
+
+```text
+ISXOgreX.Console:SetOption[show_timestamps,1]
+```
+
+#### `Toggle`
+
+`ISXOgreX.Console:Toggle`
+
+Opens the Ogre console window when it is closed, and closes it when it is open.
+
+```text
+ISXOgreX.Console:Toggle
+```
+
+## ISXOgreX.UI
+
+### Members
+
+#### `Get`
+
+`${ISXOgreX.UI.Get[key]}`
+
+Reads the value a UI page stored under `key` with ogreCall('set',key,value); there is one store, shared by every page, and the UI host is loaded first if needed. Returns NULL when the key was never stored, its value is empty, or the UI host is not loaded.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `key` | string |  | the store key the page used (case as the page wrote it) |
+
+**Returns:** string: the stored value; NULL when the key is absent, its value is empty, or the UI host is not loaded
+
+```text
+echo ${ISXOgreX.UI.Get[radar_cfg]}
+```
+
+#### `Value`
+
+`${ISXOgreX.UI.Value[name,id]}`
+
+Reads element `id` of the open window `name` as the page last published it: a checkbox or radio reads TRUE or FALSE, an input or textarea its value (an empty box reads an empty string), any other element its text. NULL when the window is not open or the element never published - only windows opened with ISXOgreX.UI:Open publish, and a read right after your own ISXOgreX.UI:Set waits up to 50 ms for the page to apply it.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `name` | string |  | the window name given to ISXOgreX.UI:Open (case-sensitive) |
+| `id` | string |  | the element's HTML id inside that window |
+
+**Returns:** string: the element's published value; NULL when the window is not open or the element never published a value
+
+```text
+echo ${ISXOgreX.UI.Value[hello,hello-name]}
+```
+
+#### `Window`
+
+`${ISXOgreX.UI.Window[name]}`
+
+Gives the open window `name` - your own, OgreBot's or a help window - as an ogrexuiwindow object (Name, Visible, X, Y, Width, Height) that prints as the window's name. NULL when no window by that name is open, so (exists) answers "is it open"; a window counts as open from the moment OgreUI_Opened fires for it.
+
+All of it: [ISXOgreX.UI.Window](#isxogrexuiwindow)
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `name` | string |  | the window name (case-sensitive) |
+
+**Returns:** ogrexuiwindow: the open window; NULL when no window with that name is open
+
+```text
+echo ${ISXOgreX.UI.Window[hello](exists)}
+```
+
+### Methods
+
+#### `Close`
+
+`ISXOgreX.UI:Close[name]`
+
+Closes the window `name` - your own or any other open UI window - and OgreUI_Closed fires with reason "closed". Nothing happens when no window by that name is open; a missing name is refused with one console warning.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `name` | string |  | the window's name (case-sensitive) |
+
+```text
+ISXOgreX.UI:Close[hello]
+```
+
+#### `Drain`
+
+`ISXOgreX.UI:Drain`
+
+Runs, right now and in order, the commands UI pages have queued for the script side, stopping after about 1,000 in one call. The extension already does this every frame, so a script rarely needs it.
+
+```text
+ISXOgreX.UI:Drain
+```
+
+#### `Eval`
+
+`ISXOgreX.UI:Eval[js]`
+
+Runs the JavaScript js in the UI page, loading the UI host first if needed. Nothing comes back to the script, and without js it is refused with one console warning.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `js` | string |  | the JavaScript to run in the UI page |
+
+```text
+ISXOgreX.UI:Eval["radarSaveNow()"]
+```
+
+#### `EvalFile`
+
+`ISXOgreX.UI:EvalFile[path]`
+
+Reads the JavaScript file `path` from disk and runs it in the UI page, loading the UI host first if needed. A file that cannot be read writes a warning to the log file only, not the console, and a missing path is refused with one console warning.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `path` | string |  | full path of the .js file to run |
+
+```text
+ISXOgreX.UI:EvalFile["${LavishScript.HomeDirectory}/Scripts/Ogre/Common/OgreUI/common/WindowReset/windowreset.js"]
+```
+
+#### `Focus`
+
+`ISXOgreX.UI:Focus[name,id]`
+
+Gives the text field `id` in the open window `name` the keyboard, so keys go to that field and not the game until Escape or a click elsewhere; every call is logged. A hidden window, a missing element or anything that is not a text field is refused (logged only), and leaving out either argument prints a warning to the console.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `name` | string |  | the open window's name (case-sensitive) |
+| `id` | string |  | the HTML id of a text input, textarea or editable element in that window |
+
+```text
+ISXOgreX.UI:Focus[hello,hello-name]
+```
+
+#### `Help`
+
+`ISXOgreX.UI:Help`
+
+Opens, in the default web browser, the online documentation page of the window whose Full documentation button was pressed; the window name comes from what the help window stored under help_name. It takes no arguments, and a window with no documentation page only writes a warning to the log file.
+
+```text
+ISXOgreX.UI:Help
+```
+
+#### `Host`
+
+`ISXOgreX.UI:Host`
+
+Loads the UI host if it is not loaded yet; it does not open or show anything. Safe to call any number of times.
+
+```text
+ISXOgreX.UI:Host
+```
+
+#### `KeyboardDump`
+
+`ISXOgreX.UI:KeyboardDump`
+
+Prints a keyboard report to the console: Shift (as the game and the hardware see it), Caps Lock, Ctrl, Alt, the keys held down, whether the game window is in front, and the UI host's keyboard state. It is meant for pasting into a report about a key that seems stuck.
+
+```text
+ISXOgreX.UI:KeyboardDump
+```
+
+#### `Load`
+
+`ISXOgreX.UI:Load[path]`
+
+Loads the UI host, then replaces the whole UI page with the HTML file path, which takes away the desktop and every window on it: each window closes with OgreUI_Closed reason "reload", as UI:Reload does, and nothing waiting for the desktop runs until a page says it is ready. Without path it is refused with one console warning (ISXOgreX.UI:Host loads the host alone).
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `path` | string |  | full path of the HTML file to show as the UI page |
+
+```text
+ISXOgreX.UI:Load["${LavishScript.HomeDirectory}/Scripts/Ogre/Common/OgreUI/common/Desktop/desktop.html"]
+```
+
+#### `Move`
+
+`ISXOgreX.UI:Move[name,x,y]`
+
+Moves the open window `name` (yours or any other) so its top-left corner sits at x,y in desktop pixels - the same numbers the Window object's X and Y read back. The move is not saved, so the window opens at its saved spot next time; anything but two whole numbers prints a warning to the console, and a window that is not open is left alone.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `name` | string |  | the open window's name (case-sensitive) |
+| `x` | int |  | left edge in desktop pixels (a whole number) |
+| `y` | int |  | top edge in desktop pixels (a whole number) |
+
+```text
+ISXOgreX.UI:Move[hello,200,150]
+```
+
+#### `Open`
+
+`ISXOgreX.UI:Open[name,path,helpPath]`
+
+Opens your own window `name` from one HTML file `path`, with an optional markdown file `helpPath` as the text of the title bar's help (?) button; both files are read when you call it, and the window appears once the UI desktop is up, when OgreUI_Opened fires. If a window by that name is already open only its help text is refreshed, and a file that cannot be read prints a warning to the console and opens nothing; a missing name or path is refused with one console warning.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `name` | string |  | the window's name, used by every other window call (case-sensitive) |
+| `path` | string |  | full path of the HTML file: style, markup and &lt;script> blocks, plus an optional &lt;script type="ogre/window"> block holding the window's options as JSON (title, w, h ...) |
+| `helpPath` | string | `"" (no help text)` | full path of a markdown file shown by the title bar's ? button |
+
+```text
+ISXOgreX.UI:Open[hello,"${LavishScript.HomeDirectory}/Scripts/Ogre/Common/OgreUI/examples/hello/hello.html","${LavishScript.HomeDirectory}/Scripts/Ogre/Common/OgreUI/examples/hello/hello.md"]
+```
+
+#### `Reload`
+
+`ISXOgreX.UI:Reload`
+
+Reloads the UI page: every open window goes away at once and OgreUI_Closed fires for each with reason "reload", which is the cue for a script to re-open its own window. The UI host is loaded first if needed; if it cannot load, nothing happens.
+
+```text
+ISXOgreX.UI:Reload
+```
+
+#### `SavePref`
+
+`ISXOgreX.UI:SavePref`
+
+Saves a UI page's own preferences: the JSON the page stored under uipref_blob is written into the saved UI state (UIState.json in the Common save folder) under the name it stored in uipref_name, replacing what that name held. Pages call it themselves; it takes no arguments, and missing or invalid values only write a warning to the log file.
+
+```text
+ISXOgreX.UI:SavePref
+```
+
+#### `SaveWindow`
+
+`ISXOgreX.UI:SaveWindow`
+
+Saves one window's position, size, scale and lock settings, read from the blob the page stored under wm_save_blob, into the saved UI state (UIState.json in the Common save folder), replacing what that window had. The window manager calls it from a window's Save Position; it takes no arguments, and a missing or invalid blob only writes a warning to the log file.
+
+```text
+ISXOgreX.UI:SaveWindow
+```
+
+#### `Set`
+
+`ISXOgreX.UI:Set[name,id,value]`
+
+Changes element `id` in the open window `name` as if the user did it: a checkbox or radio is checked for TRUE, 1, on or yes and unchecked for anything else, an input, textarea or dropdown takes the value, any other element shows it as its text, and a form element's change event fires. A missing window, id or value is refused with one console warning (a blank value is a value); nothing happens when the window is not open or no element has that id.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `name` | string |  | the open window's name (case-sensitive) |
+| `id` | string |  | the element's HTML id inside that window |
+| `value` | string |  | the new value: TRUE/FALSE for a checkbox or radio, otherwise the text or value to put in |
+
+```text
+ISXOgreX.UI:Set[hello,hello-status,"Said hello"]
+```
+
+#### `Size`
+
+`ISXOgreX.UI:Size[name,width,height]`
+
+Sizes the open window `name` (yours or any other) to width by height pixels on screen with its scale applied - the same numbers the Window object's Width and Height read back. The size is not saved, so the window opens at its saved size next time; anything but two whole numbers above 0 prints a warning to the console, and a window that is not open is left alone.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `name` | string |  | the open window's name (case-sensitive) |
+| `width` | int |  | width in on-screen pixels (a whole number above 0) |
+| `height` | int |  | height in on-screen pixels (a whole number above 0) |
+
+```text
+ISXOgreX.UI:Size[hello,320,200]
+```
+
+#### `WindowResetPanel`
+
+`ISXOgreX.UI:WindowResetPanel`
+
+Opens the Reset UI Windows window, centered on the screen, which lists the open windows and lets the player put each one back at its default spot. It waits for the desktop if that is not up yet, and does nothing if the Reset UI Windows window is already open.
+
+```text
+ISXOgreX.UI:WindowResetPanel
+```
+
+## ISXOgreX.Patch
+
+### Members
+
+#### `Enabled`
+
+`${ISXOgreX.Patch.Enabled}`
+
+Whether the Ogre patcher may update this PC, as the patcher last read its setting. The setting is read again whenever an update starts or Status runs, so a change shows here after that.
+
+**Returns:** bool: TRUE when patching is on; FALSE when it is off for this PC, its setting cannot be read, or before the patcher has started.
+
+```text
+echo ${ISXOgreX.Patch.Enabled}
+```
+
+#### `InProgress`
+
+`${ISXOgreX.Patch.InProgress}`
+
+Whether an update run is going on in this session, including the short wait before the update check at load and a reload queued after an extension was updated. Background navmesh downloads do not count.
+
+**Returns:** bool: TRUE while an update run is active in this session; FALSE when none is.
+
+```text
+echo ${ISXOgreX.Patch.InProgress}
+```
+
+#### `LastResult`
+
+`${ISXOgreX.Patch.LastResult}`
+
+The one-line result of the last update run on this PC, the same text the run printed after 'patch:' (for example a line starting 'up to date' or 'done - release', which counts the files updated and failed). It is kept in OgreSave/patcher-state.json, so it survives a restart.
+
+**Returns:** string: the last run's result line; "" when no run has finished on this PC or patching was off when the session started.
+
+```text
+echo ${ISXOgreX.Patch.LastResult}
+```
+
+#### `ReleaseId`
+
+`${ISXOgreX.Patch.ReleaseId}`
+
+The id of the release the last update run on this PC checked against, kept in OgreSave/patcher-state.json. For the release name players see, use ${ISXOgreX.Release}.
+
+**Returns:** string: the last run's release id; "" when this PC has never been patched or patching was off when the session started.
+
+```text
+echo ${ISXOgreX.Patch.ReleaseId}
+```
+
+#### `Tier`
+
+`${ISXOgreX.Patch.Tier}`
+
+The release channel number the update server sent with the release the last update run on this PC checked against, kept with ReleaseId in OgreSave/patcher-state.json.
+
+**Returns:** int: that number; -1 when no update run has recorded one.
+
+```text
+echo ${ISXOgreX.Patch.Tier}
+```
+
+### Methods
+
+#### `Ignore`
+
+`ISXOgreX.Patch:Ignore[op,path]`
+
+Manages the list of files the patcher never writes, kept in OgreSave/patcher-ignore.json, so your own copy of a file is left alone: add or remove a path, or list them. Paths are relative to the InnerSpace folder with forward slashes (backslashes are turned into them), and every change prints a confirmation line.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `op` | string | `list` | add, remove or list; leave it out to list. |
+| `path` | string | `""` | The file for add or remove, relative to the InnerSpace folder, such as Scripts/Ogre/EQ2/x.json; not used by list. |
+
+```text
+ISXOgreX.Patch:Ignore[add,"Scripts/Ogre/EQ2/Commands/everquest2.json"]
+```
+
+#### `Mesh`
+
+`ISXOgreX.Patch:Mesh[mode]`
+
+Sets how navmeshes download and applies it at once: all (every zone in the background), ondemand (a zone's mesh when you need it) or off. With no argument it prints the navmesh download summary, and an unknown word prints the usage line.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `mode` | string | `""` | all, ondemand or off; leave it out to print the summary instead. |
+
+```text
+ISXOgreX.Patch:Mesh[ondemand]
+```
+
+#### `RevertExt`
+
+`ISXOgreX.Patch:RevertExt`
+
+Puts back the previous ISXOgreX DLL kept after a self-update (the .prev file) and reloads the extension, keeping the replaced one beside it as .reverted. It is refused while a run is in progress, says there is nothing to revert when no .prev exists, and the next update run installs the current release again.
+
+```text
+ISXOgreX.Patch:RevertExt
+```
+
+#### `Status`
+
+`ISXOgreX.Patch:Status`
+
+Prints the patcher's state to the console: whether patching is on, your login state, your file switches, the last release and run, whether this session runs older DLLs than the ones on disk, any run in progress and the navmesh download summary. It changes nothing.
+
+```text
+ISXOgreX.Patch:Status
+```
+
+#### `TestCorrupt`
+
+`ISXOgreX.Patch:TestCorrupt`
+
+A diagnostic switch: each call arms or disarms a one-time fault that flips one byte of the next downloaded file before it is checked, so you can see the check refuse it and keep the old file. It prints ARMED or disarmed and fires on the next update or navmesh download.
+
+```text
+ISXOgreX.Patch:TestCorrupt
+```
+
+#### `Update`
+
+`ISXOgreX.Patch:Update`
+
+Checks for an Ogre update now and installs it: fetches the current release, downloads every changed file, checks each one and swaps them in, reloading the extension if one of its DLLs changed, and afterwards every other session on this PC that runs older files reloads too. It runs in the background, prints 'patch: &lt;result>' when done, and refuses with a console line when a run is already going, patching is off or you are not logged in to Ogre.
+
+```text
+ISXOgreX.Patch:Update
+```
+
+## ISXOgreX.UI.Window
+
+### Members
+
+#### `Height`
+
+`${ISXOgreX.UI.Window[name].Height}`
+
+The window's on-screen height in pixels with its scale applied, as the page last published it - the number ISXOgreX.UI:Size takes. A hidden window keeps its last on-screen size (0 if it was never shown), and the member reads NULL once the window has closed.
+
+**Returns:** int: on-screen height in pixels; NULL when the window has closed
+
+```text
+echo ${ISXOgreX.UI.Window[hello].Height}
+```
+
+#### `Name`
+
+`${ISXOgreX.UI.Window[name].Name}`
+
+The window's name, as given to ISXOgreX.UI.Window. It still answers after the window has closed, while every other member then reads NULL.
+
+**Returns:** string: the window name
+
+```text
+echo ${ISXOgreX.UI.Window[hello].Name}
+```
+
+#### `Visible`
+
+`${ISXOgreX.UI.Window[name].Visible}`
+
+TRUE while the window is shown, FALSE while it is open but hidden. NULL once the window has closed.
+
+**Returns:** bool: TRUE when the window is shown; FALSE when it is open but hidden; NULL when it has closed
+
+```text
+echo ${ISXOgreX.UI.Window[hello].Visible}
+```
+
+#### `Width`
+
+`${ISXOgreX.UI.Window[name].Width}`
+
+The window's on-screen width in pixels with its scale applied, as the page last published it - the number ISXOgreX.UI:Size takes. A hidden window keeps its last on-screen size (0 if it was never shown), and the member reads NULL once the window has closed.
+
+**Returns:** int: on-screen width in pixels; NULL when the window has closed
+
+```text
+echo ${ISXOgreX.UI.Window[hello].Width}
+```
+
+#### `X`
+
+`${ISXOgreX.UI.Window[name].X}`
+
+The window's left edge in desktop pixels, as the page last published it - the number ISXOgreX.UI:Move takes. A hidden window keeps its last on-screen position (0 if it was never shown), and the member reads NULL once the window has closed.
+
+**Returns:** int: left edge in desktop pixels; NULL when the window has closed
+
+```text
+echo ${ISXOgreX.UI.Window[hello].X}
+```
+
+#### `Y`
+
+`${ISXOgreX.UI.Window[name].Y}`
+
+The window's top edge in desktop pixels, as the page last published it - the number ISXOgreX.UI:Move takes. A hidden window keeps its last on-screen position (0 if it was never shown), and the member reads NULL once the window has closed.
+
+**Returns:** int: top edge in desktop pixels; NULL when the window has closed
+
+```text
+echo ${ISXOgreX.UI.Window[hello].Y}
+```
+
+## ogretimer
+
+### Members
+
+#### `DeciLeft`
+
+`${T.DeciLeft}`
+
+Seconds left before the timer runs out, as text with one decimal, as Object_Timer's DeciLeft: 1500 ms left reads 1.5. It reads 0.0 once the timer has run out or was stopped.
+
+**Returns:** string: seconds left with one decimal; "0.0" when the timer ran out, was stopped or was never set
+
+```text
+variable ogretimer T
+echo ${T.DeciLeft}
+```
+
+#### `MinutesLeft`
+
+`${T.MinutesLeft}`
+
+Whole minutes left before the timer runs out, rounded down, as Object_Timer's MinutesLeft: 119 seconds left reads 1. It reads 0 in the last minute as well as once the timer has run out or was stopped.
+
+**Returns:** int64: whole minutes left (rounded down); 0 when under a minute is left, or the timer ran out, was stopped or was never set
+
+```text
+variable ogretimer T
+echo ${T.MinutesLeft}
+```
+
+#### `Running`
+
+`${T.Running}`
+
+Whether the timer still has time left. A timer set to 0, run out, stopped or never set is not running.
+
+**Returns:** bool: TRUE while TimeLeft is above 0; FALSE when it has run out, was stopped or was never set
+
+```text
+variable ogretimer T
+echo ${T.Running}
+```
+
+#### `SecondsLeft`
+
+`${T.SecondsLeft}`
+
+Whole seconds left before the timer runs out, rounded down, so 1999 ms left reads 1. It reads 0 in the last second as well as once the timer has run out or was stopped.
+
+**Returns:** int64: whole seconds left (rounded down); 0 when under one second is left, or the timer ran out, was stopped or was never set
+
+```text
+variable ogretimer T
+echo ${T.SecondsLeft}
+```
+
+#### `TimeLeft`
+
+`${T.TimeLeft}`
+
+Milliseconds left before the timer runs out - 0 once it has run out, and 0 for a timer that was stopped or never set. Reading the variable itself (${T}) gives the same number, so `if ${T}` means still running.
+
+**Returns:** int64: milliseconds left; 0 when the timer has run out, was stopped or was never set
+
+```text
+variable ogretimer T
+echo ${T.TimeLeft}
+```
+
+### Methods
+
+#### `Dec`
+
+`T:Dec[ms]`
+
+Takes ms milliseconds off the time left - taking off as much as is left (or more) stops the timer, and a timer that is not running stays stopped. A missing or non-number argument prints a warning and leaves the timer unchanged, and zero or a negative number counts as 0.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `ms` | number |  | milliseconds to take off (fractions are rounded) |
+
+```text
+variable ogretimer T
+T:Dec[1000]
+```
+
+#### `DecMinutes`
+
+`T:DecMinutes[minutes]`
+
+Takes that many minutes off the time left - taking off as much as is left (or more) stops the timer, and a timer that is not running stays stopped. A missing or non-number argument prints a warning and leaves the timer unchanged, and zero or a negative number counts as 0.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `minutes` | number |  | minutes to take off (fractions allowed) |
+
+```text
+variable ogretimer T
+T:DecMinutes[1]
+```
+
+#### `DecSeconds`
+
+`T:DecSeconds[seconds]`
+
+Takes that many seconds off the time left - taking off as much as is left (or more) stops the timer, and a timer that is not running stays stopped. A missing or non-number argument prints a warning and leaves the timer unchanged, and zero or a negative number counts as 0.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `seconds` | number |  | seconds to take off (fractions allowed) |
+
+```text
+variable ogretimer T
+T:DecSeconds[5]
+```
+
+#### `Inc`
+
+`T:Inc[ms]`
+
+Adds ms milliseconds to the time left, and a timer that has run out, was stopped or was never set counts from now instead. A missing or non-number argument prints a warning and leaves the timer unchanged, and zero or a negative number counts as 0.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `ms` | number |  | milliseconds to add (fractions are rounded) |
+
+```text
+variable ogretimer T
+T:Inc[2000]
+```
+
+#### `IncMinutes`
+
+`T:IncMinutes[minutes]`
+
+Adds that many minutes to the time left, and a timer that has run out, was stopped or was never set counts from now instead. A missing or non-number argument prints a warning and leaves the timer unchanged, and zero or a negative number counts as 0.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `minutes` | number |  | minutes to add (fractions allowed) |
+
+```text
+variable ogretimer T
+T:IncMinutes[1]
+```
+
+#### `IncSeconds`
+
+`T:IncSeconds[seconds]`
+
+Adds that many seconds to the time left, and a timer that has run out, was stopped or was never set counts from now instead. A missing or non-number argument prints a warning and leaves the timer unchanged, and zero or a negative number counts as 0.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `seconds` | number |  | seconds to add (fractions allowed) |
+
+```text
+variable ogretimer T
+T:IncSeconds[5]
+```
+
+#### `Set`
+
+`T:Set[ms]`
+
+Starts the timer so it runs out ms milliseconds from now, replacing any time it had, and Set[0] makes it read as already run out. A missing or non-number argument prints a warning and leaves the timer unchanged, and zero or a negative number counts as 0.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `ms` | number |  | milliseconds from now until the timer runs out (fractions are rounded) |
+
+```text
+variable ogretimer T
+T:Set[5000]
+```
+
+#### `SetHours`
+
+`T:SetHours[hours]`
+
+Starts the timer so it runs out that many hours from now, replacing any time it had (fractions work). A missing or non-number argument prints a warning and leaves the timer unchanged, and zero or a negative number counts as 0.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `hours` | number |  | hours from now until the timer runs out (fractions allowed) |
+
+```text
+variable ogretimer T
+T:SetHours[1]
+```
+
+#### `SetMinimum`
+
+`T:SetMinimum[ms]`
+
+Makes the timer run for at least ms milliseconds from now, and a timer that already has more time left keeps it. A missing or non-number argument prints a warning and leaves the timer unchanged, and zero or a negative number counts as 0.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `ms` | number |  | the least milliseconds from now the timer should have left |
+
+```text
+variable ogretimer T
+T:SetMinimum[3000]
+```
+
+#### `SetMinimumMinutes`
+
+`T:SetMinimumMinutes[minutes]`
+
+Makes the timer run for at least that many minutes from now, and a timer that already has more time left keeps it. A missing or non-number argument prints a warning and leaves the timer unchanged, and zero or a negative number counts as 0.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `minutes` | number |  | the least minutes from now the timer should have left (fractions allowed) |
+
+```text
+variable ogretimer T
+T:SetMinimumMinutes[2]
+```
+
+#### `SetMinimumSeconds`
+
+`T:SetMinimumSeconds[seconds]`
+
+Makes the timer run for at least that many seconds from now, and a timer that already has more time left keeps it. A missing or non-number argument prints a warning and leaves the timer unchanged, and zero or a negative number counts as 0.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `seconds` | number |  | the least seconds from now the timer should have left (fractions allowed) |
+
+```text
+variable ogretimer T
+T:SetMinimumSeconds[10]
+```
+
+#### `SetMinutes`
+
+`T:SetMinutes[minutes]`
+
+Starts the timer so it runs out that many minutes from now, replacing any time it had (fractions work). A missing or non-number argument prints a warning and leaves the timer unchanged, and zero or a negative number counts as 0.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `minutes` | number |  | minutes from now until the timer runs out (fractions allowed) |
+
+```text
+variable ogretimer T
+T:SetMinutes[5]
+```
+
+#### `SetSeconds`
+
+`T:SetSeconds[seconds]`
+
+Starts the timer so it runs out that many seconds from now, replacing any time it had - fractions work, so SetSeconds[1.5] is 1500 ms. A missing or non-number argument prints a warning and leaves the timer unchanged, and zero or a negative number counts as 0.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `seconds` | number |  | seconds from now until the timer runs out (fractions allowed) |
+
+```text
+variable ogretimer T
+T:SetSeconds[20]
+```
+
+#### `Stop`
+
+`T:Stop`
+
+Stops the timer at once, so TimeLeft reads 0 and Running reads FALSE. It takes no arguments and ignores any it is given.
+
+```text
+variable ogretimer T
+T:Stop
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/commands/index.md
+
+# Commands
+
+What a user types: the `ogre` commands (the in-game Commands panel lists them all) and the console commands (`oc !c` / `oc !ci`).
+
+A console command is sent as `oc !c <command> <who> ...` - typed in the console, put on an MCP button or run from a script. It goes to the sessions on this PC, this one included, and the [for-who](../ogrebotapi/ForWho.md) in `<who>` picks which of them act: `igw:${Me.Name}` is your whole group, `igwbn:${Me.Name}` your group without you. Left out, or `auto`, it uses the For Who window. `oc !ci` does the same as `oc !c`.
+
+- [`ogre` commands](ogre.md) - 94 commands
+- [Console commands: ISXOgreX](console-isxogrex.md) - 9 commands
+- [Console commands: A-B](console-a-b.md) - 46 commands
+- [Console commands: C](console-c.md) - 72 commands
+- [Console commands: D-N](console-d-n.md) - 88 commands
+- [Console commands: O-R](console-o-r.md) - 65 commands
+- [Console commands: S-Z](console-s-z.md) - 83 commands
