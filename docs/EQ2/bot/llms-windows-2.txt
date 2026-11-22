@@ -685,7 +685,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 >
 > - Both start off in every new session. The window opens shrunk; click **Expand**.
 > - Each effect is examined once, ever, so a zone you ran before may show nothing new.
-> - It switches itself off while the Encounter Recorder runs.
+> - It switches itself off while one of the old OgreBot recorder scripts runs.
 
 **Open it:** Type `ogre effecttracker` (or `ogre oet`). `ogre effecttracker on` turns on the player capture and `ogre effecttracker npc on` the NPC capture; both also open the window. `ogre effecttracker off` turns both off. `ogre end effecttracker` (or the window's X) turns both off and closes the window.
 
@@ -735,7 +735,7 @@ Record count (and 'showing N of M' when there are more than 250 matches; the fil
 ## What the window shows
 
 - Header line: zone file name, your character, 'N/8 examining' while effects wait to be read, and 'last:' the last effect captured.
-- Red 'Disarmed' bar: the Encounter Recorder or one of the old OgreBot effect tracker scripts is running. They use the same examine window, so the tracker switches itself off and refuses to turn on until they stop.
+- Red 'Disarmed' bar: one of the old OgreBot recorder or effect tracker scripts is running. They use the same examine window, so the tracker switches itself off and refuses to turn on until they stop.
 - Row name in red with '[examine timed out]' (or another reason): the capture failed. An 'Unknown_...' name means the effect could not be named. These are tried again later in the session, up to a limit.
 - Yellow brackets such as [Stun Root]: crowd control found in the effect text (Stifle, Stun, Fear, Mez, Root).
 - Open row, first line: main and backdrop icon numbers, the key, maxDuration (-1 means it lasts until removed), increments (counters), the actor type and the capture result.
@@ -748,7 +748,7 @@ Record count (and 'showing N of M' when there are more than 250 matches; the fil
 - Player and NPC are not saved: both start off in every new session. Turning either on opens this window (shrunk) so you can always see it is running.
 - Closing the window turns Player and NPC off (what was captured is saved), the same as `ogre end effecttracker`.
 - An effect is examined only once, ever, across all your characters. A zone you already ran may show nothing new; that is normal.
-- Starting the Encounter Recorder switches Effect Tracker off. Turn it back on after the recorder stops.
+- Starting one of the old OgreBot recorder scripts switches Effect Tracker off. Turn it back on after the script stops.
 - While the tracker is working, you will see effect examine windows flash open and close. That is how it reads them.
 - The list only shows the zone you are in, and only after capture has been turned on (or Merge zone pressed) this session.
 
@@ -762,7 +762,7 @@ The window opens shrunk. Click **Expand**:
 
 ![NPC effects](../assets/effecttracker/npc.png)
 
-### Blocked by the Encounter Recorder
+### Blocked by an old recorder script
 
 ![Blocked](../assets/effecttracker/blocked.png)
 
