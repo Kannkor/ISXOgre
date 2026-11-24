@@ -63,8 +63,8 @@ Each page is its own set of buttons for the right-hand block. The static block d
 | **Drag a page** | Moves the page up or down the list. A line shows where it will land. You stay on the same page.<br>*Keys assigned to buttons follow the buttons, so moving pages does not change what a key presses.* | on (needs Allow moving) |
 | **Right-click a page > Switch to this page** | Same as clicking the page. |  |
 | **Right-click a page > Rename…** | Opens a small box to type the page name (up to 40 letters). An empty name becomes 'Page N'. |  |
-| **Right-click a page > Set colour…** | Opens the colour picker for the page selector's background. Reset takes the colour off again. |  |
-| **Right-click a page > Set text colour…** | Opens the colour picker for the page name's text. Auto goes back to a colour that reads well on the background. |  |
+| **Right-click a page > Appearance > Set colour…** | Opens the colour picker for the page selector's background. Reset takes the colour off again. |  |
+| **Right-click a page > Appearance > Set text colour…** | Opens the colour picker for the page name's text. Auto goes back to a colour that reads well on the background. |  |
 | **Right-click a page > Delete page…** | Asks you to type the page's exact name, then removes the page, all its buttons and any keys assigned to them. You stay on the page you were on.<br>*Only shown when 'Allow deleting pages' is ticked and there is more than one page.* |  |
 
 
@@ -96,7 +96,7 @@ The block to the right of the dashed line. It shows the buttons of the page you 
 
 ## Right-click a button
 
-Right-click any button slot for this menu. On an empty slot, Assign to key and Copy button are not shown.
+Right-click any button slot for this menu. Set colour, Set text colour and Set text size are under Appearance: point at it and they open beside it. On an empty slot, Assign to key and Copy button are not shown.
 
 [![Right-click a button](../assets/mcp/menu-button.png)](../assets/mcp/menu-button.png "Click for full size")
 
@@ -104,9 +104,9 @@ Right-click any button slot for this menu. On an empty slot, Assign to key and C
 |---|---|
 | **Build command…** | Opens the Build command window to make or change what this button sends, and its label. |
 | **Rename…** | Changes the text on the button (up to 40 letters). Renaming an empty slot makes a button with just a label.<br>*A button needs a name: an empty name is refused and the box says so. To remove a button, use Clear button.* |
-| **Set colour…** | Opens the colour picker for the button's background. The text colour adjusts itself to stay readable unless you set one. Reset takes the colour off again. |
-| **Set text colour…** | Opens the colour picker for the button's text. Auto goes back to the automatic readable colour. |
-| **Set text size…** | Gives this button its own text size, from 6 to 40. Leave it blank to go back to the size in the MCP settings. |
+| **Appearance > Set colour…** | Opens the colour picker for the button's background. The text colour adjusts itself to stay readable unless you set one. Reset takes the colour off again. |
+| **Appearance > Set text colour…** | Opens the colour picker for the button's text. Auto goes back to the automatic readable colour. |
+| **Appearance > Set text size…** | Gives this button its own text size, from 6 to 40. Leave it blank to go back to the size in the MCP settings. |
 | **Assign to key…** | Opens the Assign keys window for this button, to fire it from a keyboard key, a G-key or an extra mouse button. The key belongs to the button: move the button, or move its page, and the key still presses it.<br>*Only shown on a slot that has a button. Clearing the button, or deleting its page, removes its keys.* |
 | **Copy button** | Remembers the button (label, command and colours) for pasting, and puts a code for it on your Windows clipboard so you can share it. The code starts with OGREMCP1.<br>*Only shown on a slot that has a button.* |
 | **Paste "<name>" [over "<name>"]** | Puts the copied button into this slot. The menu names the button, and the one it would replace.<br>*The copied button is shared by every character on this PC, so you can copy on one and paste on another. Pasting over a button keeps that button's keys, so they now press what you pasted.* |

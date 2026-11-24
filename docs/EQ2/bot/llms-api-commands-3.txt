@@ -104,11 +104,11 @@ oc !c -NavStop <who>
 oc !c -NavTo <who> <x> <y> <z> <fly>
   kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
   also: -nav-to, -nav_to
-  what: Nav (the mesh router) to an x y z, or to a point of interest in this zone. It waits while OgreBot is paused and stops when OgreBot closes. It leaves an encounter's trip alone.
+  what: Nav (the mesh router) to an x y z, or to a point of interest in this zone. Left blank, x y z are where the box that sends the line stands, so everyone comes to you. It waits while OgreBot is paused and stops when OgreBot closes. It leaves an encounter's trip alone.
   arg who (forwho, default: auto): Who navs - leave blank to use the For Who window.
-  arg x (string): X, or the name of a point of interest in this zone
-  arg y (float)
-  arg z (float)
+  arg x (string, default: ${Me.X}): X, or the name of a point of interest in this zone
+  arg y (float, default: ${Me.Y}): Y
+  arg z (float, default: ${Me.Z}): Z
   arg fly (string, default: nofly): fly flies the trip; nofly walks it.
   runs: OgreBotAPI.Movement:NavTo
   example: oc !c -NavTo igw:${Me.Name} 120.5 -14 380.25 nofly

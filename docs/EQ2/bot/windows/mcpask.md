@@ -1,8 +1,8 @@
-# Ask
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../index.md).
 </div>
+
+# Ask
 
 > **:bulb: In game - the ? button on this window says**
 >
@@ -37,9 +37,11 @@ One field per setting of each command on the button, in order, under the command
 |---|---|
 | **For who** | Which characters it is for: all, a name, a class, igw:${Me.Name} for your group, or anything the For Who window takes. Blank keeps the button's, and auto means the For Who window. |
 | **me** | Typed in a field about a character (for who, assist who, follow who), me means the character pressing the button. |
-| **Numbers and TRUE / FALSE** | A number field takes only a number, and a TRUE / FALSE field takes true, false, yes, no, on, off, 1 or 0. |
+| **Numbers and TRUE / FALSE** | A number field takes a number, or a value such as ${Me.Y}, which is read on the box that sends the button: ${Me.Y} is your Y. A TRUE / FALSE field takes true, false, yes, no, on, off, 1 or 0.<br>*NavTo's x, y and z start as ${Me.X} ${Me.Y} ${Me.Z}, so pressing Enter through them sends everyone to where you stand.* |
 | **Send** | Sends the button with your answers and closes the window. |
 | **Cancel** | Closes the window. Nothing is sent. |
+
+
 
 ## No mouse needed
 
@@ -53,6 +55,8 @@ The cursor starts in the first field, so you can type straight away.
 | **Enter** | The next field. On the last field it sends. |
 | **Esc** | Closes the window without sending. |
 | **The red line** | Says why a press was refused - a number field holding text, or a starred field left empty - and the cursor goes to that field. |
+
+
 
 ## Good to know
 

@@ -43,6 +43,7 @@ The Cast Stack is the bot's main casting list. Every turn the bot walks the Cast
 | **Ctrl+click / Shift+click a name** | Ctrl+click adds or removes one entry from the selection; Shift+click selects every entry from the last one you clicked. Selected entries are outlined and the heading counts them. Drag any selected entry to move them all together. A plain click selects just that entry. |
 | **Double-click an entry** | Switches the entry off or back on. A switched-off entry is struck through and never cast, but keeps its place. |
 | **✕ (remove)** | Removes the entry. The Undo button below can put it back. |
+| **+ end of stack** | Adds an end-of-stack line at the bottom of the Cast order: nothing below it runs, and the rows below it are drawn dim. Drag it to where the stack should end. Double-click it to switch it off, so the rows below run again.<br>*Only the first switched-on end of the stack counts. An end marker from OldBot becomes one of these when its profile loads, switched off if it was disabled.* |
 | **↶ Undo remove (N)** | Puts the last removed entry back where it was. It remembers up to 25 removals. |
 
 
@@ -59,7 +60,8 @@ The Cast Stack is the bot's main casting list. Every turn the bot walks the Cast
 - The Setup tab's '% Health / % Power req. to use CAs' and '% NPC HP to attack' apply to CA and Debuff entries unless the entry has its own My HP, My MP or NPC HP condition.
 - The Disable CS_ boxes on the Settings tab switch whole Types off without touching this list.
 - Edits apply to the running bot straight away, but only Save (top of the window) writes them to your profile. Reload throws unsaved edits away.
-- '+ separator' lines are only for your eyes; the bot skips them.
+- '+ separator' lines are only for your eyes; the bot skips them. Click one to give it a label.
+- Nothing below a switched-on 'End of cast stack' line runs; those rows are drawn dim. Double-click the line to switch it off.
 - 'Use when' limits an entry to where you are: Solo / Duo (1-2) is a group of 1 or 2 players, Group (3+) is 3 or more, Raid is any raid whatever its groups. A mercenary does not count as a player. Tick more than one to allow more than one; none ticked means the entry is used everywhere.
 - 'Named Or Epic NPC' (under Named NPCs Only) casts only at a named or an epic target. 'Force NamedCA' on the Settings tab counts every target as named.
 

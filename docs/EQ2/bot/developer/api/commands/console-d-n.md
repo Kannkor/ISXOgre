@@ -1,8 +1,8 @@
-# Console commands: D-N
-
 <div class="ogre-beta" markdown>
 **OgreBot is in beta testing.** Looking for OgreBot Classic? [Click here](../../../../index.md).
 </div>
+
+# Console commands: D-N
 
 ## `-DeleteQuest`
 
@@ -1497,14 +1497,14 @@ oc !c -NavStop igw:${Me.Name}
 
 Also: `-nav-to`, `-nav_to`
 
-Nav (the mesh router) to an x y z, or to a point of interest in this zone. It waits while OgreBot is paused and stops when OgreBot closes. It leaves an encounter's trip alone.
+Nav (the mesh router) to an x y z, or to a point of interest in this zone. Left blank, x y z are where the box that sends the line stands, so everyone comes to you. It waits while OgreBot is paused and stops when OgreBot closes. It leaves an encounter's trip alone.
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
 | `who` | forwho | `auto` | Who navs - leave blank to use the For Who window. |
-| `x` | string |  | X, or the name of a point of interest in this zone |
-| `y` | float |  |  |
-| `z` | float |  |  |
+| `x` | string | `${Me.X}` | X, or the name of a point of interest in this zone |
+| `y` | float | `${Me.Y}` | Y |
+| `z` | float | `${Me.Z}` | Z |
 | `fly` | string | `nofly` | fly flies the trip; nofly walks it. |
 
 Runs: `OgreBotAPI.Movement:NavTo`

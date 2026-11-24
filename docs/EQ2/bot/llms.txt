@@ -6,10 +6,10 @@ To convert a Classic script, follow the procedure on the Converting your scripts
 
 ## Read it all
 
-- [Everything in one document](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-full.txt): the entire documentation, 2256 KB. If that is too much to read at once, use the smaller pieces below - together they are the same text.
+- [Everything in one document](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-full.txt): the entire documentation, 2263 KB. If that is too much to read at once, use the smaller pieces below - together they are the same text.
 - [Start here (part 1 of 2)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-start-here-1.txt): 27 KB - Start here
-- [Start here (part 2 of 2)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-start-here-2.txt): 333 KB - Start here
-- [OgreBot (part 1 of 3)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-ogrebot-1.txt): 98 KB - OgreBot; OgreBot - Tabs
+- [Start here (part 2 of 2)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-start-here-2.txt): 338 KB - Start here
+- [OgreBot (part 1 of 3)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-ogrebot-1.txt): 99 KB - OgreBot; OgreBot - Tabs
 - [OgreBot (part 2 of 3)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-ogrebot-2.txt): 100 KB - OgreBot - Tabs
 - [OgreBot (part 3 of 3)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-ogrebot-3.txt): 67 KB - OgreBot - Tabs
 - [Windows (part 1 of 5)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-windows-1.txt): 72 KB - Windows - Everyday
@@ -29,7 +29,7 @@ To convert a Classic script, follow the procedure on the Converting your scripts
 - [Developers (part 10 of 14)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-10.txt): 100 KB - Developers - API reference - ISXOgreEQ2
 - [Developers (part 11 of 14)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-11.txt): 60 KB - Developers - API reference - ISXOgreEQ2; Developers - API reference; Developers - API reference - Commands
 - [Developers (part 12 of 14)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-12.txt): 87 KB - Developers - API reference - Commands
-- [Developers (part 13 of 14)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-13.txt): 76 KB - Developers - API reference - Commands
+- [Developers (part 13 of 14)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-13.txt): 77 KB - Developers - API reference - Commands
 - [Developers (part 14 of 14)](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-developers-14.txt): 84 KB - Developers - API reference - Commands; Developers - API reference
 
 ## The API reference, as plain text

@@ -430,6 +430,22 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.11.23.001 {#r2026-11-23-001}
+
+*Monday, November 23, 2026 at 11:09 PM EST*
+
+- **New** · Bot: **A Cast Stack separator can have a label.** Click a separator line in the Cast order to type a label for it, such as "Cures and Rezzes". A separator is now its own kind of entry, which the bot always skips. Separators from OldBot, including ones you labelled by hand, are converted when the profile loads, so a labelled one no longer shows as a crossed-out ability.
+- **Changed** · Bot: **Ogre IM says why it skipped an item whose ability did not get ready.** When Ogre IM skipped an item because its Salvaging, Transmuting or Extracting ability did not get ready, it always said "the ability never armed", whatever the cause. It now says which of four things happened: another cast (named) took the bar first, the cast failed, the cast was still going when the wait ran out, or the cast went through but the game never became ready to use it on the item. Nothing is clicked in any of them, as before.
+- **Changed** · Windows: **The MCP's colour and text size items are under one Appearance item.** Right-click a button and point at Appearance for Set colour, Set text colour and Set text size. A page's Set colour and Set text colour are under Appearance too.
+- **Fixed** · Bot: **Ogre IM salvage works again - it no longer skips every item as "never armed".** `ogre im tse -salvage` skipped every item with "the Salvaging ability never armed", because Salvage shows no cast bar and no cooldown, so the bot thought it never went off. It now sees Salvage go off and salvages the item. An item the game will not salvage ("cannot be salvaged", or "is NO-VALUE and cannot be salvaged") is skipped at once, and a single item whose click did nothing is tried once more before it is given up.
+- **Fixed** · Bot: **The Cast Stack's end-of-stack marker works again, as its own line.** An "END OF CAST STACK" marker carried over from OldBot was ignored, so the entries you had parked below it were cast. The marker now becomes its own "End of cast stack" line when your profile loads; nothing below it runs, and those rows are drawn dim. Add one with "+ end of stack", drag it into place, and double-click it to switch it off.
+- **Fixed** · Windows: **"Only abilities I don't have yet" now adds AA abilities that replace a spell.** With "Only abilities I don't have yet", the export skipped AA abilities that replace a spell line, such as the Mystic's Chilling Strike, Glacial Strike, Plagueish Strike and Circle of the Ancients, as if they were already in your export. It now adds them, and it no longer looks up every rank of those spells again on each run.
+- **Fixed** · Windows: **An MCP NavTo button sends everyone to where you stand.** An MCP button's number fields refused a value such as ${Me.Y}, so a NavTo button could not send everyone to your spot. They now take one, and it is read on the character that presses the button. NavTo's x, y and z now default to where the sender stands, so pressing Enter through an asking NavTo button, or sending -NavTo with them left blank, brings everyone to you.
+- **Fixed** · Windows: **OSA and the HUDs list mobs that turn attackable.** In zones where mobs start out unattackable and turn into NPCs later, such as The Protector's Realm and Venril Sathir's Lair, the OSA list stayed empty, even for the named you were fighting. The bot now re-checks what type each mob is every couple of seconds, so such a mob appears shortly after it turns, and the HUDs and anything that counts mobs by type see it too.
+- **Fixed** · Instance Controller: **Gra'ta the Mountain is now fought out in the open.** In The Fabled Zavith'loa: The Lost Caverns [Solo] and [Heroic], the group now moves to a fight spot out in the open for Gra'ta the Mountain. The old spot was on a ledge, and when Gra'ta stopped on the slope below it, the bots could not see him to cast. They only auto-attacked, and one fight took 12 minutes instead of about one.
+- **Fixed** · Crafting: **Craft Grandmasters no longer crafts a recipe whose name only contains the one it wants.** When the matching Grandmaster recipe was not in your recipe book, Craft Grandmasters could pick a different recipe whose name contained it, such as "Natural Infusion III" for "Fusion III", and the run then stopped short of that recipe's Master. It now crafts only the exact "(Grandmaster)" recipe, and says when a recipe is not in your book and is skipped.
+- **Fixed** · Setup: **A PC clock running fast now says so at sign-in, not "could not be verified".** When your PC's clock was running about 10 minutes fast, sign-in failed with "The server's response could not be verified." It now says your clock is ahead of the login server's and to sync it (Windows Settings, Time & language, **Sync now**), then type `ext isxogrex` again.
+
 ## 2026.11.20.003 {#r2026-11-20-003}
 
 *Friday, November 20, 2026 at 5:04 PM EST*
@@ -1963,6 +1979,7 @@ The Cast Stack is the bot's main casting list. Every turn the bot walks the Cast
 | **Ctrl+click / Shift+click a name** | Ctrl+click adds or removes one entry from the selection; Shift+click selects every entry from the last one you clicked. Selected entries are outlined and the heading counts them. Drag any selected entry to move them all together. A plain click selects just that entry. |
 | **Double-click an entry** | Switches the entry off or back on. A switched-off entry is struck through and never cast, but keeps its place. |
 | **✕ (remove)** | Removes the entry. The Undo button below can put it back. |
+| **+ end of stack** | Adds an end-of-stack line at the bottom of the Cast order: nothing below it runs, and the rows below it are drawn dim. Drag it to where the stack should end. Double-click it to switch it off, so the rows below run again.<br>*Only the first switched-on end of the stack counts. An end marker from OldBot becomes one of these when its profile loads, switched off if it was disabled.* |
 | **↶ Undo remove (N)** | Puts the last removed entry back where it was. It remembers up to 25 removals. |
 
 
@@ -1979,7 +1996,8 @@ The Cast Stack is the bot's main casting list. Every turn the bot walks the Cast
 - The Setup tab's '% Health / % Power req. to use CAs' and '% NPC HP to attack' apply to CA and Debuff entries unless the entry has its own My HP, My MP or NPC HP condition.
 - The Disable CS_ boxes on the Settings tab switch whole Types off without touching this list.
 - Edits apply to the running bot straight away, but only Save (top of the window) writes them to your profile. Reload throws unsaved edits away.
-- '+ separator' lines are only for your eyes; the bot skips them.
+- '+ separator' lines are only for your eyes; the bot skips them. Click one to give it a label.
+- Nothing below a switched-on 'End of cast stack' line runs; those rows are drawn dim. Double-click the line to switch it off.
 - 'Use when' limits an entry to where you are: Solo / Duo (1-2) is a group of 1 or 2 players, Group (3+) is 3 or more, Raid is any raid whatever its groups. A mercenary does not count as a player. Tick more than one to allow more than one; none ticked means the entry is used everywhere.
 - 'Named Or Epic NPC' (under Named NPCs Only) casts only at a named or an epic target. 'Force NamedCA' on the Settings tab counts every target as named.
 
@@ -4656,8 +4674,8 @@ Each page is its own set of buttons for the right-hand block. The static block d
 | **Drag a page** | Moves the page up or down the list. A line shows where it will land. You stay on the same page.<br>*Keys assigned to buttons follow the buttons, so moving pages does not change what a key presses.* | on (needs Allow moving) |
 | **Right-click a page > Switch to this page** | Same as clicking the page. |  |
 | **Right-click a page > Rename…** | Opens a small box to type the page name (up to 40 letters). An empty name becomes 'Page N'. |  |
-| **Right-click a page > Set colour…** | Opens the colour picker for the page selector's background. Reset takes the colour off again. |  |
-| **Right-click a page > Set text colour…** | Opens the colour picker for the page name's text. Auto goes back to a colour that reads well on the background. |  |
+| **Right-click a page > Appearance > Set colour…** | Opens the colour picker for the page selector's background. Reset takes the colour off again. |  |
+| **Right-click a page > Appearance > Set text colour…** | Opens the colour picker for the page name's text. Auto goes back to a colour that reads well on the background. |  |
 | **Right-click a page > Delete page…** | Asks you to type the page's exact name, then removes the page, all its buttons and any keys assigned to them. You stay on the page you were on.<br>*Only shown when 'Allow deleting pages' is ticked and there is more than one page.* |  |
 
 
@@ -4685,15 +4703,15 @@ The block to the right of the dashed line. It shows the buttons of the page you 
 
 ## Right-click a button
 
-Right-click any button slot for this menu. On an empty slot, Assign to key and Copy button are not shown.
+Right-click any button slot for this menu. Set colour, Set text colour and Set text size are under Appearance: point at it and they open beside it. On an empty slot, Assign to key and Copy button are not shown.
 
 | Control | What it does |
 |---|---|
 | **Build command…** | Opens the Build command window to make or change what this button sends, and its label. |
 | **Rename…** | Changes the text on the button (up to 40 letters). Renaming an empty slot makes a button with just a label.<br>*A button needs a name: an empty name is refused and the box says so. To remove a button, use Clear button.* |
-| **Set colour…** | Opens the colour picker for the button's background. The text colour adjusts itself to stay readable unless you set one. Reset takes the colour off again. |
-| **Set text colour…** | Opens the colour picker for the button's text. Auto goes back to the automatic readable colour. |
-| **Set text size…** | Gives this button its own text size, from 6 to 40. Leave it blank to go back to the size in the MCP settings. |
+| **Appearance > Set colour…** | Opens the colour picker for the button's background. The text colour adjusts itself to stay readable unless you set one. Reset takes the colour off again. |
+| **Appearance > Set text colour…** | Opens the colour picker for the button's text. Auto goes back to the automatic readable colour. |
+| **Appearance > Set text size…** | Gives this button its own text size, from 6 to 40. Leave it blank to go back to the size in the MCP settings. |
 | **Assign to key…** | Opens the Assign keys window for this button, to fire it from a keyboard key, a G-key or an extra mouse button. The key belongs to the button: move the button, or move its page, and the key still presses it.<br>*Only shown on a slot that has a button. Clearing the button, or deleting its page, removes its keys.* |
 | **Copy button** | Remembers the button (label, command and colours) for pasting, and puts a code for it on your Windows clipboard so you can share it. The code starts with OGREMCP1.<br>*Only shown on a slot that has a button.* |
 | **Paste "<name>" [over "<name>"]** | Puts the copied button into this slot. The menu names the button, and the one it would replace.<br>*The copied button is shared by every character on this PC, so you can copy on one and paste on another. Pasting over a button keeps that button's keys, so they now press what you pasted.* |
@@ -5156,9 +5174,11 @@ One field per setting of each command on the button, in order, under the command
 |---|---|
 | **For who** | Which characters it is for: all, a name, a class, igw:${Me.Name} for your group, or anything the For Who window takes. Blank keeps the button's, and auto means the For Who window. |
 | **me** | Typed in a field about a character (for who, assist who, follow who), me means the character pressing the button. |
-| **Numbers and TRUE / FALSE** | A number field takes only a number, and a TRUE / FALSE field takes true, false, yes, no, on, off, 1 or 0. |
+| **Numbers and TRUE / FALSE** | A number field takes a number, or a value such as ${Me.Y}, which is read on the box that sends the button: ${Me.Y} is your Y. A TRUE / FALSE field takes true, false, yes, no, on, off, 1 or 0.<br>*NavTo's x, y and z start as ${Me.X} ${Me.Y} ${Me.Z}, so pressing Enter through them sends everyone to where you stand.* |
 | **Send** | Sends the button with your answers and closes the window. |
 | **Cancel** | Closes the window. Nothing is sent. |
+
+
 
 ## No mouse needed
 
@@ -5170,6 +5190,8 @@ The cursor starts in the first field, so you can type straight away.
 | **Enter** | The next field. On the last field it sends. |
 | **Esc** | Closes the window without sending. |
 | **The red line** | Says why a press was refused - a number field holding text, or a starred field left empty - and the cursor goes to that field. |
+
+
 
 ## Good to know
 
@@ -41749,14 +41771,14 @@ oc !c -NavStop igw:${Me.Name}
 
 Also: `-nav-to`, `-nav_to`
 
-Nav (the mesh router) to an x y z, or to a point of interest in this zone. It waits while OgreBot is paused and stops when OgreBot closes. It leaves an encounter's trip alone.
+Nav (the mesh router) to an x y z, or to a point of interest in this zone. Left blank, x y z are where the box that sends the line stands, so everyone comes to you. It waits while OgreBot is paused and stops when OgreBot closes. It leaves an encounter's trip alone.
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
 | `who` | forwho | `auto` | Who navs - leave blank to use the For Who window. |
-| `x` | string |  | X, or the name of a point of interest in this zone |
-| `y` | float |  |  |
-| `z` | float |  |  |
+| `x` | string | `${Me.X}` | X, or the name of a point of interest in this zone |
+| `y` | float | `${Me.Y}` | Y |
+| `z` | float | `${Me.Z}` | Z |
 | `fly` | string | `nofly` | fly flies the trip; nofly walks it. |
 
 Runs: `OgreBotAPI.Movement:NavTo`
