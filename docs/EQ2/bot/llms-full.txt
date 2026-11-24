@@ -430,6 +430,14 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.11.24.001 {#r2026-11-24-001}
+
+*Tuesday, November 24, 2026 at 5:12 PM EST*
+
+- **New** · Bot: **The small OgreBot window can hide its X.** The X on the small OgreBot window shuts OgreBot down, and it is easy to hit when you mean Hide Main. Untick **Close button (X)** in its cog and press Done to hide it; the choice is kept for next time. The X on the big OgreBot window and `ogre end bot` still close OgreBot.
+- **Fixed** · Bot: **Profile Parts changes no longer say "no profile route".** Removing, adding, disabling or switching off a Profile Parts mapping said "Could not remove: no profile route for character" for a character whose profile is set by class or on the Persona tab. The change was saved, but the bot then could not reload the profile. It now reloads the same profile file.
+- **Fixed** · Bot: **Save Custom Profile and Import Profile work on a new install.** On the OgreBot Admin tab, **Save Custom Profile** said "write failed" when the `Profiles\Samples` folder was not there yet, and the **Import Profile** list had no `Profiles\Import` folder to drop files into. Both folders are now made when they are needed. The Persona tab's page also has a new section on adding a profile and on changing class.
+
 ## 2026.11.23.001 {#r2026-11-23-001}
 
 *Monday, November 23, 2026 at 11:09 PM EST*
