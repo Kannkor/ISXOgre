@@ -4340,12 +4340,12 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 >
 > - **Pause / Resume** - Pause stops the bot acting on its own (casting, following, camp spot, looting, Auto-Hunt). The button turns yellow and reads Resume.
 > - **Hide Main / Show Main** - hides or shows the main OgreBot window. The bot keeps running.
-> - **The top line** shows your class. The **cog** in the title bar lets you choose what this window shows: your class, your character's name, and a line saying what the bot is doing. Tick what you want and press Done.
+> - **The top line** shows your class. The **cog** in the title bar lets you choose what this window shows: your class, your character's name, a line saying what the bot is doing, and the X. Tick what you want and press Done.
 > - **What the bot is doing** (the bottom line) - Paused, the ability it is casting (Cast: ...) or item it is using (Item: ...), Campspot active (a camp spot outranks following - while one is on, the bot is not following), who it is following, or Idle.
 >
 > **Good to know**
 >
-> - The X on this window stops OgreBot completely, the same as the X on the main window and `ogre end bot`. Unsaved changes are lost.
+> - The X on this window stops OgreBot completely, the same as the X on the main window and `ogre end bot`. Unsaved changes are lost. If you hit it by mistake, untick **Close button (X)** in the cog to hide it.
 > - Unsaved changes show as a yellow star (*) on the main OgreBot window only, not on this one.
 > - Your choices from the cog are kept for next time.
 > - Pause only affects this character. Commands you send still work while paused.
@@ -4354,7 +4354,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 
 ## What it is for
 
-The small OgreBot window is a remote for the bot and a quick look at what it is doing. The top line shows your class. Pause stops the bot from acting on its own and Resume starts it again. Hide Main hides the big OgreBot window and Show Main brings it back. The bottom line says what the bot is doing right now. The cog in the title bar picks which of the two lines you see. OgreBot normally loads with the big window hidden, so this small window is what you see.
+The small OgreBot window is a remote for the bot and a quick look at what it is doing. The top line shows your class. Pause stops the bot from acting on its own and Resume starts it again. Hide Main hides the big OgreBot window and Show Main brings it back. The bottom line says what the bot is doing right now. The cog in the title bar picks which of the two lines you see, and can hide the X. OgreBot normally loads with the big window hidden, so this small window is what you see.
 
 ## The top line and the status line
 
@@ -4389,7 +4389,7 @@ Besides the usual ? (help) and lock, the title bar has the cog, which picks what
 
 | Control | What it does |
 |---|---|
-| **Title bar close (X)** | Shuts OgreBot down completely, the same as the X on the big window and `ogre end bot`. Both windows close, movement and HUDs stop, the profile is unloaded, and unsaved changes are thrown away.<br>*To just get the big window out of the way, use Hide Main.* |
+| **Title bar close (X)** | Shuts OgreBot down completely, the same as the X on the big window and `ogre end bot`. Both windows close, movement and HUDs stop, the profile is unloaded, and unsaved changes are thrown away.<br>*To just get the big window out of the way, use Hide Main. If you keep hitting the X by mistake, untick Close button (X) in the cog to hide it.* |
 
 
 
@@ -4403,6 +4403,7 @@ The cog in the title bar opens a short list in place of the buttons. Tick what y
 | **Class** | Shows your class on the top line. | on |
 | **Character name** | Shows your character's name on the top line, in front of the class. | off |
 | **What the bot is doing** | Shows the status line under the buttons. | on |
+| **Close button (X)** | Shows the X in this window's title bar. Untick it so you cannot shut OgreBot down by mistake when you meant Hide Main. With the X hidden, the X on the big OgreBot window and `ogre end bot` still close OgreBot. | on |
 | **Done** | Saves your ticks, closes the list and brings the buttons back. The choice is kept for next time. |  |
 
 
@@ -4416,7 +4417,7 @@ The cog in the title bar opens a short list in place of the buttons. Tick what y
 
 ## Good to know
 
-- The X on this small window stops OgreBot. It is not a minimize.
+- The X on this small window stops OgreBot. It is not a minimize. The cog can hide it.
 - Pause only stops what the bot decides by itself. Commands from you or your group still run.
 - The cog's choice is saved for the whole computer, not for each character.
 
