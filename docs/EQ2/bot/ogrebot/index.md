@@ -14,7 +14,7 @@
 > - **Change a setting** - it takes effect right away.
 > - **Save** writes this profile to disk. **Reload** throws away unsaved changes and reads the profile again.
 > - **Search** finds a setting on any tab by its name.
-> - **Profiles** tab - load, create, delete or set the default profile. A new profile copies the current one as last saved.
+> - **Profiles** tab - load, create, delete or set the default profile. A new profile copies your current settings, unsaved changes included.
 > - **Right-click a setting** to copy its name (for commands) or send it to your group.
 >
 > **Good to know**
@@ -124,7 +124,7 @@ Right-click a checkbox, text box, dropdown or slider to get two extra choices. T
 
 ## Profiles tab
 
-A profile is a complete set of settings. One character can have several, for example Solo, Raid and Heroic Duo, and switch between them. The line at the top says which profile is loaded and whether you have unsaved changes. Each profile has a row with three buttons, and under the list you can make a new profile.
+A profile is a complete set of settings. One character can have several, for example Solo, Raid and Heroic Duo, and switch between them. The line at the top says which profile is loaded and whether you have unsaved changes. Each profile has a row with four buttons, and under the list you can make a new profile.
 
 [![Profiles tab](../assets/ogrebot/profiles.png)](../assets/ogrebot/profiles.png "Click for full size")
 

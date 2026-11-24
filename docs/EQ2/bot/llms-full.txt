@@ -1692,7 +1692,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogre
 > - **Change a setting** - it takes effect right away.
 > - **Save** writes this profile to disk. **Reload** throws away unsaved changes and reads the profile again.
 > - **Search** finds a setting on any tab by its name.
-> - **Profiles** tab - load, create, delete or set the default profile. A new profile copies the current one as last saved.
+> - **Profiles** tab - load, create, delete or set the default profile. A new profile copies your current settings, unsaved changes included.
 > - **Right-click a setting** to copy its name (for commands) or send it to your group.
 >
 > **Good to know**
@@ -1786,7 +1786,7 @@ Right-click a checkbox, text box, dropdown or slider to get two extra choices. T
 
 ## Profiles tab
 
-A profile is a complete set of settings. One character can have several, for example Solo, Raid and Heroic Duo, and switch between them. The line at the top says which profile is loaded and whether you have unsaved changes. Each profile has a row with three buttons, and under the list you can make a new profile.
+A profile is a complete set of settings. One character can have several, for example Solo, Raid and Heroic Duo, and switch between them. The line at the top says which profile is loaded and whether you have unsaved changes. Each profile has a row with four buttons, and under the list you can make a new profile.
 
 | Control | What it does | Default |
 |---|---|---|
@@ -3601,6 +3601,15 @@ A persona is one character in one class. This tab lists every class this charact
 - A change applies the next time that class loads on this character, not to the class it is on right now.
 - A character's own setting beats every rule. Clear puts it back on the rules.
 - The file list is every profile in the Main profiles folder.
+
+## Adding a profile, or changing class
+
+- **Changing class (betraying), or a new persona:** there is nothing to rename. The first time a character loads in a class with nothing set for it, OgreBot makes a file of its own for that class, named `<server>_<character>_<class>.json`, from the sample for the class. The old class keeps its file.
+- **A profile you already have** (a copy of your old one, or one a friend sent you): put the `.json` file in `Scripts\OgreSave\EQ2\OgreBot\Profiles\Main`, then pick it on this tab, on the row of the class that should use it. That class uses it the next time it loads; close and open OgreBot to be sure.
+- **One file for every character in a class:** set a rule in the Persona window (`ogre persona`). Characters that share a file share its Save as well: the last one to save wins.
+- **Another set of settings in the same class** (Solo, Raid, ...): that is a profile inside the file. Make it with Create on the Profiles tab.
+- **A profile someone shared with Save Custom Profile** (Admin tab): put it in `Scripts\OgreSave\EQ2\OgreBot\Profiles\Import`, then press Refresh List and Import Profile on the Admin tab. Its profiles are added to the file this character is using.
+- **An OldBot profile (`.xml`):** the Migration Assistant (`ogre migrate`) converts OldBot's profiles. Its Re-run (overwrite) rewrites every profile it converted, and the file that holds what you set on this tab and in the Persona window, so those settings are lost.
 
 
 ---

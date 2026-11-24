@@ -1079,37 +1079,11 @@ A persona is one character in one class. This tab lists every class this charact
 - A character's own setting beats every rule. Clear puts it back on the rules.
 - The file list is every profile in the Main profiles folder.
 
+## Adding a profile, or changing class
 
----
-
-Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/post-cast.md
-
-# Post-Cast
-
-Post-Cast casts one thing right AFTER another has finished. Each row says 'after the bot casts B, cast A'. A can be an ability or an item; B is the ability that sets it off. For a spell with a cast time, A goes out once the cast bar is done; for an instant, straight after. Several rows can share the same B; they go one at a time, top to bottom.
-
-| Option | What it does | Default |
-|---|---|---|
-| **1. Cast THIS  (ability or item)** | Pick what the bot should cast afterwards. Click an ability or item to select it for the next row. A row is skipped, without a message, while the ability is not in this character's ability export - run an export after you learn it. |  |
-| **2. ...after this is cast** | Pick the ability that sets it off. After the bot casts this ability, the pick from list 1 follows. |  |
-| **Post-casts setup** | Your post-cast rows, shown as 'what to cast   After: what it follows'. Rows for the same ability fire top to bottom, one at a time, once that ability's cast is over.<br>*Double-click a row to switch it off. Drag to reorder.* | empty |
-
-
-
-## Post-Cast
-
-| Control | What it does |
-|---|---|
-| **Add** | Saves your two picks as a new row at the end of 'Post-casts setup'. It stays greyed out until you have picked one entry in each list. |
-
-
-
-## Good to know
-
-- To add a row, click the thing to cast in list 1, click the ability it follows in list 2, then press Add under 'Post-casts setup'. The text next to Add shows your two picks.
-- Any cast the bot makes can set off a post-cast: the Cast Stack, scripts and commands. Abilities you click yourself do not.
-- If your cast bar stays busy with something else for more than about 2 seconds after B, the post-cast is dropped, because it would no longer be 'after B'.
-- Names match any rank: 'Assault' also matches 'Assault XIII'. An ability must be ready; items are just tried.
-- A row that points at itself is ignored, and a post-cast never sets off another post-cast or a pre-cast.
-- 'Disable Post-Cast tab' on the Settings tab switches this whole tab off. While a script has 'Dynamic Ignore Encounter CAs' or 'Dynamic Ignore PBAE CAs' ticked, post-casts of that kind are skipped too.
-- In 'Post-casts setup', drag a row to change the order, double-click a row to switch it off, and the x removes it.
+- **Changing class (betraying), or a new persona:** there is nothing to rename. The first time a character loads in a class with nothing set for it, OgreBot makes a file of its own for that class, named `<server>_<character>_<class>.json`, from the sample for the class. The old class keeps its file.
+- **A profile you already have** (a copy of your old one, or one a friend sent you): put the `.json` file in `Scripts\OgreSave\EQ2\OgreBot\Profiles\Main`, then pick it on this tab, on the row of the class that should use it. That class uses it the next time it loads; close and open OgreBot to be sure.
+- **One file for every character in a class:** set a rule in the Persona window (`ogre persona`). Characters that share a file share its Save as well: the last one to save wins.
+- **Another set of settings in the same class** (Solo, Raid, ...): that is a profile inside the file. Make it with Create on the Profiles tab.
+- **A profile someone shared with Save Custom Profile** (Admin tab): put it in `Scripts\OgreSave\EQ2\OgreBot\Profiles\Import`, then press Refresh List and Import Profile on the Admin tab. Its profiles are added to the file this character is using.
+- **An OldBot profile (`.xml`):** the Migration Assistant (`ogre migrate`) converts OldBot's profiles. Its Re-run (overwrite) rewrites every profile it converted, and the file that holds what you set on this tab and in the Persona window, so those settings are lost.
