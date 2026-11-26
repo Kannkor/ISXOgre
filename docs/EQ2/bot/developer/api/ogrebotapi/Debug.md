@@ -131,7 +131,7 @@ OgreBotAPI.Debug:SpewInternalVariables[${Me.Name}]
 
 `OgreBotAPI.Debug:SpewResearchWindow[fw]`
 
-Queues a job that opens the Knowledge window's research page if it is not up, broadcasts every row to every session as "&lt;label> -> &lt;status>", then closes the window if it opened it. It needs the character in the world, and with no rows it echoes a note to the console instead.
+Queues a job that opens the Knowledge window's research page if it is not showing (a hidden page keeps stale template text, so it is always shown first), broadcasts every row to every session as "&lt;label> -> &lt;status>", then closes the window if it opened it. It needs the character in the world, and with no rows it echoes a note to the console instead.
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|

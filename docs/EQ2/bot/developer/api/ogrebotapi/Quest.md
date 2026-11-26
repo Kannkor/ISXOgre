@@ -184,7 +184,7 @@ OgreBotAPI.Quest:ShareQuestWhenAble[all,"Feathers For Sethis","${Zone.Name}"]
 
 `OgreBotAPI.Quest:ShowMissionInfo[fw]`
 
-Prints the hot zone mission rotation for this server to the console: what is current, what comes next and the time until it changes. It runs on every addressed character, with no group leader check.
+Opens the Zone Reuse window's Hot Zones tab and prints one line to the console: the newest expansion's hot zone (the window's first row, each zone named once, without [Heroic] / [Solo]) and the time until it changes. When the game's list reads Expired - the zones just changed and the new list has not arrived - it says so instead. It runs on every addressed character, with no group leader check.
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|

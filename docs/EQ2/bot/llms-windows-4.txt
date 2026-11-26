@@ -920,6 +920,7 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 >
 > - A full export takes a while. OgreBot reloads your abilities when it finishes, unless it was a dry run or you ticked **Don't reload OgreBot when finished**.
 > - `ogre export -start` runs with the options set here, without opening this window.
+> - To give the options on the command line, use `ISXOgreEQ2.Export:Abilities[...]` - the green line at the bottom shows it for the options you have set, and Full documentation lists every flag.
 > - Your choices are saved as you make them.
 > - If none of the abilities in **Just these abilities** is found, nothing is exported and the top line says so.
 
@@ -1030,6 +1031,65 @@ The cache only makes exports faster: it remembers which abilities an export woul
 - If none of the abilities in 'Just these abilities' is in your knowledge book, nothing is exported and the top row says so. Names that are not found are listed on the console.
 - Typing `ogre export` while this window is open does nothing.
 - Options file: OgreSave/EQ2/OgreBot/AbilityExports/export-gui.json. Delete it to go back to defaults.
+
+### Run it from the console
+
+There are two commands. **`ogre export`** works the panel; **`ISXOgreEQ2.Export:Abilities[...]`** is the export itself, and takes every option on the command line.
+
+#### `ogre export` (the panel's command)
+
+It knows only these words - any order, any case, the dash optional. `ogre abilityexport` is the same command.
+
+| Type | What it does |
+|---|---|
+| `ogre export` | Opens this window. While an export runs, it brings this window back. |
+| `ogre export -start` | Runs the export now with the options set in this window, without opening it. |
+| `ogre export -default -start` | Runs the export now with the default options. Your saved options are left as they are. |
+| `ogre export -default` | Opens this window showing the defaults. They are saved only once you change an option or run. |
+| `ogre export stop` | Stops a running export. Nothing is written. |
+| `ogre end export` | Stops a running export and closes both export windows. |
+
+Any other word - for example `-new` or `-maxlevel 130` - is refused with a message, and nothing runs: `ogre export` never takes the options themselves. To give options on the command line, use the command below.
+
+#### `ISXOgreEQ2.Export:Abilities[...]` (every option)
+
+Type it in the console as it is. The flags go inside the brackets, separated by commas, in any order; a flag that takes a number or a file is followed by it, as the next item: `ISXOgreEQ2.Export:Abilities[-new,-maxlevel,130]`. With no flags it runs with the defaults. It starts in the background and returns at once. The green line at the bottom of this window shows this same command for the options you have set, so you can copy it from there.
+
+| Flag | The window's option | What it does |
+|---|---|---|
+| *(none)* | the defaults | Merges into your existing export: every tier, every level, effect descriptions kept, passives left out. |
+| `-passive` | Include passive abilities | Adds your passive abilities. |
+| `-tradeskill` | Tradeskill export instead | Exports only your tradeskill abilities, to the files Ogre Craft reads, instead of your combat abilities. |
+| `-NoAscension` | Skip ascension abilities | Leaves out ascension abilities. |
+| `-AscensionOnly` | Ascension abilities ONLY | Exports nothing but ascension abilities. Not together with `-NoAscension`. |
+| `-nodesc` | Include effect descriptions (unticked) | Leaves each ability's effect text out of the file. `-desc` keeps it, which is the default. |
+| `-j` or `-journeyman` | Minimum tier: Journeyman+ | Leaves out Apprentice abilities. |
+| `-a` or `-adept` | Minimum tier: Adept+ | Adept and better only. |
+| `-e` or `-expert` | Minimum tier: Expert+ | Expert and better only. |
+| `-m` or `-master` | Minimum tier: Master+ | Master and better only. |
+| `-gm` or `-grandmaster` | Minimum tier: Grandmaster+ | Grandmaster and better only. |
+| `-ancient` | Minimum tier: Ancient+ | Ancient and better only. |
+| `-minlevel,<n>` | Minimum level | Leaves out abilities below level n. AA and ascension abilities count as level 0, so any minimum above 0 leaves them all out. |
+| `-maxlevel,<n>` | Maximum level | Leaves out abilities above level n. |
+| `-nonew` or `-nothing` | File mode: Merge into existing export | Adds new abilities and updates changed ones in the export you have. The default. |
+| `-new` | File mode: Fresh file (replace) | Starts a brand-new export that replaces the one you have. |
+| `-NewAbilities` or `-NA` | File mode: Only abilities I don't have yet | Adds only abilities that are not in your export yet, which is much faster. Ignored together with `-new`. |
+| `-nosave` or `-donotsave` | Dry run (do not write) | Runs the whole export but saves nothing, and OgreBot does not reload its abilities. |
+| `-noreloadbot` | Don't reload OgreBot when finished | Leaves the abilities OgreBot has loaded alone when the export finishes. |
+| `-consolidate` | Cache action: Consolidate, then export | First folds in what your other characters' exports have learned, then exports. |
+| `-consolidateOnly` or `-co` | Cache action: Consolidate only (no export) | Only folds in what your other characters' exports have learned. Nothing is exported. |
+| `-clearcache` | Cache action: Clear the cache (no export) | Empties the shared cache list. Nothing is exported. |
+| an ability name or ID | Just these abilities | Exports only the abilities you name. A name has no dash in front; put one with spaces in quotes: `ISXOgreEQ2.Export:Abilities["Mystic Ward",-passive]`. Names that are not found are listed in the console, and if none is found nothing runs. |
+| `-path,<file>` | *(not in the window)* | Writes to that file instead of the usual one. For testing. |
+
+A word that starts with a dash and is not in this table is refused before anything runs, so a typo never turns into an ability name. `-fastloading` (an old flag) is accepted and ignored, with a message.
+
+#### While it runs, and on other characters
+
+- `${ISXOgreEQ2.Export.Busy}` is TRUE until the file is written or the export stops; `${ISXOgreEQ2.Export.Processed}` and `${ISXOgreEQ2.Export.Total}` are its progress.
+- `ISXOgreEQ2.Export:End` stops it and closes the windows, the same as `ogre end export`.
+- On every member of your group, each with its own saved options: `oc !c -OgreCommandOB_AP igw:${Me.Name} export -start`
+- On every member of your group, with options on the command line: `oc !c -RawCommandOB_AP igw:${Me.Name} ISXOgreEQ2.Export:Abilities[-new,-maxlevel,130]`
 
 ### While an export runs
 
@@ -1272,91 +1332,3 @@ With no terms the Scan button turns red:
 ### Console commands
 
 `ogre analysis` also takes words for things the window cannot do: `monitor remove <id>`, `monitor list`, `taps on|off`, `rate <ms>`, `status`, `sessions`, `import <name>`.
-
-
----
-
-Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/abilitydetails.md
-
-# Ability Details
-
-> **:bulb: In game - the ? button on this window says**
->
-> Shows everything your ability export holds about each of your abilities. Use it to answer "why won't the bot cast this?"
->
-> **What you can do here**
->
-> - **Search** - type part of a name, an ID, or a test such as `IsInterrupt = TRUE` or `HOIconID = NULL`. Everything you type must match.
-> - **Click a row** to see every field of that ability on the right. The `*` marks the rank the bot uses.
-> - **Copy JSON** copies the whole entry. Right-click a field to copy its value or a search test for it.
-> - `ogre abilitydetails <name or id>` opens the window on that ability.
->
-> **Good to know**
->
-> - The export leaves out flags that are false, so `IsAE = FALSE` matches nothing - use `IsAE != TRUE`. The footer lists the fields an entry does not have.
-> - The window only reads your export. If an ability is missing, make a new export with `ogre export`.
-
-**Open it:** Type `ogre abilitydetails`, or `ogre abilitydetails <name or id>` to open it on one ability (for example `ogre abilitydetails Assault` or `ogre abilitydetails Assault X`). A script opens it with `OgreBotAPI.Abilities:AbilityDetails[<forwho>,"<name or id>"]`. `ogre end abilitydetails` closes it.
-
-## What it is for
-
-Shows everything your ability export holds about each of your abilities: every rank of every line, and every field of the one you pick. It is the place to look when the bot will not cast something, or casts a different rank than you expected. The window only reads your export file - it never asks the game - so what you see is exactly what the bot works from. If OgreBot is not open yet, the window reads your export itself; it never changes it.
-
-## The status line
-
-Whose export this is, how many entries it holds (every rank of every ability) and how many ability lines that makes. The `*` in the list marks the rank the bot uses for each line - the highest rank your level allows. It turns red when there is no export for this character yet, or when the export is too old for the bot, and an **Ability Export** button appears.
-
-| Control | What it does |
-|---|---|
-| **Ability Export** | Opens the Ability Export window, where you make a fresh export. Shown only when there is no export or it is out of date.<br>*When the export finishes the window shows the new one by itself.* |
-
-
-
-## Search and the list
-
-Every ability in your export, sorted by name with each line's ranks together, lowest level first. Lvl and Tier are the rank's level and spell tier. The count under the search box shows how many match out of the total.
-
-| Control | What it does |
-|---|---|
-| **Search** | Filters the list as you type. Words match the ability's name. A number matches its ID or its line ID (and names with that number in them). A test such as `IsInterrupt = TRUE`, `HOIconID = NULL` or `Level >= 100` checks a field, exactly the way FindCastableID and FindAndCast check it. Everything you type must match.<br>*A field name typed without a comparison and a value is shown in orange under the box and ignored until you finish it.* |
-| **Click a row** | Shows every field of that rank on the right. |
-| **Right-click a row** | Copy name or Copy ID of that rank. |
-
-
-
-## The selected ability
-
-Every field the export holds for that rank, exactly as written: the name, IDs, level and tier first, then the rest A to Z, then the effect lines in order. The footer lists the fields this entry does NOT have. The export leaves a flag out when it is false, so those fields read as NULL - that is why `IsAE = FALSE` matches nothing. Use `IsAE != TRUE` instead.
-
-| Control | What it does |
-|---|---|
-| **Copy JSON** | Copies the whole entry, in the same order as the window shows it. |
-| **Right-click a field** | Copy value copies the value. Copy as a search term copies `Field = value`, which you can paste into the search box to find every ability with the same value. |
-| **Title bar close (X)** | Closes the window. Same as `ogre end abilitydetails`. |
-
-
-
-## Opening it on one ability
-
-`ogre abilitydetails Assault` (the ability's own name, no rank) selects the rank the bot uses. A specific rank's full name (`Assault X`) or an ID selects exactly that rank, and the line under its name says which rank the bot uses instead. Either way the search is filled in with the ability's name, so all its ranks are listed. If nothing matches, nothing is selected, the line says so in orange and the console says it too.
-
-## What the window shows
-
-- `*` in the list and after the selected name: the rank the bot uses for that line (the highest rank your level allows).
-- The orange line under the search box: a test you have not finished (a field name with no comparison or no value). It does not filter until it is complete.
-- Status line '(Loaded by this window - OgreBot is not open.)': OgreBot has not been opened, so the window read your export itself. OgreBot reads it again when it opens.
-
-## Good to know
-
-- The window shows your own character's export only.
-- It shows the export, not the game. An ability you trained after your last export is not in it - make a new export with `ogre export`.
-- The export leaves out flags that are false. Test them with `!= TRUE` (or `= NULL`), not `= FALSE`.
-- Typing a field name such as `Level` on its own starts a test, not a name search.
-
-## Other states
-
-![A test in the search box](../assets/abilitydetails/query.png) ![An unfinished test](../assets/abilitydetails/badterm.png)
-
-![Nothing matches](../assets/abilitydetails/notfound.png) ![No export yet](../assets/abilitydetails/noexport.png)
-
-A finished test in the search box, an unfinished one (shown in orange and ignored), a name that matches nothing, and a character with no export yet.
