@@ -4,7 +4,7 @@
 
 # Key Binds
 
-Key Binds tells the bot which keys your game uses for moving, jumping, flying and so on. Whenever the bot has to press one of these keys for you, it presses the key set here, so if your Forward is not W the bot still walks. The tab shows eleven actions in two columns. Each has a box with its key, a Set button and a Clear button. To change one, click the key box or Set, then press the key you want. The change is saved straight away, for every EverQuest 2 character on this PC. The keys are kept in Scripts\OgreSave\EQ2\KeyBinds.json, not in your profile.
+Key Binds tells the bot which keys your game uses for moving, jumping, flying and so on. Whenever the bot has to press one of these keys for you, it presses the key set here, so if your Forward is not W the bot still walks. The tab shows seven actions in two columns. Each has a box with its key, a Set button and a Clear button. To change one, click the key box or Set, then press the key you want. The change is saved straight away, for every EverQuest 2 character on this PC. The keys are kept in Scripts\OgreSave\EQ2\KeyBinds.json, not in your profile.
 
 [![Key Binds tab](../assets/ogrebot/tab-key-binds.png)](../assets/ogrebot/tab-key-binds.png "Click for full size")
 
@@ -30,10 +30,6 @@ Key Binds tells the bot which keys your game uses for moving, jumping, flying an
 | **Fly/Swim down** | The key the bot holds to sink while flying or swimming, both when it moves you and for its Fly Down command. It is also used to land a flying mount. | End |
 | **Jump** | The key the bot presses for its Jump command and for jumps along a travel path. | Space |
 | **Crouch** | The key the bot presses for its Crouch command. | Z |
-| **Look up** | **Not built yet.** Stored for later. Nothing in the bot presses this key yet. | Page Up |
-| **Look down** | **Not built yet.** Stored for later. Nothing in the bot presses this key yet. | Page Down |
-| **Zoom in** | **Not built yet.** Stored for later. Nothing in the bot presses this key yet. | Num + |
-| **Zoom out** | **Not built yet.** Stored for later. Nothing in the bot presses this key yet. | Num - |
 
 
 
@@ -44,5 +40,4 @@ Key Binds tells the bot which keys your game uses for moving, jumping, flying an
 - A grey key is the standard one. Clear only shows once you have changed a key, and puts it back to the standard one.
 - If two actions use the same key, an 'also used by ...' warning appears under it. The bot still allows it.
 - Changing a key updates all your EverQuest 2 sessions on this PC right away. No Save is needed.
-- Look up, Look down, Zoom in and Zoom out are stored, but nothing in the bot presses them yet.
 

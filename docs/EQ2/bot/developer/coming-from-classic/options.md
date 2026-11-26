@@ -4,7 +4,7 @@
 
 # OgreBot option ids
 
-Scripts and MCP buttons change OgreBot's options by id: `oc !c -ChangeOgreBotUIOption <who> <id> <value>`, `OgreBotAPI.Options:Set[<who>,<id>,<value>]`, or read one with `${OgreBotAPI.Options.Value[<id>]}`. Most ids are the same in the new bot (707 of them exist there). The ones below are Classic ids the new bot does not have.
+Scripts and MCP buttons change OgreBot's options by id: `oc !c -ChangeOgreBotUIOption <who> <id> <value>`, `OgreBotAPI.Options:Set[<who>,<id>,<value>]`, or read one with `${OgreBotAPI.Options.Value[<id>]}`. Most ids are the same in the new bot (682 of them exist there). The ones below are Classic ids the new bot does not have.
 
 > **:warning: Setting an id the new bot does not have does nothing**
 >
@@ -17,20 +17,43 @@ These ids did nothing even in Classic (switched off there, or never an option at
 - `checkbox_autohunt_looppath`
 - `checkbox_autohunt_movementonly`
 - `checkbox_autohunt_useirc`
+- `checkbox_brigand_epic2`
+- `checkbox_conjuror_noauto_magicleash`
+- `checkbox_conjuror_noauto_shadowstep`
+- `checkbox_conjuror_noauto_shockwave`
+- `checkbox_defiler_donotuselegbite`
 - `checkbox_inquisitor_verdictepicnamedonly`
 - `checkbox_inquisitor_verdictepics`
 - `checkbox_inquisitor_verdictheroicnamedonly`
 - `checkbox_inquisitor_verdictheroics`
+- `checkbox_mystic_donotuselegbite`
+- `checkbox_necromancer_noauto_magicleash`
+- `checkbox_necromancer_noauto_shadowstep`
+- `checkbox_necromancer_noauto_shockwave`
 - `checkbox_other_handlefieldmedic`
+- `checkbox_ranger_focusaim`
+- `checkbox_ranger_tracingshot`
+- `checkbox_ranger_wreakhavoc`
 - `checkbox_settings_allow_specials_to_be_targets`
+- `checkbox_settings_ascension_embargo_and_combos`
+- `checkbox_settings_autocomplete_ascensioncombos`
+- `checkbox_settings_disable_bulwark_of_order_defensives`
 - `checkbox_settings_do_not_show_revision_history`
 - `checkbox_settings_doho`
+- `checkbox_settings_enable_cd_t4_weapons`
+- `checkbox_settings_handle_hq_earring`
 - `checkbox_settings_raidoptionslimited`
+- `checkbox_settings_show_surge_messages`
+- `checkbox_warlock_debugging_for_myth`
 - `listbox_autohunt_path_order`
+- `textentry_coercer_irrotationtext`
+- `textentry_dirge_cobrotationtext`
 - `textentry_inquisitor_verdictepicnamedonlypercent`
 - `textentry_inquisitor_verdictepicspercent`
 - `textentry_inquisitor_verdictheroicnamedonlypercent`
 - `textentry_inquisitor_verdictheroicspercent`
+- `textentry_load_testtext`
+- `textentry_troubador_potmrotationtext`
 
 ## Renamed
 
@@ -38,7 +61,7 @@ These ids did nothing even in Classic (switched off there, or never an option at
 |---|---|
 | `checkbox_autohunt_autohunt` | `checkbox_donotsave_autohunt` |
 
-## Not in the new bot (54)
+## Not in the new bot (55)
 
 - `checkbox_ascension_glacialfreeze_announce`
 - `checkbox_ascension_glacialfreeze_announce_onlyifinraid`
@@ -51,6 +74,7 @@ These ids did nothing even in Classic (switched off there, or never an option at
 - `checkbox_debug_chaintab`
 - `checkbox_debug_fieldmedic`
 - `checkbox_debug_internal_testing`
+- `checkbox_debug_queuedcommands`
 - `checkbox_defiler_maliciousspirits_primary`
 - `checkbox_defiler_maliciousspirits_secondary`
 - `checkbox_extra_moveraiddebuff`

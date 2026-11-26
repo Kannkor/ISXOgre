@@ -7901,7 +7901,6 @@
    "checkbox_autohunt_prebuff",
    "checkbox_autotarget_enabled",
    "checkbox_autotarget_outofcombatscanning",
-   "checkbox_brigand_epic2",
    "checkbox_canceloncast_allowoverland",
    "checkbox_caststack_concentrationavailable",
    "checkbox_caststack_ignoreaenukes",
@@ -7917,9 +7916,6 @@
    "checkbox_coercer_pe_donotcastincombat",
    "checkbox_conjuror_crystallinedestruction",
    "checkbox_conjuror_dimstorage",
-   "checkbox_conjuror_noauto_magicleash",
-   "checkbox_conjuror_noauto_shadowstep",
-   "checkbox_conjuror_noauto_shockwave",
    "checkbox_consumeitems_allow_guildhalls",
    "checkbox_consumeitems_allow_overland",
    "checkbox_consumeitems_incombat_only",
@@ -7947,11 +7943,9 @@
    "checkbox_debug_overseer",
    "checkbox_debug_overseeragents",
    "checkbox_debug_profileparts",
-   "checkbox_debug_queuedcommands",
    "checkbox_debug_reapplyvalue",
    "checkbox_debug_rewardwindow",
    "checkbox_debug_whatisthebotdoing",
-   "checkbox_defiler_donotuselegbite",
    "checkbox_dirge_confrontfear",
    "checkbox_donotsave_autohunt",
    "checkbox_donotsave_dynamicassist",
@@ -8025,11 +8019,7 @@
    "checkbox_lootdistribution_secondary_weapons",
    "checkbox_mystic_canceltorporoutofcombat",
    "checkbox_mystic_canceltorporrange",
-   "checkbox_mystic_donotuselegbite",
    "checkbox_necromancer_dimstorage",
-   "checkbox_necromancer_noauto_magicleash",
-   "checkbox_necromancer_noauto_shadowstep",
-   "checkbox_necromancer_noauto_shockwave",
    "checkbox_ogreconsole_connecttoirc",
    "checkbox_ogreconsole_hideonload",
    "checkbox_ogreconsole_neverautoopen",
@@ -8104,9 +8094,6 @@
    "checkbox_pushover_on_tell_from_eq2chars",
    "checkbox_pushover_on_tell_from_stranger",
    "checkbox_ranger_exploitweakness",
-   "checkbox_ranger_focusaim",
-   "checkbox_ranger_tracingshot",
-   "checkbox_ranger_wreakhavoc",
    "checkbox_relaygroups_defaultrelaygroup",
    "checkbox_relaygroups_leaverelaygroups",
    "checkbox_relaygroups_resetdefaultrelaygroup",
@@ -8120,12 +8107,10 @@
    "checkbox_settings_acceptres",
    "checkbox_settings_aesmartnukes",
    "checkbox_settings_allow_city_casting",
-   "checkbox_settings_ascension_embargo_and_combos",
    "checkbox_settings_assist",
    "checkbox_settings_auto_use_temporary_familiar_experience",
    "checkbox_settings_auto_use_temporary_mount_reduction",
    "checkbox_settings_auto_use_temporary_research_reduction",
-   "checkbox_settings_autocomplete_ascensioncombos",
    "checkbox_settings_autofollow",
    "checkbox_settings_autoshare_missions",
    "checkbox_settings_autotargetwhenhated",
@@ -8146,7 +8131,6 @@
    "checkbox_settings_disable_antifear",
    "checkbox_settings_disable_auto_setups",
    "checkbox_settings_disable_bulwark_of_order",
-   "checkbox_settings_disable_bulwark_of_order_defensives",
    "checkbox_settings_disable_dbc_claim",
    "checkbox_settings_disable_fighter_hoicon_0",
    "checkbox_settings_disable_fighter_hoicon_1",
@@ -8209,7 +8193,6 @@
    "checkbox_settings_dov_raid_debuff",
    "checkbox_settings_dov_raid_debuff_allow_moving",
    "checkbox_settings_enable_abilityrotate",
-   "checkbox_settings_enable_cd_t4_weapons",
    "checkbox_settings_enable_chatevents",
    "checkbox_settings_enable_curepotions",
    "checkbox_settings_enable_despawnevents",
@@ -8233,7 +8216,6 @@
    "checkbox_settings_globally_mute_itemrotation",
    "checkbox_settings_globally_mute_tags",
    "checkbox_settings_grindoptions",
-   "checkbox_settings_handle_hq_earring",
    "checkbox_settings_heroic_surge",
    "checkbox_settings_ho_allow_unknown_target",
    "checkbox_settings_ho_change_target",
@@ -8292,7 +8274,6 @@
    "checkbox_settings_selective_stcure_elemental",
    "checkbox_settings_selective_stcure_noxious",
    "checkbox_settings_selective_stcure_trauma",
-   "checkbox_settings_show_surge_messages",
    "checkbox_settings_skipcutscenes",
    "checkbox_settings_spew_boz_research",
    "checkbox_settings_spew_subscription_status",
@@ -8312,7 +8293,6 @@
    "checkbox_tags_meonly",
    "checkbox_tags_show_timers",
    "checkbox_tags_useabilitymaintained",
-   "checkbox_warlock_debugging_for_myth",
    "checkbox_warlock_donotforce_nomythondarksiphoning",
    "checkbox_warlock_myth",
    "combobox_allow_tag",
@@ -8397,7 +8377,6 @@
    "overseer_status",
    "slider_autotarget_scanheight",
    "slider_autotarget_scanradius",
-   "slider_caststack_blsavagelevel",
    "slider_osa_radius",
    "text_codex_status",
    "text_codex_toons_status",
@@ -8432,8 +8411,6 @@
    "textentry_caststack_recastdelay",
    "textentry_caststack_rewardvalue",
    "textentry_channeler_constructs_sacrifice_hp",
-   "textentry_coercer_irrotationtext",
-   "textentry_dirge_cobrotationtext",
    "textentry_dirge_confrontfearcastedtext",
    "textentry_dirge_confrontfeartext",
    "textentry_eq2chars_accountname",
@@ -8468,7 +8445,6 @@
    "textentry_irc_user",
    "textentry_itemrotation_duration",
    "textentry_load_execute_text",
-   "textentry_load_testtext",
    "textentry_lootdistribution_minimum_resolve",
    "textentry_mystic_canceltorporrange",
    "textentry_onzone_execute_text",
@@ -8495,7 +8471,6 @@
    "textentry_tags_addduration",
    "textentry_tags_duration",
    "textentry_tags_subtractduration",
-   "textentry_troubador_potmrotationtext",
    "textentry_unload_execute_text"
   ],
   "oldNotInNew": [
@@ -8510,6 +8485,7 @@
    "checkbox_debug_chaintab",
    "checkbox_debug_fieldmedic",
    "checkbox_debug_internal_testing",
+   "checkbox_debug_queuedcommands",
    "checkbox_defiler_maliciousspirits_primary",
    "checkbox_defiler_maliciousspirits_secondary",
    "checkbox_extra_moveraiddebuff",
@@ -8564,6 +8540,21 @@
    "checkbox_autohunt_useirc": {
     "status": "removed"
    },
+   "checkbox_brigand_epic2": {
+    "status": "removed"
+   },
+   "checkbox_conjuror_noauto_magicleash": {
+    "status": "removed"
+   },
+   "checkbox_conjuror_noauto_shadowstep": {
+    "status": "removed"
+   },
+   "checkbox_conjuror_noauto_shockwave": {
+    "status": "removed"
+   },
+   "checkbox_defiler_donotuselegbite": {
+    "status": "removed"
+   },
    "checkbox_inquisitor_verdictepicnamedonly": {
     "status": "removed"
    },
@@ -8576,10 +8567,40 @@
    "checkbox_inquisitor_verdictheroics": {
     "status": "removed"
    },
+   "checkbox_mystic_donotuselegbite": {
+    "status": "removed"
+   },
+   "checkbox_necromancer_noauto_magicleash": {
+    "status": "removed"
+   },
+   "checkbox_necromancer_noauto_shadowstep": {
+    "status": "removed"
+   },
+   "checkbox_necromancer_noauto_shockwave": {
+    "status": "removed"
+   },
    "checkbox_other_handlefieldmedic": {
     "status": "removed"
    },
+   "checkbox_ranger_focusaim": {
+    "status": "removed"
+   },
+   "checkbox_ranger_tracingshot": {
+    "status": "removed"
+   },
+   "checkbox_ranger_wreakhavoc": {
+    "status": "removed"
+   },
    "checkbox_settings_allow_specials_to_be_targets": {
+    "status": "removed"
+   },
+   "checkbox_settings_ascension_embargo_and_combos": {
+    "status": "removed"
+   },
+   "checkbox_settings_autocomplete_ascensioncombos": {
+    "status": "removed"
+   },
+   "checkbox_settings_disable_bulwark_of_order_defensives": {
     "status": "removed"
    },
    "checkbox_settings_do_not_show_revision_history": {
@@ -8588,10 +8609,28 @@
    "checkbox_settings_doho": {
     "status": "removed"
    },
+   "checkbox_settings_enable_cd_t4_weapons": {
+    "status": "removed"
+   },
+   "checkbox_settings_handle_hq_earring": {
+    "status": "removed"
+   },
    "checkbox_settings_raidoptionslimited": {
     "status": "removed"
    },
+   "checkbox_settings_show_surge_messages": {
+    "status": "removed"
+   },
+   "checkbox_warlock_debugging_for_myth": {
+    "status": "removed"
+   },
    "listbox_autohunt_path_order": {
+    "status": "removed"
+   },
+   "textentry_coercer_irrotationtext": {
+    "status": "removed"
+   },
+   "textentry_dirge_cobrotationtext": {
     "status": "removed"
    },
    "textentry_inquisitor_verdictepicnamedonlypercent": {
@@ -8604,6 +8643,12 @@
     "status": "removed"
    },
    "textentry_inquisitor_verdictheroicspercent": {
+    "status": "removed"
+   },
+   "textentry_load_testtext": {
+    "status": "removed"
+   },
+   "textentry_troubador_potmrotationtext": {
     "status": "removed"
    }
   },
@@ -42427,10 +42472,10 @@
    "surface": "Obj_OgreUtilities"
   },
   {
-   "howToFix": "Write `OgreBotAPI.Client:SetCameraPitch` instead of `call Obj_OgreUtilities.Set_LookDown`; the arguments changed: A pitch angle, not a hold time.",
+   "howToFix": "Write `OgreBotAPI.Client:SetCameraPitch` instead of `call Obj_OgreUtilities.Set_LookDown`; the arguments changed: A pitch angle, not a hold time. The Key Binds tab has no look or zoom keys.",
    "id": "Obj_OgreUtilities.Set_LookDown",
    "newForm": "OgreBotAPI.Client:SetCameraPitch",
-   "note": "A pitch angle, not a hold time.",
+   "note": "A pitch angle, not a hold time. The Key Binds tab has no look or zoom keys.",
    "oldCall": "call Obj_OgreUtilities.Set_LookDown",
    "oldKinds": [
     "f"
@@ -42442,10 +42487,10 @@
    "surface": "Obj_OgreUtilities"
   },
   {
-   "howToFix": "Write `OgreBotAPI.Client:SetCameraPitch` instead of `call Obj_OgreUtilities.Set_LookUp`; the arguments changed: The argument is a pitch angle (-75..75, 0 centre), not a hold time. Whether the look/zoom key binds come back is open.",
+   "howToFix": "Write `OgreBotAPI.Client:SetCameraPitch` instead of `call Obj_OgreUtilities.Set_LookUp`; the arguments changed: The argument is a pitch angle (-75..75, 0 centre), not a hold time. The Key Binds tab has no look or zoom keys.",
    "id": "Obj_OgreUtilities.Set_LookUp",
    "newForm": "OgreBotAPI.Client:SetCameraPitch",
-   "note": "The argument is a pitch angle (-75..75, 0 centre), not a hold time. Whether the look/zoom key binds come back is open.",
+   "note": "The argument is a pitch angle (-75..75, 0 centre), not a hold time. The Key Binds tab has no look or zoom keys.",
    "oldCall": "call Obj_OgreUtilities.Set_LookUp",
    "oldKinds": [
     "f"
@@ -42470,7 +42515,7 @@
    "surface": "Obj_OgreUtilities"
   },
   {
-   "howToFix": "Not ported - there is no replacement yet.",
+   "howToFix": "Do not hold keys: set the zoom with ISXEQ2's own `Me:SetCameraZoomDistance[<distance>]` and read it with `${Me.CameraZoomDistance}`. It works in third person. The game sets the limits, and they differ by zone: a number past them is held at the zone's limit (in Antonica the farthest was 35).",
    "id": "Obj_OgreUtilities.Set_ZoomOut",
    "oldCall": "call Obj_OgreUtilities.Set_ZoomOut",
    "oldKinds": [
@@ -42483,7 +42528,7 @@
    "surface": "Obj_OgreUtilities"
   },
   {
-   "howToFix": "Not ported - there is no replacement yet.",
+   "howToFix": "Do not hold keys: set the zoom with ISXEQ2's own `Me:SetCameraZoomDistance[<distance>]` and read it with `${Me.CameraZoomDistance}`. It works in third person. The game sets the limits, and they differ by zone: a number past them is held at the zone's limit (in Antonica the farthest was 35).",
    "id": "Obj_OgreUtilities.Set_ZoomOut_MouseWheel",
    "oldCall": "call Obj_OgreUtilities.Set_ZoomOut_MouseWheel",
    "oldKinds": [
@@ -49067,7 +49112,7 @@
    "surface": "OldBot framework"
   },
   {
-   "howToFix": "Not ported - there is no camera-zoom verb yet; the key is set in the Key Binds tab but scripts cannot read it.",
+   "howToFix": "Do not hold keys: set the zoom with ISXEQ2's own `Me:SetCameraZoomDistance[<distance>]` and read it with `${Me.CameraZoomDistance}`. It works in third person. The game sets the limits, and they differ by zone: a number past them is held at the zone's limit (in Antonica the farthest was 35).",
    "id": "OldBot framework|OgreZoomOutKey",
    "note": "The key your client uses to zoom the camera out (default Num -), which one fight script held on every toon.",
    "oldCall": "OgreZoomOutKey",

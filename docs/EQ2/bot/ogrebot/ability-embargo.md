@@ -56,3 +56,15 @@ The tab is for abilities that only one of your characters should use at a time. 
 - The embargo is sent with the -AbilityEmbargo command, so you can watch it go out in OgreConsole (unless Hide from OgreConsole or Globally Mute is ticked). The character that cast the ability gets it too, as in the old bot. You can also send one yourself: -AbilityEmbargo takes an ability name or an ID.
 - Loading a profile clears every ability and item embargo still running on that character.
 
+## Taking turns on one ability
+
+Several characters of the same class can share one ability, so only one casts it at a time and the next one picks it up when it runs out - for example Perfection of the Maestro on your troubadors, Cacophony of Blades on your dirges or Intellectual Remedy on your coercers. (OgreBot Classic did this with a "rotation text to listen for" box on the class tab; this tab replaces it.)
+
+1. On the **Settings** tab of every character that should take part, tick **Enable Ability Embargo**.
+2. On each of those characters, open this tab and click the ability in **Full Ability list** (type its name in the search box above it).
+3. In **Duration**, put how many seconds the others should hold off. OgreBot Classic used 35 for Perfection of the Maestro, 20 for Cacophony of Blades and 40 for Intellectual Remedy. Leave it blank to use the ability's own duration.
+4. Tick **IRC** if some of them play on another computer, or **Group** if only the ones in the same group should hold off.
+5. Press **Add**.
+
+Now whichever of them casts it first tells the others, who skip it until the Duration is up; then the next one ready casts it and tells the rest. Unlike OgreBot Classic's box, this only hears your own characters: a player who is not running OgreBot and calls it out in chat is not heard.
+

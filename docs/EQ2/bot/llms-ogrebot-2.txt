@@ -8,6 +8,131 @@ Index of every page and of every file like this one: https://kannkor.github.io/I
 
 ---
 
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/ability-research.md
+
+# Ability Research
+
+The game's Knowledge window can research one ability upgrade at a time, and each one takes days. This tab keeps a priority list of the abilities you want researched and which tiers you want. When it runs, the bot opens the Knowledge window, claims any finished research, and starts the first row on your list that the game offers at a tier you ticked. It runs by itself when your profile loads and 30 seconds after a 'Research of ... has been completed' message, unless 'Do not check Research on load' is ticked on the Settings tab. The left list shows what the game offers right now: press Preview to fill it. Click an ability there, tick the tiers you want, and press Add. On the right, drag rows to set priority (top first), click a row to change it, double-click to switch it off, and use the X to remove it.
+
+| Option | What it does | Default |
+|---|---|---|
+| **Sort by Name** | Sorts the left list A to Z. When unticked it is sorted by level, highest first. Display only - it changes what you see, not what the bot does.<br>*It sits beside the search box, which only appears once the list has entries.* | off |
+| **Full Research list** | What the game's research window is offering right now. Each row reads like '[097] Kick IV (Adept)': the level, the ability, and the tier researching it would give. Click one to put it in the form on the right, or double-click to add it straight to your list with no tiers ticked.<br>*The label shows '(press Preview)' while empty and '(N available)' once filled.* | empty until Preview, Claim + start next or a profile load fills it |
+| **Research List** | Your research priorities, top first. Each row shows the ability's level, its name and the tiers you want (J, A, E, M, G, Anc). Drag to reorder, click to change, double-click to switch a row off, X to remove.<br>*A switched-off row is skipped.* | empty |
+
+
+
+## Full Research list (left)
+
+| Control | What it does |
+|---|---|
+| **Search ... abilities** | Type to filter the left list. Display only. |
+
+
+
+## Research List (right)
+
+| Control | What it does |
+|---|---|
+| **Preview** | Opens the Knowledge window, fills the left list with what is on offer, and reports in the console what it would claim and start. It claims and starts nothing, then closes the window. |
+| **Claim + start next** | Does it for real: claims any finished research, then, if nothing is being researched, starts the first enabled row on your list that the game offers at a tier you ticked. Research takes days.<br>*Posts 'Researching ...' (or 'NO RESEARCH STARTED...') to OgreConsole.* |
+| **Clear list** | Removes every row from your Research List after asking you to confirm. Your abilities are not touched. |
+
+
+
+## Add form (under the list)
+
+| Control | What it does | Default |
+|---|---|---|
+| **Ability name** | The ability for the new row. Clicking an ability on the left fills it in, or you can type and pick from the suggestions. It must be the full name with its rank, for example 'Kick IV'. |  |
+| **Journeyman** | Research this ability when the upgrade on offer is to Journeyman. | off |
+| **Adept** | Research this ability when the upgrade on offer is to Adept. | off |
+| **Expert** | Research this ability when the upgrade on offer is to Expert. | off |
+| **Master** | Research this ability when the upgrade on offer is to Master. | off |
+| **Grandmaster** | Research this ability when the upgrade on offer is to Grandmaster. | off |
+| **Ancient** | Research this ability when the upgrade on offer is to Ancient. | off |
+| **Add** | Adds the ability in the form, with the tiers you ticked, to the bottom of your Research List. After you click a row it becomes Update and saves your changes to that row instead (Cancel backs out). |  |
+| **Clear Options** | Unticks all six tiers in the form. Otherwise the ticks carry over to the next Add. |  |
+
+
+
+## Good to know
+
+- A tier tick means 'research it TO this tier', and only the tiers you tick. Ticking Expert and Ancient researches upgrades to Expert or Ancient but skips Master and Grandmaster, for example because you craft those yourself.
+- A row with no tier ticked is never researched. Double-clicking an ability on the left adds it with no tiers, so click the row afterwards and tick some.
+- Rows match the ability's full name, rank included, so 'Kick IV' is not 'Kick V'. The number in brackets on each row is its level. '[--]' means the ability is not in this character's ability export, usually because it is out of date or from another character. 'Clear list' empties the list so you can start again.
+- A row the game offers that is not in this character's ability export is reported to OgreConsole and passed over, and the next row gets its turn.
+- If nothing on your list can be started, the bot posts 'NO RESEARCH STARTED. Review Ability Research Tab' to OgreConsole.
+- The tier ticks stay ticked after Add, so you can add several abilities with the same tiers. 'Clear Options' unticks them.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/ability-tracker.md
+
+# Ability Tracker
+
+Ability Tracker watches the cooldowns of a short list of your abilities and shares them with all your characters. Its main use is the OgreMCP window: a button that casts a tracked ability turns red and counts down its cooldown, based on whichever of your characters has the longest wait for it. It only runs while 'Enable Ability Tracker' is ticked on the Settings tab. To add an ability, click it in the Full Ability list and press Add, or double-click it. On the right, double-click a row to switch it off, or use the X to remove it.
+
+| Option | What it does | Default |
+|---|---|---|
+| **Full Ability list** | All of this character's abilities. Click one to select it for the Add button below, or double-click it to add it to the Ability Tracker List straight away. | your abilities |
+| **Ability Tracker List** | The abilities whose cooldowns are tracked, shown A to Z. Twice a second the bot reads how long each has left and shares it with your other characters, and the OgreMCP window shows it on matching buttons. Double-click a row to switch it off, X to remove.<br>*Needs 'Enable Ability Tracker' on the Settings tab.* | empty |
+
+## Full Ability list (left)
+
+| Control | What it does |
+|---|---|
+| **Search ... abilities** | Type to filter the ability list. Display only. |
+| **Add** | Adds the ability you clicked in the list above to the Ability Tracker List. It is greyed out until you click one, and the name you picked is shown beside it. |
+
+## Good to know
+
+- Nothing happens until 'Enable Ability Tracker' is ticked on the Settings tab.
+- An MCP button only lights up if its cast command names the ability without its rank, for example 'Kick' and not 'Kick VII'. The tracker matches on the plain name.
+- Keep the list short. Every ability on it is checked twice a second and sent to your other characters.
+- An ability this character does not have (not in its ability export) is skipped without a message.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/aliases.md
+
+# Aliases
+
+An alias is a nickname for one character, so your setup can say `*MainTank` instead of a real name. Type the alias and who it is for, then Add. The bot puts a star in front, so 'MainTank' becomes `*MainTank`, and you use that in a Cast Stack target or in a command's 'for who'. 'For' can be a character name or a class word (a class, subclass or archetype such as Fury or Priest). The bot checks you first, then your group, then your raid, and picks the first character that fits. Aliases only work while 'Enable Aliases' on the Settings tab is ticked.
+
+| Option | What it does | Default |
+|---|---|---|
+| **Aliases** | Your aliases, in the order they are tried. Drag to reorder, double-click to switch one off, x to delete. The colour shows whether the alias is used on the Cast Stack and whether this row is the one that wins right now. | empty |
+
+
+
+## Add an alias
+
+| Control | What it does | Default |
+|---|---|---|
+| **Alias (e.g. RaidMT)** | The nickname. The bot adds a star in front, so you use it as `*RaidMT`. | empty |
+| **For (player / class / role)** | Who the alias means: a character name, or a class word such as a class, subclass or archetype. The first match wins: you, then your group, then your raid.<br>*An alias with an empty For never points at anyone.* | empty |
+| **No-Raid** | Only look in your own group for this alias, never the rest of the raid. | off |
+| **Add Alias** | Adds the alias to the end of the list. The same alias name can be added again with a different For, as a backup.<br>*An exact repeat (same alias, same For) is refused with a console message. Press Save to keep it.* |  |
+| **Display Aliases** | Prints every alias, and the character each one points to right now, in the console. |  |
+| **Team Groups…** | Opens the Team Groups window. A team group is one word (`*Team:Name`) that selects many characters and is shared by every session. |  |
+
+
+
+## Good to know
+
+- The alias list is drawn by its own code. Each row shows the alias, an arrow, and who it is for; NR means 'no raid'. Drag a row to reorder, double-click a row to switch it off, and the x deletes it (after a confirm).
+- Several rows can share one alias name. The first row, from the top, that finds a character in your group or raid wins, so later rows are backups. Drag rows to choose which one is tried first.
+- The name colour tells you two things. Green: used on the Cast Stack, and this row is the one the alias points to now. Yellow: used on the Cast Stack, but a different row (or nobody) wins right now. Orange: not used on the Cast Stack, but this row wins. Red: not used on the Cast Stack, and this row does not win.
+- With 'Enable Aliases' (Settings tab) off, no alias resolves: every row shows yellow or red and a line above the list says so.
+- Adding, removing or switching an alias off takes effect at once, but it is only kept if you press Save at the top.
+- An alias picks ONE character. To aim at several characters with one word, use Team Groups (the button under the list) instead.
+
+
+---
+
 Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/announce.md
 
 # Announce
@@ -714,7 +839,6 @@ Load holds things the bot does every time it loads your profile. The left side s
 | **Loot rarity (group leader only)** | The lowest item rarity the group loot rules apply to: All, Treasured+, Legendary+ or Fabled+. Only used by 'Set loot options', and only when you lead the group. | not set (left alone) |
 | **Auto-loot mode (everyone)** | Your own auto-loot choice: None, Auto-Greed or Auto-Decline. Used by 'Set loot options', whether or not you lead the group. | not set (left alone) |
 | **Executes** | Commands the bot runs, top to bottom, every time it loads your profile. Switched-off lines are skipped.<br>*Double-click a line to switch it off or on. Drag to reorder.* | empty |
-| **Button test** | **Not built yet.**  | empty |
 
 
 
@@ -1008,82 +1132,3 @@ The left column controls the bot's daily Overseer run. The bot opens the Oversee
 - Stop stops a Buy Missions run too. `ogre buyoverseermissions stop` also works.
 - Season and Colour are one choice each: ticking a box unticks the others in its column. 'Any', or nothing ticked, means no filter.
 - 'Destroy Extra Missions Purchased' destroys every copy of that mission left in your bags, including copies you had before. With 'No Scribe Missions' also ticked, it buys the scrolls and then destroys them all.
-
-
----
-
-Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/pack-pony.md
-
-# Pack Pony
-
-Pack Pony sends your Artisan's Pack Pony out to gather harvests by itself. With 'Enable Pack Pony' ticked and the bot running, the bot summons the pony, hails it and answers its questions using your choices below. If the pony offers to empty its packs, the bot accepts that first and then hails it again. The bot is paused while it does this and resumed afterwards. After a successful send-out it waits 2 hours 5 minutes before trying again, 10 minutes if the pony is still out or something failed, and 1 minute if you were busy. The three groups of boxes are the answers to the pony's three questions. Tick one box per group; ticking a box unticks the others in that group.
-
-| Option | What it does | Default |
-|---|---|---|
-| **Enable Pack Pony** | While the bot is running, it sends your pack pony out whenever the wait from the last run is over. | off |
-| **In Guild Hall only** | The pony is only sent out while you are in a guild hall. | off |
-| **Do not dismiss when finished** | The pony stays summoned after the run. Normally the bot dismisses it when it is done.<br>*Runs started by TaskRunner still dismiss it.* | off (the pony is dismissed) |
-| **Conversation 1 - Option 1 (1-59 harvests)** | When the pony asks its first question ('I need some level ... harvests'), the bot picks reply 1. | off |
-| **Conversation 1 - Option 2 (60-99 harvests)** | When the pony asks its first question, the bot picks reply 2. | off |
-| **Conversation 1 - Option 3 (100+ harvests)** | When the pony asks its first question, the bot picks reply 3. This is also used when no box in this group is ticked. | off (used anyway when none is ticked) |
-| **Conversation 1 - Option 4 (Special Events?)** | When the pony asks its first question, the bot picks reply 4. | off |
-| **Conversation 2 - Option 1 (1-9 / 60-69 / 100-109 harvests)** | When the pony asks its second question ('Gather level ... harvests'), the bot picks reply 1. | off |
-| **Conversation 2 - Option 2 (10-19 / 70-79 / 110-120 harvests)** | When the pony asks its second question, the bot picks reply 2. | off |
-| **Conversation 2 - Option 3 (20-29 / 80-89 / 120-130 harvests)** | When the pony asks its second question, the bot picks reply 3. This is also used when no box in this group is ticked. | off (used anyway when none is ticked) |
-| **Conversation 2 - Option 4 (30-39 / 90-95 / 131-140 harvests)** | When the pony asks its second question, the bot picks reply 4. | off |
-| **Conversation 3 - Option 1 (VoV 120-125 / PoM 110 / Thalumbra harvests / RoC 135)** | When the pony asks its third question ('Gather harvests from ...'), the bot picks reply 1. | off |
-| **Conversation 3 - Option 2 (RoR 125 / EP 110 harvests)** | When the pony asks its third question, the bot picks reply 2. This is also used when no box in this group is ticked. | off (used anyway when none is ticked) |
-| **Conversation 3 - Option 3 (BoZimara 125-130 / Luclin 110-120 harvests)** | When the pony asks its third question, the bot picks reply 3. | off |
-| **Conversation 3 - Option 4 (SoD 130 harvests)** | When the pony asks its third question, the bot picks reply 4. | off |
-
-## Good to know
-
-- The character needs the 'Summon Artisan's Pack Pony' ability, or the run does not start.
-- It never starts while you are in combat, while the bot is paused, or while another conversation window is open.
-- If no box in a group is ticked, the bot uses option 3 for Conversations 1 and 2, and option 2 for Conversation 3.
-- The boxes follow your earlier picks, the way the pony's questions do: Conversation 2 shows the replies the pony offers after your Conversation 1 pick (six under 1-59 harvests, five under 60-99, four under 100+), and Conversation 3 is only asked under 100+ harvests. Where a reply is not known (Special Events, Conversation 3 below 100) the boxes read 'placeholder' and can still be picked, in case the game adds one. A ticked box your path does not offer says 'not offered ..., pick another'. The options listed on this page are the ones shown for 100+ harvests, 120-130.
-- The wait timers are kept only while the session runs. After a reload the bot tries again straight away.
-- The harvest ranges in the box names describe what each reply meant in the old bot. The bot clicks the reply by its number (Option 1 = the first reply), so check them in game if the pony's replies change.
-
-
----
-
-Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogrebot/persona.md
-
-# Persona
-
-A persona is one character in one class. This tab lists every class this character is known in and which profile file it uses for each. By default it follows the rules in the Persona window (`ogre persona`). Pick a file here to give this character its own setting for a class.
-
-| Option | What it does | Default |
-|---|---|---|
-| **Restore gear now** | Puts this class's saved gear back on from your bags. This happens by itself after a class change; use it if something got left off. A slot whose saved piece will not go on gets the piece it replaced, or another class's piece for that slot (same archetype first); a slot still empty is an OgreConsole error with a ding. New gear you put on also replaces the old piece for every other class that wore it. |  |
-| **Save gear now** | Saves what this class is wearing now. This also happens by itself each time you zone and before a camp. A slot you emptied keeps its saved piece, so the next restore puts it back, wears a fallback, or warns you; Clear saved gear forgets it. |  |
-| **Clear saved gear** | Forgets this class's saved gear and keeps only what it is wearing now, after you confirm. Use it when you left a slot empty on purpose: a slot that is empty now is forgotten, so a restore will not fill it or warn about it. |  |
-| **Recheck adornments** | Looks at every gear slot now and moves adornments onto any bare piece, from this character's other gear for that slot. A worn piece comes off, gets its adornments, and goes back on. Also finishes a move that was stopped. Runs even when the box below is unticked. |  |
-| **Open Persona window** | Opens the Persona window, where you set which profile file each class uses on this PC. |  |
-| **Do not swap gear when changing personas** | Ticked: a class change leaves your gear as the game left it - nothing is put back on and nothing moves to the gear bags. Restore gear now still works. For this character; saved at once. | unticked (the swap happens) |
-| **Move adornments onto bare gear** | After a class change, before your gear goes on, each bare piece of gear in your bags gets the adornments of this character's other piece for that slot (another class's, same archetype first). They come off that piece and go on this one; one that will not fit goes back. Then the gear is put on. A small window shows the progress and has Stop. For this character; on unless you untick it. | ticked |
-| **Gear bags:** | Which of your six bags hold persona gear, for this character. After a class change, gear the game dumped moves into them. Tick none to leave the gear where it lands. |  |
-| **Classes this character is known in** | One row per class: the file it uses, why, a picker to give this character its own file for that class, and an X to forget that setting and follow the rules again. |  |
-
-
-
-## What you see
-
-- Each row is a class this character has an ability export for, the class it is logged in as now, or a class it already has its own setting for. The class it is logged in as comes first.
-- Beside the class is the file it uses and why: this character (its own setting), name route (an old route for this name alone), rule: all ranger (a rule in the Persona window), rule: all (the rule for every class), or class sample (nothing set, it starts from the sample for that class).
-
-## Good to know
-
-- A change applies the next time that class loads on this character, not to the class it is on right now.
-- A character's own setting beats every rule. Clear puts it back on the rules.
-- The file list is every profile in the Main profiles folder.
-
-## Adding a profile, or changing class
-
-- **Changing class (betraying), or a new persona:** there is nothing to rename. The first time a character loads in a class with nothing set for it, OgreBot makes a file of its own for that class, named `<server>_<character>_<class>.json`, from the sample for the class. The old class keeps its file.
-- **A profile you already have** (a copy of your old one, or one a friend sent you): put the `.json` file in `Scripts\OgreSave\EQ2\OgreBot\Profiles\Main`, then pick it on this tab, on the row of the class that should use it. That class uses it the next time it loads; close and open OgreBot to be sure.
-- **One file for every character in a class:** set a rule in the Persona window (`ogre persona`). Characters that share a file share its Save as well: the last one to save wins.
-- **Another set of settings in the same class** (Solo, Raid, ...): that is a profile inside the file. Make it with Create on the Profiles tab.
-- **A profile someone shared with Save Custom Profile** (Admin tab): put it in `Scripts\OgreSave\EQ2\OgreBot\Profiles\Import`, then press Refresh List and Import Profile on the Admin tab. Its profiles are added to the file this character is using.
-- **An OldBot profile (`.xml`):** the Migration Assistant (`ogre migrate`) converts OldBot's profiles. Its Re-run (overwrite) rewrites every profile it converted, and the file that holds what you set on this tab and in the Persona window, so those settings are lost.

@@ -177,7 +177,7 @@ oc !c -DisplayEtherealMissionInfo ${Me.Name}
 
 Also: `-HotZones`, `-DisplayHotZonesInfo`
 
-Show which zones are hot right now, when they rotate, and what is next. Only the expansions ticked on the Hot Zones tab are listed.
+Show the zones that are hot right now and when they change, read from the game's own Hot Zones window (the Zone Reuse window's Hot Zones tab).
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|

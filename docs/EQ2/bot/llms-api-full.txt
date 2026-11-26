@@ -13377,7 +13377,7 @@ oc !c -DisplayEtherealMissionInfo <who>
 oc !c -DisplayHotZoneInfo <who>
   kind: console command (oc !c / oc !ci - a line, an MCP button or a script)
   also: -HotZones, -DisplayHotZonesInfo
-  what: Show which zones are hot right now, when they rotate, and what is next. Only the expansions ticked on the Hot Zones tab are listed.
+  what: Show the zones that are hot right now and when they change, read from the game's own Hot Zones window (the Zone Reuse window's Hot Zones tab).
   arg who (forwho, default: auto): Who to target - leave blank to use the For Who window.
   runs: OgreBotAPI.Quest:ShowMissionInfo
   example: oc !c -DisplayHotZoneInfo ${Me.Name}
