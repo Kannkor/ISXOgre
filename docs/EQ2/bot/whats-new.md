@@ -10,6 +10,12 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.11.26.002 {#r2026-11-26-002}
+
+*Thursday, November 26, 2026 at 5:50 PM EST*
+
+- **Fixed** · Bot: **Cast Stack Top and Place move the entry you are editing.** In the Cast Stack editor, **↑ Top** and **Place** made a copy of an entry you were editing and left the original where it was. They now move it, with your changes saved. For an ability you pick on the left they still add it, and **+ New** is still the way to make a copy.
+
 ## 2026.11.26.001 {#r2026-11-26-001}
 
 *Thursday, November 26, 2026 at 5:26 PM EST*
