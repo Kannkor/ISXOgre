@@ -1,7 +1,7 @@
-# OgreBot for EverQuest II - API reference: ISXOgreEQ2 (part 1 of 3)
+# OgreBot for EverQuest II - API reference: ISXOgreEQ2 (part 1 of 4)
 
 Plain text for AI assistants, generated from the same tables as the API reference pages (https://kannkor.github.io/ISXOgre/EQ2/bot/developer/api/).
-This file is ONE PIECE: ISXOgreEQ2 (part 1 of 3) - ISXOgreEQ2, ISXOgreEQ2.AbilityDetails, ISXOgreEQ2.AbilityEfficiency, ISXOgreEQ2.AbilityUpgrades, ISXOgreEQ2.Analysis, ISXOgreEQ2.AntiAfk, ISXOgreEQ2.Auth, ISXOgreEQ2.AutoLogin, ISXOgreEQ2.BgRender, ISXOgreEQ2.Chat, ISXOgreEQ2.ChatCmd, ISXOgreEQ2.Class, ISXOgreEQ2.Codex, ISXOgreEQ2.Collection, ISXOgreEQ2.Commands, ISXOgreEQ2.ContentBuilder, ISXOgreEQ2.Craft, ISXOgreEQ2.CraftGm, ISXOgreEQ2.CraftingMats.
+This file is ONE PIECE: ISXOgreEQ2 (part 1 of 4) - ISXOgreEQ2, ISXOgreEQ2.AbilityDetails, ISXOgreEQ2.AbilityEfficiency, ISXOgreEQ2.AbilityUpgrades, ISXOgreEQ2.Analysis, ISXOgreEQ2.AntiAfk, ISXOgreEQ2.Auth, ISXOgreEQ2.AutoLogin, ISXOgreEQ2.BgRender, ISXOgreEQ2.Chat, ISXOgreEQ2.ChatCmd, ISXOgreEQ2.Class, ISXOgreEQ2.Codex, ISXOgreEQ2.Collection, ISXOgreEQ2.Commands, ISXOgreEQ2.ContentBuilder, ISXOgreEQ2.Craft, ISXOgreEQ2.CraftGm.
 How to read an entry, and every file like this one: https://kannkor.github.io/ISXOgre/EQ2/bot/llms-api.txt
 
 == ISXOgreEQ2 ==
@@ -15,7 +15,7 @@ ${ISXOgreEQ2.AbilityDetails}
 
 ${ISXOgreEQ2.AbilityEfficiency}
   kind: member of ISXOgreEQ2
-  what: The AbilityEfficiency sub-object behind ogre ae: :Run with no argument writes a per-ability efficiency report from your ability export to OgreSave/EQ2/OgreBot/AbilityEfficiency/<name>_<class>_<server>_AbilityEfficiency.txt, and :Run[-h] or :Run[help] prints the usage. Any other word is refused; it is a one-shot with no members.
+  what: The AbilityEfficiency sub-object behind ogre ae: :Run opens the Ability Efficiency window (each damaging ability's damage per second, one column per number of targets), :Run[-nogui] writes the report file instead, :Run[-targets,n] sets the targets, :Run[-list] uses the list layout, :Close closes the window, and the window's own :UI channel. It has no members.
   returns: object: the AbilityEfficiency sub-object; it always exists, has no members, and as text it reads ISXOgreEQ2.AbilityEfficiency.
   returns object: ISXOgreEQ2.AbilityEfficiency (its members and methods are listed under it)
   example: echo ${ISXOgreEQ2.AbilityEfficiency}
@@ -172,6 +172,14 @@ ${ISXOgreEQ2.Encounter}
   returns: object: the encounter engine (type ogreeq2encounter)
   returns object: ISXOgreEQ2.Encounter (its members and methods are listed under it)
   example: echo ${ISXOgreEQ2.Encounter}
+
+${ISXOgreEQ2.EncounterRecorder}
+  kind: member of ISXOgreEQ2
+  what: The Encounter Recorder: it records every fight as it happens, one file per box, so the fight can be worked out afterwards from the recording alone. Its methods are the words of `ogre er`.
+  returns: The Encounter Recorder object. As text it reads "ISXOgreEQ2.EncounterRecorder".
+  returns object: ISXOgreEQ2.EncounterRecorder (its members and methods are listed under it)
+  example: ISXOgreEQ2.EncounterRecorder:Open
+  more: https://kannkor.github.io/ISXOgre/EQ2/bot/developer/zone-files/recorder
 
 ${ISXOgreEQ2.Events}
   kind: member of ISXOgreEQ2
@@ -559,11 +567,19 @@ ISXOgreEQ2.AbilityDetails:Close
 
 == ISXOgreEQ2.AbilityEfficiency ==
 
-ISXOgreEQ2.AbilityEfficiency:Run[-h]
+ISXOgreEQ2.AbilityEfficiency:Close
   kind: method of ISXOgreEQ2.AbilityEfficiency
-  what: Scores every ability in your loaded ability export as the damage in its description divided by cast plus recovery time (recast is not counted), writes one Name|Value line per ability best first to Scripts/OgreSave/EQ2/OgreBot/AbilityEfficiency/<name>_<subclass>_<server>_AbilityEfficiency.txt and prints the top 20 (the same as `ogre ae`). With no export loaded it prints an error telling you to run `ogre export`, and any argument other than a help word is refused.
-  arg -h (switch): print the usage instead of running (-help, --help, ? and help work too)
-  example: ISXOgreEQ2.AbilityEfficiency:Run
+  what: Closes the Ability Efficiency window. This is what `ogre end ae` and the window's X do; nothing else is running to stop.
+  example: ISXOgreEQ2.AbilityEfficiency:Close
+
+ISXOgreEQ2.AbilityEfficiency:Run[-nogui,-targets,n,-list]
+  kind: method of ISXOgreEQ2.AbilityEfficiency
+  what: Scores every ability in your loaded ability export as the damage in its description divided by cast plus recovery time (recast is not counted), and with no argument opens the Ability Efficiency window, one column per number of targets (the same as `ogre ae`). With no export loaded it says to run `ogre export`, -h or help prints the usage, and any other word is refused.
+  arg -nogui (switch): write the report file instead of opening the window, best first, to Scripts/OgreSave/EQ2/OgreBot/AbilityEfficiency/<name>_<subclass>_<server>_AbilityEfficiency.txt, and print the top 20 (classic OgreBot's `ae`)
+  arg -targets (switch): followed by n: the window opens with n target columns; with -nogui the file gets one column per number of targets, best first at n
+  arg n (int, default: 4 in the window (or its saved choice); none in the file): the number of targets after -targets, 1 to 20
+  arg -list (switch): the list layout: one line per ability and number of targets, best first (an AE repeats once per count); the window opens in it, and with -nogui the file is written in it
+  example: ISXOgreEQ2.AbilityEfficiency:Run[-nogui,-targets,6,-list]
 
 
 == ISXOgreEQ2.AbilityUpgrades ==
@@ -1401,57 +1417,4 @@ ISXOgreEQ2.CraftGm:Stop
   kind: method of ISXOgreEQ2.CraftGm
   what: Stops a run and leaves the window as it is, so you can see what happened. It takes no arguments.
   example: ISXOgreEQ2.CraftGm:Stop
-
-
-== ISXOgreEQ2.CraftingMats ==
-
-${ISXOgreEQ2.CraftingMats.Keys}
-  kind: member of ISXOgreEQ2.CraftingMats
-  what: The keys of the loaded lists, comma separated - each key is also the flag that picks that list in Get and Plan (the shipped ones are cd, ka, mm, pop and vov). Re-reads the list files first if any changed on disk.
-  returns: string: the loaded list keys joined with ", "; "" when none loaded
-  example: echo ${ISXOgreEQ2.CraftingMats.Keys}
-
-${ISXOgreEQ2.CraftingMats.Lists}
-  kind: member of ISXOgreEQ2.CraftingMats
-  what: How many crafting-mats lists are loaded: the shipped ones plus your own from OgreSave/EQ2/CraftingMats/custom. Reading it first re-reads the list files if any changed on disk; any load warnings are in Warnings, and Get, Plan and Reload print them.
-  returns: int: number of loaded lists; 0 when no list files were found
-  example: echo ${ISXOgreEQ2.CraftingMats.Lists}
-
-${ISXOgreEQ2.CraftingMats.Warnings}
-  kind: member of ISXOgreEQ2.CraftingMats
-  what: The warnings the last load of the list files produced, such as an unreadable file; Get, Plan and Reload also print them each time they run. Re-reads the list files first if any changed on disk.
-  returns: string: the warnings joined with " | "; "" when the load was clean
-  example: echo ${ISXOgreEQ2.CraftingMats.Warnings}
-
-ISXOgreEQ2.CraftingMats:End
-  kind: method of ISXOgreEQ2.CraftingMats
-  what: Stops a depot withdraw that a crafting-mats run started (only that one) and closes the editor window; unsaved edits are kept for the next Open. This is what `ogre end craftingmats` and the window's X do.
-  example: ISXOgreEQ2.CraftingMats:End
-
-ISXOgreEQ2.CraftingMats:Get[flags...]
-  kind: method of ISXOgreEQ2.CraftingMats
-  what: Works out the mats for the chosen lists and categories, prints any list-file warnings and the plan, then starts pulling them from the Harvesting Supply Depot and buying any fuel at the Guild Fuel Merchant on the pulse after the call returns (the same as `ogre craftingmats -<flags>`). No flags pulls the Visions of Vetrovia signature line; nothing is pulled when not in world, when another depot errand is running, or when only unknown words were given, and the run stops if no depot is within 11 of you.
-  arg flags... (string): Any mix, dash optional, any case: a list key (-vov, -cd, -mm, -pop, -ka or your own list's key), -sig / -s, -daily / -d, -weekly / -w, -plan to print only, help. A list with no category uses its own signature line (daily + weekly for Kunark's Ascending), a category with no list uses Visions of Vetrovia, and unknown words are ignored with one warning.
-  example: ISXOgreEQ2.CraftingMats:Get[-vov,-daily,-weekly]
-
-ISXOgreEQ2.CraftingMats:Help
-  kind: method of ISXOgreEQ2.CraftingMats
-  what: Prints the `ogre craftingmats` usage to the console: the list and category flags, the defaults, the script calls and where to put your own lists so updates never overwrite them.
-  example: ISXOgreEQ2.CraftingMats:Help
-
-ISXOgreEQ2.CraftingMats:Open
-  kind: method of ISXOgreEQ2.CraftingMats
-  what: Opens the Crafting Mats list editor window, where you change a list and save it to your own custom file (the same as bare `ogre craftingmats`). Calling it while the window is open changes nothing, and without the Ogre UI desktop it prints a warning instead.
-  example: ISXOgreEQ2.CraftingMats:Open
-
-ISXOgreEQ2.CraftingMats:Plan[flags...]
-  kind: method of ISXOgreEQ2.CraftingMats
-  what: Prints any list-file warnings and the shopping list Get would use - the mats to pull from the depot and the fuel to buy - and touches neither the depot nor the merchant. Takes the same flags as Get; no flags plans the Visions of Vetrovia signature line.
-  arg flags... (string): Any mix, dash optional, any case: a list key (-vov, -cd, -mm, -pop, -ka or your own list's key), -sig / -s, -daily / -d, -weekly / -w, -plan to print only, help. A list with no category uses its own signature line (daily + weekly for Kunark's Ascending), a category with no list uses Visions of Vetrovia, and unknown words are ignored with one warning.
-  example: ISXOgreEQ2.CraftingMats:Plan[-ka]
-
-ISXOgreEQ2.CraftingMats:Reload
-  kind: method of ISXOgreEQ2.CraftingMats
-  what: Re-reads every list file from disk now, prints any warnings the load produced, then "craftingmats: reloaded -" with the list count and keys. Rarely needed: the lists are re-read by themselves whenever a list file changes.
-  example: ISXOgreEQ2.CraftingMats:Reload
 

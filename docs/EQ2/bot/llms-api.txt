@@ -1,6 +1,6 @@
 # OgreBot for EverQuest II - API reference, plain text for AI assistants
 
-> Every public member, method, command and event of the new OgreBot (in beta testing): what it does, its arguments, what it returns and a real example. 2060 entries, generated from the same tables as https://kannkor.github.io/ISXOgre/EQ2/bot/developer/api/ (the same text, without the website's tables and links). The rest of the documentation for assistants: https://kannkor.github.io/ISXOgre/EQ2/bot/llms.txt
+> Every public member, method, command and event of the new OgreBot (in beta testing): what it does, its arguments, what it returns and a real example. 2082 entries, generated from the same tables as https://kannkor.github.io/ISXOgre/EQ2/bot/developer/api/ (the same text, without the website's tables and links). The rest of the documentation for assistants: https://kannkor.github.io/ISXOgre/EQ2/bot/llms.txt
 
 ## How to read an entry
 
@@ -17,7 +17,7 @@ A member is read as ${Object.Member} and may take [arguments]; a method is a lin
 
 ## The files
 
-- https://kannkor.github.io/ISXOgre/EQ2/bot/llms-api-full.txt - everything in one file, 1034 KB. Too much for some assistants to read at once: the pieces below are the same text.
+- https://kannkor.github.io/ISXOgre/EQ2/bot/llms-api-full.txt - everything in one file, 1042 KB. Too much for some assistants to read at once: the pieces below are the same text.
 - https://kannkor.github.io/ISXOgre/EQ2/bot/llms-api-ogrebotapi-1.txt - OgreBotAPI (part 1 of 6), 84 KB: OgreBotAPI, OgreBotAPI.Abilities, OgreBotAPI.Access, OgreBotAPI.Actors, OgreBotAPI.Assist, OgreBotAPI.AutoHunt
 - https://kannkor.github.io/ISXOgre/EQ2/bot/llms-api-ogrebotapi-2.txt - OgreBotAPI (part 2 of 6), 82 KB: OgreBotAPI.AutoTarget, OgreBotAPI.Bot, OgreBotAPI.CampSpot, OgreBotAPI.CastStack, OgreBotAPI.Client, OgreBotAPI.Combat
 - https://kannkor.github.io/ISXOgre/EQ2/bot/llms-api-ogrebotapi-3.txt - OgreBotAPI (part 3 of 6), 95 KB: OgreBotAPI.Comms, OgreBotAPI.Comms.GroupQuery, OgreBotAPI.Consumables, OgreBotAPI.Craft, OgreBotAPI.Cures, OgreBotAPI.Debug, OgreBotAPI.Encounter, OgreBotAPI.Events, OgreBotAPI.ForWho, OgreBotAPI.HOs
@@ -25,9 +25,10 @@ A member is read as ${Object.Member} and may take [arguments]; a method is a lin
 - https://kannkor.github.io/ISXOgre/EQ2/bot/llms-api-ogrebotapi-5.txt - OgreBotAPI (part 5 of 6), 100 KB: OgreBotAPI.Position, OgreBotAPI.Quest, OgreBotAPI.Roster, OgreBotAPI.Session, OgreBotAPI.TempAdorns, OgreBotAPI.Travel, OgreBotAPI.Util, OgreBotAPI.Vars, OgreBotAPI.Windows
 - https://kannkor.github.io/ISXOgre/EQ2/bot/llms-api-ogrebotapi-6.txt - OgreBotAPI (part 6 of 6), 11 KB: OgreBotAPI.Zone
 - https://kannkor.github.io/ISXOgre/EQ2/bot/llms-api-isxogrex.txt - ISXOgreX, 37 KB: ISXOgreX, ISXOgreX.Auth, ISXOgreX.Console, ISXOgreX.Login, ISXOgreX.Options, ISXOgreX.Patch, ISXOgreX.UI, ISXOgreX.UI.Window, ogretimer
-- https://kannkor.github.io/ISXOgre/EQ2/bot/llms-api-isxogreeq2-1.txt - ISXOgreEQ2 (part 1 of 3), 99 KB: ISXOgreEQ2, ISXOgreEQ2.AbilityDetails, ISXOgreEQ2.AbilityEfficiency, ISXOgreEQ2.AbilityUpgrades, ISXOgreEQ2.Analysis, ISXOgreEQ2.AntiAfk, ISXOgreEQ2.Auth, ISXOgreEQ2.AutoLogin, ISXOgreEQ2.BgRender, ISXOgreEQ2.Chat, ISXOgreEQ2.ChatCmd, ISXOgreEQ2.Class, ISXOgreEQ2.Codex, ISXOgreEQ2.Collection, ISXOgreEQ2.Commands, ISXOgreEQ2.ContentBuilder, ISXOgreEQ2.Craft, ISXOgreEQ2.CraftGm, ISXOgreEQ2.CraftingMats
-- https://kannkor.github.io/ISXOgre/EQ2/bot/llms-api-isxogreeq2-2.txt - ISXOgreEQ2 (part 2 of 3), 95 KB: ISXOgreEQ2.DepotTransfer, ISXOgreEQ2.Det, ISXOgreEQ2.EffectTracker, ISXOgreEQ2.Encounter, ISXOgreEQ2.Events, ISXOgreEQ2.Experiment, ISXOgreEQ2.Export, ISXOgreEQ2.ForWhoGroups, ISXOgreEQ2.Game, ISXOgreEQ2.GetQuest, ISXOgreEQ2.HarvestLite, ISXOgreEQ2.Heartstone, ISXOgreEQ2.HideEffects, ISXOgreEQ2.HUDs, ISXOgreEQ2.IC, ISXOgreEQ2.InvOps, ISXOgreEQ2.Lag, ISXOgreEQ2.LevelTransmuting, ISXOgreEQ2.LootScan, ISXOgreEQ2.MCP, ISXOgreEQ2.MerchantCraft, ISXOgreEQ2.MerchantOps, ISXOgreEQ2.Migrate, ISXOgreEQ2.Nav, ISXOgreEQ2.NpcCast
-- https://kannkor.github.io/ISXOgre/EQ2/bot/llms-api-isxogreeq2-3.txt - ISXOgreEQ2 (part 3 of 3), 93 KB: ISXOgreEQ2.OgreBot, ISXOgreEQ2.OSA, ISXOgreEQ2.Overseer, ISXOgreEQ2.PackPony, ISXOgreEQ2.Paths, ISXOgreEQ2.Perf, ISXOgreEQ2.Persona, ISXOgreEQ2.PotCb, ISXOgreEQ2.PulseBudget, ISXOgreEQ2.PulseProf, ISXOgreEQ2.Pushover, ISXOgreEQ2.QuestCompare, ISXOgreEQ2.QuestHelper, ISXOgreEQ2.Queue, ISXOgreEQ2.Quiver, ISXOgreEQ2.Radar, ISXOgreEQ2.Refine, ISXOgreEQ2.ReplenishNames, ISXOgreEQ2.SafeFall, ISXOgreEQ2.Scheduler, ISXOgreEQ2.Spawn, ISXOgreEQ2.TagTimers, ISXOgreEQ2.Targeting, ISXOgreEQ2.TaskRunner, ISXOgreEQ2.Tour, ISXOgreEQ2.Travel, ISXOgreEQ2.TravelMesh, ISXOgreEQ2.Watcher, ISXOgreEQ2.WindowReactions, ISXOgreEQ2.ZoneReset
+- https://kannkor.github.io/ISXOgre/EQ2/bot/llms-api-isxogreeq2-1.txt - ISXOgreEQ2 (part 1 of 4), 96 KB: ISXOgreEQ2, ISXOgreEQ2.AbilityDetails, ISXOgreEQ2.AbilityEfficiency, ISXOgreEQ2.AbilityUpgrades, ISXOgreEQ2.Analysis, ISXOgreEQ2.AntiAfk, ISXOgreEQ2.Auth, ISXOgreEQ2.AutoLogin, ISXOgreEQ2.BgRender, ISXOgreEQ2.Chat, ISXOgreEQ2.ChatCmd, ISXOgreEQ2.Class, ISXOgreEQ2.Codex, ISXOgreEQ2.Collection, ISXOgreEQ2.Commands, ISXOgreEQ2.ContentBuilder, ISXOgreEQ2.Craft, ISXOgreEQ2.CraftGm
+- https://kannkor.github.io/ISXOgre/EQ2/bot/llms-api-isxogreeq2-2.txt - ISXOgreEQ2 (part 2 of 4), 94 KB: ISXOgreEQ2.CraftingMats, ISXOgreEQ2.DepotTransfer, ISXOgreEQ2.Det, ISXOgreEQ2.EffectTracker, ISXOgreEQ2.Encounter, ISXOgreEQ2.EncounterRecorder, ISXOgreEQ2.Events, ISXOgreEQ2.Experiment, ISXOgreEQ2.Export, ISXOgreEQ2.ForWhoGroups, ISXOgreEQ2.Game, ISXOgreEQ2.GetQuest, ISXOgreEQ2.HarvestLite, ISXOgreEQ2.Heartstone, ISXOgreEQ2.HideEffects, ISXOgreEQ2.HUDs, ISXOgreEQ2.IC, ISXOgreEQ2.InvOps, ISXOgreEQ2.Lag, ISXOgreEQ2.LevelTransmuting, ISXOgreEQ2.LootScan, ISXOgreEQ2.MCP, ISXOgreEQ2.MerchantCraft, ISXOgreEQ2.MerchantOps, ISXOgreEQ2.Migrate
+- https://kannkor.github.io/ISXOgre/EQ2/bot/llms-api-isxogreeq2-3.txt - ISXOgreEQ2 (part 3 of 4), 100 KB: ISXOgreEQ2.Nav, ISXOgreEQ2.NpcCast, ISXOgreEQ2.OgreBot, ISXOgreEQ2.OSA, ISXOgreEQ2.Overseer, ISXOgreEQ2.PackPony, ISXOgreEQ2.Paths, ISXOgreEQ2.Perf, ISXOgreEQ2.Persona, ISXOgreEQ2.PotCb, ISXOgreEQ2.PulseBudget, ISXOgreEQ2.PulseProf, ISXOgreEQ2.Pushover, ISXOgreEQ2.QuestCompare, ISXOgreEQ2.QuestHelper, ISXOgreEQ2.Queue, ISXOgreEQ2.Quiver, ISXOgreEQ2.Radar, ISXOgreEQ2.Refine, ISXOgreEQ2.ReplenishNames, ISXOgreEQ2.SafeFall, ISXOgreEQ2.Scheduler, ISXOgreEQ2.Spawn, ISXOgreEQ2.TagTimers, ISXOgreEQ2.Targeting, ISXOgreEQ2.TaskRunner, ISXOgreEQ2.Tour, ISXOgreEQ2.Travel, ISXOgreEQ2.TravelMesh, ISXOgreEQ2.Watcher, ISXOgreEQ2.WindowReactions
+- https://kannkor.github.io/ISXOgre/EQ2/bot/llms-api-isxogreeq2-4.txt - ISXOgreEQ2 (part 4 of 4), 4 KB: ISXOgreEQ2.ZoneReset
 - https://kannkor.github.io/ISXOgre/EQ2/bot/llms-api-commands-1.txt - Commands (part 1 of 3), 61 KB: ogre commands, ISXOgreX console commands
 - https://kannkor.github.io/ISXOgre/EQ2/bot/llms-api-commands-2.txt - Commands (part 2 of 3), 96 KB: ISXOgreEQ2 console commands (-AbilityEmbargo to -LoadProfile)
 - https://kannkor.github.io/ISXOgre/EQ2/bot/llms-api-commands-3.txt - Commands (part 3 of 3), 78 KB: ISXOgreEQ2 console commands (-LogToonIn to -ZoneResetAll)
@@ -104,11 +105,12 @@ A member is read as ${Object.Member} and may take [arguments]; a method is a lin
   ISXOgreEQ2.ContentBuilder -> llms-api-isxogreeq2-1.txt
   ISXOgreEQ2.Craft -> llms-api-isxogreeq2-1.txt
   ISXOgreEQ2.CraftGm -> llms-api-isxogreeq2-1.txt
-  ISXOgreEQ2.CraftingMats -> llms-api-isxogreeq2-1.txt
+  ISXOgreEQ2.CraftingMats -> llms-api-isxogreeq2-2.txt
   ISXOgreEQ2.DepotTransfer -> llms-api-isxogreeq2-2.txt
   ISXOgreEQ2.Det -> llms-api-isxogreeq2-2.txt
   ISXOgreEQ2.EffectTracker -> llms-api-isxogreeq2-2.txt
   ISXOgreEQ2.Encounter -> llms-api-isxogreeq2-2.txt
+  ISXOgreEQ2.EncounterRecorder -> llms-api-isxogreeq2-2.txt
   ISXOgreEQ2.Events -> llms-api-isxogreeq2-2.txt
   ISXOgreEQ2.Experiment -> llms-api-isxogreeq2-2.txt
   ISXOgreEQ2.Export -> llms-api-isxogreeq2-2.txt
@@ -128,8 +130,8 @@ A member is read as ${Object.Member} and may take [arguments]; a method is a lin
   ISXOgreEQ2.MerchantCraft -> llms-api-isxogreeq2-2.txt
   ISXOgreEQ2.MerchantOps -> llms-api-isxogreeq2-2.txt
   ISXOgreEQ2.Migrate -> llms-api-isxogreeq2-2.txt
-  ISXOgreEQ2.Nav -> llms-api-isxogreeq2-2.txt
-  ISXOgreEQ2.NpcCast -> llms-api-isxogreeq2-2.txt
+  ISXOgreEQ2.Nav -> llms-api-isxogreeq2-3.txt
+  ISXOgreEQ2.NpcCast -> llms-api-isxogreeq2-3.txt
   ISXOgreEQ2.OgreBot -> llms-api-isxogreeq2-3.txt
   ISXOgreEQ2.OSA -> llms-api-isxogreeq2-3.txt
   ISXOgreEQ2.Overseer -> llms-api-isxogreeq2-3.txt
@@ -159,7 +161,7 @@ A member is read as ${Object.Member} and may take [arguments]; a method is a lin
   ISXOgreEQ2.TravelMesh -> llms-api-isxogreeq2-3.txt
   ISXOgreEQ2.Watcher -> llms-api-isxogreeq2-3.txt
   ISXOgreEQ2.WindowReactions -> llms-api-isxogreeq2-3.txt
-  ISXOgreEQ2.ZoneReset -> llms-api-isxogreeq2-3.txt
+  ISXOgreEQ2.ZoneReset -> llms-api-isxogreeq2-4.txt
   ogre commands -> llms-api-commands-1.txt
   ISXOgreX console commands -> llms-api-commands-1.txt
   ISXOgreEQ2 console commands (-AbilityEmbargo to -LoadProfile) -> llms-api-commands-2.txt

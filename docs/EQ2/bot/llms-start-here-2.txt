@@ -18,6 +18,16 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.11.25.001 {#r2026-11-25-001}
+
+*Wednesday, November 25, 2026 at 7:54 PM EST*
+
+- **New** · Bot: **Ability Efficiency has a window.** `ogre ae` now opens the Ability Efficiency window: each damaging ability's damage per second, one column per number of targets, so you can see when an AE beats your single-target abilities. **List** shows one line per ability and number of targets instead, best first, the order to build a cast stack in; **Save to file** writes either. `ogre ae -nogui` writes the file as before, `-targets <n>` sets the targets and `-list` the list layout.
+- **New** · Bot: **Make a cast stack from Ability Efficiency.** **Make cast stack** in the `ogre ae` window adds your damage abilities to the cast stack, best first, with # of mobs set for each AE line. It can wipe the cast stack first or add only what is missing, and **Add buffs** also adds your buffs, with the ones you need to choose between switched off. Heals, cures and debuffs are still yours to add, and nothing is kept until you press Save in OgreBot.
+- **New** · Bot: **The ability export marks stances.** The ability export now marks each offensive and defensive stance (IsStance, IsStanceOffensive and IsStanceDefensive), so fight files and Make cast stack can tell them apart. Older exports count as out of date: OgreBot loads paused and asks for a new one, so type `ogre export` once on each character.
+- **New** · Bot: **The Cast Stack can show DPS numbers.** The Cast Stack tab has a cog at the top right: **DPS values in Abilities** shows each ability's damage per second on one mob, **Sort Abilities by DPS** puts the highest first, and **DPS values in Cast Order** shows each entry's, multiplied by its # of mobs for AE and encounter nukes. These are the same numbers `ogre ae` works out, rounded to whole numbers with K, M, B and T. All three are off until you switch them on, and the choice is kept for this PC.
+- **New** · Windows: **Encounter Recorder: record a fight and work it out afterwards.** `ogre er` opens a window for fight-file writers that records everything the game shows during a fight, one file per box; it only reads the game and never records player chat. **Build pages** turns the recordings into pages you open in a browser (it needs Node.js). **Upload each finished fight** sends them to your raid's Encounters tab on the codex site, where only your raid's members can read them.
+
 ## 2026.11.24.001 {#r2026-11-24-001}
 
 *Tuesday, November 24, 2026 at 5:12 PM EST*

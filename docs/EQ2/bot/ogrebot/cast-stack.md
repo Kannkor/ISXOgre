@@ -8,6 +8,17 @@ The Cast Stack is the bot's main casting list. Every turn the bot walks the Cast
 
 [![Cast Stack tab](../assets/ogrebot/tab-cast-stack.png)](../assets/ogrebot/tab-cast-stack.png "Click for full size")
 
+## Tab options (the cog)
+
+| Control | What it does | Default |
+|---|---|---|
+| **⚙ (cog)** | At the right of the Cast Stack title. Opens this tab's options: switches that add DPS numbers to the lists and sort the Abilities list by them. A click anywhere else, or another tab, closes it. |  |
+| **DPS values in Abilities** | Shows each ability's damage per second on ONE mob beside its name in the Abilities list. It is the same number `ogre ae` gives: the damage in the ability's description divided by its cast time plus recovery (recast is not counted). Abilities with no damage show no number.<br>*Whole numbers, then K, M, B and T; past 999T the number is written like 2.5E15. Kept for this PC, not saved in the profile. The numbers come from your ability export, so they only change when the export does.* | off |
+| **Sort Abilities by DPS** | Orders the Abilities list by one-mob DPS, highest first. Abilities with no DPS, and items, follow A to Z. Works whether or not the numbers are shown.<br>*Kept for this PC, like the other two switches.* | off |
+| **DPS values in Cast Order** | Shows a DPS number on each Cast order entry. An ability that hits more than one mob (an AE or an encounter nuke) is multiplied by the entry's # of mobs, but never past the most targets the ability can hit. A single-target ability shows its one-mob number. Hover the number to see the one-mob value and the mobs it was multiplied by.<br>*An entry with no # of mobs shows the one-mob number. Heals, cures and items show no number.* | off |
+
+
+
 ## Abilities (left column)
 
 | Control | What it does |
@@ -64,4 +75,5 @@ The Cast Stack is the bot's main casting list. Every turn the bot walks the Cast
 - Nothing below a switched-on 'End of cast stack' line runs; those rows are drawn dim. Double-click the line to switch it off.
 - 'Use when' limits an entry to where you are: Solo / Duo (1-2) is a group of 1 or 2 players, Group (3+) is 3 or more, Raid is any raid whatever its groups. A mercenary does not count as a player. Tick more than one to allow more than one; none ticked means the entry is used everywhere.
 - 'Named Or Epic NPC' (under Named NPCs Only) casts only at a named or an epic target. 'Force NamedCA' on the Settings tab counts every target as named.
+- The DPS numbers (the cog at the top right of the tab) are a planning aid, not a measurement: they read the damage written in each ability's description, so they leave out crits, procs, buffs and the time an ability waits on its recast.
 

@@ -1029,6 +1029,7 @@ Every member, method, command and event a script or a user can reach, one row ea
 - [ISXOgreEQ2.Det](isxogreeq2/Det.md)
 - [ISXOgreEQ2.EffectTracker](isxogreeq2/EffectTracker.md)
 - [ISXOgreEQ2.Encounter](isxogreeq2/Encounter.md)
+- [ISXOgreEQ2.EncounterRecorder](isxogreeq2/EncounterRecorder.md)
 - [ISXOgreEQ2.Events](isxogreeq2/Events.md)
 - [ISXOgreEQ2.Experiment](isxogreeq2/Experiment.md)
 - [ISXOgreEQ2.Export](isxogreeq2/Export.md)

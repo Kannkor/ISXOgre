@@ -8,6 +8,42 @@ Index of every page and of every file like this one: https://kannkor.github.io/I
 
 ---
 
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/ContentBuilder.md
+
+# ISXOgreEQ2.ContentBuilder
+
+## Methods
+
+### `End`
+
+`ISXOgreEQ2.ContentBuilder:End`
+
+Closes the Content Builder window (the same as `ogre end contentbuilder` and the window's X). Changes that were not saved are kept and offered back the next time the window opens, and a run it started goes on.
+
+```text
+ISXOgreEQ2.ContentBuilder:End
+```
+
+### `Open`
+
+`ISXOgreEQ2.ContentBuilder:Open[tier,path]`
+
+Opens the Content Builder window (the same as `ogre contentbuilder`), on a zone file when you name one. A window that is already open comes to the front, and asks before it opens that file over unsaved changes; without the Ogre UI desktop it prints a warning.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `tier` | string | `none` | The root the zone file is in: default or custom. Leave both out to open the window as it was. |
+| `path` | string | `none` | The zone file's path inside that root, ending in .json. A path with spaces may be quoted or written as several words. |
+
+```text
+ISXOgreEQ2.ContentBuilder:Open[custom,"My_Zone.json"]
+```
+
+More: [developer/zone-files/builder.md](../../zone-files/builder.md)
+
+
+---
+
 Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Craft.md
 
 # ISXOgreEQ2.Craft
@@ -1357,6 +1393,238 @@ More: [developer/zone-files/builder.md](../../zone-files/builder.md)
 
 ---
 
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/EncounterRecorder.md
+
+# ISXOgreEQ2.EncounterRecorder
+
+## Methods
+
+### `BuildPages`
+
+`ISXOgreEQ2.EncounterRecorder:BuildPages[zone,rebuild]`
+
+Builds the readable pages from every recording on this PC, the window's Build pages button; it needs Node.js. It returns at once, and the window and the console say how the build ended.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `zone` | string | `none` | The word zone: only this zone's recordings. Leave it out for all of them. |
+| `rebuild` | string | `none` | The word rebuild: every pull is read and every page made again. Leave it out to make only what changed. |
+
+```text
+ISXOgreEQ2.EncounterRecorder:BuildPages
+```
+
+### `End`
+
+`ISXOgreEQ2.EncounterRecorder:End`
+
+Stops everything - recording, an open fight's file and a page build this session started - and closes the window, the same as `ogre end er` and the window's X.
+
+```text
+ISXOgreEQ2.EncounterRecorder:End
+```
+
+### `EveryDet`
+
+`ISXOgreEQ2.EncounterRecorder:EveryDet[state]`
+
+Whether every det is examined, not one for each pair of icons - for dets that share their icons. Saved for every box of this PC.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `state` | string | `none` | on or off. Leave it out to be told what it is now. |
+
+```text
+ISXOgreEQ2.EncounterRecorder:EveryDet["on"]
+```
+
+### `Help`
+
+`ISXOgreEQ2.EncounterRecorder:Help`
+
+Prints the words of `ogre er` to the console.
+
+```text
+ISXOgreEQ2.EncounterRecorder:Help
+```
+
+### `Mark`
+
+`ISXOgreEQ2.EncounterRecorder:Mark[text]`
+
+Writes a note on the fight's timeline, the same as `ogre er mark <text>`. Recording must be on.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `text` | string | `none` | The note. Several arguments are joined with spaces. |
+
+```text
+ISXOgreEQ2.EncounterRecorder:Mark["boss at 50%"]
+```
+
+### `NpcEffects`
+
+`ISXOgreEQ2.EncounterRecorder:NpcEffects[state]`
+
+Whether this session reads the names of effects on NPCs, saved for this session on this PC. The session is1 reads them unless switched off; no other session does unless switched on.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `state` | string | `none` | on or off. Leave it out to be told what it is now. |
+
+```text
+ISXOgreEQ2.EncounterRecorder:NpcEffects["on"]
+```
+
+### `Off`
+
+`ISXOgreEQ2.EncounterRecorder:Off`
+
+Stops recording, the same as `ogre er off`: an open fight's file is ended. The window stays open.
+
+```text
+ISXOgreEQ2.EncounterRecorder:Off
+```
+
+### `OffForWho`
+
+`ISXOgreEQ2.EncounterRecorder:OffForWho`
+
+Sends `off` to every box the MCP For Who window names, the same way as :OnForWho.
+
+```text
+ISXOgreEQ2.EncounterRecorder:OffForWho
+```
+
+### `On`
+
+`ISXOgreEQ2.EncounterRecorder:On`
+
+Records every fight by itself from the pull on and opens the window, the same as `ogre er on`. It is never on by itself: each box is switched on after every login, and out of the world nothing happens.
+
+```text
+ISXOgreEQ2.EncounterRecorder:On
+```
+
+### `OnForWho`
+
+`ISXOgreEQ2.EncounterRecorder:OnForWho`
+
+Sends `on` to every box the MCP For Who window names, over oc or IRC as that window says. This box switches on only when the For Who names it too.
+
+```text
+ISXOgreEQ2.EncounterRecorder:OnForWho
+```
+
+### `Open`
+
+`ISXOgreEQ2.EncounterRecorder:Open`
+
+Opens the Encounter Recorder window, the same as bare `ogre er`.
+
+```text
+ISXOgreEQ2.EncounterRecorder:Open
+```
+
+### `Pets`
+
+`ISXOgreEQ2.EncounterRecorder:Pets[state]`
+
+Whether rows are written for pets, saved for every box of this PC. Off unless switched on.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `state` | string | `none` | on or off. Leave it out to be told what it is now. |
+
+```text
+ISXOgreEQ2.EncounterRecorder:Pets["on"]
+```
+
+### `RecordTrash`
+
+`ISXOgreEQ2.EncounterRecorder:RecordTrash[state]`
+
+"Record trash pulls": whether a fight with no named is written too, saved for every box of this PC. Off unless switched on, and it takes hold with the next fight.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `state` | string | `none` | on or off. Leave it out to be told what it is now. |
+
+```text
+ISXOgreEQ2.EncounterRecorder:RecordTrash["on"]
+```
+
+### `Start`
+
+`ISXOgreEQ2.EncounterRecorder:Start`
+
+Begins a fight's file by hand, for an event that never puts you in combat; it ends on :Stop. Recording must be on.
+
+```text
+ISXOgreEQ2.EncounterRecorder:Start
+```
+
+### `Status`
+
+`ISXOgreEQ2.EncounterRecorder:Status`
+
+Prints what it is doing, what it has written and its switches to the console, the same as `ogre er status`.
+
+```text
+ISXOgreEQ2.EncounterRecorder:Status
+```
+
+### `Stop`
+
+`ISXOgreEQ2.EncounterRecorder:Stop`
+
+Ends the open fight's file that :Start began, the same as `ogre er stop`.
+
+```text
+ISXOgreEQ2.EncounterRecorder:Stop
+```
+
+### `UploadFights`
+
+`ISXOgreEQ2.EncounterRecorder:UploadFights[state]`
+
+The switch "Upload each finished fight", saved for every box of this PC: each box sends its own file to the raid's Encounters page a few seconds after the fight ends. On unless switched off; now sends this toon's files the raid does not have yet.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `state` | string | `none` | on, off, or now. Leave it out to be told what it is now. |
+
+```text
+ISXOgreEQ2.EncounterRecorder:UploadFights["now"]
+```
+
+### `UploadRaid`
+
+`ISXOgreEQ2.EncounterRecorder:UploadRaid[slug]`
+
+The raid whose Encounters page gets the recordings, saved for every box of this PC. With no raid named nothing is sent.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `slug` | string | `none` | The last part of the raid page's address (lower-case letters, digits and -), or none for no raid. Leave it out to be told the raid. |
+
+```text
+ISXOgreEQ2.EncounterRecorder:UploadRaid["my-raid"]
+```
+
+### `UploadRaids`
+
+`ISXOgreEQ2.EncounterRecorder:UploadRaids`
+
+Asks the site for the raids this PC may send to, the window's Refresh. The answer comes a moment later, in the console and as a list under the window's raid field.
+
+```text
+ISXOgreEQ2.EncounterRecorder:UploadRaids
+```
+
+
+---
+
 Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Events.md
 
 # ISXOgreEQ2.Events
@@ -2677,331 +2945,4 @@ Called by a zone script where it would zone out: IC runs the zone end a steps zo
 
 ```text
 ISXOgreEQ2.IC:ZoneEnd
-```
-
-
----
-
-Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/InvOps.md
-
-# ISXOgreEQ2.InvOps
-
-## Members
-
-### `Busy`
-
-`${ISXOgreEQ2.InvOps.Busy}`
-
-TRUE while an inventory flow started through this object (Overflow, MoveBag or Trade) is running. Only one of the three runs at a time, and starting another while one runs is refused with a busy warning.
-
-**Returns:** bool: TRUE while an overflow, bag move or trade flow is running; FALSE when idle.
-
-```text
-echo ${ISXOgreEQ2.InvOps.Busy}
-```
-
-### `Status`
-
-`${ISXOgreEQ2.InvOps.Status}`
-
-One line naming the running inventory flow and its progress, or "idle". It is the same text `${ISXOgreEQ2.InvOps}` returns.
-
-**Returns:** string: "idle", "overflow (N popped)", "mbc (done/total)" or "trade (done/total)".
-
-```text
-echo ${ISXOgreEQ2.InvOps.Status}
-```
-
-## Methods
-
-### `MoveBag`
-
-`ISXOgreEQ2.InvOps:MoveBag[from,to]`
-
-The engine behind `ogre mbc`: moves every item in carried bag `from` into bag `to`, one item every 0.2 s, where a bag's number is its inventory slot (1-6). It is refused with a console warning when a number is missing or out of range, both are the same bag, a slot holds no bag, the source bag is empty, or another inventory flow is running.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `from` | int |  | bag number (1-6) to empty |
-| `to` | int |  | bag number (1-6) to move the items into |
-
-```text
-ISXOgreEQ2.InvOps:MoveBag[2,3]
-```
-
-### `Overflow`
-
-`ISXOgreEQ2.InvOps:Overflow`
-
-The engine behind `ogre overflow`: pops items out of the overflow window into your bags, one every 0.2 s, until the game says the overflow is empty or has no room, only one bag slot is left free, or 300 items have been popped. It returns at once and the work runs on later frames; it is refused with a console warning when another inventory flow is running or you are not in the world.
-
-```text
-ISXOgreEQ2.InvOps:Overflow
-```
-
-### `Stop`
-
-`ISXOgreEQ2.InvOps:Stop`
-
-Drops whichever overflow, bag move or trade flow is running, without printing anything; does nothing when idle. An open trade window is left as it is.
-
-```text
-ISXOgreEQ2.InvOps:Stop
-```
-
-### `Trade`
-
-`ISXOgreEQ2.InvOps:Trade[count]`
-
-The engine behind `ogre trade`: opens a trade with your current target, adds up to `count` whole stacks from your bags of the item you have EXAMINED (exact name, any case), then accepts. You need a target and an open examine window; when nothing is examined or no stack matches, the run rejects the trade it opened and ends with a console line.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `count` | int | `12` | most stacks to hand over; missing, not a whole number, or 0 or less uses 12 |
-
-```text
-ISXOgreEQ2.InvOps:Trade[4]
-```
-
-
----
-
-Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/Lag.md
-
-# ISXOgreEQ2.Lag
-
-## Methods
-
-### `Budget`
-
-`ISXOgreEQ2.Lag:Budget[first,second]`
-
-Sets the two frame budgets the reports count against and saves them, then prints them. A first budget of 1 ms or less, or a second that is not above it, is not taken; with either value missing it prints one warning.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `first` | float |  | The first budget in ms. |
-| `second` | float |  | The second budget in ms, above the first. |
-
-```text
-ISXOgreEQ2.Lag:Budget[33,50]
-```
-
-### `Clear`
-
-`ISXOgreEQ2.Lag:Clear`
-
-Clears the recorded frames; recording carries on.
-
-```text
-ISXOgreEQ2.Lag:Clear
-```
-
-### `Close`
-
-`ISXOgreEQ2.Lag:Close`
-
-Closes the Lag window, the same as `ogre end lag`. The ledger keeps recording; :Off stops it.
-
-```text
-ISXOgreEQ2.Lag:Close
-```
-
-### `Dump`
-
-`ISXOgreEQ2.Lag:Dump[seconds]`
-
-Writes the recorded frames to the dump file and says where.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `seconds` | float |  | How far back to dump. Optional: everything recorded when left out. |
-
-```text
-ISXOgreEQ2.Lag:Dump[120]
-```
-
-### `Minutes`
-
-`ISXOgreEQ2.Lag:Minutes[minutes]`
-
-Sets how many minutes of frames the ledger holds, saves it, and starts the ledger empty. With no value it prints one warning and changes nothing.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `minutes` | int |  | Minutes to hold, held between 1 and 60. |
-
-```text
-ISXOgreEQ2.Lag:Minutes[10]
-```
-
-### `Off`
-
-`ISXOgreEQ2.Lag:Off`
-
-Turns the ledger off and saves it: nothing is recorded, and the frames already recorded are kept.
-
-```text
-ISXOgreEQ2.Lag:Off
-```
-
-### `On`
-
-`ISXOgreEQ2.Lag:On`
-
-Turns the ledger on and saves it: every frame is recorded.
-
-```text
-ISXOgreEQ2.Lag:On
-```
-
-### `Open`
-
-`ISXOgreEQ2.Lag:Open`
-
-Opens the Lag window, the same as bare `ogre lag`.
-
-```text
-ISXOgreEQ2.Lag:Open
-```
-
-### `Overhead`
-
-`ISXOgreEQ2.Lag:Overhead`
-
-Prints what the ledger itself costs per frame to the console.
-
-```text
-ISXOgreEQ2.Lag:Overhead
-```
-
-### `Report`
-
-`ISXOgreEQ2.Lag:Report[seconds]`
-
-Prints the report for the last stretch of frames to the console: frame rate, stability, and what cost the most.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `seconds` | float |  | How far back to look. Optional: 60 when left out. |
-
-```text
-ISXOgreEQ2.Lag:Report[30]
-```
-
-
----
-
-Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/LevelTransmuting.md
-
-# ISXOgreEQ2.LevelTransmuting
-
-## Methods
-
-### `End`
-
-`ISXOgreEQ2.LevelTransmuting:End`
-
-Stops a run and closes the panel, the same as `ogre end leveltransmuting` and the panel's X. It takes no arguments.
-
-```text
-ISXOgreEQ2.LevelTransmuting:End
-```
-
-### `Help`
-
-`ISXOgreEQ2.LevelTransmuting:Help`
-
-Prints the `ogre leveltransmuting` usage to the console.
-
-```text
-ISXOgreEQ2.LevelTransmuting:Help
-```
-
-### `Off`
-
-`ISXOgreEQ2.LevelTransmuting:Off`
-
-Stops a run and leaves the panel up. It takes no arguments.
-
-```text
-ISXOgreEQ2.LevelTransmuting:Off
-```
-
-### `On`
-
-`ISXOgreEQ2.LevelTransmuting:On[count,rounds]`
-
-Starts a run: buys stones and transmutes them until the rounds are used up. A bad value prints why and the usage.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `count` | int |  | Stones to hold per merchant visit, 1 to 800. Optional: 60 when left out. |
-| `rounds` | int |  | The hard stop, 1 to 500. Optional: 20 when left out. |
-
-```text
-ISXOgreEQ2.LevelTransmuting:On[60,20]
-```
-
-### `Open`
-
-`ISXOgreEQ2.LevelTransmuting:Open`
-
-Opens or refreshes the Level Transmuting panel, the same as bare `ogre lt`. It takes no arguments.
-
-```text
-ISXOgreEQ2.LevelTransmuting:Open
-```
-
-### `Status`
-
-`ISXOgreEQ2.LevelTransmuting:Status`
-
-Prints the run's state and usage to the console. It takes no arguments.
-
-```text
-ISXOgreEQ2.LevelTransmuting:Status
-```
-
-
----
-
-Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/LootScan.md
-
-# ISXOgreEQ2.LootScan
-
-## Methods
-
-### `Interval`
-
-`ISXOgreEQ2.LootScan:Interval[ms]`
-
-Sets how often the driver scans, for this session only. A value out of range prints the range and changes nothing; with no value it prints one warning.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `ms` | int |  | The scan interval in milliseconds, 500 to 30000. |
-
-```text
-ISXOgreEQ2.LootScan:Interval[2000]
-```
-
-### `Reset`
-
-`ISXOgreEQ2.LootScan:Reset`
-
-Forgets which actors were looted, so they are looked at again.
-
-```text
-ISXOgreEQ2.LootScan:Reset
-```
-
-### `Status`
-
-`ISXOgreEQ2.LootScan:Status`
-
-Prints the auto-loot driver to the console: its gates, interval, last scan, what it opened and what it remembers.
-
-```text
-ISXOgreEQ2.LootScan:Status
 ```

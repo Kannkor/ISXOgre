@@ -24,7 +24,7 @@ echo ${ISXOgreEQ2.AbilityDetails}
 
 `${ISXOgreEQ2.AbilityEfficiency}`
 
-The AbilityEfficiency sub-object behind ogre ae: :Run with no argument writes a per-ability efficiency report from your ability export to OgreSave/EQ2/OgreBot/AbilityEfficiency/&lt;name>_&lt;class>_&lt;server>_AbilityEfficiency.txt, and :Run[-h] or :Run[help] prints the usage. Any other word is refused; it is a one-shot with no members.
+The AbilityEfficiency sub-object behind ogre ae: :Run opens the Ability Efficiency window (each damaging ability's damage per second, one column per number of targets), :Run[-nogui] writes the report file instead, :Run[-targets,n] sets the targets, :Run[-list] uses the list layout, :Close closes the window, and the window's own :UI channel. It has no members.
 
 All of it: [ISXOgreEQ2.AbilityEfficiency](AbilityEfficiency.md)
 
@@ -339,6 +339,22 @@ All of it: [ISXOgreEQ2.Encounter](Encounter.md)
 ```text
 echo ${ISXOgreEQ2.Encounter}
 ```
+
+### `EncounterRecorder`
+
+`${ISXOgreEQ2.EncounterRecorder}`
+
+The Encounter Recorder: it records every fight as it happens, one file per box, so the fight can be worked out afterwards from the recording alone. Its methods are the words of `ogre er`.
+
+All of it: [ISXOgreEQ2.EncounterRecorder](EncounterRecorder.md)
+
+**Returns:** The Encounter Recorder object. As text it reads "ISXOgreEQ2.EncounterRecorder".
+
+```text
+ISXOgreEQ2.EncounterRecorder:Open
+```
+
+More: [developer/zone-files/recorder.md](../../zone-files/recorder.md)
 
 ### `Events`
 

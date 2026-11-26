@@ -30,11 +30,11 @@ ogre account
 
 ## `ae`
 
-`ogre ae`
+`ogre ae [-nogui] [-targets <n>] [-list]`
 
 Also: `ogre abilityefficiency`
 
-Score your abilities as damage / (cast + recovery) into a report file
+Your abilities' damage / (cast + recovery), at 1 to n targets: a window, or -nogui for the report file
 
 ```text
 ogre ae
@@ -487,6 +487,14 @@ Encounter authoring: reload the json from disk, toggle the debug echoes, list li
 ```text
 ogre encounter reload
 ```
+
+## `encounterrecorder`
+
+`ogre er [on | off | end | status | start | stop | mark <text> | pets | npceffects | everydet | trash | onforwho | offforwho | pages [zone] [rebuild] | upload [on|off|now] | raid <slug> | raids]`
+
+Also: `ogre er`
+
+Record every fight as it happens: one folder per named, one per pull
 
 ## `examine`
 

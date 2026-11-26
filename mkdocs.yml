@@ -169,6 +169,7 @@ nav:
               - "Exporting Abilities": EQ2/bot/windows/aexport.md
               - "Analysis": EQ2/bot/windows/analysis.md
               - "Ability Details": EQ2/bot/windows/abilitydetails.md
+              - "Ability Efficiency": EQ2/bot/windows/ae.md
               - "Pulse Budget": EQ2/bot/windows/pulsebudget.md
               - "Lag": EQ2/bot/windows/lag.md
               - "Migration Assistant": EQ2/bot/windows/migrate.md
@@ -262,6 +263,7 @@ nav:
                   - "Det": EQ2/bot/developer/api/isxogreeq2/Det.md
                   - "EffectTracker": EQ2/bot/developer/api/isxogreeq2/EffectTracker.md
                   - "Encounter": EQ2/bot/developer/api/isxogreeq2/Encounter.md
+                  - "EncounterRecorder": EQ2/bot/developer/api/isxogreeq2/EncounterRecorder.md
                   - "Events": EQ2/bot/developer/api/isxogreeq2/Events.md
                   - "Experiment": EQ2/bot/developer/api/isxogreeq2/Experiment.md
                   - "Export": EQ2/bot/developer/api/isxogreeq2/Export.md

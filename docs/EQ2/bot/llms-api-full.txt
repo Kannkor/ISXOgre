@@ -6753,7 +6753,7 @@ ${ISXOgreEQ2.AbilityDetails}
 
 ${ISXOgreEQ2.AbilityEfficiency}
   kind: member of ISXOgreEQ2
-  what: The AbilityEfficiency sub-object behind ogre ae: :Run with no argument writes a per-ability efficiency report from your ability export to OgreSave/EQ2/OgreBot/AbilityEfficiency/<name>_<class>_<server>_AbilityEfficiency.txt, and :Run[-h] or :Run[help] prints the usage. Any other word is refused; it is a one-shot with no members.
+  what: The AbilityEfficiency sub-object behind ogre ae: :Run opens the Ability Efficiency window (each damaging ability's damage per second, one column per number of targets), :Run[-nogui] writes the report file instead, :Run[-targets,n] sets the targets, :Run[-list] uses the list layout, :Close closes the window, and the window's own :UI channel. It has no members.
   returns: object: the AbilityEfficiency sub-object; it always exists, has no members, and as text it reads ISXOgreEQ2.AbilityEfficiency.
   returns object: ISXOgreEQ2.AbilityEfficiency (its members and methods are listed under it)
   example: echo ${ISXOgreEQ2.AbilityEfficiency}
@@ -6910,6 +6910,14 @@ ${ISXOgreEQ2.Encounter}
   returns: object: the encounter engine (type ogreeq2encounter)
   returns object: ISXOgreEQ2.Encounter (its members and methods are listed under it)
   example: echo ${ISXOgreEQ2.Encounter}
+
+${ISXOgreEQ2.EncounterRecorder}
+  kind: member of ISXOgreEQ2
+  what: The Encounter Recorder: it records every fight as it happens, one file per box, so the fight can be worked out afterwards from the recording alone. Its methods are the words of `ogre er`.
+  returns: The Encounter Recorder object. As text it reads "ISXOgreEQ2.EncounterRecorder".
+  returns object: ISXOgreEQ2.EncounterRecorder (its members and methods are listed under it)
+  example: ISXOgreEQ2.EncounterRecorder:Open
+  more: https://kannkor.github.io/ISXOgre/EQ2/bot/developer/zone-files/recorder
 
 ${ISXOgreEQ2.Events}
   kind: member of ISXOgreEQ2
@@ -7297,11 +7305,19 @@ ISXOgreEQ2.AbilityDetails:Close
 
 == ISXOgreEQ2.AbilityEfficiency ==
 
-ISXOgreEQ2.AbilityEfficiency:Run[-h]
+ISXOgreEQ2.AbilityEfficiency:Close
   kind: method of ISXOgreEQ2.AbilityEfficiency
-  what: Scores every ability in your loaded ability export as the damage in its description divided by cast plus recovery time (recast is not counted), writes one Name|Value line per ability best first to Scripts/OgreSave/EQ2/OgreBot/AbilityEfficiency/<name>_<subclass>_<server>_AbilityEfficiency.txt and prints the top 20 (the same as `ogre ae`). With no export loaded it prints an error telling you to run `ogre export`, and any argument other than a help word is refused.
-  arg -h (switch): print the usage instead of running (-help, --help, ? and help work too)
-  example: ISXOgreEQ2.AbilityEfficiency:Run
+  what: Closes the Ability Efficiency window. This is what `ogre end ae` and the window's X do; nothing else is running to stop.
+  example: ISXOgreEQ2.AbilityEfficiency:Close
+
+ISXOgreEQ2.AbilityEfficiency:Run[-nogui,-targets,n,-list]
+  kind: method of ISXOgreEQ2.AbilityEfficiency
+  what: Scores every ability in your loaded ability export as the damage in its description divided by cast plus recovery time (recast is not counted), and with no argument opens the Ability Efficiency window, one column per number of targets (the same as `ogre ae`). With no export loaded it says to run `ogre export`, -h or help prints the usage, and any other word is refused.
+  arg -nogui (switch): write the report file instead of opening the window, best first, to Scripts/OgreSave/EQ2/OgreBot/AbilityEfficiency/<name>_<subclass>_<server>_AbilityEfficiency.txt, and print the top 20 (classic OgreBot's `ae`)
+  arg -targets (switch): followed by n: the window opens with n target columns; with -nogui the file gets one column per number of targets, best first at n
+  arg n (int, default: 4 in the window (or its saved choice); none in the file): the number of targets after -targets, 1 to 20
+  arg -list (switch): the list layout: one line per ability and number of targets, best first (an AE repeats once per count); the window opens in it, and with -nogui the file is written in it
+  example: ISXOgreEQ2.AbilityEfficiency:Run[-nogui,-targets,6,-list]
 
 
 == ISXOgreEQ2.AbilityUpgrades ==
@@ -8450,6 +8466,113 @@ ISXOgreEQ2.Encounter:Validate[root,path]
   arg path (string, default: none): The fight file's path inside that root, ending in .json. A path with spaces may be quoted or written as several words.
   example: ISXOgreEQ2.Encounter:Validate[custom,"My Zone/My Mob.json"]
   more: https://kannkor.github.io/ISXOgre/EQ2/bot/developer/zone-files/builder
+
+
+== ISXOgreEQ2.EncounterRecorder ==
+
+ISXOgreEQ2.EncounterRecorder:BuildPages[zone,rebuild]
+  kind: method of ISXOgreEQ2.EncounterRecorder
+  what: Builds the readable pages from every recording on this PC, the window's Build pages button; it needs Node.js. It returns at once, and the window and the console say how the build ended.
+  arg zone (string, default: none): The word zone: only this zone's recordings. Leave it out for all of them.
+  arg rebuild (string, default: none): The word rebuild: every pull is read and every page made again. Leave it out to make only what changed.
+  example: ISXOgreEQ2.EncounterRecorder:BuildPages
+
+ISXOgreEQ2.EncounterRecorder:End
+  kind: method of ISXOgreEQ2.EncounterRecorder
+  what: Stops everything - recording, an open fight's file and a page build this session started - and closes the window, the same as `ogre end er` and the window's X.
+  example: ISXOgreEQ2.EncounterRecorder:End
+
+ISXOgreEQ2.EncounterRecorder:EveryDet[state]
+  kind: method of ISXOgreEQ2.EncounterRecorder
+  what: Whether every det is examined, not one for each pair of icons - for dets that share their icons. Saved for every box of this PC.
+  arg state (string, default: none): on or off. Leave it out to be told what it is now.
+  example: ISXOgreEQ2.EncounterRecorder:EveryDet["on"]
+
+ISXOgreEQ2.EncounterRecorder:Help
+  kind: method of ISXOgreEQ2.EncounterRecorder
+  what: Prints the words of `ogre er` to the console.
+  example: ISXOgreEQ2.EncounterRecorder:Help
+
+ISXOgreEQ2.EncounterRecorder:Mark[text]
+  kind: method of ISXOgreEQ2.EncounterRecorder
+  what: Writes a note on the fight's timeline, the same as `ogre er mark <text>`. Recording must be on.
+  arg text (string, default: none): The note. Several arguments are joined with spaces.
+  example: ISXOgreEQ2.EncounterRecorder:Mark["boss at 50%"]
+
+ISXOgreEQ2.EncounterRecorder:NpcEffects[state]
+  kind: method of ISXOgreEQ2.EncounterRecorder
+  what: Whether this session reads the names of effects on NPCs, saved for this session on this PC. The session is1 reads them unless switched off; no other session does unless switched on.
+  arg state (string, default: none): on or off. Leave it out to be told what it is now.
+  example: ISXOgreEQ2.EncounterRecorder:NpcEffects["on"]
+
+ISXOgreEQ2.EncounterRecorder:Off
+  kind: method of ISXOgreEQ2.EncounterRecorder
+  what: Stops recording, the same as `ogre er off`: an open fight's file is ended. The window stays open.
+  example: ISXOgreEQ2.EncounterRecorder:Off
+
+ISXOgreEQ2.EncounterRecorder:OffForWho
+  kind: method of ISXOgreEQ2.EncounterRecorder
+  what: Sends `off` to every box the MCP For Who window names, the same way as :OnForWho.
+  example: ISXOgreEQ2.EncounterRecorder:OffForWho
+
+ISXOgreEQ2.EncounterRecorder:On
+  kind: method of ISXOgreEQ2.EncounterRecorder
+  what: Records every fight by itself from the pull on and opens the window, the same as `ogre er on`. It is never on by itself: each box is switched on after every login, and out of the world nothing happens.
+  example: ISXOgreEQ2.EncounterRecorder:On
+
+ISXOgreEQ2.EncounterRecorder:OnForWho
+  kind: method of ISXOgreEQ2.EncounterRecorder
+  what: Sends `on` to every box the MCP For Who window names, over oc or IRC as that window says. This box switches on only when the For Who names it too.
+  example: ISXOgreEQ2.EncounterRecorder:OnForWho
+
+ISXOgreEQ2.EncounterRecorder:Open
+  kind: method of ISXOgreEQ2.EncounterRecorder
+  what: Opens the Encounter Recorder window, the same as bare `ogre er`.
+  example: ISXOgreEQ2.EncounterRecorder:Open
+
+ISXOgreEQ2.EncounterRecorder:Pets[state]
+  kind: method of ISXOgreEQ2.EncounterRecorder
+  what: Whether rows are written for pets, saved for every box of this PC. Off unless switched on.
+  arg state (string, default: none): on or off. Leave it out to be told what it is now.
+  example: ISXOgreEQ2.EncounterRecorder:Pets["on"]
+
+ISXOgreEQ2.EncounterRecorder:RecordTrash[state]
+  kind: method of ISXOgreEQ2.EncounterRecorder
+  what: "Record trash pulls": whether a fight with no named is written too, saved for every box of this PC. Off unless switched on, and it takes hold with the next fight.
+  arg state (string, default: none): on or off. Leave it out to be told what it is now.
+  example: ISXOgreEQ2.EncounterRecorder:RecordTrash["on"]
+
+ISXOgreEQ2.EncounterRecorder:Start
+  kind: method of ISXOgreEQ2.EncounterRecorder
+  what: Begins a fight's file by hand, for an event that never puts you in combat; it ends on :Stop. Recording must be on.
+  example: ISXOgreEQ2.EncounterRecorder:Start
+
+ISXOgreEQ2.EncounterRecorder:Status
+  kind: method of ISXOgreEQ2.EncounterRecorder
+  what: Prints what it is doing, what it has written and its switches to the console, the same as `ogre er status`.
+  example: ISXOgreEQ2.EncounterRecorder:Status
+
+ISXOgreEQ2.EncounterRecorder:Stop
+  kind: method of ISXOgreEQ2.EncounterRecorder
+  what: Ends the open fight's file that :Start began, the same as `ogre er stop`.
+  example: ISXOgreEQ2.EncounterRecorder:Stop
+
+ISXOgreEQ2.EncounterRecorder:UploadFights[state]
+  kind: method of ISXOgreEQ2.EncounterRecorder
+  what: The switch "Upload each finished fight", saved for every box of this PC: each box sends its own file to the raid's Encounters page a few seconds after the fight ends. On unless switched off; now sends this toon's files the raid does not have yet.
+  arg state (string, default: none): on, off, or now. Leave it out to be told what it is now.
+  example: ISXOgreEQ2.EncounterRecorder:UploadFights["now"]
+
+ISXOgreEQ2.EncounterRecorder:UploadRaid[slug]
+  kind: method of ISXOgreEQ2.EncounterRecorder
+  what: The raid whose Encounters page gets the recordings, saved for every box of this PC. With no raid named nothing is sent.
+  arg slug (string, default: none): The last part of the raid page's address (lower-case letters, digits and -), or none for no raid. Leave it out to be told the raid.
+  example: ISXOgreEQ2.EncounterRecorder:UploadRaid["my-raid"]
+
+ISXOgreEQ2.EncounterRecorder:UploadRaids
+  kind: method of ISXOgreEQ2.EncounterRecorder
+  what: Asks the site for the raids this PC may send to, the window's Refresh. The answer comes a moment later, in the console and as a list under the window's raid field.
+  example: ISXOgreEQ2.EncounterRecorder:UploadRaids
 
 
 == ISXOgreEQ2.Events ==
@@ -11126,10 +11249,10 @@ ogre account
   what: Show this session's account and access level
   example: ogre account
 
-ogre ae
+ogre ae [-nogui] [-targets <n>] [-list]
   kind: ogre command (typed in the game's chat box or a script)
   also: ogre abilityefficiency
-  what: Score your abilities as damage / (cast + recovery) into a report file
+  what: Your abilities' damage / (cast + recovery), at 1 to n targets: a window, or -nogui for the report file
   example: ogre ae
 
 ogre afk [0|on|off]
@@ -11381,6 +11504,11 @@ ogre encounter [reload|debug comms|steps on|off|sequences]
   arg debug (word): `debug comms on|off` or `debug steps on|off`: console echo for comms or step changes; `debug` alone prints the current switches.
   arg sequences (word): List every live sequence: its step, how long it has been there and what holds it (`seq` works too).
   example: ogre encounter reload
+
+ogre er [on | off | end | status | start | stop | mark <text> | pets | npceffects | everydet | trash | onforwho | offforwho | pages [zone] [rebuild] | upload [on|off|now] | raid <slug> | raids]
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre er
+  what: Record every fight as it happens: one folder per named, one per pull
 
 ogre examine [on|off|reset]
   kind: ogre command (typed in the game's chat box or a script)

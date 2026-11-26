@@ -19,10 +19,10 @@ ogre account
   what: Show this session's account and access level
   example: ogre account
 
-ogre ae
+ogre ae [-nogui] [-targets <n>] [-list]
   kind: ogre command (typed in the game's chat box or a script)
   also: ogre abilityefficiency
-  what: Score your abilities as damage / (cast + recovery) into a report file
+  what: Your abilities' damage / (cast + recovery), at 1 to n targets: a window, or -nogui for the report file
   example: ogre ae
 
 ogre afk [0|on|off]
@@ -274,6 +274,11 @@ ogre encounter [reload|debug comms|steps on|off|sequences]
   arg debug (word): `debug comms on|off` or `debug steps on|off`: console echo for comms or step changes; `debug` alone prints the current switches.
   arg sequences (word): List every live sequence: its step, how long it has been there and what holds it (`seq` works too).
   example: ogre encounter reload
+
+ogre er [on | off | end | status | start | stop | mark <text> | pets | npceffects | everydet | trash | onforwho | offforwho | pages [zone] [rebuild] | upload [on|off|now] | raid <slug> | raids]
+  kind: ogre command (typed in the game's chat box or a script)
+  also: ogre er
+  what: Record every fight as it happens: one folder per named, one per pull
 
 ogre examine [on|off|reset]
   kind: ogre command (typed in the game's chat box or a script)

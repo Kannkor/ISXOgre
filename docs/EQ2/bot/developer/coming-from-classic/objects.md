@@ -14,7 +14,7 @@ The Classic objects scripts used that Classic's docs never had a page for (`GetI
 
 | What happened | Names |
 |---|---|
-| ⚠️ Arguments changed | 114 |
+| ⚠️ Arguments changed | 115 |
 | ⚠️ Argument order changed | 10 |
 | ✏️ Renamed | 118 |
 | ➡️ Moved | 6 |
@@ -23,7 +23,7 @@ The Classic objects scripts used that Classic's docs never had a page for (`GetI
 | ⛔ Exists, does nothing yet | 8 |
 | ⛔ Not ported yet | 202 |
 | ⛔ Removed | 129 |
-| **Total** | **796** |
+| **Total** | **797** |
 
 ## Worked examples
 
@@ -109,7 +109,8 @@ call Obj_OgreUtilities.HandleWaitForCombat -TimeOutIfNoProgress 30
 | `ogre abilitytracker` | not defined - the new bot does not load Classic's framework, so the name does not exist | `OgreBotAPI.Options:Set` | ➡️ Lives somewhere else | Delete the line: the tracker runs inside the new bot and nothing needs loading. To turn it on or off from a script write OgreBotAPI.Options:Set[all,checkbox_settings_ability_tracker,TRUE] (FALSE to turn it off).<br>Classic's ability tracker: a script that read your abilities' cooldowns in a loop. The Enable Ability Tracker setting started and stopped it. |
 | `ogre abilitytrackerint` | not defined - the new bot does not load Classic's framework, so the name does not exist | `OgreBotAPI.Options:Set` | ➡️ Lives somewhere else | Delete the line: the tracker runs inside the new bot and nothing needs loading. To turn it on or off from a script write OgreBotAPI.Options:Set[all,checkbox_settings_ability_tracker,TRUE] (FALSE to turn it off).<br>Classic's internal copy of `ogre abilitytracker` (`int` = internal): the same cooldown tracker, read from the file on disk. The Enable Ability Tracker setting started and stopped it. |
 | `ogre adorns` | not defined - the new bot does not load Classic's framework, so the name does not exist | — | ⛔ Removed | `ogre codexinspect` uploads your group's gear to eq2codex.com.<br>Classic's listing of the adornments on your gear. |
-| `ogre aeint` | not defined - the new bot does not load Classic's framework, so the name does not exist | `ogre ae` | ✏️ Renamed | Classic's internal copy of `ogre ae` (`int` = internal): the same script, read from the file on disk. |
+| `ogre ae` | opens the Ability Efficiency window instead of writing the report file - nothing is written until Save to file is pressed | `ogre ae -nogui` | ⚠️ Arguments changed | Write `ogre ae -nogui` where a script ran `ogre ae` for the file. `-targets <n>` adds one column per number of targets, 1 to n.<br>Classic's `ogre ae` took no arguments and wrote &lt;name&gt;_&lt;class&gt;_&lt;server&gt;_AbilityEfficiency.txt. The new bare `ogre ae` opens a window: a table of the same numbers, one column per number of targets. `ogre ae -nogui` writes the file as before, now under Scripts/OgreSave/EQ2/OgreBot/AbilityEfficiency/. |
+| `ogre aeint` | not defined - the new bot does not load Classic's framework, so the name does not exist | `ogre ae -nogui` | ✏️ Renamed | Classic's internal copy of `ogre ae` (`int` = internal): the same script, read from the file on disk. It wrote the report file, which is `ogre ae -nogui` now - bare `ogre ae` opens a window. |
 | `ogre af2013` | not defined - the new bot does not load Classic's framework, so the name does not exist | — | ⛔ Removed | Delete the line - there is no replacement.<br>Classic's April Fools script for 2013. |
 | `ogre afk` | bare is silent now | `ogre afk` | ⚠️ Arguments changed | Write `ogre afk 0` to keep the echo. `ogre afk 1` stays as it is.<br>Classic's bare `ogre afk` echoed a line each time it ran, and `ogre afk 1` was silent. |
 | `ogre agnosticstop` | not defined - the new bot does not load Classic's framework, so the name does not exist | — | ⛔ Removed | Delete the line - there is no replacement.<br>Classic's Agnostic dungeon runner. Classic had already retired its public word. |

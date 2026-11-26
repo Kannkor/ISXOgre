@@ -853,7 +853,7 @@ echo ${ISXOgreEQ2.AbilityDetails}
 
 `${ISXOgreEQ2.AbilityEfficiency}`
 
-The AbilityEfficiency sub-object behind ogre ae: :Run with no argument writes a per-ability efficiency report from your ability export to OgreSave/EQ2/OgreBot/AbilityEfficiency/&lt;name>_&lt;class>_&lt;server>_AbilityEfficiency.txt, and :Run[-h] or :Run[help] prints the usage. Any other word is refused; it is a one-shot with no members.
+The AbilityEfficiency sub-object behind ogre ae: :Run opens the Ability Efficiency window (each damaging ability's damage per second, one column per number of targets), :Run[-nogui] writes the report file instead, :Run[-targets,n] sets the targets, :Run[-list] uses the list layout, :Close closes the window, and the window's own :UI channel. It has no members.
 
 All of it: [ISXOgreEQ2.AbilityEfficiency](AbilityEfficiency.md)
 
@@ -1168,6 +1168,22 @@ All of it: [ISXOgreEQ2.Encounter](Encounter.md)
 ```text
 echo ${ISXOgreEQ2.Encounter}
 ```
+
+### `EncounterRecorder`
+
+`${ISXOgreEQ2.EncounterRecorder}`
+
+The Encounter Recorder: it records every fight as it happens, one file per box, so the fight can be worked out afterwards from the recording alone. Its methods are the words of `ogre er`.
+
+All of it: [ISXOgreEQ2.EncounterRecorder](EncounterRecorder.md)
+
+**Returns:** The Encounter Recorder object. As text it reads "ISXOgreEQ2.EncounterRecorder".
+
+```text
+ISXOgreEQ2.EncounterRecorder:Open
+```
+
+More: [developer/zone-files/recorder.md](../../zone-files/recorder.md)
 
 ### `Events`
 
@@ -1947,18 +1963,31 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/deve
 
 ## Methods
 
+### `Close`
+
+`ISXOgreEQ2.AbilityEfficiency:Close`
+
+Closes the Ability Efficiency window. This is what `ogre end ae` and the window's X do; nothing else is running to stop.
+
+```text
+ISXOgreEQ2.AbilityEfficiency:Close
+```
+
 ### `Run`
 
-`ISXOgreEQ2.AbilityEfficiency:Run[-h]`
+`ISXOgreEQ2.AbilityEfficiency:Run[-nogui,-targets,n,-list]`
 
-Scores every ability in your loaded ability export as the damage in its description divided by cast plus recovery time (recast is not counted), writes one Name\|Value line per ability best first to Scripts/OgreSave/EQ2/OgreBot/AbilityEfficiency/&lt;name>_&lt;subclass>_&lt;server>_AbilityEfficiency.txt and prints the top 20 (the same as `ogre ae`). With no export loaded it prints an error telling you to run `ogre export`, and any argument other than a help word is refused.
+Scores every ability in your loaded ability export as the damage in its description divided by cast plus recovery time (recast is not counted), and with no argument opens the Ability Efficiency window, one column per number of targets (the same as `ogre ae`). With no export loaded it says to run `ogre export`, -h or help prints the usage, and any other word is refused.
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `-h` | switch |  | print the usage instead of running (-help, --help, ? and help work too) |
+| `-nogui` | switch |  | write the report file instead of opening the window, best first, to Scripts/OgreSave/EQ2/OgreBot/AbilityEfficiency/&lt;name>_&lt;subclass>_&lt;server>_AbilityEfficiency.txt, and print the top 20 (classic OgreBot's `ae`) |
+| `-targets` | switch |  | followed by n: the window opens with n target columns; with -nogui the file gets one column per number of targets, best first at n |
+| `n` | int | `4 in the window (or its saved choice); none in the file` | the number of targets after -targets, 1 to 20 |
+| `-list` | switch |  | the list layout: one line per ability and number of targets, best first (an AE repeats once per count); the window opens in it, and with -nogui the file is written in it |
 
 ```text
-ISXOgreEQ2.AbilityEfficiency:Run
+ISXOgreEQ2.AbilityEfficiency:Run[-nogui,-targets,6,-list]
 ```
 
 
@@ -3035,39 +3064,3 @@ Opens the Commands window, which lists the ogre console commands with their usag
 ```text
 ISXOgreEQ2.Commands:Open
 ```
-
-
----
-
-Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/ContentBuilder.md
-
-# ISXOgreEQ2.ContentBuilder
-
-## Methods
-
-### `End`
-
-`ISXOgreEQ2.ContentBuilder:End`
-
-Closes the Content Builder window (the same as `ogre end contentbuilder` and the window's X). Changes that were not saved are kept and offered back the next time the window opens, and a run it started goes on.
-
-```text
-ISXOgreEQ2.ContentBuilder:End
-```
-
-### `Open`
-
-`ISXOgreEQ2.ContentBuilder:Open[tier,path]`
-
-Opens the Content Builder window (the same as `ogre contentbuilder`), on a zone file when you name one. A window that is already open comes to the front, and asks before it opens that file over unsaved changes; without the Ogre UI desktop it prints a warning.
-
-| Parameter | Type | Default | Meaning |
-|---|---|---|---|
-| `tier` | string | `none` | The root the zone file is in: default or custom. Leave both out to open the window as it was. |
-| `path` | string | `none` | The zone file's path inside that root, ending in .json. A path with spaces may be quoted or written as several words. |
-
-```text
-ISXOgreEQ2.ContentBuilder:Open[custom,"My_Zone.json"]
-```
-
-More: [developer/zone-files/builder.md](../../zone-files/builder.md)

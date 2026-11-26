@@ -1,8 +1,61 @@
-# OgreBot for EverQuest II - API reference: ISXOgreEQ2 (part 2 of 3)
+# OgreBot for EverQuest II - API reference: ISXOgreEQ2 (part 2 of 4)
 
 Plain text for AI assistants, generated from the same tables as the API reference pages (https://kannkor.github.io/ISXOgre/EQ2/bot/developer/api/).
-This file is ONE PIECE: ISXOgreEQ2 (part 2 of 3) - ISXOgreEQ2.DepotTransfer, ISXOgreEQ2.Det, ISXOgreEQ2.EffectTracker, ISXOgreEQ2.Encounter, ISXOgreEQ2.Events, ISXOgreEQ2.Experiment, ISXOgreEQ2.Export, ISXOgreEQ2.ForWhoGroups, ISXOgreEQ2.Game, ISXOgreEQ2.GetQuest, ISXOgreEQ2.HarvestLite, ISXOgreEQ2.Heartstone, ISXOgreEQ2.HideEffects, ISXOgreEQ2.HUDs, ISXOgreEQ2.IC, ISXOgreEQ2.InvOps, ISXOgreEQ2.Lag, ISXOgreEQ2.LevelTransmuting, ISXOgreEQ2.LootScan, ISXOgreEQ2.MCP, ISXOgreEQ2.MerchantCraft, ISXOgreEQ2.MerchantOps, ISXOgreEQ2.Migrate, ISXOgreEQ2.Nav, ISXOgreEQ2.NpcCast.
+This file is ONE PIECE: ISXOgreEQ2 (part 2 of 4) - ISXOgreEQ2.CraftingMats, ISXOgreEQ2.DepotTransfer, ISXOgreEQ2.Det, ISXOgreEQ2.EffectTracker, ISXOgreEQ2.Encounter, ISXOgreEQ2.EncounterRecorder, ISXOgreEQ2.Events, ISXOgreEQ2.Experiment, ISXOgreEQ2.Export, ISXOgreEQ2.ForWhoGroups, ISXOgreEQ2.Game, ISXOgreEQ2.GetQuest, ISXOgreEQ2.HarvestLite, ISXOgreEQ2.Heartstone, ISXOgreEQ2.HideEffects, ISXOgreEQ2.HUDs, ISXOgreEQ2.IC, ISXOgreEQ2.InvOps, ISXOgreEQ2.Lag, ISXOgreEQ2.LevelTransmuting, ISXOgreEQ2.LootScan, ISXOgreEQ2.MCP, ISXOgreEQ2.MerchantCraft, ISXOgreEQ2.MerchantOps, ISXOgreEQ2.Migrate.
 How to read an entry, and every file like this one: https://kannkor.github.io/ISXOgre/EQ2/bot/llms-api.txt
+
+== ISXOgreEQ2.CraftingMats ==
+
+${ISXOgreEQ2.CraftingMats.Keys}
+  kind: member of ISXOgreEQ2.CraftingMats
+  what: The keys of the loaded lists, comma separated - each key is also the flag that picks that list in Get and Plan (the shipped ones are cd, ka, mm, pop and vov). Re-reads the list files first if any changed on disk.
+  returns: string: the loaded list keys joined with ", "; "" when none loaded
+  example: echo ${ISXOgreEQ2.CraftingMats.Keys}
+
+${ISXOgreEQ2.CraftingMats.Lists}
+  kind: member of ISXOgreEQ2.CraftingMats
+  what: How many crafting-mats lists are loaded: the shipped ones plus your own from OgreSave/EQ2/CraftingMats/custom. Reading it first re-reads the list files if any changed on disk; any load warnings are in Warnings, and Get, Plan and Reload print them.
+  returns: int: number of loaded lists; 0 when no list files were found
+  example: echo ${ISXOgreEQ2.CraftingMats.Lists}
+
+${ISXOgreEQ2.CraftingMats.Warnings}
+  kind: member of ISXOgreEQ2.CraftingMats
+  what: The warnings the last load of the list files produced, such as an unreadable file; Get, Plan and Reload also print them each time they run. Re-reads the list files first if any changed on disk.
+  returns: string: the warnings joined with " | "; "" when the load was clean
+  example: echo ${ISXOgreEQ2.CraftingMats.Warnings}
+
+ISXOgreEQ2.CraftingMats:End
+  kind: method of ISXOgreEQ2.CraftingMats
+  what: Stops a depot withdraw that a crafting-mats run started (only that one) and closes the editor window; unsaved edits are kept for the next Open. This is what `ogre end craftingmats` and the window's X do.
+  example: ISXOgreEQ2.CraftingMats:End
+
+ISXOgreEQ2.CraftingMats:Get[flags...]
+  kind: method of ISXOgreEQ2.CraftingMats
+  what: Works out the mats for the chosen lists and categories, prints any list-file warnings and the plan, then starts pulling them from the Harvesting Supply Depot and buying any fuel at the Guild Fuel Merchant on the pulse after the call returns (the same as `ogre craftingmats -<flags>`). No flags pulls the Visions of Vetrovia signature line; nothing is pulled when not in world, when another depot errand is running, or when only unknown words were given, and the run stops if no depot is within 11 of you.
+  arg flags... (string): Any mix, dash optional, any case: a list key (-vov, -cd, -mm, -pop, -ka or your own list's key), -sig / -s, -daily / -d, -weekly / -w, -plan to print only, help. A list with no category uses its own signature line (daily + weekly for Kunark's Ascending), a category with no list uses Visions of Vetrovia, and unknown words are ignored with one warning.
+  example: ISXOgreEQ2.CraftingMats:Get[-vov,-daily,-weekly]
+
+ISXOgreEQ2.CraftingMats:Help
+  kind: method of ISXOgreEQ2.CraftingMats
+  what: Prints the `ogre craftingmats` usage to the console: the list and category flags, the defaults, the script calls and where to put your own lists so updates never overwrite them.
+  example: ISXOgreEQ2.CraftingMats:Help
+
+ISXOgreEQ2.CraftingMats:Open
+  kind: method of ISXOgreEQ2.CraftingMats
+  what: Opens the Crafting Mats list editor window, where you change a list and save it to your own custom file (the same as bare `ogre craftingmats`). Calling it while the window is open changes nothing, and without the Ogre UI desktop it prints a warning instead.
+  example: ISXOgreEQ2.CraftingMats:Open
+
+ISXOgreEQ2.CraftingMats:Plan[flags...]
+  kind: method of ISXOgreEQ2.CraftingMats
+  what: Prints any list-file warnings and the shopping list Get would use - the mats to pull from the depot and the fuel to buy - and touches neither the depot nor the merchant. Takes the same flags as Get; no flags plans the Visions of Vetrovia signature line.
+  arg flags... (string): Any mix, dash optional, any case: a list key (-vov, -cd, -mm, -pop, -ka or your own list's key), -sig / -s, -daily / -d, -weekly / -w, -plan to print only, help. A list with no category uses its own signature line (daily + weekly for Kunark's Ascending), a category with no list uses Visions of Vetrovia, and unknown words are ignored with one warning.
+  example: ISXOgreEQ2.CraftingMats:Plan[-ka]
+
+ISXOgreEQ2.CraftingMats:Reload
+  kind: method of ISXOgreEQ2.CraftingMats
+  what: Re-reads every list file from disk now, prints any warnings the load produced, then "craftingmats: reloaded -" with the list count and keys. Rarely needed: the lists are re-read by themselves whenever a list file changes.
+  example: ISXOgreEQ2.CraftingMats:Reload
+
 
 == ISXOgreEQ2.DepotTransfer ==
 
@@ -260,6 +313,113 @@ ISXOgreEQ2.Encounter:Validate[root,path]
   arg path (string, default: none): The fight file's path inside that root, ending in .json. A path with spaces may be quoted or written as several words.
   example: ISXOgreEQ2.Encounter:Validate[custom,"My Zone/My Mob.json"]
   more: https://kannkor.github.io/ISXOgre/EQ2/bot/developer/zone-files/builder
+
+
+== ISXOgreEQ2.EncounterRecorder ==
+
+ISXOgreEQ2.EncounterRecorder:BuildPages[zone,rebuild]
+  kind: method of ISXOgreEQ2.EncounterRecorder
+  what: Builds the readable pages from every recording on this PC, the window's Build pages button; it needs Node.js. It returns at once, and the window and the console say how the build ended.
+  arg zone (string, default: none): The word zone: only this zone's recordings. Leave it out for all of them.
+  arg rebuild (string, default: none): The word rebuild: every pull is read and every page made again. Leave it out to make only what changed.
+  example: ISXOgreEQ2.EncounterRecorder:BuildPages
+
+ISXOgreEQ2.EncounterRecorder:End
+  kind: method of ISXOgreEQ2.EncounterRecorder
+  what: Stops everything - recording, an open fight's file and a page build this session started - and closes the window, the same as `ogre end er` and the window's X.
+  example: ISXOgreEQ2.EncounterRecorder:End
+
+ISXOgreEQ2.EncounterRecorder:EveryDet[state]
+  kind: method of ISXOgreEQ2.EncounterRecorder
+  what: Whether every det is examined, not one for each pair of icons - for dets that share their icons. Saved for every box of this PC.
+  arg state (string, default: none): on or off. Leave it out to be told what it is now.
+  example: ISXOgreEQ2.EncounterRecorder:EveryDet["on"]
+
+ISXOgreEQ2.EncounterRecorder:Help
+  kind: method of ISXOgreEQ2.EncounterRecorder
+  what: Prints the words of `ogre er` to the console.
+  example: ISXOgreEQ2.EncounterRecorder:Help
+
+ISXOgreEQ2.EncounterRecorder:Mark[text]
+  kind: method of ISXOgreEQ2.EncounterRecorder
+  what: Writes a note on the fight's timeline, the same as `ogre er mark <text>`. Recording must be on.
+  arg text (string, default: none): The note. Several arguments are joined with spaces.
+  example: ISXOgreEQ2.EncounterRecorder:Mark["boss at 50%"]
+
+ISXOgreEQ2.EncounterRecorder:NpcEffects[state]
+  kind: method of ISXOgreEQ2.EncounterRecorder
+  what: Whether this session reads the names of effects on NPCs, saved for this session on this PC. The session is1 reads them unless switched off; no other session does unless switched on.
+  arg state (string, default: none): on or off. Leave it out to be told what it is now.
+  example: ISXOgreEQ2.EncounterRecorder:NpcEffects["on"]
+
+ISXOgreEQ2.EncounterRecorder:Off
+  kind: method of ISXOgreEQ2.EncounterRecorder
+  what: Stops recording, the same as `ogre er off`: an open fight's file is ended. The window stays open.
+  example: ISXOgreEQ2.EncounterRecorder:Off
+
+ISXOgreEQ2.EncounterRecorder:OffForWho
+  kind: method of ISXOgreEQ2.EncounterRecorder
+  what: Sends `off` to every box the MCP For Who window names, the same way as :OnForWho.
+  example: ISXOgreEQ2.EncounterRecorder:OffForWho
+
+ISXOgreEQ2.EncounterRecorder:On
+  kind: method of ISXOgreEQ2.EncounterRecorder
+  what: Records every fight by itself from the pull on and opens the window, the same as `ogre er on`. It is never on by itself: each box is switched on after every login, and out of the world nothing happens.
+  example: ISXOgreEQ2.EncounterRecorder:On
+
+ISXOgreEQ2.EncounterRecorder:OnForWho
+  kind: method of ISXOgreEQ2.EncounterRecorder
+  what: Sends `on` to every box the MCP For Who window names, over oc or IRC as that window says. This box switches on only when the For Who names it too.
+  example: ISXOgreEQ2.EncounterRecorder:OnForWho
+
+ISXOgreEQ2.EncounterRecorder:Open
+  kind: method of ISXOgreEQ2.EncounterRecorder
+  what: Opens the Encounter Recorder window, the same as bare `ogre er`.
+  example: ISXOgreEQ2.EncounterRecorder:Open
+
+ISXOgreEQ2.EncounterRecorder:Pets[state]
+  kind: method of ISXOgreEQ2.EncounterRecorder
+  what: Whether rows are written for pets, saved for every box of this PC. Off unless switched on.
+  arg state (string, default: none): on or off. Leave it out to be told what it is now.
+  example: ISXOgreEQ2.EncounterRecorder:Pets["on"]
+
+ISXOgreEQ2.EncounterRecorder:RecordTrash[state]
+  kind: method of ISXOgreEQ2.EncounterRecorder
+  what: "Record trash pulls": whether a fight with no named is written too, saved for every box of this PC. Off unless switched on, and it takes hold with the next fight.
+  arg state (string, default: none): on or off. Leave it out to be told what it is now.
+  example: ISXOgreEQ2.EncounterRecorder:RecordTrash["on"]
+
+ISXOgreEQ2.EncounterRecorder:Start
+  kind: method of ISXOgreEQ2.EncounterRecorder
+  what: Begins a fight's file by hand, for an event that never puts you in combat; it ends on :Stop. Recording must be on.
+  example: ISXOgreEQ2.EncounterRecorder:Start
+
+ISXOgreEQ2.EncounterRecorder:Status
+  kind: method of ISXOgreEQ2.EncounterRecorder
+  what: Prints what it is doing, what it has written and its switches to the console, the same as `ogre er status`.
+  example: ISXOgreEQ2.EncounterRecorder:Status
+
+ISXOgreEQ2.EncounterRecorder:Stop
+  kind: method of ISXOgreEQ2.EncounterRecorder
+  what: Ends the open fight's file that :Start began, the same as `ogre er stop`.
+  example: ISXOgreEQ2.EncounterRecorder:Stop
+
+ISXOgreEQ2.EncounterRecorder:UploadFights[state]
+  kind: method of ISXOgreEQ2.EncounterRecorder
+  what: The switch "Upload each finished fight", saved for every box of this PC: each box sends its own file to the raid's Encounters page a few seconds after the fight ends. On unless switched off; now sends this toon's files the raid does not have yet.
+  arg state (string, default: none): on, off, or now. Leave it out to be told what it is now.
+  example: ISXOgreEQ2.EncounterRecorder:UploadFights["now"]
+
+ISXOgreEQ2.EncounterRecorder:UploadRaid[slug]
+  kind: method of ISXOgreEQ2.EncounterRecorder
+  what: The raid whose Encounters page gets the recordings, saved for every box of this PC. With no raid named nothing is sent.
+  arg slug (string, default: none): The last part of the raid page's address (lower-case letters, digits and -), or none for no raid. Leave it out to be told the raid.
+  example: ISXOgreEQ2.EncounterRecorder:UploadRaid["my-raid"]
+
+ISXOgreEQ2.EncounterRecorder:UploadRaids
+  kind: method of ISXOgreEQ2.EncounterRecorder
+  what: Asks the site for the raids this PC may send to, the window's Refresh. The answer comes a moment later, in the console and as a list under the window's raid field.
+  example: ISXOgreEQ2.EncounterRecorder:UploadRaids
 
 
 == ISXOgreEQ2.Events ==
@@ -1218,192 +1378,4 @@ ISXOgreEQ2.Migrate:Run[task,overwrite]
   arg task (string): the task to run: accounts, imsettings, imlists, profiles, irc, mcp or isprofile
   arg overwrite (string): the word overwrite (any case) to replace data that already exists; anything else, or leaving it out, keeps existing data
   example: ISXOgreEQ2.Migrate:Run[irc]
-
-
-== ISXOgreEQ2.Nav ==
-
-${ISXOgreEQ2.Nav.NavActive}
-  kind: member of ISXOgreEQ2.Nav
-  what: TRUE while a nav trip is in progress - planning its route, waiting for this zone's navmesh, or moving. A paused trip still counts as in progress.
-  returns: bool: TRUE while a trip is planning, waiting for its navmesh or moving; FALSE when idle or once the last trip has ended (Arrived, Stopped, Failed).
-  example: echo ${ISXOgreEQ2.Nav.NavActive}
-
-${ISXOgreEQ2.Nav.NavDistance}
-  kind: member of ISXOgreEQ2.Nav
-  what: Straight-line distance from the character to the trip's destination, refreshed every pulse while it moves, on foot or flying. It is -1 when idle, while a trip is still planning or waiting for its navmesh, and after a trip ends.
-  returns: float: distance in game units to the destination; -1 when no trip is moving.
-  example: echo ${ISXOgreEQ2.Nav.NavDistance}
-
-${ISXOgreEQ2.Nav.NavMeshOn}
-  kind: member of ISXOgreEQ2.Nav
-  what: TRUE unless nav has been switched off with Nav:Set[mesh,off] or `ogre nav -off`. While it is off, new trips are refused; the switch is not saved and starts TRUE each time the extension loads.
-  returns: bool: TRUE when nav is allowed to move this character; FALSE when it is switched off.
-  example: echo ${ISXOgreEQ2.Nav.NavMeshOn}
-
-${ISXOgreEQ2.Nav.NavMeshPolys}
-  kind: member of ISXOgreEQ2.Nav
-  what: How many walkable polygons the loaded navmesh has. It is 0 when no mesh is loaded in this zone yet.
-  returns: int: polygon count of the loaded mesh; 0 when none is loaded.
-  example: echo ${ISXOgreEQ2.Nav.NavMeshPolys}
-
-${ISXOgreEQ2.Nav.NavMeshTiles}
-  kind: member of ISXOgreEQ2.Nav
-  what: How many tiles the loaded navmesh has. It is 0 when no mesh is loaded in this zone yet.
-  returns: int: tile count of the loaded mesh; 0 when none is loaded.
-  example: echo ${ISXOgreEQ2.Nav.NavMeshTiles}
-
-${ISXOgreEQ2.Nav.NavMeshZone}
-  kind: member of ISXOgreEQ2.Nav
-  what: Name of the navmesh that is loaded - the zone's short name in lower case, or the base zone's name when this zone is a copy that uses it. It is "" until a mesh is loaded in this zone (see NavOnMap).
-  returns: string: the loaded mesh's zone name; "" when none is loaded.
-  example: echo ${ISXOgreEQ2.Nav.NavMeshZone}
-
-${ISXOgreEQ2.Nav.NavOnMap}
-  kind: member of ISXOgreEQ2.Nav
-  what: TRUE when a navmesh is loaded right now, so nav can plan a route without waiting. The mesh loads on the first trip or route request in a zone and is set aside on every zone change, so this reads FALSE after zoning until something asks for a route.
-  returns: bool: TRUE when a navmesh is loaded; FALSE when none is loaded yet in this zone.
-  example: echo ${ISXOgreEQ2.Nav.NavOnMap}
-
-${ISXOgreEQ2.Nav.NavOnMesh}
-  kind: member of ISXOgreEQ2.Nav
-  what: TRUE while the current trip is driven over a navmesh route. It is FALSE when idle, while a trip still waits for its navmesh or plans its first route, and once a trip ends.
-  returns: bool: TRUE while a trip is driven over a navmesh route; FALSE otherwise.
-  example: echo ${ISXOgreEQ2.Nav.NavOnMesh}
-
-${ISXOgreEQ2.Nav.NavReason}
-  kind: member of ISXOgreEQ2.Nav
-  what: Plain words about the trip: while it plans or moves, what the plan is doing; once it has ended or while it waits for a navmesh, why. It is empty before the first trip, and reads "already there" when a trip was asked for the spot the character already stands on.
-  returns: string: the plan in force, or why the last trip ended; "" before any trip.
-  example: echo ${ISXOgreEQ2.Nav.NavReason}
-
-${ISXOgreEQ2.Nav.NavState}
-  kind: member of ISXOgreEQ2.Nav
-  what: The trip's state as one word; Arrived, Stopped and Failed stay until the next trip starts, and a paused trip still reads Moving. Stopped means somebody ended the trip on purpose, Failed means nav gave up - NavReason says why.
-  returns: string: a state word such as Idle, Planning, WaitingForMesh, Moving, Arrived, Stopped or Failed.
-  example: echo ${ISXOgreEQ2.Nav.NavState}
-
-${ISXOgreEQ2.Nav.NavWaypoint}
-  kind: member of ISXOgreEQ2.Nav
-  what: The waypoint on the current route the character is heading for, counted from 1 (the first point after the start) up to NavWaypoints on the last leg. It is 0 when no route is being walked, a finished trip included.
-  returns: int: the waypoint being walked to, 1 to NavWaypoints; 0 when no route is being walked.
-  example: echo ${ISXOgreEQ2.Nav.NavWaypoint}
-
-${ISXOgreEQ2.Nav.NavWaypoints}
-  kind: member of ISXOgreEQ2.Nav
-  what: How many waypoints the current route has after its start point, so NavWaypoint reaches it on the last leg. It is 0 when no route is being walked, a finished trip included.
-  returns: int: number of waypoints after the start; 0 when no route is being walked.
-  example: echo ${ISXOgreEQ2.Nav.NavWaypoints}
-
-ISXOgreEQ2.Nav:End
-  kind: method of ISXOgreEQ2.Nav
-  what: Ends the trip under way and closes the nav window, the same as `ogre end nav`, `ogre nav end` or the window's X. It prints "nav: stopped (...)" only when a trip was under way.
-  example: ISXOgreEQ2.Nav:End
-
-ISXOgreEQ2.Nav:Flags[flag...]
-  kind: method of ISXOgreEQ2.Nav
-  what: Runs the `ogre nav -<flag> ...` line: -loc x,y,z (or -to) starts a trip and applies -precision, -nodoors/-doors and -reset with it (it ignores -set, -on/-off and -panel/-nopanel on the same line), while a line without -loc takes -set key value, -reset [key], -on/-off, -panel/-nopanel, -stop, -status or -help. With no flag it prints a warning and a bad or unknown flag prints an error naming it; -precision and -nodoors stay in force after the trip.
-  arg flag... (string): The flags and their values, one per argument; a -loc point may be one "x,y,z" argument or three.
-  example: ISXOgreEQ2.Nav:Flags[-loc,${Me.X},${Me.Y},${Math.Calc[${Me.Z}+30]},-precision,3]
-
-ISXOgreEQ2.Nav:Help
-  kind: method of ISXOgreEQ2.Nav
-  what: Prints the `ogre nav` command help to the console, one line at a time. This is bare `ogre nav` or `ogre nav help`.
-  example: ISXOgreEQ2.Nav:Help
-
-ISXOgreEQ2.Nav:Open
-  kind: method of ISXOgreEQ2.Nav
-  what: Opens the nav panel (trip state with Stop and Pause buttons) now; if the window cannot open it prints "nav panel: <reason>". This is `ogre nav panel`.
-  example: ISXOgreEQ2.Nav:Open
-
-ISXOgreEQ2.Nav:Set[key,value]
-  kind: method of ISXOgreEQ2.Nav
-  what: Changes one nav setting for this session (not saved) and prints "nav: <key> = <value>"; an unknown key, or a value the setting refuses, prints an error and changes nothing. The key is case-insensitive, and `mesh` (alias `on`) never refuses: a yes word switches nav on and any other value switches it off.
-  arg key (string): The setting's name, such as arrive, finalarrive, doors or avoid.
-  arg value (string): The new value - a number for distances and counts, on or off for switches.
-  example: ISXOgreEQ2.Nav:Set[arrive,4]
-
-ISXOgreEQ2.Nav:Status
-  kind: method of ISXOgreEQ2.Nav
-  what: Prints what nav is doing to the console - state, reason, paused, waypoint progress, the loaded mesh and every setting changed from its default. This is `ogre nav status`.
-  example: ISXOgreEQ2.Nav:Status
-
-ISXOgreEQ2.Nav:Stop
-  kind: method of ISXOgreEQ2.Nav
-  what: Ends the trip under way (NavState becomes Stopped) and prints "nav: stopped"; the nav panel stays open. With no trip under way it changes nothing but still prints the line - this is `ogre nav stop`.
-  example: ISXOgreEQ2.Nav:Stop
-
-ISXOgreEQ2.Nav:To[x,y,z]
-  kind: method of ISXOgreEQ2.Nav
-  what: Starts a trip that moves the character to the point, replacing any trip already under way; it returns at once and the route is planned over the next frames (watch NavState). A missing value, or one that is not a number, prints an error and starts nothing, and a refusal (not in world, movement held by another system, no navmesh) prints "nav: <reason>".
-  arg x (float): X of the destination.
-  arg y (float): Y of the destination - Y is up in EQ2.
-  arg z (float): Z of the destination.
-  example: ISXOgreEQ2.Nav:To[${Me.X},${Me.Y},${Math.Calc[${Me.Z}+30]}]
-
-
-== ISXOgreEQ2.NpcCast ==
-
-ISXOgreEQ2.NpcCast:Capture
-  kind: method of ISXOgreEQ2.NpcCast
-  what: Asks for the cast your target is casting right now to be captured, the window's Capture button.
-  example: ISXOgreEQ2.NpcCast:Capture
-
-ISXOgreEQ2.NpcCast:Clear
-  kind: method of ISXOgreEQ2.NpcCast
-  what: Empties your script watch list. Watches from zone data and encounters stay.
-  example: ISXOgreEQ2.NpcCast:Clear
-
-ISXOgreEQ2.NpcCast:End
-  kind: method of ISXOgreEQ2.NpcCast
-  what: Stops the Monitor and closes the window, the same as `ogre end npccast` and the window's X. The watch list is left alone.
-  example: ISXOgreEQ2.NpcCast:End
-
-ISXOgreEQ2.NpcCast:Import
-  kind: method of ISXOgreEQ2.NpcCast
-  what: Copies the shipped OldBot conversions into your own NPC cast data, never overwriting a file you have.
-  example: ISXOgreEQ2.NpcCast:Import
-
-ISXOgreEQ2.NpcCast:Monitor[word]
-  kind: method of ISXOgreEQ2.NpcCast
-  what: The Monitor: starts it on a set of mobs, stops it, or acts on its rows. No word starts it on your target, and any word it does not know prints its status.
-  arg word (string): target, named, all or on start it; off or stop stop it; copy and clear act on its rows; status prints its state. Optional.
-  example: ISXOgreEQ2.NpcCast:Monitor[named]
-
-ISXOgreEQ2.NpcCast:Open
-  kind: method of ISXOgreEQ2.NpcCast
-  what: Opens the NPC Cast Monitoring window, the same as bare `ogre npccast`.
-  example: ISXOgreEQ2.NpcCast:Open
-
-ISXOgreEQ2.NpcCast:Radius[n]
-  kind: method of ISXOgreEQ2.NpcCast
-  what: Sets the scan radius for the script watch list. With no value it prints one warning and changes nothing.
-  arg n (int): The radius in meters; required.
-  example: ISXOgreEQ2.NpcCast:Radius[80]
-
-ISXOgreEQ2.NpcCast:Reload
-  kind: method of ISXOgreEQ2.NpcCast
-  what: Asks for the zone data to be read from disk again.
-  example: ISXOgreEQ2.NpcCast:Reload
-
-ISXOgreEQ2.NpcCast:Status
-  kind: method of ISXOgreEQ2.NpcCast
-  what: Prints the Monitor's state, the scan counters and the watch list to the console, with who holds each watch and whether it is casting.
-  example: ISXOgreEQ2.NpcCast:Status
-
-ISXOgreEQ2.NpcCast:Unwatch[name]
-  kind: method of ISXOgreEQ2.NpcCast
-  what: Takes a mob off your script watch list. With no name it prints one warning and changes nothing.
-  arg name (string): The mob's name; several words are joined into one name; required.
-  example: ISXOgreEQ2.NpcCast:Unwatch["Ancient Guardian"]
-
-ISXOgreEQ2.NpcCast:Watch[name]
-  kind: method of ISXOgreEQ2.NpcCast
-  what: Adds a mob to your script watch list. With no name it prints one warning and changes nothing.
-  arg name (string): The mob's name; several words are joined into one name; required.
-  example: ISXOgreEQ2.NpcCast:Watch["Ancient Guardian"]
-
-ISXOgreEQ2.NpcCast:Zone
-  kind: method of ISXOgreEQ2.NpcCast
-  what: Prints what the zone data says for this zone to the console.
-  example: ISXOgreEQ2.NpcCast:Zone
 

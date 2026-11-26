@@ -430,6 +430,16 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.11.25.001 {#r2026-11-25-001}
+
+*Wednesday, November 25, 2026 at 7:54 PM EST*
+
+- **New** · Bot: **Ability Efficiency has a window.** `ogre ae` now opens the Ability Efficiency window: each damaging ability's damage per second, one column per number of targets, so you can see when an AE beats your single-target abilities. **List** shows one line per ability and number of targets instead, best first, the order to build a cast stack in; **Save to file** writes either. `ogre ae -nogui` writes the file as before, `-targets <n>` sets the targets and `-list` the list layout.
+- **New** · Bot: **Make a cast stack from Ability Efficiency.** **Make cast stack** in the `ogre ae` window adds your damage abilities to the cast stack, best first, with # of mobs set for each AE line. It can wipe the cast stack first or add only what is missing, and **Add buffs** also adds your buffs, with the ones you need to choose between switched off. Heals, cures and debuffs are still yours to add, and nothing is kept until you press Save in OgreBot.
+- **New** · Bot: **The ability export marks stances.** The ability export now marks each offensive and defensive stance (IsStance, IsStanceOffensive and IsStanceDefensive), so fight files and Make cast stack can tell them apart. Older exports count as out of date: OgreBot loads paused and asks for a new one, so type `ogre export` once on each character.
+- **New** · Bot: **The Cast Stack can show DPS numbers.** The Cast Stack tab has a cog at the top right: **DPS values in Abilities** shows each ability's damage per second on one mob, **Sort Abilities by DPS** puts the highest first, and **DPS values in Cast Order** shows each entry's, multiplied by its # of mobs for AE and encounter nukes. These are the same numbers `ogre ae` works out, rounded to whole numbers with K, M, B and T. All three are off until you switch them on, and the choice is kept for this PC.
+- **New** · Windows: **Encounter Recorder: record a fight and work it out afterwards.** `ogre er` opens a window for fight-file writers that records everything the game shows during a fight, one file per box; it only reads the game and never records player chat. **Build pages** turns the recordings into pages you open in a browser (it needs Node.js). **Upload each finished fight** sends them to your raid's Encounters tab on the codex site, where only your raid's members can read them.
+
 ## 2026.11.24.001 {#r2026-11-24-001}
 
 *Tuesday, November 24, 2026 at 5:12 PM EST*
@@ -1954,6 +1964,17 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/ogre
 
 The Cast Stack is the bot's main casting list. Every turn the bot walks the Cast order from the top and casts the FIRST entry that is allowed right now, so the order is your priority. The tab has three columns. Abilities (left) lists this character's abilities plus your registered items; click one to start a new entry. The entry editor (middle) sets the entry's Type, Target and optional conditions and options; only fields marked with a red * are required, and the fields shown change with the ability and the Type you pick. Press Add to put it at the bottom of the Cast order, ↑ Top to put it at the top, or Place and then click a row to put it just above that row. The Cast order (right) shows every entry coloured by its Type: click an entry to select it and open it in the editor, double-click to switch it off, drag an entry to move it, and click ▶ to see its settings. The filter above the Cast order shows only the entries that match any mix of their own settings and their ability's export fields, and the Enable / Disable buttons switch what it shows (or what you selected) on or off together. Ctrl+click or Shift+click entries to select several, then drag any one of them to move them all. Edits reach the running bot at once, but press Save at the top to keep them.
 
+## Tab options (the cog)
+
+| Control | What it does | Default |
+|---|---|---|
+| **⚙ (cog)** | At the right of the Cast Stack title. Opens this tab's options: switches that add DPS numbers to the lists and sort the Abilities list by them. A click anywhere else, or another tab, closes it. |  |
+| **DPS values in Abilities** | Shows each ability's damage per second on ONE mob beside its name in the Abilities list. It is the same number `ogre ae` gives: the damage in the ability's description divided by its cast time plus recovery (recast is not counted). Abilities with no damage show no number.<br>*Whole numbers, then K, M, B and T; past 999T the number is written like 2.5E15. Kept for this PC, not saved in the profile. The numbers come from your ability export, so they only change when the export does.* | off |
+| **Sort Abilities by DPS** | Orders the Abilities list by one-mob DPS, highest first. Abilities with no DPS, and items, follow A to Z. Works whether or not the numbers are shown.<br>*Kept for this PC, like the other two switches.* | off |
+| **DPS values in Cast Order** | Shows a DPS number on each Cast order entry. An ability that hits more than one mob (an AE or an encounter nuke) is multiplied by the entry's # of mobs, but never past the most targets the ability can hit. A single-target ability shows its one-mob number. Hover the number to see the one-mob value and the mobs it was multiplied by.<br>*An entry with no # of mobs shows the one-mob number. Heals, cures and items show no number.* | off |
+
+
+
 ## Abilities (left column)
 
 | Control | What it does |
@@ -2010,6 +2031,7 @@ The Cast Stack is the bot's main casting list. Every turn the bot walks the Cast
 - Nothing below a switched-on 'End of cast stack' line runs; those rows are drawn dim. Double-click the line to switch it off.
 - 'Use when' limits an entry to where you are: Solo / Duo (1-2) is a group of 1 or 2 players, Group (3+) is 3 or more, Raid is any raid whatever its groups. A mercenary does not count as a player. Tick more than one to allow more than one; none ticked means the entry is used everywhere.
 - 'Named Or Epic NPC' (under Named NPCs Only) casts only at a named or an epic target. 'Force NamedCA' on the Settings tab counts every target as named.
+- The DPS numbers (the cog at the top right of the tab) are a planning aid, not a measurement: they read the damage written in each ability's description, so they leave out crits, procs, buffs and the time an ability waits on its recast.
 
 
 ---
@@ -9292,6 +9314,92 @@ A finished test in the search box, an unfinished one (shown in orange and ignore
 
 ---
 
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/ae.md
+
+# Ability Efficiency
+
+> **:bulb: In game - the ? button on this window says**
+>
+> Shows each of your damaging abilities as damage per second spent (cast plus recovery), at 1 target and up to the number in **Targets**. Use it to see at how many targets an AE starts to beat your single-target abilities.
+>
+> **What you can do here**
+>
+> - **Table / List** - the Table has one column per number of targets. The List has one line per ability and number of targets, best first, so an AE shows up once for each count: use it to order a cast stack.
+> - **Targets** - how many targets to show (1 to 20). Use **-** and **+**, or type a number and press Enter. Your choice is kept for next time.
+> - **Click a heading** to sort by it, highest first (Ability: A to Z). Click it again to turn the order round.
+> - **Search abilities** - show only the abilities whose name contains what you type.
+> - **Save to file** - writes what is on screen, table or list, to a text file. The path is shown under it.
+> - **Make cast stack** - adds the List's lines to this character's OgreBot cast stack, best first, between **Ogre AE start** and **Ogre AE end** separators. An AE line such as "4 targets" becomes an entry with **# of mobs** 4.
+>   - **Wipe the cast stack first** empties it before adding. **Only missing entries** skips what it already has.
+>   - **Add buffs** also adds every buff that never runs out, as NonCombatBuff. Group and raid buffs and your own class buffs are switched on. Of your two stances, a fighter gets the defensive one switched on and everyone else the offensive one; the other is added switched off.
+>   - Concentration buffs, clickies (AA and item buffs), Infusions, familiars and illusions are added switched off, each kind under its own separator: switch on the ones you want and remove the rest. Ascension abilities, conduits and a channeler's construct parts are never added.
+>   - Add buffs needs an ability export made after this update: if yours is older, it asks you to type `ogre export` first.
+>   - It changes the cast stack in OgreBot right away, but nothing is saved until you press **Save** in OgreBot.
+>
+> **Good to know**
+>
+> - **Hits** is how many mobs the ability can hit: 1, a number, or **all**. An AE stops growing at its number, and a single-target ability shows the same value in every column.
+> - Grey numbers did not grow from the column before. Green is the best in its column.
+> - The numbers come from your ability export, from the damage written in each description. Crits, procs, buffs and recast time are not counted.
+> - Make cast stack only adds damage abilities and buffs: heals, cures and debuffs are still yours to add.
+> - In the List, an AE stops at the most targets it can hit, so it is never listed twice with the same number.
+> - `ogre ae -nogui` writes the file without opening the window. `ogre ae -targets 6` opens it at 6, and `ogre ae -list` in the List; add `-list` to `-nogui` for a list file.
+
+**Open it:** Type `ogre ae`. `ogre ae -targets 6` opens it with 6 targets and `ogre ae -list` opens it in the List. `ogre end ae` (or the window's X) closes it. `ogre ae -nogui` writes the report file without opening the window; add `-list` for the list layout.
+
+## What it is for
+
+This window lists every ability you have that does damage, with its damage per second spent: the damage written in the ability's description, divided by its cast time plus recovery time. The Table has one column for each number of targets, from 1 up to the number in Targets, so you can see at how many targets an AE starts to beat your single-target abilities. The List has one line per ability and number of targets, best first, which is the order to build a cast stack in. It is a planning tool: it reads your ability export and changes nothing.
+
+## Targets, search and saving
+
+The line under these shows whose abilities they are and how many there are.
+
+| Control | What it does | Default |
+|---|---|---|
+| **Targets** | How many targets to show, from 1 to 20: the Table's columns, or how far the List goes. Use - and +, or type a number and press Enter.<br>*Kept for this PC. `ogre ae -targets <n>` opens the window at n without changing what is kept.* | 4 |
+| **Table / List** | Table: one row per ability, one column per number of targets. List: one line per ability and number of targets, best first, so an AE appears once for each count ("Arc Storm III - 4 targets") between your single-target abilities.<br>*Kept for this PC with Targets. In the List an AE stops at the most targets it can hit, so the same number never repeats.* | Table |
+| **Search abilities** | Shows only the abilities whose name contains what you type, in any case. |  |
+| **Save to file** | Writes what is on screen, table or list, to a text file with your Targets. The path is shown under it.<br>*File: Scripts/OgreSave/EQ2/OgreBot/AbilityEfficiency/<name>_<class>_<server>_AbilityEfficiency.txt. The same file as `ogre ae -nogui -targets <n>`, or with `-list` for the list layout.* |  |
+
+## Make cast stack
+
+Adds the List's lines to this character's OgreBot cast stack, best first, at the window's Targets, between two separators: Ogre AE start and Ogre AE end. They go just above a switched-on End of cast stack line, or at the bottom. The cast stack changes in OgreBot at once; nothing is saved until you press Save in OgreBot (Reload there throws it away).
+
+| Control | What it does | Default |
+|---|---|---|
+| **Make cast stack** | Adds the lines. Each is a CA entry; an AE line such as 'Arc Storm III - 4 targets' gets # of mobs 4, so it only fires with that many mobs, and its 1-target line has no #. The line under the window says how many were added.<br>*Needs OgreBot loaded on this character: the cast stack is part of its profile.* |  |
+| **Wipe the cast stack first** | Empties the whole cast stack before adding, separators and all.<br>*Greys out Only missing entries.* | off |
+| **Only missing entries** | Skips a line the cast stack already has: the same ability with the same # of mobs (none and 1 count as the same), whatever its Type. A buff is skipped by name. | off |
+| **Add buffs** | Also adds every buff that never runs out, as NonCombatBuff, after the damage lines, sorted by level. Switched on: group and raid buffs (Buffs) and your class's own self buffs (Self buffs). Stances: a fighter's defensive stance is switched on and the offensive one off; for everyone else it is the other way round. Switched off, each kind under its own separator: Concentration buffs, Other self buffs (AA and item clickies), Mercenary / Familiar / Mount Infusions, Familiars and Illusions.<br>*Never added: ascension abilities, channeler conduits and a channeler's construct parts. The switched-off kinds are off because nothing in the export says which of a kind is better, and two that replace each other would be cast over each other. It needs an ability export made after this update (it marks the stances); with an older one it asks you to type `ogre export`.* | off |
+
+## The table
+
+Click a heading to sort by that column, highest first; click it again to turn the order round. Ability sorts A to Z.
+
+## The List
+
+One line per ability and number of targets, best first. A single-target ability is one line; an AE is one line for each count up to Targets or the most it can hit. Click DPS to turn the order round, or Ability to sort A to Z.
+
+## What the window shows
+
+- Ability: the ability's full name, with its rank.
+- Hits: how many mobs the ability can hit - 1, a number, or 'all' for an AE or encounter nuke with no limit.
+- 1 target, 2 targets, ...: the damage per second spent with that many mobs there. An AE grows with each target until its Hits number and then stays the same; a single-target ability shows the same value in every column.
+- List: the ability, ' - n targets' for an AE, and its damage per second with that many mobs there.
+- Grey numbers did not grow from the column before. Green is the best in its column.
+- Numbers are whole under 1,000, then K, M, B and T with one decimal (1.9T); past 999.9T they are written like 2.5E15.
+
+## Good to know
+
+- The numbers come from the damage written in each ability's description. Crits, procs, buffs and the time an ability waits on its recast are not counted.
+- It needs your ability export: load OgreBot on the character, or type `ogre export`. Without one the window says so and Save to file is off.
+- Without -targets, `ogre ae -nogui` writes the same two-column file classic OgreBot's `ae` did.
+- Make cast stack only adds damage abilities and buffs. Heals, cures and debuffs are still yours to add, and nothing is kept until you press Save in OgreBot.
+
+
+---
+
 Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/windows/pulsebudget.md
 
 # Pulse Budget
@@ -11374,6 +11482,8 @@ both in `Scripts\Ogre\EQ2\IC\default\Rage of Cthurath\`.
 - [Run your own fight files](fight-files.md): where your own fight (encounter) files go, how one is picked, and starting a setup from a button or a zone file.
 - [Check your file](checking.md): how to find what is wrong with a file, and a checklist before you share it.
 - [Build one in the Content Builder](builder.md): the window that draws a zone file or a fight file as boxes, so you can build and change one without writing JSON.
+- [Record a fight](recorder.md): the Encounter Recorder writes down everything the game shows during a fight, so you can work it out afterwards and write its fight file.
+- [The recording format](recording-format.md): what a recording holds, row by row.
 
 
 ---
@@ -12636,6 +12746,7 @@ Every member, method, command and event a script or a user can reach, one row ea
 - [ISXOgreEQ2.Det](isxogreeq2/Det.md)
 - [ISXOgreEQ2.EffectTracker](isxogreeq2/EffectTracker.md)
 - [ISXOgreEQ2.Encounter](isxogreeq2/Encounter.md)
+- [ISXOgreEQ2.EncounterRecorder](isxogreeq2/EncounterRecorder.md)
 - [ISXOgreEQ2.Events](isxogreeq2/Events.md)
 - [ISXOgreEQ2.Experiment](isxogreeq2/Experiment.md)
 - [ISXOgreEQ2.Export](isxogreeq2/Export.md)
@@ -25894,7 +26005,7 @@ echo ${ISXOgreEQ2.AbilityDetails}
 
 `${ISXOgreEQ2.AbilityEfficiency}`
 
-The AbilityEfficiency sub-object behind ogre ae: :Run with no argument writes a per-ability efficiency report from your ability export to OgreSave/EQ2/OgreBot/AbilityEfficiency/&lt;name>_&lt;class>_&lt;server>_AbilityEfficiency.txt, and :Run[-h] or :Run[help] prints the usage. Any other word is refused; it is a one-shot with no members.
+The AbilityEfficiency sub-object behind ogre ae: :Run opens the Ability Efficiency window (each damaging ability's damage per second, one column per number of targets), :Run[-nogui] writes the report file instead, :Run[-targets,n] sets the targets, :Run[-list] uses the list layout, :Close closes the window, and the window's own :UI channel. It has no members.
 
 All of it: [ISXOgreEQ2.AbilityEfficiency](AbilityEfficiency.md)
 
@@ -26209,6 +26320,22 @@ All of it: [ISXOgreEQ2.Encounter](Encounter.md)
 ```text
 echo ${ISXOgreEQ2.Encounter}
 ```
+
+### `EncounterRecorder`
+
+`${ISXOgreEQ2.EncounterRecorder}`
+
+The Encounter Recorder: it records every fight as it happens, one file per box, so the fight can be worked out afterwards from the recording alone. Its methods are the words of `ogre er`.
+
+All of it: [ISXOgreEQ2.EncounterRecorder](EncounterRecorder.md)
+
+**Returns:** The Encounter Recorder object. As text it reads "ISXOgreEQ2.EncounterRecorder".
+
+```text
+ISXOgreEQ2.EncounterRecorder:Open
+```
+
+More: [developer/zone-files/recorder.md](../../zone-files/recorder.md)
 
 ### `Events`
 
@@ -26988,18 +27115,31 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/deve
 
 ## Methods
 
+### `Close`
+
+`ISXOgreEQ2.AbilityEfficiency:Close`
+
+Closes the Ability Efficiency window. This is what `ogre end ae` and the window's X do; nothing else is running to stop.
+
+```text
+ISXOgreEQ2.AbilityEfficiency:Close
+```
+
 ### `Run`
 
-`ISXOgreEQ2.AbilityEfficiency:Run[-h]`
+`ISXOgreEQ2.AbilityEfficiency:Run[-nogui,-targets,n,-list]`
 
-Scores every ability in your loaded ability export as the damage in its description divided by cast plus recovery time (recast is not counted), writes one Name\|Value line per ability best first to Scripts/OgreSave/EQ2/OgreBot/AbilityEfficiency/&lt;name>_&lt;subclass>_&lt;server>_AbilityEfficiency.txt and prints the top 20 (the same as `ogre ae`). With no export loaded it prints an error telling you to run `ogre export`, and any argument other than a help word is refused.
+Scores every ability in your loaded ability export as the damage in its description divided by cast plus recovery time (recast is not counted), and with no argument opens the Ability Efficiency window, one column per number of targets (the same as `ogre ae`). With no export loaded it says to run `ogre export`, -h or help prints the usage, and any other word is refused.
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `-h` | switch |  | print the usage instead of running (-help, --help, ? and help work too) |
+| `-nogui` | switch |  | write the report file instead of opening the window, best first, to Scripts/OgreSave/EQ2/OgreBot/AbilityEfficiency/&lt;name>_&lt;subclass>_&lt;server>_AbilityEfficiency.txt, and print the top 20 (classic OgreBot's `ae`) |
+| `-targets` | switch |  | followed by n: the window opens with n target columns; with -nogui the file gets one column per number of targets, best first at n |
+| `n` | int | `4 in the window (or its saved choice); none in the file` | the number of targets after -targets, 1 to 20 |
+| `-list` | switch |  | the list layout: one line per ability and number of targets, best first (an AE repeats once per count); the window opens in it, and with -nogui the file is written in it |
 
 ```text
-ISXOgreEQ2.AbilityEfficiency:Run
+ISXOgreEQ2.AbilityEfficiency:Run[-nogui,-targets,6,-list]
 ```
 
 
@@ -29461,6 +29601,238 @@ ISXOgreEQ2.Encounter:Validate[custom,"My Zone/My Mob.json"]
 ```
 
 More: [developer/zone-files/builder.md](../../zone-files/builder.md)
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/isxogreeq2/EncounterRecorder.md
+
+# ISXOgreEQ2.EncounterRecorder
+
+## Methods
+
+### `BuildPages`
+
+`ISXOgreEQ2.EncounterRecorder:BuildPages[zone,rebuild]`
+
+Builds the readable pages from every recording on this PC, the window's Build pages button; it needs Node.js. It returns at once, and the window and the console say how the build ended.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `zone` | string | `none` | The word zone: only this zone's recordings. Leave it out for all of them. |
+| `rebuild` | string | `none` | The word rebuild: every pull is read and every page made again. Leave it out to make only what changed. |
+
+```text
+ISXOgreEQ2.EncounterRecorder:BuildPages
+```
+
+### `End`
+
+`ISXOgreEQ2.EncounterRecorder:End`
+
+Stops everything - recording, an open fight's file and a page build this session started - and closes the window, the same as `ogre end er` and the window's X.
+
+```text
+ISXOgreEQ2.EncounterRecorder:End
+```
+
+### `EveryDet`
+
+`ISXOgreEQ2.EncounterRecorder:EveryDet[state]`
+
+Whether every det is examined, not one for each pair of icons - for dets that share their icons. Saved for every box of this PC.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `state` | string | `none` | on or off. Leave it out to be told what it is now. |
+
+```text
+ISXOgreEQ2.EncounterRecorder:EveryDet["on"]
+```
+
+### `Help`
+
+`ISXOgreEQ2.EncounterRecorder:Help`
+
+Prints the words of `ogre er` to the console.
+
+```text
+ISXOgreEQ2.EncounterRecorder:Help
+```
+
+### `Mark`
+
+`ISXOgreEQ2.EncounterRecorder:Mark[text]`
+
+Writes a note on the fight's timeline, the same as `ogre er mark <text>`. Recording must be on.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `text` | string | `none` | The note. Several arguments are joined with spaces. |
+
+```text
+ISXOgreEQ2.EncounterRecorder:Mark["boss at 50%"]
+```
+
+### `NpcEffects`
+
+`ISXOgreEQ2.EncounterRecorder:NpcEffects[state]`
+
+Whether this session reads the names of effects on NPCs, saved for this session on this PC. The session is1 reads them unless switched off; no other session does unless switched on.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `state` | string | `none` | on or off. Leave it out to be told what it is now. |
+
+```text
+ISXOgreEQ2.EncounterRecorder:NpcEffects["on"]
+```
+
+### `Off`
+
+`ISXOgreEQ2.EncounterRecorder:Off`
+
+Stops recording, the same as `ogre er off`: an open fight's file is ended. The window stays open.
+
+```text
+ISXOgreEQ2.EncounterRecorder:Off
+```
+
+### `OffForWho`
+
+`ISXOgreEQ2.EncounterRecorder:OffForWho`
+
+Sends `off` to every box the MCP For Who window names, the same way as :OnForWho.
+
+```text
+ISXOgreEQ2.EncounterRecorder:OffForWho
+```
+
+### `On`
+
+`ISXOgreEQ2.EncounterRecorder:On`
+
+Records every fight by itself from the pull on and opens the window, the same as `ogre er on`. It is never on by itself: each box is switched on after every login, and out of the world nothing happens.
+
+```text
+ISXOgreEQ2.EncounterRecorder:On
+```
+
+### `OnForWho`
+
+`ISXOgreEQ2.EncounterRecorder:OnForWho`
+
+Sends `on` to every box the MCP For Who window names, over oc or IRC as that window says. This box switches on only when the For Who names it too.
+
+```text
+ISXOgreEQ2.EncounterRecorder:OnForWho
+```
+
+### `Open`
+
+`ISXOgreEQ2.EncounterRecorder:Open`
+
+Opens the Encounter Recorder window, the same as bare `ogre er`.
+
+```text
+ISXOgreEQ2.EncounterRecorder:Open
+```
+
+### `Pets`
+
+`ISXOgreEQ2.EncounterRecorder:Pets[state]`
+
+Whether rows are written for pets, saved for every box of this PC. Off unless switched on.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `state` | string | `none` | on or off. Leave it out to be told what it is now. |
+
+```text
+ISXOgreEQ2.EncounterRecorder:Pets["on"]
+```
+
+### `RecordTrash`
+
+`ISXOgreEQ2.EncounterRecorder:RecordTrash[state]`
+
+"Record trash pulls": whether a fight with no named is written too, saved for every box of this PC. Off unless switched on, and it takes hold with the next fight.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `state` | string | `none` | on or off. Leave it out to be told what it is now. |
+
+```text
+ISXOgreEQ2.EncounterRecorder:RecordTrash["on"]
+```
+
+### `Start`
+
+`ISXOgreEQ2.EncounterRecorder:Start`
+
+Begins a fight's file by hand, for an event that never puts you in combat; it ends on :Stop. Recording must be on.
+
+```text
+ISXOgreEQ2.EncounterRecorder:Start
+```
+
+### `Status`
+
+`ISXOgreEQ2.EncounterRecorder:Status`
+
+Prints what it is doing, what it has written and its switches to the console, the same as `ogre er status`.
+
+```text
+ISXOgreEQ2.EncounterRecorder:Status
+```
+
+### `Stop`
+
+`ISXOgreEQ2.EncounterRecorder:Stop`
+
+Ends the open fight's file that :Start began, the same as `ogre er stop`.
+
+```text
+ISXOgreEQ2.EncounterRecorder:Stop
+```
+
+### `UploadFights`
+
+`ISXOgreEQ2.EncounterRecorder:UploadFights[state]`
+
+The switch "Upload each finished fight", saved for every box of this PC: each box sends its own file to the raid's Encounters page a few seconds after the fight ends. On unless switched off; now sends this toon's files the raid does not have yet.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `state` | string | `none` | on, off, or now. Leave it out to be told what it is now. |
+
+```text
+ISXOgreEQ2.EncounterRecorder:UploadFights["now"]
+```
+
+### `UploadRaid`
+
+`ISXOgreEQ2.EncounterRecorder:UploadRaid[slug]`
+
+The raid whose Encounters page gets the recordings, saved for every box of this PC. With no raid named nothing is sent.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `slug` | string | `none` | The last part of the raid page's address (lower-case letters, digits and -), or none for no raid. Leave it out to be told the raid. |
+
+```text
+ISXOgreEQ2.EncounterRecorder:UploadRaid["my-raid"]
+```
+
+### `UploadRaids`
+
+`ISXOgreEQ2.EncounterRecorder:UploadRaids`
+
+Asks the site for the raids this PC may send to, the window's Refresh. The answer comes a moment later, in the console and as a list under the window's raid field.
+
+```text
+ISXOgreEQ2.EncounterRecorder:UploadRaids
+```
 
 
 ---
@@ -36334,7 +36706,7 @@ What a user types: the `ogre` commands (the in-game Commands panel lists them al
 
 A console command is sent as `oc !c <command> <who> ...` - typed in the console, put on an MCP button or run from a script. It goes to the sessions on this PC, this one included, and the [for-who](../ogrebotapi/ForWho.md) in `<who>` picks which of them act: `igw:${Me.Name}` is your whole group, `igwbn:${Me.Name}` your group without you. Left out, or `auto`, it uses the For Who window. `oc !ci` does the same as `oc !c`.
 
-- [`ogre` commands](ogre.md) - 94 commands
+- [`ogre` commands](ogre.md) - 95 commands
 - [Console commands: ISXOgreX](console-isxogrex.md) - 9 commands
 - [Console commands: A-B](console-a-b.md) - 46 commands
 - [Console commands: C](console-c.md) - 72 commands
@@ -36375,11 +36747,11 @@ ogre account
 
 ## `ae`
 
-`ogre ae`
+`ogre ae [-nogui] [-targets <n>] [-list]`
 
 Also: `ogre abilityefficiency`
 
-Score your abilities as damage / (cast + recovery) into a report file
+Your abilities' damage / (cast + recovery), at 1 to n targets: a window, or -nogui for the report file
 
 ```text
 ogre ae
@@ -36832,6 +37204,14 @@ Encounter authoring: reload the json from disk, toggle the debug echoes, list li
 ```text
 ogre encounter reload
 ```
+
+## `encounterrecorder`
+
+`ogre er [on | off | end | status | start | stop | mark <text> | pets | npceffects | everydet | trash | onforwho | offforwho | pages [zone] [rebuild] | upload [on|off|now] | raid <slug> | raids]`
+
+Also: `ogre er`
+
+Record every fight as it happens: one folder per named, one per pull
 
 ## `examine`
 
