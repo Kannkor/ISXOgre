@@ -1,0 +1,78 @@
+# OgreBot for EverQuest II - API reference: ISXOgreEQ2 (part 4 of 4)
+
+Plain text for AI assistants, generated from the same tables as the API reference pages (https://kannkor.github.io/ISXOgre/EQ2/bot/developer/api/).
+This file is ONE PIECE: ISXOgreEQ2 (part 4 of 4) - ISXOgreEQ2.ZoneReset.
+How to read an entry, and every file like this one: https://kannkor.github.io/ISXOgre/EQ2/bot/llms-api.txt
+
+== ISXOgreEQ2.ZoneReset ==
+
+ISXOgreEQ2.ZoneReset:Add[zone]
+  kind: method of ISXOgreEQ2.ZoneReset
+  what: Adds one zone to the reset queue and prints how many it holds.
+  arg zone (string): The zone's name; several words are joined into one name; required.
+  example: ISXOgreEQ2.ZoneReset:Add["The Feerrott"]
+
+ISXOgreEQ2.ZoneReset:AddFilter[filter]
+  kind: method of ISXOgreEQ2.ZoneReset
+  what: Adds every zone the filter picks from the last read to the reset queue and prints how many.
+  arg filter (string): resettable, noraid or notlocked. Optional: anything else reads as resettable.
+  example: ISXOgreEQ2.ZoneReset:AddFilter[resettable]
+
+ISXOgreEQ2.ZoneReset:Clear
+  kind: method of ISXOgreEQ2.ZoneReset
+  what: Empties the reset queue.
+  example: ISXOgreEQ2.ZoneReset:Clear
+
+ISXOgreEQ2.ZoneReset:Dump
+  kind: method of ISXOgreEQ2.ZoneReset
+  what: Prints the zone table from the last read to the console.
+  example: ISXOgreEQ2.ZoneReset:Dump
+
+ISXOgreEQ2.ZoneReset:End
+  kind: method of ISXOgreEQ2.ZoneReset
+  what: Stops what this tool asked for, drops what it had queued to run, and closes the window, the same as `ogre end zone` and the window's X. A reset that an Instance Controller run or a script asked for carries on.
+  example: ISXOgreEQ2.ZoneReset:End
+
+ISXOgreEQ2.ZoneReset:Flags[flags]
+  kind: method of ISXOgreEQ2.ZoneReset
+  what: The flag form, the same as `ogre zone -zone ...`; -all with -force is refused. -h prints the usage.
+  arg flags (string): -zone names one zone and takes every word up to the next flag, -force force resets it and spends a charge, -all resets every resettable zone, -allowRaid includes raid zones, -fleet goes to the For Who selection; one argument each; required.
+  example: ISXOgreEQ2.ZoneReset:Flags[-zone,"The Feerrott"]
+
+ISXOgreEQ2.ZoneReset:Force[zone]
+  kind: method of ISXOgreEQ2.ZoneReset
+  what: Force resets one zone, which SPENDS one of your limited reset charges and cannot be undone. With no zone it prints one warning and does nothing, and it is refused while a flow runs.
+  arg zone (string): The zone's name; several words are joined into one name; required.
+  example: ISXOgreEQ2.ZoneReset:Force["The Feerrott"]
+
+ISXOgreEQ2.ZoneReset:Help
+  kind: method of ISXOgreEQ2.ZoneReset
+  what: Prints the `ogre zone` words and flags to the console.
+  example: ISXOgreEQ2.ZoneReset:Help
+
+ISXOgreEQ2.ZoneReset:List
+  kind: method of ISXOgreEQ2.ZoneReset
+  what: Reads the Zone Reuse window again; it opens and closes. Refused while a flow runs.
+  example: ISXOgreEQ2.ZoneReset:List
+
+ISXOgreEQ2.ZoneReset:Open
+  kind: method of ISXOgreEQ2.ZoneReset
+  what: Opens the Zone Resetter window, which reads the Zone Reuse window, the same as bare `ogre zone`.
+  example: ISXOgreEQ2.ZoneReset:Open
+
+ISXOgreEQ2.ZoneReset:Queue
+  kind: method of ISXOgreEQ2.ZoneReset
+  what: Prints the reset queue to the console.
+  example: ISXOgreEQ2.ZoneReset:Queue
+
+ISXOgreEQ2.ZoneReset:Reset[word]
+  kind: method of ISXOgreEQ2.ZoneReset
+  what: Resets the timer of every zone in the queue. Refused while a flow runs.
+  arg word (string): fleet also sends it to the For Who window's selection. Optional.
+  example: ISXOgreEQ2.ZoneReset:Reset[fleet]
+
+ISXOgreEQ2.ZoneReset:Status
+  kind: method of ISXOgreEQ2.ZoneReset
+  what: Prints the flow state, zone and queue counts and counters to the console.
+  example: ISXOgreEQ2.ZoneReset:Status
+

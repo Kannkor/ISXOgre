@@ -1,0 +1,1968 @@
+# OgreBot for EverQuest II - documentation, Developers (part 2 of 14)
+
+OgreBot is in beta testing. For OgreBot Classic see https://kannkor.github.io/ISXOgre/EQ2/
+This file is ONE PIECE of the documentation: Developers (part 2 of 14) - Developers - Guides - Write your own zone files; Developers - API reference; Developers - API reference - OgreBotAPI.
+The entire documentation in one document: https://kannkor.github.io/ISXOgre/EQ2/bot/llms-full.txt
+Index of every page and of every file like this one: https://kannkor.github.io/ISXOgre/EQ2/bot/llms.txt
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/zone-files/how-it-runs.md
+
+# How a zone file runs
+
+## The top of the file
+
+| Key | Needed | What it does |
+|---|---|---|
+| `zone` | yes | The zone's name as the game shows it, without the difficulty: `"Oogothl Sprawl: Ver'Bohten Atoll"`. IC uses it to tell whether you are standing in the zone, and to travel there. |
+| `variants` | yes | Every difficulty this file covers, as the game writes it: `["[Solo]", "[Heroic]"]`. Use `[]` for a zone with no difficulty in its name. The IC window offers these when you queue the file. |
+| `steps` | | The main list of steps. Most files only need this one. |
+| `enter`, `exit` | | Steps to run before `steps`, and after them. See [How a run goes](#how-a-run-goes). |
+| `entrance` | | Where the zone-in puts you: `{ "loc": [x, y, z], "tolerance": 10 }` (tolerance in meters, 30 if left out). Wipe recovery uses it to know the group is back at the zone-in. A file with nameds and no `entrance` loads with a warning. |
+| `progression` | | `"sequential"` (the default) or `"open"`. When a run starts part-way, or after a wipe, IC works out which nameds are already dead. With `sequential`, a named that is still standing means every named before it in the file is dead, and IC skips them. With `open`, nameds can die in any order, so only the ones IC saw die count. **Use `sequential` only when each named appears only after the one before it dies.** If any later named is already up when you zone in, or a named has to be spawned by an event first (a ring event, a script, anything with a `spawnWaitMs`), use `"open"`. Otherwise a run that starts with that named not spawned yet sees the later named standing and skips it. Getting `open` wrong only costs a walk over ground you already cleared; getting `sequential` wrong skips a named. |
+| `enabled` | | `false` hides the file in the IC window, and it will not run. Write `true` or `false`, not `"false"`. |
+| `rerunWholeZoneAfterWipe` | | `true`: after a wipe recovery, run the whole file again from the top. For zones with teleporters inside, where the group cannot walk back to where it died. Such a zone only starts where the group already stands. From the top, that means within 30 m of the `entrance` and no more than 5 m above or below it. Part-way, it means by that part's walk or named. |
+| `wipeAttempts` | | How many times wipe recovery may run before IC gives the zone up: `0` to `10`, `2` if left out. |
+| `onWipe` | | Your own wipe recovery steps (see [`recover`](steps.md#recover)). Leave it out for the built-in recovery. `[]` means no recovery: the first wipe gives the zone up. |
+| `afterWipe` | | Your own steps for when the zone is given up. Leave it out for the built-in ones: revive, then whatever the IC window's **After a lost zone** says. |
+| `fileOptions` | | Up to 3 names for the IC window's **IC File Option 1-3** boxes: `["Skip the side named"]`. Your steps read the boxes as `{{ic.options.fileOption1}}` (`TRUE` or `FALSE`), and the **IC File Args** box as `{{ic.options.fileArgs}}`. |
+| `options` | | Your own values for this file. Steps read them as `{{ic.zone.options.<name>}}`. IC itself does nothing with them. |
+| `difficulty` | | A difficulty menu for the IC window: `{ "choices": ["Easy", "Hard"] }` or `{ "minValue": 1, "maxValue": 5 }`. The run does not use it yet. |
+| `run` | | Hands the zone to a script instead of steps: `{ "iss": "<path under Scripts>" }`, or to another zone file in the same root: `{ "json": "<path>" }`. A file has steps or `run`, never both. A script must call `ISXOgreEQ2.IC:Complete` when it is done, or the run counts as failed. |
+| `expansion`, `author` | | Notes for people. IC does not use them. |
+
+**A key IC does not read does nothing, and Reload says so.** It is a warning, so the file still loads. The line
+names the key and the nearest key IC does read (see [Checking your file](checking.md#checking-your-file)). A key starting with
+`_`, like `_comment`, is a note: it is never said, so use it for notes.
+
+## How a run goes
+
+- **Before the first step**, IC applies your Startup Options. After a zone-in, it waits until everyone has
+  arrived, then gives the group a few seconds to rebuff.
+- **The lists run in order: `enter`, then `steps`, then `exit`.** One step at a time, on the character that runs
+  IC. Steps like `path`, `named`, `loot` and `zoneOut` move the whole group; most other actions act on the IC
+  character alone unless they take `sendTo` (see [Other actions](other-actions.md)).
+- **A step that fails** ends its list (see `onFail` below). If `enter` fails, `steps` does not run. `exit` still runs
+  after a failure.
+- **When `steps` finish**, **Halt at end of zone** pauses IC right there, inside the zone. The zone end options
+  (Call to guild hall after each zone, Stay in zone until a zone is ready) run at the `zoneOut` step.
+- **A `zoneOut` that takes the group out ends its list.** Anything after it in that list is skipped.
+- **End**, **Max wait per zone** and closing the IC window stop the run where it stands. `exit` does not run.
+- **Wipes** are watched during `enter` and `steps`. IC runs the wipe recovery, then starts the zone again, leaving
+  out what is already done. The built-in recovery revives everyone at the entrance, evacuates if they are not there,
+  and then rests for a minute so revive sickness wears off and buffs go back up. In a zone whose revive window has no
+  Entrance, each character revives at the last revive point the window lists, says which, and the recovery goes on
+  from there. After `wipeAttempts` recoveries, IC gives the zone up: the `afterWipe` steps run, `exit`
+  does not, and the list moves on to the next zone.
+- **A near-wipe counts as a wipe.** In a group of 5 or 6 with 2 or fewer alive, or of 3 or 4 with one alive, and
+  every one of them in combat, IC pauses the survivors' OgreBot so they die and the wipe recovery runs. They get
+  OgreBot back when the recovery starts, when the fight around them ends, after 60 seconds, or when the run ends.
+  A group of 2 is never paused.
+- **Starting part-way.** The IC window's **named #** starts a zone at a named: IC backs up over the steps that lead
+  to it (its walk, for instance) so they run too. It only works when you are already standing in that zone. A run
+  that zones in always starts from the top.
+
+## Steps
+
+```json
+{ "stepId": "named1.chest", "do": "loot", "op": "chest" }
+```
+
+Every step that does something has a **`do`**: the action. The rest of the keys belong to that action. All the
+actions are listed in [The steps, one by one](steps.md).
+
+| Key | What it does |
+|---|---|
+| `stepId` | The step's name. It shows in the log and the IC window, and the step's result is kept under it. |
+| `onFail` | `"fail"` or `"proceed"`. With `fail`, a step that fails ends its list. With `proceed`, the list goes on. A step in a list starts as `fail`; a step inside a loop starts as `proceed`. |
+| `when` | A condition. The step runs only when it is true; when it is false the step is skipped, and that is not a failure. The conditions are the ones fight files use (an example is in [Loops](#loops)). |
+| `throttleMs` | Skips the step if it ran less than this many milliseconds ago. Handy inside loops. |
+
+**Name your steps the way the shipped files do.** Call each named `named1`, `named2`, ..., and the steps that belong
+to it `named1.walk`, `named1.chest`, `named1.said`. IC relies on this. **Skip the boss** leaves out the boss and
+every step named after it. **named #** and resuming after a stop back up to the steps of the named before.
+A named with no `stepId` cannot be remembered as done.
+
+### Waiting
+
+```json
+{ "stepId": "settle", "wait": "ms", "limitMs": 1500, "onTimeout": "proceed" }
+```
+
+A `wait` step holds the list. `limitMs` and `onTimeout` are always needed: there are no defaults.
+
+- `"wait": "ms"` is a fixed pause of `limitMs` milliseconds. Its `onTimeout` must be `"proceed"`.
+- `"wait": <condition>` holds until the condition is true, for at most `limitMs`. Then `onTimeout` decides:
+  `"proceed"` goes on, `"fail"` ends the list.
+- `"wait": "atCampSpot"` holds until the IC character stands at its camp spot (see the loop below).
+
+### Loops
+
+`repeat` runs its own `steps` again and again. `{ "times": 3 }` runs them 3 times.
+`{ "until": <condition>, "max": 10 }` runs them until the condition is true, but never more than `max` times;
+`max` is required.
+
+`forEach` runs its `steps` once for each actor it finds (`"find"`) or each spot in a list
+(`"spots": [[x, y, z], ...]`). `"as"` names the one being visited. Inside, `{{seq.<as>.x}}`, `.y`, `.z`, `.loc`,
+`.id`, `.name` and `.distance` read it.
+
+Here the group runs to each light the boss calls, while the lights are up and the boss is not on top of them:
+
+```json
+    {
+      "stepId": "named1.lights",
+      "when": [
+        {
+          "count": {
+            "of": "actors",
+            "find": {
+              "query": "Name == \"boss_01_knight_light\" && Distance < 100"
+            },
+            "compare": ">=",
+            "value": 1
+          }
+        },
+        ...
+      ],
+      "repeat": {
+        "until": [
+          ...
+        ],
+        "max": 10
+      },
+      "steps": [
+        {
+          "stepId": "named1.light",
+          "forEach": {
+            "find": {
+              "query": "Name == \"boss_01_knight_light\" && Distance < 100"
+            },
+            "as": "light",
+            "max": 1
+          },
+          "steps": [
+            ...
+            {
+              "stepId": "named1.light.go.group",
+              "do": "campSpot",
+              "op": "setLoc",
+              "x": "{{seq.light.x}}",
+              "y": "{{seq.light.y}}",
+              "z": "{{seq.light.z}}",
+              "sendTo": "igwbn:{{me}}"
+            },
+            {
+              "stepId": "named1.light.there",
+              "wait": "atCampSpot",
+              "limitMs": 15000,
+              "onTimeout": "proceed"
+            },
+            ...
+```
+
+`forEach` can also walk saved values: `"vars": { "prefix": "<start of the name>" }` visits every value whose name
+starts with it, and `{{seq.<as>.name}}` is the rest of the name. Add `"groupMember": true` when that rest is a
+character's name: only members of the group are visited, with their names spelt as the game spells them.
+
+**Example: the first character with Escape ready casts it.** No character name is written into the file. Each member
+answers for itself, and `max: 1` stops after the first yes. If nobody has it ready, nothing is cast and the zone goes on.
+
+```json
+{ "stepId": "escape.ask", "do": "groupQuery", "var": "escapeReady", "question": "abilityReady", "ability": "Escape" },
+{ "stepId": "escape.first",
+  "forEach": { "vars": { "prefix": "escapeReady.yes.", "groupMember": true }, "as": "caster", "max": 1 },
+  "steps": [
+    { "stepId": "escape.cast", "do": "castAbility", "ability": "Escape", "sendTo": "{{seq.caster.name}}" }
+  ] }
+```
+
+"First" means first in alphabetical order among the members who answered yes, not first in the group.
+
+A loop step has no `do` of its own: the work goes in its `steps`. Loops can sit inside loops.
+
+The steps inside a loop are checked when the file loads, the same as every other step.
+
+### Values you can use in text
+
+Anything in `{{ }}` inside a step's text is filled in when the step runs. The `ic` ones:
+
+| Value | What it holds |
+|---|---|
+| `{{ic.zone.name}}`, `{{ic.zone.variant}}`, `{{ic.zone.fullName}}` | The zone, its difficulty (`[Heroic]`), and both together. |
+| `{{ic.zone.tier}}` | Which root the file came from: `default`, `test` or `custom`. |
+| `{{ic.zone.file}}` | The file's path inside its root. |
+| `{{ic.zone.entrance}}` | The file's `entrance`. |
+| `{{ic.zone.options.<name>}}` | The file's own `options`. |
+| `{{ic.options.<name>}}` | The IC window's options, as `TRUE`/`FALSE` (or text): `haltAtEnd`, `loop`, `zoneIn`, `resetZones`, `afterWipe`, `skipBoss`, `skipShinies`, `pauseForNoTradeShinies`, `doNotLootNoTradeBossChest`, `im`, `imAfterEachZone`, `imAllGroup`, `summonMenderToSell`, `callGHAfterEachZone`, `stayInZoneUntilZoneReady`, `skipGroupChecks`, `fileOption1` to `fileOption3`, `fileArgs`. |
+| `{{ic.run.verdicts.<stepId>}}` | How a step ended. `named`, `loot` and `zoneOut` steps record one: `killed`, `looted`, `zonedOut` and so on. |
+| `{{ic.run.id}}`, `{{ic.run.attempts}}` | This run's id, and how many tries it has had (1, then one more after each wipe recovery). |
+| `{{ic.run.completed}}`, `{{ic.run.skipped}}` | The steps (by `stepId`) known to be done or skipped. |
+| `{{ic.list.name}}`, `{{ic.list.entry}}`, `{{ic.list.of}}` | The list this run is part of, which row it is, and how many rows there are. Empty when the zone was run on its own. |
+| `{{ic.group.size}}`, `{{ic.group.mode}}` | How many are in the group, and `group` or `raid`. |
+| `{{me}}` | The IC character's name. |
+| `{{encounter.<name>}}` | A value saved during this run, for example a [`groupQuery`](steps.md#groupquery) answer. |
+
+- A name that does not exist reads as empty text. Only the first word after `ic.` is checked when the file loads,
+  so `{{ic.option.loop}}` is refused, but a misspelling further in (`{{ic.zone.nmae}}`) just reads empty.
+- A LavishScript value is written `LavishScript["${Me.Name}"]`. A bare `${...}` is refused when the file loads.
+- While a zone runs, `ogre ic value` in the console prints all of these, and `ogre ic value run.id` prints one.
+
+## The way out
+
+**Every zone file must say how it leaves the zone.** It needs a `zoneOut` step somewhere in `enter`, `steps` or
+`exit` (inside a loop counts). A file without one is **not valid**: it still shows in the Instance Controller's zone
+list, in red and marked *not valid*, but it cannot be queued or run. Click it and the bar under the list says why:
+
+```
+no way out: every zone file states its exit - add { "stepId": "exit", "do": "zoneOut", "op": "auto" } as its last step ...
+```
+
+Every other reason a file cannot load (a JSON mistake, an unknown step) is shown the same way, all of them at once.
+
+That way a zone never just ends with the group still standing in it, and you can always see from the file how it
+leaves. (Files that hand the zone to a script with `run` are left out of this rule: the script leaves its own way.)
+
+**A zone with no exit of its own** needs nothing made up: end it with `{ "stepId": "exit", "do": "zoneOut", "op": "none" }`.
+`none` still runs the Instance Controller's end of zone first, so with **Call to GH after each zone** ticked the group
+is called to the guild hall; without it, the group stays in the zone.
+
+| `op` | What it does |
+|---|---|
+| `door` | Clicks the exit you name: `{ "do": "zoneOut", "op": "door", "name": "Exit" }`. The name must be exact. |
+| `auto` | The built-in zone out, the same as Classic's: finds the nearest clickable exit named `zone exit`, `exit`, `zone_exit` or `exit_spawned` anywhere in the zone, walks the group there and clicks it. If it finds none, the step fails, and the log lists what is clickable nearby, so you can see the exit's real name and use it with `door`. |
+| `endOfZone` | Like `auto`, but only looks within `searchWithin` meters (100 if left out). For the exit that appears near the last boss once it is dead. If it is not there, that is not a failure, and the next step runs: put a fallback after it. |
+| `none` | Stays in the zone, on purpose. The zone end options still run first. It takes no other keys. |
+
+Keys for `door`, `auto` and `endOfZone`:
+
+| Key | Default | What it does |
+|---|---|---|
+| `name` | `door`: required. `auto`, `endOfZone`: the four names above | The exit to click. `auto` and `endOfZone` also take a list of names. |
+| `destination` | the last row | When the zone list pops up, which row to pick: its text, or its number (1 = the first). |
+| `within` | `30` | How close the group must be to click. |
+| `walk` | `door`: `false`. `auto`, `endOfZone`: `true` | Walk the group to the exit when it is farther than `within`. With `false`, walk there with a `path` step first. |
+| `findLimitMs` | `10000` | How long to look for the exit. |
+| `zoneLimitMs` | `40000` | Zoning must start this soon after the click. IC clicks once more, then gives up. |
+| `groupLimitMs` | `120000` | How long to wait for everyone to arrive in the new zone. |
+
+What happens at a `zoneOut` step, in order:
+
+1. **Halt at end of zone**, if it is ticked: IC halts here, inside the zone, until you press Resume.
+2. **Ogre IM**, when it is due: here, inside the zone. With **Call to GH after each zone**, or when the list ends
+   after this zone with **At end of list: call to guild hall**, it waits and runs in the guild hall instead.
+3. The zone end options: **Call to guild hall after each zone** or **Stay in zone until a zone is ready**.
+4. Just before the group moves to the exit, a Paladin's Consecrate and a Berserker's Open Wounds are cancelled, so
+   they do not pull more on the way.
+5. Everyone clicks the exit, and the zone list's row is picked for everyone.
+6. In the new zone, IC waits for the group. Anyone who lands in a different copy of the zone (Phantom Seas 3
+   instead of 2) is asked to come to the leader's copy, up to three times.
+
+A zone out that fails does not fail the zone: the run still counts as done, with a failure noted.
+
+**With Loop on**, a zone never starts again inside the instance it just finished. If a zone's exit did not take the
+group out, the list stops and says so. Stop and Run starts it again where you stand.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/zone-files/steps.md
+
+# The steps, one by one
+
+## path
+
+Moves the group along a list of spots, in order. At each spot it waits until everyone is there, alive and out of
+combat, then goes on.
+
+```json
+{ "stepId": "named1.walk", "do": "path", "using": "nav", "spots": [[-793.151367, 144.102356, 353.17868]] }
+```
+
+| Key | Default | What it does |
+|---|---|---|
+| `using` | required | `"nav"`: everyone finds their own way there. `"campspot"`: moves the group's camp spot from spot to spot, in straight lines. |
+| `spots` | required | The spots, `[x, y, z]` each, in order. |
+| `groupWithin` | `10` | How close to the spot everyone must be before going on. |
+| `spotLimitMs` | `30000` | Time allowed per spot. Fights, pauses and deaths do not count. |
+| `onSpotTimeout` | `"retry"` | When a spot takes too long: `"retry"` it once, then fail; `"fail"`; or `"proceed"` to the next spot. |
+| `waitForCombat` | `true` | Stop for aggro. `true`: on a `nav` leg, aggro on the way gathers the group on the leader and holds until it is clear, then the leg goes on; at each spot (`nav` and `campspot`) the walk holds while anything is fighting the group. `false`: the walk never stops for aggro - the bots still fight, the walk does not wait for them. Or the keys of [`waitForCombat`](#waitforcombat). |
+| `fly` | `false` | With `nav`: fly where it can. |
+| `waitForStragglers` | `true` | With `nav`: wait for anyone who falls far behind on the way. |
+| `exitOnActorAggro` | | An actor's name. The walk ends the moment it is fighting the group. |
+| `fromStart` | `false` | With `campspot`: always start at the first spot. Without it, a group already near a later spot joins the walk there. |
+| `sendTo` | the whole group | Who walks. |
+| `killWithin` | | Meters, up to `100`. Kill the trash on the way: when a mob comes this close, the group stops where it is, kills every mob that close, then walks on. |
+| `killTypes` | `["NPC"]` | With `killWithin`: the kinds of mob to stop for, as for [`trash`](#trash): `"NPC"`, `"NamedNPC"`, `"Special"`. |
+| `killLimitMs` | `120000` | With `killWithin`: the longest one stop may take. Then the mob is left behind, the console says so, and the walk goes on. |
+
+**Example: walk to the named, killing the trash on the way.** The group walks past two spots to the named. Any mob
+that comes within 15 m of the IC character stops the walk until it is dead. A mob that is not dead after a minute is
+left behind.
+
+```json
+{ "stepId": "named2.walk", "do": "path", "using": "nav",
+  "spots": [[-310.4, 52.1, 118.7], [-262.9, 55.8, 160.3], [-221.0, 58.2, 204.6]],
+  "killWithin": 15, "killLimitMs": 60000 },
+{ "stepId": "named2", "do": "named", "name": "The Named", "spot": [-205.3, 58.9, 221.4] }
+```
+
+- **A stop.** The walk halts where the IC character is. With `nav` the group gathers on the IC character; with
+  `campspot` everyone's camp spot is put where the IC character stands. Every mob of `killTypes` within `killWithin`
+  is then pulled and killed from there, one at a time, the same way a [`trash`](#trash) step kills. When none is
+  left, the walk goes on to the spot it was walking to.
+- **Only what comes close.** The walk never leaves its way to look for a mob. To clear a whole room, put a
+  [`trash`](#trash) step at the spot instead.
+- **Nameds are walked past.** Add `"killTypes": ["NPC", "NamedNPC"]` to stop for them too. Anything that attacks the
+  group is fought either way.
+- **Left behind.** When a stop takes longer than `killLimitMs`, the console names the mobs it leaves, and the walk goes
+  on. That is not a failure. The walk does not stop for those mobs again on that stretch (a `nav` walk goes in
+  stretches of about 50 m).
+- **Time.** The stops do not count against `spotLimitMs`.
+- **The console** says each stop and what it is for (`named2.walk: a bog slug 12 m away - stopping to kill it`), and
+  how many were killed when the walk goes on.
+
+## named
+
+Kills a named: buffs up, walks to the kill spot, pulls, fights, waits for it to die, then holds until the fight is
+over. If the group is still fighting something else when the step begins, it first holds until that fight is over.
+
+```json
+{ "stepId": "named1", "do": "named", "name": "Glorfab Flit", "spot": [-755.151001, 144.302704, 340.9729] }
+```
+
+| Key | Default | What it does |
+|---|---|---|
+| `name` | required | The named's exact name. |
+| `spot` | | Where to fight it. |
+| `navTo` | `false` | `true`: walk the group to the named itself, wherever it is, and fight it there. |
+| `aliases` | | Other names it shows up or dies under: `["A Shade of X"]`. |
+| `boss` | `false` | `true` for the zone's last boss: **Skip the boss** and the boss chest options apply to it. |
+| `spawnWaitMs` | `0` | How long to wait for it to show up. |
+| `pullLimitMs` | `30000` | It must be fighting the group this soon after the pull. |
+| `limitMs` | `3600000` | The longest the whole fight may take. |
+| `scanRadius` | `50` | How far out to look for it when pulling. |
+| `scanHeight` | | How far up or down to look for it when pulling. |
+| `prebuffMs` | `10000` | How long to let the group buff up first. `0` for no buff-up. |
+| `waitForCombat` | `true` | The hold after the kill, as for `path`. |
+
+It records `killed`, `alreadyDead`, `skipped` (Skip the boss), `neverSpawned` or `timedOut`. A named that never
+spawns does not fail the zone; the run goes on and notes it.
+
+## loot
+
+Loots the chest, the shinies or the corpses. The group goes to them if needed, waits for the looting, then goes back.
+
+```json
+{ "stepId": "named1.chest", "do": "loot", "op": "chest" }
+```
+
+A chest is found by its kind (the game's actor type "Chest"), not by its name. When the named was killed moments ago and
+no chest is there yet, the step waits up to 8 seconds after the kill for one to appear.
+
+| Key | Default | What it does |
+|---|---|---|
+| `op` | required | `"chest"`, `"shinies"` or `"corpses"`. |
+| `within` | `75` (`50` for corpses) | How far to look. For corpses it is measured from where the step started. |
+| `boss` | `false` | `true` on the boss chest: **Skip no-trade boss chest** applies to it. |
+| `back` | `true` | Go back to where the step started afterwards. |
+| `noTrade` | the IC window's options | `"loot"` or `"skip"`: what to do with no-trade items, for this step only. |
+| `corpses` | `true` | Chest only: loot the corpses after the chest. `false` leaves them. |
+| `corpsesWithin` | `50` | Chest only: how far from where the step started to look for corpses. |
+
+A chest step also loots the corpses around it once the chest is done. The group walks to each corpse that has not
+been looted yet, nearest first, waits for OgreBot to loot it, and goes back once at the end. `op: "corpses"` does
+only that, for use anywhere, such as after a trash pull. The corpses are skipped when **Do not loot Corpses** is
+ticked on OgreBot's Loot tab, or when OgreBot looting is off; the log says so. The corpses stop after two minutes,
+not counting fights. For corpses, `within` and `corpsesWithin` go up to `100`, and a bigger one is used as `100`. A
+`corpses` that is not `true` or `false`, or a `corpsesWithin` that is not a number above 0, is ignored. The load says
+each of these.
+
+A corpse or shiny lying in lava is left where it is, unless it can be looted from where the group already stands. The
+log says which ones were left.
+
+It records `looted`, `nothingToLoot`, `left` (something was left, said in the log) or `skipped`. On a chest step it is
+the chest's result; the corpses are added to the same log line. A loot step never fails the zone.
+
+## zoneOut
+
+The way out. See [The way out](how-it-runs.md#the-way-out).
+
+## teleporter
+
+Takes the group through a teleporter inside the zone. Everyone clicks it, then IC waits until everyone has gone through and landed.
+
+While the click is out nothing moves a character: IC turns off every camp spot and holds follow (as NoMove does), so nobody runs after a leader who has not come through yet. Once everyone is through and standing still on the far side, follow is released (as LetsGo does) and each character gets a camp spot where it stands.
+
+```json
+{ "stepId": "named2.teleporter", "do": "teleporter", "name": "telelport crystal", "landing": [-870.090027, 200.009995, 278.209991] }
+```
+
+| Key | Default | What it does |
+|---|---|---|
+| `name` | required | The teleporter's exact name. Copy it from the game: this one really is spelt `telelport crystal`. |
+| `landing` | | Where it puts the group. With it, a run that starts part-way can begin on the far side. |
+| `walkOnto` | | For a portal you walk onto instead of clicking: its `[x, y, z]`. Needs `landing`. Use it instead of `name`. |
+| `limitMs` | `20000` | How long everyone has to get through. |
+
+If a member later ends up back on the near side with no way to walk to the group (a knockback off a ledge, say), IC brings it back, and the group waits for it. If that member carries Call of the Tinkerer and it is ready, it uses it on the leader. Otherwise IC sends it back to where the group clicked the teleporter and through it again: through every teleporter the group has used since, in order, if it is behind more than one. It tries each teleporter twice, then goes on as before. A portal you walk onto (`walkOnto`) is not one it does this for, and nobody is walked back past one. Before it clicks a teleporter, IC waits up to 20 seconds while a member is 30 m or more away, so a stranded member can be brought back first.
+
+A member who dies and is revived wakes at the zone's revive point, often on the near side of the teleporters. If it has no way to walk back to the group, the res run hands it over the same way: Call of the Tinkerer first, otherwise back through the teleporters. Then the res run goes on.
+
+## hunt
+
+Kills everything with a name like `name`, until `until` appears. For nameds that spawn after their adds die.
+
+```json
+{ "stepId": "named3.hunt", "do": "hunt", "name": "Mucktail", "until": "Vexven Mucktail" }
+```
+
+| Key | Default | What it does |
+|---|---|---|
+| `name` | required | Part of the name of the mobs to kill. |
+| `until` | required | The exact name of what ends the hunt: once it is up, the group goes to it and the step ends. |
+| `untilLine` | | A chat line that ends the hunt too, when part of it matches. |
+| `spots` | | Where to look from when nothing is in sight, in turn. |
+| `limitMs` | `900000` | The longest the hunt may take. |
+
+Running out of time does not fail the zone. During the hunt, the IC character's AutoTarget is on, with a 35 meter
+radius. When the hunt ends, it goes back to how it was.
+
+## waitForCombat
+
+Holds while anything is fighting the group. `path` and `named` do this by themselves; this step is for the places
+in between.
+
+```json
+{ "stepId": "settle", "do": "waitForCombat", "noProgressMs": 20000, "onNoProgress": "moveOn" }
+```
+
+| Key | Default | What it does |
+|---|---|---|
+| `settleMs` | `2000` | When a mob is close, give it this long to join in first. |
+| `settleWithin` | `15` | How close "close" is, in meters. |
+| `noProgressMs` | `15000` | A fight where nothing changes for this long is stuck. |
+| `onNoProgress` | `"moveOn"` | A stuck fight: `"moveOn"` and leave it, or `"fail"`. A named is never left. |
+| `limitMs` | none | The longest the step may hold. Reaching it while still fighting fails the step. |
+
+## waitForLoot
+
+Waits until OgreBot has looted everything in reach.
+
+| Key | Default | What it does |
+|---|---|---|
+| `settleMs` | `3000` | Give the loot this long to show up. |
+| `limitMs` | `120000` | The longest it waits with nothing new looted: while OgreBot keeps opening corpses, it keeps waiting. `0` for no limit. |
+| `onTimeout` | `"proceed"` | At the limit: `"proceed"` or `"fail"`. |
+
+## trash
+
+Clears every mob inside a circle around where the step starts, one at a time. Can also hold for waves.
+
+```json
+{ "stepId": "ring.trash", "do": "trash", "radius": 40, "until": "Ring Master", "whenEmpty": "wait", "quietMs": 60000 }
+```
+
+| Key | Default | What it does |
+|---|---|---|
+| `radius` | `30` | The circle, in meters. |
+| `types` | `["NPC"]` | What counts: `"NPC"`, `"NamedNPC"`, `"Special"`. |
+| `until` | | An exact name. The step ends when it appears. |
+| `whenEmpty` | `"done"` | When the circle is clear: `"done"`, or `"wait"` for the next wave. |
+| `quietMs` | `60000` | With `wait`: the step ends after this long with nothing in the circle and nothing fighting the group. |
+| `move` | `"none"` | `"nav"` or `"campspot"` to walk to mobs more than 20 meters away. The group comes back at the end. |
+| `limitMs` | `600000` | The longest it may take. Reaching it fails the step. |
+
+To kill the trash on the way to a spot rather than around one, give the [`path`](#path) step `killWithin`.
+
+## reward
+
+Takes a reward from the reward window.
+
+```json
+{ "stepId": "boss.reward", "do": "reward", "choose": 2 }
+```
+
+| Key | Default | What it does |
+|---|---|---|
+| `choose` | required | Which reward: its number (1 = the first) or its name. |
+| `limitMs` | `5000` | How long to wait for the window. |
+| `sendTo` | the whole group | Who takes it. |
+
+## groupQuery
+
+Asks the whole group a question and saves the answers, so later steps can act on them.
+
+```json
+{ "stepId": "bots", "do": "groupQuery", "var": "bots", "question": "itemCount", "item": "Mechanized Platinum Repository of Reconstruction" }
+```
+
+| Key | What it does |
+|---|---|
+| `var` | The name the answers are saved under. |
+| `question` | `"itemCount"` with `item`, `"abilityReady"` with `ability`, `"slotResolve"` with `slot`, or `LavishScript["${...}"]`, which each member works out for themselves. |
+| `compare`, `value` | Together: turns each answer into a yes or a no, for example `"compare": ">="`, `"value": 1`. |
+| `sendTo` | Who is asked. The whole group if left out. |
+| `limitMs` | How long to wait for answers: `3000` if left out. |
+
+The answers are read as `{{encounter.<var>.<answer>}}`: `askedCount`, `answeredCount`, `yesCount`, `noCount`,
+`missingCount`, `allYes`, `anyYes`, `allNo`, `anyNo`, `yesWho`, `noWho`, `missingWho`, and for each member
+`answer.<Name>`, `yes.<Name>`, `no.<Name>`, `missing.<Name>`.
+
+**Example: wait until someone's Bladedance is ready.** A loop asks the group every 2 seconds and stops once anyone
+answers yes. Each member checks its own Bladedance; a member without it answers no.
+
+```json
+{ "stepId": "bladedance", "repeat": { "until": { "varEquals": { "scope": "encounter", "name": "bd.anyYes", "value": "TRUE" } }, "max": 30 },
+  "steps": [
+    { "stepId": "bladedance.ask", "do": "groupQuery", "var": "bd", "question": "abilityReady", "ability": "Bladedance" },
+    { "stepId": "bladedance.gap", "wait": "ms", "limitMs": 2000, "onTimeout": "proceed" }
+  ] }
+```
+
+- To wait for one member's, add `"sendTo": "Mirelle"` to the `groupQuery` step, so only Mirelle is asked.
+- The loop checks `until` after each pass. After `max` passes (about two and a half minutes here, since each ask can
+  take up to 3 seconds) it stops waiting and the zone goes on. It does not fail.
+- A misspelt answer name, like `bd.anyYess`, is refused when the file loads.
+
+## progress
+
+Marks a step as done (`"op": "complete"`) or skipped (`"op": "skip"`), so a later start or resume leaves it out.
+
+```json
+{ "stepId": "progress.1", "do": "progress", "op": "complete", "id": "named1" }
+```
+
+## recover
+
+The wipe recovery steps, for `onWipe` and `afterWipe`. `op` is `"revive"`, `"evac"` (back to the `entrance`),
+`"callGH"` or `"callHome"`. `limitMs` is how long each may take. A `revive` can take `at`: the row of the revive
+window to use, like `"Entrance"`. When the window has no such row, each character revives at the last revive point
+the window lists and says which.
+
+```json
+"onWipe": [
+  { "stepId": "wipe.revive", "do": "recover", "op": "revive", "limitMs": 20000 }
+]
+```
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/zone-files/other-actions.md
+
+# Other actions
+
+These come from fight files, and the shipped zone files use them too. They run on the IC character. Add
+`sendTo` to have others do it as well: `"sendTo": "igwbn:{{me}}"` is everyone in the group but the IC character.
+
+| Action | What it does |
+|---|---|
+| `announce` | Writes `message` in the IC character's console. `"console": true` sends it to every character's console. |
+| `autotarget` | The IC character's AutoTarget: `"op": "addActor"` with `name`, `"removeActor"`, `"clear"`, or `"set"` with `radius`, `height` or `enabled`. |
+| `campSpot` | Camp spots: `"op": "enable"`, `"setLoc"` with `x`, `y`, `z`, or `"clearAll"`. Takes `sendTo`. |
+| `actorInteract` | Clicks an actor by `name` (`"op": "doubleClick"`, which takes `sendTo`), or targets it (`"op": "target"`). An actor that is not there fails the step, so it is often written with `"onFail": "proceed"`. |
+| `movement` | `"op": "setRunMode"` with `"mode": "walk"` or `"run"`. Takes `sendTo`. IC sets running back when the zone ends. |
+| `ogreBotUIOption` | Ticks or unticks an OgreBot option by its `id` (`"value": "TRUE"` / `"FALSE"`), or puts it back (`"op": "restore"`). Takes `sendTo`. |
+| `raw` | Runs any InnerSpace `command` on the IC character. |
+
+These are checked when the file loads, by the same rules fight files use. A missing key the action needs, or a wrong
+`op`, skips the file. A key the action does not read is a warning.
+
+**Example: walk to a door, click it open, walk on through.** The group walks to the door, the IC character clicks
+it, everyone waits a moment for it to swing, and then they walk to the far side.
+
+```json
+{ "stepId": "gate.walk",  "do": "path", "using": "nav", "spots": [[-120.5, 12.0, 340.2]] },
+{ "stepId": "gate.open",  "do": "actorInteract", "op": "doubleClick", "name": "Gate Lever" },
+{ "stepId": "gate.swing", "wait": "ms", "limitMs": 1500, "onTimeout": "proceed" },
+{ "stepId": "gate.past",  "do": "path", "using": "nav", "spots": [[-160.0, 12.0, 365.8]] }
+```
+
+- The click is made by the IC character only, which is enough for most doors. Add `"sendTo": "igwbn:{{me}}"` if every
+  character has to click it.
+- If the door is not there, the click fails and so does the run. Add `"onFail": "proceed"` when the door is sometimes
+  already open or gone.
+- A walk opens an ordinary door by itself: when something solid blocks the way, it looks for an actor with "door" in
+  its name close by and clicks it. You need this example for anything else, such as a lever, or a door that is not
+  called a door.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/zone-files/fight-files.md
+
+# Run your own fight files
+
+A **fight file** (an encounter file) tells the bot what to do in one named fight: where to stand, what to cast,
+and what to do when the mob does something. A zone file walks the group through the zone; the fight files do the
+fighting. The ones that ship are in `Scripts\Ogre\EQ2\Encounters\default\`, one file per named, in
+`<Expansion>\<Zone>\<Named>.json`.
+
+## You never run a fight file by its name
+
+No command, button or zone file step takes a fight file's name or path. The bot picks the file itself, from
+**the zone you are in** and **the named mob's name**. So to have your own file used, three things must be true:
+
+1. The file is in the custom folder (below), at the right place.
+2. Its `zone` and `named` match the zone you are in and the mob you are fighting.
+3. A setup starts for that mob: by itself when the fight starts, or when you ask for one (from a button or a
+   zone file, below).
+
+## Where your fight files go
+
+Put them in `Scripts\OgreSave\EQ2\Encounters\custom\`. Make the folder if it is not there: nothing makes it for
+you. Folders inside it are fine, at any depth. The folder and file names decide nothing; the `zone` and `named`
+inside the file do.
+
+### Changing a fight that ships
+
+Copy the shipped file into `custom` **at the same place**: `custom\<Expansion>\<Zone>\<Named>.json`, with the
+same folder and file names as in `default`. Then:
+
+- Yours is laid over the shipped one, key by key. Anything you leave out comes from the shipped file, so a file
+  that only holds the part you changed works. A list or a single value you give replaces the shipped one whole.
+- To have your file replace the shipped one completely instead, add `"noMerge": true` at the top of yours.
+
+> **Same mob, different place = ignored.** A custom file at any other path that names the same mob in the same
+> zone is skipped, and the load says so: `mob '<name>' in zone '<zone>' is already claimed by <file> - skipping
+> duplicate`. The shipped file keeps the fight. Put yours at the shipped file's path.
+
+### A fight that has no file yet
+
+Any path in `custom` works, as long as no other file already claims that mob in that zone. Copying a shipped file
+from a similar fight is the easiest start.
+
+### What decides the match
+
+| Key | What it does |
+|---|---|
+| `zone` | The zone's name as the game shows it, difficulty included: `"Gerion: Realm of Conquest [Untold Heroic]"`. Case does not matter, and the instance number is left off. A list covers several zones. Leave it out and the file is for any zone. |
+| `named` | The mobs this fight is for, each `{ "name": "...", "aliases": ["..."], "distance": 50 }`. A setup starts when one of them is in range (`distance`). |
+| `enabled` | `false` turns the file off without deleting it. |
+
+## Loading your changes
+
+The bot reads the fight files when it starts, and again on zone-in when a file has changed. To load them at once,
+type `ogre encounter reload`.
+
+Zone files are not checked on zone-in: after you add, delete or change one, press **Reload** in the IC window (see
+[Where zone files go](where-they-go.md#loading-your-changes)).
+
+On zone-in the console lists the fights this zone has a file for (unless **No Available Setups** is ticked on the
+Settings tab). The `-ShowAvailableSetups` command prints that list any time: if your fight is not on it, the bot
+did not match your file to this zone.
+
+## When a setup starts
+
+**By itself:** when one of the file's named is in this zone, in a fight (it has a target), and within its
+`distance`. That needs:
+
+- **Enable Raid Setups** (raid zones) or **Enable Heroic Setups** (every other zone) ticked on the Settings tab.
+  With it off, no setup starts at all, by itself or by hand.
+- **Disable Auto Setups** unticked, and the bot not paused. These two stop only the setups that start by
+  themselves.
+
+**By hand:** from a button, a zone file or a script, below. This works while paused and with Disable Auto Setups
+ticked, but the named must still be up in this zone, and either in range or in a fight.
+
+## From an MCP button
+
+Either of these:
+
+- **The `-SetUpFor` command.** Pick `-SetUpFor` in the button builder and set:
+    - **who**: the characters to set up (the For Who, as on any button);
+    - **chat**: the named's name, for example `Dagrin`. Leave it blank and each character sets up for the nearest
+      or engaged named;
+    - **restart**: TRUE starts the setup over if one is already running.
+- **Raw mode** with `ISXOgreEQ2.Encounter:Fire["Dagrin"]`. Raw runs only on the character that clicks the
+  button.
+
+A name no fight file claims in this zone prints `Fire: no encounter owns mob '<name>'` in the console.
+
+## From a zone file
+
+You usually need nothing. A [named](steps.md#named) step already sets up for the fight: when the named engages, IC
+tells every character in the group to set up for its engaged named, and each one finds its fight file by matching.
+
+To set up for one mob by name at another point, run the command with a `raw` step (see
+[Other actions](other-actions.md)):
+
+```json
+{ "stepId": "setup.dagrin", "do": "raw", "command": "oc !ci -SetUpFor igw:{{me}} \"Dagrin\"" }
+```
+
+The quotes around the name are escaped (`\"`) because they sit inside the JSON string.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/zone-files/checking.md
+
+# Check your file
+
+## Checking your file
+
+Press **Reload** after every change. A file with a problem is **not valid**: it still shows in the IC window's zone
+list, but in **red** with a *not valid* chip, and it cannot be queued or run. Click it, and the bar under the list
+gives every problem at once; hovering the row shows them too. `ogre ic reload` in the console prints the same, one
+line per problem, like this:
+
+```
+custom/My Zone.json: steps[3]: path: `using` must be "campspot" or "nav"
+```
+
+The most common one on a file written before October 2026 is the missing way out - add a `zoneOut` step
+([The way out](how-it-runs.md#the-way-out)). A file that is not even valid JSON is listed by its file name, as "not valid JSON".
+
+`steps[3]` is the third step in `steps`; a step inside a loop shows as `steps[5].steps[1]`.
+
+Some things only **warn**: the file still loads, but read the warning. The most common is a key nothing reads, which
+is usually a typo:
+
+```
+custom/My Zone.json: steps[3]: path: 'spotLimitMS' is not a field of this action - nothing reads it, so as written it does nothing - did you mean 'spotLimitMs'?
+```
+
+Two mistakes are not caught when the file loads: a misspelt condition (in `when`, `wait` or `until`), and two
+steps with the same `stepId`. So watch the log the first time a new file runs.
+
+## Checklist
+
+- [ ] `zone` and `variants` match what the game shows for the zone.
+- [ ] Every named step has a `stepId` (`named1`, `named2`, ...), and the steps that go with it are named after it
+      (`named1.walk`, `named1.chest`).
+- [ ] The last boss has `"boss": true`.
+- [ ] The file has an `entrance`.
+- [ ] The file has a `zoneOut` step: `auto`, or `door` with the exit's name.
+- [ ] **Reload** says `0 skipped, 0 warning(s)`.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/zone-files/builder.md
+
+# Build one in the Content Builder
+
+The **Content Builder** is a window that draws a zone file as boxes, one per step. You add steps from a list, fill in
+their options in a form, and the game checks the file after every change. You do not have to write JSON, and you can
+still see and edit the JSON whenever you want to.
+
+It does the same for fight files, on its **Encounters** tab: see [Fight files](#fight-files-the-encounters-tab) below.
+
+Type `ogre contentbuilder` to open it. It works at the login screen too; only **Run** and the **here** buttons need a
+character in the world.
+
+> **No promises.** Use this at your own risk, and expect it to change.
+
+## A first file, start to finish
+
+This builds a small file you can run in your guild hall: walk to a spot, say so, wait for any fight to end, loot,
+say you are done.
+
+1. Press **New**. The card on the left of the graph is the top of the file, and it is selected: type the zone's name
+   in **zone** on the right, exactly as the game shows it. The file already ends with a **Leave the zone** step,
+   because every zone file must say how it leaves.
+2. Click the **Walk a path** chip at the bottom. A box appears, outlined red: a walk needs at least one spot. Stand
+   where the group should walk to and press **+ where I stand**. The red outline goes away.
+3. Click **Show a message** and type the `message`.
+4. Click **Wait for the fight to end**, then **Loot**. Loot starts as `chest`; the `op` dropdown has `shinies` and
+   `corpses` too.
+5. Drag **Show a message** from the bottom onto the **+** under the Loot box, and type its message.
+6. The verdict in the bar should say **loads clean**. Press **Save** and give the file a name.
+7. Press **Run**. The Instance Controller runs the file where your character stands, and its window and the console
+   show each step.
+
+For a file that only runs in place, like this one, set the last step's `op` to `none`: it then stays in the zone
+instead of looking for an exit.
+
+## The window
+
+| Part | What it is |
+|---|---|
+| The tabs at the top left | **Instances** for zone files, **Encounters** for fight files. Each keeps its own file. |
+| The bar | The file's name, **New**, **Open**, **Save**, **Save as**, **Undo**, **Redo**, **Run**, **Add to IC list**, and the verdict. |
+| The lists | **Before**, **Steps**, **After**, **On a wipe**, **Zone given up**: the file's `enter`, `steps`, `exit`, `onWipe` and `afterWipe`. Click one to see its boxes. Most files only use **Steps**. |
+| The graph | The boxes of the list you picked, top to bottom, then the next column. Steps whose names start the same (`named1`, `named1.walk`, `named1.chest`) share a column. **Fit** and **All** zoom out; click the percent for normal size. |
+| The pane on the right | **Box**: the selected box's options. **Box JSON** and **File JSON**: the same as text. **Problems**: what the game's check found. |
+| The chips at the bottom | The steps you can add, grouped. **Every step...** opens the full list, with a search. |
+
+### The colours
+
+| Colour | Kind | Examples |
+|---|---|---|
+| Green | Moves the group | Walk a path, Use a teleporter, Leave the zone |
+| Blue | Does something | Kill a named, Loot, Show a message |
+| Yellow | Waits | Wait, Wait for the fight to end |
+| Teal | Loops | Repeat, For each |
+| Purple | Keeps a value | Ask the group, Mark a step done, Set a variable |
+| Red | Stops and wipes | Recover from a wipe |
+| Grey | A step this window does not know | It stays in the file as it is. You can move or delete it, not edit it. |
+
+## Adding, moving and changing steps
+
+- **Add**: click a chip (the step goes after the selected box, or at the end), drag a chip onto a **+**, or click a
+  **+** to pick from the full list.
+- **Move**: drag a box onto a **+**, or select it and use the arrows.
+- **Duplicate** and **Delete** are on the right when a box is selected. **Undo** takes back any change, one at a time.
+- **Loops**: a **Repeat** or **For each** box holds steps of its own. Drop a chip or a box on a **+** inside it.
+
+## The options of a step
+
+Click a box. The form on the right is made from the same list of steps and options the game itself uses, so it
+always shows every option the step has.
+
+- A red star marks an option the step cannot do without.
+- **More options** holds the rest. Each shows what it does and its default. An option you leave alone is not written
+  to the file.
+- A dropdown lists the words an option takes. Yes / no options are two buttons.
+- A spot has three boxes, x, y and z. **here** fills them from where your character stands; **+ where I stand** adds
+  a spot to a list of spots.
+- The **x** beside an option takes it out of the file again, back to its default.
+- Conditions (a step's `when`, a wait) are a list: press **+ a condition**, pick one, and fill in its settings. Every
+  condition in the list must be true. **Not**, **Any of** and **All of** hold conditions of their own.
+
+What each step and option does is on [The steps, one by one](steps.md) and [Other actions](other-actions.md).
+
+## The game checks it
+
+After every change the whole file goes to the game, which checks it by the same rules it uses when it loads a zone
+file. Nothing is saved to do that.
+
+- The verdict in the bar says **loads clean**, **loads** with a number of notes, or how many problems there are.
+- A box with a problem is outlined red. Hover it to read the problem.
+- The **Problems** tab lists everything, in the game's own words. Click one to go to its box.
+
+The messages are the ones on [Check your file](checking.md).
+
+## Saving and running
+
+- **Save** writes to your own folder, `Scripts\OgreSave\EQ2\IC\custom\`. You can put a folder in front of the name
+  (`mine/My_Zone.json`).
+- A zone file that ships with Ogre can be opened, but it is never changed. **Save** on one asks for a name and keeps
+  your own copy.
+- A file with problems can still be saved, so you can stop and come back. It shows red in the Instance Controller
+  and cannot run until it is fixed.
+- **Run** puts the saved file on the Instance Controller's list, starts the list at its row and ticks **Stop after this zone**, so only this file runs. It runs as any zone on your list does: your Instance Controller options apply, the after-zone ones too.
+- **Add to IC list** adds the saved file to the Instance Controller's list, the same as its **Add** button.
+- Changes you have not saved are kept if the window closes or the UI reloads, and are offered back the next time
+  the window opens.
+
+## Fight files: the Encounters tab
+
+The **Encounters** tab at the top left is the same window for the other kind of file: a fight file, which says what the
+group does in one fight. Each tab keeps its own file, so you can switch back and forth.
+
+A fight file has six lists, shown as tabs above the graph:
+
+| Tab | What it holds |
+|---|---|
+| **Setup** | Steps that run once when the fight starts. |
+| **When something happens** | Rules set off by something: a line of text, an announcement, a mob appearing, a detriment landing, a cast ending. |
+| **All the time** | Rules checked over and over while the fight lasts. |
+| **Teardown** | Steps that run once when the fight is over. |
+| **On a kill** | Steps that run when a mob dies, one column per mob. |
+| **Routines** | Named lists of steps that a **Run a routine** step runs. |
+
+### Rules
+
+A rule is drawn as a column: its head on top, a yellow **Only when** box with its conditions, then its steps.
+
+- Click the **head** for the rule's settings. Under **When something happens**, **on** says what sets it off and **match**
+  shows the fields for that kind: a `needle` for text, a `name` for a mob, `main` and `back` for a detriment.
+- Click the **yellow box** for its conditions. Press **+ a condition**, pick one from the list, and fill in its settings.
+  Every condition in the list must be true. **Not**, **Any of** and **All of** hold conditions of their own.
+- With a rule selected, a chip you click goes to the end of that rule's steps. You can also drag a chip onto any **+**.
+
+### Quick starts
+
+Three buttons beside the rules make a common rule from a few questions. What they make is an ordinary rule you can change.
+
+| Quick start | What it makes |
+|---|---|
+| **Run out on a detriment** | While a character has the detriment it stands on a spot you choose, and comes back when the detriment is gone. |
+| **When I get a detriment…** | A rule set off by a detriment: once when it lands, or again and again while it lasts. |
+| **From what happened in a fight…** | A rule set off by a line of text, an announcement, a mob appearing or a cast ending. |
+
+### The top of the file
+
+The card on the left holds **named**, the mob or mobs the fight is for, and the zone. A new fight starts with one empty
+name: target the mob and press **target**, or type it. **+ a mob** and **+ my target** add another. The fight starts when
+one of the named is engaged. Click the card, and **named** and **zone** are the first two rows on the right.
+
+### Saving a fight
+
+Your fight files go in `Scripts\OgreSave\EQ2\Encounters\custom`. The game reads its fight files again after each save.
+
+To change a fight that ships with Ogre, open it and save it under the same name. Your copy then replaces the shipped fight
+for you: it is saved with `noMerge`, so what you see in the window is the whole fight. Under another name the game sees
+two files for the same mob in the same zone and skips yours; the window tells you so.
+
+A file with no `named`, saved under a shipped fight's name, holds only what it changes. The game lays it over the shipped
+fight: what you leave out comes from that fight, and a list you write replaces the shipped list whole. The card then says
+**Laid over the shipped fight**. Type a name and it becomes a whole fight of its own.
+[Run your own fight files](fight-files.md) has more on how your file and the shipped one meet.
+
+**Set up now** asks the game to run the saved fight's setup, as the Set Up For button does. The named must be here.
+
+### What the game says about a fight file
+
+- A problem with the file itself (no `named`, a mob another file already has) stops it from loading.
+- A broken rule or step does not: the game keeps the file and that part does not do what it says. The bar reads
+  "loads, but … broken".
+- A yellow note is not an error. It often points at a mistake all the same, such as an option nothing reads.
+
+## Checking a file from the console or a script
+
+`ogre ic validate custom My_Zone.json` checks a zone file on disk by the same rules and prints each problem; `ogre encounter validate custom "My Zone/My Mob.json"` does the same for a fight file. It
+changes nothing.
+
+```
+ogre ic validate custom My_Zone.json
+```
+
+A script calls `ISXOgreEQ2.IC:Validate[custom,"My_Zone.json"]` and reads the answer from `${ISXOgreEQ2.IC.Validation}`.
+The answer is JSON: `ok` (true when the file would load), `errors` and `warnings` (how many), and `issues`, one for
+each line the console printed.
+
+## The schema
+
+The list of steps and options the window draws from is a file that ships with Ogre:
+`Scripts\Ogre\EQ2\IC\ic.schema.json`. It is a JSON Schema, so an editor that understands those can use it to check
+a zone file and to complete as you type. Ogre makes that file from the game's own tables; do not edit it.
+
+Fight files have one too: `Scripts\Ogre\EQ2\Encounters\fight.schema.json`.
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/index.md
+
+# API reference
+
+Every member, method, command and event a script or a user can reach, one row each: what it is for, its arguments, and an example taken from real code.
+
+- **OgreBotAPI** - `${OgreBotAPI}` and its sub-objects: what a script asks the bot and tells it to do.
+- **ISXOgreEQ2** - `${ISXOgreEQ2}`: the windows, tools and engines of the EQ2 adapter.
+- **ISXOgreX** - `${ISXOgreX}`: the core - console, UI, options, patcher.
+
+**Reading a row.** A member is read as `${Object.Member}` and may take `[arguments]`; a method is a line of its own, `Object:Method[arguments]` - to read a result, use a member. An argument shown `name=value` is optional and `value` is its default.
+
+**The for-who.** A first argument `fw` is the [for-who](ogrebotapi/ForWho.md): the call runs only when this character is one it names. A script's call never reaches another session - to make other characters act, send the console command with `oc !c` (see [Commands](commands/index.md)).
+
+**What is not here.** `${Me}`, `${Target}`, `${Zone}`, `${Group[1]}` and the like in the examples are ISXEQ2's own objects, not the bot's. The examples are LavishScript, the InnerSpace script language; `wait 10` waits one second. New to it? Start with [Your first script](../script-basics.md).
+
+**For an AI assistant.** Point it at [https://kannkor.github.io/ISXOgre/EQ2/bot/llms-api.txt](https://kannkor.github.io/ISXOgre/EQ2/bot/llms-api.txt): this whole reference as plain text, one entry per member, method, command and event, with no tables or links. That file says how to read an entry and lists the rest: everything in one file, or pieces of up to 100 KB.
+
+## OgreBotAPI
+
+- [OgreBotAPI](ogrebotapi/OgreBotAPI.md)
+- [OgreBotAPI.Abilities](ogrebotapi/Abilities.md)
+- [OgreBotAPI.Access](ogrebotapi/Access.md)
+- [OgreBotAPI.Actors](ogrebotapi/Actors.md)
+- [OgreBotAPI.Assist](ogrebotapi/Assist.md)
+- [OgreBotAPI.AutoHunt](ogrebotapi/AutoHunt.md)
+- [OgreBotAPI.AutoTarget](ogrebotapi/AutoTarget.md)
+- [OgreBotAPI.Bot](ogrebotapi/Bot.md)
+- [OgreBotAPI.CampSpot](ogrebotapi/CampSpot.md)
+- [OgreBotAPI.CastStack](ogrebotapi/CastStack.md)
+- [OgreBotAPI.Client](ogrebotapi/Client.md)
+- [OgreBotAPI.Combat](ogrebotapi/Combat.md)
+- [OgreBotAPI.Comms](ogrebotapi/Comms.md)
+- [OgreBotAPI.Comms.GroupQuery](ogrebotapi/Comms.GroupQuery.md)
+- [OgreBotAPI.Consumables](ogrebotapi/Consumables.md)
+- [OgreBotAPI.Craft](ogrebotapi/Craft.md)
+- [OgreBotAPI.Cures](ogrebotapi/Cures.md)
+- [OgreBotAPI.Debug](ogrebotapi/Debug.md)
+- [OgreBotAPI.Encounter](ogrebotapi/Encounter.md)
+- [OgreBotAPI.Events](ogrebotapi/Events.md)
+- [OgreBotAPI.ForWho](ogrebotapi/ForWho.md)
+- [OgreBotAPI.HOs](ogrebotapi/HOs.md)
+- [OgreBotAPI.IM](ogrebotapi/IM.md)
+- [OgreBotAPI.Inventory](ogrebotapi/Inventory.md)
+- [OgreBotAPI.Loot](ogrebotapi/Loot.md)
+- [OgreBotAPI.Merchant](ogrebotapi/Merchant.md)
+- [OgreBotAPI.Movement](ogrebotapi/Movement.md)
+- [OgreBotAPI.Options](ogrebotapi/Options.md)
+- [OgreBotAPI.Overseer](ogrebotapi/Overseer.md)
+- [OgreBotAPI.Paths](ogrebotapi/Paths.md)
+- [OgreBotAPI.Pet](ogrebotapi/Pet.md)
+- [OgreBotAPI.POI](ogrebotapi/POI.md)
+- [OgreBotAPI.Position](ogrebotapi/Position.md)
+- [OgreBotAPI.Quest](ogrebotapi/Quest.md)
+- [OgreBotAPI.Roster](ogrebotapi/Roster.md)
+- [OgreBotAPI.Session](ogrebotapi/Session.md)
+- [OgreBotAPI.TempAdorns](ogrebotapi/TempAdorns.md)
+- [OgreBotAPI.Travel](ogrebotapi/Travel.md)
+- [OgreBotAPI.Util](ogrebotapi/Util.md)
+- [OgreBotAPI.Vars](ogrebotapi/Vars.md)
+- [OgreBotAPI.Windows](ogrebotapi/Windows.md)
+- [OgreBotAPI.Zone](ogrebotapi/Zone.md)
+
+## ISXOgreX
+
+- [ISXOgreX](isxogrex.md)
+
+## ISXOgreEQ2
+
+- [ISXOgreEQ2](isxogreeq2/ISXOgreEQ2.md)
+- [ISXOgreEQ2.AbilityDetails](isxogreeq2/AbilityDetails.md)
+- [ISXOgreEQ2.AbilityEfficiency](isxogreeq2/AbilityEfficiency.md)
+- [ISXOgreEQ2.AbilityUpgrades](isxogreeq2/AbilityUpgrades.md)
+- [ISXOgreEQ2.Analysis](isxogreeq2/Analysis.md)
+- [ISXOgreEQ2.AntiAfk](isxogreeq2/AntiAfk.md)
+- [ISXOgreEQ2.Auth](isxogreeq2/Auth.md)
+- [ISXOgreEQ2.AutoLogin](isxogreeq2/AutoLogin.md)
+- [ISXOgreEQ2.BgRender](isxogreeq2/BgRender.md)
+- [ISXOgreEQ2.Chat](isxogreeq2/Chat.md)
+- [ISXOgreEQ2.ChatCmd](isxogreeq2/ChatCmd.md)
+- [ISXOgreEQ2.Class](isxogreeq2/Class.md)
+- [ISXOgreEQ2.Codex](isxogreeq2/Codex.md)
+- [ISXOgreEQ2.Collection](isxogreeq2/Collection.md)
+- [ISXOgreEQ2.Commands](isxogreeq2/Commands.md)
+- [ISXOgreEQ2.ContentBuilder](isxogreeq2/ContentBuilder.md)
+- [ISXOgreEQ2.Craft](isxogreeq2/Craft.md)
+- [ISXOgreEQ2.CraftGm](isxogreeq2/CraftGm.md)
+- [ISXOgreEQ2.CraftingMats](isxogreeq2/CraftingMats.md)
+- [ISXOgreEQ2.DepotTransfer](isxogreeq2/DepotTransfer.md)
+- [ISXOgreEQ2.Det](isxogreeq2/Det.md)
+- [ISXOgreEQ2.EffectTracker](isxogreeq2/EffectTracker.md)
+- [ISXOgreEQ2.Encounter](isxogreeq2/Encounter.md)
+- [ISXOgreEQ2.EncounterRecorder](isxogreeq2/EncounterRecorder.md)
+- [ISXOgreEQ2.Events](isxogreeq2/Events.md)
+- [ISXOgreEQ2.Experiment](isxogreeq2/Experiment.md)
+- [ISXOgreEQ2.Export](isxogreeq2/Export.md)
+- [ISXOgreEQ2.ForWhoGroups](isxogreeq2/ForWhoGroups.md)
+- [ISXOgreEQ2.Game](isxogreeq2/Game.md)
+- [ISXOgreEQ2.GetQuest](isxogreeq2/GetQuest.md)
+- [ISXOgreEQ2.HarvestLite](isxogreeq2/HarvestLite.md)
+- [ISXOgreEQ2.Heartstone](isxogreeq2/Heartstone.md)
+- [ISXOgreEQ2.HideEffects](isxogreeq2/HideEffects.md)
+- [ISXOgreEQ2.HUDs](isxogreeq2/HUDs.md)
+- [ISXOgreEQ2.IC](isxogreeq2/IC.md)
+- [ISXOgreEQ2.InvOps](isxogreeq2/InvOps.md)
+- [ISXOgreEQ2.Lag](isxogreeq2/Lag.md)
+- [ISXOgreEQ2.LevelTransmuting](isxogreeq2/LevelTransmuting.md)
+- [ISXOgreEQ2.LootScan](isxogreeq2/LootScan.md)
+- [ISXOgreEQ2.MCP](isxogreeq2/MCP.md)
+- [ISXOgreEQ2.MerchantCraft](isxogreeq2/MerchantCraft.md)
+- [ISXOgreEQ2.MerchantOps](isxogreeq2/MerchantOps.md)
+- [ISXOgreEQ2.Migrate](isxogreeq2/Migrate.md)
+- [ISXOgreEQ2.Nav](isxogreeq2/Nav.md)
+- [ISXOgreEQ2.NpcCast](isxogreeq2/NpcCast.md)
+- [ISXOgreEQ2.OgreBot](isxogreeq2/OgreBot.md)
+- [ISXOgreEQ2.OSA](isxogreeq2/OSA.md)
+- [ISXOgreEQ2.Overseer](isxogreeq2/Overseer.md)
+- [ISXOgreEQ2.PackPony](isxogreeq2/PackPony.md)
+- [ISXOgreEQ2.Paths](isxogreeq2/Paths.md)
+- [ISXOgreEQ2.Perf](isxogreeq2/Perf.md)
+- [ISXOgreEQ2.Persona](isxogreeq2/Persona.md)
+- [ISXOgreEQ2.PotCb](isxogreeq2/PotCb.md)
+- [ISXOgreEQ2.PulseBudget](isxogreeq2/PulseBudget.md)
+- [ISXOgreEQ2.PulseProf](isxogreeq2/PulseProf.md)
+- [ISXOgreEQ2.Pushover](isxogreeq2/Pushover.md)
+- [ISXOgreEQ2.QuestCompare](isxogreeq2/QuestCompare.md)
+- [ISXOgreEQ2.QuestHelper](isxogreeq2/QuestHelper.md)
+- [ISXOgreEQ2.Queue](isxogreeq2/Queue.md)
+- [ISXOgreEQ2.Quiver](isxogreeq2/Quiver.md)
+- [ISXOgreEQ2.Radar](isxogreeq2/Radar.md)
+- [ISXOgreEQ2.Refine](isxogreeq2/Refine.md)
+- [ISXOgreEQ2.ReplenishNames](isxogreeq2/ReplenishNames.md)
+- [ISXOgreEQ2.SafeFall](isxogreeq2/SafeFall.md)
+- [ISXOgreEQ2.Scheduler](isxogreeq2/Scheduler.md)
+- [ISXOgreEQ2.Spawn](isxogreeq2/Spawn.md)
+- [ISXOgreEQ2.TagTimers](isxogreeq2/TagTimers.md)
+- [ISXOgreEQ2.Targeting](isxogreeq2/Targeting.md)
+- [ISXOgreEQ2.TaskRunner](isxogreeq2/TaskRunner.md)
+- [ISXOgreEQ2.Tour](isxogreeq2/Tour.md)
+- [ISXOgreEQ2.Travel](isxogreeq2/Travel.md)
+- [ISXOgreEQ2.TravelMesh](isxogreeq2/TravelMesh.md)
+- [ISXOgreEQ2.Watcher](isxogreeq2/Watcher.md)
+- [ISXOgreEQ2.WindowReactions](isxogreeq2/WindowReactions.md)
+- [ISXOgreEQ2.ZoneReset](isxogreeq2/ZoneReset.md)
+
+## Commands and events
+
+- [Commands](commands/index.md)
+- [Events](events.md)
+
+
+---
+
+Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/developer/api/ogrebotapi/OgreBotAPI.md
+
+# OgreBotAPI
+
+## Members
+
+### `Abilities`
+
+`${OgreBotAPI.Abilities}`
+
+The Abilities sub-object: the in-memory ability catalog loaded from this character's ability export, the ability reads built on it, and the cast and cancel verbs. Opening OgreBot loads the catalog; without OgreBot open, load it with its :Load before reading abilities from it.
+
+All of it: [OgreBotAPI.Abilities](Abilities.md)
+
+**Returns:** object: the Abilities sub-object; it always exists, and as text it reads OgreBotAPI.Abilities.
+
+```text
+echo ${OgreBotAPI.Abilities}
+```
+
+### `Access`
+
+`${OgreBotAPI.Access}`
+
+The Access sub-object: this session's access level (SetLevel) and UnauthPCsNearMe, which reports another player nearby who is not one of your own characters.
+
+All of it: [OgreBotAPI.Access](Access.md)
+
+**Returns:** object: the Access sub-object; it always exists, and as text it reads Access[level/highest], this session's level and the account's highest level.
+
+```text
+echo ${OgreBotAPI.Access}
+```
+
+### `Actors`
+
+`${OgreBotAPI.Actors}`
+
+Opens the Actors sub-object: counting and finding actors near you (by name, by type, NPCs within a range, mob ID, is-a-player), and clicking, hailing or applying a verb to an actor, now or queued. It always resolves and takes no arguments; the work is in its own members and methods.
+
+All of it: [OgreBotAPI.Actors](Actors.md)
+
+**Returns:** OgreBotAPI.Actors object: never NULL; as text it reads OgreBotAPI.Actors.
+
+```text
+echo ${OgreBotAPI.Actors}
+```
+
+### `Assist`
+
+`${OgreBotAPI.Assist}`
+
+The Assist sub-object: who this character takes its kill target from. Its members (TargetID, InControl, IsAssisting) read that choice, and :Anchor sets it.
+
+All of it: [OgreBotAPI.Assist](Assist.md)
+
+**Returns:** object: the Assist sub-object; it always exists, and as text it reads OgreBotAPI.Assist.
+
+```text
+echo ${OgreBotAPI.Assist}
+```
+
+### `AutoHunt`
+
+`${OgreBotAPI.AutoHunt}`
+
+The AutoHunt sub-object: the AutoHunt driver's state (Mode, Active, AllowMovement, SafetyTripped, PullTargetID, LastAction, FreezeReason) and its setters (:SetMode, :SetScanRadius, :SetCheckHP, :SetCheckMana).
+
+All of it: [OgreBotAPI.AutoHunt](AutoHunt.md)
+
+**Returns:** object: the AutoHunt sub-object; it always exists, and as text it reads OgreBotAPI.AutoHunt.
+
+```text
+echo ${OgreBotAPI.AutoHunt}
+```
+
+### `AutoTarget`
+
+`${OgreBotAPI.AutoTarget}`
+
+The AutoTarget sub-object: the auto-target list and its settings - enable, scan radius and height, add or remove actors, presets and saved lists. As text it reports how many entries the current working list holds.
+
+All of it: [OgreBotAPI.AutoTarget](AutoTarget.md)
+
+**Returns:** object: the AutoTarget sub-object; it always exists, and as text it reads AutoTarget[N entries], N being the number of entries in the current working list.
+
+```text
+echo ${OgreBotAPI.AutoTarget}
+```
+
+*Was (OldBot):* `OgreBotAPI:AutoTarget`
+
+### `Bot`
+
+`${OgreBotAPI.Bot}`
+
+The Bot sub-object: the running bot's own lifecycle - pause, resume, reload, end, camp to desktop, exit the client, run OgreBot commands and scripts. It is the running bot, not the saved profile options.
+
+All of it: [OgreBotAPI.Bot](Bot.md)
+
+**Returns:** object: the Bot sub-object; it always exists, and as text it reads OgreBotAPI.Bot.
+
+```text
+echo ${OgreBotAPI.Bot}
+```
+
+### `CampSpot`
+
+`${OgreBotAPI.CampSpot}`
+
+The CampSpot sub-object: the camp spot this character holds to - set, nudge, clear and enable it, relative spots, spots behind or in front of an actor, and formations. Its members read the active slot, the effective spot and whether you are at it.
+
+All of it: [OgreBotAPI.CampSpot](CampSpot.md)
+
+**Returns:** object: the CampSpot sub-object; it always exists, and as text it reads OgreBotAPI.CampSpot.
+
+```text
+echo ${OgreBotAPI.CampSpot}
+```
+
+### `CastStack`
+
+`${OgreBotAPI.CastStack}`
+
+The CastStack sub-object: the cast stack - load or import it, turn entries and tags on or off, hold and clear tag embargos and allows, and inspect it. Bot:Pause and Bot:Resume pause and run it.
+
+All of it: [OgreBotAPI.CastStack](CastStack.md)
+
+**Returns:** object: the CastStack sub-object; it always exists, and as text it reads OgreBotAPI.CastStack.
+
+```text
+echo ${OgreBotAPI.CastStack}
+```
+
+### `Client`
+
+`${OgreBotAPI.Client}`
+
+The Client sub-object: things done to the EQ2 client rather than the character - reset the camera, set the camera pitch, and move the mouse. It holds methods only.
+
+All of it: [OgreBotAPI.Client](Client.md)
+
+**Returns:** object: the Client sub-object; it always exists, and as text it reads OgreBotAPI.Client.
+
+```text
+echo ${OgreBotAPI.Client}
+```
+
+### `Combat`
+
+`${OgreBotAPI.Combat}`
+
+The Combat sub-object: whether you are fighting and what the bot may do while you are - InCombat, the no-offensive and no-defensive switches, the threat ignore list and the countdown.
+
+All of it: [OgreBotAPI.Combat](Combat.md)
+
+**Returns:** object: the Combat sub-object; it always exists, and as text it reads OgreBotAPI.Combat.
+
+```text
+echo ${OgreBotAPI.Combat}
+```
+
+### `Comms`
+
+`${OgreBotAPI.Comms}`
+
+The Comms sub-object: messaging between your characters - events, messages, broadcasts, tells, group queries and IRC. As text it is a one-line summary of its send and receive counters, prefixed "Comms ".
+
+All of it: [OgreBotAPI.Comms](Comms.md)
+
+**Returns:** object: the Comms sub-object; it always exists, and as text it reads "Comms " followed by the one-line counter summary (the same text as ${OgreBotAPI.Comms.Stats}).
+
+```text
+echo ${OgreBotAPI.Comms}
+```
+
+### `Consumables`
+
+`${OgreBotAPI.Consumables}`
+
+The Consumables sub-object: things you eat, drink, click, mount or summon - replenish food, drink and stat potions, mount up and down, summon a familiar, rekindle the heartstone, and the mount, mercenary and familiar training checks. It holds methods only.
+
+All of it: [OgreBotAPI.Consumables](Consumables.md)
+
+**Returns:** object: the Consumables sub-object; it always exists, and as text it reads OgreBotAPI.Consumables.
+
+```text
+echo ${OgreBotAPI.Consumables}
+```
+
+### `Craft`
+
+`${OgreBotAPI.Craft}`
+
+Opens the Craft sub-object: the crafting calls of ${ISXOgreEQ2.Craft} with a for-who in front, so each runs only on the characters it names (add a recipe, start, writs, scribe, tinkering). It has methods only and takes no arguments.
+
+All of it: [OgreBotAPI.Craft](Craft.md)
+
+**Returns:** OgreBotAPI.Craft object: never NULL; as text it reads OgreBotAPI.Craft.
+
+```text
+echo ${OgreBotAPI.Craft}
+```
+
+### `Cures`
+
+`${OgreBotAPI.Cures}`
+
+The Cures sub-object: cures, curses and dispels - the group curse counts, uncurable and detrimental reads, cure requests, item cures, cancelling a detrimental and replenishing cure potions.
+
+All of it: [OgreBotAPI.Cures](Cures.md)
+
+**Returns:** object: the Cures sub-object; it always exists, and as text it reads OgreBotAPI.Cures.
+
+```text
+echo ${OgreBotAPI.Cures}
+```
+
+### `Debug`
+
+`${OgreBotAPI.Debug}`
+
+The Debug sub-object: the version, the debug output switches, debug echoes and the variable and stat spews.
+
+All of it: [OgreBotAPI.Debug](Debug.md)
+
+**Returns:** object: the Debug sub-object; it always exists, and as text it reads OgreBotAPI.Debug.
+
+```text
+echo ${OgreBotAPI.Debug}
+```
+
+### `Encounter`
+
+`${OgreBotAPI.Encounter}`
+
+Opens the Encounter sub-object: one method, List, which lists the available encounter setups on the characters a for-who names. The encounter engine itself is ${ISXOgreEQ2.Encounter}, a different object.
+
+All of it: [OgreBotAPI.Encounter](Encounter.md)
+
+**Returns:** OgreBotAPI.Encounter object: never NULL; as text it reads OgreBotAPI.Encounter.
+
+```text
+echo ${OgreBotAPI.Encounter}
+```
+
+### `Events`
+
+`${OgreBotAPI.Events}`
+
+The Events sub-object: add and remove rows of the Chat, Spawn and Despawn event tabs, the same rows the panel edits. It holds methods only.
+
+All of it: [OgreBotAPI.Events](Events.md)
+
+**Returns:** object: the Events sub-object; it always exists, and as text it reads OgreBotAPI.Events.
+
+```text
+echo ${OgreBotAPI.Events}
+```
+
+### `ForWho`
+
+`${OgreBotAPI.ForWho}`
+
+Opens the ForWho sub-object: ask whether a for-who expression selects this character or a named group member, and manage for-who aliases (add, remove, change, rename, list). It always resolves and takes no arguments.
+
+All of it: [OgreBotAPI.ForWho](ForWho.md)
+
+**Returns:** OgreBotAPI.ForWho object: never NULL; as text it reads OgreBotAPI.ForWho.
+
+```text
+echo ${OgreBotAPI.ForWho}
+```
+
+### `HOs`
+
+`${OgreBotAPI.HOs}`
+
+Opens the HOs sub-object: heroic opportunity reads (is the starter or wheel up, which wheel, who can start or advance it, time left) and the verbs that start, advance or cancel one and set which icons may be used. It always resolves and takes no arguments.
+
+All of it: [OgreBotAPI.HOs](HOs.md)
+
+**Returns:** OgreBotAPI.HOs object: never NULL; as text it reads OgreBotAPI.HOs.
+
+```text
+echo ${OgreBotAPI.HOs}
+```
+
+### `IM`
+
+`${OgreBotAPI.IM}`
+
+The IM sub-object: the Inventory Manager session - IsOpen, IsRunning, Status and one method per `ogre im` word. As text it is the session's status line, not the object's name.
+
+All of it: [OgreBotAPI.IM](IM.md)
+
+**Returns:** object: the IM sub-object; it always exists, and as text it reads the status line - "closed", or "open" (or "closed (running headless)") followed by ", idle" or ", running &lt;mode>", plus "; will close when finished (-end)" when that is pending.
+
+```text
+echo ${OgreBotAPI.IM}
+```
+
+### `Inventory`
+
+`${OgreBotAPI.Inventory}`
+
+Opens the Inventory sub-object: item counts, free bag slots, equipment slot names, adornments, and the verbs that use, examine, equip, unpack, consume or destroy items plus the item rotation embargo list. It always resolves and takes no arguments.
+
+All of it: [OgreBotAPI.Inventory](Inventory.md)
+
+**Returns:** OgreBotAPI.Inventory object: never NULL; as text it reads OgreBotAPI.Inventory.
+
+```text
+echo ${OgreBotAPI.Inventory}
+```
+
+### `Loot`
+
+`${OgreBotAPI.Loot}`
+
+Opens the Loot sub-object: loading the loot rule files, deciding what to do with each item in a loot window, loot-all, auto-loot mode and the loot options. It always resolves and takes no arguments.
+
+All of it: [OgreBotAPI.Loot](Loot.md)
+
+**Returns:** OgreBotAPI.Loot object: never NULL; as text it reads OgreBotAPI.Loot.
+
+```text
+echo ${OgreBotAPI.Loot}
+```
+
+### `Looting`
+
+`${OgreBotAPI.Looting}`
+
+TRUE while looting is going on: a loot window is open, or OgreBot did loot work (opened a corpse, chest or shiny, or worked a loot window) in the last 3 seconds. It simply runs out 3 seconds after the last loot activity, so a script waiting for looting to finish can poll it.
+
+**Returns:** bool: TRUE when a loot window is open or the last loot activity was under 3 seconds ago; FALSE otherwise (including when nothing has been looted yet).
+
+```text
+echo ${OgreBotAPI.Looting}
+```
+
+*Was (OldBot):* `Obj_OgreIH.LastLootWindowAppeared`, `Obj_OgreIH:EQ2_onLootWindowAppeared`, `Object_Instance_Inherit.LastLootWindowAppeared`
+
+### `Merchant`
+
+`${OgreBotAPI.Merchant}`
+
+Opens the Merchant sub-object: buying from, selling to and repairing at an NPC merchant (not the broker and not the depot). It has methods only and takes no arguments.
+
+All of it: [OgreBotAPI.Merchant](Merchant.md)
+
+**Returns:** OgreBotAPI.Merchant object: never NULL; as text it reads OgreBotAPI.Merchant.
+
+```text
+echo ${OgreBotAPI.Merchant}
+```
+
+### `Movement`
+
+`${OgreBotAPI.Movement}`
+
+Opens the Movement sub-object: distance, heading and facing reads, points around an actor, and the walking verbs - move to a loc, navigate, follow, joust, face, fly, jump, crouch, evac and movement blocks. It always resolves and takes no arguments.
+
+All of it: [OgreBotAPI.Movement](Movement.md)
+
+**Returns:** OgreBotAPI.Movement object: never NULL; as text it reads OgreBotAPI.Movement.
+
+```text
+echo ${OgreBotAPI.Movement}
+```
+
+### `NPCUnkillableBug`
+
+`${OgreBotAPI.NPCUnkillableBug}`
+
+TRUE when your current target looks stuck in the unkillable state: an NPC or NamedNPC that cannot turn, is feign-dead, is not aggro and is rooted. FALSE when you have no target or are not in the world.
+
+**Returns:** bool: TRUE when your target is an NPC or NamedNPC with CanTurn FALSE, IsFD TRUE, IsAggro FALSE and IsRooted TRUE; FALSE otherwise, with no target, or out of the world.
+
+```text
+echo ${OgreBotAPI.NPCUnkillableBug}
+```
+
+*Was (OldBot):* `OgreBotAPI.NPCUnkillableBug`
+
+### `Options`
+
+`${OgreBotAPI.Options}`
+
+Opens the Options sub-object: read an OgreBot option value, set options, load a profile, revert, and warn before saving. As text it shows the loaded profile name, or "no profile" when none is loaded.
+
+All of it: [OgreBotAPI.Options](Options.md)
+
+**Returns:** OgreBotAPI.Options object: never NULL; as text it reads Options[&lt;profile name>], or Options[no profile].
+
+```text
+echo ${OgreBotAPI.Options}
+```
+
+### `Overseer`
+
+`${OgreBotAPI.Overseer}`
+
+Opens the Overseer sub-object: four Overseer verbs (add agents, check quests, auto-add quests, buy missions). The Overseer engine itself is run from ${ISXOgreEQ2.Overseer}, a different object.
+
+All of it: [OgreBotAPI.Overseer](Overseer.md)
+
+**Returns:** OgreBotAPI.Overseer object: never NULL; as text it reads OgreBotAPI.Overseer.
+
+```text
+echo ${OgreBotAPI.Overseer}
+```
+
+### `Paths`
+
+`${OgreBotAPI.Paths}`
+
+Opens the Paths sub-object: saved walks through the zone you are in, each a list of points of interest or locations. It always resolves and takes no arguments.
+
+All of it: [OgreBotAPI.Paths](Paths.md)
+
+**Returns:** OgreBotAPI.Paths object: never NULL; as text it reads OgreBotAPI.Paths.
+
+```text
+echo ${OgreBotAPI.Paths}
+```
+
+### `Pet`
+
+`${OgreBotAPI.Pet}`
+
+Opens the Pet sub-object: four pet commands - attack, back off, assist and get lost. It has methods only and takes no arguments.
+
+All of it: [OgreBotAPI.Pet](Pet.md)
+
+**Returns:** OgreBotAPI.Pet object: never NULL; as text it reads OgreBotAPI.Pet.
+
+```text
+echo ${OgreBotAPI.Pet}
+```
+
+### `POI`
+
+`${OgreBotAPI.POI}`
+
+Opens the POI sub-object: named spots in the zone you are in, which -TravelMesh and every verb that takes a location can use by name. It always resolves and takes no arguments.
+
+All of it: [OgreBotAPI.POI](POI.md)
+
+**Returns:** OgreBotAPI.POI object: never NULL; as text it reads OgreBotAPI.POI.
+
+```text
+echo ${OgreBotAPI.POI}
+```
+
+### `Position`
+
+`${OgreBotAPI.Position}`
+
+Opens the Position sub-object: geometry reads - a point at an angle from an actor, a point toward another, distance to an actor, the farthest group member or actor, and model sizes. It has members only and takes no arguments.
+
+All of it: [OgreBotAPI.Position](Position.md)
+
+**Returns:** OgreBotAPI.Position object: never NULL; as text it reads OgreBotAPI.Position.
+
+```text
+echo ${OgreBotAPI.Position}
+```
+
+### `Quest`
+
+`${OgreBotAPI.Quest}`
+
+Opens the Quest sub-object: whether you or an actor has a quest, and the quest and mission verbs - share, accept, delete, show info and mission timers. It always resolves and takes no arguments.
+
+All of it: [OgreBotAPI.Quest](Quest.md)
+
+**Returns:** OgreBotAPI.Quest object: never NULL; as text it reads OgreBotAPI.Quest.
+
+```text
+echo ${OgreBotAPI.Quest}
+```
+
+### `Roster`
+
+`${OgreBotAPI.Roster}`
+
+Opens the Roster sub-object: group and raid reads (sizes, counts and members picked by class, archetype or role, leader, in zone) and the group verbs - flag, mark, invite, disband, make leader, mentor, kick. It always resolves and takes no arguments.
+
+All of it: [OgreBotAPI.Roster](Roster.md)
+
+**Returns:** OgreBotAPI.Roster object: never NULL; as text it reads OgreBotAPI.Roster.
+
+```text
+echo ${OgreBotAPI.Roster}
+```
+
+### `Session`
+
+`${OgreBotAPI.Session}`
+
+Opens the Session sub-object: whether this client is at character select, the character name, revive and res verbs, harvesting a node, collecting a shiny, and logging a character in. As text it shows your character name, which is empty while you are not in the world.
+
+All of it: [OgreBotAPI.Session](Session.md)
+
+**Returns:** OgreBotAPI.Session object: never NULL; as text it reads Session[&lt;your character name>], or Session[] out of the world.
+
+```text
+echo ${OgreBotAPI.Session}
+```
+
+### `TempAdorns`
+
+`${OgreBotAPI.TempAdorns}`
+
+The TempAdorns sub-object: the temporary-adornment profiles - IsOpen, Profiles, the window (:Open, :Close, :UI), :Apply and :List.
+
+All of it: [OgreBotAPI.TempAdorns](TempAdorns.md)
+
+**Returns:** object: the TempAdorns sub-object; it always exists, and as text it reads OgreBotAPI.TempAdorns.
+
+```text
+echo ${OgreBotAPI.TempAdorns}
+```
+
+### `Travel`
+
+`${OgreBotAPI.Travel}`
+
+Opens the Travel sub-object: ordinary travel - bells, druid rings, spires, the guild hall, zone doors and the travel mesh. It always resolves and takes no arguments.
+
+All of it: [OgreBotAPI.Travel](Travel.md)
+
+**Returns:** OgreBotAPI.Travel object: never NULL; as text it reads OgreBotAPI.Travel.
+
+```text
+echo ${OgreBotAPI.Travel}
+```
+
+### `Util`
+
+`${OgreBotAPI.Util}`
+
+The Util sub-object: helpers LavishScript does not have - number and text conversions, rounding, range checks, colour-code and zone-number stripping, time formatting, MD5, file-exists, plus on-screen timers and delayed actions.
+
+All of it: [OgreBotAPI.Util](Util.md)
+
+**Returns:** object: the Util sub-object; it always exists, and as text it reads OgreBotAPI.Util.
+
+```text
+echo ${OgreBotAPI.Util}
+```
+
+### `ValidKillTarget`
+
+`${OgreBotAPI.ValidKillTarget}`
+
+TRUE when the bot's current NPC kill target still exists. The kill target is refreshed once per pulse in the world: your target if it is a living NPC or NamedNPC, otherwise your target's target if that is one.
+
+**Returns:** bool: TRUE when there is an NPC kill target and its actor still exists; FALSE when there is none (${ISXOgreEQ2.NPCTargetID} reads 0) or the actor is gone.
+
+```text
+echo ${OgreBotAPI.ValidKillTarget}
+```
+
+*Was (OldBot):* `OgreBotAPI.ValidKillTarget`
+
+### `Vars`
+
+`${OgreBotAPI.Vars}`
+
+Opens the Vars sub-object: two named-value stores - a plain one for your scripts (Get, Set, Clear) and the bot's own internal one (GetInternal, SetInternal, ClearInternal). It always resolves and takes no arguments.
+
+All of it: [OgreBotAPI.Vars](Vars.md)
+
+**Returns:** OgreBotAPI.Vars object: never NULL; as text it reads OgreBotAPI.Vars.
+
+```text
+echo ${OgreBotAPI.Vars}
+```
+
+### `Windows`
+
+`${OgreBotAPI.Windows}`
+
+Opens the Windows sub-object: game dialogs and windows - NPC reply choices, reward windows, the examine window, text-input windows, the OK button, and showing or toggling the OgreBot console and main window. It always resolves and takes no arguments.
+
+All of it: [OgreBotAPI.Windows](Windows.md)
+
+**Returns:** OgreBotAPI.Windows object: never NULL; as text it reads OgreBotAPI.Windows.
+
+```text
+echo ${OgreBotAPI.Windows}
+```
+
+### `Zone`
+
+`${OgreBotAPI.Zone}`
+
+Opens the Zone sub-object: the zone name and what kind of place it is (instance, guild hall, house), plus zoning and the zone reset verbs. It always resolves and takes no arguments.
+
+All of it: [OgreBotAPI.Zone](Zone.md)
+
+**Returns:** OgreBotAPI.Zone object: never NULL; as text it reads OgreBotAPI.Zone.
+
+```text
+echo ${OgreBotAPI.Zone}
+```
+
+## Methods
+
+### `ArcannaseEffigyOfRebirth`
+
+`OgreBotAPI:ArcannaseEffigyOfRebirth[fw]`
+
+Double-clicks the nearest Arcanna'se Effigy Of Rebirth, at once. Nothing happens, silently, when none is within a distance of 3.5.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+
+```text
+OgreBotAPI:ArcannaseEffigyOfRebirth[all]
+```
+
+*Was (OldBot):* `OgreBotAPI:ArcannaseEffigyOfRebirth`
+
+### `DoVDebuff`
+
+`OgreBotAPI:DoVDebuff[fw, mob, allowMoving=setting]`
+
+Queues your archetype's raid debuff on the mob: Demoralizing Swipe (fighter), Slice of Despair (scout), Pall of the Elements (mage) or Divine Despair (priest). It is skipped when the ability is 5 seconds or more from ready, or the mob is out of range and moving is not allowed; a missing mob, ability or archetype echoes a line and does nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `mob` | string |  | The mob: an actor ID, or a name (the nearest actor whose name contains it). |
+| `allowMoving` | bool | `setting` | TRUE walks into range first when the mob is too far away (the range is the ability export's); FALSE skips the cast instead. Left out, the DoV raid debuff "allow moving" setting decides. |
+
+```text
+OgreBotAPI:DoVDebuff[all,${Target.ID}]
+```
+
+*Was (OldBot):* `OgreBotAPI:DoVDebuff`
+
+### `DoVDebuff_Half`
+
+`OgreBotAPI:DoVDebuff_Half[fw, mob, archetype=auto, odd=TRUE, allowMoving=setting]`
+
+Like DoVDebuff, but only characters of one archetype cast, and only half of them: the odd or even ranks when that archetype's raid members (group members outside a raid) are ordered by character ID. Most refusals are silent - a different archetype, the other half, or no DoV debuff found on the mob when archetype is auto.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `mob` | string |  | The mob: an actor ID, or a name (the nearest actor whose name contains it). |
+| `archetype` | string | `auto` | fighter, scout, mage or priest - the archetype that casts. auto reads the mob's effects for a DoV raid debuff icon and uses that archetype. |
+| `odd` | bool | `TRUE` | TRUE: the odd ranks (1st, 3rd, ...) cast; FALSE: the even ranks. |
+| `allowMoving` | bool | `setting` | TRUE walks into range first when the mob is too far away; FALSE skips the cast instead. Left out, the DoV raid debuff "allow moving" setting decides. |
+
+```text
+OgreBotAPI:DoVDebuff_Half[all,${Target.ID},auto,TRUE]
+```
+
+*Was (OldBot):* `OgreBotAPI:DoVDebuff_Half`
+
+### `F2PWindow_SetOptions`
+
+`OgreBotAPI:F2PWindow_SetOptions[fw]`
+
+Ticks the Settings tab option that closes the All-Access upsell window, which the bot then checks about every 100 seconds, and echoes that the watcher is enabled; with no OgreBot profile loaded the option is not ticked, though the echo still prints.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+
+```text
+OgreBotAPI:F2PWindow_SetOptions[${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:F2PWindow_SetOptions`
+
+### `GetFlag`
+
+`OgreBotAPI:GetFlag[fw]`
+
+Queues a job that talks to the guild strategist and takes a tactical rally banner (conversation reply 3). It echoes and stops when no strategist is within a distance of 10 or you already carry a banner.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+
+```text
+OgreBotAPI:GetFlag[${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:GetFlag`
+
+### `NoTarget`
+
+`OgreBotAPI:NoTarget[fw]`
+
+Clears your target at once (the game's /target_none).
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+
+```text
+OgreBotAPI:NoTarget[${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:NoTarget`
+
+### `Prepare_TankSwapping`
+
+`OgreBotAPI:Prepare_TankSwapping[fw]`
+
+Gets the group ready for tank swapping: Guardians turn off Recapture, Bruisers turn off and cancel Hostility and Alternate: Shiftiness, and fighters tick the option to cast no force-target abilities. Everyone also cancels Subtle Strikes, drops the TankSwap no-offensive hold and clears the threat ignore list, all at once (not queued).
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+
+```text
+OgreBotAPI:Prepare_TankSwapping[igw:${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:Prepare_TankSwapping`
+
+### `Remove_Prepare_TankSwapping`
+
+`OgreBotAPI:Remove_Prepare_TankSwapping[fw]`
+
+Undoes Prepare_TankSwapping: Guardians turn Recapture back on, Bruisers turn Hostility and Alternate: Shiftiness back on in the cast stack (they are not recast), and fighters untick the no force-target option. Everyone also cancels Subtle Strikes, drops the TankSwap no-offensive hold and clears the threat ignore list.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+
+```text
+OgreBotAPI:Remove_Prepare_TankSwapping[igw:${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:Remove_Prepare_TankSwapping`
+
+### `ResetFor_Intercept`
+
+`OgreBotAPI:ResetFor_Intercept[fw]`
+
+Turns back on exactly the cast stack entries SetUpFor_Intercept turned off on this character, so an Intercept that was already off stays off. The Guardian entry is touched on a Guardian only.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+
+```text
+OgreBotAPI:ResetFor_Intercept[igw:${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:ResetFor_Intercept`
+
+### `Scribe_Empyral`
+
+`OgreBotAPI:Scribe_Empyral[fw, nameFilter=Empyral]`
+
+Queues a job that scribes every scribeable item in your bags whose name contains nameFilter, one at a time, then opens and closes the knowledge book so new recipes show. Pass * to scribe everything scribeable; when nothing matches it echoes that and does nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `nameFilter` | string | `Empyral` | Text the item name must contain (case-insensitive), or * for every scribeable item. |
+
+```text
+OgreBotAPI:Scribe_Empyral[${Me.Name},Empyral]
+```
+
+*Was (OldBot):* `OgreBotAPI:Scribe_Empyral`
+
+### `SetUpFor_Intercept`
+
+`OgreBotAPI:SetUpFor_Intercept[fw]`
+
+Turns the Intercept ability off in the cast stack on every class, and on a Guardian also the Guardian ability, cancelling the Guardian buff it is maintaining. The bot does this itself before it casts Intercept when the game says a groupmate needs it; ResetFor_Intercept puts back what this turned off.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+
+```text
+OgreBotAPI:SetUpFor_Intercept[igw:${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:SetUpFor_Intercept`
+
+### `Special`
+
+`OgreBotAPI:Special[fw]`
+
+Double-clicks the nearest interactable actor whose type contains "special" (a clickable object), at once. There is no range limit, and nothing happens when there is none.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+
+```text
+OgreBotAPI:Special[${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:Special`, `call Obj_OgreIH.Specialwait`, `call Obj_OgreUtilities.HandleClickActor_Special`
+
+### `Target`
+
+`OgreBotAPI:Target[fw, target]`
+
+Targets an actor once, at top priority, on the bot's next pulse (even while paused); it does not hold the target, so auto-target or assist may change it later. me or your own name targets yourself; a blank target or one that resolves to nothing does nothing.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `target` | string |  | Who to target: an actor ID, me, an @role, pet:&lt;owner>, or a name (the nearest actor whose name contains it). |
+
+```text
+OgreBotAPI:Target[all,${Target.ID}]
+```
+
+*Was (OldBot):* `OgreBotAPI:Target`, `call Obj_OgreUtilities.DoTarget`
+
+### `TargetLock`
+
+`OgreBotAPI:TargetLock[fw, target=clear]`
+
+Locks your target onto one actor and keeps it there, above auto-target and assist, until you clear it, a LetsGo runs or you change zone; a new lock replaces the old one. clear, off, 0 or a blank target releases the lock, and a target that resolves to nothing leaves the current lock as it is.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+| `target` | string | `clear` | The actor to lock onto: an actor ID, an @role, pet:&lt;owner>, or a name (the nearest actor whose name contains it); clear, off or 0 releases the lock. |
+
+```text
+OgreBotAPI:TargetLock[all,${Target.ID}]
+```
+
+*Was (OldBot):* `OgreBotAPI:TargetLock`
+
+### `UpdateNPCTarget`
+
+`OgreBotAPI:UpdateNPCTarget[fw]`
+
+Re-reads your NPC target right now: your target if it is a live NPC, otherwise your target's target. The bot already does this every frame in the world, so a script only needs it to see a target change within the same frame.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+
+```text
+OgreBotAPI:UpdateNPCTarget[${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:UpdateNPCTarget`
+
+### `UseFlag`
+
+`OgreBotAPI:UseFlag[fw]`
+
+Queues a job that talks to the guild strategist and picks reply 2, which sends you to your guild's rally point. It echoes and stops when no strategist is within a distance of 10; a Brigand's Safehouse is cancelled first.
+
+| Parameter | Type | Default | Meaning |
+|---|---|---|---|
+| `fw` | for-who |  | [for-who](ForWho.md): this runs only when this character is one it names |
+
+```text
+OgreBotAPI:UseFlag[igw:${Me.Name}]
+```
+
+*Was (OldBot):* `OgreBotAPI:UseFlag`

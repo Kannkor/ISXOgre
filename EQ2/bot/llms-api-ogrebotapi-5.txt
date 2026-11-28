@@ -1,0 +1,1337 @@
+# OgreBot for EverQuest II - API reference: OgreBotAPI (part 5 of 6)
+
+Plain text for AI assistants, generated from the same tables as the API reference pages (https://kannkor.github.io/ISXOgre/EQ2/bot/developer/api/).
+This file is ONE PIECE: OgreBotAPI (part 5 of 6) - OgreBotAPI.Position, OgreBotAPI.Quest, OgreBotAPI.Roster, OgreBotAPI.Session, OgreBotAPI.TempAdorns, OgreBotAPI.Travel, OgreBotAPI.Util, OgreBotAPI.Vars, OgreBotAPI.Windows.
+How to read an entry, and every file like this one: https://kannkor.github.io/ISXOgre/EQ2/bot/llms-api.txt
+
+== OgreBotAPI.Position ==
+
+${OgreBotAPI.Position.ActorModelSize[nameOrId]}
+  kind: member of OgreBotAPI.Position
+  what: Returns an actor's model size: its collision radius times its collision scale. Returns 0 when the argument is blank or the actor cannot be found.
+  arg nameOrId (string): the actor: an actor id, an @alias or *alias, pet:<owner>, a class word (the first group or raid member it fits) me or your own name (you), or a name (the nearest actor whose name contains it)
+  returns: float: the actor's collision radius times its collision scale; 0 when it is not found.
+  example: echo ${OgreBotAPI.Position.ActorModelSize[${Target.ID}]}
+  oldbot: OgreBotAPI.GetActorModelSize
+
+${OgreBotAPI.Position.AtAngle[angle,actorNameOrId,dist=3]}
+  kind: member of OgreBotAPI.Position
+  what: Returns the point at angle degrees around an actor, measured from the actor's heading, dist plus your model size plus the actor's model size away, at the actor's height plus 0.5. Returns "" when the actor cannot be found; it only computes a point and moves nothing.
+  arg angle (int): whole degrees around the actor from its heading: 0 is directly behind it and 180 directly in front, 90 and -90 its two sides (a fraction is dropped)
+  arg actorNameOrId (string): the actor: an actor id, an @alias or *alias, pet:<owner>, a class word (the first group or raid member it fits) me or your own name (you), or a name (the nearest actor whose name contains it)
+  arg dist (float, default: 3): the gap between the two bodies, before the model sizes are added
+  returns: string: "x,y,z" with two decimals; "" when the actor is not found.
+  example: echo ${OgreBotAPI.Position.AtAngle[90,${Target.ID},5]}
+  oldbot: OgreBotAPI.PointAtAngle
+
+${OgreBotAPI.Position.AtAngleNoTargetSize[angle,actorNameOrId,dist=3]}
+  kind: member of OgreBotAPI.Position
+  what: Same as Position.AtAngle, but the distance adds only your own model size, not the actor's. Returns "" when the actor cannot be found.
+  arg angle (int): whole degrees around the actor from its heading: 0 is directly behind it and 180 directly in front, 90 and -90 its two sides (a fraction is dropped)
+  arg actorNameOrId (string): the actor: an actor id, an @alias or *alias, pet:<owner>, a class word (the first group or raid member it fits) me or your own name (you), or a name (the nearest actor whose name contains it)
+  arg dist (float, default: 3): the distance before your model size is added
+  returns: string: "x,y,z" with two decimals; "" when the actor is not found.
+  example: echo ${OgreBotAPI.Position.AtAngleNoTargetSize[180,${Target.ID},3]}
+  oldbot: OgreBotAPI.PointAtAngleNoSize
+
+${OgreBotAPI.Position.DistanceToActor[nameOrId=Target]}
+  kind: member of OgreBotAPI.Position
+  what: Returns your distance to an actor as the game reports it (the actor's Distance), using your current target when no actor is given. Returns -1 when the actor cannot be found or you are not in the world.
+  arg nameOrId (string, default: Target): the actor: an actor id, an @alias or *alias, pet:<owner>, a class word (the first group or raid member it fits) me or your own name (you), or a name (the nearest actor whose name contains it); blank = your current target
+  returns: float: the distance to the actor; -1 when it is not found or you are not in the world.
+  example: echo ${OgreBotAPI.Position.DistanceToActor[${Target.ID}]}
+  oldbot: OgreBotAPI.GameDistanceToActor
+
+${OgreBotAPI.Position.FarthestActorFrom[anchorNameOrId,actorName,minDist=20]}
+  kind: member of OgreBotAPI.Position
+  what: Returns the id of the actor named exactly actorName (any case) that is farthest, in straight-line 3D distance, from an anchor actor, as long as it is more than minDist away. Returns 0 when the anchor or no actor of that name is found, or when even the farthest one is not past minDist.
+  arg anchorNameOrId (string): the actor to measure from: an actor id, an @alias or *alias, pet:<owner>, a class word or a name (the nearest actor whose name contains it)
+  arg actorName (string): the full name of the actors to choose among (whole-name match, any case)
+  arg minDist (float, default: 20): the winner must be farther than this from the anchor, or the answer is 0
+  returns: int64: the chosen actor's id; 0 when there is none.
+  example: echo ${OgreBotAPI.Position.FarthestActorFrom[${Target.ID},"a void tentacle",20]}
+  oldbot: OgreBotAPI.GetFarthestActorFrom, OgreBotAPI.GetFarthestActorFrom_ref
+
+${OgreBotAPI.Position.FarthestGroupDistance}
+  kind: member of OgreBotAPI.Position
+  what: Returns the distance to the farthest other member of your group. Returns 0 when you are solo or not in the world.
+  returns: float: the largest distance from you to another group member; 0 when there is none.
+  example: echo ${OgreBotAPI.Position.FarthestGroupDistance}
+  oldbot: OgreBotAPI.GetFarthestGroupDistance, Obj_OgreUtilities.GroupWithinDistance
+
+${OgreBotAPI.Position.MyModelSize}
+  kind: member of OgreBotAPI.Position
+  what: Returns your model size: your collision radius times your collision scale, the body edge the bot adds to its distances.
+  returns: float: your collision radius times your collision scale.
+  example: echo ${OgreBotAPI.Position.MyModelSize}
+  oldbot: OgreBotAPI.GetMyModelSize
+
+${OgreBotAPI.Position.Toward[fx,fy,fz,tx,ty,tz,dist=15]}
+  kind: member of OgreBotAPI.Position
+  what: Returns the point dist away from the first point in the direction of the second, measured flat (x and z only), with the second point's y. It does not stop at the second point when dist is longer than the gap, and returns "" when fewer than six coordinates are given.
+  arg fx (float): the starting point's x
+  arg fy (float): the starting point's y (not used in the result)
+  arg fz (float): the starting point's z
+  arg tx (float): the point to head toward, x
+  arg ty (float): the point to head toward, y (becomes the result's y)
+  arg tz (float): the point to head toward, z
+  arg dist (float, default: 15): how far from the starting point to go
+  returns: string: "x,y,z" with two decimals; "" when fewer than six coordinates are given.
+  example: echo ${OgreBotAPI.Position.Toward[${Me.X},${Me.Y},${Me.Z},${Target.X},${Target.Y},${Target.Z},10]}
+  oldbot: OgreBotAPI.PointTowardDist
+
+
+== OgreBotAPI.Quest ==
+
+${OgreBotAPI.Quest.ActorHas[actorId]}
+  kind: member of OgreBotAPI.Quest
+  what: Whether the actor with this id is within a distance of 10 and offers a quest or has a quest update or hand-in for you. With no id it prints a console line and answers FALSE.
+  arg actorId (int64): the actor id to check; required
+  returns: bool: TRUE when that actor is within 10 and has a quest offer, update or hand-in; FALSE otherwise.
+  example: echo ${OgreBotAPI.Quest.ActorHas[${Target.ID}]}
+  oldbot: OgreBotAPI.ActorHasQuest
+
+${OgreBotAPI.Quest.Have[name]}
+  kind: member of OgreBotAPI.Quest
+  what: Whether a quest with this exact name, in any case, is in your active quest journal. No name, or not being in the world, answers FALSE.
+  arg name (string): the full quest name to look for; case does not matter
+  returns: bool: TRUE when the quest is in your active journal; FALSE otherwise.
+  example: echo ${OgreBotAPI.Quest.Have["Feathers For Sethis"]}
+  oldbot: OgreBotAPI.HaveQuest, Obj_OgreIH.Check_Quest_Exists
+
+OgreBotAPI.Quest:Accept[fw, questName=""]
+  kind: method of OgreBotAPI.Quest
+  what: Clicks Accept on an offered new quest window, never a quest reward window, and does nothing when none is offered. It accepts whether or not the Settings Do not auto accept quests box is ticked, since that box stops only the automatic accept; given a name, a group leader with auto share on shares that quest two seconds later.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg questName (string, default: ""): the quest to share after accepting; blank accepts with no share
+  example: OgreBotAPI.Quest:Accept[${Me.Name}]
+  oldbot: OgreBotAPI:AcceptQuest, Obj_OgreUtilities:AcceptQuest
+
+OgreBotAPI.Quest:CheckKunarkAscending[fw]
+  kind: method of OgreBotAPI.Quest
+  what: Opens and closes the quest journal, then prints which Kunark Ascending prerequisite quests you have not completed: the languages, the heritage quest, the signature line and an Epic 1.0 quest. It runs in turn on the action queue and ends with a completed line.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Quest:CheckKunarkAscending[${Me.Name}]
+  oldbot: OgreBotAPI:CheckKunarkAscendingRequirements
+
+OgreBotAPI.Quest:CompareUpdate[fw, questName, sender]
+  kind: method of OgreBotAPI.Quest
+  what: Reads your own steps for a quest and asks other characters to compare theirs; a character on a different step says so in its own console and you get a tally. The character that runs it asks, the for-who is who is asked, and all or blank asks the rest of your group.
+  arg fw (for-who): for-who: which characters are asked; all or blank is your group but you
+  arg questName (string): the quest to compare; a missing one prints a console line
+  arg sender (character name): the character that asks; the -CompareQuest console line fills it. Leave it out in a script: the character running it asks, and any other name makes the call do nothing
+  example: OgreBotAPI.Quest:CompareUpdate[all,"Feathers For Sethis"]
+  oldbot: OgreBotAPI:CompareQuestUpdate
+
+OgreBotAPI.Quest:Delete[fw, questName]
+  kind: method of OgreBotAPI.Quest
+  what: Deletes one quest from your own journal straight away and prints the result. There is no group leader check, and a quest that is not in the journal or has moved in it is not deleted.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg questName (string): the exact quest name, any case
+  example: OgreBotAPI.Quest:Delete[${Me.Name},"Feathers For Sethis"]
+  oldbot: OgreBotAPI:DeleteQuest, Obj_OgreUtilities:DeleteQuest, Obj_OgreUtilities:DeleteQuestActual
+
+OgreBotAPI.Quest:ShareAllMissions[fw]
+  kind: method of OgreBotAPI.Quest
+  what: Shares every active mission in your journal with the group, waiting up to 5 minutes for the group to gather within 30 and then 3 seconds between shares. With all only the group leader shares, and it says so in the console when you are not grouped or have no missions.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Quest:ShareAllMissions[all]
+  oldbot: OgreBotAPI:ShareAllMissions
+
+OgreBotAPI.Quest:ShareMission[fw, questName]
+  kind: method of OgreBotAPI.Quest
+  what: Like :ShareQuest, but the quest must be a mission (its journal category starts with Mission). It says so in the console when it is not an active mission, the name is blank or you are not grouped.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg questName (string): the exact mission name, any case
+  example: OgreBotAPI.Quest:ShareMission[all,"Feathers For Sethis"]
+  oldbot: OgreBotAPI:ShareMission
+
+OgreBotAPI.Quest:ShareQuest[fw, questName]
+  kind: method of OgreBotAPI.Quest
+  what: Shares one quest from your journal with the group, after waiting up to 5 minutes for the group to gather within 30. With all only the group leader shares, and it says so in the console when the name is blank, the quest is not in your journal or you are not grouped.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg questName (string): the exact quest name, any case
+  example: OgreBotAPI.Quest:ShareQuest[all,"Feathers For Sethis"]
+  oldbot: OgreBotAPI:ShareQuest
+
+OgreBotAPI.Quest:ShareQuestWhenAble[fw, questName, zoneName]
+  kind: method of OgreBotAPI.Quest
+  what: Shares one quest once the group has gathered (waiting up to 5 minutes), but only while you are in zoneName - leaving that zone first stops the share with a console line. With all only the group leader shares.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg questName (string): the exact quest name, any case
+  arg zoneName (string): the zone the share is for; blank means the zone you are in now
+  example: OgreBotAPI.Quest:ShareQuestWhenAble[all,"Feathers For Sethis","${Zone.Name}"]
+  oldbot: OgreBotAPI:ShareQuestWhenAble
+
+OgreBotAPI.Quest:ShowMissionInfo[fw]
+  kind: method of OgreBotAPI.Quest
+  what: Opens the Zone Reuse window's Hot Zones tab and prints one line to the console: the newest expansion's hot zone (each zone named once, without [Heroic] / [Solo]) and the time until it changes, or that the game's list has just expired. It runs on every addressed character, with no group leader check.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Quest:ShowMissionInfo[${Me.Name}]
+  oldbot: OgreBotAPI:DisplayEtherealMissionInfo
+
+OgreBotAPI.Quest:ShowWiki[fw, name=""]
+  kind: method of OgreBotAPI.Quest
+  what: Opens the EverQuest 2 wiki page for a quest in your web browser; a blank name uses the quest selected in the quest journal, and with none selected a console line says so and nothing opens. A blank for-who means is1 here, not all.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg name (string, default: ""): the quest to look up; blank uses the quest selected in the journal
+  example: OgreBotAPI.Quest:ShowWiki[${Me.Name},"Feathers For Sethis"]
+  oldbot: OgreBotAPI:ShowWikiForQuest
+
+OgreBotAPI.Quest:SpewMissionTimers[fw, ...searches]
+  kind: method of OgreBotAPI.Quest
+  what: Opens the quest journal on its Mission Timers tab and sends one oc line per mission whose name contains a search word, with the time to reset and whether it is completed. With no search word it prints a reminder and nothing else, and it closes the journal when done.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg ...searches (string): one or more words; a mission matches when its name contains any of them, in any case
+  example: OgreBotAPI.Quest:SpewMissionTimers[${Me.Name},Weekly,Daily]
+  oldbot: OgreBotAPI:Spew_MissionTimerInfo
+
+
+== OgreBotAPI.Roster ==
+
+${OgreBotAPI.Roster.ArchetypeOf[class]}
+  kind: member of OgreBotAPI.Roster
+  what: The archetype of a subclass name, in lower case: fighter, priest, mage or scout. An actor ID is also accepted and that actor's class is used; a class tier name such as warrior, or anything unknown, reads an empty string.
+  arg class (string): A subclass name such as templar (any case), or an actor ID.
+  returns: string - fighter, priest, mage or scout, empty when unknown.
+  example: echo ${OgreBotAPI.Roster.ArchetypeOf[${Target.ID}]}
+  oldbot: ClassInfo.Archetype, GetArchetypeFromClass, GetInfoOb.Archetype
+
+${OgreBotAPI.Roster.BaseClassOf[class]}
+  kind: member of OgreBotAPI.Roster
+  what: The class tier of a subclass name, in lower case: templar reads cleric, berserker reads warrior. An actor ID is also accepted and that actor's class is used; anything that is not a subclass reads an empty string.
+  arg class (string): A subclass name such as berserker (any case), or an actor ID.
+  returns: string - the class tier (warrior, cleric, bard and so on), empty when unknown.
+  example: echo ${OgreBotAPI.Roster.BaseClassOf[berserker]}
+  oldbot: GetInfoOb.GetBaseClass, GetInfoOb.GetClass, OgreBotAPI.Get_BaseClass
+
+${OgreBotAPI.Roster.CountGroupBy[mode,search]}
+  kind: member of OgreBotAPI.Roster
+  what: Counts the members of your group, you included, that match mode and search. Only player characters count: a member whose type reads as anything else (a corpse, for example) is skipped; with no mode it matches by Class, and a mode word the list does not know matches nobody.
+  arg mode (string, default: Class): How to match: All (everyone; search ignored), Class (exact subclass, e.g. templar), RawClass or ParentClass (class tier, e.g. cleric), Archetype, NotArchetype, Role (tank, priest, enchanter, bard, dps), Cursed (search ignored), KraletusCharmers (coercers and troubadors, search ignored). Empty means Class; any other word matches nobody.
+  arg search (string): The class, tier, archetype or role name to match, any case.
+  returns: int - number of matching group members, 0 when none match.
+  example: echo ${OgreBotAPI.Roster.CountGroupBy[Archetype,priest]}
+  oldbot: OgreBotAPI.CountGroupBy, GetInfoOb.CountGroupBy_, CheckGroupSetup
+
+${OgreBotAPI.Roster.CountRaidBy[mode,search]}
+  kind: member of OgreBotAPI.Roster
+  what: Counts the members of your raid, you included, that match mode and search; in a raid every member counts, corpses too. When you are not in a raid it answers exactly as CountGroupBy does.
+  arg mode (string, default: Class): How to match: All, Class, RawClass or ParentClass, Archetype, NotArchetype, Role, Cursed, KraletusCharmers. Empty means Class; any other word matches nobody.
+  arg search (string): The class, tier, archetype or role name to match, any case.
+  returns: int - number of matching raid members (group members when not in a raid).
+  example: echo ${OgreBotAPI.Roster.CountRaidBy[Role,priest]}
+  oldbot: OgreBotAPI.CountRaidBy, GetInfoOb.CountRaidBy_
+
+${OgreBotAPI.Roster.Flagged[n=1]}
+  kind: member of OgreBotAPI.Roster
+  what: TRUE when flag number n is set on this character. Flags are kept by this session only, are set with Roster:Flag, and can be read anywhere, even outside the world; flag 24 is the same state as Marked.
+  arg n (int, default: 1): The flag number to check.
+  returns: bool - TRUE when flag n is set.
+  example: echo ${OgreBotAPI.Roster.Flagged[2]}
+  oldbot: GetInfoOb.FlaggedToon, GetInfoOb:ToonFlagged, OgreBotAPI.ToonFlagged
+
+${OgreBotAPI.Roster.GroupIDBy[mode,search,rank=1]}
+  kind: member of OgreBotAPI.Roster
+  what: The actor ID of the rank-th group member, you included, that matches mode and search, with matches sorted alphabetically by name. Only player characters are considered (a corpse is skipped); reads 0 when nobody matches or rank is past the last match.
+  arg mode (string, default: Class): How to match: All, Class, RawClass or ParentClass, Archetype, NotArchetype, Role, Cursed, KraletusCharmers. Empty means Class; any other word matches nobody.
+  arg search (string): The class, tier, archetype or role name to match, any case.
+  arg rank (int, default: 1): Which match to return, counting from 1 in name order.
+  returns: int64 - the member's actor ID, 0 when there is no such match.
+  example: echo ${OgreBotAPI.Roster.GroupIDBy[Class,templar,1]}
+  oldbot: OgreBotAPI.GetGroupIDBy, GetInfoOb.GetGroupIDBy_
+
+${OgreBotAPI.Roster.GroupIDPreferred[search,rank=1]}
+  kind: member of OgreBotAPI.Roster
+  what: The actor ID of the rank-th group member, you included, whose archetype or role matches search, ordered by how useful that class is to spare (for dps the order is flipped so pure damage classes come first). Only player characters are considered (a corpse is skipped), a member matching any of the listed pools counts, ties go to the pool listed first and then to name, and it reads 0 when nobody matches.
+  arg search (string): One or more archetypes or roles separated by |, for example scout, dps or scout|mage.
+  arg rank (int, default: 1): Which match to return, counting from 1 in preferred order.
+  returns: int64 - the member's actor ID, 0 when there is no such match.
+  example: echo ${OgreBotAPI.Roster.GroupIDPreferred[scout|mage,1]}
+  oldbot: GetInfoOb.GetGroupIDPreferred_, OgreBotAPI.GetGroupIDPreferred
+
+${OgreBotAPI.Roster.GroupNameBy[mode,search,rank=1]}
+  kind: member of OgreBotAPI.Roster
+  what: The name of the rank-th group member, you included, that matches mode and search, with matches sorted alphabetically by name. Only player characters are considered (a corpse is skipped), as in GroupIDBy, so the same rank names the same member in both; reads an empty string when nobody matches or rank is past the last match.
+  arg mode (string, default: Class): How to match: All, Class, RawClass or ParentClass, Archetype, NotArchetype, Role, Cursed, KraletusCharmers. Empty means Class; any other word matches nobody.
+  arg search (string): The class, tier, archetype or role name to match, any case.
+  arg rank (int, default: 1): Which match to return, counting from 1 in name order.
+  returns: string - the member's name, empty when there is no such match.
+  example: echo ${OgreBotAPI.Roster.GroupNameBy[Class,templar,1]}
+  oldbot: GetInfoOb.GetGroupInformation, GetInfoOb.GetGroupNameBy_, OgreBotAPI.GetGroupNameBy
+
+${OgreBotAPI.Roster.GroupNamePreferred[search,rank=1]}
+  kind: member of OgreBotAPI.Roster
+  what: The name of the rank-th group member, you included, whose archetype or role matches search, in the same preferred order as GroupIDPreferred, so the same rank names the same member in both (a corpse is skipped). search can list several pools with |; reads an empty string when nobody matches.
+  arg search (string): One or more archetypes or roles separated by |, for example scout, dps or scout|mage.
+  arg rank (int, default: 1): Which match to return, counting from 1 in preferred order.
+  returns: string - the member's name, empty when there is no such match.
+  example: echo ${OgreBotAPI.Roster.GroupNamePreferred[dps,1]}
+  oldbot: GetInfoOb.GetGroupNamePreferred_, OgreBotAPI.GetGroupNamePreferred
+
+${OgreBotAPI.Roster.GroupSize}
+  kind: member of OgreBotAPI.Roster
+  what: How many people are in your group, counting you, so a solo character reads 1. Reads NULL when you are not in the world.
+  returns: int - group members including you.
+  example: echo ${OgreBotAPI.Roster.GroupSize}
+
+${OgreBotAPI.Roster.GuildFlagLocation}
+  kind: member of OgreBotAPI.Roster
+  what: The text the game shows for your guild's flag location. Reads NULL when you are not in the world, and an empty string when the game has no value.
+  returns: string - the guild flag location as the game labels it.
+  example: echo ${OgreBotAPI.Roster.GuildFlagLocation}
+  oldbot: OgreBotAPI.GuildFlagLocation
+
+${OgreBotAPI.Roster.InCombat}
+  kind: member of OgreBotAPI.Roster
+  what: TRUE when anyone in your group is in combat mode, you included, so a solo character reads its own; it checks your group only, never the rest of a raid, and a member in another zone counts as out of combat. Reads NULL when you are not in the world; for your character alone, hated included, use ${OgreBotAPI.Combat.InCombat}.
+  returns: bool - TRUE when any member of your group, you included, is in combat mode; FALSE when nobody is.
+  example: echo ${OgreBotAPI.Roster.InCombat}
+  oldbot: Obj_OgreUtilities.GroupInCombat
+
+${OgreBotAPI.Roster.InEQ2Chars[speaker,fullAccountOnly=FALSE]}
+  kind: member of OgreBotAPI.Roster
+  what: TRUE when speaker is on the list the chat commands trust: every character saved in your account list, on any account (characters not yet assigned to one included), and the name OgreIRCSession, matched in any case. With fullAccountOnly TRUE it is TRUE only when that character also has complete account details saved, the kind a login needs; it works outside the world.
+  arg speaker (string): The character name to look up.
+  arg fullAccountOnly (bool, default: FALSE): TRUE to require complete saved account details for that character, not just its name on the list.
+  returns: bool - TRUE when the name is on that list.
+  example: echo ${OgreBotAPI.Roster.InEQ2Chars[${Target.Name}]}
+  oldbot: OgreBotAPI.InEQ2Chars
+
+${OgreBotAPI.Roster.InRaid}
+  kind: member of OgreBotAPI.Roster
+  what: TRUE when you are in a raid. Reads NULL when you are not in the world (character select, zoning).
+  returns: bool - TRUE in a raid, FALSE otherwise.
+  example: echo ${OgreBotAPI.Roster.InRaid}
+
+${OgreBotAPI.Roster.InZone[within=0]}
+  kind: member of OgreBotAPI.Roster
+  what: TRUE when every other member of your group is in this zone and alive, and, when within is above 0, no farther away than within. Solo reads TRUE, outside the world reads FALSE; it checks your group only, never the rest of a raid.
+  arg within (float, default: 0): The farthest a member may be from you. 0 skips the distance check.
+  returns: bool - TRUE when the whole group is here.
+  example: echo ${OgreBotAPI.Roster.InZone[50]}
+  oldbot: GetInfoOb.GroupInZone, OgreBotAPI.GroupInZone, call Obj_OgreUtilities.CheckIfGroupInSameZone
+
+${OgreBotAPI.Roster.IsGroupLeader}
+  kind: member of OgreBotAPI.Roster
+  what: TRUE when you lead your group, and also TRUE when you are solo. Reads NULL when you are not in the world.
+  returns: bool - TRUE when you are the group leader or solo.
+  example: echo ${OgreBotAPI.Roster.IsGroupLeader}
+  oldbot: OgreBotAPI.IsGroupLeader
+
+${OgreBotAPI.Roster.Marked}
+  kind: member of OgreBotAPI.Roster
+  what: TRUE when this character is marked (set with Roster:Mark). Marked is flag 24, so Flagged[24] reads the same thing; it can be read anywhere, even outside the world.
+  returns: bool - TRUE when this character is marked.
+  example: echo ${OgreBotAPI.Roster.Marked}
+  oldbot: GetInfoOb.ToonMarked
+
+${OgreBotAPI.Roster.NearestOfClass[class,range=50,scope=auto,includeMe=TRUE]}
+  kind: member of OgreBotAPI.Roster
+  what: The actor ID of a group or raid member of the given class who is within range, or 0 when there is none. A match is the subclass, its class tier or its archetype (warrior finds a berserker, fighter finds any fighter); you are checked first and returned with no distance test when includeMe is TRUE, then the closest member in range wins.
+  arg class (string): A subclass, class tier or archetype name, any case. Empty reads 0.
+  arg range (float, default: 50): The farthest a member may be. Members whose distance reads 0 are never matched.
+  arg scope (string, default: auto): auto (your raid when in one, else your group), raid, or any other word for your group.
+  arg includeMe (bool, default: TRUE): TRUE to answer with your own ID when your class matches.
+  returns: int64 - the matching member's actor ID, 0 when none is in range.
+  example: echo ${OgreBotAPI.Roster.NearestOfClass[priest,30,auto,FALSE]}
+  oldbot: GetInfoOb.Class
+
+${OgreBotAPI.Roster.RaidIDBy[mode,search,rank=1]}
+  kind: member of OgreBotAPI.Roster
+  what: The actor ID of the rank-th raid member, you included, that matches mode and search, sorted alphabetically by name; in a raid every member is considered, corpses too. When you are not in a raid it answers exactly as GroupIDBy does, and it reads 0 when nobody matches.
+  arg mode (string, default: Class): How to match: All, Class, RawClass or ParentClass, Archetype, NotArchetype, Role, Cursed, KraletusCharmers. Empty means Class; any other word matches nobody.
+  arg search (string): The class, tier, archetype or role name to match, any case.
+  arg rank (int, default: 1): Which match to return, counting from 1 in name order.
+  returns: int64 - the member's actor ID, 0 when there is no such match.
+  example: echo ${OgreBotAPI.Roster.RaidIDBy[Archetype,priest,2]}
+  oldbot: GetInfoOb.GetRaidIDBy_, OgreBotAPI.GetRaidIDBy
+
+${OgreBotAPI.Roster.RaidIDPreferred[search,rank=1]}
+  kind: member of OgreBotAPI.Roster
+  what: The actor ID of the rank-th raid member, you included, whose archetype or role matches search, in preferred order (see GroupIDPreferred). When you are not in a raid it answers exactly as GroupIDPreferred does; reads 0 when nobody matches.
+  arg search (string): One or more archetypes or roles separated by |, for example scout, dps or scout|mage.
+  arg rank (int, default: 1): Which match to return, counting from 1 in preferred order.
+  returns: int64 - the member's actor ID, 0 when there is no such match.
+  example: echo ${OgreBotAPI.Roster.RaidIDPreferred[priest,2]}
+  oldbot: GetInfoOb.GetRaidIDPreferred_, GetInfoOb:Get_RaidIDsPreferred, OgreBotAPI.GetRaidIDPreferred
+
+${OgreBotAPI.Roster.RaidNameBy[mode,search,rank=1]}
+  kind: member of OgreBotAPI.Roster
+  what: The name of the rank-th raid member, you included, that matches mode and search, sorted alphabetically by name. When you are not in a raid it answers exactly as GroupNameBy does, and it reads an empty string when nobody matches.
+  arg mode (string, default: Class): How to match: All, Class, RawClass or ParentClass, Archetype, NotArchetype, Role, Cursed, KraletusCharmers. Empty means Class; any other word matches nobody.
+  arg search (string): The class, tier, archetype or role name to match, any case.
+  arg rank (int, default: 1): Which match to return, counting from 1 in name order.
+  returns: string - the member's name, empty when there is no such match.
+  example: echo ${OgreBotAPI.Roster.RaidNameBy[Role,tank,1]}
+  oldbot: GetInfoOb.GetRaidNameBy_, OgreBotAPI.GetRaidNameBy
+
+${OgreBotAPI.Roster.RaidNamePreferred[search,rank=1]}
+  kind: member of OgreBotAPI.Roster
+  what: The name of the rank-th raid member, you included, whose archetype or role matches search, in preferred order (see GroupIDPreferred). When you are not in a raid it answers exactly as GroupNamePreferred does; reads an empty string when nobody matches.
+  arg search (string): One or more archetypes or roles separated by |, for example scout, dps or scout|mage.
+  arg rank (int, default: 1): Which match to return, counting from 1 in preferred order.
+  returns: string - the member's name, empty when there is no such match.
+  example: echo ${OgreBotAPI.Roster.RaidNamePreferred[scout|mage,1]}
+  oldbot: GetInfoOb.GetRaidNamePreferred_, OgreBotAPI.GetRaidNamePreferred
+
+${OgreBotAPI.Roster.RaidSize}
+  kind: member of OgreBotAPI.Roster
+  what: How many people are in your raid, counting you. Reads 0 when you are not in a raid, and NULL when you are not in the world.
+  returns: int - raid members including you, 0 when not in a raid.
+  example: echo ${OgreBotAPI.Roster.RaidSize}
+
+${OgreBotAPI.Roster.RoleOf[class]}
+  kind: member of OgreBotAPI.Roster
+  what: The role of a subclass or class tier name, in lower case: tank, priest, enchanter, bard or dps. An actor ID is also accepted and that actor's class is used; anything unknown reads an empty string.
+  arg class (string): A subclass or class tier name such as wizard or sorcerer (any case), or an actor ID.
+  returns: string - tank, priest, enchanter, bard or dps, empty when unknown.
+  example: echo ${OgreBotAPI.Roster.RoleOf[${Target.ID}]}
+  oldbot: GetInfoOb.GetRole, OgreBotAPI.Get_Role
+
+${OgreBotAPI.Roster.SortGroupByID[mode,search,exclude]}
+  kind: member of OgreBotAPI.Roster
+  what: Your own position, counting from 1, among the group members that match mode and search, ordered by actor ID read as text (so 100 sorts before 99). Every character in the group gets a different number, which is what makes it useful for picking spots; reads 0 when you do not match yourself.
+  arg mode (string, default: Class): How to match: All, Class, RawClass or ParentClass, Archetype, NotArchetype, Role, Cursed, KraletusCharmers. Empty means Class; any other word matches nobody.
+  arg search (string): The class, tier, archetype or role name to match, any case.
+  arg exclude (string): A character name to leave out of the ordering, any case. Empty leaves nobody out.
+  returns: int - your 1-based position among the matches, 0 when you are not one of them.
+  example: echo ${OgreBotAPI.Roster.SortGroupByID[Archetype,scout]}
+  oldbot: GetInfoOb:Get_GroupIDs, GetInfoOb.SortGroupByIDBy_, OgreBotAPI.SortGroupByIDBy
+
+${OgreBotAPI.Roster.SortRaidByID[mode,search,exclude]}
+  kind: member of OgreBotAPI.Roster
+  what: Your own position, counting from 1, among the raid members that match mode and search, ordered by actor ID read as text. When you are not in a raid it answers exactly as SortGroupByID does; reads 0 when you do not match yourself.
+  arg mode (string, default: Class): How to match: All, Class, RawClass or ParentClass, Archetype, NotArchetype, Role, Cursed, KraletusCharmers. Empty means Class; any other word matches nobody.
+  arg search (string): The class, tier, archetype or role name to match, any case.
+  arg exclude (string): A character name to leave out of the ordering, any case. Empty leaves nobody out.
+  returns: int - your 1-based position among the matches, 0 when you are not one of them.
+  example: echo ${OgreBotAPI.Roster.SortRaidByID[Role,dps]}
+  oldbot: GetInfoOb.SortRaidByIDBy_, OgreBotAPI.SortRaidByIDBy
+
+OgreBotAPI.Roster:CheckMemberLevel[fw, onlyNonMembers=FALSE]
+  kind: method of OgreBotAPI.Roster
+  what: Each selected character prints "<name> Membership level: <level>" on the InnerSpace console, using the game's subscription level. With onlyNonMembers TRUE, characters whose level reads Member print nothing.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg onlyNonMembers (bool, default: FALSE): TRUE to print only for characters that are not Member.
+  example: OgreBotAPI.Roster:CheckMemberLevel[all,TRUE]
+  oldbot: OgreBotAPI:CheckMemberLevel
+
+OgreBotAPI.Roster:Disband[fw]
+  kind: method of OgreBotAPI.Roster
+  what: Each selected character sends the game's /disband, which takes it out of its group. It needs the character in the world.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Roster:Disband[${Me.Name}]
+  oldbot: OgreBotAPI:Disband
+
+OgreBotAPI.Roster:Flag[fw, n=1]
+  kind: method of OgreBotAPI.Roster
+  what: Sets flag number n on each selected character. When the flag was not already set, a line saying so goes to OgreConsole; setting a flag that is already set is silent, a number outside 1 to 24 is refused with a console line, and it works outside the world.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg n (int, default: 1): The flag number to set, 1 to 24. Flag 24 is the same state as Mark.
+  example: OgreBotAPI.Roster:Flag[${Me.Name},2]
+  oldbot: OgreBotAPI:FlagToon, GetInfoOb:FlagToon
+
+OgreBotAPI.Roster:FlagNextPerson[fw, mark=1, via=any, search..., -GroupOnly]
+  kind: method of OgreBotAPI.Roster
+  what: Finds the next character after you and tells that character, over IRC and over oc to every session on this PC, to set flag mark on itself. A group goes in actor id order, so every box agrees on who is next, and a raid in slot order; both wrap round, and nothing is sent when nobody passes.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg mark (int, default: 1): The flag number the next person sets.
+  arg via (string, default: any): any, archetype or baseclass: who may be next. Any other word means any.
+  arg search... (string): the archetypes or base classes to match; left out, your own
+  arg -GroupOnly (switch): use the group even when you are in a raid
+  example: OgreBotAPI.Roster:FlagNextPerson[${Me.Name},3]
+  oldbot: OgreBotAPI:FlagNextPerson, OgreBotAPI:FlagToonNextPerson
+
+OgreBotAPI.Roster:Invite[fw, who]
+  kind: method of OgreBotAPI.Roster
+  what: Each selected character sends a group invite to who; an alias such as @Healer1 is turned into that character's name first. Nobody already in your group or raid is invited (silently); a missing name, or one that is not plain letters, is refused with one line on the InnerSpace console.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg who (string): The character to invite, by name or alias; me means you, who are always skipped. Required.
+  example: OgreBotAPI.Roster:Invite[${Me.Name},${Target.Name}]
+  oldbot: OgreBotAPI:Invite
+
+OgreBotAPI.Roster:Inviter[fw, toon...]
+  kind: method of OgreBotAPI.Roster
+  what: Each selected character invites a list of characters in order, about one second apart, skipping anyone already with it; names may also be split by spaces or commas. Put -r (or -ri, -raidinvite) before a name to raid-invite that one; -from, -i and -inviter are not supported here and skip the name after them with a warning, and starting a new list stops one that is still running.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg toon... (string): The names (or aliases) to invite, in order, each optionally led by -r for a raid invite. Any other word starting with - is skipped.
+  example: OgreBotAPI.Roster:Inviter[${Me.Name},${Target.Name}]
+  oldbot: OgreBotAPI:Inviter
+
+OgreBotAPI.Roster:Kick[fw, who]
+  kind: method of OgreBotAPI.Roster
+  what: Each selected character kicks who from its group; an alias is turned into a name first. A missing name, or one that is not in the group (you are never in the list), prints one line on the InnerSpace console and kicks nobody.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg who (string): The group member to kick, by name or alias.
+  example: OgreBotAPI.Roster:Kick[${Me.Name},${Group[1].Name}]
+
+OgreBotAPI.Roster:MakeLeader[fw, leader]
+  kind: method of OgreBotAPI.Roster
+  what: Each selected character that leads its group hands leadership to leader; an alias is turned into a name first. Nothing happens, silently, when leader is the running character, it is not the leader, or leader is not in its group; a missing name, or one that is not plain letters, is refused with one line on the InnerSpace console.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg leader (string): The group member to make leader, by name or alias; me means you, which does nothing. Required.
+  example: OgreBotAPI.Roster:MakeLeader[${Me.Name},${Group[1].Name}]
+  oldbot: OgreBotAPI:MakeLeader
+
+OgreBotAPI.Roster:Mark[fw]
+  kind: method of OgreBotAPI.Roster
+  what: Marks each selected character, which is the same as setting flag 24. A line goes to OgreConsole when the character was not already marked; it works outside the world.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Roster:Mark[${Me.Name}]
+  oldbot: OgreBotAPI:MarkToon, GetInfoOb:MarkToon
+
+OgreBotAPI.Roster:Mentor[fw, name]
+  kind: method of OgreBotAPI.Roster
+  what: Each selected character mentors the group member name, but only when that member is in its group, is lower level, and neither of them is already mentoring. An alias is turned into a name first; a missing name gets one line, and any other case does nothing, silently.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg name (string): The group member to mentor, by name or alias. Required.
+  example: OgreBotAPI.Roster:Mentor[${Me.Name},${Group[1].Name}]
+  oldbot: Mentor, OgreBotAPI:Mentor
+
+OgreBotAPI.Roster:RaidInvite[fw, who]
+  kind: method of OgreBotAPI.Roster
+  what: Each selected character sends a raid invite to who; an alias is turned into a name first. Nobody already in your raid or your own group is invited (silently); a missing name, or one that is not plain letters, is refused with one line on the InnerSpace console.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg who (string): The character to raid-invite, by name or alias; me means you, who are always skipped. Required.
+  example: OgreBotAPI.Roster:RaidInvite[${Me.Name},${Target.Name}]
+  oldbot: OgreBotAPI:RaidInvite
+
+OgreBotAPI.Roster:SetClassValue[fw, member, value]
+  kind: method of OgreBotAPI.Roster
+  what: Forces one of the bot's class checks to TRUE or FALSE for each selected character, for example IsFighter TRUE so a non-fighter runs fighter logic, and auto removes the override. The setting lasts until another character is loaded in that session; a missing argument, a member that is not a class name, or a value that is not TRUE, FALSE or auto prints one line on the InnerSpace console and changes nothing.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg member (string): The class check to force: an archetype, class tier or subclass name, with or without Is (IsFighter, Fighter, IsTemplar).
+  arg value (string): TRUE or FALSE (yes/no style words also work), or auto to remove the override.
+  example: OgreBotAPI.Roster:SetClassValue[${Me.Name},IsFighter,TRUE]
+  oldbot: OgreBotAPI:ClassInfo_ChangeValue
+
+OgreBotAPI.Roster:SpewFlags[fw]
+  kind: method of OgreBotAPI.Roster
+  what: Each selected character sends one OgreConsole line per flag it holds, in number order, reading "<name> Flagged <n>". A character with no flags says nothing; it needs the character in the world.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Roster:SpewFlags[all]
+  oldbot: OgreBotAPI:SpewFlags, GetInfoOb:SpewFlags
+
+OgreBotAPI.Roster:SpewMarked[fw, where]
+  kind: method of OgreBotAPI.Roster
+  what: Each selected character reports whether it is marked, as a line reading "<name> --> Marked: TRUE" (or FALSE), and also raises the stat-report event. The line goes to OgreConsole unless where says otherwise and needs the character in the world; today it always reads FALSE, even for a marked character.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg where (string): oc (OgreConsole), irc, or event (no visible line, only the event). Empty or any other word means oc.
+  example: OgreBotAPI.Roster:SpewMarked[all,oc]
+  oldbot: OgreBotAPI:ToonMarked
+
+OgreBotAPI.Roster:Unflag[fw, n=1]
+  kind: method of OgreBotAPI.Roster
+  what: Clears flag number n on each selected character. When the flag was set, a line saying so goes to OgreConsole; clearing a flag that is not set is silent, a number outside 1 to 24 is refused with a console line, and it works outside the world.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg n (int, default: 1): The flag number to clear, 1 to 24.
+  example: OgreBotAPI.Roster:Unflag[all,2]
+  oldbot: OgreBotAPI:UnflagToon, GetInfoOb:UnflagToon
+
+OgreBotAPI.Roster:UnflagAll[fw]
+  kind: method of OgreBotAPI.Roster
+  what: Clears every flag on each selected character, the mark (flag 24) included. One OgreConsole line is written for each flag that was set; nothing is written when none were.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Roster:UnflagAll[all]
+  oldbot: OgreBotAPI:UnflagAll, GetInfoOb:UnflagAll
+
+OgreBotAPI.Roster:Unmark[fw]
+  kind: method of OgreBotAPI.Roster
+  what: Removes the mark (flag 24) from each selected character. A line goes to OgreConsole when the character was marked; otherwise it is silent.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Roster:Unmark[all]
+  oldbot: OgreBotAPI:UnmarkToon, GetInfoOb:UnmarkToon
+
+OgreBotAPI.Roster:Unmentor[fw]
+  kind: method of OgreBotAPI.Roster
+  what: Each selected character stops mentoring, but only when its effective level differs from its level; otherwise nothing is sent.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Roster:Unmentor[all]
+  oldbot: OgreBotAPI:Unmentor
+
+
+== OgreBotAPI.Session ==
+
+${OgreBotAPI.Session.AtCharacterSelect}
+  kind: member of OgreBotAPI.Session
+  what: Whether the character select screen is showing. It works with no character logged in.
+  returns: bool: TRUE while the character select screen is visible; FALSE otherwise
+  example: echo ${OgreBotAPI.Session.AtCharacterSelect}
+  oldbot: OgreBotAPI.AtCharacterSelect
+
+${OgreBotAPI.Session.CharacterName}
+  kind: member of OgreBotAPI.Session
+  what: This character's name. It returns "" when not in the world, for example at character select.
+  returns: string: the character's name; "" out of the world
+  example: echo ${OgreBotAPI.Session.CharacterName}
+  oldbot: OgreBotAPI.CurrentCharacter
+
+${OgreBotAPI.Session.ReviveLocation[option,exact]}
+  kind: member of OgreBotAPI.Session
+  what: While you are dead, finds the revive point named by option in the death window and returns its row number. It returns 0 when you are alive, not in the world, give no option, or no revive point matches.
+  arg option (string): a row number, or a revive point name such as Entrance, compared case-insensitively with the text before the bracket; a row that is not a revive point is never chosen
+  arg exact (bool, default: FALSE): TRUE: the name must match in full; FALSE: the name may be part of the revive point's name
+  returns: int: the row number (from 1) of the matching revive point; 0 when there is none
+  example: echo ${OgreBotAPI.Session.ReviveLocation[Entrance,FALSE]}
+  oldbot: OgreBotAPI.Get_ReviveLocation
+
+OgreBotAPI.Session:CollectShiny[fw]
+  kind: method of OgreBotAPI.Session
+  what: Targets the nearest collectible shiny, by the Loot tab's own test (an actor named only a question mark or an exclamation mark, or a resource whose name has a question mark), and collects it if it is within 10 meters. Nothing happens when none is that close; this runs on demand and is separate from the Loot tab's own shiny collecting.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Session:CollectShiny[${Me.Name}]
+  oldbot: OgreBotAPI:Question
+
+OgreBotAPI.Session:Harvest[fw]
+  kind: method of OgreBotAPI.Session
+  what: Targets the nearest harvest node and collects from it, if that node is within 10 meters. Nothing happens when no node is that close, and the collect is sent at once, not queued.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Session:Harvest[${Me.Name}]
+  oldbot: OgreBotAPI:Resource
+
+OgreBotAPI.Session:ImmRes[fw, howManyDead=2]
+  kind: method of OgreBotAPI.Session
+  what: Queues a cast of Immaculate Revival when it is ready and enough of the group is dead: each dead group member counts 1, while a dead fighter or priest, or being dead yourself, counts 6. It does nothing for a character without the ability.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg howManyDead (int, default: 2): the count it takes before it casts; below 1 it never casts
+  example: OgreBotAPI.Session:ImmRes[igw:${Me.Name},3]
+  oldbot: OgreBotAPI:ImmRes
+
+OgreBotAPI.Session:LogToonIn[forToon, toon, server="", class=""]
+  kind: method of OgreBotAPI.Session
+  what: Logs toon in on the one session forToon names, from the login screen, from character select, or from the world on another character (camping out first, unless in combat). It needs a saved login for toon on this PC and says so on the console when there is none.
+  arg forToon (string): the session that should act: its InnerSpace session name or its character's name, case-insensitive - at character select or the login screen, the character it last played (so a box a zone dropped to character select answers to its toon), and mid-zone only the session name; all, classes and groups do not match, and a blank gets one line
+  arg toon (string): the character to log in; a blank gets one line
+  arg server (string): the server, by name or short form (ior, md), for a character saved on more than one; blank uses its default server
+  arg class (string): the class to log in as, like ranger; blank logs in whatever class it was
+  example: OgreBotAPI.Session:LogToonIn[is2,${Group[1].Name}]
+  oldbot: OgreBotAPI:LogToonIn, OgreBotAPI:LoginAtCharacterSelect
+
+OgreBotAPI.Session:PlayAtCharacterSelect[fw]
+  kind: method of OgreBotAPI.Session
+  what: Presses the Play button on the character select screen. It does nothing unless that screen is showing, and it works with no character in the world.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Session:PlayAtCharacterSelect[all]
+  oldbot: OgreBotAPI:PlayAtCharacterSelect
+
+OgreBotAPI.Session:Res[fw]
+  kind: method of OgreBotAPI.Session
+  what: Lets the cast stack cast res abilities again by unchecking Disable CS_Res. It is silent, and it turns ressing on even if you turned it off by hand.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Session:Res[igw:${Me.Name}]
+  oldbot: OgreBotAPI:Res
+
+OgreBotAPI.Session:ResStone[fw]
+  kind: method of OgreBotAPI.Session
+  what: Queues this class's res stone spell when it is ready: Divine Awakening for a cleric, Spirit Guide for a shaman, Favor of the Phoenix for a druid, Channel Soul for a channeler. Any other class does nothing, so it is safe to send to the whole group.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Session:ResStone[igw:${Me.Name}]
+  oldbot: OgreBotAPI:ResStone
+
+OgreBotAPI.Session:Revive[fw, option=0, exact=FALSE]
+  kind: method of OgreBotAPI.Session
+  what: With option 0, presses Revive on the death window when you are dead (a living character clicks nothing); with a row number or revive point name, picks that point and presses Revive half a second later, or the last revive point the window lists when none matches, saying on the console which points there are. A dead character that revives this way has its camp spot cleared, because it comes back away from where it fell.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg option (string, default: 0): 0 for the death window's default revive, or a revive point row number or name, matched as ${OgreBotAPI.Session.ReviveLocation} matches it; when nothing matches, the last revive point the window lists is used (no revive only when it lists none)
+  arg exact (bool, default: FALSE): TRUE: a name must match in full; FALSE: it may be part of the revive point's name
+  example: OgreBotAPI.Session:Revive[igw:${Me.Name},Entrance]
+  oldbot: OgreBotAPI:Revive, Revive, call Obj_OgreUtilities.Revive
+
+OgreBotAPI.Session:StopRes[fw]
+  kind: method of OgreBotAPI.Session
+  what: Stops the cast stack casting res abilities by checking Disable CS_Res. It is silent; :Res turns ressing back on.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Session:StopRes[igw:${Me.Name}]
+  oldbot: OgreBotAPI:StopRes
+
+
+== OgreBotAPI.TempAdorns ==
+
+${OgreBotAPI.TempAdorns.IsOpen}
+  kind: member of OgreBotAPI.TempAdorns
+  what: Returns whether the Temp Adornments window is open on this session.
+  returns: bool: TRUE when the Temp Adornments window is open; FALSE when it is not.
+  example: echo ${OgreBotAPI.TempAdorns.IsOpen}
+
+${OgreBotAPI.TempAdorns.Profiles}
+  kind: member of OgreBotAPI.TempAdorns
+  what: Returns how many temporary-adornment profiles are saved - one profile file is shared by every character on this PC. The first read loads that file and, when there is none yet, creates it with the default profiles CBOC, Pot and HP plus any profiles saved by the classic Temp Adorns window.
+  returns: int: the number of saved profiles; 0 when there are none or the profile file could not be read.
+  example: echo ${OgreBotAPI.TempAdorns.Profiles}
+
+OgreBotAPI.TempAdorns:Apply[fw, profile]
+  kind: method of OgreBotAPI.TempAdorns
+  what: Queues putting a profile's temporary adornments on your gear: each listed piece gets its adornment from your bags, even a piece that already has it with time left; it skips only pieces with nothing equipped and adornments you do not carry. A blank or unknown profile name, or not being in the world, prints one console line and queues nothing.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg profile (string): the saved profile to apply, any case (CBOC, Pot and HP exist by default); a two-handed primary row in it is used for Primary when your primary weapon is a two-hander
+  example: OgreBotAPI.TempAdorns:Apply[igw:${Me.Name},CBOC]
+  oldbot: OgreBotAPI:ApplyTempAdorn, OgreBotAPI:PoP_TempAdorns
+
+OgreBotAPI.TempAdorns:Close[fw]
+  kind: method of OgreBotAPI.TempAdorns
+  what: Closes the Temp Adornments window. Nothing happens when it is not open.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.TempAdorns:Close[${Me.Name}]
+
+OgreBotAPI.TempAdorns:List[fw]
+  kind: method of OgreBotAPI.TempAdorns
+  what: Prints every saved temporary-adornment profile to the console, one line each with its gear pieces and their adornments. Says so when there are no profiles.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.TempAdorns:List[${Me.Name}]
+
+OgreBotAPI.TempAdorns:Open[fw]
+  kind: method of OgreBotAPI.TempAdorns
+  what: Opens the Temp Adornments window, where profiles are built, saved, deleted and applied. Works at character select too, and does nothing when the window is already open.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.TempAdorns:Open[${Me.Name}]
+
+
+== OgreBotAPI.Travel ==
+
+${OgreBotAPI.Travel.ZoneDoorValue[option]}
+  kind: member of OgreBotAPI.Travel
+  what: Reads the row that ZoneDoor would pick for an option in the zone-door destination window that is open now, without clicking anything. It reads the window only when it is open and answers 0 otherwise.
+  arg option (string): A row number, a destination name (the whole name in any case, with or without its instance number), or LAST_ENTRY for the last listed row.
+  returns: int: the 1-based row of that destination in the open window; 0 when no window is open, the option is empty, no row matches, or a row number is past the end of the list.
+  example: echo ${OgreBotAPI.Travel.ZoneDoorValue[LAST_ENTRY]}
+  oldbot: OgreBotAPI.Travel_Get_ZoneDoorValue
+
+OgreBotAPI.Travel:Bell[fw, toWhere, exact=FALSE, mzo=LAST_ENTRY]
+  kind: method of OgreBotAPI.Travel
+  what: Double-clicks a bell within reach (15 units unless the travel data says otherwise), picks toWhere on its map, clicks the zone button, answers the window that follows and closes the map. It runs in the background, replaces any travel in progress, and gives up with a console line when no bell is in reach or the destination is still missing after a second look.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg toWhere (string): The destination button to pick, matched case-insensitively against the map's button labels as part of a label; the first match wins. When it is not found the console line lists every destination the bell offers.
+  arg exact (bool, default: FALSE): TRUE to match the whole label (still any case) instead of part of it.
+  arg mzo (string, default: LAST_ENTRY): When a zone-door destination window follows the zone button, the row to pick there: a row number, a destination name, or LAST_ENTRY for the last row. When a zone's sub-map follows instead, the last location on it is picked.
+  example: OgreBotAPI.Travel:Bell[${Me.Name},"Antonica"]
+  oldbot: OgreBotAPI:TravelBell
+
+OgreBotAPI.Travel:Druid[fw, toWhere, exact=FALSE, mzo=LAST_ENTRY]
+  kind: method of OgreBotAPI.Travel
+  what: Double-clicks a druid ring within reach, or in a guild hall talks to the guild hall druid, if there is one, and uses the ring that conversation brings up, then picks toWhere on its map, clicks the zone button and closes the map. It runs in the background, replaces any travel in progress, and gives up with a console line when nothing opens or the destination is still missing after a second look.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg toWhere (string): The destination button to pick, matched case-insensitively against the map's button labels as part of a label; the first match wins. When it is not found the console line lists every destination the ring offers.
+  arg exact (bool, default: FALSE): TRUE to match the whole label (still any case) instead of part of it.
+  arg mzo (string, default: LAST_ENTRY): When a zone-door destination window follows the zone button, the row to pick there: a row number, a destination name, or LAST_ENTRY for the last row. When a zone's sub-map follows instead, the last location on it is picked.
+  example: OgreBotAPI.Travel:Druid[${Me.Name},"Steamfont"]
+  oldbot: OgreBotAPI:TravelDruid
+
+OgreBotAPI.Travel:Fast[fw, toWhere, flag...]
+  kind: method of OgreBotAPI.Travel
+  what: Opens the game's fast travel map, picks toWhere, clicks the zone button, answers the window that follows and closes the map. It runs in the background, replaces any travel in progress, and gives up with a console line when the map does not open or the destination is still missing after a second look.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg toWhere (string): The destination button to pick, matched case-insensitively as part of a label unless -em is given; the first match wins. When it is not found the console line lists every destination the map offers.
+  arg flag... (string): Optional switches in any order. -em (or -exactmatch) matches the whole label. -mto <option> picks that number of sub-map location, counting from 1, the one whose description contains that text, Random, or Last; without it the last location is picked. -loc <x,y,z> (or -mtl) picks the sub-map location nearest that point. -mzo <option> picks the zone-door row: a number, a name, or LAST_ENTRY (the default). -report echoes the sub-map's locations instead of picking one. Unknown words are ignored.
+  example: OgreBotAPI.Travel:Fast[${Me.Name},"Antonica",-mto,Random]
+  oldbot: OgreBotAPI:FastTravel, call Obj_OgreUtilities.FastTravel, Obj_OgreUtilities.Obj_Travel
+
+OgreBotAPI.Travel:Mesh[fw, zone, poi=""]
+  kind: method of OgreBotAPI.Travel
+  what: Plans a route from this zone to zone across the travel network (zone doors, bells, spires, druid rings, the travel map, guild hall amenities and travel items such as call-to-home), echoes its hops, then walks and travels it hop by hop. A trip asked for while zoning starts once the zone settles, a new route replaces the one in progress only when it can be planned, and the route ends when OgreBot ends; a bot you paused stays paused on arrival.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg zone (string): The destination zone: its display name in any case, or its travel-data id. An empty zone echoes "no destination zone given", and an unknown one echoes a "did you mean" list.
+  arg poi (string, default: ""): A named point inside the destination zone to walk to at the end. A point the zone does not declare gets a console line and the route still goes to the zone.
+  example: OgreBotAPI.Travel:Mesh[${Me.Name},"Antonica"]
+  oldbot: OgreBotAPI:TravelMesh
+
+OgreBotAPI.Travel:MeshFeatures[fw, flag="", on=""]
+  kind: method of OgreBotAPI.Travel
+  what: With no flag, echoes the account travel features the route planner knows for this character (the Friends and Family unlocks) and starts a scan for any still unanswered. With a flag and a yes or no, saves your answer for this character, which the planner then trusts and never scans again; a flag with no answer prints an error and saves nothing.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg flag (string, default: ""): The feature id to set: sod_friends_and_family or roc_friends_and_family, in any case. Empty lists every feature instead of setting one; an id that is not one of those prints a line naming them and saves nothing.
+  arg on (bool): TRUE when the character holds the feature, FALSE when it does not. Needed with a flag; a word that is not a yes or no word leaves the feature as it is.
+  example: OgreBotAPI.Travel:MeshFeatures[${Me.Name},sod_friends_and_family,TRUE]
+  oldbot: OgreBotAPI:TravelMeshFeatures
+
+OgreBotAPI.Travel:MeshGroup[fw, zone, poi=""]
+  kind: method of OgreBotAPI.Travel
+  what: Starts the same route as Mesh on this character, then sends it to the rest of the group as a console command, and each member plans its own route from where it stands, staggered so the group does not move as one. Addressed to more than one character each plans its own route and nothing is sent, and when this character cannot plan the route nothing is sent.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg zone (string): The destination zone: its display name in any case, or its travel-data id. An empty zone echoes "no destination zone given", and an unknown one echoes a "did you mean" list.
+  arg poi (string, default: ""): A named point inside the destination zone to walk to at the end, sent to every member. A point the zone does not declare gets a console line and the route still goes to the zone.
+  example: OgreBotAPI.Travel:MeshGroup[${Me.Name},"The Commonlands"]
+  oldbot: Obj_OgreIH.Obj_OgreTravelMesh, OgreBotAPI:TravelMeshGroup
+
+OgreBotAPI.Travel:MeshPreview[fw, zone]
+  kind: method of OgreBotAPI.Travel
+  what: Plans the route from here to zone and echoes it, a summary line with the hop count and rough time and then one line per hop, without moving. When there is no route it echoes why, and the first use loads the travel data, which can take a moment.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg zone (string): The destination zone: its display name in any case, or its travel-data id. An unknown one echoes a "did you mean" list.
+  example: OgreBotAPI.Travel:MeshPreview[${Me.Name},"Antonica"]
+  oldbot: OgreBotAPI:TravelMeshPreview
+
+OgreBotAPI.Travel:MeshStop[fw]
+  kind: method of OgreBotAPI.Travel
+  what: Stops the route in progress, and a trip still waiting for its zone to settle, whoever started it. It echoes "travel: gave up (stopped by request)" when a route was running and is silent otherwise.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Travel:MeshStop[all]
+  oldbot: OgreBotAPI:TravelMeshStop
+
+OgreBotAPI.Travel:SpewZoneDoorOptions[fw]
+  kind: method of OgreBotAPI.Travel
+  what: Echoes every destination in the open zone-door destination window as "[#n] name", numbered by row so the number works with ZoneDoor and ZoneDoorValue. With no window open it says so and reads nothing.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Travel:SpewZoneDoorOptions[${Me.Name}]
+  oldbot: OgreBotAPI:SpewZoneDoorOptions
+
+OgreBotAPI.Travel:Spires[fw, toWhere, exact=FALSE, mzo=LAST_ENTRY]
+  kind: method of OgreBotAPI.Travel
+  what: Double-clicks a wizard spire within reach, picks toWhere on its map, clicks the zone button, answers the window that follows and closes the map. It runs in the background, replaces any travel in progress, and gives up with a console line when no spire is in reach or the destination is still missing after a second look.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg toWhere (string): The destination button to pick, matched case-insensitively against the map's button labels as part of a label; the first match wins. When it is not found the console line lists every destination the spire offers.
+  arg exact (bool, default: FALSE): TRUE to match the whole label (still any case) instead of part of it.
+  arg mzo (string, default: LAST_ENTRY): When a zone-door destination window follows the zone button, the row to pick there: a row number, a destination name, or LAST_ENTRY for the last row. When a zone's sub-map follows instead, the last location on it is picked.
+  example: OgreBotAPI.Travel:Spires[${Me.Name},"The Commonlands"]
+  oldbot: OgreBotAPI:TravelSpires
+
+OgreBotAPI.Travel:ToGuildHall[fw]
+  kind: method of OgreBotAPI.Travel
+  what: Double-clicks the nearest actor within 15 units whose name contains "Magic Door to the Guild Hall", the city door that takes you to your guild hall. With no such door in reach it prints one line.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Travel:ToGuildHall[${Me.Name}]
+  oldbot: OgreBotAPI:PortalToGuildHall
+
+OgreBotAPI.Travel:Travel[fw, toWhere, exact=FALSE, mzo=LAST_ENTRY]
+  kind: method of OgreBotAPI.Travel
+  what: Picks toWhere on a travel map that is already open, clicks the zone button, answers the window that follows and closes the map, so open the map first (a griffon station's map, for example). It runs in the background, replaces any travel in progress, and gives up with a console line when no map is up within 5 seconds or the destination is still missing after a second look.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg toWhere (string): The destination button to pick, matched case-insensitively against the map's button labels as part of a label; the first match wins. When it is not found the console line lists every destination the map offers.
+  arg exact (bool, default: FALSE): TRUE to match the whole label (still any case) instead of part of it.
+  arg mzo (string, default: LAST_ENTRY): When a zone-door destination window follows the zone button, the row to pick there: a row number, a destination name, or LAST_ENTRY for the last row. When a zone's sub-map follows instead, the last location on it is picked.
+  example: OgreBotAPI.Travel:Travel[${Me.Name},"The Commonlands"]
+  oldbot: OgreBotAPI:Travel
+
+OgreBotAPI.Travel:ZoneDoor[door=1]
+  kind: method of OgreBotAPI.Travel
+  what: Picks a destination in the zone-door destination window that is already open and confirms it half a second later. It takes no for-who and runs on the session that calls it, and with no window open, or a destination not in the list, it does nothing and echoes why (listing what the window offers).
+  arg door (string, default: 1): A row number, a destination name (the whole name in any case, with or without its instance number), or LAST_ENTRY for the last row. SpewZoneDoorOptions shows the rows.
+  example: OgreBotAPI.Travel:ZoneDoor[LAST_ENTRY]
+  oldbot: OgreBotAPI:ZoneDoor
+
+OgreBotAPI.Travel:ZoneDoorFor[fw, door=1]
+  kind: method of OgreBotAPI.Travel
+  what: The for-who form of ZoneDoor: picks door in the zone-door destination window that is already open and confirms it half a second later. With no window open, or a destination not in the list, it does nothing and echoes why (listing what the window offers).
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg door (string, default: 1): A row number, a destination name (the whole name in any case, with or without its instance number), or LAST_ENTRY for the last row. SpewZoneDoorOptions shows the rows.
+  example: OgreBotAPI.Travel:ZoneDoorFor[igw:${Me.Name},LAST_ENTRY]
+  oldbot: OgreBotAPI:ZoneDoorForWho, call Obj_OgreUtilities.HandleZoneDoor
+
+
+== OgreBotAPI.Util ==
+
+${OgreBotAPI.Util.Between[v,lo,hi]}
+  kind: member of OgreBotAPI.Util
+  what: TRUE when v is from lo to hi with both ends included, compared as whole numbers, so decimals are cut off before comparing. If lo is greater than hi the answer is always FALSE.
+  arg v (int64, default: 0): The number to test.
+  arg lo (int64, default: 0): The lowest allowed value, included.
+  arg hi (int64, default: 0): The highest allowed value, included.
+  returns: bool: TRUE when lo <= v <= hi; FALSE otherwise.
+  example: echo ${OgreBotAPI.Util.Between[${Me.Level},50,60]}
+  oldbot: OgreBotAPI.Between
+
+${OgreBotAPI.Util.BetweenFloat[v,lo,hi]}
+  kind: member of OgreBotAPI.Util
+  what: TRUE when v is from lo to hi with both ends included, compared as decimal numbers. If lo is greater than hi the answer is always FALSE.
+  arg v (float, default: 0): The number to test.
+  arg lo (float, default: 0): The lowest allowed value, included.
+  arg hi (float, default: 0): The highest allowed value, included.
+  returns: bool: TRUE when lo <= v <= hi; FALSE otherwise.
+  example: echo ${OgreBotAPI.Util.BetweenFloat[${Target.Distance},0,7.5]}
+  oldbot: OgreBotAPI.BetweenFloat
+
+${OgreBotAPI.Util.Clean[s]}
+  kind: member of OgreBotAPI.Util
+  what: Tidies a name: when it has a dot, only the part after the last dot is kept, otherwise the brackets ( and ) are removed. A name starting with Skyshrine Infiltrator or Skyshrine Guardian comes back as Skyshrine_Infiltrator or Skyshrine_Guardian.
+  arg s (string): The name to tidy, usually an actor or effect name.
+  returns: string: the tidied name.
+  example: echo ${OgreBotAPI.Util.Clean[${Target.Name}]}
+  oldbot: Obj_OgreUtilities.CleanName, OgreBotAPI.CleanNameWithSpaces, GetInfoOb.Clean
+
+${OgreBotAPI.Util.FileExists[path]}
+  kind: member of OgreBotAPI.Util
+  what: TRUE when the file exists, also trying it with .iss added; a path without a colon is looked up under the Inner Space Scripts folder. A folder is not a file, and an empty path returns FALSE.
+  arg path (string): A full path, or a path relative to the Scripts folder such as EQ2OgreBot/OgreBot. The .iss ending may be left off.
+  returns: bool: TRUE when the file exists, as given or with .iss added; FALSE otherwise.
+  example: echo ${OgreBotAPI.Util.FileExists["EQ2OgreBot/OgreBot"]}
+  oldbot: OgreBotAPI.FileExists
+
+${OgreBotAPI.Util.Hours[n]}
+  kind: member of OgreBotAPI.Util
+  what: Returns the hours part of a number of seconds, wrapped at 24 so whole days are dropped. 90000 seconds (25 hours) gives 1.
+  arg n (int64, default: 0): The number of seconds.
+  returns: int64: the hours, 0 to 23.
+  example: echo ${OgreBotAPI.Util.Hours[7500]}
+  oldbot: Obj_OgreUtilities.Get_Hours, OgreBotAPI.Get_Hours
+
+${OgreBotAPI.Util.IEquals[a,b]}
+  kind: member of OgreBotAPI.Util
+  what: TRUE when the two texts are the same, ignoring upper and lower case. Two empty texts count as equal.
+  arg a (string): The first text.
+  arg b (string): The second text.
+  returns: bool: TRUE when a and b match ignoring case; FALSE otherwise.
+  example: echo ${OgreBotAPI.Util.IEquals[${Target.Name},${Me.Name}]}
+  oldbot: OgreBotAPI.PE_ThisMember
+
+${OgreBotAPI.Util.MD5[s]}
+  kind: member of OgreBotAPI.Util
+  what: Returns the MD5 hash of the text as 32 lowercase hex characters. With no argument it hashes empty text.
+  arg s (string): The text to hash, exactly as given.
+  returns: string: the 32-character lowercase hex MD5 of the text.
+  example: echo ${OgreBotAPI.Util.MD5["hello"]}
+  oldbot: ISXOgre.MD5, OgreBotAPI.MD5
+
+${OgreBotAPI.Util.Minutes[n]}
+  kind: member of OgreBotAPI.Util
+  what: Returns the minutes part of a number of seconds, 0 to 59. 7500 seconds gives 5.
+  arg n (int64, default: 0): The number of seconds.
+  returns: int64: the minutes, 0 to 59.
+  example: echo ${OgreBotAPI.Util.Minutes[7500]}
+  oldbot: Obj_OgreUtilities.Get_Minutes, OgreBotAPI.Get_Minutes
+
+${OgreBotAPI.Util.RomanToInt[s]}
+  kind: member of OgreBotAPI.Util
+  what: Reads a Roman numeral made of I, V, X and L (upper or lower case) and returns its value, so XLIV gives 44. Any other character, including C, D, M or a space, makes the whole answer 0.
+  arg s (string): The Roman numeral, for example XLIV. Only I, V, X and L are understood.
+  returns: int: the value of the numeral; 0 when the text is empty or has any other character.
+  example: echo ${OgreBotAPI.Util.RomanToInt[XLIV]}
+  oldbot: OgreBotAPI.RomanToInt
+
+${OgreBotAPI.Util.RoundToNearest[value,step,incBy]}
+  kind: member of OgreBotAPI.Util
+  what: Rounds a whole number to the nearest multiple of step, then adds incBy; an exact half rounds up, so 45 with step 10 gives 50 and 44 gives 40. 0 and negative values are rounded the same way, and a step below 1 is used as 1.
+  arg value (int, default: 0): The number to round. Decimals are cut off; 0 and negatives are kept.
+  arg step (int, default: 1): Round to a multiple of this, for example 10. Anything below 1 is used as 1.
+  arg incBy (int, default: 0): Added to the rounded result.
+  returns: int: the rounded value plus incBy.
+  example: echo ${OgreBotAPI.Util.RoundToNearest[${Me.Level},10,0]}
+  oldbot: OgreBotAPI.RoundNumToNearestValue
+
+${OgreBotAPI.Util.Seconds[n]}
+  kind: member of OgreBotAPI.Util
+  what: Returns the seconds part of a number of seconds, 0 to 59. 7530 seconds gives 30.
+  arg n (int64, default: 0): The number of seconds.
+  returns: int64: the seconds, 0 to 59.
+  example: echo ${OgreBotAPI.Util.Seconds[7530]}
+  oldbot: Obj_OgreUtilities.Get_Seconds, OgreBotAPI.Get_Seconds
+
+${OgreBotAPI.Util.SecondsToHMS[n]}
+  kind: member of OgreBotAPI.Util
+  what: Formats a number of seconds as timer text in days, hours, minutes and seconds, like "1d 2h 5m 30s". A part that is 0 is left out, so 300 gives "5m" and 45 gives "45s".
+  arg n (int64, default: 0): The number of seconds to format.
+  returns: string: the time, for example "2h 5m"; "0s" for 0 or less.
+  example: echo ${OgreBotAPI.Util.SecondsToHMS[7500]}
+  oldbot: Obj_OgreUtilities.ConvertSecondsToHMS, OgreBotAPI.ConvertSecondsToHMS
+
+${OgreBotAPI.Util.SlotArrayToSlot[n]}
+  kind: member of OgreBotAPI.Util
+  what: Returns n plus 1, turning a 0-based equipment slot position (the item Slot member) into a 1-based slot number. Nothing is looked up or checked.
+  arg n (int, default: 0): The 0-based slot position.
+  returns: int: n + 1.
+  example: echo ${OgreBotAPI.Util.SlotArrayToSlot[0]}
+  oldbot: OgreBotAPI.ConvertSlotArrayToSlot
+
+${OgreBotAPI.Util.StripColourCodes[s]}
+  kind: member of OgreBotAPI.Util
+  what: Removes one colour code from the start of the text (#RRGGBB, or \#RRGGBB in its escaped form) and returns the rest; colour codes later in the text are left alone. With no argument it uses the current zone name, which is empty when you are not in the world.
+  arg s (string): The text to strip. Leave it out to use ${Zone.Name}.
+  returns: string: the text without its leading colour code; unchanged when it does not start with one.
+  example: echo ${OgreBotAPI.Util.StripColourCodes[${Zone.Name}]}
+  oldbot: OgreBotAPI.RemoveColourCode
+
+${OgreBotAPI.Util.StripZoneNumber[s]}
+  kind: member of OgreBotAPI.Util
+  what: Returns the text with a leading #RRGGBB colour code, every #00FF00 and /c colour token, and any trailing spaces and digits removed, so "Antonica 2" gives Antonica. With no argument it uses the current zone name, which is empty when you are not in the world.
+  arg s (string, default: ${Zone.Name}): The zone name to clean. Leave it out to use ${Zone.Name}.
+  returns: string: the zone name without colour codes or its trailing number.
+  example: echo ${OgreBotAPI.Util.StripZoneNumber[${Zone.Name}]}
+  oldbot: GetInfoOb.RemoveZoneNumber, OgreBotAPI.RemoveZoneNumber
+
+${OgreBotAPI.Util.StripZoneNumberOnly[s]}
+  kind: member of OgreBotAPI.Util
+  what: Returns the text with any trailing spaces and digits removed, so "Antonica 2" gives Antonica, and leaves colour codes in place. With no argument it uses the current zone name, which is empty when you are not in the world.
+  arg s (string, default: ${Zone.Name}): The zone name to clean. Leave it out to use ${Zone.Name}. The first character is always kept.
+  returns: string: the text without its trailing spaces and digits.
+  example: echo ${OgreBotAPI.Util.StripZoneNumberOnly[${Zone.Name}]}
+  oldbot: Obj_OgreUtilities.RemoveZoneNumber, OgreBotAPI.RemoveZoneNumberOnly
+
+${OgreBotAPI.Util.ToFloat[s]}
+  kind: member of OgreBotAPI.Util
+  what: Turns text into a decimal number, dropping commas first; text that does not start with a number gives 0. Quote a value that has commas in it, or the comma splits it into a second argument.
+  arg s (string): The text to read, for example "1,234.5".
+  returns: float: the number read from the text; 0 when it does not start with a number.
+  example: echo ${OgreBotAPI.Util.ToFloat["1,234.5"]}
+  oldbot: OgreBotAPI.To_Float
+
+${OgreBotAPI.Util.ToInt[s]}
+  kind: member of OgreBotAPI.Util
+  what: Turns text into a whole number, dropping commas first; reading stops at the first character that is not a digit, and text that does not start with a number gives 0. Quote a value that has commas in it, or the comma splits it into a second argument.
+  arg s (string): The text to read, for example "1,234,567". Leading spaces and a + or - sign are allowed.
+  returns: int64: the number read from the text; 0 when it does not start with a number.
+  example: echo ${OgreBotAPI.Util.ToInt["1,234,567"]}
+  oldbot: OgreBotAPI.To_Int, SpellOb.ConvertToInt64
+
+${OgreBotAPI.Util.ToNumber[s]}
+  kind: member of OgreBotAPI.Util
+  what: Returns the text with every comma and percent sign removed, so "1,234%" comes back as 1234. It does not check that what is left is a number.
+  arg s (string): The text to clean, for example "1,234%". Quote it when it has commas.
+  returns: string: the text without commas or percent signs.
+  example: echo ${OgreBotAPI.Util.ToNumber["1,234%"]}
+  oldbot: OgreBotAPI.To_Number
+
+OgreBotAPI.Util:CheckResearch[fw, forceReport=FALSE]
+  kind: method of OgreBotAPI.Util
+  what: Queues a look at the research (Knowledge) window, opening it first when it is not up, and echoes "Research: <name> --> <progress>." to the console. Without forceReport it echoes only when the research reads Complete.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg forceReport (bool, default: FALSE): TRUE echoes the progress whatever it says; FALSE echoes only when it is Complete.
+  example: OgreBotAPI.Util:CheckResearch[igw:${Me.Name},TRUE]
+  oldbot: OgreBotAPI:CheckResearch
+
+OgreBotAPI.Util:CheckResearchMaterials[fw]
+  kind: method of OgreBotAPI.Util
+  what: Queues a pass over every Advancement, Companion, Mount, Tradeskill, Upgrade and General Research Material in your bags: each is examined and the first choice in the window it opens is picked, or the windows are closed with a console line when it has no eligible research. With none in the bags it echoes that and does nothing.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Util:CheckResearchMaterials[${Me.Name}]
+  oldbot: OgreBotAPI:Research_Material_Check
+
+OgreBotAPI.Util:DelayedAction[fw, delay, command...]
+  kind: method of OgreBotAPI.Util
+  what: Runs a console command after a delay on each character the for-who picks at the time of the call; the timer is dropped if that character zones before it fires. Give the command as one quoted argument (escape any comma inside it), and note that a bare number for the delay is milliseconds.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg delay (string): How long to wait: a bare whole number is milliseconds, or add a unit - 500ms, 10s, 1.5s, 2m, 1h. Anything else (30x, "30 s", -5) echoes an error and nothing is armed.
+  arg command... (string): The command to run, quoted as one argument, for example "eq2execute sit". If it arrives in several pieces they are joined back with commas and a warning is echoed; an empty command echoes an error and nothing is armed.
+  example: OgreBotAPI.Util:DelayedAction[igw:${Me.Name},10s,"eq2execute sit"]
+
+OgreBotAPI.Util:OnScreenTimer[fw, time=30, slot=1, message="Timer:", minUpdate=1]
+  kind: method of OgreBotAPI.Util
+  what: Shows a message with a live countdown in one of the ten on-screen timer slots, opening the on-screen display if it is closed; the line is removed 5 seconds after the countdown ends. A slot below 1 uses slot 1 and one above 10 uses slot 10, and a slot that was set less than minUpdate seconds ago silently keeps its old timer.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg time (float, default: 30): Seconds to count down from. Decimals are cut off.
+  arg slot (int, default: 1): Which timer line to use, 1 to 10. A number outside is moved to the nearest of them.
+  arg message (string, default: "Timer:"): The text shown before the countdown. Empty uses "Timer:".
+  arg minUpdate (int, default: 1): Seconds after this call during which a new timer for the same slot is refused. 0 allows an immediate replacement.
+  example: OgreBotAPI.Util:OnScreenTimer[igw:${Me.Name},45,2,"Adds in:",1]
+  oldbot: OgreBotAPI:OnScreenTimer
+
+OgreBotAPI.Util:OnScreenTimerReset[fw, slot=1]
+  kind: method of OgreBotAPI.Util
+  what: Clears one on-screen timer slot; the line disappears within a second. It does not lift the minUpdate hold of the timer it clears, so a new timer for that slot inside that time is still refused.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg slot (int, default: 1): Which timer line to clear, 1 to 10. A number outside is moved to the nearest of them.
+  example: OgreBotAPI.Util:OnScreenTimerReset[igw:${Me.Name},2]
+  oldbot: OgreBotAPI:OnScreenTimerReset
+
+
+== OgreBotAPI.Vars ==
+
+${OgreBotAPI.Vars.Bool[name]}
+  kind: member of OgreBotAPI.Vars
+  what: Reads the script variable name as a yes/no: TRUE only when its whole value is 1, true, yes or on in any case. A missing variable, an empty value or any other text (2, enabled, a value with spaces around it) reads FALSE.
+  arg name (string): The variable name, case-sensitive.
+  returns: bool: TRUE when the stored value is a yes word; FALSE otherwise, including when the variable is missing.
+  example: echo ${OgreBotAPI.Vars.Bool[UseCampSpot]}
+  oldbot: OgreBotAPI.Get_Variable_Bool
+
+${OgreBotAPI.Vars.Exists[name]}
+  kind: member of OgreBotAPI.Vars
+  what: TRUE when a variable called name is in this session's script variable store, even if its value is empty. Use it to tell a missing variable from an empty one, since Get returns an empty string for both.
+  arg name (string): The variable name, case-sensitive.
+  returns: bool: TRUE when the variable is stored; FALSE when it is missing or name is blank.
+  example: echo ${OgreBotAPI.Vars.Exists[PullCount]}
+  oldbot: OgreBotAPI.Get_VariableExists
+
+${OgreBotAPI.Vars.Get[name]}
+  kind: member of OgreBotAPI.Vars
+  what: The value stored under name in this session's script variable store (set with OgreBotAPI.Vars:Set), or an empty string when there is no such variable. Names ignore case, and the store lives in memory on this session only: it is not shared with other characters, not saved, and lasts until it is cleared or the extension is unloaded.
+  arg name (string): The variable name; case does not matter.
+  returns: string: the stored value; empty when the variable is missing or was set to an empty value.
+  example: echo ${OgreBotAPI.Vars.Get[PullCount]}
+  oldbot: OgreBotAPI.Get_Variable, OgreBotAPI.Variables
+
+${OgreBotAPI.Vars.GetInternal[name]}
+  kind: member of OgreBotAPI.Vars
+  what: The value stored under name in the internal variable store (set with OgreBotAPI.Vars:SetInternal), or an empty string when there is no such variable. It is a separate store from Get and Set but lives the same way: in memory on this session only, not shared, not saved; names ignore case.
+  arg name (string): The internal variable name; case does not matter.
+  returns: string: the stored value; empty when the variable is missing or was set to an empty value.
+  example: echo ${OgreBotAPI.Vars.GetInternal[LastZone]}
+  oldbot: OgreBotAPI.Get_InternalVariable, OgreBotAPI.InternalVariables
+
+${OgreBotAPI.Vars.InternalExists[name]}
+  kind: member of OgreBotAPI.Vars
+  what: TRUE when a variable called name is in this session's internal variable store, even if its value is empty. It only looks at the internal store, not the one Get and Set use.
+  arg name (string): The internal variable name, case-sensitive.
+  returns: bool: TRUE when the internal variable is stored; FALSE when it is missing or name is blank.
+  example: echo ${OgreBotAPI.Vars.InternalExists[LastZone]}
+  oldbot: OgreBotAPI.Get_InternalVariableExists
+
+OgreBotAPI.Vars:Clear[fw, name]
+  kind: method of OgreBotAPI.Vars
+  what: Removes the variable name from the script variable store on each matching character, so Exists then reads FALSE and Get an empty string. Nothing happens when name is blank or the variable is missing.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg name (string): The variable name to remove, case-sensitive.
+  example: OgreBotAPI.Vars:Clear[${Me.Name},PullCount]
+  oldbot: OgreBotAPI:Clear_Variable
+
+OgreBotAPI.Vars:ClearAll[fw]
+  kind: method of OgreBotAPI.Vars
+  what: Removes every variable from the script variable store on each matching character. The internal store is not touched (use ClearAllInternal).
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Vars:ClearAll[igw:${Me.Name}]
+  oldbot: OgreBotAPI:Clear_Variables
+
+OgreBotAPI.Vars:ClearAllInternal[fw]
+  kind: method of OgreBotAPI.Vars
+  what: Removes every variable from the internal variable store on each matching character. The store Get and Set use is not touched.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Vars:ClearAllInternal[igw:${Me.Name}]
+  oldbot: OgreBotAPI:Clear_InternalVariables
+
+OgreBotAPI.Vars:ClearInternal[fw, name]
+  kind: method of OgreBotAPI.Vars
+  what: Removes the variable name from the internal variable store on each matching character, so InternalExists then reads FALSE. Nothing happens when name is blank or the variable is missing.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg name (string): The internal variable name to remove, case-sensitive.
+  example: OgreBotAPI.Vars:ClearInternal[${Me.Name},LastZone]
+  oldbot: OgreBotAPI:Clear_InternalVariable
+
+OgreBotAPI.Vars:Set[fw, name, value]
+  kind: method of OgreBotAPI.Vars
+  what: Stores value under name in the script variable store on each matching character, replacing any earlier value; a blank value is stored as an empty string. Nothing happens when name is blank, and a successful set prints nothing.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg name (string): The variable name; case does not matter. Blank does nothing.
+  arg value (string): The text to store. Blank stores an empty value.
+  example: OgreBotAPI.Vars:Set[igw:${Me.Name},PullCount,3]
+  oldbot: OgreBotAPI:Set_Variable
+
+OgreBotAPI.Vars:SetInternal[fw, name, value]
+  kind: method of OgreBotAPI.Vars
+  what: Stores value under name in the internal variable store on each matching character, replacing any earlier value. Nothing happens when name is blank, and the store Get and Set use is not touched.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg name (string): The internal variable name; case does not matter. Blank does nothing.
+  arg value (string): The text to store. Blank stores an empty value.
+  example: OgreBotAPI.Vars:SetInternal[${Me.Name},LastZone,antonica]
+  oldbot: OgreBotAPI:Set_InternalVariable
+
+
+== OgreBotAPI.Windows ==
+
+${OgreBotAPI.Windows.CastingWindowVisible}
+  kind: member of OgreBotAPI.Windows
+  what: Whether the game's casting bar is on screen. Always FALSE while you are not in the world.
+  returns: bool: TRUE when the casting bar is visible; FALSE when it is hidden or you are not in the world.
+  example: echo ${OgreBotAPI.Windows.CastingWindowVisible}
+  oldbot: OgreBotAPI.IsCastingWindowVisible
+
+${OgreBotAPI.Windows.ReplyExists[text]}
+  kind: member of OgreBotAPI.Windows
+  what: Which reply of the open reply dialog (the window a clicked item or object opens) contains the text, in any case. It answers a number, not TRUE/FALSE, so test it with > 0; it does not look at the NPC conversation window.
+  arg text (string): Text to look for inside each reply. Matches anywhere in the reply, any case.
+  returns: int: the 1-based number of the first reply that contains the text; 0 when no reply dialog is open, nothing matches, or the text is empty.
+  example: echo ${OgreBotAPI.Windows.ReplyExists[Yes]}
+  oldbot: OgreBotAPI.ReplyDialog_ReplyExists
+
+${OgreBotAPI.Windows.RewardID[num|name,windowId]}
+  kind: member of OgreBotAPI.Windows
+  what: The number of one reward on a reward window, picked by number or by item name the same way AcceptReward picks it. A number past the window's reward count, a name that matches no row, an empty selection, or no reward window all answer 0.
+  arg num|name (number or text): The reward to pick: its number on the window (1 = the first), or its item name (trimmed, any case, first match). Empty or 0 picks nothing.
+  arg windowId (int, default: 0): The reward window id to read. Empty or 0 = the active reward window (the oldest one the bot saw open that is still up).
+  returns: int: the 1-based reward number; 0 when there is no reward window or nothing matches.
+  example: echo ${OgreBotAPI.Windows.RewardID[2,0]}
+  oldbot: OgreBotAPI.Get_RewardID
+
+${OgreBotAPI.Windows.RewardLinkID[num|name,windowId]}
+  kind: member of OgreBotAPI.Windows
+  what: The LinkID of one reward on a reward window, picked by number or by item name the same way AcceptReward picks it. Empty when there is no reward window, nothing matches, or the game has no LinkID for that row.
+  arg num|name (number or text): The reward to pick: its number on the window (1 = the first), or its item name (trimmed, any case, first match). Empty or 0 picks nothing.
+  arg windowId (int, default: 0): The reward window id to read. Empty or 0 = the active reward window (the oldest one the bot saw open that is still up).
+  returns: string: that reward's LinkID; empty when there is no window or no match.
+  example: echo ${OgreBotAPI.Windows.RewardLinkID[1,0]}
+  oldbot: OgreBotAPI.Get_RewardLinkID
+
+${OgreBotAPI.Windows.RewardName[num|name,windowId]}
+  kind: member of OgreBotAPI.Windows
+  what: The item name of one reward on a reward window, picked by number or by item name. Empty when there is no reward window, nothing matches, or the row does not read.
+  arg num|name (number or text): The reward to pick: its number on the window (1 = the first), or its item name (trimmed, any case, first match). Empty or 0 picks nothing.
+  arg windowId (int, default: 0): The reward window id to read. Empty or 0 = the active reward window (the oldest one the bot saw open that is still up).
+  returns: string: that reward's item name; empty when there is no window or no match.
+  example: echo ${OgreBotAPI.Windows.RewardName[1,0]}
+  oldbot: OgreBotAPI.Get_RewardName
+
+${OgreBotAPI.Windows.RewardWindowID}
+  kind: member of OgreBotAPI.Windows
+  what: The id of the active reward window: the oldest reward window the bot saw open that is still up, or with none held, the one open now. It reads 0 when no reward window is up.
+  returns: int64: the active reward window's id; 0 when none is open or you are not in the world.
+  example: echo ${OgreBotAPI.Windows.RewardWindowID}
+  oldbot: OgreBotAPI.RewardWindow_Get_WindowID
+
+${OgreBotAPI.Windows.SelectOption[n]}
+  kind: member of OgreBotAPI.Windows
+  what: Which option of the open select window matches, without clicking anything and without printing anything, so a script may read it as often as it likes. Options count from 1 (OldBot's numbers were one higher).
+  arg search... (number or text): The option to find: a number is that option's position; text must match the option name exactly (any case). Add -substring as another argument to match text anywhere in the name.
+  returns: int: the 1-based option position; 0 when no select window is open, nothing matches, or no argument is given.
+  example: echo ${OgreBotAPI.Windows.SelectOption[1]}
+  oldbot: OgreBotAPI.Select_Window_GetOption
+
+OgreBotAPI.Windows:AcceptNoChoiceReward[fw, windowId=0]
+  kind: method of OgreBotAPI.Windows
+  what: Presses Receive on a reward window that offers no choice. It refuses, with a console line, a window that offers a choice, a 'New Quest!' offer, or a window whose reward pack is not shown.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg windowId (int, default: 0): The reward window id. Empty or 0 = the active reward window (the oldest one the bot saw open that is still up).
+  example: OgreBotAPI.Windows:AcceptNoChoiceReward[${Me.Name},0]
+  oldbot: OgreBotAPI:AcceptNoChoiceReward
+
+OgreBotAPI.Windows:AcceptReward[fw, num|name=0, windowId=0]
+  kind: method of OgreBotAPI.Windows
+  what: Takes a reward from a reward window: on a choice window it accepts the reward you name, and on a single or no-choice window it presses Receive whatever you pass, but never on a 'New Quest!' offer. Each outcome, including no window or no match, prints a line to the console.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg num|name (number or text, default: 0): The reward to take on a choice window: its number (1 = the first) or its item name (any case). Ignored on a single-reward window.
+  arg windowId (int, default: 0): The reward window id. 0 = the active reward window (the oldest one the bot saw open that is still up).
+  example: OgreBotAPI.Windows:AcceptReward[${Me.Name},1,0]
+  oldbot: OgreBotAPI:AcceptReward, Obj_OgreIH:AcceptReward
+
+OgreBotAPI.Windows:Choice[fw, option=1]
+  kind: method of OgreBotAPI.Windows
+  what: Clicks one of the choice window's buttons: 1 is the first button, 2 the second. Another number is clamped to the nearer of the two, with a console line saying which it chose; does nothing when no choice window is open.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg option (int, default: 1): Which button to click: 1 or 2 (below 1 is 1, above 2 is 2).
+  example: OgreBotAPI.Windows:Choice[${Me.Name},1]
+  oldbot: OgreBotAPI:ChoiceWindow
+
+OgreBotAPI.Windows:Close[fw]
+  kind: method of OgreBotAPI.Windows
+  what: Closes the top-most game window, exactly as the /close_top_window command does. Does nothing when you are not in the world.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Windows:Close[${Me.Name}]
+  oldbot: OgreBotAPI:CloseWindow
+
+OgreBotAPI.Windows:CloseExamine[fw]
+  kind: method of OgreBotAPI.Windows
+  what: Clicks the close button of the item examine window once. It closes one examine window per call, and it clicks even when none is open.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Windows:CloseExamine[${Me.Name}]
+  oldbot: OgreBotAPI:CloseAllExamine, OgreBotAPI:CloseExamineWindow, OgreBotAPI:CloseExamine
+
+OgreBotAPI.Windows:DungeonMakerCancel[fw]
+  kind: method of OgreBotAPI.Windows
+  what: Clicks Cancel on the Dungeon Maker save-rating window. It clicks only when that button is there and visible; with the window closed it does nothing.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Windows:DungeonMakerCancel[${Me.Name}]
+  oldbot: OgreBotAPI:DungeonMakerCancel
+
+OgreBotAPI.Windows:F2PWindowCheck[fw]
+  kind: method of OgreBotAPI.Windows
+  what: Closes the game's All-Access membership offer window by clicking its Cancel button, and prints a line to the console when it does. Does nothing when that window is not up; it runs only when called, nothing watches for the window.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Windows:F2PWindowCheck[${Me.Name}]
+  oldbot: OgreBotAPI:F2PWindow_Check
+
+OgreBotAPI.Windows:InputTextAccept[fw]
+  kind: method of OgreBotAPI.Windows
+  what: Clicks the first button of the choice window when that window is showing a text box (for example a password prompt). Does nothing when the text box is not visible.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Windows:InputTextAccept[${Me.Name}]
+  oldbot: OgreBotAPI:InputTextWindow_Accept
+
+OgreBotAPI.Windows:InputTextAdd[fw, text]
+  kind: method of OgreBotAPI.Windows
+  what: Adds text to the end of the choice window's text box, after whatever is already there; use InputTextClear first to replace it. Does nothing when the text box is not visible or the text is empty.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg text (string): The text to add to the box. Quote it if it contains a comma.
+  example: OgreBotAPI.Windows:InputTextAdd[${Me.Name},"open sesame"]
+  oldbot: OgreBotAPI:InputTextWindow_AddText
+
+OgreBotAPI.Windows:InputTextClear[fw]
+  kind: method of OgreBotAPI.Windows
+  what: Empties the choice window's text box. Does nothing when the text box is not visible.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Windows:InputTextClear[${Me.Name}]
+  oldbot: OgreBotAPI:InputTextWindow_ClearText
+
+OgreBotAPI.Windows:OK[fw]
+  kind: method of OgreBotAPI.Windows
+  what: Clicks the first button of the game's choice window (the pop-up with two buttons), but only when that button is visible. It does not touch any other window, and it does nothing when no choice window is up.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Windows:OK[${Me.Name}]
+  oldbot: OgreBotAPI:OK_Button
+
+OgreBotAPI.Windows:ProvingGroundsExit[fw]
+  kind: method of OgreBotAPI.Windows
+  what: Clicks Exit on the Proving Grounds score window. It clicks only when that button is there and visible; with the window closed it does nothing.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Windows:ProvingGroundsExit[${Me.Name}]
+  oldbot: OgreBotAPI:ProvingGrounds_Exit
+
+OgreBotAPI.Windows:ProvingGroundsScoreboardClose[fw]
+  kind: method of OgreBotAPI.Windows
+  what: Clicks the close button of the Proving Grounds leaderboard window. It clicks only when that button is there and visible; with the window closed it does nothing.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Windows:ProvingGroundsScoreboardClose[${Me.Name}]
+  oldbot: OgreBotAPI:ProvingGrounds_Scoreboard_Close
+
+OgreBotAPI.Windows:Reply[fw, number|text=1]
+  kind: method of OgreBotAPI.Windows
+  what: Picks a reply in the open reply dialog (the window a clicked item or object opens): a number picks that reply, text picks the first reply that contains it in any case. When no dialog is open or nothing matches, nothing is clicked and a warning listing the replies goes to the console.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg number|text (number or text, default: 1): A reply number (1 = the first), or text to find inside a reply (any case).
+  example: OgreBotAPI.Windows:Reply[${Me.Name},1]
+  oldbot: OgreBotAPI:ReplyDialog, ReplyDialog
+
+OgreBotAPI.Windows:ReplyClose[fw]
+  kind: method of OgreBotAPI.Windows
+  what: Closes the open reply dialog. Does nothing, silently, when no reply dialog is open.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Windows:ReplyClose[${Me.Name}]
+  oldbot: OgreBotAPI:ReplyDialogClose
+
+OgreBotAPI.Windows:Select[fw, search...]
+  kind: method of OgreBotAPI.Windows
+  what: Picks an option in the open select window and then presses its OK. The match happens at once but the clicks are queued: the option first, then OK about 0.3 seconds later; each pick and each miss prints a line to the console.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg search... (number or text): The option to pick: a number is its position (1 = the first real option); text must match the option name exactly, any case. Flags may come before or after it as their own arguments: -substring (match text anywhere in the name), -test (click the option but not OK), -reportonly (say which option matches, click nothing) and -spew (list the options).
+  example: OgreBotAPI.Windows:Select[${Me.Name},1]
+  oldbot: OgreBotAPI:Select_Window
+
+OgreBotAPI.Windows:SelectCancel[fw]
+  kind: method of OgreBotAPI.Windows
+  what: Clicks Cancel on the open select window. Does nothing, silently, when the Cancel button is not visible.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Windows:SelectCancel[${Me.Name}]
+  oldbot: OgreBotAPI:Select_Window_Cancel
+
+OgreBotAPI.Windows:SelectSpew[fw]
+  kind: method of OgreBotAPI.Windows
+  what: Prints every option of the open select window to the console, numbered from 1, with the row template it found. Prints a 'no select window open' line instead when there is none.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Windows:SelectSpew[${Me.Name}]
+  oldbot: OgreBotAPI:Select_Window_Spew
+
+OgreBotAPI.Windows:ShowConsole[fw, on=TRUE]
+  kind: method of OgreBotAPI.Windows
+  what: Opens the OgreConsole window, or closes it for a no word (FALSE, 0, no or off). Empty, a yes word, or any other word opens it, so a typo never closes the console.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg on (bool, default: TRUE): FALSE, 0, no or off closes the console; anything else, empty included, opens it.
+  example: OgreBotAPI.Windows:ShowConsole[${Me.Name},TRUE]
+  oldbot: OgreBotAPI:ShowOgreConsole
+
+OgreBotAPI.Windows:SpewRewardWindowIDs[fw]
+  kind: method of OgreBotAPI.Windows
+  what: Prints every reward window id the bot has seen open, oldest first, and whether each is still up. It keeps at most the last 16 windows.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Windows:SpewRewardWindowIDs[${Me.Name}]
+  oldbot: OgreBotAPI:RewardWindow_Spew_WindowIDs
+
+OgreBotAPI.Windows:ToggleConsole[fw, value=toggle]
+  kind: method of OgreBotAPI.Windows
+  what: Flips the OgreConsole window between open and closed. A yes word (TRUE, 1, yes, on) always opens it and a no word (FALSE, 0, no, off) always closes it.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg value (string, default: toggle): TRUE opens, FALSE closes, anything else (or nothing) flips.
+  example: OgreBotAPI.Windows:ToggleConsole[${Me.Name}]
+  oldbot: OgreBotAPI:ToggleConsoleWindow
+
+OgreBotAPI.Windows:ToggleMain[fw]
+  kind: method of OgreBotAPI.Windows
+  what: Hides the main OgreBot window if it is shown, or shows it if it is hidden. It does not close OgreBot, and it does nothing when OgreBot is not open.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Windows:ToggleMain[${Me.Name}]
+  oldbot: OgreBotAPI:ToggleMainWindow
+

@@ -1,0 +1,1094 @@
+# OgreBot for EverQuest II - API reference: OgreBotAPI (part 2 of 6)
+
+Plain text for AI assistants, generated from the same tables as the API reference pages (https://kannkor.github.io/ISXOgre/EQ2/bot/developer/api/).
+This file is ONE PIECE: OgreBotAPI (part 2 of 6) - OgreBotAPI.AutoTarget, OgreBotAPI.Bot, OgreBotAPI.CampSpot, OgreBotAPI.CastStack, OgreBotAPI.Client, OgreBotAPI.Combat.
+How to read an entry, and every file like this one: https://kannkor.github.io/ISXOgre/EQ2/bot/llms-api.txt
+
+== OgreBotAPI.AutoTarget ==
+
+${OgreBotAPI.AutoTarget.Active}
+  kind: member of OgreBotAPI.AutoTarget
+  what: TRUE when the master checkbox is on, no Suppress reason is held, the working list has at least one entry, and the scanner may scan now: out of combat that needs Out Of Combat Scanning on or something hating you. It reads FALSE whenever nothing would be picked.
+  returns: bool: TRUE when enabled, not suppressed, the list is not empty and the scanner may scan now; FALSE otherwise.
+  example: echo ${OgreBotAPI.AutoTarget.Active}
+
+${OgreBotAPI.AutoTarget.Count}
+  kind: member of OgreBotAPI.AutoTarget
+  what: The number of entries in the working list - the list auto-target picks from right now.
+  returns: int: the number of entries; 0 when the list is empty.
+  example: echo ${OgreBotAPI.AutoTarget.Count}
+  oldbot: Ob_AutoTarget.Items
+
+${OgreBotAPI.AutoTarget.Enabled}
+  kind: member of OgreBotAPI.AutoTarget
+  what: Reads the master auto-target checkbox from the profile. When it is off, auto-target never picks a target, whatever the list holds.
+  returns: bool: TRUE when the auto-target checkbox is ticked; FALSE when it is unticked or was never set.
+  example: echo ${OgreBotAPI.AutoTarget.Enabled}
+  oldbot: OgreBotAPI.AutoTarget_Enabled
+
+${OgreBotAPI.AutoTarget.Entry[n]}
+  kind: member of OgreBotAPI.AutoTarget
+  what: The working-list entry at position n, counting from 1, as JSON text with its fields: ActorName, MinHPToTarget, CheckCollision, AggroOnGroupOnly, MaxHPToTarget, AggroOnNonFighterOnly, AggroOnNotMe, and KeepLast when set.
+  arg n (int): Position in the working list, 1 = top.
+  returns: string: the entry as a JSON object; "{}" when n is out of range.
+  example: echo ${OgreBotAPI.AutoTarget.Entry[1]}
+  oldbot: Ob_AutoTarget.AggroOnGroupOnly, Ob_AutoTarget.AggroOnGroupOnlyOrderedItem, Ob_AutoTarget.AggroOnNonFighterOnly
+
+${OgreBotAPI.AutoTarget.EntryName[n]}
+  kind: member of OgreBotAPI.AutoTarget
+  what: The name of the working-list entry at position n, counting from 1 at the top.
+  arg n (int): Position in the working list, 1 = top.
+  returns: string: that entry's actor name; "" when n is out of range.
+  example: echo ${OgreBotAPI.AutoTarget.EntryName[1]}
+  oldbot: Ob_AutoTarget.ActorName, Ob_AutoTarget.ActorNameOrderedItem, Ob_AutoTarget.OrderedItem
+
+${OgreBotAPI.AutoTarget.HasActor[name]}
+  kind: member of OgreBotAPI.AutoTarget
+  what: Asks whether the working list has an entry with exactly this name, case not mattering. It compares entry names only - it does not test whether an entry would match a nearby actor.
+  arg name (string): The entry name to look for (case does not matter).
+  returns: bool: TRUE when an entry's name equals the given name; FALSE when none does or no name is given.
+  example: echo ${OgreBotAPI.AutoTarget.HasActor["a gnoll guard"]}
+  oldbot: Ob_AutoTarget.HasActor
+
+${OgreBotAPI.AutoTarget.JSON}
+  kind: member of OgreBotAPI.AutoTarget
+  what: The whole working list as JSON text, top entry first, each entry with the same fields Entry shows.
+  returns: string: a JSON array of entries; "[]" when the list is empty.
+  example: echo ${OgreBotAPI.AutoTarget.JSON}
+  oldbot: Ob_AutoTarget.Ob_AutoTargetList
+
+${OgreBotAPI.AutoTarget.ListName}
+  kind: member of OgreBotAPI.AutoTarget
+  what: The name of the saved list or built-in list the working list is: set by LoadSaved, Save and LoadPreset. It is blank after Clear, and after any entry is added, changed or removed, since the list then matches no saved list.
+  returns: string: the saved-list or built-in list name; "" when none.
+  example: echo ${OgreBotAPI.AutoTarget.ListName}
+
+${OgreBotAPI.AutoTarget.OutOfCombatScanning}
+  kind: member of OgreBotAPI.AutoTarget
+  what: Reads the out-of-combat scanning checkbox. When it is off, auto-target only looks for a target while you are in combat or something hates you.
+  returns: bool: TRUE when out-of-combat scanning is ticked; FALSE when it is unticked or was never set (unset counts as off).
+  example: echo ${OgreBotAPI.AutoTarget.OutOfCombatScanning}
+
+${OgreBotAPI.AutoTarget.PresetCount}
+  kind: member of OgreBotAPI.AutoTarget
+  what: The number of built-in lists LoadPreset can load. There are two today: Named and AddsThenNamed.
+  returns: int: the number of built-in lists.
+  example: echo ${OgreBotAPI.AutoTarget.PresetCount}
+
+${OgreBotAPI.AutoTarget.PresetName[n]}
+  kind: member of OgreBotAPI.AutoTarget
+  what: The name of built-in list n, counting from 1.
+  arg n (int): Which built-in list, 1 = first.
+  returns: string: the built-in list's name; "" when n is out of range.
+  example: echo ${OgreBotAPI.AutoTarget.PresetName[1]}
+
+${OgreBotAPI.AutoTarget.SavedCount}
+  kind: member of OgreBotAPI.AutoTarget
+  what: The number of saved lists for the zone (lists are kept per zone), loading the current zone's lists first. Reads 0 out of the world.
+  returns: int: the number of saved lists; 0 when the zone has none.
+  example: echo ${OgreBotAPI.AutoTarget.SavedCount}
+
+${OgreBotAPI.AutoTarget.SavedName[n]}
+  kind: member of OgreBotAPI.AutoTarget
+  what: The name of saved list n for the zone, counting from 1, in file order, from the same lists as SavedCount. Reads "" out of the world.
+  arg n (int): Which saved list, 1 = first.
+  returns: string: the saved list's name; "" when n is out of range.
+  example: echo ${OgreBotAPI.AutoTarget.SavedName[1]}
+
+${OgreBotAPI.AutoTarget.ScanHeight}
+  kind: member of OgreBotAPI.AutoTarget
+  what: Reads the scan height setting as stored - the largest height difference an actor may have from you and still be picked (it must be less than this). An unset or 0 value reads 0 here, but auto-target then uses 5.
+  returns: int: the stored scan height; 0 when unset.
+  example: echo ${OgreBotAPI.AutoTarget.ScanHeight}
+
+${OgreBotAPI.AutoTarget.ScanRadius}
+  kind: member of OgreBotAPI.AutoTarget
+  what: Reads the scan radius setting as stored. An unset or 0 value reads 0 here, but auto-target then scans 50.
+  returns: int: the stored scan radius; 0 when unset.
+  example: echo ${OgreBotAPI.AutoTarget.ScanRadius}
+
+${OgreBotAPI.AutoTarget.Suppressed[key]}
+  kind: member of OgreBotAPI.AutoTarget
+  what: Asks whether auto-targeting is paused by Suppress. With no key it asks whether any reason is holding it; with a key it asks about that reason only (case does not matter).
+  arg key (string): Optional. The reason name given to Suppress; leave it out to ask about any reason.
+  returns: bool: TRUE when the reason (or, with no key, any reason) is holding targeting paused; FALSE otherwise.
+  example: echo ${OgreBotAPI.AutoTarget.Suppressed[myscript]}
+  oldbot: OgreBotAPI.AutoTarget_Disabled
+
+${OgreBotAPI.AutoTarget.WhenHated}
+  kind: member of OgreBotAPI.AutoTarget
+  what: Reads the auto-target-when-hated checkbox. When it is on and the character has nothing to fight, the bot about once a second targets an NPC within 30 that is attacking the group, and says so in the console.
+  returns: bool: TRUE when the checkbox is ticked; FALSE when it is unticked or was never set.
+  example: echo ${OgreBotAPI.AutoTarget.WhenHated}
+
+OgreBotAPI.AutoTarget:AddActor[fw, name, minHP=0, checkCollision=FALSE, aggroOnGroupOnly=TRUE, maxHP=0, aggroOnNonFighterOnly=FALSE, aggroOnNotMe=FALSE, keepLast=FALSE]
+  kind: method of OgreBotAPI.AutoTarget
+  what: Adds one entry to the working list (with no name it does nothing, and the same name can be added twice) and blanks ListName; auto-target tries entries top-down and takes the first entry that matches anything, keeping your current target if it matches. The working list lasts for this session only (it survives zoning) - use Save to keep it.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg name (string): What to target: part of an actor name (matches any actor whose name contains it, case not mattering), NPC (any normal NPC), NamedNPC or Named (any named NPC), or a number for an actor ID.
+  arg minHP (int, default: 0): Only pick the actor while its health is at least this percent; 0 = no limit.
+  arg checkCollision (bool, default: FALSE): TRUE to only pick actors you have a clear line to.
+  arg aggroOnGroupOnly (bool, default: TRUE): TRUE to only pick actors whose target is in your group. A word that is not yes/no keeps the default, TRUE.
+  arg maxHP (int, default: 0): Only pick the actor while its health is below this percent; 0 = no limit.
+  arg aggroOnNonFighterOnly (bool, default: FALSE): TRUE to only pick actors targeting a player who is not a fighter.
+  arg aggroOnNotMe (bool, default: FALSE): TRUE to skip actors that are targeting you.
+  arg keepLast (bool, default: FALSE): TRUE to keep this entry at the bottom: later adds go in above it.
+  example: OgreBotAPI.AutoTarget:AddActor[igw:${Me.Name},"a gnoll guard",0,FALSE,TRUE]
+  oldbot: OgreBotAPI:AutoTarget_AddActor, Ob_AutoTarget:AddActor
+
+OgreBotAPI.AutoTarget:Clear[fw]
+  kind: method of OgreBotAPI.AutoTarget
+  what: Empties the working list and blanks ListName. Saved lists on disk are not touched.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.AutoTarget:Clear[igw:${Me.Name}]
+  oldbot: OgreBotAPI:AutoTarget_Clear, OgreBotAPI:AutoTarget_ClearActors, Ob_AutoTarget:Clear
+
+OgreBotAPI.AutoTarget:DeleteSaved[fw, name]
+  kind: method of OgreBotAPI.AutoTarget
+  what: Deletes a saved list from the current zone's file on disk; a blank name, or one that is not found, deletes nothing and says so on the console. The working list is not touched, but ListName is blanked when it named that list; it needs the character in the world.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg name (string): The saved list to delete, matched whole, case not mattering.
+  example: OgreBotAPI.AutoTarget:DeleteSaved[${Me.Name},"Trash"]
+  oldbot: Ob_AutoTarget:DeleteList
+
+OgreBotAPI.AutoTarget:LoadPreset[fw, name]
+  kind: method of OgreBotAPI.AutoTarget
+  what: Replaces the working list with a built-in list, reading nothing from disk, and sets ListName to it. An unknown name prints a message to the Inner Space console and leaves the list as it was.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg name (string): The built-in list's name (see PresetName): Named (any named NPC) or AddsThenNamed (normal NPCs first, then the named), matched whole, case not mattering.
+  example: OgreBotAPI.AutoTarget:LoadPreset[igw:${Me.Name},AddsThenNamed]
+
+OgreBotAPI.AutoTarget:LoadSaved[fw, name]
+  kind: method of OgreBotAPI.AutoTarget
+  what: Replaces the working list with a saved list for the current zone and sets ListName. A blank name, or a name the zone has no list for, changes nothing and says so on the console; it needs the character in the world.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg name (string): The saved list's name (see SavedName), matched whole, case not mattering.
+  example: OgreBotAPI.AutoTarget:LoadSaved[igw:${Me.Name},"Trash"]
+  oldbot: OgreBotAPI:LoadAutoTargetList, Ob_AutoTarget:LoadListFromSaveList, Ob_AutoTarget:LoadListFromSaveListForWho
+
+OgreBotAPI.AutoTarget:Release[fw, reason]
+  kind: method of OgreBotAPI.AutoTarget
+  what: Releases the pause held under this reason name (case does not matter); a blank reason gets one line and a name that is not held does nothing. Targeting resumes only when no other reason is still held.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg reason (string): The reason name given to Suppress.
+  example: OgreBotAPI.AutoTarget:Release[${Me.Name},myscript]
+  oldbot: OgreBotAPI:AutoTarget_Enable
+
+OgreBotAPI.AutoTarget:RemoveActor[fw, name]
+  kind: method of OgreBotAPI.AutoTarget
+  what: Removes every working-list entry whose name is exactly this name, case not mattering. Nothing happens when no entry matches or the name is blank.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg name (string): The entry name to remove (whole name, case does not matter).
+  example: OgreBotAPI.AutoTarget:RemoveActor[igw:${Me.Name},"a gnoll guard"]
+  oldbot: OgreBotAPI:AutoTarget_RemoveActor, Ob_AutoTarget:RemoveActor
+
+OgreBotAPI.AutoTarget:Save[fw, name]
+  kind: method of OgreBotAPI.AutoTarget
+  what: Saves the working list to disk as a named list for the current zone and sets ListName; an existing list whose name matches, case not mattering, is replaced and moves to the end. A blank name, or a write that fails, saves nothing and says so on the console; it needs the character in the world.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg name (string): The name to save the list under, kept as you typed it.
+  example: OgreBotAPI.AutoTarget:Save[${Me.Name},"Trash"]
+  oldbot: Ob_AutoTarget:SaveList
+
+OgreBotAPI.AutoTarget:SetEnabled[fw, bool=TRUE]
+  kind: method of OgreBotAPI.AutoTarget
+  what: Turns the master auto-target checkbox on or off and prints the change to the OgreConsole when the value changes. The change goes to this profile's setting (the same one the panel shows) and reaches disk the next time the profile is saved; nothing is written when no profile is loaded.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg bool (bool, default: TRUE): TRUE to turn auto-target on, FALSE to turn it off. Blank turns it on; a word that is not yes/no leaves it as it is.
+  example: OgreBotAPI.AutoTarget:SetEnabled[igw:${Me.Name},TRUE]
+  oldbot: ogre autotarget
+
+OgreBotAPI.AutoTarget:SetOutOfCombatScanning[fw, bool=TRUE]
+  kind: method of OgreBotAPI.AutoTarget
+  what: Turns out-of-combat scanning on or off and prints the change to the OgreConsole when the value changes. The change goes to this profile's setting (the same one the panel shows) and reaches disk the next time the profile is saved; nothing is written when no profile is loaded.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg bool (bool, default: TRUE): TRUE to let auto-target look for targets out of combat, FALSE to wait for combat or aggro. Blank turns it on; a word that is not yes/no leaves it as it is.
+  example: OgreBotAPI.AutoTarget:SetOutOfCombatScanning[igw:${Me.Name},TRUE]
+
+OgreBotAPI.AutoTarget:SetScanHeight[fw, n=5]
+  kind: method of OgreBotAPI.AutoTarget
+  what: Silently sets the largest height difference an actor may have from you and still be picked. The change goes to this profile's setting (the same one the panel shows) and reaches disk the next time the profile is saved; nothing is written when no profile is loaded.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg n (int, default: 5): The scan height (the actor's height difference must be less than this). 0 or a non-number is treated as 5.
+  example: OgreBotAPI.AutoTarget:SetScanHeight[igw:${Me.Name},10]
+  oldbot: OgreBotAPI:AutoTarget_SetScanHeight
+
+OgreBotAPI.AutoTarget:SetScanRadius[fw, n=50]
+  kind: method of OgreBotAPI.AutoTarget
+  what: Silently sets how far auto-target looks for targets. The change goes to this profile's setting (the same one the panel shows) and reaches disk the next time the profile is saved; nothing is written when no profile is loaded.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg n (int, default: 50): The scan radius. A non-number stores 0, which auto-target treats as 50.
+  example: OgreBotAPI.AutoTarget:SetScanRadius[igw:${Me.Name},40]
+  oldbot: OgreBotAPI:AutoTarget_SetScanRadius
+
+OgreBotAPI.AutoTarget:SetWhenHated[fw, bool=TRUE]
+  kind: method of OgreBotAPI.AutoTarget
+  what: Turns auto-target-when-hated on or off and prints the change to the OgreConsole when the value changes. The change goes to this profile's setting (the same one the panel shows) and reaches disk the next time the profile is saved; nothing is written when no profile is loaded.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg bool (bool, default: TRUE): TRUE to target an NPC attacking the group when you have nothing to fight, FALSE to stop. Blank turns it on; a word that is not yes/no leaves it as it is.
+  example: OgreBotAPI.AutoTarget:SetWhenHated[${Me.Name},TRUE]
+
+OgreBotAPI.AutoTarget:Suppress[fw, reason]
+  kind: method of OgreBotAPI.AutoTarget
+  what: Pauses automatic targeting under a reason name and holds the current target without touching the master checkbox; a direct target command still works, and a blank reason gets one line. Each reason lasts for this session only, until Release is called with the same name (case does not matter), LetsGo runs or you change zones.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg reason (string): A name for this pause, so it can be released on its own.
+  example: OgreBotAPI.AutoTarget:Suppress[${Me.Name},myscript]
+  oldbot: OgreBotAPI:AutoTarget_Disable
+
+
+== OgreBotAPI.Bot ==
+
+${OgreBotAPI.Bot.Paused}
+  kind: member of OgreBotAPI.Bot
+  what: TRUE while the bot is paused, whether by Pause, the mini toolbar's pause button or a camp in progress. The bot starts out paused, so this is also TRUE before OgreBot has been loaded.
+  returns: bool: TRUE when the bot is paused or has not been loaded yet; FALSE when it is running.
+  example: echo ${OgreBotAPI.Bot.Paused}
+  oldbot: OgreBotAPI.Paused
+
+${OgreBotAPI.Bot.ScriptBaseName[path,removeExtension]}
+  kind: member of OgreBotAPI.Bot
+  what: Returns the last part of a script path with its folders removed; back slashes count as forward slashes. A trailing .iss (any case) is removed unless removeExtension is FALSE.
+  arg path (string): The script path or file name.
+  arg removeExtension (bool, default: TRUE): TRUE strips a trailing .iss; FALSE keeps it. A word that is not a yes word reads as FALSE.
+  returns: string: the file name, without .iss unless removeExtension is FALSE; the whole text when it has no slash.
+  example: echo ${OgreBotAPI.Bot.ScriptBaseName["${LavishScript.HomeDirectory}/Scripts/EQ2OgreBot/OgreBotDev.iss"]}
+  oldbot: OgreBotAPI.Get_ScriptBaseName
+
+OgreBotAPI.Bot:CampToDesktop[fw, loginOnly=FALSE]
+  kind: method of OgreBotAPI.Bot
+  what: Queues a camp out: it stops following, pauses the bot for the camp and camps to the login screen, then closes the session unless loginOnly is TRUE. It refuses with a console line while you are in combat mode, and if the camp fails the bot's run state is put back.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg loginOnly (bool, default: FALSE): TRUE stops at the login screen and keeps the session open; FALSE camps out and then closes the session.
+  example: OgreBotAPI.Bot:CampToDesktop[${Me.Name},TRUE]
+  oldbot: OgreBotAPI:CampToDesktop
+
+OgreBotAPI.Bot:End[fw]
+  kind: method of OgreBotAPI.Bot
+  what: Closes OgreBot on the next frame, the same as typing ogre end bot. Closing also clears the no-offensive, no-defensive and threat ignore settings.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Bot:End[all]
+  oldbot: OgreBotAPI:End_Bot
+
+OgreBotAPI.Bot:EndScript[fw, script]
+  kind: method of OgreBotAPI.Bot
+  what: Ends a running script on each selected character, matched by its file name with folders and .iss removed, and shows the name in OgreConsole. Does nothing when no script of that name is running, and needs the character in the world.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg script (string): The script's name or path. Only the file name counts, with .iss removed.
+  example: OgreBotAPI.Bot:EndScript[all,"MyScripts/hello"]
+
+OgreBotAPI.Bot:ExitClient[fw, seconds=30]
+  kind: method of OgreBotAPI.Bot
+  what: Queues an exit of this game client: a message box warns that the client closes in the given number of seconds, and clicking OK on it cancels. If the time runs out with the box still open, the session is closed with the character still in the world (no camp).
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg seconds (int, default: 30): Seconds to wait before the exit. Anything that is not a whole number of at least 1 uses the default.
+  example: OgreBotAPI.Bot:ExitClient[${Me.Name},60]
+  oldbot: OgreBotAPI:ExitClient
+
+OgreBotAPI.Bot:Load[fw]
+  kind: method of OgreBotAPI.Bot
+  what: Starts OgreBot on the next frame, the same as typing ogre: it opens resumed with its main window hidden. Unlike Reload it also runs when OgreBot is not running, and on a running bot it reopens it the way Reload does.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Bot:Load[igw:${Me.Name}]
+
+OgreBotAPI.Bot:OgreCommand[fw, cmd...]
+  kind: method of OgreBotAPI.Bot
+  what: Runs an Ogre sub-command (ogre, the name, then each remaining argument quoted) on each selected character, and shows the line it ran in OgreConsole. Needs the character in the world; with no command name it says so in OgreConsole and runs nothing.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg cmd... (string): The sub-command name, then its arguments. Each argument is passed on as its own quoted argument.
+  example: OgreBotAPI.Bot:OgreCommand[igw:${Me.Name},quiver]
+  oldbot: OgreBotAPI:OgreCommand
+
+OgreBotAPI.Bot:OnDeactivate[fw]
+  kind: method of OgreBotAPI.Bot
+  what: Releases the Alt key, so an Alt held down when the game window lost focus does not stay stuck. When Alt reads as pressed it first prints a line saying so to the console.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Bot:OnDeactivate[${Me.Name}]
+  oldbot: OgreBotAPI:OnDeactivate
+
+OgreBotAPI.Bot:Pause[fw]
+  kind: method of OgreBotAPI.Bot
+  what: Pauses the bot so it stops casting and its other automatic actions until Resume. Takes effect at once and also works while zoning.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Bot:Pause[igw:${Me.Name}]
+  oldbot: OgreBotAPI:Pause, Obj_OgreIH:Pause
+
+OgreBotAPI.Bot:RawCommand[fw, cmd...]
+  kind: method of OgreBotAPI.Bot
+  what: Runs the arguments as one console command line on each selected character, and shows the line in OgreConsole. Needs the character in the world; an argument holding a space is quoted again, and an empty line runs nothing.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg cmd... (string): The command and its arguments, joined by single spaces into one line.
+  example: OgreBotAPI.Bot:RawCommand[all,echo,hello]
+  oldbot: OgreBotAPI:RawCommand
+
+OgreBotAPI.Bot:Reload[fw]
+  kind: method of OgreBotAPI.Bot
+  what: Reloads OgreBot on the next frame: it reopens resumed with its main window hidden, and the no-offensive, no-defensive and threat ignore settings are cleared. Does nothing on a session where OgreBot is not running - it never starts the bot (Load does that).
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Bot:Reload[igw:${Me.Name}]
+  oldbot: OgreBotAPI:Reload_Bot
+
+OgreBotAPI.Bot:Resume[fw]
+  kind: method of OgreBotAPI.Bot
+  what: Resumes a paused bot so it acts again. Takes effect at once and also works while zoning.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Bot:Resume[igw:${Me.Name}]
+  oldbot: OgreBotAPI:Resume, Obj_OgreIH:Resume
+
+OgreBotAPI.Bot:RunScript[fw, script, args...]
+  kind: method of OgreBotAPI.Bot
+  what: Runs a script on each selected character, passing each later argument as its own quoted parameter, and shows the line in OgreConsole. It refuses with an OgreConsole line when the script is not found or a script of the same name is already running, and needs the character in the world.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg script (string): The script path, relative to the Scripts folder; the .iss ending is optional. A path containing a colon is used as it is.
+  arg args... (string): The script's parameters. Every argument after script is passed on, each as its own quoted parameter.
+  example: OgreBotAPI.Bot:RunScript[${Me.Name},"MyScripts/hello","126","TRUE"]
+
+OgreBotAPI.Bot:SetUpFor[fw, what="", restart=TRUE]
+  kind: method of OgreBotAPI.Bot
+  what: Sets up for an encounter on the next pulse: the fight of the named mob given in what, or with what blank the nearest or engaged named in this zone. Needs the character in the world; a name no encounter owns prints a warning to the console.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg what (string, default: ""): The named mob whose encounter to set up. Blank picks the nearest or engaged named in this zone.
+  arg restart (bool, default: TRUE): TRUE re-runs a setup that is already running; FALSE only sets up an encounter that is not running yet.
+  example: OgreBotAPI.Bot:SetUpFor[igw:${Me.Name},"${Target.Name}",TRUE]
+  oldbot: OgreBotAPI:SetUpFor
+
+
+== OgreBotAPI.CampSpot ==
+
+${OgreBotAPI.CampSpot.Active}
+  kind: member of OgreBotAPI.CampSpot
+  what: The camp spot slot the leash is using now, 1 to 8. It starts at 1 and only SetActive or ResetAll change it.
+  returns: int - the active slot number (1 to 8).
+  example: echo ${OgreBotAPI.CampSpot.Active}
+
+${OgreBotAPI.CampSpot.AnchorLoc}
+  kind: member of OgreBotAPI.CampSpot
+  what: The active slot's own spot as one "x,y,z" text without the relative layer, or "" when the active slot has no spot. Use it as the fixed reference when a relative layer may be in play; EffectiveLoc is where the character will actually go.
+  returns: string - "x,y,z", or "" when there is no spot.
+  example: echo ${OgreBotAPI.CampSpot.AnchorLoc}
+  oldbot: Ogre_CampSpot.AbsoluteCampSpotLoc, Ogre_CampSpot.Get_AbsoluteCampSpot
+
+${OgreBotAPI.CampSpot.AnchorX}
+  kind: member of OgreBotAPI.CampSpot
+  what: The X coordinate of the active slot's own spot, without the relative layer. It reads 0 when the active slot has no spot.
+  returns: float - the X coordinate, or 0 when there is no spot.
+  example: echo ${OgreBotAPI.CampSpot.AnchorX}
+
+${OgreBotAPI.CampSpot.AnchorY}
+  kind: member of OgreBotAPI.CampSpot
+  what: The Y coordinate of the active slot's own spot, without the relative layer. It reads 0 when the active slot has no spot.
+  returns: float - the Y coordinate, or 0 when there is no spot.
+  example: echo ${OgreBotAPI.CampSpot.AnchorY}
+
+${OgreBotAPI.CampSpot.AnchorZ}
+  kind: member of OgreBotAPI.CampSpot
+  what: The Z coordinate of the active slot's own spot, without the relative layer. It reads 0 when the active slot has no spot.
+  returns: float - the Z coordinate, or 0 when there is no spot.
+  example: echo ${OgreBotAPI.CampSpot.AnchorZ}
+
+${OgreBotAPI.CampSpot.AtCampSpot}
+  kind: member of OgreBotAPI.CampSpot
+  what: TRUE when this character is closer to the effective spot than HowClose, measured in 2D unless Use3D is on. It reads FALSE when the active slot has no spot, and it does not check the zone.
+  returns: bool - TRUE if at the camp spot.
+  example: echo ${OgreBotAPI.CampSpot.AtCampSpot}
+  oldbot: Ogre_CampSpot.AtCampSpot
+
+${OgreBotAPI.CampSpot.DistanceTo}
+  kind: member of OgreBotAPI.CampSpot
+  what: The distance from this character to the effective spot, measured the way the leash measures it: on the ground plane (X and Z) unless Use3D is on. It reads -1 when the active slot has no spot.
+  returns: float - the distance, or -1 when there is no spot.
+  example: echo ${OgreBotAPI.CampSpot.DistanceTo}
+  oldbot: Ogre_CampSpot.DistanceFromCampSpot
+
+${OgreBotAPI.CampSpot.EffectiveLoc}
+  kind: member of OgreBotAPI.CampSpot
+  what: Where the leash will take this character: the active slot's spot with the relative layer applied, as one "x,y,z" text with two decimals. It is "" when the active slot has no spot.
+  returns: string - "x,y,z", or "" when there is no spot.
+  example: echo ${OgreBotAPI.CampSpot.EffectiveLoc}
+  oldbot: Ogre_CampSpot.Get_CampSpot, Ogre_CampSpot.Get_RelativeCampSpot, Ogre_CampSpot.RelativeCampSpotLoc
+
+${OgreBotAPI.CampSpot.EffectiveX}
+  kind: member of OgreBotAPI.CampSpot
+  what: The X coordinate of the spot the leash will take this character to, with the relative layer applied. It reads 0 when the active slot has no spot, so check HasSpot first.
+  returns: float - the X coordinate, or 0 when there is no spot.
+  example: echo ${OgreBotAPI.CampSpot.EffectiveX}
+  oldbot: Ogre_CampSpot.Get_X
+
+${OgreBotAPI.CampSpot.EffectiveY}
+  kind: member of OgreBotAPI.CampSpot
+  what: The Y coordinate of the spot the leash will take this character to, with the relative layer applied. It reads 0 when the active slot has no spot, so check HasSpot first.
+  returns: float - the Y coordinate, or 0 when there is no spot.
+  example: echo ${OgreBotAPI.CampSpot.EffectiveY}
+  oldbot: Ogre_CampSpot.Get_Y
+
+${OgreBotAPI.CampSpot.EffectiveZ}
+  kind: member of OgreBotAPI.CampSpot
+  what: The Z coordinate of the spot the leash will take this character to, with the relative layer applied. It reads 0 when the active slot has no spot, so check HasSpot first.
+  returns: float - the Z coordinate, or 0 when there is no spot.
+  example: echo ${OgreBotAPI.CampSpot.EffectiveZ}
+  oldbot: Ogre_CampSpot.Get_Z
+
+${OgreBotAPI.CampSpot.Enabled}
+  kind: member of OgreBotAPI.CampSpot
+  what: TRUE while the leash is turned on. It starts TRUE and only the Enable and Disable methods change it; the leash still needs a spot in the current zone to move anyone.
+  returns: bool - TRUE if the leash is on.
+  example: echo ${OgreBotAPI.CampSpot.Enabled}
+
+${OgreBotAPI.CampSpot.HasSpot}
+  kind: member of OgreBotAPI.CampSpot
+  what: TRUE when the active slot holds a camp spot. It does not check the zone or whether the leash is on.
+  returns: bool - TRUE if the active slot has a spot.
+  example: echo ${OgreBotAPI.CampSpot.HasSpot}
+
+${OgreBotAPI.CampSpot.HowClose}
+  kind: member of OgreBotAPI.CampSpot
+  what: The arrival radius of the active slot: inside this distance the character counts as at the camp spot and the leash stops. A slot that was never set reads 1.
+  returns: float - the arrival radius.
+  example: echo ${OgreBotAPI.CampSpot.HowClose}
+  oldbot: Ogre_CampSpot.Get_HowClose, Ogre_CampSpot.HowClose
+
+${OgreBotAPI.CampSpot.HowFar}
+  kind: member of OgreBotAPI.CampSpot
+  what: The leash radius of the active slot: the leash walks the character back only from farther than HowClose and no farther than HowFar, and beyond HowFar it does not chase. A slot that was never set reads 125.
+  returns: float - the leash radius.
+  example: echo ${OgreBotAPI.CampSpot.HowFar}
+  oldbot: Ogre_CampSpot.Get_HowFar, Ogre_CampSpot.HowFar
+
+${OgreBotAPI.CampSpot.Leashing}
+  kind: member of OgreBotAPI.CampSpot
+  what: TRUE while the leash is walking this character back toward the camp spot right now. It goes FALSE once the character arrives, is paused, dead, zoning, or held by a movement block.
+  returns: bool - TRUE while the leash is moving the character.
+  example: echo ${OgreBotAPI.CampSpot.Leashing}
+  oldbot: Ogre_CampSpot.ValidStayAtCampSpotOptions
+
+${OgreBotAPI.CampSpot.MaxSlots}
+  kind: member of OgreBotAPI.CampSpot
+  what: The number of camp spot slots there are. It is always 8.
+  returns: int - 8.
+  example: echo ${OgreBotAPI.CampSpot.MaxSlots}
+
+${OgreBotAPI.CampSpot.OutsideLeash}
+  kind: member of OgreBotAPI.CampSpot
+  what: TRUE when this character is farther from the effective spot than HowFar, which is where the leash stops trying to walk back. FALSE when the active slot has no spot.
+  returns: bool - TRUE if beyond the leash radius.
+  example: echo ${OgreBotAPI.CampSpot.OutsideLeash}
+
+${OgreBotAPI.CampSpot.RelativeActive}
+  kind: member of OgreBotAPI.CampSpot
+  what: TRUE when the relative layer changes where the character goes: the effective spot differs from the anchor, or the offset is not 0,0,0. UsingRelativeBy answers a different question (which mode the layer is in).
+  returns: bool - TRUE if a relative layer is in effect.
+  example: echo ${OgreBotAPI.CampSpot.RelativeActive}
+  oldbot: Ogre_CampSpot.UsingRelative
+
+${OgreBotAPI.CampSpot.RelativeLoc}
+  kind: member of OgreBotAPI.CampSpot
+  what: The relative layer as one "x,y,z" text: the offset in offset mode, or the fixed destination after SetRelativeLoc. It reads "0.00,0.00,0.00" when the layer is clear.
+  returns: string - "x,y,z".
+  example: echo ${OgreBotAPI.CampSpot.RelativeLoc}
+  oldbot: Ogre_CampSpot.Get_RelativeMods, Ogre_CampSpot.RelativeLoc
+
+${OgreBotAPI.CampSpot.RelativeX}
+  kind: member of OgreBotAPI.CampSpot
+  what: The X part of the relative layer: an offset when UsingRelativeBy is TRUE, or the fixed destination's X after SetRelativeLoc. It reads 0 when the layer is clear.
+  returns: float - the X value of the relative layer.
+  example: echo ${OgreBotAPI.CampSpot.RelativeX}
+
+${OgreBotAPI.CampSpot.RelativeY}
+  kind: member of OgreBotAPI.CampSpot
+  what: The Y part of the relative layer: an offset when UsingRelativeBy is TRUE, or the fixed destination's Y after SetRelativeLoc. It reads 0 when the layer is clear.
+  returns: float - the Y value of the relative layer.
+  example: echo ${OgreBotAPI.CampSpot.RelativeY}
+
+${OgreBotAPI.CampSpot.RelativeZ}
+  kind: member of OgreBotAPI.CampSpot
+  what: The Z part of the relative layer: an offset when UsingRelativeBy is TRUE, or the fixed destination's Z after SetRelativeLoc. It reads 0 when the layer is clear.
+  returns: float - the Z value of the relative layer.
+  example: echo ${OgreBotAPI.CampSpot.RelativeZ}
+
+${OgreBotAPI.CampSpot.SlotCount}
+  kind: member of OgreBotAPI.CampSpot
+  what: How many of the 8 camp spot slots currently hold a spot. Slots that are not active still count.
+  returns: int - the number of slots with a spot (0 to 8).
+  example: echo ${OgreBotAPI.CampSpot.SlotCount}
+
+${OgreBotAPI.CampSpot.SlotHasSpot[n]}
+  kind: member of OgreBotAPI.CampSpot
+  what: TRUE when slot n holds a camp spot, whether or not it is the active slot. A missing n or one outside 1 to 8 reads FALSE.
+  arg n (int): The slot number to check, 1 to 8.
+  returns: bool - TRUE if slot n has a spot.
+  example: echo ${OgreBotAPI.CampSpot.SlotHasSpot[2]}
+
+${OgreBotAPI.CampSpot.Use3D}
+  kind: member of OgreBotAPI.CampSpot
+  what: TRUE when the active slot measures distance in 3D. FALSE (the default) measures on the ground plane only (X and Z), ignoring height.
+  returns: bool - TRUE for 3D distances.
+  example: echo ${OgreBotAPI.CampSpot.Use3D}
+  oldbot: Ogre_CampSpot.Get_Use3D, Ogre_CampSpot.bUse3D
+
+${OgreBotAPI.CampSpot.UsingRelativeBy}
+  kind: member of OgreBotAPI.CampSpot
+  what: TRUE when the relative layer is an offset added to the spot (the default, and still TRUE with a 0,0,0 offset); FALSE after SetRelativeLoc, when it is a fixed destination instead. To ask whether the layer changes anything, read RelativeActive.
+  returns: bool - TRUE in offset mode.
+  example: echo ${OgreBotAPI.CampSpot.UsingRelativeBy}
+  oldbot: Ogre_CampSpot.UsingRelativeBy
+
+${OgreBotAPI.CampSpot.ValidOptions}
+  kind: member of OgreBotAPI.CampSpot
+  what: TRUE when everything ValidOptionsCommon checks is true and this character is in the zone the active spot was set in. It does not look at Enabled or at how far away the character is, and reads the two options when asked, so a change made while the leash is paused counts at once.
+  returns: bool - TRUE if the camp spot options are in force here.
+  example: echo ${OgreBotAPI.CampSpot.ValidOptions}
+  oldbot: Ogre_CampSpot.ValidCampSpotOptions
+
+${OgreBotAPI.CampSpot.ValidOptionsCommon}
+  kind: member of OgreBotAPI.CampSpot
+  what: TRUE when the Allow Camp Spot and Dynamic Camp Spot options are both on, no movement block or leash hold is in, and the active slot has a spot. It does not check the zone (ValidOptions does), and reads the two options when asked, so a change made while the leash is paused counts at once.
+  returns: bool - TRUE if the camp spot options allow the leash.
+  example: echo ${OgreBotAPI.CampSpot.ValidOptionsCommon}
+  oldbot: Ogre_CampSpot.ValidCampSpotOptionsCommon
+
+${OgreBotAPI.CampSpot.Zone}
+  kind: member of OgreBotAPI.CampSpot
+  what: The short name of the zone the active slot's spot was set in; the leash only acts in that zone. It is "" when the slot was never set with SetHere, SetSlotHere or SetFormation, or after ClearAll.
+  returns: string - the zone short name, or "".
+  example: echo ${OgreBotAPI.CampSpot.Zone}
+  oldbot: Ogre_CampSpot.CSZoneName
+
+OgreBotAPI.CampSpot:ClearAll[fw]
+  kind: method of OgreBotAPI.CampSpot
+  what: Clears the spot and zone in all 8 slots and clears the relative layer, and also drops any hold on the leash (for example from a joust). Each slot keeps its radii and the active slot stays the same; ResetAll resets those too.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.CampSpot:ClearAll[igw:${Me.Name}]
+  oldbot: OgreBotAPI:ClearAll, Ogre_CampSpot:ClearAll
+
+OgreBotAPI.CampSpot:ClearCampSpot[fw]
+  kind: method of OgreBotAPI.CampSpot
+  what: Clears the spot in the active slot, so the leash stops. The slot keeps its zone and radii, the relative layer is kept, and the other slots are not touched.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.CampSpot:ClearCampSpot[igw:${Me.Name}]
+  oldbot: Ogre_CampSpot:ClearCampSpot
+
+OgreBotAPI.CampSpot:ClearRelative[fw]
+  kind: method of OgreBotAPI.CampSpot
+  what: Clears the relative layer back to a 0,0,0 offset, so the leash goes to the active slot's own spot again. The spots are not touched, and it works even when OgreBot is closed.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.CampSpot:ClearRelative[igw:${Me.Name}]
+  oldbot: OgreBotAPI:ClearRCS, Ogre_CampSpot:ClearRelative
+
+OgreBotAPI.CampSpot:Disable[fw]
+  kind: method of OgreBotAPI.CampSpot
+  what: Turns the leash off, for every slot. The spots are kept, so Enable picks up where it left off.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.CampSpot:Disable[igw:${Me.Name}]
+
+OgreBotAPI.CampSpot:Enable[fw]
+  kind: method of OgreBotAPI.CampSpot
+  what: Turns the leash on, for every slot. The leash is on by default; it still needs a spot in the current zone to move anyone.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.CampSpot:Enable[igw:${Me.Name}]
+
+OgreBotAPI.CampSpot:NudgeBy[fw, dx=0, dy=0, dz=0]
+  kind: method of OgreBotAPI.CampSpot
+  what: Adds dx, dy and dz to the active slot's camp spot, keeping its zone and radii; a slot with no spot stays as it is, with one line. Nothing is set, with a line on the console, when OgreBot is not open (unless Movement:UseWithoutOgreBot is on).
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg dx (float, default: 0): Amount added to X.
+  arg dy (float, default: 0): Amount added to Y.
+  arg dz (float, default: 0): Amount added to Z.
+  example: OgreBotAPI.CampSpot:NudgeBy[igw:${Me.Name},5,0,0]
+  oldbot: Ogre_CampSpot:Set_ChangeCampSpotBy
+
+OgreBotAPI.CampSpot:Release[fw]
+  kind: method of OgreBotAPI.CampSpot
+  what: Lets the character go: clears every camp spot (as ClearAll), stops a running jump route, clears the manual target overrides, the reasons that hold auto target, the reasons that stop offensive and defensive abilities, the no-offensive list, the threat ignore list, the no-bow flag and the HO icon lists, resumes a held follow, unlocks facing, turns Ignore Joust Commands off and stands a feigned toon. Named movement blocks set with Movement:Block stay in.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.CampSpot:Release[igw:${Me.Name}]
+  oldbot: OgreBotAPI:LetsGo, LetsGo
+
+OgreBotAPI.CampSpot:ResetAll[fw]
+  kind: method of OgreBotAPI.CampSpot
+  what: Puts all 8 slots back to new: no spot, no zone, radii 1 and 125, 3D off; clears the relative layer and makes slot 1 active. It also drops any hold on the leash, as ClearAll does, and it does not change Enabled.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.CampSpot:ResetAll[igw:${Me.Name}]
+
+OgreBotAPI.CampSpot:SetActive[fw, n]
+  kind: method of OgreBotAPI.CampSpot
+  what: Makes slot n the one the leash uses, so the character heads for that slot's spot, and the relative layer carries over to it. A missing n or one outside 1 to 8 does nothing.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg n (int): The slot to use, 1 to 8.
+  example: OgreBotAPI.CampSpot:SetActive[igw:${Me.Name},2]
+
+OgreBotAPI.CampSpot:SetFormation[fw, kind=circle, dist=7, x, y, z, useRelative=FALSE, middle="", circleSpots=0]
+  kind: method of OgreBotAPI.CampSpot
+  what: Places each character on a ring of radius dist around x,y,z and makes that the active slot's camp spot in the current zone, so the leash walks it there: circle spaces by group order 60 degrees apart, monkey 72 degrees with the named middle character on the centre, and monkeyraid 360/circleSpots degrees (default 5) by raid order with the middle for-who on the centre. The centre is required: a missing x, y or z, or one that is not a number, prints a line and does nothing, as does an unknown kind or OgreBot not open.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg kind (string, default: circle): circle, monkey or monkeyraid.
+  arg dist (float, default: 7): Ring radius; 0 or less means 7.
+  arg x (float or name): X of the centre, or the whole centre as one word: the name of a point of interest in this zone, or x,y,z. An unknown name prints one line and does nothing.
+  arg y (float): Y of the centre. Not read when x holds the whole location.
+  arg z (float): Z of the centre. Not read when x holds the whole location.
+  arg useRelative (bool, default: FALSE): TRUE to also set the ring spot as the relative layer's fixed destination.
+  arg middle (string, default: ""): Who stands on the centre: a character name for monkey, a for-who for monkeyraid, TRUE for this character; FALSE or blank for nobody. Ignored for circle.
+  arg circleSpots (int, default: 0): Number of ring spots for monkeyraid; less than 1 means 5.
+  example: OgreBotAPI.CampSpot:SetFormation[igw:${Me.Name},circle,7,${Me.X},${Me.Y},${Me.Z},FALSE,"",0]
+  oldbot: OgreBotAPI:Set_Formation_Circle, OgreBotAPI:Set_Formation_MonkeyInMiddle, OgreBotAPI:Set_Formation_MonkeyInMiddleRaid
+
+OgreBotAPI.CampSpot:SetHere[fw, howClose=2, howFar=200]
+  kind: method of OgreBotAPI.CampSpot
+  what: Sets the active slot's camp spot to where this character stands now, in the current zone, with the given arrival and leash radii (0 or less falls back to 1 and 125); the relative layer is kept. Nothing is set, with a line on the console, when OgreBot is not open (unless Movement:UseWithoutOgreBot is on) or when the Allow Camp Spot option is off.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg howClose (float, default: 2): Arrival radius: inside this distance the character counts as at the spot.
+  arg howFar (float, default: 200): Leash radius: the leash walks back only from within this distance.
+  example: OgreBotAPI.CampSpot:SetHere[igw:${Me.Name},2,200]
+  oldbot: OgreBotAPI:CampSpot, Ogre_CampSpot:Set_CS, Ogre_CampSpot:Set_CampSpot
+
+OgreBotAPI.CampSpot:SetHowClose[fw, v=0]
+  kind: method of OgreBotAPI.CampSpot
+  what: Sets the active slot's arrival radius: inside this distance the character counts as at the spot. 0 or less (and the default) sets 1, and it works without a spot.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg v (float, default: 0): The arrival radius; 0 or less means 1.
+  example: OgreBotAPI.CampSpot:SetHowClose[igw:${Me.Name},3]
+  oldbot: Ogre_CampSpot:Set_HowClose
+
+OgreBotAPI.CampSpot:SetHowFar[fw, v=0]
+  kind: method of OgreBotAPI.CampSpot
+  what: Sets the active slot's leash radius: the leash walks back only from within this distance. 0 or less (and the default) sets 125, and it works without a spot.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg v (float, default: 0): The leash radius; 0 or less means 125.
+  example: OgreBotAPI.CampSpot:SetHowFar[igw:${Me.Name},150]
+  oldbot: Ogre_CampSpot:Set_HowFar
+
+OgreBotAPI.CampSpot:SetLoc[fw, x|point, y, z]
+  kind: method of OgreBotAPI.CampSpot
+  what: Moves the active slot's camp spot to x,y,z (three values, one "x,y,z" text, or the name of a point of interest in this zone), keeping its zone and radii; it does not start a camp on its own, so the leash only walks there if the slot was set with SetHere, SetSlotHere or SetFormation in this zone. A missing, NULL or non-number coordinate or an unknown name sets nothing and prints a warning, and nothing is set (with a console line) when OgreBot is not open, unless Movement:UseWithoutOgreBot is on.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg x|point (float or name): X coordinate of the new spot, or the whole spot as one word: "x,y,z" or the name of a point of interest in this zone.
+  arg y (float): Y coordinate of the new spot. Not read when x holds the whole location.
+  arg z (float): Z coordinate of the new spot. Not read when x holds the whole location.
+  example: OgreBotAPI.CampSpot:SetLoc[igw:${Me.Name},${Me.X},${Me.Y},${Me.Z}]
+  oldbot: OgreBotAPI:CCS, OgreBotAPI:ChangeCampSpotWho, Ogre_CampSpot:Set_ChangeCampSpot
+
+OgreBotAPI.CampSpot:SetLocAtAngleFromActor[fw, angle, nameOrId, dist=3, skipIfAggro=FALSE, includeNpcSize=TRUE]
+  kind: method of OgreBotAPI.CampSpot
+  what: Moves the active slot's camp spot to dist from the actor at angle degrees from the way it faces (0 is the SetLocBehindActor spot, 180 the SetLocInFrontOfActor spot), and with includeNpcSize TRUE the actor's size is added, so the same dist lands farther out than those two. Nothing happens when the actor is not found or is this character, and like SetLoc it moves the leash only if the slot was set with SetHere, SetSlotHere or SetFormation in this zone.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg angle (float): Degrees from the actor's facing; 0 is behind, 180 is in front.
+  arg nameOrId (string): The actor: an ID, a name, an @role, pet:<owner> or a class word. Blank uses this character's NPC target (its target, or its target's target).
+  arg dist (float, default: 3): Distance from the actor; this character's own size is added.
+  arg skipIfAggro (bool, default: FALSE): TRUE to do nothing while the actor's threat on this character is at 100.
+  arg includeNpcSize (bool, default: TRUE): TRUE to add the actor's size to the distance as well.
+  example: OgreBotAPI.CampSpot:SetLocAtAngleFromActor[igw:${Me.Name},90,${Target.ID},3,FALSE,TRUE]
+  oldbot: OgreBotAPI:SetCS_NPC_ForWho, OgreBotAPI:SetCS_NPC
+
+OgreBotAPI.CampSpot:SetLocBehindActor[fw, nameOrId, dist=3, skipIfAggro=FALSE]
+  kind: method of OgreBotAPI.CampSpot
+  what: Moves the active slot's camp spot to dist behind the actor, from the way it faces now (a one-time spot, not a follow), and the character walks there; nothing happens when the actor is not found or is this character. Like SetLoc, it moves the leash only if the slot was set with SetHere, SetSlotHere or SetFormation in this zone.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg nameOrId (string): The actor: an ID, a name, an @role, pet:<owner> or a class word. Blank uses this character's NPC target (its target, or its target's target).
+  arg dist (float, default: 3): Distance from the actor; this character's own size is added.
+  arg skipIfAggro (bool, default: FALSE): TRUE to do nothing while the actor's threat on this character is at 100.
+  example: OgreBotAPI.CampSpot:SetLocBehindActor[igw:${Me.Name},${Target.ID},3,FALSE]
+  oldbot: OgreBotAPI:SetCS_BehindNPC
+
+OgreBotAPI.CampSpot:SetLocByRole[fw, nameOrId, dist=3, skipIfAggro=FALSE]
+  kind: method of OgreBotAPI.CampSpot
+  what: Each character picks its own side - fighters take the spot in front of the actor and everyone else the spot behind it, as SetLocInFrontOfActor and SetLocBehindActor do; nothing happens when the actor is not found or is this character. Like SetLoc, it moves the leash only if the slot was set with SetHere, SetSlotHere or SetFormation in this zone.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg nameOrId (string): The actor: an ID, a name, an @role, pet:<owner> or a class word. Blank uses this character's NPC target (its target, or its target's target).
+  arg dist (float, default: 3): Distance from the actor; this character's own size is added.
+  arg skipIfAggro (bool, default: FALSE): TRUE to do nothing while the actor's threat on this character is at 100.
+  example: OgreBotAPI.CampSpot:SetLocByRole[igw:${Me.Name},${Target.ID},3,FALSE]
+  oldbot: OgreBotAPI:SetCS_PositionNPC
+
+OgreBotAPI.CampSpot:SetLocInFrontOfActor[fw, nameOrId, dist=3, skipIfAggro=FALSE]
+  kind: method of OgreBotAPI.CampSpot
+  what: Moves the active slot's camp spot to dist in front of the actor, from the way it faces now (a one-time spot, not a follow), and the character walks there; nothing happens when the actor is not found or is this character. Like SetLoc, it moves the leash only if the slot was set with SetHere, SetSlotHere or SetFormation in this zone.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg nameOrId (string): The actor: an ID, a name, an @role, pet:<owner> or a class word. Blank uses this character's NPC target (its target, or its target's target).
+  arg dist (float, default: 3): Distance from the actor; this character's own size is added.
+  arg skipIfAggro (bool, default: FALSE): TRUE to do nothing while the actor's threat on this character is at 100.
+  example: OgreBotAPI.CampSpot:SetLocInFrontOfActor[igw:${Me.Name},${Target.ID},3,FALSE]
+  oldbot: OgreBotAPI:SetCS_InFrontNPC
+
+OgreBotAPI.CampSpot:SetRelativeBy[fw, dx=0, dy=0, dz=0]
+  kind: method of OgreBotAPI.CampSpot
+  what: Adds dx, dy and dz to the relative offset (it does not replace it) and puts the layer in offset mode, so the leash goes to the active slot's spot plus the offset; after SetRelativeLoc the spot stays where it is and moves by exactly that amount. Nothing is set, with a line on the console, when OgreBot is not open (unless Movement:UseWithoutOgreBot is on).
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg dx (float, default: 0): Amount added to the X offset.
+  arg dy (float, default: 0): Amount added to the Y offset.
+  arg dz (float, default: 0): Amount added to the Z offset.
+  example: OgreBotAPI.CampSpot:SetRelativeBy[igw:${Me.Name},0,0,5]
+  oldbot: OgreBotAPI:CS_Set_ChangeRelativeCampSpotBy, Ogre_CampSpot:Set_ChangeRelativeCampSpotBy
+
+OgreBotAPI.CampSpot:SetRelativeLoc[fw, x, y, z]
+  kind: method of OgreBotAPI.CampSpot
+  what: Makes x,y,z the fixed destination of the relative layer, so the leash takes this character there instead of the slot's spot (which is kept, and ClearRelative goes back to it); x, y and z are all required, and a missing, NULL or non-number value gets one line and sets nothing. Nothing is set, with a line on the console, when OgreBot is not open (unless Movement:UseWithoutOgreBot is on).
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg x (float): X of the destination.
+  arg y (float): Y of the destination.
+  arg z (float): Z of the destination.
+  example: OgreBotAPI.CampSpot:SetRelativeLoc[igw:${Me.Name},${Target.X},${Target.Y},${Target.Z}]
+  oldbot: OgreBotAPI:CRCS, OgreBotAPI:Set_Relative, Ogre_CampSpot:Set_Relative
+
+OgreBotAPI.CampSpot:SetSlotHere[fw, n=1, howClose=2, howFar=200]
+  kind: method of OgreBotAPI.CampSpot
+  what: Sets slot n (1 to 8; anything else does nothing) to where this character stands now, in the current zone, without changing the active slot, so the leash uses it once SetActive picks that slot. Nothing is set, with a line on the console, when OgreBot is not open (unless Movement:UseWithoutOgreBot is on) or the Allow Camp Spot option is off.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg n (int, default: 1): The slot to set, 1 to 8.
+  arg howClose (float, default: 2): Arrival radius for that slot (0 or less falls back to 1).
+  arg howFar (float, default: 200): Leash radius for that slot (0 or less falls back to 125).
+  example: OgreBotAPI.CampSpot:SetSlotHere[${Me.Name},2,2,200]
+
+OgreBotAPI.CampSpot:SetUse3D[fw, on=TRUE]
+  kind: method of OgreBotAPI.CampSpot
+  what: Turns 3D distance on or off for the active slot; off measures on the ground plane only (X and Z). Left out means on, and a word that is not yes or no leaves it as it is.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg on (bool, default: TRUE): TRUE for 3D distances, FALSE for ground-plane distances.
+  example: OgreBotAPI.CampSpot:SetUse3D[igw:${Me.Name},TRUE]
+  oldbot: Ogre_CampSpot:Set_Use3D
+
+
+== OgreBotAPI.CastStack ==
+
+${OgreBotAPI.CastStack.TagAllowRemaining[tag]}
+  kind: member of OgreBotAPI.CastStack
+  what: Seconds left on an allow tag's clock on this session, as a decimal number; 0 when the tag is not held or has run out, and a tag tied to a maintained buff reads the time left on its limit. Tag names are case-insensitive, and reading changes nothing.
+  arg tag (string): The allow tag name, case-insensitive. Blank returns 0.
+  returns: float: seconds left before the allow tag ends; 0 when it is absent, expired or blank. A tag tied to a maintained buff reads the time left on its limit, and 0 when it has none (such a tag can still be active).
+  example: echo ${OgreBotAPI.CastStack.TagAllowRemaining[Burn]}
+  oldbot: OgreBotAPI.AbilityTag_GetTagAllowTimeRemaining
+
+${OgreBotAPI.CastStack.TagEmbargoRemaining[tag]}
+  kind: member of OgreBotAPI.CastStack
+  what: Seconds left on an embargo tag's clock on this session, as a decimal number; 0 when the tag is not held or has run out, and a tag tied to a maintained buff reads the time left on its limit. Tag names are case-insensitive, and reading changes nothing.
+  arg tag (string): The embargo tag name, case-insensitive. Blank returns 0.
+  returns: float: seconds left before the embargo tag ends; 0 when it is absent, expired or blank. A tag tied to a maintained buff reads the time left on its limit, and 0 when it has none (such a tag can still be active).
+  example: echo ${OgreBotAPI.CastStack.TagEmbargoRemaining[Stuns]}
+  oldbot: OgreBotAPI.AbilityTag_GetTagEmbargoTimeRemaining
+
+OgreBotAPI.CastStack:AddEntry[fw, name, where, options...]
+  kind: method of OgreBotAPI.CastStack
+  what: Adds a row to the cast stack at the place you name, with any of its options. It takes effect at once, and is kept in the profile only when you Save.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg name (text): The ability's name (or id), or Item:<item name> for an item row.
+  arg where (text): top, bottom, or the row number the new row gets (1 to one past the last row).
+  arg options... (key, value pairs): Key, value pairs, as many as you like: Type, Target, Named, NamedOrEpic, RD, Tag, ETag, ATag, EType, AType, ID, DT, MAX, IE, IAE, RIE, Conc, UseSolo, UseGroup, UseRaid, disabled, RW<, HP<, HP>, MP<, MP>, N_HP<, N_HP>, Aggro<, Aggro>, Fervor<, Fervor>, D<, D>, Sav, Sav<, % and #, the same options the Cast Stack window sets; all of them go on or none do, and a refusal prints why. A yes/no option takes TRUE or FALSE (FALSE unticks it). A number option takes a number, and having it at all is the condition. Type is one of the Cast Stack's types (Buff, CA, Heal ...); EType and AType are Both, Trigger Only or Listen Only. Type must be one of them.
+  example: OgreBotAPI.CastStack:AddEntry[${Me.Name},"Item:Eye of the Siren",bottom,Type,Buff,Target,Mailmanx]
+
+OgreBotAPI.CastStack:ClearAllAllows[fw]
+  kind: method of OgreBotAPI.CastStack
+  what: Removes every allow tag, including ones set by cast stack entries, on this session, at once and with or without the console hub, then on every session on this PC in this session's relay group whose for-who matches, sent through the hub and applied on each session's next pulse. Only a session that is itself in the for-who sends it, and nothing is saved.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.CastStack:ClearAllAllows[igw:${Me.Name}]
+  oldbot: OgreBotAPI:AbilityTag_ResetAllAbilityTagAllows
+
+OgreBotAPI.CastStack:ClearAllEmbargos[fw]
+  kind: method of OgreBotAPI.CastStack
+  what: Removes every embargo tag, including ones set by cast stack entries, on this session, at once and with or without the console hub, then on every session on this PC in this session's relay group whose for-who matches, sent through the hub and applied on each session's next pulse. Only a session that is itself in the for-who sends it, and nothing is saved.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.CastStack:ClearAllEmbargos[igw:${Me.Name}]
+  oldbot: OgreBotAPI:AbilityTag_ResetAllAbilityTagEmbargos
+
+OgreBotAPI.CastStack:ClearAllow[fw, tag]
+  kind: method of OgreBotAPI.CastStack
+  what: Removes one allow tag on this session, at once and with or without the console hub, then on every session on this PC in this session's relay group whose for-who matches, sent through the hub and applied on each session's next pulse. Only a session that is itself in the for-who sends it, a blank tag gets one line, and nothing is saved.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg tag (string): The allow tag to remove, case-insensitive. A blank gets one line - use ClearAllAllows to remove them all.
+  example: OgreBotAPI.CastStack:ClearAllow[igw:${Me.Name},Burn]
+  oldbot: OgreBotAPI:AbilityTag_ResetAbilityTagAllow
+
+OgreBotAPI.CastStack:ClearEmbargo[fw, tag]
+  kind: method of OgreBotAPI.CastStack
+  what: Removes one embargo tag on this session, at once and with or without the console hub, then on every session on this PC in this session's relay group whose for-who matches, sent through the hub and applied on each session's next pulse. Only a session that is itself in the for-who sends it, a blank tag gets one line, and nothing is saved.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg tag (string): The embargo tag to remove, case-insensitive. A blank gets one line - use ClearAllEmbargos to remove them all.
+  example: OgreBotAPI.CastStack:ClearEmbargo[igw:${Me.Name},Stuns]
+  oldbot: OgreBotAPI:AbilityTag_ResetAbilityTagEmbargo
+
+OgreBotAPI.CastStack:ClearEntryOption[fw, row, keys...]
+  kind: method of OgreBotAPI.CastStack
+  what: Removes options from a cast stack row, as blanking a field or unticking a box in the window does. It takes effect at once, and is kept in the profile only when you Save.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg row (number or text): The row: its number as the Cast Stack shows it (1 is the top row), or its name when exactly one row has that name (case-insensitive). An item row's name is Item:<item name>.
+  arg keys... (option names): The options to remove, by the same names SetEntryOption takes. One the row does not have is fine; an unknown name removes nothing and prints why.
+  example: OgreBotAPI.CastStack:ClearEntryOption[${Me.Name},"Battle Tactics",HP<,RD]
+
+OgreBotAPI.CastStack:ClearItemCache[fw]
+  kind: method of OgreBotAPI.CastStack
+  what: Empties the shared item effect file on disk at once, for every character on this PC, and prints a line to the console. This session then re-examines its item entries from the next pulse, including ones that failed earlier.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.CastStack:ClearItemCache[${Me.Name}]
+
+OgreBotAPI.CastStack:Dump[fw]
+  kind: method of OgreBotAPI.CastStack
+  what: On the next pulse, checks every cast stack entry against the current game state, prints one line per entry with its verdict to the console, and sends the same list to the OgreBot window. It casts nothing and changes nothing.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.CastStack:Dump[${Me.Name}]
+
+OgreBotAPI.CastStack:ExamineItems[fw]
+  kind: method of OgreBotAPI.CastStack
+  what: From the next pulse, examines the cast stack's item entries that are not in the shared item effect file yet, and rebuilds the list of adornments on your equipped gear. What it learns is written to the shared item effect file, which every character on this PC reads.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.CastStack:ExamineItems[${Me.Name}]
+
+OgreBotAPI.CastStack:HoldTag[fw, tag, duration, type, -m]
+  kind: method of OgreBotAPI.CastStack
+  what: Sets an embargo or allow tag for some seconds on this session, at once and with or without the console hub, then sends it through the hub to every session on this PC in this session's relay group whose for-who matches, applied on each session's next pulse, for that session only. Only a session that is itself in the for-who sends it, so run it on every session (oc !c) or from one inside the for-who, and the tag only blocks or allows entries while Enable Tag Embargo or Enable Tag Allow is ticked.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg tag (string): The tag name, case-insensitive. A blank gets one line.
+  arg duration (int): How long the tag lasts, in seconds. 0, blank or not a number ends it at once. A new hold never shortens a tag that is already running longer.
+  arg type (string): Allow sets an allow tag. Any other word, blank included, sets an embargo tag.
+  arg -m (switch): Optional: -m followed by a maintained buff name or ability id ties this session's hold to its own buff: the hold ends when the buff drops, or at the duration if that comes first, after a grace of the cast time plus 1 second (5 seconds for an item). Other sessions hold plain until this one tells them to let go.
+  example: OgreBotAPI.CastStack:HoldTag[igw:${Me.Name},Stuns,13,Embargo]
+  oldbot: OgreBotAPI:AbilityTag_AddRotateTagTimer
+
+OgreBotAPI.CastStack:Import[fw, path, profile=""]
+  kind: method of OgreBotAPI.CastStack
+  what: Replaces this session's cast stack with the cast stack from an OgreBot EQ2Save XML file, and prints the entry count and any notes, or why it failed, to the console. It takes effect at once and lasts only until the profile is next opened, reloaded or edited.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg path (string): Full path of the EQ2Save XML file. A relative path is read from the game's working folder, not from Scripts.
+  arg profile (string, default: ""): The profile inside the file whose cast stack to take. Blank takes the first profile that has a cast stack.
+  example: OgreBotAPI.CastStack:Import[${Me.Name},"${LavishScript.HomeDirectory}/Scripts/MyCastStack.xml",Raid]
+
+OgreBotAPI.CastStack:Load[fw, path]
+  kind: method of OgreBotAPI.CastStack
+  what: Replaces this session's cast stack with the entries in a JSON cast stack file, and prints the entry count, or why it failed, to the console. It takes effect at once and lasts only until the profile is next opened, reloaded or edited - the profile and the OgreBot window are not changed.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg path (string): Full path of the JSON file, which must hold an "entries" array. A relative path is read from the game's working folder, not from Scripts. An ability entry may give its name alone: names are looked up in this toon's ability export, as a profile load does.
+  example: OgreBotAPI.CastStack:Load[${Me.Name},"${LavishScript.HomeDirectory}/Scripts/MyCastStack.json"]
+
+OgreBotAPI.CastStack:LoadFromProfile[fw]
+  kind: method of OgreBotAPI.CastStack
+  what: Reloads this session's cast stack from the OgreBot profile already open, including edits not saved yet, matches each ability name to your ability export, and re-examines item entries from the next pulse. Nothing is read from disk or saved, and with no profile open the stack is left empty.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.CastStack:LoadFromProfile[${Me.Name}]
+
+OgreBotAPI.CastStack:MoveEntry[fw, row, to]
+  kind: method of OgreBotAPI.CastStack
+  what: Moves a cast stack row up or down one place, to the top or bottom, or to a row number. It takes effect at once, and is kept in the profile only when you Save.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg row (number or text): The row: its number as the Cast Stack shows it (1 is the top row), or its name when exactly one row has that name (case-insensitive). An item row's name is Item:<item name>.
+  arg to (text): up, down, top, bottom, or the row number it moves to.
+  example: OgreBotAPI.CastStack:MoveEntry[${Me.Name},"Item:Eye of the Siren",top]
+
+OgreBotAPI.CastStack:ReloadRangeExtenders[fw]
+  kind: method of OgreBotAPI.CastStack
+  what: Re-reads the per-zone range extender file, Ogre/EQ2/Encounters/RangeExtenders.json (it comes with the bot), at once and prints how many zones and entries it loaded, or a warning. The file lists, per zone, detrimental effects that change your ability range; nothing is saved.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.CastStack:ReloadRangeExtenders[${Me.Name}]
+
+OgreBotAPI.CastStack:RemoveEntry[fw, row]
+  kind: method of OgreBotAPI.CastStack
+  what: Removes a row from the cast stack. It takes effect at once, and is kept in the profile only when you Save.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg row (number or text): The row: its number as the Cast Stack shows it (1 is the top row), or its name when exactly one row has that name (case-insensitive). An item row's name is Item:<item name>.
+  example: OgreBotAPI.CastStack:RemoveEntry[${Me.Name},5]
+
+OgreBotAPI.CastStack:SetEntry[fw, ability, TRUE|FALSE|toggle, silent=FALSE]
+  kind: method of OgreBotAPI.CastStack
+  what: Enables, disables or flips the cast stack entries that match the name, and prints a line to OgreConsole for each entry that actually changed unless silent is TRUE. It takes effect at once in the rotation and the OgreBot window, and is kept in the profile only when you Save.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg ability (string): The entry: its whole name (case-insensitive), an ability id (finds the entry that holds that ability), or one of IsStun, IsInterrupt, IsDaze, IsFear, IsStifle or Ascension to match every entry of that kind. Blank does nothing.
+  arg TRUE|FALSE|toggle (string): TRUE enables (1, yes and on count as TRUE too). toggle, or blank, flips each matching entry. Any other word disables.
+  arg silent (bool, default: FALSE): TRUE skips the OgreConsole lines.
+  example: OgreBotAPI.CastStack:SetEntry[igw:${Me.Name},Assault,FALSE]
+  oldbot: OgreBotAPI:ChangeCastStackListBoxItem, ChangeCastStackListBoxItem
+
+OgreBotAPI.CastStack:SetEntryByTag[fw, tag, TRUE|FALSE|toggle, partial=FALSE, silent=FALSE]
+  kind: method of OgreBotAPI.CastStack
+  what: Enables, disables or flips the cast stack entries whose tag matches, and prints a line to OgreConsole for each entry that actually changed unless silent is TRUE. It takes effect at once in the rotation and the OgreBot window, and is kept in the profile only when you Save.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg tag (string): The entry tag to match, case-insensitive. This is the entry's own tag, not an embargo or allow tag. Blank does nothing.
+  arg TRUE|FALSE|toggle (string): TRUE enables (1, yes and on count as TRUE too). toggle, or blank, flips each matching entry. Any other word disables.
+  arg partial (bool, default: FALSE): TRUE matches every entry whose tag contains the word; FALSE needs the whole tag.
+  arg silent (bool, default: FALSE): TRUE skips the OgreConsole lines.
+  example: OgreBotAPI.CastStack:SetEntryByTag[igw:${Me.Name},AE,toggle,TRUE]
+  oldbot: OgreBotAPI:ChangeCastStackListBoxItemByTag, ChangeCastStackListBoxItemByTag
+
+OgreBotAPI.CastStack:SetEntryOption[fw, row, options...]
+  kind: method of OgreBotAPI.CastStack
+  what: Sets one or more options on a cast stack row. It takes effect at once, and is kept in the profile only when you Save.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg row (number or text): The row: its number as the Cast Stack shows it (1 is the top row), or its name when exactly one row has that name (case-insensitive). An item row's name is Item:<item name>.
+  arg options... (key, value pairs): Key, value pairs, as many as you like: Type, Target, Named, NamedOrEpic, RD, Tag, ETag, ATag, EType, AType, ID, DT, MAX, IE, IAE, RIE, Conc, UseSolo, UseGroup, UseRaid, disabled, RW<, HP<, HP>, MP<, MP>, N_HP<, N_HP>, Aggro<, Aggro>, Fervor<, Fervor>, D<, D>, Sav, Sav<, % and #, the same options the Cast Stack window sets; all of them go on or none do, and a refusal prints why. A yes/no option takes TRUE or FALSE (FALSE unticks it). A number option takes a number, and having it at all is the condition. Type is one of the Cast Stack's types (Buff, CA, Heal ...); EType and AType are Both, Trigger Only or Listen Only.
+  example: OgreBotAPI.CastStack:SetEntryOption[${Me.Name},3,HP<,50,Named,TRUE]
+
+OgreBotAPI.CastStack:TestCast[fw, ability=""]
+  kind: method of OgreBotAPI.CastStack
+  what: Arms one real cast for the next pulse and then stops: the given ability, or with no ability the first entry the cast stack would cast right now; a name this toon's export does not know gets one line and arms nothing. It fires even while the bot is paused, but needs OgreBot loaded and is ignored while a cast is already in flight.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg ability (string, default: ""): The ability to cast: a name (short or any rank) or an ability id. It is cast with no target, and skipped with a console line if it is not ready. Blank casts the first eligible cast stack entry instead; a name that cannot be found gets one line and casts nothing.
+  example: OgreBotAPI.CastStack:TestCast[${Me.Name},Assault]
+
+OgreBotAPI.CastStack:Tick[fw]
+  kind: method of OgreBotAPI.CastStack
+  what: Runs one evaluation of the cast stack straight away and casts nothing, even while the bot is paused. It prints only when the Debug tab's cast stack eval or casting boxes are ticked, and it changes and saves nothing.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.CastStack:Tick[${Me.Name}]
+
+
+== OgreBotAPI.Client ==
+
+OgreBotAPI.Client:ResetCamera[fw]
+  kind: method of OgreBotAPI.Client
+  what: Recentres the camera: in first person it uses the game's camera recentre, otherwise it sets the camera pitch to 0 the way Client:SetCameraPitch does. While a camera pitch from Client:SetCameraPitch is still running, the pitch is not changed and one line says so.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Client:ResetCamera[${Me.Name}]
+  oldbot: OgreBotAPI:ResetCameraAngle, call Obj_OgreUtilities.ResetCameraAngle
+
+OgreBotAPI.Client:SetCameraPitch[fw, pitch=0, endInFirstPerson=FALSE]
+  kind: method of OgreBotAPI.Client
+  what: Queued: switches to third person if needed, sets the camera pitch, and goes back to first person when endInFirstPerson is TRUE. A pitch outside -75 to 75, or a call while one is still running, prints a console line and is dropped.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg pitch (int, default: 0): Camera pitch from -75 to 75; 0 is level
+  arg endInFirstPerson (bool, default: FALSE): TRUE to switch to first person after setting the pitch
+  example: OgreBotAPI.Client:SetCameraPitch[${Me.Name},-20,FALSE]
+  oldbot: OgreBotAPI:Set_CameraPitch, call Obj_OgreUtilities.Set_LookDown, call Obj_OgreUtilities.Set_LookUp
+
+OgreBotAPI.Client:SetMousePosition[fw, x, y]
+  kind: method of OgreBotAPI.Client
+  what: Moves the mouse cursor to x,y with Inner Space's Mouse:SetPosition, right away. A missing x or y prints "Client:SetMousePosition needs fw,X,Y" and does nothing.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg x (int): Horizontal position in pixels
+  arg y (int): Vertical position in pixels
+  example: OgreBotAPI.Client:SetMousePosition[${Me.Name},800,450]
+  oldbot: OgreBotAPI:SetMousePosition
+
+OgreBotAPI.Client:SetMousePositionMiddle[fw]
+  kind: method of OgreBotAPI.Client
+  what: Moves the mouse cursor to the centre of the display (half its width and height), right away.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Client:SetMousePositionMiddle[${Me.Name}]
+  oldbot: OgreBotAPI:SetMousePosition_Middle
+
+
+== OgreBotAPI.Combat ==
+
+${OgreBotAPI.Combat.InCombat}
+  kind: member of OgreBotAPI.Combat
+  what: TRUE when your character is in combat or something hates it; for your whole group, use ${OgreBotAPI.Roster.InCombat}. Always FALSE while you are not in the world, such as at character select.
+  returns: bool: TRUE when Me.InCombat or Me.IsHated is TRUE; FALSE otherwise or out of the world.
+  example: echo ${OgreBotAPI.Combat.InCombat}
+  oldbot: OgreBotAPI.InCombat
+
+${OgreBotAPI.Combat.IsReady}
+  kind: member of OgreBotAPI.Combat
+  what: TRUE when OgreBot is up: its main window or mini toolbar is open and a profile is loaded (the same check as ${ISXOgreEQ2.OgreBot.IsReady}); FALSE after it is closed.
+  returns: bool: TRUE when OgreBot is open and ready; FALSE otherwise.
+  example: echo ${OgreBotAPI.Combat.IsReady}
+  oldbot: OgreBotAPI.IsReady
+
+${OgreBotAPI.Combat.NoDefensive}
+  kind: member of OgreBotAPI.Combat
+  what: TRUE while any no-defensive reason is held (SetNoDefensive). While it is TRUE the bot skips defensive abilities.
+  returns: bool: TRUE when at least one no-defensive reason is held; FALSE when none is.
+  example: echo ${OgreBotAPI.Combat.NoDefensive}
+  oldbot: OgreBotAPI.CheckNoDefensiveOn
+
+${OgreBotAPI.Combat.NoOffensive}
+  kind: member of OgreBotAPI.Combat
+  what: TRUE while offensive actions are held off: a no-offensive reason is set (SetNoOffensive), or your current NPC target matches the no-offensive list (AddNoOffensive). While it is TRUE the bot skips offensive abilities and, while running, turns auto-attack off.
+  returns: bool: TRUE when a no-offensive reason is held or the current NPC target is on the no-offensive list; FALSE otherwise.
+  example: echo ${OgreBotAPI.Combat.NoOffensive}
+  oldbot: OgreBotAPI.CheckNoOffensiveOn, OgreBotAPI.NoOffensiveOn
+
+${OgreBotAPI.Combat.NoReqBowAbilities}
+  kind: member of OgreBotAPI.Combat
+  what: Returns the flag SetNoReqBowAbilities sets, FALSE until something sets it. While it is TRUE the cast stack skips abilities that need a bow.
+  returns: bool: TRUE when SetNoReqBowAbilities turned the flag on; FALSE otherwise.
+  example: echo ${OgreBotAPI.Combat.NoReqBowAbilities}
+  oldbot: OgreBotAPI.CheckNoReqBowAbilities, OgreBotAPI.bNoReqBowAbilities
+
+${OgreBotAPI.Combat.Zoning}
+  kind: member of OgreBotAPI.Combat
+  what: TRUE while a zone change is in progress, including the short wait after arriving before the character is settled. FALSE once you are in a zone and settled.
+  returns: bool: TRUE while zoning or not yet settled after a zone; FALSE otherwise.
+  example: echo ${OgreBotAPI.Combat.Zoning}
+  oldbot: OgreBotAPI.Zoning
+
+OgreBotAPI.Combat:AddNoOffensive[fw, mobName, exactOnly=TRUE]
+  kind: method of OgreBotAPI.Combat
+  what: Adds a mob name to the no-offensive list: while your current NPC target matches an entry, NoOffensive is TRUE and the bot holds off offensive abilities and auto-attack. Matching ignores case, adding a name already listed replaces its exactOnly setting, and the list is kept until ClearNoOffensive, LetsGo or the bot closing.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg mobName (string): The mob name to add. A blank name is ignored.
+  arg exactOnly (bool, default: TRUE): TRUE matches the whole name only; FALSE matches any target whose name contains mobName.
+  example: OgreBotAPI.Combat:AddNoOffensive[all,"a shield of Yothshaval",TRUE]
+  oldbot: OgreBotAPI:AddNoOffensiveOn
+
+OgreBotAPI.Combat:ClearNoOffensive[fw]
+  kind: method of OgreBotAPI.Combat
+  what: Empties the no-offensive list built by AddNoOffensive. Reasons set with SetNoOffensive are not touched.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Combat:ClearNoOffensive[all]
+  oldbot: OgreBotAPI:ClearNoOffensiveOn
+
+OgreBotAPI.Combat:Countdown[fw, seconds=10]
+  kind: method of OgreBotAPI.Combat
+  what: When this character is grouped and is the group leader, runs the game's countdown for the given seconds; on anyone else it does nothing. A number below 1 counts down from 1 and one over 30 from 30, with a console line saying so.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg seconds (int, default: 10): Seconds to count down, 1 to 30. A word that is not a number reads as 0, so it counts down from 1. The -countdown console row passes 1 when its time is left blank.
+  example: OgreBotAPI.Combat:Countdown[igw:${Me.Name},5]
+  oldbot: OgreBotAPI:Countdown
+
+OgreBotAPI.Combat:RemoveNoOffensive[fw,mobName]
+  kind: method of OgreBotAPI.Combat
+  what: Takes a mob name off the no-offensive list that Combat:AddNoOffensive adds to; the name is matched ignoring case. A name not on the list changes nothing.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg mobName (string): The mob name to take off the list. A blank name is ignored.
+  example: OgreBotAPI.Combat:RemoveNoOffensive[all,"a shield of Yothshaval"]
+  oldbot: OgreBotAPI:RemoveNoOffensiveOn
+
+OgreBotAPI.Combat:SetNoDefensive[fw, on=TRUE, reason=""]
+  kind: method of OgreBotAPI.Combat
+  what: Turns no-defensive on or off by reason: on adds the reason (manual when blank), off with a reason removes just that one, and off with no reason clears them all. While any reason is held the bot skips defensive abilities; LetsGo and reopening the bot clear every reason.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg on (bool, default: TRUE): TRUE adds the reason; FALSE removes it, or every reason when reason is blank. A word that is not yes or no changes nothing.
+  arg reason (string, default: ""): A name for why it is on, so several callers can hold it at once. Blank means manual when adding and every reason when removing.
+  example: OgreBotAPI.Combat:SetNoDefensive[igw:${Me.Name},FALSE,"tank swap"]
+  oldbot: OgreBotAPI:SetNoDefensive
+
+OgreBotAPI.Combat:SetNoOffensive[fw, on=TRUE, reason=""]
+  kind: method of OgreBotAPI.Combat
+  what: Turns no-offensive on or off by reason: on adds the reason (manual when blank), off with a reason removes just that one, and off with no reason clears them all. While any reason is held the bot skips offensive abilities and turns auto-attack off; LetsGo and reopening the bot clear every reason.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg on (bool, default: TRUE): TRUE adds the reason; FALSE removes it, or every reason when reason is blank. A word that is not yes or no changes nothing.
+  arg reason (string, default: ""): A name for why it is on, so several callers can hold it at once. Blank means manual when adding and every reason when removing.
+  example: OgreBotAPI.Combat:SetNoOffensive[igw:${Me.Name},TRUE,"tank swap"]
+  oldbot: OgreBotAPI:SetNoOffensive
+
+OgreBotAPI.Combat:SetNoReqBowAbilities[fw, on=TRUE]
+  kind: method of OgreBotAPI.Combat
+  what: Sets the flag NoReqBowAbilities reports, and needs the character in the world. While it is on the cast stack skips abilities that need a bow; LetsGo and closing the bot turn it off.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg on (bool, default: TRUE): TRUE turns the flag on; FALSE turns it off. A word that is not yes or no leaves it as it is.
+  example: OgreBotAPI.Combat:SetNoReqBowAbilities[${Me.Name},FALSE]
+  oldbot: OgreBotAPI:SetNoReqBowAbilities
+
+OgreBotAPI.Combat:ThreatIgnoreAdd[fw, name...]
+  kind: method of OgreBotAPI.Combat
+  what: Adds fighter names to the threat ignore list: a fighter on it holding aggro does not count as a fighter already tanking, so your taunts and threat abilities are still used. Matching ignores case, blank and NULL names are skipped, and the list is cleared when the bot is opened or closed.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg name... (string): One or more fighters' character names to add.
+  example: OgreBotAPI.Combat:ThreatIgnoreAdd[igw:${Me.Name},${Me.Name}]
+  oldbot: OgreBotAPI:ThreatFighterIgnoreList_Add
+
+OgreBotAPI.Combat:ThreatIgnoreClear[fw]
+  kind: method of OgreBotAPI.Combat
+  what: Empties the threat ignore list. Needs the character in the world.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Combat:ThreatIgnoreClear[igw:${Me.Name}]
+  oldbot: OgreBotAPI:ThreatFighterIgnoreList_Clear
+
+OgreBotAPI.Combat:ThreatIgnoreList[fw]
+  kind: method of OgreBotAPI.Combat
+  what: Prints the threat ignore list to the console: a ThreatFighterIgnoreList -- Start -- line, then one name per line. There is no end line, and the character must be in the world.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  example: OgreBotAPI.Combat:ThreatIgnoreList[${Me.Name}]
+  oldbot: OgreBotAPI.ThreatFighterIgnoreList, OgreBotAPI:ThreatFighterIgnoreList_List
+
+OgreBotAPI.Combat:ThreatIgnoreRemove[fw, name...]
+  kind: method of OgreBotAPI.Combat
+  what: Removes each named fighter from the threat ignore list, in any case. A name that is not on the list is ignored, and the character must be in the world.
+  arg fw (for-who): for-who: this runs only when this character is one it names
+  arg name... (string): One or more character names to remove.
+  example: OgreBotAPI.Combat:ThreatIgnoreRemove[igw:${Me.Name},${Me.Name}]
+  oldbot: OgreBotAPI:ThreatFighterIgnoreList_Remove
+
