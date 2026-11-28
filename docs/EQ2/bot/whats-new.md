@@ -10,6 +10,15 @@ A release is named by the day it was published and its number that day: **2026.1
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
 
+## 2026.11.27.002 {#r2026-11-27-002}
+
+*Friday, November 27, 2026 at 9:21 PM EST*
+
+- **Changed** · Bot: **The Cast Stack shows which abilities are used while casting.** Abilities such as Leg Bite, which OgreBot uses even while another ability is casting, are now tagged "while casting" in the Cast Stack: beside the name in the Abilities list, on their rows in the Cast order, and in the editor.
+- **Fixed** · Bot: **Leg Bite and the other Classic class options carry over right after an export.** A profile from OgreBot Classic that still had a class option such as "Do not use leg bite" unticked, loaded before the character had an ability export, now gets its Cast Stack row as soon as `ogre export` finishes. It used to wait for the next profile load.
+- **Fixed** · Bot: **Transmuting skips a handcrafted item the game refuses at once.** When the game refuses to transmute an item because it is handcrafted, the Inventory Manager now reads that at once and skips the item for the session. It used to wait, try it a second time and then give up.
+- **Fixed** · Setup: **Auto-Login logs in sessions whose game profile does not load OgreBot.** A session opened by an ISBoxer character set (or by hand) under a game profile that loads ISXEQ2 but not ISXOgreX sat at the login screen: Auto-Login sent the login, and nothing in that session could receive it. Auto-Login now checks each session for OgreBot before it logs in, loads it where it is missing, and waits for it to finish loading. If it still is not there, the run log says so and tells you to check that ISXOgreX loads in that session.
+
 ## 2026.11.27.001 {#r2026-11-27-001}
 
 *Friday, November 27, 2026 at 8:12 PM EST*
