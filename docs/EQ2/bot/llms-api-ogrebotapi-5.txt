@@ -165,7 +165,7 @@ OgreBotAPI.Quest:ShareQuestWhenAble[fw, questName, zoneName]
 
 OgreBotAPI.Quest:ShowMissionInfo[fw]
   kind: method of OgreBotAPI.Quest
-  what: Opens the Zone Reuse window's Hot Zones tab and prints one line to the console: the newest expansion's hot zone (the window's first row, each zone named once, without [Heroic] / [Solo]) and the time until it changes. When the game's list reads Expired - the zones just changed and the new list has not arrived - it says so instead. It runs on every addressed character, with no group leader check.
+  what: Opens the Zone Reuse window's Hot Zones tab and prints one line to the console: the newest expansion's hot zone (each zone named once, without [Heroic] / [Solo]) and the time until it changes, or that the game's list has just expired. It runs on every addressed character, with no group leader check.
   arg fw (for-who): for-who: this runs only when this character is one it names
   example: OgreBotAPI.Quest:ShowMissionInfo[${Me.Name}]
   oldbot: OgreBotAPI:DisplayEtherealMissionInfo

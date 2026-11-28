@@ -4868,7 +4868,7 @@ OgreBotAPI.Quest:ShareQuestWhenAble[fw, questName, zoneName]
 
 OgreBotAPI.Quest:ShowMissionInfo[fw]
   kind: method of OgreBotAPI.Quest
-  what: Opens the Zone Reuse window's Hot Zones tab and prints one line to the console: the newest expansion's hot zone (the window's first row, each zone named once, without [Heroic] / [Solo]) and the time until it changes. When the game's list reads Expired - the zones just changed and the new list has not arrived - it says so instead. It runs on every addressed character, with no group leader check.
+  what: Opens the Zone Reuse window's Hot Zones tab and prints one line to the console: the newest expansion's hot zone (each zone named once, without [Heroic] / [Solo]) and the time until it changes, or that the game's list has just expired. It runs on every addressed character, with no group leader check.
   arg fw (for-who): for-who: this runs only when this character is one it names
   example: OgreBotAPI.Quest:ShowMissionInfo[${Me.Name}]
   oldbot: OgreBotAPI:DisplayEtherealMissionInfo
@@ -8700,14 +8700,14 @@ ${ISXOgreEQ2.Export.Total}
 
 ISXOgreEQ2.Export:Abilities[flag...]
   kind: method of ISXOgreEQ2.Export
-  what: Starts the ability export in the background and returns at once: it reads each ability's game info one ability at a time (a server request per ability) and writes OgreSave/EQ2/OgreBot/AbilityExports/V3_<Name>_<SubClass>_<Server>_AbilityExport.json, the file OgreBotAPI.Abilities loads. With no flags it is the standard export (no passives, no tradeskill, merged into the existing file); a call while one is running is ignored with a console line, and when it finishes OgreBot reloads its abilities unless -noreloadbot or -nosave was given.
+  what: Starts the ability export in the background and returns at once: it reads each ability's game info one ability at a time (a server request per ability) and writes OgreSave/EQ2/OgreBot/AbilityExports/<Server>_<Name>_<SubClass>.json, the file OgreBotAPI.Abilities loads. With no flags it is the standard export (no passives, no tradeskill, merged into the existing file); a call while one is running is ignored with a console line, and when it finishes OgreBot reloads its abilities unless -noreloadbot or -nosave was given.
   arg flag... (string): optional flags in any order: -passive (include passives), -tradeskill (tradeskill export to the crafting XML files), -nodesc, -minlevel <n>, -maxlevel <n>, -j / -a / -e / -m / -gm / -ancient (lowest tier to keep), -new (fresh file, no merge), -na (only abilities not already in the file), -nosave (dry run, nothing written), -noreloadbot; a word that starts with - and is none of these is refused with one line and nothing starts; any other word is an ability ID or name to export only those (a name is looked up by name, a server request)
   example: ISXOgreEQ2.Export:Abilities[-passive]
 
 ISXOgreEQ2.Export:Config[word...]
   kind: method of ISXOgreEQ2.Export
-  what: The `ogre export` command: with no words it opens the Ability Export options panel, or brings it back if a run hid it. -start runs the export now with the panel's current options and no panel (a server request per ability, as Abilities does; refused while one is running), -default uses the default options for this call only without saving them, stop stops a running export, and any other word is named on the console and nothing happens.
-  arg word... (string): optional words, any order, case-insensitive, leading dash optional: -default, -start, stop
+  what: The `ogre export` command: with no words it opens the Ability Export options panel, or brings it back if a run hid it. With words it runs, starts or stops the export - see the parameter for each.
+  arg word... (string): optional words, any order. The export's own flags, or an ability name or ID, run the export now with exactly those, as Abilities does (a flag that takes a value is followed by it; the panel's saved options are not used or changed). -start runs it now with the panel's options, refused while one is running; -default uses the default options for this call only, without saving them; stop stops a running export (these three: any case, leading dash optional). A dash word that is no flag is named on the console and nothing runs.
   example: ISXOgreEQ2.Export:Config[stop]
 
 ISXOgreEQ2.Export:End
@@ -11534,11 +11534,12 @@ ogre experiment [-<stat> <n>]... | items | run <row> ...
 ogre export [flags]
   kind: ogre command (typed in the game's chat box or a script)
   also: ogre abilityexport
-  what: Open the export panel (-start runs it now, -default uses defaults)
+  what: Open the export panel; with export flags (-passive, -new, -maxlevel 130 ...) run the export now with them; -start runs the panel's options, -default the defaults
   arg -default (flag, default: the current saved options): Use the default options for this run only; the saved ones are not changed.
   arg -start (flag, default: bare opens the options panel): Run the export now, without the options panel.
   arg -stop (flag): Stop an export that is running.
-  example: ogre export -default -start
+  arg <export flags> (string): Any flag ISXOgreEQ2.Export:Abilities takes (-passive, -tradeskill, -NoAscension, -AscensionOnly, -nodesc, -j/-a/-e/-m/-gm/-ancient, -minlevel <n>, -maxlevel <n>, -new, -nonew, -NewAbilities, -nosave, -noreloadbot, -consolidate, -consolidateOnly, -clearcache, -path <file>), or an ability name or ID: runs the export now with exactly these.
+  example: ogre export -new -maxlevel 130
 
 ogre find <name> [-rorr]
   kind: ogre command (typed in the game's chat box or a script)

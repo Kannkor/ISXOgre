@@ -49,13 +49,15 @@ takes a few minutes. After that, the bot keeps itself up to date every time it l
 
 ## Before you start
 
-- **InnerSpace** and **ISXEQ2**, installed and working. InnerSpace must run as 64-bit, which is its default.
+- **InnerSpace** and **ISXEQ2**, installed and working. InnerSpace must run as 64-bit, which is its default. You do
+  not load ISXEQ2 yourself: the bot loads it.
 - **Your OgreBot username and password.** They are the same as for OgreBot Classic. You got them in the
   **Welcome to ISXOgre** email when you subscribed. No subscription yet? See
   [How to Subscribe](../about/pricing.md#how-to-subscribe).
 - **Your PC's clock set right.** Sign-in is refused when the clock is off by more than 10 minutes.
 - **InnerSpace in a folder Windows lets you write to.** The bot saves its settings and downloads inside the
-  InnerSpace folder. A folder under `Program Files` can stop it from saving.
+  InnerSpace folder (the folder InnerSpace itself is in). A folder under `Program Files` can stop it from saving.
+- **About 15 GB free** on that drive. The maps the bot downloads after its first start are about 14 GB.
 
 ## Step 1: Start one game session
 
@@ -104,7 +106,7 @@ The bot now downloads the rest of itself: about 1,500 files, a little over 100 M
 they arrive: first how many files there are to get, then a line every few files saying how far it has got, for
 example `patch: downloading 300 of 1544`. You do not have to watch it, and you can close the console while it works:
 the welcome window below opens by itself when everything is in. When the new files are in, the extension reloads itself once. That is
-normal. It signs in again by itself, and then the bot's windows open.
+normal. It signs in again by itself, and then the welcome window opens (step 5).
 
 **The maps download afterwards.** The maps the bot uses to move and fly around zones are large, about 14 GB in all.
 They download in the background after the bot has loaded, and the console says so:
@@ -123,7 +125,7 @@ copies your Classic settings into the new bot: see [Migration Assistant](windows
 
 ## Step 6: Log in and open the bot
 
-Log your character in to the world the usual way. Then type:
+Log your character in to the world the usual way. Then, in the InnerSpace console, type:
 
 ```
 ogre
@@ -141,8 +143,8 @@ paused until the export is done.
 Open the **EQ2Chars** tab in the big OgreBot window and add each of your characters, with its game account and
 password if you want the bot to log it in for you. See [EQ2Chars](ogrebot/eq2chars.md).
 
-From then on, `ogre <name>` logs that character in from character select and starts the bot, for example
-`ogre Brutus`. Until a character is on the list, `ogre <name>` only says it is not a known character.
+From then on, `ogre <name>` typed in the InnerSpace console logs that character in from character select and starts
+the bot, for example `ogre Brutus`. Until a character is on the list, `ogre <name>` only says it is not a known character.
 
 ## Next time
 
@@ -153,11 +155,14 @@ type `ogre <name>` at character select, or `ogre` once you are in the world.
 
 | The console says | What to do |
 |---|---|
-| `login failed - invalid credentials. Re-enter them in the login box.` | Your username or password is wrong. Type them again in the login window. They are case-sensitive. |
-| `your OgreBot subscription is not active - adapter not loaded.` | Your account has no active OgreBot subscription. |
+| `login failed - invalid credentials. Re-enter them in the login box.` | Your username or password is wrong. Enter them again in the login window: copy and paste them from the **Welcome to ISXOgre** email. They are case-sensitive. |
+| `your OgreBot subscription is not active - adapter not loaded.` | Your account has no active OgreBot subscription. To get one or renew it, see [How to Subscribe](../about/pricing.md#how-to-subscribe). |
 | `login failed - ... Sync this machine's clock ...` | Set your PC's clock right (Windows Settings, Time & language, **Sync now**), then type `ext isxogrex` again. |
-| `login failed - ... too many machines or IPs for your subscription.` | Your account is signed in on more PCs than it allows. |
+| `login failed - ... too many machines or IPs for your subscription.` | Your subscription has hit its PC/IP limit: it is in use on more PCs or internet addresses than it allows. Talk to Kannkor on [Discord](https://discord.gg/hnSTRQr). |
+| Step 2's download line does not succeed | Download the file in your browser instead (the box under step 2) and save it in your InnerSpace folder as `x64\Extensions\ISXDK35\ISXOgreX.dll`. |
+| `ext isxogrex` opens no login window | Check that the file is in your InnerSpace folder at `x64\Extensions\ISXDK35\ISXOgreX.dll`, named exactly that, and that InnerSpace runs as 64-bit. Then type `ext isxogrex` again. |
 | `cannot reach the OgreGaming server. Retrying in ...` | The bot tries again by itself. If it keeps failing, check your internet connection and firewall. |
+| The game closed during the first download | Start a session again and type `ext isxogrex`. The bot checks its files every time it loads and downloads what is missing. The maps pick up where they stopped. |
 | No Ogre windows appear | See [No Ogre windows](no-ogre-windows.md). |
 
 ## Next steps

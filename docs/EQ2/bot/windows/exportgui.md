@@ -14,12 +14,13 @@
 > - **Merge** into the file you have, write a **Fresh file**, or add **Only abilities I don't have yet** (much faster).
 > - **Tradeskill export instead** makes the files Ogre Craft uses.
 > - **Run export** starts it. This window steps aside while it runs (`ogre export` brings it back); the small Exporting Abilities window shows progress and can stop it.
+> - **Ranks** lists each ability line with the rank OgreBot uses. **Ignore** a rank and OgreBot uses the one below it (Kick V instead of Kick VI); **Restore** brings it back. It applies at once, with no new export, and a new export keeps it.
 >
 > **Good to know**
 >
 > - A full export takes a while. OgreBot reloads your abilities when it finishes, unless it was a dry run or you ticked **Don't reload OgreBot when finished**.
 > - `ogre export -start` runs with the options set here, without opening this window.
-> - To give the options on the command line, use `ISXOgreEQ2.Export:Abilities[...]` - the green line at the bottom shows it for the options you have set, and Full documentation lists every flag.
+> - `ogre export` with flags runs the export now with just those, for example `ogre export -new -maxlevel 130`. Full documentation lists every flag.
 > - Your choices are saved as you make them.
 > - If none of the abilities in **Just these abilities** is found, nothing is exported and the top line says so.
 
@@ -39,6 +40,7 @@ The yellow text left of the buttons is the result of the last thing you did (for
 
 | Control | What it does | Default |
 |---|---|---|
+| **Options / Ranks** | Switches the window between its two pages: Options (what an export reads and writes) and Ranks (which rank of each ability OgreBot uses). Help and Reset belong to the Options page. | Options |
 | **Help** | Shows or hides a short explanation under every option. Display only - changes what you see, not what the bot does.<br>*The explanations are the same plain-language text as this page.* | off |
 | **Reset** | Puts every option back to its default and saves that straight away. |  |
 | **Run export / Run (dry run) / Run cache action / Running…** | Starts the export with the options shown. The label tells you what will happen: 'Run (dry run)' when nothing will be written, 'Run cache action' when you picked a cache action that does not export. While the export runs this window steps aside; the small Exporting Abilities window shows the progress and has the Stop button.<br>*Greyed out while the red 'can't run' box is showing, and while an export is already running.* |  |
@@ -128,13 +130,27 @@ The cache only makes exports faster: it remembers which abilities an export woul
 
 
 
+## Ranks
+
+Each ability line shows the rank OgreBot uses: the highest rank at your level that is not ignored. Ignore a rank and OgreBot uses the one below it (Kick V instead of Kick VI). The change applies at once - the ability file is rebuilt from what the last export read, with no new export, and OgreBot reloads its abilities. Ignored ranks are kept for the character, and a new export leaves them out too.
+
+
+| Control | What it does | Default |
+|---|---|---|
+| **Find an ability** | Shows only the ability lines whose name has this text in it (any case). Display only. | empty |
+| **Only lines with an ignored rank** | Shows only the lines where you have ignored a rank. Display only. | off |
+| **Ignore** | Stops OgreBot using this rank: the line then shows the rank below it in use. If it was the line's only rank at your level, OgreBot does not use that ability at all until you restore it.<br>*The line above the list says what changed, for example 'Kick VI ignored - Kick V is in use.'* |  |
+| **Restore** | Lets OgreBot use an ignored rank again. Ignored ranks are listed under their line, crossed out. |  |
+
+
+
 ## What the window shows
 
 - Grey text next to each option (like -passive) is the matching script word, for the command at the bottom. Display only.
 - Yellow 'Heads up' box: things worth knowing about the options you picked. You can still run.
 - Red 'These options can't run' box: something must be fixed first. Run export is greyed out until it is.
 - Green command line: the same export as a one-line script command (ISXOgreEQ2.Export:Abilities[...]). Display only.
-- Saves to: where the file will be written - normally OgreSave/EQ2/OgreBot/AbilityExports/V3_<name>_<class>_<server>_AbilityExport.json. For a tradeskill export it shows the folder instead ('up to 3 files in').
+- Saves to: where the file will be written - normally OgreSave/EQ2/OgreBot/AbilityExports/<server>_<name>_<class>.json. For a tradeskill export it shows the folder instead ('up to 3 files in').
 - Footer: a reminder that `ogre export -start` skips this window.
 
 ## Good to know
@@ -146,29 +162,20 @@ The cache only makes exports faster: it remembers which abilities an export woul
 - If none of the abilities in 'Just these abilities' is in your knowledge book, nothing is exported and the top row says so. Names that are not found are listed on the console.
 - Typing `ogre export` while this window is open does nothing.
 - Options file: OgreSave/EQ2/OgreBot/AbilityExports/export-gui.json. Delete it to go back to defaults.
+- Ignored ranks are saved per character and class in OgreSave/EQ2/OgreBot/AbilityExports/Ignored/<server>_<name>_<class>.json. The Ranks page needs one export made by this version of OgreBot first; until then it says so.
 
 ### Run it from the console
 
-There are two commands. **`ogre export`** works the panel; **`ISXOgreEQ2.Export:Abilities[...]`** is the export itself, and takes every option on the command line.
+Type **`ogre export`** with the options you want. With nothing after it, it opens this window.
 
-#### `ogre export` (the panel's command)
+#### Run it now, with options
 
-It knows only these words - any order, any case, the dash optional. `ogre abilityexport` is the same command.
+`ogre export <flags>` runs the export straight away with exactly those flags. The options saved in this window are not used or changed. The flags go in any order; one that takes a number or a file is followed by it.
 
-| Type | What it does |
-|---|---|
-| `ogre export` | Opens this window. While an export runs, it brings this window back. |
-| `ogre export -start` | Runs the export now with the options set in this window, without opening it. |
-| `ogre export -default -start` | Runs the export now with the default options. Your saved options are left as they are. |
-| `ogre export -default` | Opens this window showing the defaults. They are saved only once you change an option or run. |
-| `ogre export stop` | Stops a running export. Nothing is written. |
-| `ogre end export` | Stops a running export and closes both export windows. |
-
-Any other word - for example `-new` or `-maxlevel 130` - is refused with a message, and nothing runs: `ogre export` never takes the options themselves. To give options on the command line, use the command below.
-
-#### `ISXOgreEQ2.Export:Abilities[...]` (every option)
-
-Type it in the console as it is. The flags go inside the brackets, separated by commas, in any order; a flag that takes a number or a file is followed by it, as the next item: `ISXOgreEQ2.Export:Abilities[-new,-maxlevel,130]`. With no flags it runs with the defaults. It starts in the background and returns at once. The green line at the bottom of this window shows this same command for the options you have set, so you can copy it from there.
+- `ogre export -new -maxlevel 130`
+- `ogre export -passive -ancient`
+- `ogre export -tradeskill`
+- `ogre export "Mystic Ward" -passive`
 
 | Flag | The window's option | What it does |
 |---|---|---|
@@ -184,8 +191,8 @@ Type it in the console as it is. The flags go inside the brackets, separated by 
 | `-m` or `-master` | Minimum tier: Master+ | Master and better only. |
 | `-gm` or `-grandmaster` | Minimum tier: Grandmaster+ | Grandmaster and better only. |
 | `-ancient` | Minimum tier: Ancient+ | Ancient and better only. |
-| `-minlevel,<n>` | Minimum level | Leaves out abilities below level n. AA and ascension abilities count as level 0, so any minimum above 0 leaves them all out. |
-| `-maxlevel,<n>` | Maximum level | Leaves out abilities above level n. |
+| `-minlevel <n>` | Minimum level | Leaves out abilities below level n. AA and ascension abilities count as level 0, so any minimum above 0 leaves them all out. |
+| `-maxlevel <n>` | Maximum level | Leaves out abilities above level n. |
 | `-nonew` or `-nothing` | File mode: Merge into existing export | Adds new abilities and updates changed ones in the export you have. The default. |
 | `-new` | File mode: Fresh file (replace) | Starts a brand-new export that replaces the one you have. |
 | `-NewAbilities` or `-NA` | File mode: Only abilities I don't have yet | Adds only abilities that are not in your export yet, which is much faster. Ignored together with `-new`. |
@@ -194,17 +201,34 @@ Type it in the console as it is. The flags go inside the brackets, separated by 
 | `-consolidate` | Cache action: Consolidate, then export | First folds in what your other characters' exports have learned, then exports. |
 | `-consolidateOnly` or `-co` | Cache action: Consolidate only (no export) | Only folds in what your other characters' exports have learned. Nothing is exported. |
 | `-clearcache` | Cache action: Clear the cache (no export) | Empties the shared cache list. Nothing is exported. |
-| an ability name or ID | Just these abilities | Exports only the abilities you name. A name has no dash in front; put one with spaces in quotes: `ISXOgreEQ2.Export:Abilities["Mystic Ward",-passive]`. Names that are not found are listed in the console, and if none is found nothing runs. |
-| `-path,<file>` | *(not in the window)* | Writes to that file instead of the usual one. For testing. |
+| an ability name or ID | Just these abilities | Exports only the abilities you name. A name has no dash in front; put one with spaces in quotes. Names that are not found are listed in the console, and if none is found nothing runs. |
+| `-path <file>` | *(not in the window)* | Writes to that file instead of the usual one. For testing. |
 
-A word that starts with a dash and is not in this table is refused before anything runs, so a typo never turns into an ability name. `-fastloading` (an old flag) is accepted and ignored, with a message.
+A word that starts with a dash and is not in this table is refused, and nothing runs, so a typo never turns into an ability name. `-fastloading` (an old flag) is accepted and ignored, with a message.
+
+#### The window's own words
+
+| Type | What it does |
+|---|---|
+| `ogre export` | Opens this window. While an export runs, it brings this window back. |
+| `ogre export -start` | Runs the export now with the options set in this window, without opening it. |
+| `ogre export -default -start` | Runs the export now with the default options. Your saved options are left as they are. |
+| `ogre export -default` | Opens this window showing the defaults. They are saved only once you change an option or run. |
+| `ogre export stop` | Stops a running export. Nothing is written. |
+| `ogre end export` | Stops a running export and closes both export windows. |
+
+`-start` and `-default` add nothing when flags are given: flags always run with exactly what they say. `ogre abilityexport` is the same command as `ogre export`.
+
+#### In a script
+
+A script uses `ISXOgreEQ2.Export:Abilities[...]`, which takes the same flags, separated by commas: `ISXOgreEQ2.Export:Abilities[-new,-maxlevel,130]`. The green line at the bottom of this window shows it for the options you have set.
 
 #### While it runs, and on other characters
 
 - `${ISXOgreEQ2.Export.Busy}` is TRUE until the file is written or the export stops; `${ISXOgreEQ2.Export.Processed}` and `${ISXOgreEQ2.Export.Total}` are its progress.
-- `ISXOgreEQ2.Export:End` stops it and closes the windows, the same as `ogre end export`.
-- On every member of your group, each with its own saved options: `oc !c -OgreCommandOB_AP igw:${Me.Name} export -start`
-- On every member of your group, with options on the command line: `oc !c -RawCommandOB_AP igw:${Me.Name} ISXOgreEQ2.Export:Abilities[-new,-maxlevel,130]`
+- `ogre end export` (or `ISXOgreEQ2.Export:End` in a script) stops it and closes the windows.
+- On every member of your group, with options: `oc !c -OgreCommandOB_AP igw:${Me.Name} export -new -maxlevel 130`
+- On every member of your group, each with the options saved in its own window: `oc !c -OgreCommandOB_AP igw:${Me.Name} export -start`
 
 ### While an export runs
 

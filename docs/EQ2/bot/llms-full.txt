@@ -48,13 +48,15 @@ takes a few minutes. After that, the bot keeps itself up to date every time it l
 
 ## Before you start
 
-- **InnerSpace** and **ISXEQ2**, installed and working. InnerSpace must run as 64-bit, which is its default.
+- **InnerSpace** and **ISXEQ2**, installed and working. InnerSpace must run as 64-bit, which is its default. You do
+  not load ISXEQ2 yourself: the bot loads it.
 - **Your OgreBot username and password.** They are the same as for OgreBot Classic. You got them in the
   **Welcome to ISXOgre** email when you subscribed. No subscription yet? See
   [How to Subscribe](../about/pricing.md#how-to-subscribe).
 - **Your PC's clock set right.** Sign-in is refused when the clock is off by more than 10 minutes.
 - **InnerSpace in a folder Windows lets you write to.** The bot saves its settings and downloads inside the
-  InnerSpace folder. A folder under `Program Files` can stop it from saving.
+  InnerSpace folder (the folder InnerSpace itself is in). A folder under `Program Files` can stop it from saving.
+- **About 15 GB free** on that drive. The maps the bot downloads after its first start are about 14 GB.
 
 ## Step 1: Start one game session
 
@@ -103,7 +105,7 @@ The bot now downloads the rest of itself: about 1,500 files, a little over 100 M
 they arrive: first how many files there are to get, then a line every few files saying how far it has got, for
 example `patch: downloading 300 of 1544`. You do not have to watch it, and you can close the console while it works:
 the welcome window below opens by itself when everything is in. When the new files are in, the extension reloads itself once. That is
-normal. It signs in again by itself, and then the bot's windows open.
+normal. It signs in again by itself, and then the welcome window opens (step 5).
 
 **The maps download afterwards.** The maps the bot uses to move and fly around zones are large, about 14 GB in all.
 They download in the background after the bot has loaded, and the console says so:
@@ -122,7 +124,7 @@ copies your Classic settings into the new bot: see [Migration Assistant](windows
 
 ## Step 6: Log in and open the bot
 
-Log your character in to the world the usual way. Then type:
+Log your character in to the world the usual way. Then, in the InnerSpace console, type:
 
 ```
 ogre
@@ -140,8 +142,8 @@ paused until the export is done.
 Open the **EQ2Chars** tab in the big OgreBot window and add each of your characters, with its game account and
 password if you want the bot to log it in for you. See [EQ2Chars](ogrebot/eq2chars.md).
 
-From then on, `ogre <name>` logs that character in from character select and starts the bot, for example
-`ogre Brutus`. Until a character is on the list, `ogre <name>` only says it is not a known character.
+From then on, `ogre <name>` typed in the InnerSpace console logs that character in from character select and starts
+the bot, for example `ogre Brutus`. Until a character is on the list, `ogre <name>` only says it is not a known character.
 
 ## Next time
 
@@ -152,11 +154,14 @@ type `ogre <name>` at character select, or `ogre` once you are in the world.
 
 | The console says | What to do |
 |---|---|
-| `login failed - invalid credentials. Re-enter them in the login box.` | Your username or password is wrong. Type them again in the login window. They are case-sensitive. |
-| `your OgreBot subscription is not active - adapter not loaded.` | Your account has no active OgreBot subscription. |
+| `login failed - invalid credentials. Re-enter them in the login box.` | Your username or password is wrong. Enter them again in the login window: copy and paste them from the **Welcome to ISXOgre** email. They are case-sensitive. |
+| `your OgreBot subscription is not active - adapter not loaded.` | Your account has no active OgreBot subscription. To get one or renew it, see [How to Subscribe](../about/pricing.md#how-to-subscribe). |
 | `login failed - ... Sync this machine's clock ...` | Set your PC's clock right (Windows Settings, Time & language, **Sync now**), then type `ext isxogrex` again. |
-| `login failed - ... too many machines or IPs for your subscription.` | Your account is signed in on more PCs than it allows. |
+| `login failed - ... too many machines or IPs for your subscription.` | Your subscription has hit its PC/IP limit: it is in use on more PCs or internet addresses than it allows. Talk to Kannkor on [Discord](https://discord.gg/hnSTRQr). |
+| Step 2's download line does not succeed | Download the file in your browser instead (the box under step 2) and save it in your InnerSpace folder as `x64\Extensions\ISXDK35\ISXOgreX.dll`. |
+| `ext isxogrex` opens no login window | Check that the file is in your InnerSpace folder at `x64\Extensions\ISXDK35\ISXOgreX.dll`, named exactly that, and that InnerSpace runs as 64-bit. Then type `ext isxogrex` again. |
 | `cannot reach the OgreGaming server. Retrying in ...` | The bot tries again by itself. If it keeps failing, check your internet connection and firewall. |
+| The game closed during the first download | Start a session again and type `ext isxogrex`. The bot checks its files every time it loads and downloads what is missing. The maps pick up where they stopped. |
 | No Ogre windows appear | See [No Ogre windows](no-ogre-windows.md). |
 
 ## Next steps
@@ -429,6 +434,30 @@ What changed in OgreBot, release by release, newest first. Every release listed 
 A release is named by the day it was published and its number that day: **2026.10.16.005** is the fifth release on October 16, 2026. Releases with nothing you would notice are not listed, so the numbers can skip.
 
 Dates and times are US Eastern time (EST in winter, EDT in summer).
+
+## 2026.11.27.001 {#r2026-11-27-001}
+
+*Friday, November 27, 2026 at 8:12 PM EST*
+
+- **New** · Bot: **Choose which rank of an ability OgreBot uses.** The Ability Export window has a new Ranks page listing each ability with the rank OgreBot uses. Ignore a rank and OgreBot uses the one below it (Kick V instead of Kick VI), at once and with no new export. A new export keeps it, so there is no more deleting a rank from the export file by hand.
+- **New** · Bot: **ogre export takes every export option.** `ogre export` now takes the export's options on the line and runs the export with them straight away, for example `ogre export -new -maxlevel 130` or `ogre export -passive -ancient`. Every option in the Ability Export window has a flag, and the Ability Export page lists them all. `ogre export` on its own still opens the window, and `ogre export -start` still runs with the window's options.
+- **New** · Bot: **The Encounter Recorder notes abilities you gain.** When your character gains an ability during a recording, such as one another class grants, the recording now has a row for it and the fight's timeline shows "ability gained" with its name.
+- **New** · Bot: **The pack pony can choose what to gather from your harvest depot.** Two new boxes on the Pack Pony tab, both off: tick one and, when a harvest depot is within reach, the bot reads it (every one in reach, added together) before the summon and sends the pony for the harvest level whose rare (or common) harvest you have the fewest of. With no depot nearby, or everything at the depot's cap, your own replies are used. The newest expansion's harvests are not in the list yet.
+- **Changed** · Bot: **Codex Toon says why an upload was refused, and keeps renamed characters straight.** When eq2codex refuses an `ogre codextoon` upload, the line now gives the site's reason, for example that you can start a claim on My Characters, instead of only an error number. Uploads now also tell eq2codex which character you are logged into, so a character renamed in game stays the same character on the site.
+- **Changed** · Bot: **Hot Zones prints one line.** Hot Zones now prints only the newest expansion's hot zone, each zone named once without [Heroic] or [Solo], and when it changes. Right after the zones change the game's list reads "Expired", and the bot now says so instead of printing the old zones.
+- **Changed** · Bot: **New abilities are added to your export on their own.** When OgreBot loads, each time you zone, and when you gain an ability (one another class grants you, for example), it checks your ability list for abilities your export does not have yet, such as a new rank or a new spell. It reads just those, while the bot is running and out of combat, and reloads your abilities, so you no longer need a new export for them. A new export is still needed after changing AAs.
+- **Changed** · Bot: **Run a new ability export on each character.** Ability exports have a new file name, so OgreBot removes the old export files when it loads. Run `ogre export` once on each character to make the new one.
+- **Changed** · Bot: **The ability export also saves everything the game says about each ability.** An ability export now saves every detail the game gives for each ability, passives included, in a capture file per character and class, and builds the export from it, so an export takes longer than before. An ability your character no longer knows now drops out of the export. Exporting only new or named abilities needs that file first, so the first time it reads every ability once.
+- **Changed** · Bot: **The ability export updates itself when OgreBot loads.** When OgreBot loads, it rebuilds your ability export from the saved capture file if the export rules changed, you levelled, or your ascension class changed, using the options of your last export. You no longer need a new export for that. A new export is still needed for new abilities, changed AAs, or the first time after this update.
+- **Changed** · Bot: **The membership report says what it is about.** The subscription status report now starts with "All-Access:". When it cannot tell, it says to open the Marketplace once instead of only "Unknown!".
+- **Changed** · Windows: **The MCP opens at a smaller size, with two static columns.** The Master Control Panel now opens with room for 5 button columns and 6 rows, unless you saved its position. A new install's buttons are laid out for it: 2 static columns and 3 page columns, with the ready-made Ask buttons on the Inputs and Inputs 2 pages.
+- **Changed** · Setup: **The bot keeps the log from the load before.** Each time the bot loads it still starts a fresh log, and it now keeps the log from the load before beside it, as `ISXOgreX.<session>.previous.log` and `ISXOgreEQ2.<session>.previous.log` in `Scripts\OgreLogs\<session>`. Only that one older log is kept. On a first install the bot loads twice, so the lines from the first sign-in and the first download are in the `.previous.log` file.
+- **Fixed** · Bot: **Inventory restock sees every item in a large depot.** `im restock` read only the first 512 items of a depot, so on a large depot it could not find anything stored past that. It now reads the whole depot, up to its 10,000-item limit, and reading a large depot is much faster.
+- **Fixed** · Bot: **Leg Bite and the summoner casts reach profiles that never touched their boxes.** A profile from OgreBot Classic now gets its Leg Bite, Shockwave, Magic Leash or Shadowstep Cast Stack row even if you never changed the old class tab box, because untouched meant "use it". This happens once, on the profile's first load, and only for abilities the character has. To stop using one, switch its row off rather than deleting it.
+- **Fixed** · Bot: **The research report reads the real time left.** The research window report could print ":x:Time Remaining" for every row. After the window had been open once, the report read the hidden copy, which never updates. It now shows the research page first, so each row reads its real status, such as "Completed".
+- **Fixed** · Bot: **The tradeskill export files each art by its real technique again.** The tradeskill export saved each art's power cost or cast time as its technique, so every art landed in your class file and the tinkering and adorning files came out empty. It now reads the technique the examine window shows, and files tinkering and adorning arts in their own files.
+- **Fixed** · Bot: **Zone summons wait out the last cast before summoning the mount or familiar.** Right after a cast, the game ignores a mount or familiar summon for a moment, so the bot could say your mount did not come up. The summon now waits that moment out first.
+- **Fixed** · Navigation: **The navmesh download no longer makes the game stutter.** While new navmeshes downloaded in the background, the game stuttered every few seconds. This happened on a first install and after any update that brought new meshes. The download now does its file work out of the game's way, and it uses far less memory while it checks a very large mesh.
 
 ## 2026.11.26.002 {#r2026-11-26-002}
 
@@ -3627,6 +3656,8 @@ Pack Pony sends your Artisan's Pack Pony out to gather harvests by itself. With 
 | **Enable Pack Pony** | While the bot is running, it sends your pack pony out whenever the wait from the last run is over. | off |
 | **In Guild Hall only** | The pony is only sent out while you are in a guild hall. | off |
 | **Do not dismiss when finished** | The pony stays summoned after the run. Normally the bot dismisses it when it is done.<br>*Runs started by TaskRunner still dismiss it.* | off (the pony is dismissed) |
+| **Auto pick the tier by rares when near a harvest depot** | Before it summons the pony, the bot opens every harvest depot within 11.5 m, one at a time, reads each and closes it, then sends the pony to the tier whose rare harvest you have the fewest of, counting all of those depots together. A harvest no depot holds counts as 0, and a tie goes to the higher tier. With no harvest depot in reach, or every rare at the depot's cap of 99999, your own replies below are used.<br>*Shadowed, purified and mob-dropped items are not counted, nor battle plantain and victornut, which the pony cannot bring. The harvests of each tier are in Ogre/EQ2/PackPony/packpony_tiers.json.* | off |
+| **Auto pick the tier by commons when near a harvest depot** | The same as the rares box, but it counts the common harvests: the pony goes to the tier whose common harvest you have the fewest of. With both boxes ticked the rares pick, and the commons only decide between tiers the rares leave tied, or pick when every rare is at the cap. | off |
 | **Conversation 1 - Option 1 (1-59 harvests)** | When the pony asks its first question ('I need some level ... harvests'), the bot picks reply 1. | off |
 | **Conversation 1 - Option 2 (60-99 harvests)** | When the pony asks its first question, the bot picks reply 2. | off |
 | **Conversation 1 - Option 3 (100+ harvests)** | When the pony asks its first question, the bot picks reply 3. This is also used when no box in this group is ticked. | off (used anyway when none is ticked) |
@@ -3648,6 +3679,7 @@ Pack Pony sends your Artisan's Pack Pony out to gather harvests by itself. With 
 - The boxes follow your earlier picks, the way the pony's questions do: Conversation 2 shows the replies the pony offers after your Conversation 1 pick (six under 1-59 harvests, five under 60-99, four under 100+), and Conversation 3 is only asked under 100+ harvests. Where a reply is not known (Special Events, Conversation 3 below 100) the boxes read 'placeholder' and can still be picked, in case the game adds one. A ticked box your path does not offer says 'not offered ..., pick another'. The options listed on this page are the ones shown for 100+ harvests, 120-130.
 - The wait timers are kept only while the session runs. After a reload the bot tries again straight away.
 - The harvest ranges in the box names describe what each reply meant in the old bot. The bot clicks the reply by its number (Option 1 = the first reply), so check them in game if the pony's replies change.
+- With an auto pick box ticked the bot answers by the reply's words, not its number. If the pony no longer offers the words the bot expects, the run stops and names them; it does not fall back to your boxes.
 
 
 ---
@@ -4722,7 +4754,7 @@ Each page is its own set of buttons for the right-hand block. The static block d
 
 ## Static buttons
 
-The first block of button columns (3 by default). These buttons are the same whichever page you are on - a good place for Follow, Pause, Resume and Evac.
+The first block of button columns (2 by default). These buttons are the same whichever page you are on - a good place for Follow, Pause, Resume and Evac.
 
 | Control | What it does | Default |
 |---|---|---|
@@ -4824,7 +4856,7 @@ The Layout drawer. Changes show at once and are saved. They change the buttons, 
 
 | Control | What it does | Default |
 |---|---|---|
-| **Static columns** | How many columns form the static block (0-99). If the window is too narrow, fewer show. | 3 |
+| **Static columns** | How many columns form the static block (0-99). If the window is too narrow, fewer show. | 2 |
 | **Button width** | Width of every button, 24-400 pixels. The - and + step by 2; hold to repeat. | 92 px |
 | **Button height** | Height of every button and page selector, 16-200 pixels (steps of 2). | 28 px |
 | **Spacing — left/right** | Space between columns, 0-40 pixels. | 6 px |
@@ -4863,10 +4895,11 @@ The Layout drawer. Changes show at once and are saved. They change the buttons, 
 - If OgreMCP.json is damaged, the MCP opens with a few sample buttons and leaves the file alone so you can repair it. Fix or restore it before changing anything in the MCP - any change saves over it.
 - Buttons from the old OgreBot MCP can be brought over from the Migration window ('Migrate your MCP buttons').
 - A button with **Ask when pressed** ticked opens the [Ask](mcpask.md) window instead of sending at once, and so does a key assigned to it (the MCP must be open for that). A new MCP has an **Inputs** page of them; an existing one gets them from **Ready-made** in [Build command](mcpbuild.md).
+- The MCP opens at a size that fits the page column, 5 button columns and 6 rows. Save Position keeps your own size and place instead.
 
 ### The buttons a new install starts with
 
-A new install's MCP starts with a few basic buttons. Change, move or clear them like any other button. If you migrate your OgreBot Classic MCP before you change anything here, your Classic buttons replace these without asking. After a change, the migration asks first.
+A new install's MCP opens with two static columns, three page columns and six rows, and a few basic buttons. Change, move or clear them like any other button. If you migrate your OgreBot Classic MCP before you change anything here, your Classic buttons replace these without asking. After a change, the migration asks first.
 
 **On every page (the static block):**
 
@@ -4890,7 +4923,7 @@ A new install's MCP starts with a few basic buttons. Change, move or clear them 
 | **Rescue** | The fighters in your group cast Rescue on their target. |
 | **Intercept Me** | The other fighters in your group cast Intercept on you. |
 
-Every button except Zone Reset, Rescue and Intercept Me goes to the characters picked in For Who. The **Inputs** page holds the ready-made **Ask when pressed** buttons.
+Every button except Zone Reset, Rescue and Intercept Me goes to the characters picked in For Who. The **Inputs** and **Inputs 2** pages hold the ready-made **Ask when pressed** buttons.
 
 ### Switching pages
 
@@ -8863,12 +8896,13 @@ Source: https://raw.githubusercontent.com/Kannkor/ISXOgre/main/docs/EQ2/bot/wind
 > - **Merge** into the file you have, write a **Fresh file**, or add **Only abilities I don't have yet** (much faster).
 > - **Tradeskill export instead** makes the files Ogre Craft uses.
 > - **Run export** starts it. This window steps aside while it runs (`ogre export` brings it back); the small Exporting Abilities window shows progress and can stop it.
+> - **Ranks** lists each ability line with the rank OgreBot uses. **Ignore** a rank and OgreBot uses the one below it (Kick V instead of Kick VI); **Restore** brings it back. It applies at once, with no new export, and a new export keeps it.
 >
 > **Good to know**
 >
 > - A full export takes a while. OgreBot reloads your abilities when it finishes, unless it was a dry run or you ticked **Don't reload OgreBot when finished**.
 > - `ogre export -start` runs with the options set here, without opening this window.
-> - To give the options on the command line, use `ISXOgreEQ2.Export:Abilities[...]` - the green line at the bottom shows it for the options you have set, and Full documentation lists every flag.
+> - `ogre export` with flags runs the export now with just those, for example `ogre export -new -maxlevel 130`. Full documentation lists every flag.
 > - Your choices are saved as you make them.
 > - If none of the abilities in **Just these abilities** is found, nothing is exported and the top line says so.
 
@@ -8884,6 +8918,7 @@ The yellow text left of the buttons is the result of the last thing you did (for
 
 | Control | What it does | Default |
 |---|---|---|
+| **Options / Ranks** | Switches the window between its two pages: Options (what an export reads and writes) and Ranks (which rank of each ability OgreBot uses). Help and Reset belong to the Options page. | Options |
 | **Help** | Shows or hides a short explanation under every option. Display only - changes what you see, not what the bot does.<br>*The explanations are the same plain-language text as this page.* | off |
 | **Reset** | Puts every option back to its default and saves that straight away. |  |
 | **Run export / Run (dry run) / Run cache action / Running…** | Starts the export with the options shown. The label tells you what will happen: 'Run (dry run)' when nothing will be written, 'Run cache action' when you picked a cache action that does not export. While the export runs this window steps aside; the small Exporting Abilities window shows the progress and has the Stop button.<br>*Greyed out while the red 'can't run' box is showing, and while an export is already running.* |  |
@@ -8961,13 +8996,27 @@ The cache only makes exports faster: it remembers which abilities an export woul
 
 
 
+## Ranks
+
+Each ability line shows the rank OgreBot uses: the highest rank at your level that is not ignored. Ignore a rank and OgreBot uses the one below it (Kick V instead of Kick VI). The change applies at once - the ability file is rebuilt from what the last export read, with no new export, and OgreBot reloads its abilities. Ignored ranks are kept for the character, and a new export leaves them out too.
+
+
+| Control | What it does | Default |
+|---|---|---|
+| **Find an ability** | Shows only the ability lines whose name has this text in it (any case). Display only. | empty |
+| **Only lines with an ignored rank** | Shows only the lines where you have ignored a rank. Display only. | off |
+| **Ignore** | Stops OgreBot using this rank: the line then shows the rank below it in use. If it was the line's only rank at your level, OgreBot does not use that ability at all until you restore it.<br>*The line above the list says what changed, for example 'Kick VI ignored - Kick V is in use.'* |  |
+| **Restore** | Lets OgreBot use an ignored rank again. Ignored ranks are listed under their line, crossed out. |  |
+
+
+
 ## What the window shows
 
 - Grey text next to each option (like -passive) is the matching script word, for the command at the bottom. Display only.
 - Yellow 'Heads up' box: things worth knowing about the options you picked. You can still run.
 - Red 'These options can't run' box: something must be fixed first. Run export is greyed out until it is.
 - Green command line: the same export as a one-line script command (ISXOgreEQ2.Export:Abilities[...]). Display only.
-- Saves to: where the file will be written - normally OgreSave/EQ2/OgreBot/AbilityExports/V3_<name>_<class>_<server>_AbilityExport.json. For a tradeskill export it shows the folder instead ('up to 3 files in').
+- Saves to: where the file will be written - normally OgreSave/EQ2/OgreBot/AbilityExports/<server>_<name>_<class>.json. For a tradeskill export it shows the folder instead ('up to 3 files in').
 - Footer: a reminder that `ogre export -start` skips this window.
 
 ## Good to know
@@ -8979,29 +9028,20 @@ The cache only makes exports faster: it remembers which abilities an export woul
 - If none of the abilities in 'Just these abilities' is in your knowledge book, nothing is exported and the top row says so. Names that are not found are listed on the console.
 - Typing `ogre export` while this window is open does nothing.
 - Options file: OgreSave/EQ2/OgreBot/AbilityExports/export-gui.json. Delete it to go back to defaults.
+- Ignored ranks are saved per character and class in OgreSave/EQ2/OgreBot/AbilityExports/Ignored/<server>_<name>_<class>.json. The Ranks page needs one export made by this version of OgreBot first; until then it says so.
 
 ### Run it from the console
 
-There are two commands. **`ogre export`** works the panel; **`ISXOgreEQ2.Export:Abilities[...]`** is the export itself, and takes every option on the command line.
+Type **`ogre export`** with the options you want. With nothing after it, it opens this window.
 
-#### `ogre export` (the panel's command)
+#### Run it now, with options
 
-It knows only these words - any order, any case, the dash optional. `ogre abilityexport` is the same command.
+`ogre export <flags>` runs the export straight away with exactly those flags. The options saved in this window are not used or changed. The flags go in any order; one that takes a number or a file is followed by it.
 
-| Type | What it does |
-|---|---|
-| `ogre export` | Opens this window. While an export runs, it brings this window back. |
-| `ogre export -start` | Runs the export now with the options set in this window, without opening it. |
-| `ogre export -default -start` | Runs the export now with the default options. Your saved options are left as they are. |
-| `ogre export -default` | Opens this window showing the defaults. They are saved only once you change an option or run. |
-| `ogre export stop` | Stops a running export. Nothing is written. |
-| `ogre end export` | Stops a running export and closes both export windows. |
-
-Any other word - for example `-new` or `-maxlevel 130` - is refused with a message, and nothing runs: `ogre export` never takes the options themselves. To give options on the command line, use the command below.
-
-#### `ISXOgreEQ2.Export:Abilities[...]` (every option)
-
-Type it in the console as it is. The flags go inside the brackets, separated by commas, in any order; a flag that takes a number or a file is followed by it, as the next item: `ISXOgreEQ2.Export:Abilities[-new,-maxlevel,130]`. With no flags it runs with the defaults. It starts in the background and returns at once. The green line at the bottom of this window shows this same command for the options you have set, so you can copy it from there.
+- `ogre export -new -maxlevel 130`
+- `ogre export -passive -ancient`
+- `ogre export -tradeskill`
+- `ogre export "Mystic Ward" -passive`
 
 | Flag | The window's option | What it does |
 |---|---|---|
@@ -9017,8 +9057,8 @@ Type it in the console as it is. The flags go inside the brackets, separated by 
 | `-m` or `-master` | Minimum tier: Master+ | Master and better only. |
 | `-gm` or `-grandmaster` | Minimum tier: Grandmaster+ | Grandmaster and better only. |
 | `-ancient` | Minimum tier: Ancient+ | Ancient and better only. |
-| `-minlevel,<n>` | Minimum level | Leaves out abilities below level n. AA and ascension abilities count as level 0, so any minimum above 0 leaves them all out. |
-| `-maxlevel,<n>` | Maximum level | Leaves out abilities above level n. |
+| `-minlevel <n>` | Minimum level | Leaves out abilities below level n. AA and ascension abilities count as level 0, so any minimum above 0 leaves them all out. |
+| `-maxlevel <n>` | Maximum level | Leaves out abilities above level n. |
 | `-nonew` or `-nothing` | File mode: Merge into existing export | Adds new abilities and updates changed ones in the export you have. The default. |
 | `-new` | File mode: Fresh file (replace) | Starts a brand-new export that replaces the one you have. |
 | `-NewAbilities` or `-NA` | File mode: Only abilities I don't have yet | Adds only abilities that are not in your export yet, which is much faster. Ignored together with `-new`. |
@@ -9027,17 +9067,34 @@ Type it in the console as it is. The flags go inside the brackets, separated by 
 | `-consolidate` | Cache action: Consolidate, then export | First folds in what your other characters' exports have learned, then exports. |
 | `-consolidateOnly` or `-co` | Cache action: Consolidate only (no export) | Only folds in what your other characters' exports have learned. Nothing is exported. |
 | `-clearcache` | Cache action: Clear the cache (no export) | Empties the shared cache list. Nothing is exported. |
-| an ability name or ID | Just these abilities | Exports only the abilities you name. A name has no dash in front; put one with spaces in quotes: `ISXOgreEQ2.Export:Abilities["Mystic Ward",-passive]`. Names that are not found are listed in the console, and if none is found nothing runs. |
-| `-path,<file>` | *(not in the window)* | Writes to that file instead of the usual one. For testing. |
+| an ability name or ID | Just these abilities | Exports only the abilities you name. A name has no dash in front; put one with spaces in quotes. Names that are not found are listed in the console, and if none is found nothing runs. |
+| `-path <file>` | *(not in the window)* | Writes to that file instead of the usual one. For testing. |
 
-A word that starts with a dash and is not in this table is refused before anything runs, so a typo never turns into an ability name. `-fastloading` (an old flag) is accepted and ignored, with a message.
+A word that starts with a dash and is not in this table is refused, and nothing runs, so a typo never turns into an ability name. `-fastloading` (an old flag) is accepted and ignored, with a message.
+
+#### The window's own words
+
+| Type | What it does |
+|---|---|
+| `ogre export` | Opens this window. While an export runs, it brings this window back. |
+| `ogre export -start` | Runs the export now with the options set in this window, without opening it. |
+| `ogre export -default -start` | Runs the export now with the default options. Your saved options are left as they are. |
+| `ogre export -default` | Opens this window showing the defaults. They are saved only once you change an option or run. |
+| `ogre export stop` | Stops a running export. Nothing is written. |
+| `ogre end export` | Stops a running export and closes both export windows. |
+
+`-start` and `-default` add nothing when flags are given: flags always run with exactly what they say. `ogre abilityexport` is the same command as `ogre export`.
+
+#### In a script
+
+A script uses `ISXOgreEQ2.Export:Abilities[...]`, which takes the same flags, separated by commas: `ISXOgreEQ2.Export:Abilities[-new,-maxlevel,130]`. The green line at the bottom of this window shows it for the options you have set.
 
 #### While it runs, and on other characters
 
 - `${ISXOgreEQ2.Export.Busy}` is TRUE until the file is written or the export stops; `${ISXOgreEQ2.Export.Processed}` and `${ISXOgreEQ2.Export.Total}` are its progress.
-- `ISXOgreEQ2.Export:End` stops it and closes the windows, the same as `ogre end export`.
-- On every member of your group, each with its own saved options: `oc !c -OgreCommandOB_AP igw:${Me.Name} export -start`
-- On every member of your group, with options on the command line: `oc !c -RawCommandOB_AP igw:${Me.Name} ISXOgreEQ2.Export:Abilities[-new,-maxlevel,130]`
+- `ogre end export` (or `ISXOgreEQ2.Export:End` in a script) stops it and closes the windows.
+- On every member of your group, with options: `oc !c -OgreCommandOB_AP igw:${Me.Name} export -new -maxlevel 130`
+- On every member of your group, each with the options saved in its own window: `oc !c -OgreCommandOB_AP igw:${Me.Name} export -start`
 
 ### While an export runs
 
@@ -23174,7 +23231,7 @@ OgreBotAPI.Quest:ShareQuestWhenAble[all,"Feathers For Sethis","${Zone.Name}"]
 
 `OgreBotAPI.Quest:ShowMissionInfo[fw]`
 
-Opens the Zone Reuse window's Hot Zones tab and prints one line to the console: the newest expansion's hot zone (the window's first row, each zone named once, without [Heroic] / [Solo]) and the time until it changes. When the game's list reads Expired - the zones just changed and the new list has not arrived - it says so instead. It runs on every addressed character, with no group leader check.
+Opens the Zone Reuse window's Hot Zones tab and prints one line to the console: the newest expansion's hot zone (each zone named once, without [Heroic] / [Solo]) and the time until it changes, or that the game's list has just expired. It runs on every addressed character, with no group leader check.
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
@@ -30164,7 +30221,7 @@ echo ${ISXOgreEQ2.Export.Total}
 
 `ISXOgreEQ2.Export:Abilities[flag...]`
 
-Starts the ability export in the background and returns at once: it reads each ability's game info one ability at a time (a server request per ability) and writes OgreSave/EQ2/OgreBot/AbilityExports/V3_&lt;Name>_&lt;SubClass>_&lt;Server>_AbilityExport.json, the file OgreBotAPI.Abilities loads. With no flags it is the standard export (no passives, no tradeskill, merged into the existing file); a call while one is running is ignored with a console line, and when it finishes OgreBot reloads its abilities unless -noreloadbot or -nosave was given.
+Starts the ability export in the background and returns at once: it reads each ability's game info one ability at a time (a server request per ability) and writes OgreSave/EQ2/OgreBot/AbilityExports/&lt;Server>_&lt;Name>_&lt;SubClass>.json, the file OgreBotAPI.Abilities loads. With no flags it is the standard export (no passives, no tradeskill, merged into the existing file); a call while one is running is ignored with a console line, and when it finishes OgreBot reloads its abilities unless -noreloadbot or -nosave was given.
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
@@ -30178,11 +30235,11 @@ ISXOgreEQ2.Export:Abilities[-passive]
 
 `ISXOgreEQ2.Export:Config[word...]`
 
-The `ogre export` command: with no words it opens the Ability Export options panel, or brings it back if a run hid it. -start runs the export now with the panel's current options and no panel (a server request per ability, as Abilities does; refused while one is running), -default uses the default options for this call only without saving them, stop stops a running export, and any other word is named on the console and nothing happens.
+The `ogre export` command: with no words it opens the Ability Export options panel, or brings it back if a run hid it. With words it runs, starts or stops the export - see the parameter for each.
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `word...` | string |  | optional words, any order, case-insensitive, leading dash optional: -default, -start, stop |
+| `word...` | string |  | optional words, any order. The export's own flags, or an ability name or ID, run the export now with exactly those, as Abilities does (a flag that takes a value is followed by it; the panel's saved options are not used or changed). -start runs it now with the panel's options, refused while one is running; -default uses the default options for this call only, without saving them; stop stops a running export (these three: any case, leading dash optional). A dash word that is no flag is named on the console and nothing runs. |
 
 ```text
 ISXOgreEQ2.Export:Config[stop]
@@ -37315,16 +37372,17 @@ ogre experiment -potency 3
 
 Also: `ogre abilityexport`
 
-Open the export panel (-start runs it now, -default uses defaults)
+Open the export panel; with export flags (-passive, -new, -maxlevel 130 ...) run the export now with them; -start runs the panel's options, -default the defaults
 
 | Word | Type | Default | Meaning |
 |---|---|---|---|
 | `-default` | flag | the current saved options | Use the default options for this run only; the saved ones are not changed. |
 | `-start` | flag | bare opens the options panel | Run the export now, without the options panel. |
 | `-stop` | flag |  | Stop an export that is running. |
+| `<export flags>` | string |  | Any flag ISXOgreEQ2.Export:Abilities takes (-passive, -tradeskill, -NoAscension, -AscensionOnly, -nodesc, -j/-a/-e/-m/-gm/-ancient, -minlevel &lt;n>, -maxlevel &lt;n>, -new, -nonew, -NewAbilities, -nosave, -noreloadbot, -consolidate, -consolidateOnly, -clearcache, -path &lt;file>), or an ability name or ID: runs the export now with exactly these. |
 
 ```text
-ogre export -default -start
+ogre export -new -maxlevel 130
 ```
 
 ## `find`

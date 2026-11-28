@@ -1894,7 +1894,7 @@ echo ${ISXOgreEQ2.Export.Total}
 
 `ISXOgreEQ2.Export:Abilities[flag...]`
 
-Starts the ability export in the background and returns at once: it reads each ability's game info one ability at a time (a server request per ability) and writes OgreSave/EQ2/OgreBot/AbilityExports/V3_&lt;Name>_&lt;SubClass>_&lt;Server>_AbilityExport.json, the file OgreBotAPI.Abilities loads. With no flags it is the standard export (no passives, no tradeskill, merged into the existing file); a call while one is running is ignored with a console line, and when it finishes OgreBot reloads its abilities unless -noreloadbot or -nosave was given.
+Starts the ability export in the background and returns at once: it reads each ability's game info one ability at a time (a server request per ability) and writes OgreSave/EQ2/OgreBot/AbilityExports/&lt;Server>_&lt;Name>_&lt;SubClass>.json, the file OgreBotAPI.Abilities loads. With no flags it is the standard export (no passives, no tradeskill, merged into the existing file); a call while one is running is ignored with a console line, and when it finishes OgreBot reloads its abilities unless -noreloadbot or -nosave was given.
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
@@ -1908,11 +1908,11 @@ ISXOgreEQ2.Export:Abilities[-passive]
 
 `ISXOgreEQ2.Export:Config[word...]`
 
-The `ogre export` command: with no words it opens the Ability Export options panel, or brings it back if a run hid it. -start runs the export now with the panel's current options and no panel (a server request per ability, as Abilities does; refused while one is running), -default uses the default options for this call only without saving them, stop stops a running export, and any other word is named on the console and nothing happens.
+The `ogre export` command: with no words it opens the Ability Export options panel, or brings it back if a run hid it. With words it runs, starts or stops the export - see the parameter for each.
 
 | Parameter | Type | Default | Meaning |
 |---|---|---|---|
-| `word...` | string |  | optional words, any order, case-insensitive, leading dash optional: -default, -start, stop |
+| `word...` | string |  | optional words, any order. The export's own flags, or an ability name or ID, run the export now with exactly those, as Abilities does (a flag that takes a value is followed by it; the panel's saved options are not used or changed). -start runs it now with the panel's options, refused while one is running; -default uses the default options for this call only, without saving them; stop stops a running export (these three: any case, leading dash optional). A dash word that is no flag is named on the console and nothing runs. |
 
 ```text
 ISXOgreEQ2.Export:Config[stop]

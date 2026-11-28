@@ -277,6 +277,15 @@ A field may be left out of a row; a row never carries a field its kind does not 
 | `id` | a whole number | the named's actor id | actor |
 | `tier` | a whole number | the Untold level: the roman number in the name of the buff on it ("Cloak of Cthurath XXIV" is 24) | keep |
 
+### `abilityGained`
+
+- `abilityGained`: the recording toon gained an ability (EQ2_onAbilityGained) - another class granted it, for example. Nothing is written when it goes away: the game says nothing then
+
+| Field | Holds | What it is | Published copy |
+|---|---|---|---|
+| `name` | text | the ability, as the game names it in the event | game |
+| `tier` | a whole number | the number the event gives beside it - not the ability's Tier (a granted Salve gave 5 while its Tier read Adept) | keep |
+
 ### `bot`
 
 - `bot`: what the fight engine did. **Never in a published copy.**

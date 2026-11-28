@@ -540,16 +540,17 @@ ogre experiment -potency 3
 
 Also: `ogre abilityexport`
 
-Open the export panel (-start runs it now, -default uses defaults)
+Open the export panel; with export flags (-passive, -new, -maxlevel 130 ...) run the export now with them; -start runs the panel's options, -default the defaults
 
 | Word | Type | Default | Meaning |
 |---|---|---|---|
 | `-default` | flag | the current saved options | Use the default options for this run only; the saved ones are not changed. |
 | `-start` | flag | bare opens the options panel | Run the export now, without the options panel. |
 | `-stop` | flag |  | Stop an export that is running. |
+| `<export flags>` | string |  | Any flag ISXOgreEQ2.Export:Abilities takes (-passive, -tradeskill, -NoAscension, -AscensionOnly, -nodesc, -j/-a/-e/-m/-gm/-ancient, -minlevel &lt;n>, -maxlevel &lt;n>, -new, -nonew, -NewAbilities, -nosave, -noreloadbot, -consolidate, -consolidateOnly, -clearcache, -path &lt;file>), or an ability name or ID: runs the export now with exactly these. |
 
 ```text
-ogre export -default -start
+ogre export -new -maxlevel 130
 ```
 
 ## `find`

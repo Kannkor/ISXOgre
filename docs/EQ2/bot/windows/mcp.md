@@ -71,7 +71,7 @@ Each page is its own set of buttons for the right-hand block. The static block d
 
 ## Static buttons
 
-The first block of button columns (3 by default). These buttons are the same whichever page you are on - a good place for Follow, Pause, Resume and Evac.
+The first block of button columns (2 by default). These buttons are the same whichever page you are on - a good place for Follow, Pause, Resume and Evac.
 
 [![Static buttons](../assets/mcp/static.png)](../assets/mcp/static.png "Click for full size")
 
@@ -191,7 +191,7 @@ The Layout drawer. Changes show at once and are saved. They change the buttons, 
 
 | Control | What it does | Default |
 |---|---|---|
-| **Static columns** | How many columns form the static block (0-99). If the window is too narrow, fewer show. | 3 |
+| **Static columns** | How many columns form the static block (0-99). If the window is too narrow, fewer show. | 2 |
 | **Button width** | Width of every button, 24-400 pixels. The - and + step by 2; hold to repeat. | 92 px |
 | **Button height** | Height of every button and page selector, 16-200 pixels (steps of 2). | 28 px |
 | **Spacing — left/right** | Space between columns, 0-40 pixels. | 6 px |
@@ -230,10 +230,11 @@ The Layout drawer. Changes show at once and are saved. They change the buttons, 
 - If OgreMCP.json is damaged, the MCP opens with a few sample buttons and leaves the file alone so you can repair it. Fix or restore it before changing anything in the MCP - any change saves over it.
 - Buttons from the old OgreBot MCP can be brought over from the Migration window ('Migrate your MCP buttons').
 - A button with **Ask when pressed** ticked opens the [Ask](mcpask.md) window instead of sending at once, and so does a key assigned to it (the MCP must be open for that). A new MCP has an **Inputs** page of them; an existing one gets them from **Ready-made** in [Build command](mcpbuild.md).
+- The MCP opens at a size that fits the page column, 5 button columns and 6 rows. Save Position keeps your own size and place instead.
 
 ### The buttons a new install starts with
 
-A new install's MCP starts with a few basic buttons. Change, move or clear them like any other button. If you migrate your OgreBot Classic MCP before you change anything here, your Classic buttons replace these without asking. After a change, the migration asks first.
+A new install's MCP opens with two static columns, three page columns and six rows, and a few basic buttons. Change, move or clear them like any other button. If you migrate your OgreBot Classic MCP before you change anything here, your Classic buttons replace these without asking. After a change, the migration asks first.
 
 **On every page (the static block):**
 
@@ -257,7 +258,7 @@ A new install's MCP starts with a few basic buttons. Change, move or clear them 
 | **Rescue** | The fighters in your group cast Rescue on their target. |
 | **Intercept Me** | The other fighters in your group cast Intercept on you. |
 
-Every button except Zone Reset, Rescue and Intercept Me goes to the characters picked in For Who. The **Inputs** page holds the ready-made **Ask when pressed** buttons.
+Every button except Zone Reset, Rescue and Intercept Me goes to the characters picked in For Who. The **Inputs** and **Inputs 2** pages hold the ready-made **Ask when pressed** buttons.
 
 ### Switching pages
 

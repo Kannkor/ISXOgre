@@ -304,11 +304,12 @@ ogre experiment [-<stat> <n>]... | items | run <row> ...
 ogre export [flags]
   kind: ogre command (typed in the game's chat box or a script)
   also: ogre abilityexport
-  what: Open the export panel (-start runs it now, -default uses defaults)
+  what: Open the export panel; with export flags (-passive, -new, -maxlevel 130 ...) run the export now with them; -start runs the panel's options, -default the defaults
   arg -default (flag, default: the current saved options): Use the default options for this run only; the saved ones are not changed.
   arg -start (flag, default: bare opens the options panel): Run the export now, without the options panel.
   arg -stop (flag): Stop an export that is running.
-  example: ogre export -default -start
+  arg <export flags> (string): Any flag ISXOgreEQ2.Export:Abilities takes (-passive, -tradeskill, -NoAscension, -AscensionOnly, -nodesc, -j/-a/-e/-m/-gm/-ancient, -minlevel <n>, -maxlevel <n>, -new, -nonew, -NewAbilities, -nosave, -noreloadbot, -consolidate, -consolidateOnly, -clearcache, -path <file>), or an ability name or ID: runs the export now with exactly these.
+  example: ogre export -new -maxlevel 130
 
 ogre find <name> [-rorr]
   kind: ogre command (typed in the game's chat box or a script)

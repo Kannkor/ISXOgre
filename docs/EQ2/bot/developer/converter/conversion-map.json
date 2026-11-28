@@ -8066,6 +8066,8 @@
    "checkbox_overseerbuymissions_season_6",
    "checkbox_overseerbuymissions_season_7",
    "checkbox_overseerbuymissions_season_any",
+   "checkbox_packpony_auto_common",
+   "checkbox_packpony_auto_rare",
    "checkbox_packpony_conversation1_1",
    "checkbox_packpony_conversation1_2",
    "checkbox_packpony_conversation1_3",
@@ -50160,14 +50162,14 @@
    "surface": "OldBot framework"
   },
   {
-   "changedArgs": "^(?!.*-start\\b)",
-   "howToFix": "A script that picks its options calls ISXOgreEQ2.Export:Abilities with Classic's flags: ISXOgreEQ2.Export:Abilities[-tradeskill]. It takes an ability name or ID too, and starts at once with no window. To run what the window holds, write `ogre export -start`; `ogre export -default -start` runs with the default options.",
+   "changedArgs": "^\\s*$",
+   "howToFix": "A bare `ogre export` that was meant to run the export: write `ogre export -default -start` (the default options) or `ogre export -start` (what the window holds). A line with flags needs no change. In a script, ISXOgreEQ2.Export:Abilities takes the same flags: ISXOgreEQ2.Export:Abilities[-tradeskill].",
    "id": "OldBot framework|ogre export",
    "newForm": "ogre export",
-   "note": "Classic's `ogre export` ran the export at once, with its options as flags on the line (`-tradeskill`, `-minlevel` and others). Ogre Craft's own `ogre export -tradeskill` needs no replacement: the new crafting engine runs that export itself when it needs one.",
+   "note": "Classic's `ogre export` ran the export at once, with its options as flags on the line (`-tradeskill`, `-minlevel` and others), and the new one does too: a line with flags or an ability name or ID works as it is. Only a bare `ogre export` differs - it opens the options window. Ogre Craft's own `ogre export -tradeskill` needs no replacement: the new crafting engine runs that export itself when it needs one.",
    "oldCall": "ogre export",
    "oldName": "ogre export",
-   "oldSpellingToday": "bare opens the options window and runs nothing; a Classic flag is refused and nothing runs",
+   "oldSpellingToday": "bare opens the options window and runs nothing; with Classic's flags it runs the export at once, as Classic did",
    "status": "signature",
    "surface": "OldBot framework"
   },
